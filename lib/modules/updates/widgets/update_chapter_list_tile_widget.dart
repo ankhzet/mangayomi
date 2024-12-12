@@ -85,7 +85,7 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
                     ],
                   ),
                 ),
-                if (duplicates.isNotEmpty) ChaptersFix(manga: manga, duplicates: duplicates),
+                if (manga.favorite != true || duplicates.isNotEmpty) ChaptersFix(manga: manga, duplicates: duplicates),
                 if (sourceExist) ChapterPageDownload(chapter: update.firstOrUnread),
               ],
             ),

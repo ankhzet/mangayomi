@@ -42,6 +42,24 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> with AutomaticKeepAli
     }
   }
 
+  void _deleteUpdate() async {
+    setState(() {
+      _isStarted = true;
+    });
+
+    try {
+      await isar.writeTxn(() async {
+        await isar.updates.where().filter().mangaIdEqualTo(widget.manga.id).deleteAll();
+        await isar.historys.where().filter().mangaIdEqualTo(widget.manga.id).deleteAll();
+        await isar.chapters.where().filter().mangaIdEqualTo(widget.manga.id).deleteAll();
+      });
+    } finally {
+      setState(() {
+        _isStarted = false;
+      });
+    }
+  }
+
   late final chapters = widget.manga.chapters;
   bool _isStarted = false;
 
@@ -58,7 +76,13 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> with AutomaticKeepAli
           splashRadius: 5,
           iconSize: 17,
           onPressed: () {
-            _deleteDuplicates();
+            if (widget.duplicates.isNotEmpty) {
+              _deleteDuplicates();
+            }
+
+            if (widget.manga.favorite != true) {
+              _deleteUpdate();
+            }
           },
           icon: _fixWidget(context, widget.duplicates.length, _isStarted),
         ),
@@ -106,7 +130,7 @@ Widget _fixWidget(BuildContext context, int items, bool isLoading) {
             smallSize: 8,
             largeSize: 8,
             padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 2),
-            label: Text(items.toString(), style: const TextStyle(fontSize: 6))
+            label: Text(items > 0 ? items.toString() : '!', style: const TextStyle(fontSize: 6))
         ),
       ),
     ],

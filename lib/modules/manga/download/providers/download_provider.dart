@@ -10,16 +10,17 @@ import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/models/page.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/manga/download/providers/convert_to_cbz.dart';
+import 'package:mangayomi/modules/manga/reader/reader_view.dart';
 import 'package:mangayomi/modules/more/settings/downloads/providers/downloads_state_provider.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
-import 'package:mangayomi/services/get_video_list.dart';
 import 'package:mangayomi/services/background_downloader/background_downloader.dart';
 import 'package:mangayomi/services/get_chapter_pages.dart';
+import 'package:mangayomi/services/get_video_list.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/services/m3u8/m3u8_downloader.dart';
+import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/headers.dart';
-import 'package:mangayomi/utils/reg_exp_matcher.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -122,40 +123,14 @@ Future<List<PageUrl>> downloadChapter(
   });
 
   if (pageUrls.isNotEmpty) {
-    bool cbzFileExist =
-        await File("${mangaDir!.path}${chapter.name}.cbz").exists() &&
-            ref.watch(saveAsCBZArchiveStateProvider);
-    bool mp4FileExist = await File("${mangaDir.path}$chapterName.mp4").exists();
-    if (!cbzFileExist && isManga || !mp4FileExist && !isManga) {
-      for (var index = 0; index < pageUrls.length; index++) {
-        final path2 = Directory("${path1.path}downloads/");
-        final path5 =
-            Directory("${path1.path}downloads/${isManga ? "Manga" : "Anime"}/");
-        final path4 = Directory(
-            "${path5.path}${manga.source} (${manga.lang!.toUpperCase()})/");
-        final path3 = Directory(
-            "${path4.path}${manga.name!.replaceForbiddenCharacters('_')}/");
+    bool shouldLoad = (isManga
+        ? !(ref.watch(saveAsCBZArchiveStateProvider) && await File("$mangaDir${chapter.name}.cbz").exists())
+        : !(await File("$mangaDir$chapterName.mp4").exists()));
 
-        if (!(await path1.exists())) {
-          await path1.create();
-        }
-        if (Platform.isAndroid) {
-          if (!(await File("${path1.path}" ".nomedia").exists())) {
-            await File("${path1.path}" ".nomedia").create();
-          }
-        }
-        if (!(await path2.exists())) {
-          await path2.create();
-        }
-        if (!(await path5.exists())) {
-          await path5.create();
-        }
-        if (!(await path4.exists())) {
-          await path4.create();
-        }
-        if (!(await path3.exists())) {
-          await path3.create();
-        }
+    if (shouldLoad) {
+      await directory.create(recursive: true);
+
+      for (var index = 0; index < pageUrls.length; index++) {
         final page = pageUrls[index];
         final cookie = MClient.getCookiesPref(page.url);
         final headers = isManga ? ref.watch(headersProvider(source: manga.source!, lang: manga.lang!)) : videoHeader;
@@ -165,114 +140,42 @@ Future<List<PageUrl>> downloadChapter(
           headers.addAll(cookie);
           headers[HttpHeaders.userAgentHeader] = userAgent;
         }
-        Map<String, String> pageHeaders = headers;
-        pageHeaders.addAll(page.headers ?? {});
+
+        headers.addAll(page.headers ?? {});
+
+        Future<void> scheduleLoad(String filename) async {
+          final uri = 'Mangayomi/$finalPath/$filename';
+          final tmp = File('${tempDir.path}/$uri');
+          final target = File('${directory.path}/$filename');
+
+          target.parent.createSync(recursive: true);
+
+          if (tmp.existsSync()) {
+            await tmp.copy(target.path);
+            await tmp.delete();
+          } else if (!target.existsSync()) {
+            tasks.add(DownloadTask(
+              taskId: page.url,
+              headers: headers,
+              url: page.url.normalize(),
+              baseDirectory: BaseDirectory.temporary,
+              updates: Updates.statusAndProgress,
+              allowPause: true,
+              retries: 3,
+              requiresWiFi: onlyOnWifi,
+              directory: path.dirname(uri),
+              filename: path.basename(uri),
+            ));
+          }
+        }
 
         if (isManga) {
-          final file = File(
-              "${tempDir.path}/Mangayomi/$finalPath/${padIndex(index + 1)}.jpg");
-          if (file.existsSync()) {
-            Directory(path.path).createSync(recursive: true);
-            await file.copy("${path.path}${padIndex(index + 1)}.jpg");
-            await file.delete();
-          } else {
-            if ((await path.exists())) {
-              if (await File("${path.path}${padIndex(index + 1)}.jpg")
-                  .exists()) {
-              } else {
-                tasks.add(DownloadTask(
-                    taskId: page.url,
-                    headers: pageHeaders,
-                    url: page.url.trim().trimLeft().trimRight(),
-                    filename: "${padIndex(index + 1)}.jpg",
-                    baseDirectory: BaseDirectory.temporary,
-                    directory: 'Mangayomi/$finalPath',
-                    updates: Updates.statusAndProgress,
-                    retries: 3,
-                    allowPause: true,
-                    requiresWiFi: onlyOnWifi));
-              }
-            } else {
-              await path.create();
-              if (await File("${path.path}" "${padIndex(index + 1)}.jpg")
-                  .exists()) {
-              } else {
-                tasks.add(DownloadTask(
-                    taskId: page.url,
-                    headers: pageHeaders,
-                    url: page.url.trim().trimLeft().trimRight(),
-                    filename: "${padIndex(index + 1)}.jpg",
-                    baseDirectory: BaseDirectory.temporary,
-                    directory: 'Mangayomi/$finalPath',
-                    updates: Updates.statusAndProgress,
-                    allowPause: true,
-                    retries: 3,
-                    requiresWiFi: onlyOnWifi));
-              }
-            }
-          }
+          await scheduleLoad(UChapDataPreload.filename(index));
         } else {
-          final file =
-              File("${tempDir.path}/Mangayomi/$finalPath/$chapterName.mp4");
-          if (file.existsSync()) {
-            await file.copy("${path.path}$chapterName.mp4");
-            await file.delete();
-          } else if (hasM3U8File) {
-            final tempFile = File(
-                "${tempDir.path}/Mangayomi/$finalPath/$chapterName/TS_${index + 1}.ts");
-            final file = File("${path.path}$chapterName/TS_${index + 1}.ts");
-            if (tempFile.existsSync()) {
-              Directory("${path.path}$chapterName").createSync(recursive: true);
-              await tempFile
-                  .copy("${path.path}$chapterName/TS_${index + 1}.ts");
-              await tempFile.delete();
-            } else if (file.existsSync()) {
-            } else {
-              tasks.add(DownloadTask(
-                  taskId: page.url,
-                  headers: pageHeaders,
-                  url: page.url.trim().trimLeft().trimRight(),
-                  filename: "TS_${index + 1}.ts",
-                  baseDirectory: BaseDirectory.temporary,
-                  directory: 'Mangayomi/$finalPath/$chapterName/',
-                  updates: Updates.statusAndProgress,
-                  allowPause: true,
-                  retries: 3,
-                  requiresWiFi: onlyOnWifi));
-            }
-          } else {
-            if ((await path.exists())) {
-              if (await File("${path.path}$chapterName.mp4").exists()) {
-              } else {
-                tasks.add(DownloadTask(
-                    taskId: page.url,
-                    headers: pageHeaders,
-                    url: page.url.trim().trimLeft().trimRight(),
-                    filename: "$chapterName.mp4",
-                    baseDirectory: BaseDirectory.temporary,
-                    directory: 'Mangayomi/$finalPath',
-                    updates: Updates.statusAndProgress,
-                    allowPause: true,
-                    retries: 3,
-                    requiresWiFi: onlyOnWifi));
-              }
-            } else {
-              await path.create();
-              if (await File("${path.path}$chapterName.mp4").exists()) {
-              } else {
-                tasks.add(DownloadTask(
-                    taskId: page.url,
-                    headers: pageHeaders,
-                    url: page.url.trim().trimLeft().trimRight(),
-                    filename: "$chapterName.mp4",
-                    baseDirectory: BaseDirectory.temporary,
-                    directory: 'Mangayomi/$finalPath',
-                    updates: Updates.statusAndProgress,
-                    allowPause: true,
-                    retries: 3,
-                    requiresWiFi: onlyOnWifi));
-              }
-            }
+          await scheduleLoad('$chapterName.mp4');
+
+          if (hasM3U8File) {
+            await scheduleLoad('$chapterName/TS_${index + 1}.ts');
           }
         }
       }

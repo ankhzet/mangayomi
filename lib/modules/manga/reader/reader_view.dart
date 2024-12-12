@@ -1942,18 +1942,24 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
 }
 
 class UChapDataPreload {
-  Chapter? chapter;
-  Directory? directory;
+  Chapter chapter;
+  String directory;
   PageUrl? pageUrl;
-  bool? isLocale;
+  bool isLocal;
   Uint8List? archiveImage;
-  int? index;
+  int index;
   GetChapterPagesModel? chapterUrlModel;
   int? pageIndex;
   Uint8List? cropImage;
-  UChapDataPreload(this.chapter, this.directory, this.pageUrl, this.isLocale,
-      this.archiveImage, this.index, this.chapterUrlModel, this.pageIndex,
+
+  UChapDataPreload(this.chapter, this.directory, this.pageUrl, this.isLocal, this.archiveImage, this.index,
+      this.chapterUrlModel, this.pageIndex,
       {this.cropImage});
+
+  File get preloadFile => file(directory, index);
+
+  static String filename(int index) => '${padIndex(index + 1)}.jpg';
+  static File file(String path, int index) => File('$path${filename(index)}');
 }
 
 class CustomPopupMenuButton<T> extends StatelessWidget {

@@ -14,40 +14,61 @@ part 'state_providers.g.dart';
 @riverpod
 class ChaptersListState extends _$ChaptersListState {
   @override
+  set state(List<Chapter> value) {
+    super.state = value;
+
+    if (value.isEmpty) {
+      toggleMode(false);
+    }
+  }
+
+  @override
   List<Chapter> build() {
     return [];
   }
 
   void update(Chapter value) {
-    var newList = state.reversed.toList();
-    if (newList.contains(value)) {
-      newList.remove(value);
+    var result = state.reversed.toList();
+
+    if (result.contains(value)) {
+      result.remove(value);
     } else {
-      newList.add(value);
+      result.add(value);
     }
-    if (newList.isEmpty) {
-      ref.read(isLongPressedStateProvider.notifier).update(false);
-    }
-    state = newList;
+
+    state = result;
   }
 
-  void selectAll(Chapter value) {
-    var newList = state.reversed.toList();
-    if (!newList.contains(value)) {
-      newList.add(value);
-    }
-
-    state = newList;
+  void toggleMode(bool selecting) {
+    ref.read(isLongPressedStateProvider.notifier).update(selecting);
   }
 
-  void selectSome(Chapter value) {
-    var newList = state.reversed.toList();
-    if (newList.contains(value)) {
-      newList.remove(value);
-    } else {
-      newList.add(value);
+  void selectAll(Iterable<Chapter> chapters) {
+    state = chapters.toList();
+  }
+
+  void toggle(Iterable<Chapter> chapters) {
+    final dir = chapters.length - state.length;
+
+    if (dir == 0) {
+      return clear();
     }
-    state = newList;
+
+    final ltr = dir > 0;
+    final source = ltr ? chapters : state;
+    final target = ltr ? state : chapters;
+
+    final result = source.toList();
+
+    for (var chapter in target) {
+      if (result.contains(chapter)) {
+        result.remove(chapter);
+      } else {
+        result.add(chapter);
+      }
+    }
+
+    state = result;
   }
 
   void clear() {

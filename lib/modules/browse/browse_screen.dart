@@ -27,7 +27,7 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen>
     _tabBarController = TabController(length: 4, vsync: this);
     _tabBarController.animateTo(0);
     _tabBarController.addListener(() {
-      _chekPermission();
+      _checkPermission();
       _textEditingController.clear();
       setState(() {
         _isSearch = false;
@@ -36,8 +36,8 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen>
     super.initState();
   }
 
-  _chekPermission() async {
-    await StorageProvider().requestPermission();
+  _checkPermission() async {
+    await StorageProvider.requestPermission();
   }
 
   final _textEditingController = TextEditingController();

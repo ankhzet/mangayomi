@@ -31,8 +31,6 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
     with AutomaticKeepAliveClientMixin<ChapterPageDownload> {
   List<String> _pageUrls = [];
 
-  final StorageProvider _storageProvider = StorageProvider();
-
   void _startDownload(bool? useWifi) async {
     await ref.watch(downloadChapterProvider(chapter: widget.chapter, useWifi: useWifi).future);
   }
@@ -40,22 +38,19 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
   late final manga = widget.chapter.manga.value!;
 
   void _sendFile() async {
-    final mangaDir =
-        await _storageProvider.getMangaMainDirectory(widget.chapter);
-    final path =
-        await _storageProvider.getMangaChapterDirectory(widget.chapter);
+    final mangaDir = await StorageProvider.getMangaMainDirectory(manga);
+    final cbzFile = File("$mangaDir${widget.chapter.name}.cbz");
+    final mp4File = File("$mangaDir${widget.chapter.name!.replaceForbiddenCharacters(' ')}.mp4");
 
     List<XFile> files;
 
-    final cbzFile = File("${mangaDir!.path}${widget.chapter.name}.cbz");
-    final mp4File = File(
-        "${mangaDir.path}${widget.chapter.name!.replaceForbiddenCharacters(' ')}.mp4");
     if (cbzFile.existsSync()) {
       files = [XFile(cbzFile.path)];
     } else if (mp4File.existsSync()) {
       files = [XFile(mp4File.path)];
     } else {
-      files = path!.listSync().map((e) => XFile(e.path)).toList();
+      final path = await StorageProvider.getMangaChapterDirectory(widget.chapter);
+      files = Directory(path).listSync().map((e) => XFile(e.path)).toList();
     }
 
     if (files.isNotEmpty) {
@@ -64,26 +59,24 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
   }
 
   void _deleteFile() async {
-    final mangaDir =
-        await _storageProvider.getMangaMainDirectory(widget.chapter);
-    final path =
-        await _storageProvider.getMangaChapterDirectory(widget.chapter);
+    final mangaDir = await StorageProvider.getMangaMainDirectory(manga);
+    final path = await StorageProvider.getMangaChapterDirectory(widget.chapter);
 
     try {
       try {
-        final cbzFile = File("${mangaDir!.path}${widget.chapter.name}.cbz");
+        final cbzFile = File("$mangaDir${widget.chapter.name}.cbz");
         if (cbzFile.existsSync()) {
           cbzFile.deleteSync();
         }
       } catch (_) {}
       try {
-        final mp4File = File(
-            "${mangaDir!.path}${widget.chapter.name!.replaceForbiddenCharacters(' ')}.mp4");
+        final mp4File = File("$mangaDir${widget.chapter.name!.replaceForbiddenCharacters(' ')}.mp4");
         if (mp4File.existsSync()) {
           mp4File.deleteSync();
         }
       } catch (_) {}
-      path!.deleteSync(recursive: true);
+
+      Directory(path).deleteSync(recursive: true);
     } catch (_) {}
     isar.writeTxnSync(() {
       int id = isar.downloads.filter().chapterIdEqualTo(widget.chapter.id!).findFirstSync()!.id!;

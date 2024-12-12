@@ -15,14 +15,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 part 'get_video_list.g.dart';
 
 @riverpod
-Future<(List<Video>, bool, List<String>)> getVideoList(Ref ref,
-    {required Chapter episode}) async {
-  final storageProvider = StorageProvider();
-  final mangaDirectory = await storageProvider.getMangaMainDirectory(episode);
-  final isLocalArchive = episode.manga.value!.isLocalArchive! &&
-      episode.manga.value!.source != "torrent";
-  final mp4animePath =
-      "${mangaDirectory!.path}${episode.name!.replaceForbiddenCharacters(' ')}.mp4";
+Future<(List<Video>, bool, List<String>)> getVideoList(Ref ref, {required Chapter episode}) async {
+  final isLocalArchive = episode.manga.value!.isLocalArchive! && episode.manga.value!.source != "torrent";
+  final mangaDirectory = await StorageProvider.getMangaMainDirectory(episode.manga.value!);
+  final mp4animePath = "$mangaDirectory${episode.name!.replaceForbiddenCharacters(' ')}.mp4";
   List<String> infoHashes = [];
   if (await File(mp4animePath).exists() || isLocalArchive) {
     final path = isLocalArchive ? episode.archivePath : mp4animePath;

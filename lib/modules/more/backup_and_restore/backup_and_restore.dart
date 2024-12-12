@@ -81,12 +81,9 @@ class BackupAndRestore extends ConsumerWidget {
                                         String? result;
 
                                         if (Platform.isIOS) {
-                                          result = (await StorageProvider()
-                                                  .getIosBackupDirectory())!
-                                              .path;
+                                          result = await StorageProvider.getBackupDirectory();
                                         } else {
-                                          result = await FilePicker.platform
-                                              .getDirectoryPath();
+                                          result = await FilePicker.platform.getDirectoryPath();
                                         }
 
                                         if (result != null && context.mounted) {

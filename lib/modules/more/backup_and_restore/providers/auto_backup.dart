@@ -37,31 +37,25 @@ class BackupFrequencyOptionsState extends _$BackupFrequencyOptionsState {
 
 @riverpod
 class AutoBackupLocationState extends _$AutoBackupLocationState {
+  late final settings = isar.settings.getSync(227);
+
   @override
   (String, String) build() {
     return ("", isar.settings.getSync(227)!.autoBackupLocation ?? "");
   }
 
   void set(String location) {
-    final settings = isar.settings.getSync(227);
-    state = ("${_storageProvider!.path}backup", location);
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..autoBackupLocation = location));
+    state = ("${_storagePath}backup", location);
+    isar.writeTxnSync(() {
+      isar.settings.putSync(settings!..autoBackupLocation = location);
+    });
   }
 
-  Directory? _storageProvider;
+  String? _storagePath;
 
   Future refresh() async {
-    _storageProvider = Platform.isIOS
-        ? await StorageProvider().getIosBackupDirectory()
-        : await StorageProvider().getDefaultDirectory();
-    final settings = isar.settings.getSync(227);
-    state = (
-      Platform.isIOS
-          ? _storageProvider!.path
-          : "${_storageProvider!.path}backup/",
-      settings!.autoBackupLocation ?? ""
-    );
+    _storagePath = await StorageProvider.getBackupDirectory();
+    state = (_storagePath!, settings!.autoBackupLocation ?? '');
   }
 }
 
@@ -76,20 +70,14 @@ Future<void> checkAndBackup(Ref ref) async {
 
         if (DateTime.now().isAfter(startBackupDate)) {
           _setBackupFrequency(settings.backupFrequency!);
-          final storageProvider = StorageProvider();
-          await storageProvider.requestPermission();
-          final defaulteDirectory = await storageProvider.getDefaultDirectory();
+          await StorageProvider.requestPermission();
           final backupLocation = ref.watch(autoBackupLocationStateProvider).$2;
-          Directory? backupDirectory;
-          backupDirectory = Directory(backupLocation.isEmpty
-              ? "${defaulteDirectory!.path}backup/"
-              : backupLocation);
-          if (Platform.isIOS) {
-            backupDirectory = await (storageProvider.getIosBackupDirectory());
-          }
-          if (!(await backupDirectory!.exists())) {
-            backupDirectory.create();
-          }
+
+          Directory backupDirectory =
+              Directory(backupLocation.isEmpty ? await StorageProvider.getBackupDirectory() : backupLocation);
+
+          await backupDirectory.create(recursive: true);
+
           ref.watch(doBackUpProvider(
             list: ref.watch(backupFrequencyOptionsStateProvider),
             path: backupDirectory.path,

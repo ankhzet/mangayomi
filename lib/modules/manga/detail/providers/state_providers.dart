@@ -7,6 +7,7 @@ import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
 import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'state_providers.g.dart';
 
 @riverpod

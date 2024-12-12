@@ -9,7 +9,6 @@ import 'package:mangayomi/modules/manga/reader/reader_view.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
 import 'package:mangayomi/utils/headers.dart';
-import 'package:mangayomi/utils/reg_exp_matcher.dart';
 
 extension LetExtension<T> on T {
   R let<R>(R Function(T) block) {
@@ -47,12 +46,11 @@ extension IterableUtils<T> on Iterable<T> {
 }
 
 extension Trimmable on String {
-  String normalize() => toString().trim().trimLeft().trimRight(); // why???
+  String normalize() => toString().trim().trimLeft().trimRight(); // why .trimLeft().trimRight()???
 }
 
 extension ImageProviderExtension on ImageProvider {
   Future<Uint8List?> getBytes(BuildContext context, {ImageByteFormat format = ImageByteFormat.png}) async {
-    final imageStream = resolve(createLocalImageConfiguration(context));
     final Completer<Uint8List?> completer = Completer<Uint8List?>();
     final ImageStreamListener listener = ImageStreamListener((imageInfo, synchronousCall) async {
       final bytes = await imageInfo.image.toByteData(format: format);
@@ -60,31 +58,41 @@ extension ImageProviderExtension on ImageProvider {
         completer.complete(bytes?.buffer.asUint8List());
       }
     });
+    final imageStream = resolve(createLocalImageConfiguration(context));
+
     imageStream.addListener(listener);
-    final imageBytes = await completer.future;
-    imageStream.removeListener(listener);
-    return imageBytes;
+
+    try {
+      return await completer.future;
+    } finally {
+      imageStream.removeListener(listener);
+    }
   }
 }
 
 extension UChapDataPreloadExtensions on UChapDataPreload {
   Future<Uint8List?> get getImageBytes async {
     Uint8List? imageBytes;
+
     if (archiveImage != null) {
       imageBytes = archiveImage;
     } else if (isLocal) {
       imageBytes = preloadFile.readAsBytesSync();
     } else {
       File? cachedImage;
+
       if (pageUrl != null) {
         cachedImage = await getCachedImageFile(pageUrl!.url);
       }
+
       if (cachedImage == null) {
         await Future.delayed(const Duration(seconds: 3));
         cachedImage = await getCachedImageFile(pageUrl!.url);
       }
+
       imageBytes = cachedImage?.readAsBytesSync();
     }
+
     return imageBytes;
   }
 
@@ -110,7 +118,7 @@ extension UChapDataPreloadExtensions on UChapDataPreload {
       headers: {
         ...pageUrl!.headers ?? {},
         ...ref
-            .watch(headersProvider(source: chapter!.manga.value!.source!, lang: chapter!.manga.value!.lang!))
+            .watch(headersProvider(source: chapter.manga.value!.source!, lang: chapter.manga.value!.lang!))
       },
     );
   }

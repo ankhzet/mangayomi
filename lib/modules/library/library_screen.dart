@@ -999,6 +999,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                                       for (var chapter in manga.chapters) {
                                         final path = await StorageProvider.getMangaChapterDirectory(chapter);
 
+                                        try {
                                           try {
                                             try {
                                               if (File("$mangaDir${chapter.name}.cbz").existsSync()) {

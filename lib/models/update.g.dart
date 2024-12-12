@@ -27,8 +27,13 @@ const UpdateSchema = CollectionSchema(
       name: r'date',
       type: IsarType.string,
     ),
-    r'mangaId': PropertySchema(
+    r'lastMangaUpdate': PropertySchema(
       id: 2,
+      name: r'lastMangaUpdate',
+      type: IsarType.long,
+    ),
+    r'mangaId': PropertySchema(
+      id: 3,
       name: r'mangaId',
       type: IsarType.long,
     )
@@ -83,7 +88,8 @@ void _updateSerialize(
 ) {
   writer.writeString(offsets[0], object.chapterName);
   writer.writeString(offsets[1], object.date);
-  writer.writeLong(offsets[2], object.mangaId);
+  writer.writeLong(offsets[2], object.lastMangaUpdate);
+  writer.writeLong(offsets[3], object.mangaId);
 }
 
 Update _updateDeserialize(
@@ -96,7 +102,7 @@ Update _updateDeserialize(
     chapterName: reader.readStringOrNull(offsets[0]),
     date: reader.readStringOrNull(offsets[1]),
     id: id,
-    mangaId: reader.readLongOrNull(offsets[2]),
+    mangaId: reader.readLongOrNull(offsets[3]),
   );
   return object;
 }
@@ -113,6 +119,8 @@ P _updateDeserializeProp<P>(
     case 1:
       return (reader.readStringOrNull(offset)) as P;
     case 2:
+      return (reader.readLong(offset)) as P;
+    case 3:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -567,6 +575,60 @@ extension UpdateQueryFilter on QueryBuilder<Update, Update, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Update, Update, QAfterFilterCondition> lastMangaUpdateEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'lastMangaUpdate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Update, Update, QAfterFilterCondition>
+      lastMangaUpdateGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'lastMangaUpdate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Update, Update, QAfterFilterCondition> lastMangaUpdateLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'lastMangaUpdate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Update, Update, QAfterFilterCondition> lastMangaUpdateBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'lastMangaUpdate',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Update, Update, QAfterFilterCondition> mangaIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -679,6 +741,18 @@ extension UpdateQuerySortBy on QueryBuilder<Update, Update, QSortBy> {
     });
   }
 
+  QueryBuilder<Update, Update, QAfterSortBy> sortByLastMangaUpdate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastMangaUpdate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Update, Update, QAfterSortBy> sortByLastMangaUpdateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastMangaUpdate', Sort.desc);
+    });
+  }
+
   QueryBuilder<Update, Update, QAfterSortBy> sortByMangaId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'mangaId', Sort.asc);
@@ -729,6 +803,18 @@ extension UpdateQuerySortThenBy on QueryBuilder<Update, Update, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Update, Update, QAfterSortBy> thenByLastMangaUpdate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastMangaUpdate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Update, Update, QAfterSortBy> thenByLastMangaUpdateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastMangaUpdate', Sort.desc);
+    });
+  }
+
   QueryBuilder<Update, Update, QAfterSortBy> thenByMangaId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'mangaId', Sort.asc);
@@ -757,6 +843,12 @@ extension UpdateQueryWhereDistinct on QueryBuilder<Update, Update, QDistinct> {
     });
   }
 
+  QueryBuilder<Update, Update, QDistinct> distinctByLastMangaUpdate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'lastMangaUpdate');
+    });
+  }
+
   QueryBuilder<Update, Update, QDistinct> distinctByMangaId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'mangaId');
@@ -780,6 +872,12 @@ extension UpdateQueryProperty on QueryBuilder<Update, Update, QQueryProperty> {
   QueryBuilder<Update, String?, QQueryOperations> dateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'date');
+    });
+  }
+
+  QueryBuilder<Update, int, QQueryOperations> lastMangaUpdateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'lastMangaUpdate');
     });
   }
 

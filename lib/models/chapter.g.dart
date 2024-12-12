@@ -52,13 +52,18 @@ const ChapterSchema = CollectionSchema(
       name: r'name',
       type: IsarType.string,
     ),
-    r'scanlator': PropertySchema(
+    r'order': PropertySchema(
       id: 7,
+      name: r'order',
+      type: IsarType.double,
+    ),
+    r'scanlator': PropertySchema(
+      id: 8,
       name: r'scanlator',
       type: IsarType.string,
     ),
     r'url': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'url',
       type: IsarType.string,
     )
@@ -68,7 +73,21 @@ const ChapterSchema = CollectionSchema(
   deserialize: _chapterDeserialize,
   deserializeProp: _chapterDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'order': IndexSchema(
+      id: 5897270977454184057,
+      name: r'order',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'order',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    )
+  },
   links: {
     r'manga': LinkSchema(
       id: -8510956094935473973,
@@ -142,8 +161,9 @@ void _chapterSerialize(
   writer.writeString(offsets[4], object.lastPageRead);
   writer.writeLong(offsets[5], object.mangaId);
   writer.writeString(offsets[6], object.name);
-  writer.writeString(offsets[7], object.scanlator);
-  writer.writeString(offsets[8], object.url);
+  writer.writeDouble(offsets[7], object.order);
+  writer.writeString(offsets[8], object.scanlator);
+  writer.writeString(offsets[9], object.url);
 }
 
 Chapter _chapterDeserialize(
@@ -161,8 +181,8 @@ Chapter _chapterDeserialize(
     lastPageRead: reader.readStringOrNull(offsets[4]),
     mangaId: reader.readLongOrNull(offsets[5]),
     name: reader.readStringOrNull(offsets[6]),
-    scanlator: reader.readStringOrNull(offsets[7]),
-    url: reader.readStringOrNull(offsets[8]),
+    scanlator: reader.readStringOrNull(offsets[8]),
+    url: reader.readStringOrNull(offsets[9]),
   );
   return object;
 }
@@ -189,8 +209,10 @@ P _chapterDeserializeProp<P>(
     case 6:
       return (reader.readStringOrNull(offset)) as P;
     case 7:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readDouble(offset)) as P;
     case 8:
+      return (reader.readStringOrNull(offset)) as P;
+    case 9:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -214,6 +236,14 @@ extension ChapterQueryWhereSort on QueryBuilder<Chapter, Chapter, QWhere> {
   QueryBuilder<Chapter, Chapter, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhere> anyOrder() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'order'),
+      );
     });
   }
 }
@@ -279,6 +309,95 @@ extension ChapterQueryWhere on QueryBuilder<Chapter, Chapter, QWhereClause> {
         lower: lowerId,
         includeLower: includeLower,
         upper: upperId,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> orderEqualTo(double order) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'order',
+        value: [order],
+      ));
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> orderNotEqualTo(
+      double order) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'order',
+              lower: [],
+              upper: [order],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'order',
+              lower: [order],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'order',
+              lower: [order],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'order',
+              lower: [],
+              upper: [order],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> orderGreaterThan(
+    double order, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'order',
+        lower: [order],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> orderLessThan(
+    double order, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'order',
+        lower: [],
+        upper: [order],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> orderBetween(
+    double lowerOrder,
+    double upperOrder, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'order',
+        lower: [lowerOrder],
+        includeLower: includeLower,
+        upper: [upperOrder],
         includeUpper: includeUpper,
       ));
     });
@@ -1064,6 +1183,68 @@ extension ChapterQueryFilter
     });
   }
 
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> orderEqualTo(
+    double value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'order',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> orderGreaterThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'order',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> orderLessThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'order',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> orderBetween(
+    double lower,
+    double upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'order',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
   QueryBuilder<Chapter, Chapter, QAfterFilterCondition> scanlatorIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1461,6 +1642,18 @@ extension ChapterQuerySortBy on QueryBuilder<Chapter, Chapter, QSortBy> {
     });
   }
 
+  QueryBuilder<Chapter, Chapter, QAfterSortBy> sortByOrder() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'order', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterSortBy> sortByOrderDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'order', Sort.desc);
+    });
+  }
+
   QueryBuilder<Chapter, Chapter, QAfterSortBy> sortByScanlator() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'scanlator', Sort.asc);
@@ -1584,6 +1777,18 @@ extension ChapterQuerySortThenBy
     });
   }
 
+  QueryBuilder<Chapter, Chapter, QAfterSortBy> thenByOrder() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'order', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterSortBy> thenByOrderDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'order', Sort.desc);
+    });
+  }
+
   QueryBuilder<Chapter, Chapter, QAfterSortBy> thenByScanlator() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'scanlator', Sort.asc);
@@ -1657,6 +1862,12 @@ extension ChapterQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Chapter, Chapter, QDistinct> distinctByOrder() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'order');
+    });
+  }
+
   QueryBuilder<Chapter, Chapter, QDistinct> distinctByScanlator(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1719,6 +1930,12 @@ extension ChapterQueryProperty
   QueryBuilder<Chapter, String?, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
+    });
+  }
+
+  QueryBuilder<Chapter, double, QQueryOperations> orderProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'order');
     });
   }
 

@@ -5,7 +5,7 @@ import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/modules/more/settings/track/providers/track_providers.dart';
-import 'package:mangayomi/modules/more/settings/track/widgets/track_listile.dart';
+import 'package:mangayomi/modules/more/settings/track/widgets/track_list_tile.dart';
 import 'package:mangayomi/modules/more/widgets/list_tile_widget.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/services/trackers/anilist.dart';
@@ -56,7 +56,7 @@ class TrackScreen extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  TrackListile(
+                  TrackListTile(
                       onTap: () async {
                         await ref
                             .read(anilistProvider(syncId: 2).notifier)
@@ -64,13 +64,13 @@ class TrackScreen extends ConsumerWidget {
                       },
                       id: 2,
                       entries: entries!),
-                  TrackListile(
+                  TrackListTile(
                       onTap: () async {
                         _showDialogLogin(context, ref);
                       },
                       id: 3,
                       entries: entries),
-                  TrackListile(
+                  TrackListTile(
                       onTap: () async {
                         await ref
                             .read(myAnimeListProvider(syncId: 1, isManga: null)

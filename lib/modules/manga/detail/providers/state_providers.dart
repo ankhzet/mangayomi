@@ -306,9 +306,7 @@ class ChapterSetIsBookmarkState extends _$ChapterSetIsBookmarkState {
     isar.writeTxnSync(() {
       for (var chapter in chapters) {
         chapter.isBookmarked = !chapter.isBookmarked!;
-        ref
-            .read(changedItemsManagerProvider(managerId: 1).notifier)
-            .addUpdatedChapter(chapter, false, false);
+        ref.read(changedItemsManagerProvider(managerId: 1).notifier).addUpdatedChapter(chapter, false, false);
         isar.chapters.putSync(chapter..manga.value = manga);
         chapter.manga.saveSync();
       }
@@ -328,9 +326,7 @@ class ChapterSetIsReadState extends _$ChapterSetIsReadState {
     isar.writeTxnSync(() {
       for (var chapter in chapters) {
         chapter.isRead = !chapter.isRead!;
-        ref
-            .read(changedItemsManagerProvider(managerId: 1).notifier)
-            .addUpdatedChapter(chapter, false, false);
+        ref.read(changedItemsManagerProvider(managerId: 1).notifier).addUpdatedChapter(chapter, false, false);
         isar.chapters.putSync(chapter..manga.value = manga);
         chapter.manga.saveSync();
       }
@@ -349,11 +345,7 @@ class ChapterSetDownloadState extends _$ChapterSetDownloadState {
     ref.read(isLongPressedStateProvider.notifier).update(false);
     isar.txnSync(() {
       for (var chapter in ref.watch(chaptersListStateProvider)) {
-        final entries = isar.downloads
-            .filter()
-            .idIsNotNull()
-            .chapterIdEqualTo(chapter.id)
-            .findAllSync();
+        final entries = isar.downloads.filter().idIsNotNull().chapterIdEqualTo(chapter.id).findAllSync();
         if (entries.isEmpty || !entries.first.isDownload!) {
           ref.watch(downloadChapterProvider(chapter: chapter));
         }
@@ -391,8 +383,7 @@ class ScanlatorsFilterState extends _$ScanlatorsFilterState {
   List<String> _getScanlators() {
     List<String> scanlators = [];
     for (var a in manga.chapters.toList()) {
-      if ((a.scanlator?.isNotEmpty ?? false) &&
-          !scanlators.contains(a.scanlator)) {
+      if ((a.scanlator?.isNotEmpty ?? false) && !scanlators.contains(a.scanlator)) {
         scanlators.add(a.scanlator!);
       }
     }
@@ -406,38 +397,35 @@ class ScanlatorsFilterState extends _$ScanlatorsFilterState {
       ..scanlators = filterScanlators
       ..mangaId = manga.id;
     List<FilterScanlator>? filterScanlatorList = [];
+
     for (var filterScanlator in settings.filterScanlatorList ?? []) {
       if (filterScanlator.mangaId != manga.id) {
         filterScanlatorList.add(filterScanlator);
       }
     }
+
     filterScanlatorList.add(value);
     isar.writeTxnSync(() {
-      isar.settings
-          .putSync(settings..filterScanlatorList = filterScanlatorList);
+      isar.settings.putSync(settings..filterScanlatorList = filterScanlatorList);
     });
     state = (_getScanlators(), _getFilterScanlator()!, filterScanlators);
   }
 
   List<String>? _getFilterScanlator() {
     final scanlators = isar.settings.getSync(227)!.filterScanlatorList ?? [];
-    final filter =
-        scanlators.where((element) => element.mangaId == manga.id).toList();
+    final filter = scanlators.where((element) => element.mangaId == manga.id).toList();
     return filter.isEmpty ? null : filter.first.scanlators;
   }
 
   setFilteredList(String scanlator) {
-    List<String> scanlatorFilteredList = [];
-    for (var a in state.$3) {
-      scanlatorFilteredList.add(a);
-    }
+    List<String> scanlatorFilteredList = [...state.$3];
 
     if (scanlatorFilteredList.contains(scanlator)) {
       scanlatorFilteredList.remove(scanlator);
     } else {
       scanlatorFilteredList.add(scanlator);
     }
-    state =
-        (_getScanlators(), _getFilterScanlator() ?? [], scanlatorFilteredList);
+
+    state = (_getScanlators(), _getFilterScanlator() ?? [], scanlatorFilteredList);
   }
 }

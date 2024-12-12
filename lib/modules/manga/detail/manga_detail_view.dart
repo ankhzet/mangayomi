@@ -59,22 +59,22 @@ class MangaDetailView extends ConsumerStatefulWidget {
   final bool sourceExist;
   final Function(bool) checkForUpdate;
 
-  const MangaDetailView(
-      {super.key,
-      required this.isExtended,
-      this.titleDescription,
-      this.backButtonColors,
-      this.action,
-      required this.sourceExist,
-      required this.manga,
-      required this.checkForUpdate});
+  const MangaDetailView({
+    super.key,
+    required this.isExtended,
+    required this.sourceExist,
+    required this.manga,
+    required this.checkForUpdate,
+    this.titleDescription,
+    this.backButtonColors,
+    this.action,
+  });
 
   @override
   ConsumerState<MangaDetailView> createState() => _MangaDetailViewState();
 }
 
-class _MangaDetailViewState extends ConsumerState<MangaDetailView>
-    with TickerProviderStateMixin {
+class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerProviderStateMixin {
   @override
   void initState() {
     _scrollController = ScrollController()
@@ -682,10 +682,9 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
               return AnimatedContainer(
                 curve: Curves.easeIn,
                 decoration: BoxDecoration(
-                    color: context.primaryColor.withOpacity(0.2),
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20))),
+                  color: context.primaryColor.withOpacity(0.2),
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                ),
                 duration: const Duration(milliseconds: 100),
                 height: isLongPressed ? 70 : 0,
                 width: context.width(1),
@@ -1240,14 +1239,13 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                 ),
                 if (isLocalArchive)
                   Positioned(
-                      top: 0,
-                      right: 0,
-                      child: IconButton(
-                          onPressed: () {
-                            _editLocalArchiveInfos();
-                          },
-                          icon: const CircleAvatar(
-                              child: Icon(Icons.edit_outlined))))
+                    top: 0,
+                    right: 0,
+                    child: IconButton(
+                      onPressed: _editLocalArchiveInfos,
+                      icon: const CircleAvatar(child: Icon(Icons.edit_outlined)),
+                    ),
+                  )
               ],
             ),
             if (!isLocalArchive) _actionFavouriteAndWebview(),
@@ -1408,9 +1406,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
             ),
             if (chapterLength == 0)
               Container(
-                  width: context.width(1),
-                  height: context.height(1),
-                  color: Theme.of(context).scaffoldBackgroundColor)
+                  width: context.width(1), height: context.height(1), color: Theme.of(context).scaffoldBackgroundColor)
           ],
         ),
       ],
@@ -1474,45 +1470,31 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
           Expanded(child: widget.action!),
           Expanded(
             child: StreamBuilder(
-                stream: isar.trackPreferences
-                    .filter()
-                    .syncIdIsNotNull()
-                    .watch(fireImmediately: true),
+                stream: isar.trackPreferences.filter().syncIdIsNotNull().watch(fireImmediately: true),
                 builder: (context, snapshot) {
-                  List<TrackPreference>? entries =
-                      snapshot.hasData ? snapshot.data! : [];
+                  List<TrackPreference>? entries = snapshot.hasData ? snapshot.data! : [];
                   if (entries.isEmpty) {
                     return Container();
                   }
                   return SizedBox(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).scaffoldBackgroundColor,
-                          elevation: 0),
+                          backgroundColor: Theme.of(context).scaffoldBackgroundColor, elevation: 0),
                       onPressed: () {
                         _trackingDraggableMenu(entries);
                       },
                       child: StreamBuilder(
-                          stream: isar.tracks
-                              .filter()
-                              .idIsNotNull()
-                              .mangaIdEqualTo(widget.manga!.id!)
-                              .watch(fireImmediately: true),
+                          stream:
+                              isar.tracks.filter().idIsNotNull().mangaIdEqualTo(mangaId).watch(fireImmediately: true),
                           builder: (context, snapshot) {
                             final l10n = l10nLocalizations(context)!;
-                            List<Track>? trackRes =
-                                snapshot.hasData ? snapshot.data : [];
+                            List<Track>? trackRes = snapshot.hasData ? snapshot.data : [];
                             bool isNotEmpty = trackRes!.isNotEmpty;
-                            Color color = isNotEmpty
-                                ? context.primaryColor
-                                : context.secondaryColor;
+                            Color color = isNotEmpty ? context.primaryColor : context.secondaryColor;
                             return Column(
                               children: [
                                 Icon(
-                                  isNotEmpty
-                                      ? Icons.done_rounded
-                                      : Icons.sync_outlined,
+                                  isNotEmpty ? Icons.done_rounded : Icons.sync_outlined,
                                   size: 20,
                                   color: color,
                                 ),
@@ -1538,9 +1520,8 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
           Expanded(
             child: SizedBox(
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    elevation: 0),
+                style:
+                    ElevatedButton.styleFrom(backgroundColor: Theme.of(context).scaffoldBackgroundColor, elevation: 0),
                 onPressed: () async {
                   final manga = widget.manga!;
 
@@ -1552,11 +1533,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                       ? "$baseUrl${widget.manga!.link!}"
                       : widget.manga!.link!;
 
-                  Map<String, dynamic> data = {
-                    'url': url,
-                    'sourceId': source.id.toString(),
-                    'title': manga.name!
-                  };
+                  Map<String, dynamic> data = {'url': url, 'sourceId': source.id.toString(), 'title': manga.name!};
                   context.push("/mangawebview", extra: data);
                 },
                 child: Column(
@@ -1571,8 +1548,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                     ),
                     Text(
                       'WebView',
-                      style: TextStyle(
-                          fontSize: 11, color: context.secondaryColor),
+                      style: TextStyle(fontSize: 11, color: context.secondaryColor),
                     )
                   ],
                 ),
@@ -1595,8 +1571,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
                   child: PhotoViewGallery.builder(
-                    backgroundDecoration:
-                        const BoxDecoration(color: Colors.transparent),
+                    backgroundDecoration: const BoxDecoration(color: Colors.transparent),
                     itemCount: 1,
                     builder: (context, index) {
                       return PhotoViewGalleryPageOptions(
@@ -1619,13 +1594,9 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: StreamBuilder(
-                          stream: isar.trackPreferences
-                              .filter()
-                              .syncIdIsNotNull()
-                              .watch(fireImmediately: true),
+                          stream: isar.trackPreferences.filter().syncIdIsNotNull().watch(fireImmediately: true),
                           builder: (context, snapshot) {
-                            List<TrackPreference>? entries =
-                                snapshot.hasData ? snapshot.data! : [];
+                            List<TrackPreference>? entries = snapshot.hasData ? snapshot.data! : [];
                             if (entries.isEmpty) {
                               return Container();
                             }
@@ -1635,42 +1606,32 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                                         padding: const EdgeInsets.all(8.0),
                                         child: MaterialButton(
                                           padding: const EdgeInsets.all(0),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                           onPressed: () async {
-                                            final trackSearch =
-                                                await trackersSearchraggableMenu(
+                                            final trackSearch = await trackersSearchraggableMenu(
                                               context,
                                               isManga: widget.manga!.isManga!,
                                               track: Track(
-                                                  status:
-                                                      TrackStatus.planToRead,
+                                                  status: TrackStatus.planToRead,
                                                   syncId: e.syncId!,
                                                   title: widget.manga!.name!),
                                             ) as TrackSearch?;
                                             if (trackSearch != null) {
                                               isar.writeTxnSync(() {
-                                                isar.mangas.putSync(
-                                                    widget.manga!
-                                                      ..customCoverImage = null
-                                                      ..customCoverFromTracker =
-                                                          trackSearch.coverUrl);
+                                                isar.mangas.putSync(manga
+                                                  ..customCoverImage = null
+                                                  ..customCoverFromTracker = trackSearch.coverUrl);
                                               });
                                               if (context.mounted) {
                                                 Navigator.pop(context);
-                                                botToast(
-                                                    context.l10n.cover_updated,
-                                                    second: 3);
+                                                botToast(context.l10n.cover_updated, second: 3);
                                               }
                                             }
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color:
-                                                    trackInfos(e.syncId!).$3),
+                                                borderRadius: BorderRadius.circular(10),
+                                                color: trackInfos(e.syncId!).$3),
                                             width: 45,
                                             height: 50,
                                             child: Image.asset(
@@ -1695,9 +1656,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                               child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
-                                    color: context.isLight
-                                        ? Colors.white
-                                        : Colors.black),
+                                    color: context.isLight ? Colors.white : Colors.black),
                                 child: GestureDetector(
                                     onTap: () {
                                       Navigator.pop(context);
@@ -1713,21 +1672,15 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                               child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
-                                    color: context.isLight
-                                        ? Colors.white
-                                        : Colors.black),
+                                    color: context.isLight ? Colors.white : Colors.black),
                                 child: Row(
                                   children: [
                                     GestureDetector(
                                         onTap: () async {
-                                          final bytes = await imageProvider
-                                              .getBytes(context);
+                                          final bytes = await imageProvider.getBytes(context);
                                           if (bytes != null) {
-                                            await Share.shareXFiles([
-                                              XFile.fromData(bytes,
-                                                  name: widget.manga!.name,
-                                                  mimeType: 'image/png')
-                                            ]);
+                                            await Share.shareXFiles(
+                                                [XFile.fromData(bytes, name: manga.name, mimeType: 'image/png')]);
                                           }
                                         },
                                         child: const Padding(
@@ -1738,6 +1691,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                                         onTap: () async {
                                           final dir = await StorageProvider()
                                               .getGalleryDirectory();
+
                                           if (context.mounted) {
                                             final bytes = await imageProvider
                                                 .getBytes(context);
@@ -1746,8 +1700,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                                               final file = File(
                                                   '${dir!.path}/${widget.manga!.name}.png');
                                               file.writeAsBytesSync(bytes);
-                                              botToast(context.l10n.cover_saved,
-                                                  second: 3);
+                                              botToast(context.l10n.cover_saved, second: 3);
                                             }
                                           }
                                         },
@@ -1759,18 +1712,9 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                                       popUpAnimationStyle: popupAnimationStyle,
                                       itemBuilder: (context) {
                                         return [
-                                          if (widget.manga!.customCoverImage !=
-                                                  null ||
-                                              widget.manga!
-                                                      .customCoverFromTracker !=
-                                                  null)
-                                            PopupMenuItem<int>(
-                                                value: 0,
-                                                child:
-                                                    Text(context.l10n.delete)),
-                                          PopupMenuItem<int>(
-                                              value: 1,
-                                              child: Text(context.l10n.edit)),
+                                          if (manga.customCoverImage != null || manga.customCoverFromTracker != null)
+                                            PopupMenuItem<int>(value: 0, child: Text(context.l10n.delete)),
+                                          PopupMenuItem<int>(value: 1, child: Text(context.l10n.edit)),
                                         ];
                                       },
                                       onSelected: (value) async {
@@ -1800,13 +1744,9 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                                                   File(result.files.first.path!)
                                                       .readAsBytesSync();
                                               isar.writeTxnSync(() {
-                                                isar.mangas.putSync(manga
-                                                  ..customCoverImage =
-                                                      customCoverImage);
+                                                isar.mangas.putSync(manga..customCoverImage = customCoverImage);
                                               });
-                                              botToast(
-                                                  context.l10n.cover_updated,
-                                                  second: 3);
+                                              botToast(context.l10n.cover_updated, second: 3);
                                             }
                                           }
                                           if (context.mounted) {
@@ -1818,9 +1758,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                                           padding: const EdgeInsets.all(8.0),
                                           child: Icon(
                                             Icons.edit_outlined,
-                                            color: !context.isLight
-                                                ? Colors.white
-                                                : Colors.black,
+                                            color: !context.isLight ? Colors.white : Colors.black,
                                           )),
                                     ),
                                   ],
@@ -1841,10 +1779,8 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
 
   void _editLocalArchiveInfos() {
     final l10n = l10nLocalizations(context)!;
-    TextEditingController? name =
-        TextEditingController(text: widget.manga!.name!);
-    TextEditingController? description =
-        TextEditingController(text: widget.manga!.description!);
+    TextEditingController? name = TextEditingController(text: manga.name!);
+    TextEditingController? description = TextEditingController(text: manga.description!);
     showDialog(
         context: context,
         builder: (context) {
@@ -1924,10 +1860,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
     DraggableMenu.open(
         context,
         DraggableMenu(
-          ui: ClassicDraggableMenu(
-              radius: 20,
-              barItem: Container(),
-              color: Theme.of(context).scaffoldBackgroundColor),
+          ui: ClassicDraggableMenu(radius: 20, barItem: Container(), color: Theme.of(context).scaffoldBackgroundColor),
           allowToShrink: true,
           child: Material(
             color: context.isLight
@@ -1953,19 +1886,17 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                           .mangaIdEqualTo(widget.manga!.id!)
                           .watch(fireImmediately: true),
                       builder: (context, snapshot) {
-                        List<Track>? trackRes =
-                            snapshot.hasData ? snapshot.data : [];
+                        List<Track>? trackRes = snapshot.hasData ? snapshot.data : [];
                         return trackRes!.isNotEmpty
                             ? TrackerWidget(
                                 mangaId: widget.manga!.id!,
                                 syncId: entries[index].syncId!,
                                 trackRes: trackRes.first,
                                 isManga: widget.manga!.isManga!)
-                            : TrackListile(
+                            : TrackListTile(
                                 text: l10nLocalizations(context)!.add_tracker,
                                 onTap: () async {
-                                  final trackSearch =
-                                      await trackersSearchraggableMenu(
+                                  final trackSearch = await trackersSearchraggableMenu(
                                     context,
                                     isManga: widget.manga!.isManga!,
                                     track: Track(
@@ -1975,23 +1906,15 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                                   ) as TrackSearch?;
                                   if (trackSearch != null) {
                                     await ref
-                                        .read(trackStateProvider(
-                                                track: null,
-                                                isManga: widget.manga!.isManga!)
-                                            .notifier)
-                                        .setTrackSearch(
-                                            trackSearch,
-                                            widget.manga!.id!,
-                                            entries[index].syncId!);
+                                        .read(trackStateProvider(track: null, isManga: manga.isManga!).notifier)
+                                        .setTrackSearch(trackSearch, mangaId, entries[index].syncId!);
                                   }
                                 },
                                 id: entries[index].syncId!,
                                 entries: const []);
                       });
                 },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Divider();
-                },
+                separatorBuilder: (context, index) => const Divider(),
               ),
             ),
           ),

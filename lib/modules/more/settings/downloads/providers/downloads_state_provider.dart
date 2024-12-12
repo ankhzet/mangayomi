@@ -3,6 +3,7 @@ import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'downloads_state_provider.g.dart';
 
 @riverpod
@@ -15,8 +16,7 @@ class OnlyOnWifiState extends _$OnlyOnWifiState {
   void set(bool value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..downloadOnlyOnWifi = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..downloadOnlyOnWifi = value));
   }
 }
 
@@ -30,8 +30,7 @@ class SaveAsCBZArchiveState extends _$SaveAsCBZArchiveState {
   void set(bool value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..saveAsCBZArchive = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..saveAsCBZArchive = value));
   }
 }
 

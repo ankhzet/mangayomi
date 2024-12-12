@@ -61,7 +61,6 @@ class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
                             child: Icon(Icons.source_outlined, size: 140),
                           ),
                         ),
-                        headers: {},
                       ),
               ),
             ),

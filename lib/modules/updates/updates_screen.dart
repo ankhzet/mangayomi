@@ -27,10 +27,10 @@ class UpdatesScreen extends ConsumerStatefulWidget {
   ConsumerState<UpdatesScreen> createState() => _UpdatesScreenState();
 }
 
-class _UpdatesScreenState extends ConsumerState<UpdatesScreen>
-    with TickerProviderStateMixin {
+class _UpdatesScreenState extends ConsumerState<UpdatesScreen> with TickerProviderStateMixin {
   late TabController _tabBarController;
   bool _isLoading = false;
+
   Future<void> _updateLibrary() async {
     setState(() {
       _isLoading = true;
@@ -82,6 +82,7 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen>
   final _textEditingController = TextEditingController();
   bool _isSearch = false;
   List<History> entriesData = [];
+
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
@@ -123,15 +124,13 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen>
                         _isSearch = true;
                       });
                     },
-                    icon: Icon(Icons.search_outlined,
-                        color: Theme.of(context).hintColor)),
+                    icon: Icon(Icons.search_outlined, color: Theme.of(context).hintColor)),
             IconButton(
                 splashRadius: 20,
                 onPressed: () {
                   _updateLibrary();
                 },
-                icon: Icon(Icons.refresh_outlined,
-                    color: Theme.of(context).hintColor)),
+                icon: Icon(Icons.refresh_outlined, color: Theme.of(context).hintColor)),
             IconButton(
                 splashRadius: 20,
                 onPressed: () {
@@ -160,10 +159,9 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen>
                                       List<Update> updates = isar.updates
                                           .filter()
                                           .idIsNotNull()
-                                          .chapter((q) => q.manga((q) =>
-                                              q.isMangaEqualTo(
-                                                  _tabBarController.index ==
-                                                      0)))
+                                          .chapter(
+                                              (q) => q.manga((q) => q.isMangaEqualTo(_tabBarController.index == 0))
+                                          )
                                           .findAllSync()
                                           .toList();
                                       isar.writeTxnSync(() {
@@ -182,8 +180,7 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen>
                         );
                       });
                 },
-                icon: Icon(Icons.delete_sweep_outlined,
-                    color: Theme.of(context).hintColor)),
+                icon: Icon(Icons.delete_sweep_outlined, color: Theme.of(context).hintColor)),
           ],
           bottom: TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
@@ -197,14 +194,8 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen>
         body: Padding(
           padding: const EdgeInsets.only(top: 10),
           child: TabBarView(controller: _tabBarController, children: [
-            UpdateTab(
-                isManga: true,
-                query: _textEditingController.text,
-                isLoading: _isLoading),
-            UpdateTab(
-                isManga: false,
-                query: _textEditingController.text,
-                isLoading: _isLoading)
+            UpdateTab(isManga: true, query: _textEditingController.text, isLoading: _isLoading),
+            UpdateTab(isManga: false, query: _textEditingController.text, isLoading: _isLoading)
           ]),
         ),
       ),
@@ -216,11 +207,8 @@ class UpdateTab extends ConsumerStatefulWidget {
   final String query;
   final bool isManga;
   final bool isLoading;
-  const UpdateTab(
-      {required this.isManga,
-      required this.query,
-      required this.isLoading,
-      super.key});
+
+  const UpdateTab({required this.isManga, required this.query, required this.isLoading, super.key});
 
   @override
   ConsumerState<UpdateTab> createState() => _UpdateTabState();
@@ -230,8 +218,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab> {
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
-    final update =
-        ref.watch(getAllUpdateStreamProvider(isManga: widget.isManga));
+    final update = ref.watch(getAllUpdateStreamProvider(isManga: widget.isManga));
     return Scaffold(
         body: Stack(
       children: [

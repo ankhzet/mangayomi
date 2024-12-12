@@ -172,6 +172,7 @@ class M3u8Downloader {
         final bytes = await File(path).readAsBytes();
         outFile.add(bytes);
       }
+
       await outFile.flush();
       await outFile.close();
       await dir.delete(recursive: true);

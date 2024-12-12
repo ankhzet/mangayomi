@@ -14,9 +14,11 @@ Future<List<String>> convertToCBZ(Ref ref, String chapterDir, String mangaDir,
 List<String> _convertToCBZ((String, String, String, List<String>) datas) {
   List<String> imagesPaths = [];
   final (chapterDir, mangaDir, chapterName, pageList) = datas;
+  final source = Directory(chapterDir);
 
-  if (Directory(chapterDir).existsSync()) {
-    List<FileSystemEntity> entities = Directory(chapterDir).listSync();
+  if (source.existsSync()) {
+    List<FileSystemEntity> entities = source.listSync();
+
     for (FileSystemEntity entity in entities) {
       if (entity is File) {
         String path = entity.path;
@@ -39,7 +41,7 @@ List<String> _convertToCBZ((String, String, String, List<String>) datas) {
       encoder.addFile(File(path));
     }
     encoder.close();
-    Directory(chapterDir).deleteSync(recursive: true);
+    source.deleteSync(recursive: true);
   }
 
   return imagesPaths;

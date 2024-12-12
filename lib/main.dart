@@ -31,16 +31,18 @@ late Isar isar;
 WebViewEnvironment? webViewEnvironment;
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.isLinux) {
-    if (runWebViewTitleBarWidget(args)) {
-      return;
-    }
+
+  if (Platform.isLinux && runWebViewTitleBarWidget(args)) {
+    return;
   }
+
   MediaKit.ensureInitialized();
   await RustLib.init();
+
   if (!(Platform.isAndroid || Platform.isIOS)) {
     await windowManager.ensureInitialized();
   }
+
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
     final availableVersion = await WebViewEnvironment.getAvailableVersion();
     assert(availableVersion != null,
@@ -54,6 +56,8 @@ void main(List<String> args) async {
   await StorageProvider().requestPermission();
   await StorageProvider().deleteBtDirectory();
   GoogleFonts.aBeeZee();
+
+  iniDateFormatting();
 
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -74,12 +78,6 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  @override
-  void initState() {
-    iniDateFormatting();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final syncOnAppLaunch = ref.watch(syncOnAppLaunchStateProvider);

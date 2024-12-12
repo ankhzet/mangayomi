@@ -21,6 +21,7 @@ class MangaDetailsView extends ConsumerStatefulWidget {
   final Manga manga;
   final bool sourceExist;
   final Function(bool) checkForUpdate;
+
   const MangaDetailsView({
     super.key,
     required this.sourceExist,
@@ -142,14 +143,9 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                   Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      Icon(
-                        getMangaStatusIcon(widget.manga.status),
-                        size: 14,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text(getMangaStatusName(widget.manga.status, context)),
+                      Icon(getMangaStatusIcon(manga.status), size: 14),
+                      const SizedBox(width: 4),
+                      Text(getMangaStatusName(manga.status, context)),
                       const Text(' • '),
                       Text(widget.manga.source!),
                       Text(' (${widget.manga.lang!.toUpperCase()})'),
@@ -200,16 +196,12 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                 ),
               )
             : ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    elevation: 0),
+                style:
+                    ElevatedButton.styleFrom(backgroundColor: Theme.of(context).scaffoldBackgroundColor, elevation: 0),
                 onPressed: () {
-                  final checkCategoryList = isar.categorys
-                      .filter()
-                      .idIsNotNull()
-                      .and()
-                      .forMangaEqualTo(widget.manga.isManga)
-                      .isNotEmptySync();
+                  final checkCategoryList =
+                      isar.categorys.filter().idIsNotNull().and().forMangaEqualTo(manga.isManga).isNotEmptySync();
+
                   if (checkCategoryList) {
                     _openCategory(widget.manga);
                   } else {
@@ -228,13 +220,10 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                       size: 20,
                       color: context.secondaryColor,
                     ),
-                    const SizedBox(
-                      height: 4,
-                    ),
+                    const SizedBox(height: 4),
                     Text(
                       l10n.add_to_library,
-                      style: TextStyle(
-                          color: context.secondaryColor, fontSize: 11),
+                      style: TextStyle(color: context.secondaryColor, fontSize: 11),
                       textAlign: TextAlign.center,
                     )
                   ],

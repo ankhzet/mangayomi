@@ -4,8 +4,12 @@ import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 
 class ReadMoreWidget extends StatefulWidget {
-  const ReadMoreWidget(
-      {super.key, required this.text, required this.onChanged});
+  const ReadMoreWidget({
+    super.key,
+    required this.text,
+    required this.onChanged,
+  });
+
   final Function(bool) onChanged;
   final String text;
 
@@ -22,9 +26,7 @@ class ReadMoreWidgetState extends State<ReadMoreWidget>
     return widget.text.isEmpty
         ? Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(l10n.no_description),
-            ],
+            children: [Text(l10n.no_description)],
           )
         : Column(
             children: [
@@ -63,9 +65,7 @@ class ReadMoreWidgetState extends State<ReadMoreWidget>
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              Theme.of(context)
-                                  .scaffoldBackgroundColor
-                                  .withOpacity(0.2),
+                              Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
                               Theme.of(context).scaffoldBackgroundColor
                             ],
                             stops: const [0, .9],

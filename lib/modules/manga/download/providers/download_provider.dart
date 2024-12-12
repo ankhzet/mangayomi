@@ -78,25 +78,16 @@ Future<List<PageUrl>> downloadChapter(
         chapterPageUrls.add(chapterPageUrl);
       }
     }
-    final chapterPageHeaders = pageUrls
-        .map((e) => e.headers == null ? null : jsonEncode(e.headers))
-        .toList();
+    final chapterPageHeaders = pageUrls.map((e) => e.headers == null ? null : jsonEncode(e.headers)).toList();
     chapterPageUrls.add(ChapterPageurls()
       ..chapterId = chapter.id
       ..urls = pageUrls.map((e) => e.url).toList()
-      ..headers = chapterPageHeaders.first != null
-          ? chapterPageHeaders.map((e) => e.toString()).toList()
-          : null);
-    isar.writeTxnSync(() =>
-        isar.settings.putSync(settings..chapterPageUrlsList = chapterPageUrls));
+      ..headers = chapterPageHeaders.first != null ? chapterPageHeaders.map((e) => e.toString()).toList() : null);
+    isar.writeTxnSync(() => isar.settings.putSync(settings..chapterPageUrlsList = chapterPageUrls));
   }
 
   if (isManga) {
-    ref
-        .read(getChapterPagesProvider(
-      chapter: chapter,
-    ).future)
-        .then((value) {
+    ref.read(getChapterPagesProvider(chapter: chapter).future).then((value) {
       if (value.pageUrls.isNotEmpty) {
         pageUrls = value.pageUrls;
         isOk = true;
@@ -105,13 +96,9 @@ Future<List<PageUrl>> downloadChapter(
   } else {
     ref.read(getVideoListProvider(episode: chapter).future).then((value) async {
       final m3u8Urls = value.$1
-          .where((element) =>
-              element.originalUrl.endsWith(".m3u8") ||
-              element.originalUrl.endsWith(".m3u"))
+          .where((element) => element.originalUrl.endsWith(".m3u8") || element.originalUrl.endsWith(".m3u"))
           .toList();
-      final nonM3u8Urls = value.$1
-          .where((element) => element.originalUrl.isMediaVideo())
-          .toList();
+      final nonM3u8Urls = value.$1.where((element) => element.originalUrl.isMediaVideo()).toList();
       nonM3U8File = nonM3u8Urls.isNotEmpty;
       hasM3U8File = nonM3U8File ? false : m3u8Urls.isNotEmpty;
       final videosUrls = nonM3U8File ? nonM3u8Urls : m3u8Urls;
@@ -122,12 +109,9 @@ Future<List<PageUrl>> downloadChapter(
               m3u8Url: videosUrls.first.url,
               downloadDir: "${path!.path}$chapterName",
               headers: videosUrls.first.headers ?? {});
-          (tsList, tsKey, tsIv, m3u8MediaSequence) =
-              await m3u8Downloader!.getTsList();
+          (tsList, tsKey, tsIv, m3u8MediaSequence) = await m3u8Downloader!.getTsList();
         }
-        pageUrls = hasM3U8File
-            ? [...tsList.map((e) => PageUrl(e.url))]
-            : [PageUrl(videosUrls.first.url)];
+        pageUrls = hasM3U8File ? [...tsList.map((e) => PageUrl(e.url))] : [PageUrl(videosUrls.first.url)];
         videoHeader.addAll(videosUrls.first.headers ?? {});
         isOk = true;
       }
@@ -179,10 +163,8 @@ Future<List<PageUrl>> downloadChapter(
         }
         final page = pageUrls[index];
         final cookie = MClient.getCookiesPref(page.url);
-        final headers = isManga
-            ? ref.watch(
-                headersProvider(source: manga.source!, lang: manga.lang!))
-            : videoHeader;
+        final headers = isManga ? ref.watch(headersProvider(source: manga.source!, lang: manga.lang!)) : videoHeader;
+
         if (cookie.isNotEmpty) {
           final userAgent = isar.settings.getSync(227)!.userAgent!;
           headers.addAll(cookie);
@@ -329,10 +311,7 @@ Future<List<PageUrl>> downloadChapter(
             if (succeeded == tasks.length) {
               await processConvert();
             }
-            bool isEmpty = isar.downloads
-                .filter()
-                .chapterIdEqualTo(chapter.id!)
-                .isEmptySync();
+            bool isEmpty = isar.downloads.filter().chapterIdEqualTo(chapter.id!).isEmptySync();
             if (isEmpty) {
               final download = Download(
                   succeeded: succeeded,
@@ -347,10 +326,7 @@ Future<List<PageUrl>> downloadChapter(
                 isar.downloads.putSync(download..chapter.value = chapter);
               });
             } else {
-              final download = isar.downloads
-                  .filter()
-                  .chapterIdEqualTo(chapter.id!)
-                  .findFirstSync()!;
+              final download = isar.downloads.filter().chapterIdEqualTo(chapter.id!).findFirstSync()!;
               isar.writeTxnSync(() {
                 isar.downloads.putSync(download
                   ..succeeded = succeeded
@@ -363,10 +339,7 @@ Future<List<PageUrl>> downloadChapter(
         taskProgressCallback: (taskProgress) async {
           final progress = taskProgress.progress;
           if (!isManga && !hasM3U8File) {
-            bool isEmpty = isar.downloads
-                .filter()
-                .chapterIdEqualTo(chapter.id!)
-                .isEmptySync();
+            bool isEmpty = isar.downloads.filter().chapterIdEqualTo(chapter.id!).isEmptySync();
             if (isEmpty) {
               final download = Download(
                   succeeded: (progress * 100).toInt(),
@@ -381,10 +354,7 @@ Future<List<PageUrl>> downloadChapter(
                 isar.downloads.putSync(download..chapter.value = chapter);
               });
             } else {
-              final download = isar.downloads
-                  .filter()
-                  .chapterIdEqualTo(chapter.id!)
-                  .findFirstSync()!;
+              final download = isar.downloads.filter().chapterIdEqualTo(chapter.id!).findFirstSync()!;
               isar.writeTxnSync(() {
                 isar.downloads.putSync(download
                   ..succeeded = (progress * 100).toInt()
@@ -400,8 +370,7 @@ Future<List<PageUrl>> downloadChapter(
                 "${path!.path}${hasM3U8File ? "$chapterName/" : ""}${taskProgress.task.filename}");
             await file.delete();
             if (hasM3U8File) {
-              await m3u8Downloader?.processBytes(
-                  newFile, tsKey, tsIv, m3u8MediaSequence);
+              await m3u8Downloader?.processBytes(newFile, tsKey, tsIv, m3u8MediaSequence);
             }
           }
         },

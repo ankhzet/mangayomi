@@ -13,6 +13,7 @@ class ChapterListTileWidget extends ConsumerWidget {
   final Chapter chapter;
   final List<Chapter> chapterList;
   final bool sourceExist;
+
   const ChapterListTileWidget({
     required this.chapterList,
     required this.chapter,
@@ -25,24 +26,19 @@ class ChapterListTileWidget extends ConsumerWidget {
     final isLongPressed = ref.watch(isLongPressedStateProvider);
     final l10n = l10nLocalizations(context)!;
     return Container(
-      color: chapterList.contains(chapter)
-          ? context.primaryColor.withOpacity(0.4)
-          : null,
+      color: chapterList.contains(chapter) ? context.primaryColor.withOpacity(0.4) : null,
       child: ListTile(
         textColor: chapter.isRead!
             ? context.isLight
                 ? Colors.black.withOpacity(0.4)
                 : Colors.white.withOpacity(0.3)
             : null,
-        selectedColor:
-            chapter.isRead! ? Colors.white.withOpacity(0.3) : Colors.white,
+        selectedColor: chapter.isRead! ? Colors.white.withOpacity(0.3) : Colors.white,
         onLongPress: () {
           if (!isLongPressed) {
             ref.read(chaptersListStateProvider.notifier).update(chapter);
 
-            ref
-                .read(isLongPressedStateProvider.notifier)
-                .update(!isLongPressed);
+            ref.read(isLongPressedStateProvider.notifier).update(!isLongPressed);
           } else {
             ref.read(chaptersListStateProvider.notifier).update(chapter);
           }
@@ -76,10 +72,9 @@ class ChapterListTileWidget extends ConsumerWidget {
           children: [
             if ((chapter.manga.value!.isLocalArchive ?? false) == false)
               Text(
-                chapter.dateUpload == null || chapter.dateUpload!.isEmpty
-                    ? ""
-                    : dateFormat(chapter.dateUpload!,
-                        ref: ref, context: context),
+                (chapter.dateUpload?.isNotEmpty ?? false)
+                    ? dateFormat(chapter.dateUpload!, ref: ref, context: context)
+                    : "",
                 style: const TextStyle(fontSize: 11),
               ),
             if (!chapter.isRead!)

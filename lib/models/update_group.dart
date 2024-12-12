@@ -1,13 +1,35 @@
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/chapter.dart';
+import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 
 class UpdateGroup {
   Manga manga;
   List<Chapter> chapters;
-  String timestamp;
+  String group;
 
-  UpdateGroup.fromChapters(this.chapters, this.timestamp): manga = chapters.first.manga.value!;
+  UpdateGroup.fromChapters(this.chapters, this.group): manga = chapters.first.manga.value!;
+
+  static String groupBy(UpdateGroup element) => element.group;
+
+  static List<UpdateGroup> groupUpdates(Iterable<Update> updates, String Function(Update update) groupBy) {
+    final List<UpdateGroup> list = [];
+
+    for (var update in updates) {
+      final chapter = update.chapter.value!;
+      final mangaId = update.mangaId!;
+      final group = groupBy(update);
+      final bucket = list.firstWhereOrNull((item) => (item.group == group) && (item.manga.id == mangaId));
+
+      if (bucket != null) {
+        bucket.chapters.add(chapter);
+      } else {
+        list.add(UpdateGroup.fromChapters([chapter], group));
+      }
+    }
+
+    return list;
+  }
 
   int get mangaId => manga.id;
 

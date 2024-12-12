@@ -6,20 +6,19 @@ import 'package:isar/isar.dart';
 import 'package:mangayomi/eval/dart/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/models/update_group.dart';
+import 'package:mangayomi/modules/history/providers/isar_providers.dart';
+import 'package:mangayomi/modules/library/widgets/search_text_form_field.dart';
 import 'package:mangayomi/modules/manga/detail/providers/update_manga_detail_providers.dart';
 import 'package:mangayomi/modules/updates/widgets/update_chapter_list_tile_widget.dart';
-import 'package:mangayomi/modules/history/providers/isar_providers.dart';
-import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/utils/date.dart';
-import 'package:mangayomi/modules/library/widgets/search_text_form_field.dart';
 import 'package:mangayomi/modules/widgets/error_text.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
+import 'package:mangayomi/providers/l10n_providers.dart';
+import 'package:mangayomi/utils/date.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
-import 'package:mangayomi/utils/extensions/others.dart';
 
 class UpdatesScreen extends ConsumerStatefulWidget {
   const UpdatesScreen({super.key});
@@ -249,20 +248,16 @@ class _UpdateTabState extends ConsumerState<UpdateTab> {
               return (((result == null) || (timestamp > result)) ? timestamp : result);
             });
 
-            final groups = entries.fold<List<UpdateGroup>>([], (list, update) {
-              final date = dateFormat(update.date!, context: context, ref: ref, forHistoryValue: true, useRelativeTimesTamps: false);
-              final chapter = update.chapter.value!;
-              final manga = update.chapter.value!.manga.value!;
-              final bucket = list.firstWhereOrNull((item) => (item.timestamp == date) && (item.manga.id == manga.id));
-
-              if (bucket != null) {
-                bucket.chapters.add(chapter);
-              } else {
-                list.add(UpdateGroup.fromChapters([chapter], date));
-              }
-
-              return list;
-            });
+            final groups = UpdateGroup.groupUpdates(
+              entries,
+              (Update update) => dateFormat(
+                update.date!,
+                context: context,
+                ref: ref,
+                forHistoryValue: true,
+                useRelativeTimesTamps: false,
+              ),
+            );
 
             return CustomScrollView(
               slivers: [
@@ -279,7 +274,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab> {
                   ),
                 SliverGroupedListView(
                   elements: groups,
-                  groupBy: (element) => element.timestamp,
+                  groupBy: UpdateGroup.groupBy,
                   groupSeparatorBuilder: (groupByValue) => Padding(
                     padding: const EdgeInsets.only(bottom: 8, left: 12),
                     child: Row(

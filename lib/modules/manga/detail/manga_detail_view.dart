@@ -386,8 +386,11 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                               onPressed: () {
                                 isar.txnSync(() {
                                   for (var chapter in ref.watch(chaptersListStateProvider)) {
-                                    final entries =
-                                        isar.downloads.filter().idIsNotNull().chapterIdEqualTo(chapter.id).findAllSync();
+                                    final entries = isar.downloads
+                                        .filter()
+                                        .idIsNotNull()
+                                        .chapterIdEqualTo(chapter.id)
+                                        .findAllSync();
                                     if (entries.isEmpty || !entries.first.isDownload!) {
                                       ref.watch(downloadChapterProvider(chapter: chapter));
                                     }
@@ -399,8 +402,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                               child: Icon(
                                 Icons.download_outlined,
                                 color: Theme.of(context).textTheme.bodyLarge!.color!,
-                              ),
-                            ),
+                              )),
                         ),
                       ),
                     if (isLocalArchive)

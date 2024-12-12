@@ -12,14 +12,12 @@ Stream<List<Manga>> getAllMangaStream(Ref ref,
   yield* categoryId == null
       ? isar.mangas
           .filter()
-          .idIsNotNull()
           .favoriteEqualTo(true)
           .and()
           .isMangaEqualTo(isManga)
           .watch(fireImmediately: true)
       : isar.mangas
           .filter()
-          .idIsNotNull()
           .favoriteEqualTo(true)
           .categoriesIsNotEmpty()
           .categoriesElementEqualTo(categoryId)
@@ -33,17 +31,12 @@ Stream<List<Manga>> getAllMangaWithoutCategoriesStream(Ref ref,
     {required bool? isManga}) async* {
   yield* isar.mangas
       .filter()
-      .idIsNotNull()
       .favoriteEqualTo(true)
+      .isMangaEqualTo(isManga)
+      .and()
       .categoriesIsEmpty()
-      .and()
-      .isMangaEqualTo(isManga)
       .or()
-      .idIsNotNull()
       .categoriesIsNull()
-      .favoriteEqualTo(true)
-      .and()
-      .isMangaEqualTo(isManga)
       .watch(fireImmediately: true);
 }
 

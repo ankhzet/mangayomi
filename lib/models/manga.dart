@@ -6,7 +6,7 @@ part 'manga.g.dart';
 @collection
 @Name("Manga")
 class Manga {
-  Id? id;
+  late Id id;
 
   String? name;
 
@@ -50,27 +50,28 @@ class Manga {
   @Backlink(to: "manga")
   final chapters = IsarLinks<Chapter>();
 
-  Manga(
-      {this.id = Isar.autoIncrement,
-      required this.source,
-      required this.author,
-      required this.artist,
-      this.favorite = false,
-      required this.genre,
-      required this.imageUrl,
-      required this.lang,
-      required this.link,
-      required this.name,
-      required this.status,
-      required this.description,
-      this.isManga = true,
-      this.dateAdded,
-      this.lastUpdate,
-      this.categories,
-      this.lastRead = 0,
-      this.isLocalArchive = false,
-      this.customCoverImage,
-      this.customCoverFromTracker});
+  Manga({
+    this.id = Isar.autoIncrement,
+    required this.source,
+    this.status = Status.unknown,
+    this.author,
+    this.artist,
+    this.favorite = false,
+    this.genre,
+    this.imageUrl,
+    this.lang,
+    this.link,
+    this.name,
+    this.description,
+    this.isManga = true,
+    this.dateAdded,
+    this.lastUpdate,
+    this.categories,
+    this.lastRead = 0,
+    this.isLocalArchive = false,
+    this.customCoverImage,
+    this.customCoverFromTracker,
+  });
 
   Manga.fromJson(Map<String, dynamic> json) {
     author = json['author'];

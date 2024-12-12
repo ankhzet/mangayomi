@@ -1415,17 +1415,8 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
   }
 
   Widget _coverCard() {
-    final imageProvider = widget.manga!.customCoverImage != null
-        ? MemoryImage(widget.manga!.customCoverImage as Uint8List)
-            as ImageProvider
-        : CustomExtendedNetworkImageProvider(
-            toImgUrl(widget.manga!.customCoverFromTracker ??
-                widget.manga!.imageUrl ??
-                ""),
-            headers: widget.manga!.isLocalArchive!
-                ? null
-                : ref.watch(headersProvider(
-                    source: widget.manga!.source!, lang: widget.manga!.lang!)));
+    final imageProvider = manga.imageProvider(ref);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 20),
       child: GestureDetector(

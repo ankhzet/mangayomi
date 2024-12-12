@@ -39,7 +39,6 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> with TickerProvid
         fontSize: 13, second: 1600, alignY: !context.isTablet ? 0.85 : 1);
     final mangaList = isar.mangas
         .filter()
-        .idIsNotNull()
         .favoriteEqualTo(true)
         .and()
         .isMangaEqualTo(_tabBarController.index == 0)

@@ -34,7 +34,6 @@ void doBackUp(
   if (list.contains(0)) {
     final res = isar.mangas
         .filter()
-        .idIsNotNull()
         .favoriteEqualTo(true)
         .isLocalArchiveEqualTo(false)
         .findAllSync()

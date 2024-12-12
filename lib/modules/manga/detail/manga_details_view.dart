@@ -35,14 +35,6 @@ class MangaDetailsView extends ConsumerStatefulWidget {
 
 class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
 
-  Size measureText(String text, TextStyle style) {
-    final TextPainter textPainter = TextPainter(
-      text: TextSpan(text: text, style: style),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    return textPainter.size;
-  }
-
   double calculateDynamicButtonWidth(String text, TextStyle textStyle, double padding) {
     final textSize = measureText(text, textStyle);
     return textSize.width + padding;

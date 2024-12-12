@@ -694,20 +694,27 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     return const Duration(milliseconds: 200);
   }
 
+  int getPagesLength() {
+    final length = _uChapDataPreload.length;
+
+    if (_pageMode == PageMode.doublePage && !(ref.watch(_currentReaderMode) == ReaderMode.horizontalContinuous)) {
+      return (length / 2).ceil() + 1;
+    }
+
+    return length;
+  }
+
   void _readProgressListener() {
     _currentIndex = _itemPositionsListener.itemPositions.value.first.index;
 
-    int pagesLength = (_pageMode == PageMode.doublePage &&
-            !(ref.watch(_currentReaderMode) == ReaderMode.horizontalContinuous))
-        ? (_uChapDataPreload.length / 2).ceil() + 1
-        : _uChapDataPreload.length;
+    int pagesLength = getPagesLength();
 
     if (_currentIndex! >= 0 && _currentIndex! < pagesLength) {
-      if (_readerController.chapter.id !=
-          _uChapDataPreload[_currentIndex!].chapter!.id) {
-        _readerController.setPageIndex(
-            _geCurrentIndex(_uChapDataPreload[_currentIndex! - 1].index!),
-            false);
+      final current = _uChapDataPreload[_currentIndex!];
+
+      if (_readerController.chapter.id != current.chapter.id) {
+        _readerController.setPageIndex(_getPrevIndex(current.index), false);
+
         if (mounted) {
           setState(() {
             _readerController = ref.read(readerControllerProvider(
@@ -721,13 +728,11 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
           });
         }
       }
-      if (_itemPositionsListener.itemPositions.value.last.index ==
-          pagesLength - 1) {
+
+      if (_itemPositionsListener.itemPositions.value.last.index == pagesLength - 1) {
         try {
           ref
-              .watch(getChapterPagesProvider(
-                chapter: _readerController.getNextChapter(),
-              ).future)
+              .watch(getChapterPagesProvider(chapter: _readerController.getNextChapter()).future)
               .then((value) => _preloadNextChapter(value, chapter));
         } catch (_) {}
       }
@@ -1532,6 +1537,10 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     int index1 = index * 2;
 
     return !(index * 2 < pageLength) ? pageLength - 1 : index1 - 1;
+  }
+
+  int _getPrevIndex(int index) {
+    return _geCurrentIndex(_uChapDataPreload[index - 1].index);
   }
 
   Widget _gestureRightLeft(bool failedToLoadImage, bool usePageTapZones) {

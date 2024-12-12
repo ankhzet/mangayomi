@@ -599,7 +599,7 @@ final List<String> _dateFormats = [
   "MMM dd,yyyy"
 ];
 
-void botToast(String title,
+CancelFunc botToast(String title,
     {int second = 10,
     double? fontSize,
     double alignX = 0,
@@ -607,11 +607,9 @@ void botToast(String title,
     bool hasCloudFlare = false,
     String? url}) {
   final context = navigatorKey.currentState?.context;
-  final assets = [
-    'assets/app_icons/icon-black.png',
-    'assets/app_icons/icon-red.png'
-  ];
-  BotToast.showNotification(
+  final assets = ['assets/app_icons/icon-black.png', 'assets/app_icons/icon-red.png'];
+
+  return BotToast.showNotification(
     onlyOne: true,
     dismissDirections: [DismissDirection.horizontal, DismissDirection.down],
     align: Alignment(alignX, alignY),

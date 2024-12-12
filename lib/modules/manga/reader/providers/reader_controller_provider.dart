@@ -369,6 +369,7 @@ extension ChapterExtensions on Chapter {
 
 extension MangaExtensions on Manga {
   List<Chapter> getFilteredChapterList() {
+    // todo: use sort model instead
     final data = this.chapters.toList().reversed.toList();
     final filterUnread = (isar.settings
                 .getSync(227)!
@@ -439,9 +440,17 @@ extension MangaExtensions on Manga {
     if (sortChapter == 0) {
       chapterList.sort(
         (a, b) {
-          return (a.scanlator == null || b.scanlator == null || a.dateUpload == null || b.dateUpload == null)
-              ? 0
-              : a.scanlator!.compareTo(b.scanlator!) | a.dateUpload!.compareTo(b.dateUpload!);
+          if (a.scanlator == null || b.scanlator == null || a.dateUpload == null || b.dateUpload == null) {
+            return 0;
+          }
+
+          int scan = a.scanlator!.compareTo(b.scanlator!);
+
+          if (scan != 0) {
+            return scan;
+          }
+
+          return a.dateUpload!.compareTo(b.dateUpload!);
         },
       );
     } else if (sortChapter == 1) {

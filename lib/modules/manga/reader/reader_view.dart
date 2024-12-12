@@ -1171,9 +1171,11 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     if (!_isView && Platform.isIOS) {
       return const SizedBox.shrink();
     }
-    bool hasPrevChapter = _readerController.getChapterIndex().$1 + 1 !=
-        _readerController.getChaptersLength(_readerController.getChapterIndex().$2);
-    bool hasNextChapter = _readerController.getChapterIndex().$1 != 0;
+
+    // todo: use sort model instead
+    final index = _readerController.getChapterIndex();
+    bool hasPrevChapter = index.$1 + 1 != _readerController.getChaptersLength(index.$2);
+    bool hasNextChapter = index.$1 != 0;
     final readerMode = ref.watch(_currentReaderMode);
 
     return Positioned(

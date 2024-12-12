@@ -137,11 +137,11 @@ class Chapter {
     (int, int, int) bNumber = b.getNumber;
 
     if (aNumber.$2 != bNumber.$2) {
-      return aNumber.$2 > bNumber.$2 ? 1 : -1;
+      return aNumber.$2 < bNumber.$2 ? 1 : -1;
     }
 
     if (aNumber.$3 != bNumber.$3) {
-      return aNumber.$3 > bNumber.$3 ? 1 : -1;
+      return aNumber.$3 < bNumber.$3 ? 1 : -1;
     }
 
     return (scanlator ?? '').compareTo(b.scanlator ?? '');

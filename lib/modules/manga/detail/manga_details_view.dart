@@ -62,13 +62,13 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
           return history.when(
             data: (data) {
               String buttonLabel = manga.isManga! ? l10n.read : l10n.watch;
-              Chapter chap = manga.chapters.first;
+              Chapter? chap = manga.chapters.firstOrNull;
 
               if (data.isNotEmpty) {
                 final incognitoMode = ref.watch(incognitoModeStateProvider);
 
                 if (!incognitoMode) {
-                  final entry = data.reversed.firstOrNull;
+                  final entry = data.lastOrNull;
 
                   if (entry != null) {
                     chap = entry.chapter.value!;
@@ -81,7 +81,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                 isExtended: !isExtended,
                 label: buttonLabel,
                 onPressed: () {
-                  chap.pushToReaderView(context);
+                  chap?.pushToReaderView(context);
                 },
                 textWidth: measureTextWidth(buttonLabel, Theme.of(context).textTheme.labelLarge!),
                 width: measureTextWidth(buttonLabel, Theme.of(context).textTheme.labelLarge!,

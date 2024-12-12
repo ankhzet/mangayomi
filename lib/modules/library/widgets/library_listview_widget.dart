@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
@@ -6,17 +5,15 @@ import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/models/history.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/library/providers/isar_providers.dart';
 import 'package:mangayomi/modules/library/providers/library_state_provider.dart';
-import 'package:mangayomi/models/manga.dart';
-import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
-import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
-import 'package:mangayomi/utils/constant.dart';
-import 'package:mangayomi/utils/extensions/chapter.dart';
-import 'package:mangayomi/utils/headers.dart';
 import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
 import 'package:mangayomi/modules/widgets/listview_widget.dart';
 import 'package:mangayomi/modules/widgets/manga_image_card_widget.dart';
+import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/utils/extensions/chapter.dart';
+import 'package:mangayomi/utils/extensions/manga.dart';
 
 class LibraryListViewWidget extends StatelessWidget {
   final List<Manga> entriesManga;
@@ -110,17 +107,7 @@ class LibraryListViewWidget extends StatelessWidget {
                                     fit: BoxFit.cover,
                                     width: 40,
                                     height: 45,
-                                    image: entry.customCoverImage != null
-                                        ? MemoryImage(entry.customCoverImage
-                                            as Uint8List) as ImageProvider
-                                        : CustomExtendedNetworkImageProvider(
-                                            toImgUrl(
-                                                entry.customCoverFromTracker ??
-                                                    entry.imageUrl!),
-                                            headers: ref.watch(headersProvider(
-                                                source: entry.source!,
-                                                lang: entry.lang!)),
-                                          ),
+                                    image: entry.imageProvider(ref),
                                     child: InkWell(
                                         child: Container(
                                       color: mangaIdsList.contains(entry.id)

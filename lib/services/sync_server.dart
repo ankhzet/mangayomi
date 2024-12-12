@@ -238,7 +238,6 @@ class SyncServer extends _$SyncServer {
     datas.addAll({"version": "1"});
     final mangas = isar.mangas
         .filter()
-        .idIsNotNull()
         .favoriteEqualTo(true)
         .isLocalArchiveEqualTo(false)
         .findAllSync()

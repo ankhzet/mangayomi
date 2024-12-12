@@ -717,13 +717,9 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
 
         if (mounted) {
           setState(() {
-            _readerController = ref.read(readerControllerProvider(
-                    chapter: _uChapDataPreload[_currentIndex!].chapter!)
-                .notifier);
-
-            chapter = _uChapDataPreload[_currentIndex!].chapter!;
-            _chapterUrlModel =
-                _uChapDataPreload[_currentIndex!].chapterUrlModel!;
+            chapter = current.chapter;
+            _chapterUrlModel = current.chapterUrlModel!;
+            _readerController = ref.read(readerControllerProvider(chapter: chapter).notifier);
             _isBookmarked = _readerController.getChapterBookmarked();
           });
         }
@@ -737,9 +733,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
         } catch (_) {}
       }
 
-      ref.read(currentIndexProvider(chapter).notifier).setCurrentIndex(
-            _uChapDataPreload[_currentIndex!].index!,
-          );
+      ref.read(currentIndexProvider(chapter).notifier).setCurrentIndex(current.index);
     }
   }
 
@@ -827,6 +821,8 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
   }
 
   void _onPageChanged(int index) {
+    final preload = _uChapDataPreload[index];
+    final current = _uChapDataPreload[_currentIndex!];
     final cropBorders = ref.watch(cropBordersStateProvider);
     if (cropBorders) {
       _processCropBordersByIndex(index);
@@ -836,27 +832,22 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
       _precacheImages(index - i);
     }
 
-    if (_readerController.chapter.id != _uChapDataPreload[index].chapter!.id) {
-      _readerController.setPageIndex(
-          _geCurrentIndex(_uChapDataPreload[_currentIndex!].index!), false);
+    if (_readerController.chapter.id != preload.chapter.id) {
+      _readerController.setPageIndex(_geCurrentIndex(current.index), false);
       if (mounted) {
         setState(() {
-          _readerController = ref.read(readerControllerProvider(
-                  chapter: _uChapDataPreload[_currentIndex!].chapter!)
-              .notifier);
-          chapter = _uChapDataPreload[_currentIndex!].chapter!;
-          _chapterUrlModel = _uChapDataPreload[index].chapterUrlModel!;
+          chapter = current.chapter;
+          _readerController = ref.read(readerControllerProvider(chapter: chapter).notifier);
+          _chapterUrlModel = preload.chapterUrlModel!;
           _isBookmarked = _readerController.getChapterBookmarked();
         });
       }
     }
     _currentIndex = index;
 
-    ref
-        .read(currentIndexProvider(chapter).notifier)
-        .setCurrentIndex(_uChapDataPreload[index].index!);
+    ref.read(currentIndexProvider(chapter).notifier).setCurrentIndex(preload.index);
 
-    if (_uChapDataPreload[index].pageIndex! == _uChapDataPreload.length - 1) {
+    if (preload.pageIndex! == _uChapDataPreload.length - 1) {
       try {
         ref
             .watch(getChapterPagesProvider(

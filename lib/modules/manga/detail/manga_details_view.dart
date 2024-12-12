@@ -39,17 +39,24 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
     final textSize = measureText(text, textStyle);
     return textSize.width + padding;
   }
+  late final manga = widget.manga;
 
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
-    bool? isLocalArchive = widget.manga.isLocalArchive ?? false;
+    bool? isLocalArchive = manga.isLocalArchive ?? false;
+
     return Scaffold(
       floatingActionButton: Consumer(
         builder: (context, ref, child) {
           final chaptersList = ref.watch(chaptersListttStateProvider);
           final isExtended = ref.watch(isExtendedStateProvider);
-          return ref.watch(isLongPressedStateProvider) == true
+          final history = ref.watch(getMangaHistoryStreamProvider(isManga: manga.isManga!, mangaId: manga.id!));
+          final isLongPressed = ref.watch(isLongPressedStateProvider) == true;
+          final noContinue =
+              isLongPressed || chaptersList.isEmpty || chaptersList.every((element) => element.isRead ?? false);
+
+          return noContinue
               ? Container()
               : chaptersList.isNotEmpty &&
                       chaptersList
@@ -129,7 +136,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.manga.author!,
+                    manga.author!,
                     style: const TextStyle(fontWeight: FontWeight.w500),
                   ),
                   Wrap(
@@ -139,8 +146,8 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                       const SizedBox(width: 4),
                       Text(getMangaStatusName(manga.status, context)),
                       const Text(' • '),
-                      Text(widget.manga.source!),
-                      Text(' (${widget.manga.lang!.toUpperCase()})'),
+                      Text(manga.source!),
+                      Text(' (${manga.lang!.toUpperCase()})'),
                       if (!widget.sourceExist)
                         const Padding(
                           padding: EdgeInsets.all(3),
@@ -195,7 +202,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                       isar.categorys.filter().idIsNotNull().and().forMangaEqualTo(manga.isManga).isNotEmptySync();
 
                   if (checkCategoryList) {
-                    _openCategory(widget.manga);
+                    _openCategory();
                   } else {
                     final model = widget.manga;
                     isar.writeTxnSync(() {
@@ -221,7 +228,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                   ],
                 ),
               ),
-        manga: widget.manga,
+        manga: manga,
         isExtended: (value) {
           ref.read(isExtendedStateProvider.notifier).update(value);
         },
@@ -231,7 +238,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
     );
   }
 
-  _openCategory(Manga manga) {
+  void _openCategory() {
     List<int> categoryIds = [];
     showDialog(
         context: context,

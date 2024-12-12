@@ -382,95 +382,39 @@ class MBridge {
     return text.split(pattern).last;
   }
 
-  //Parse a chapter date to millisecondsSinceEpoch
-  static String parseChapterDate(String date, String dateFormat,
-      String dateFormatLocale, Function((String, String, bool)) newLocale) {
-    int parseRelativeDate(String date) {
-      final number = int.tryParse(RegExp(r"(\d+)").firstMatch(date)!.group(0)!);
-      if (number == null) return 0;
-      final cal = DateTime.now();
+  static int parseDate(DateTime now, String date, DateFormat defaultFormat) {
+    final today = DateTime(now.year, now.month, now.day);
 
-      if (WordSet([
-        "hari",
-        "gün",
-        "jour",
-        "día",
-        "dia",
-        "day",
-        "วัน",
-        "ngày",
-        "giorni",
-        "أيام",
-        "天"
-      ]).anyWordIn(date)) {
-        return cal.subtract(Duration(days: number)).millisecondsSinceEpoch;
-      } else if (WordSet([
-        "jam",
-        "saat",
-        "heure",
-        "hora",
-        "hour",
-        "ชั่วโมง",
-        "giờ",
-        "ore",
-        "ساعة",
-        "小时"
-      ]).anyWordIn(date)) {
-        return cal.subtract(Duration(hours: number)).millisecondsSinceEpoch;
-      } else if (WordSet(
-              ["menit", "dakika", "min", "minute", "minuto", "นาที", "دقائق"])
-          .anyWordIn(date)) {
-        return cal.subtract(Duration(minutes: number)).millisecondsSinceEpoch;
-      } else if (WordSet(["detik", "segundo", "second", "วินาที", "sec"])
-          .anyWordIn(date)) {
-        return cal.subtract(Duration(seconds: number)).millisecondsSinceEpoch;
-      } else if (WordSet(["week", "semana"]).anyWordIn(date)) {
-        return cal.subtract(Duration(days: number * 7)).millisecondsSinceEpoch;
-      } else if (WordSet(["month", "mes"]).anyWordIn(date)) {
-        return cal.subtract(Duration(days: number * 30)).millisecondsSinceEpoch;
-      } else if (WordSet(["year", "año"]).anyWordIn(date)) {
-        return cal
-            .subtract(Duration(days: number * 365))
-            .millisecondsSinceEpoch;
-      } else {
-        return 0;
-      }
+    if (_todayWords.startsWith(date)) {
+      return today.millisecondsSinceEpoch;
+    } else if (_yesterdayWords.startsWith(date)) {
+      return today.subtract(const Duration(days: 1)).millisecondsSinceEpoch;
+    } else if (_twoDaysAgoWords.startsWith(date)) {
+      return today.subtract(const Duration(days: 2)).millisecondsSinceEpoch;
+    } else if (_agoWords.endsWith(date) || _atWords.startsWith(date)) {
+      return parseRelativeDate(date);
     }
 
+    final cleaned = date.contains(RegExp(r"\d(st|nd|rd|th)"))
+        ? date.split(" ").map((it) => it.contains(RegExp(r"\d\D\D")) ? it.replaceAll(RegExp(r"\D"), "") : it).join(" ")
+        : date;
+
+    return defaultFormat.parse(cleaned).millisecondsSinceEpoch;
+  }
+
+  //Parse a chapter date to millisecondsSinceEpoch
+  static int parseChapterDate(
+    String date,
+    String dateFormat,
+    String dateFormatLocale,
+    Function((String, String, bool)) newLocale,
+  ) {
+    }
+
+    final now = DateTime.now();
+
     try {
-      if (WordSet(["yesterday", "يوم واحد"]).startsWith(date)) {
-        DateTime cal = DateTime.now().subtract(const Duration(days: 1));
-        cal = DateTime(cal.year, cal.month, cal.day);
-        return cal.millisecondsSinceEpoch.toString();
-      } else if (WordSet(["today"]).startsWith(date)) {
-        DateTime cal = DateTime.now();
-        cal = DateTime(cal.year, cal.month, cal.day);
-        return cal.millisecondsSinceEpoch.toString();
-      } else if (WordSet(["يومين"]).startsWith(date)) {
-        DateTime cal = DateTime.now().subtract(const Duration(days: 2));
-        cal = DateTime(cal.year, cal.month, cal.day);
-        return cal.millisecondsSinceEpoch.toString();
-      } else if (WordSet(["ago", "atrás", "önce", "قبل"]).endsWith(date)) {
-        return parseRelativeDate(date).toString();
-      } else if (WordSet(["hace"]).startsWith(date)) {
-        return parseRelativeDate(date).toString();
-      } else if (date.contains(RegExp(r"\d(st|nd|rd|th)"))) {
-        final cleanedDate = date
-            .split(" ")
-            .map((it) => it.contains(RegExp(r"\d\D\D"))
-                ? it.replaceAll(RegExp(r"\D"), "")
-                : it)
-            .join(" ");
-        return DateFormat(dateFormat, dateFormatLocale)
-            .parse(cleanedDate)
-            .millisecondsSinceEpoch
-            .toString();
-      } else {
-        return DateFormat(dateFormat, dateFormatLocale)
-            .parse(date)
-            .millisecondsSinceEpoch
-            .toString();
-      }
+      return parseDate(now, date, DateFormat(dateFormat, dateFormatLocale));
     } catch (e) {
       final supportedLocales = DateFormat.allLocalesWithSymbols();
 
@@ -479,46 +423,15 @@ class MBridge {
           newLocale((dateFormat, locale, false));
           try {
             initializeDateFormatting(locale);
-            if (WordSet(["yesterday", "يوم واحد"]).startsWith(date)) {
-              DateTime cal = DateTime.now().subtract(const Duration(days: 1));
-              cal = DateTime(cal.year, cal.month, cal.day);
-              return cal.millisecondsSinceEpoch.toString();
-            } else if (WordSet(["today"]).startsWith(date)) {
-              DateTime cal = DateTime.now();
-              cal = DateTime(cal.year, cal.month, cal.day);
-              return cal.millisecondsSinceEpoch.toString();
-            } else if (WordSet(["يومين"]).startsWith(date)) {
-              DateTime cal = DateTime.now().subtract(const Duration(days: 2));
-              cal = DateTime(cal.year, cal.month, cal.day);
-              return cal.millisecondsSinceEpoch.toString();
-            } else if (WordSet(["ago", "atrás", "önce", "قبل"])
-                .endsWith(date)) {
-              return parseRelativeDate(date).toString();
-            } else if (WordSet(["hace"]).startsWith(date)) {
-              return parseRelativeDate(date).toString();
-            } else if (date.contains(RegExp(r"\d(st|nd|rd|th)"))) {
-              final cleanedDate = date
-                  .split(" ")
-                  .map((it) => it.contains(RegExp(r"\d\D\D"))
-                      ? it.replaceAll(RegExp(r"\D"), "")
-                      : it)
-                  .join(" ");
-              return DateFormat(dateFormat, locale)
-                  .parse(cleanedDate)
-                  .millisecondsSinceEpoch
-                  .toString();
-            } else {
-              return DateFormat(dateFormat, locale)
-                  .parse(date)
-                  .millisecondsSinceEpoch
-                  .toString();
-            }
+
+            return parseDate(now, date, DateFormat(dateFormat, locale));
           } catch (_) {}
         }
       }
 
       newLocale((dateFormat, dateFormatLocale, true));
-      return DateTime.now().millisecondsSinceEpoch.toString();
+
+      return now.millisecondsSinceEpoch;
     }
   }
 
@@ -600,6 +513,47 @@ class MBridge {
     }
   }
 }
+
+int parseRelativeDate(String date) {
+  final number = int.tryParse(RegExp(r"(\d+)").firstMatch(date)!.group(0)!);
+  if (number == null) return 0;
+  final cal = DateTime.now();
+
+  final Duration duration;
+
+  if (_dayWords.anyWordIn(date)) {
+    duration = Duration(days: number);
+  } else if (_hourWords.anyWordIn(date)) {
+    duration = Duration(hours: number);
+  } else if (_minuteWords.anyWordIn(date)) {
+    duration = Duration(minutes: number);
+  } else if (_secondsWords.anyWordIn(date)) {
+    duration = Duration(seconds: number);
+  } else if (_weekWords.anyWordIn(date)) {
+    duration = Duration(days: number * 7);
+  } else if (_monthWords.anyWordIn(date)) {
+    duration = Duration(days: number * 30);
+  } else if (_yearWords.anyWordIn(date)) {
+    duration = Duration(days: number * 365);
+  } else {
+    return 0;
+  }
+
+  return cal.subtract(duration).millisecondsSinceEpoch;
+}
+
+final _yesterdayWords = WordSet(["yesterday", "يوم واحد"]);
+final _twoDaysAgoWords = WordSet(["يومين"]);
+final _todayWords = WordSet(["today"]);
+final _agoWords = WordSet(["ago", "atrás", "önce", "قبل"]);
+final _atWords = WordSet(["hace"]);
+final _dayWords = WordSet(["hari", "gün", "jour", "día", "dia", "day", "วัน", "ngày", "giorni", "أيام", "天"]);
+final _hourWords = WordSet(["jam", "saat", "heure", "hora", "hour", "ชั่วโมง", "giờ", "ore", "ساعة", "小时"]);
+final _minuteWords = WordSet(["menit", "dakika", "min", "minute", "minuto", "นาที", "دقائق"]);
+final _secondsWords = WordSet(["detik", "segundo", "second", "วินาที", "sec"]);
+final _weekWords = WordSet(["week", "semana"]);
+final _monthWords = WordSet(["month", "mes"]);
+final _yearWords = WordSet(["year", "año"]);
 
 final List<String> _dateFormats = [
   'dd/MM/yyyy',

@@ -1,3 +1,4 @@
+import 'package:highlight/languages/awk.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
@@ -37,21 +38,24 @@ class SaveAsCBZArchiveState extends _$SaveAsCBZArchiveState {
 class DownloadLocationState extends _$DownloadLocationState {
   @override
   (String, String) build() {
-    return ("", isar.settings.getSync(227)!.downloadLocation ?? "");
+    return ('', isar.settings.getSync(227)!.downloadLocation ?? '');
   }
+
+  String get currentLocation => state.$2.isEmpty ? state.$1 : state.$2;
+  String get defaultLocation => StorageProvider.getDownloadsDirectoryPath(useDefault: true);
+  String get customLocation => state.$2;
 
   void set(String location) {
     final settings = isar.settings.getSync(227);
-    state = (_storageProvider!, location);
+    state = (defaultLocation, location);
     isar.writeTxnSync(() {
       isar.settings.putSync(settings!..downloadLocation = location);
     });
   }
 
-  String? _storageProvider;
-
   Future refresh() async {
-    _storageProvider = StorageProvider.getDownloadsDirectoryPath();
-    state = (_storageProvider!, isar.settings.getSync(227)!.downloadLocation ?? "");
+    await Future.delayed(const Duration(milliseconds: 50), () async {
+      state = (defaultLocation, isar.settings.getSync(227)!.downloadLocation ?? '');
+    });
   }
 }

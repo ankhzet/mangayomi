@@ -22,4 +22,21 @@ extension MangaExtension on Manga {
 
     return MemoryImage(customCoverImage as Uint8List);
   }
+
+  @ignore
+  List<Chapter> get sortedChapters => chapters.sorted((a, b) => a.compareTo(b));
+
+  List<Chapter> getDuplicateChapters() {
+    final List<Chapter> result = [];
+
+    for (var chapter in sortedChapters) {
+      final found = chapters.firstWhereOrNull((had) => had.isSame(chapter));
+
+      if (found != null && found.id != chapter.id) {
+        result.add(chapter);
+      }
+    }
+
+    return result;
+  }
 }

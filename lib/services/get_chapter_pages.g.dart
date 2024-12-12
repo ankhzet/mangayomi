@@ -6,7 +6,7 @@ part of 'get_chapter_pages.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getChapterPagesHash() => r'c806798536b6d4ca5b2a51417f12c648100cfc44';
+String _$getChapterPagesHash() => r'7771df01331274b7f08dc716ca7428e5cf089ac4';
 
 /// Copied from Dart SDK
 class _SystemHash {

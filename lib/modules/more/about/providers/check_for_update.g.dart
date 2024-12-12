@@ -6,7 +6,7 @@ part of 'check_for_update.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$checkForUpdateHash() => r'ff9623d8b0b4a0485cde58c0a8b5447b64bb02ab';
+String _$checkForUpdateHash() => r'02e395838b5f11c21b092e3f56f87a6036361773';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -41,7 +41,7 @@ class CheckForUpdateFamily extends Family<AsyncValue<void>> {
   /// See also [checkForUpdate].
   CheckForUpdateProvider call({
     BuildContext? context,
-    bool? manualUpdate,
+    bool manualUpdate = false,
   }) {
     return CheckForUpdateProvider(
       context: context,
@@ -79,7 +79,7 @@ class CheckForUpdateProvider extends AutoDisposeFutureProvider<void> {
   /// See also [checkForUpdate].
   CheckForUpdateProvider({
     BuildContext? context,
-    bool? manualUpdate,
+    bool manualUpdate = false,
   }) : this._internal(
           (ref) => checkForUpdate(
             ref as CheckForUpdateRef,
@@ -111,7 +111,7 @@ class CheckForUpdateProvider extends AutoDisposeFutureProvider<void> {
   }) : super.internal();
 
   final BuildContext? context;
-  final bool? manualUpdate;
+  final bool manualUpdate;
 
   @override
   Override overrideWith(
@@ -161,7 +161,7 @@ mixin CheckForUpdateRef on AutoDisposeFutureProviderRef<void> {
   BuildContext? get context;
 
   /// The parameter `manualUpdate` of this provider.
-  bool? get manualUpdate;
+  bool get manualUpdate;
 }
 
 class _CheckForUpdateProviderElement
@@ -171,7 +171,7 @@ class _CheckForUpdateProviderElement
   @override
   BuildContext? get context => (origin as CheckForUpdateProvider).context;
   @override
-  bool? get manualUpdate => (origin as CheckForUpdateProvider).manualUpdate;
+  bool get manualUpdate => (origin as CheckForUpdateProvider).manualUpdate;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -6,7 +6,7 @@ part of 'isar_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getAllMangaStreamHash() => r'1c0b5442ae86b2fa899d509a555f5d375f0ff79a';
+String _$getAllMangaStreamHash() => r'e4f85576816bd988911cbe4ab622ac447775b409';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -176,7 +176,7 @@ class _GetAllMangaStreamProviderElement
 }
 
 String _$getAllMangaWithoutCategoriesStreamHash() =>
-    r'78076f291274b7defd9567e55314002d9aeecab1';
+    r'dcd8f405f50a0ae8e8d1fecce3b489dc36e41fb1';
 
 /// See also [getAllMangaWithoutCategoriesStream].
 @ProviderFor(getAllMangaWithoutCategoriesStream)

@@ -6,7 +6,7 @@ part of 'auto_backup.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$checkAndBackupHash() => r'bfc4ff93674f9e7caa7fb54f6a7c65b9b87fd571';
+String _$checkAndBackupHash() => r'b4022d26344d1e7bf7f6b9f97ba19c00f024ce0a';
 
 /// See also [checkAndBackup].
 @ProviderFor(checkAndBackup)
@@ -58,7 +58,7 @@ final backupFrequencyOptionsStateProvider = AutoDisposeNotifierProvider<
 
 typedef _$BackupFrequencyOptionsState = AutoDisposeNotifier<List<int>>;
 String _$autoBackupLocationStateHash() =>
-    r'db6d5a8a0b74ea61cd8569e0486d3a4720393ed1';
+    r'6dd927258fb1bd1cdd35340ee8db07826e006803';
 
 /// See also [AutoBackupLocationState].
 @ProviderFor(AutoBackupLocationState)

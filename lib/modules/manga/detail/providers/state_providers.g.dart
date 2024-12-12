@@ -1274,7 +1274,7 @@ final chaptersListttStateProvider =
 
 typedef _$ChaptersListttState = AutoDisposeNotifier<List<Chapter>>;
 String _$scanlatorsFilterStateHash() =>
-    r'32eb4315b75478fabcb8ca9eb3f13d289d806fa2';
+    r'b390b07bff2ea743bf4041927751c773c6a12307';
 
 abstract class _$ScanlatorsFilterState extends BuildlessAutoDisposeNotifier<
     (List<String>, List<String>, List<String>)> {

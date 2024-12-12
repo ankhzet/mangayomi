@@ -161,7 +161,7 @@ class _GetAllHistoryStreamProviderElement
 }
 
 String _$getAllUpdateStreamHash() =>
-    r'01f77807c8be11f471b6acee6e7bc358ce600a65';
+    r'353947a0cdea31ef3925bbcc078751b08d12d74d';
 
 /// See also [getAllUpdateStream].
 @ProviderFor(getAllUpdateStream)

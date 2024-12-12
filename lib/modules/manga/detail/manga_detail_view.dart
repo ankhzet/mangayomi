@@ -19,6 +19,8 @@ import 'package:mangayomi/modules/library/library_screen.dart';
 import 'package:mangayomi/modules/library/providers/local_archive.dart';
 import 'package:mangayomi/modules/manga/detail/chapters_selection_controls.dart';
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
+import 'package:mangayomi/modules/manga/detail/widgets/manga_actions_menu.dart';
+import 'package:mangayomi/modules/manga/detail/widgets/manga_chapters_menu.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_cover_backdrop.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_search_widget.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_widget.dart';
@@ -189,158 +191,8 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                 ? Theme.of(context).scaffoldBackgroundColor.withAlpha(bgAlpha)
                                 : Colors.transparent,
                             actions: [
-                              if (!isLocalArchive) ...[
-                                PopupMenuButton(
-                                    popUpAnimationStyle: popupAnimationStyle,
-                                    icon: const Icon(Icons.download_outlined),
-                                    itemBuilder: (context) {
-                                      return [
-                                        PopupMenuItem<int>(
-                                            value: 0,
-                                            child: Text(
-                                                context.l10n.next_chapter)),
-                                        PopupMenuItem<int>(
-                                            value: 1,
-                                            child: Text(
-                                                context.l10n.next_5_chapters)),
-                                        PopupMenuItem<int>(
-                                            value: 2,
-                                            child: Text(
-                                                context.l10n.next_10_chapters)),
-                                        PopupMenuItem<int>(
-                                            value: 3,
-                                            child: Text(
-                                                context.l10n.next_25_chapters)),
-                                        PopupMenuItem<int>(
-                                            value: 4,
-                                            child: Text(context.l10n.unread)),
-                                      ];
-                                    },
-                                    onSelected: (value) {
-                                      final chapters = isar.chapters
-                                          .filter()
-                                          .idIsNotNull()
-                                          .mangaIdEqualTo(widget.manga!.id!)
-                                          .findAllSync();
-                                      if (value == 0 ||
-                                          value == 1 ||
-                                          value == 2 ||
-                                          value == 3) {
-                                        final lastChapterReadIndex =
-                                            chapters.lastIndexWhere((element) =>
-                                                element.isRead == true);
-                                        if (lastChapterReadIndex == -1 ||
-                                            chapters.length == 1) {
-                                          final chapter = chapters.first;
-                                          final entry = isar.downloads
-                                              .filter()
-                                              .idIsNotNull()
-                                              .chapterIdEqualTo(chapter.id)
-                                              .findFirstSync();
-                                          if (entry == null ||
-                                              !entry.isDownload!) {
-                                            ref.watch(downloadChapterProvider(
-                                                chapter: chapter));
-                                          }
-                                        } else {
-                                          final length = switch (value) {
-                                            0 => 1,
-                                            1 => 5,
-                                            2 => 10,
-                                            _ => 25,
-                                          };
-                                          for (var i = 1; i < length + 1; i++) {
-                                            if (chapters.length > 1 &&
-                                                chapters.elementAtOrNull(
-                                                        lastChapterReadIndex +
-                                                            i) !=
-                                                    null) {
-                                              final chapter = chapters[
-                                                  lastChapterReadIndex + i];
-                                              final entry = isar.downloads
-                                                  .filter()
-                                                  .idIsNotNull()
-                                                  .chapterIdEqualTo(chapter.id)
-                                                  .findFirstSync();
-                                              if (entry == null ||
-                                                  !entry.isDownload!) {
-                                                ref.watch(
-                                                    downloadChapterProvider(
-                                                        chapter: chapter));
-                                              }
-                                            }
-                                          }
-                                        }
-                                      } else if (value == 4) {
-                                        final unreadChapters = isar.chapters
-                                            .filter()
-                                            .idIsNotNull()
-                                            .mangaIdEqualTo(widget.manga!.id!)
-                                            .isReadEqualTo(false)
-                                            .findAllSync();
-                                        for (var chapter in unreadChapters) {
-                                          final entry = isar.downloads
-                                              .filter()
-                                              .idIsNotNull()
-                                              .chapterIdEqualTo(chapter.id)
-                                              .findFirstSync();
-                                          if (entry == null ||
-                                              !entry.isDownload!) {
-                                            ref.watch(downloadChapterProvider(
-                                                chapter: chapter));
-                                          }
-                                        }
-                                      }
-                                    }),
-                              ],
-                              IconButton(
-                                  splashRadius: 20,
-                                  onPressed: () {
-                                    _showDraggableMenu();
-                                  },
-                                  icon: Icon(
-                                    Icons.filter_list_sharp,
-                                    color:
-                                        isNotFiltering ? null : Colors.yellow,
-                                  )),
-                              PopupMenuButton(
-                                  popUpAnimationStyle: popupAnimationStyle,
-                                  itemBuilder: (context) {
-                                    return [
-                                      if (!isLocalArchive)
-                                        PopupMenuItem<int>(
-                                            value: 3,
-                                            child: Text(l10n.refresh)),
-                                      if (widget.manga!.favorite!)
-                                        PopupMenuItem<int>(
-                                            value: 0,
-                                            child: Text(l10n.edit_categories)),
-                                      if (!isLocalArchive)
-                                        PopupMenuItem<int>(
-                                            value: 2, child: Text(l10n.share)),
-                                    ];
-                                  },
-                                  onSelected: (value) {
-                                    if (value == 3) {
-                                      widget.checkForUpdate(true);
-                                    }
-                                    if (value == 0) {
-                                      context.push("/categories", extra: (
-                                        true,
-                                        widget.manga!.isManga! ? 0 : 1
-                                      ));
-                                    } else if (value == 1) {
-                                    } else if (value == 2) {
-                                      final source = getSource(
-                                          widget.manga!.lang!,
-                                          widget.manga!.source!);
-                                      String url = source!.apiUrl!.isEmpty
-                                          ? widget.manga!.link!
-                                          : "${source.baseUrl}${widget.manga!.link!}";
-
-                                      Share.share(url);
-                                    }
-                                  }),
+                              MangaChaptersMenu(manga: manga),
+                              MangaActionsMenu(manga: manga, checkForUpdate: widget.checkForUpdate),
                             ],
                           );
                   },

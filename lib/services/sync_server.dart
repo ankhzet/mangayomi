@@ -245,13 +245,13 @@ class SyncServer extends _$SyncServer {
         .map((e) => e.toJson())
         .toList();
     datas.addAll({"manga": mangas});
-    final categorys = isar.categorys
+    final categories = isar.categorys
         .filter()
         .idIsNotNull()
         .findAllSync()
         .map((e) => e.toJson())
         .toList();
-    datas.addAll({"categories": categorys});
+    datas.addAll({"categories": categories});
     final chapters = isar.chapters
         .filter()
         .idIsNotNull()

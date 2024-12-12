@@ -2,6 +2,7 @@ import 'package:dart_eval/dart_eval_bridge.dart';
 import 'package:dart_eval/stdlib/core.dart';
 import 'package:html/dom.dart';
 import 'package:mangayomi/eval/dart/model/element.dart';
+import 'package:mangayomi/utils/extensions/others.dart';
 
 class $MElement implements MElement, $Instance {
   $MElement.wrap(this.$value) : _superclass = $Object($value);
@@ -196,42 +197,42 @@ class $MElement implements MElement, $Instance {
         final res = $value.text;
         return res == null
             ? const $null()
-            : $String(res.trim().trimLeft().trimRight());
+            : $String(res.normalize());
       case 'className':
         final res = $value.className;
         return res == null
             ? const $null()
-            : $String(res.trim().trimLeft().trimRight());
+            : $String(res.normalize());
       case 'localName':
         final res = $value.localName;
         return res == null
             ? const $null()
-            : $String(res.trim().trimLeft().trimRight());
+            : $String(res.normalize());
       case 'namespaceUri':
         final res = $value.namespaceUri;
         return res == null
             ? const $null()
-            : $String(res.trim().trimLeft().trimRight());
+            : $String(res.normalize());
       case 'getSrc':
         final res = $value.getSrc;
         return res == null
             ? const $null()
-            : $String(res.trim().trimLeft().trimRight());
+            : $String(res.normalize());
       case 'getImg':
         final res = $value.getImg;
         return res == null
             ? const $null()
-            : $String(res.trim().trimLeft().trimRight());
+            : $String(res.normalize());
       case 'getHref':
         final res = $value.getHref;
         return res == null
             ? const $null()
-            : $String(res.trim().trimLeft().trimRight());
+            : $String(res.normalize());
       case 'getDataSrc':
         final res = $value.getDataSrc;
         return res == null
             ? const $null()
-            : $String(res.trim().trimLeft().trimRight());
+            : $String(res.normalize());
       case 'parent':
         final res = $value.parent;
         return res == null ? const $null() : $MElement.wrap(res);

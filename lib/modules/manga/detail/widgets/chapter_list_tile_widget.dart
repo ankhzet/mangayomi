@@ -70,7 +70,7 @@ class ChapterListTileWidget extends ConsumerWidget {
         ),
         subtitle: Row(
           children: [
-            if ((chapter.manga.value!.isLocalArchive ?? false) == false)
+            if (!(chapter.manga.value!.isLocalArchive ?? false))
               Text(
                 (chapter.dateUpload?.isNotEmpty ?? false)
                     ? dateFormat(chapter.dateUpload!, ref: ref, context: context)

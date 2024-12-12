@@ -1,4 +1,5 @@
 import 'package:html/dom.dart';
+import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:pseudom/pseudom.dart' as pseudom;
 import 'package:mangayomi/utils/reg_exp_matcher.dart';
 import 'package:xpath_selector_html_parser/xpath_selector_html_parser.dart';
@@ -101,7 +102,7 @@ extension DocumentExtension on Document? {
     var htmlXPath = HtmlXPath.node(dom);
     var query = htmlXPath.query(xpath);
     if (query.nodes.length > 1) {
-      return query.attrs.map((e) => e!.trim().trimLeft().trimRight()).toList();
+      return query.attrs.map((e) => e!.normalize()).toList();
     }
     return [];
   }
@@ -139,7 +140,7 @@ extension ElementtExtension on Element {
     var htmlXPath = HtmlXPath.node(this);
     var query = htmlXPath.query(xpath);
     if (query.nodes.length > 1) {
-      return query.attrs.map((e) => e!.trim().trimLeft().trimRight()).toList();
+      return query.attrs.map((e) => e!.normalize()).toList();
     }
     return [];
   }

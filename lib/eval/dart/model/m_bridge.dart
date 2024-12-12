@@ -32,6 +32,7 @@ import 'package:mangayomi/utils/cryptoaes/crypto_aes.dart';
 import 'package:mangayomi/utils/cryptoaes/deobfuscator.dart';
 import 'package:mangayomi/utils/cryptoaes/js_unpacker.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/reg_exp_matcher.dart';
 import 'package:xpath_selector_html_parser/xpath_selector_html_parser.dart';
@@ -73,13 +74,13 @@ class MBridge {
       var query = htmlXPath.query(xpath);
       if (query.nodes.length > 1) {
         for (var element in query.attrs) {
-          attrs.add(element!.trim().trimLeft().trimRight());
+          attrs.add(element!.normalize());
         }
       }
 
       //Return one attr
       else if (query.nodes.length == 1) {
-        String attr = query.attr != null ? query.attr!.trim().trimLeft().trimRight() : "";
+        String attr = query.attr != null ? query.attr!.normalize() : "";
         if (attr.isNotEmpty) {
           attrs = [attr];
         }
@@ -95,14 +96,11 @@ class MBridge {
   ///[statusList] contains a list of map of many static status
   static Status parseStatus(String status, List statusList) {
     for (var element in statusList) {
-      Map statusMap = {};
-      if (element is $Map<$Value, $Value>) {
-        statusMap = element.$reified;
-      } else {
-        statusMap = element;
-      }
+      final Map statusMap = element is $Map<$Value, $Value> ? element.$reified : element;
+      final search = status.toLowerCase().normalize();
+
       for (var element in statusMap.entries) {
-        if (element.key.toString().toLowerCase().contains(status.toLowerCase().trim().trimLeft().trimRight())) {
+        if (element.key.toString().toLowerCase().contains(search)) {
           return switch (element.value as int) {
             0 => Status.ongoing,
             1 => Status.completed,

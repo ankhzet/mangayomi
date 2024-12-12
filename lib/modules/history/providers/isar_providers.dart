@@ -19,6 +19,16 @@ Stream<List<History>> getAllHistoryStream(Ref ref, {required bool isManga}) asyn
 }
 
 @riverpod
+Stream<List<History>> getMangaHistoryStream(Ref ref, {required bool isManga, required int mangaId}) async* {
+  yield* isar.historys
+      .filter()
+      .idIsNotNull()
+      .and()
+      .chapter((q) => q.manga((q) => q.isMangaEqualTo(isManga).and().idEqualTo(mangaId)))
+      .watch(fireImmediately: true);
+}
+
+@riverpod
 Stream<List<Update>> getAllUpdateStream(Ref ref, {required bool isManga}) async* {
   final updates = await isar.updates
       .filter()
@@ -45,5 +55,13 @@ Stream<List<Update>> getAllUpdateStream(Ref ref, {required bool isManga}) async*
       .idIsNotNull()
       .and()
       .chapter((q) => q.manga((q) => q.isMangaEqualTo(isManga)))
+      .watch(fireImmediately: true);
+}
+
+@riverpod
+Stream<List<Manga>> getAllMangasStream(Ref ref, {required bool isManga}) async* {
+  yield* isar.mangas
+      .filter()
+      .isMangaEqualTo(isManga)
       .watch(fireImmediately: true);
 }

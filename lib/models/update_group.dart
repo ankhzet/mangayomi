@@ -17,7 +17,7 @@ class UpdateGroup {
 
     for (var update in updates) {
       final chapter = update.chapter.value!;
-      final mangaId = update.mangaId!;
+      final mangaId = chapter.mangaId!;
       final group = groupBy(update);
       final bucket = list.firstWhereOrNull((item) => (item.group == group) && (item.manga.id == mangaId));
 

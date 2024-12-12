@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:isar/isar.dart';
 import 'package:mangayomi/models/manga.dart';
+
 part 'chapter.g.dart';
 
 @collection
@@ -69,9 +70,7 @@ class Chapter {
       };
 
   bool isSame(Chapter other) {
-    return (mangaId == other.mangaId) && (
-        (url == other.url) || (scanlator == other.scanlator && name == other.name)
-    );
+    return (mangaId == other.mangaId) && ((url == other.url) || (scanlator == other.scanlator && name == other.name));
   }
 
   bool isUpdated(Chapter other) {
@@ -102,7 +101,7 @@ class Chapter {
   @ignore
   (int, int, int) get getNumber {
     if ((name ?? '').isNotEmpty) {
-      final match = RegExp(r'((v(\.|ol(\.|ume))\s*(?<v>\d+))\s*)?(c(\.|h(\.|ap(\.|t(\.|er))))\s*)?(?<c>\d+)(\.(?<s>\d+))?', caseSensitive: false).firstMatch(name!);
+      final match = numberRegexp.firstMatch(name!);
 
       if (match != null) {
         final v = match.namedGroup('v');
@@ -148,3 +147,8 @@ class Chapter {
     return (scanlator ?? '').compareTo(b.scanlator ?? '');
   }
 }
+
+final RegExp numberRegexp = RegExp(
+  r'((v(\.|ol(\.|ume))\s*(?<v>\d+))\s*)?(c(\.|h(\.|ap(\.|t(\.|er))))\s*)?(?<c>\d+)(\.(?<s>\d+))?',
+  caseSensitive: false,
+);

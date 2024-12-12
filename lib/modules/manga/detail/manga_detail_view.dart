@@ -18,6 +18,7 @@ import 'package:mangayomi/models/track_search.dart';
 import 'package:mangayomi/modules/library/library_screen.dart';
 import 'package:mangayomi/modules/library/providers/local_archive.dart';
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
+import 'package:mangayomi/modules/manga/detail/widgets/manga_cover_backdrop.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_search_widget.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_widget.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
@@ -158,74 +159,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
 
     return Stack(
       children: [
-        Consumer(
-          builder: (context, ref, child) {
-            return Positioned(
-              top: 0,
-              child: ref.watch(offetProvider) == 0.0
-                  ? Stack(
-                      children: [
-                        widget.manga!.customCoverImage != null
-                            ? Image.memory(
-                                widget.manga!.customCoverImage as Uint8List,
-                                width: context.width(1),
-                                height: 300,
-                                fit: BoxFit.cover)
-                            : cachedNetworkImage(
-                                headers: widget.manga!.isLocalArchive!
-                                    ? null
-                                    : ref.watch(headersProvider(
-                                        source: widget.manga!.source!,
-                                        lang: widget.manga!.lang!)),
-                                imageUrl: toImgUrl(
-                                    widget.manga!.customCoverFromTracker ??
-                                        widget.manga!.imageUrl ??
-                                        ""),
-                                width: context.width(1),
-                                height: 300,
-                                fit: BoxFit.cover),
-                        Stack(
-                          children: [
-                            Column(
-                              children: [
-                                Container(
-                                  width: context.width(1),
-                                  height: AppBar().preferredSize.height,
-                                  color: context.isTablet
-                                      ? Theme.of(context)
-                                          .scaffoldBackgroundColor
-                                      : Theme.of(context)
-                                          .scaffoldBackgroundColor
-                                          .withOpacity(0.9),
-                                ),
-                                Container(
-                                  width: context.width(1),
-                                  height: 465,
-                                  color: context.isTablet
-                                      ? Theme.of(context)
-                                          .scaffoldBackgroundColor
-                                      : Theme.of(context)
-                                          .scaffoldBackgroundColor
-                                          .withOpacity(0.9),
-                                ),
-                              ],
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              child: Container(
-                                  width: context.width(1),
-                                  height: 100,
-                                  color: Theme.of(context)
-                                      .scaffoldBackgroundColor),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
-                  : Container(),
-            );
-          },
-        ),
+        MangaCoverBackdrop(manga: manga, active: offset < 100),
         Scaffold(
             backgroundColor: Colors.transparent,
             extendBodyBehindAppBar: true,

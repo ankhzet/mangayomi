@@ -13,10 +13,10 @@ import 'package:mangayomi/modules/manga/archive_reader/providers/archive_reader_
 import 'package:mangayomi/modules/manga/reader/reader_view.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/utils/utils.dart';
-import 'package:mangayomi/utils/reg_exp_matcher.dart';
 import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 part 'get_chapter_pages.g.dart';
 
 class GetChapterPagesModel {
@@ -36,14 +36,12 @@ Future<GetChapterPagesModel> getChapterPages(
   Ref ref, {
   required Chapter chapter,
 }) async {
-  List<UChapDataPreload> uChapDataPreloadp = [];
+  List<UChapDataPreload> uChapDataPreload = [];
   List<PageUrl> pageUrls = [];
-  List<bool> isLocaleList = [];
+  List<bool> isLocalList = [];
   final settings = isar.settings.getSync(227);
-  List<ChapterPageurls>? chapterPageUrlsList =
-      settings!.chapterPageUrlsList ?? [];
-  final isarPageUrls =
-      chapterPageUrlsList.where((element) => element.chapterId == chapter.id);
+  List<ChapterPageurls>? chapterPageUrlsList = settings!.chapterPageUrlsList ?? [];
+  final isarPageUrls = chapterPageUrlsList.where((element) => element.chapterId == chapter.id);
   final incognitoMode = ref.watch(incognitoModeStateProvider);
   final chapterDirectory = await StorageProvider.getMangaChapterDirectory(chapter);
   final mangaDirectory = await StorageProvider.getMangaMainDirectory(chapter.manga.value!);
@@ -77,16 +75,14 @@ Future<GetChapterPagesModel> getChapterPages(
 
       for (var image in local.images!) {
         archiveImages.add(image.image!);
-        isLocaleList.add(true);
+        isLocalList.add(true);
       }
     } else {
       for (var i = 0; i < pageUrls.length; i++) {
         archiveImages.add(null);
-        if (await File("${path!.path}" "${padIndex(i + 1)}.jpg").exists()) {
-          isLocaleList.add(true);
-        } else {
-          isLocaleList.add(false);
-        }
+        isLocalList.add(
+          await UChapDataPreload.file(chapterDirectory, i).exists()
+        );
       }
     }
     if (isLocalArchive) {
@@ -109,23 +105,26 @@ Future<GetChapterPagesModel> getChapterPages(
       isar.writeTxnSync(() => isar.settings.putSync(settings..chapterPageUrlsList = chapterPageUrls));
     }
     for (var i = 0; i < pageUrls.length; i++) {
-      uChapDataPreloadp.add(UChapDataPreload(
-          chapter,
-          path,
-          pageUrls[i],
-          isLocaleList[i],
-          archiveImages[i],
-          i,
-          GetChapterPagesModel(
-              pageUrls: pageUrls,
-              archiveImages: archiveImages,
-              uChapDataPreload: uChapDataPreloadp),
-          i));
+      uChapDataPreload.add(UChapDataPreload(
+        chapter,
+        chapterDirectory,
+        pageUrls[i],
+        isLocalList[i],
+        archiveImages[i],
+        i,
+        GetChapterPagesModel(
+          pageUrls: pageUrls,
+          archiveImages: archiveImages,
+          uChapDataPreload: uChapDataPreload,
+        ),
+        i,
+      ));
     }
   }
 
   return GetChapterPagesModel(
-      pageUrls: pageUrls,
-      archiveImages: archiveImages,
-      uChapDataPreload: uChapDataPreloadp);
+    pageUrls: pageUrls,
+    archiveImages: archiveImages,
+    uChapDataPreload: uChapDataPreload,
+  );
 }

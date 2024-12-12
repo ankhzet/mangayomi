@@ -157,6 +157,8 @@ class M3u8Downloader {
 
   Future<void> mergeTsToMp4(String fileName, String directory) async {
     await Isolate.run(() async {
+      int parseIndex(String name) => int.parse(name.substringAfter("TS_").substringBefore("."));
+
       List<String> tsPathList = [];
       final outFile = File(fileName).openWrite();
       final dir = Directory(directory);
@@ -165,12 +167,11 @@ class M3u8Downloader {
           tsPathList.add(entity.path);
         }
       }
-      tsPathList.sort((a, b) =>
-          int.parse(a.substringAfter("TS_").substringBefore(".")).compareTo(
-              int.parse(b.substringAfter("TS_").substringBefore("."))));
+
+      tsPathList.sort((a, b) => parseIndex(a).compareTo(parseIndex(b)));
+
       for (var path in tsPathList) {
-        final bytes = await File(path).readAsBytes();
-        outFile.add(bytes);
+        await outFile.addStream(File(path).openRead());
       }
 
       await outFile.flush();

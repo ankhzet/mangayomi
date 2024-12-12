@@ -17,6 +17,39 @@ extension LetExtension<T> on T {
   }
 }
 
+extension ListUnique<T> on Iterable<T> {
+  List<T> toUnique({bool growable = true}) => toSet().toList(growable: growable);
+}
+
+extension IterableUtils<T> on Iterable<T> {
+  List<T> sorted(Comparator<T> comparator) {
+    final result = [...this];
+    result.sort(comparator);
+
+    return result;
+  }
+
+  T? firstWhereOrNull(bool Function(T) test) {
+    try {
+      return firstWhere(test);
+    } on StateError {
+      return null;
+    }
+  }
+
+  T? lastWhereOrNull(bool Function(T) test) {
+    try {
+      return lastWhere(test);
+    } on StateError {
+      return null;
+    }
+  }
+}
+
+extension Trimmable on String {
+  String normalize() => toString().trim().trimLeft().trimRight(); // why???
+}
+
 extension ImageProviderExtension on ImageProvider {
   Future<Uint8List?> getBytes(BuildContext context, {ImageByteFormat format = ImageByteFormat.png}) async {
     final imageStream = resolve(createLocalImageConfiguration(context));
@@ -39,9 +72,8 @@ extension UChapDataPreloadExtensions on UChapDataPreload {
     Uint8List? imageBytes;
     if (archiveImage != null) {
       imageBytes = archiveImage;
-    } else if (isLocale!) {
-      imageBytes = File('${directory!.path}${padIndex(index! + 1)}.jpg')
-          .readAsBytesSync();
+    } else if (isLocal) {
+      imageBytes = preloadFile.readAsBytesSync();
     } else {
       File? cachedImage;
       if (pageUrl != null) {
@@ -56,30 +88,30 @@ extension UChapDataPreloadExtensions on UChapDataPreload {
     return imageBytes;
   }
 
-  ImageProvider<Object> getImageProvider(
-      WidgetRef ref, bool showCloudFlareError) {
-    final data = this;
-    final isLocale = data.isLocale!;
-    final archiveImage = data.archiveImage;
+  ImageProvider<Object> getImageProvider(WidgetRef ref, bool showCloudFlareError) {
     final cropBorders = ref.watch(cropBordersStateProvider);
-    return cropBorders && data.cropImage != null
-        ? ExtendedMemoryImageProvider(data.cropImage!)
-        : (isLocale
-            ? archiveImage != null
-                ? ExtendedMemoryImageProvider(archiveImage)
-                : ExtendedFileImageProvider(File(
-                    '${data.directory!.path}${padIndex(data.index! + 1)}.jpg'))
-            : CustomExtendedNetworkImageProvider(
-                data.pageUrl!.url.trim().trimLeft().trimRight(),
-                cache: true,
-                cacheMaxAge: const Duration(days: 7),
-                showCloudFlareError: showCloudFlareError,
-                imageCacheFolderName: "cacheimagemanga",
-                headers: {
-                    ...data.pageUrl!.headers ?? {},
-                    ...ref.watch(headersProvider(
-                        source: data.chapter!.manga.value!.source!,
-                        lang: data.chapter!.manga.value!.lang!))
-                  })) as ImageProvider<Object>;
+
+    if (cropBorders && cropImage != null) {
+      return ExtendedMemoryImageProvider(cropImage!);
+    }
+
+    if (isLocal) {
+      return archiveImage != null
+          ? ExtendedMemoryImageProvider(archiveImage!)
+          : ExtendedFileImageProvider(preloadFile);
+    }
+
+    return CustomExtendedNetworkImageProvider(
+      pageUrl!.url.normalize(),
+      cache: true,
+      cacheMaxAge: const Duration(days: 7),
+      showCloudFlareError: showCloudFlareError,
+      imageCacheFolderName: "cacheimagemanga",
+      headers: {
+        ...pageUrl!.headers ?? {},
+        ...ref
+            .watch(headersProvider(source: chapter!.manga.value!.source!, lang: chapter!.manga.value!.lang!))
+      },
+    );
   }
 }

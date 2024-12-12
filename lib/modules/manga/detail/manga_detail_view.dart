@@ -82,12 +82,12 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
   void initState() {
     _scrollController = ScrollController()
       ..addListener(() {
-        ref.read(offetProvider.notifier).state = _scrollController.offset;
+        ref.read(offsetProvider.notifier).state = _scrollController.offset;
       });
     super.initState();
   }
 
-  final offetProvider = StateProvider((ref) => 0.0);
+  final offsetProvider = StateProvider((ref) => 0.0);
   bool _expanded = false;
   ScrollController _scrollController = ScrollController();
   late final isLocalArchive = widget.manga!.isLocalArchive ?? false;
@@ -168,19 +168,26 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                 preferredSize: Size.fromHeight(AppBar().preferredSize.height),
                 child: Consumer(
                   builder: (context, ref, child) {
+                    final offset = ref.watch(offsetProvider);
+                    final bgAlpha = ((1.0 - clampDouble(100 - offset, 0, 100) / 100.0) * 255).toInt();
+                    final textAlpha = max(0, bgAlpha - 128 - 64) * 4;
+
                     final isLongPressed = ref.watch(isLongPressedStateProvider);
                     return isLongPressed
                         ? ChaptersSelectionBar(manga: manga, chapters: chapters, selection: chaptersSelection)
                         : AppBar(
-                            title: ref.watch(offetProvider) > 200
+                            title: textAlpha > 0
                                 ? Text(
-                                    widget.manga!.name!,
-                                    style: const TextStyle(fontSize: 17),
+                                    manga.name!,
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      color: context.dynamicThemeColor.withAlpha(textAlpha),
+                                    ),
                                   )
                                 : null,
-                            backgroundColor: ref.watch(offetProvider) == 0.0
-                                ? Colors.transparent
-                                : Theme.of(context).scaffoldBackgroundColor,
+                            backgroundColor: bgAlpha > 0
+                                ? Theme.of(context).scaffoldBackgroundColor.withAlpha(bgAlpha)
+                                : Colors.transparent,
                             actions: [
                               if (!isLocalArchive) ...[
                                 PopupMenuButton(

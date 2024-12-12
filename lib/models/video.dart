@@ -23,6 +23,7 @@ class Video {
             ? (json['audios'] as List).map((e) => Track.fromJson(e)).toList()
             : []);
   }
+  static bool isJson(Map<String, dynamic> json) => json['url'] != null && json['originalUrl'] != null;
   Map<String, dynamic> toJson() => {
         'url': url,
         'quality': quality,

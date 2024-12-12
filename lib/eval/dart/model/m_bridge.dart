@@ -285,9 +285,11 @@ class MBridge {
               dateFormatLocale = val.$2;
               error = val.$3;
             },
-          );
+          ).toString();
         }
         valD.add(dateStr);
+      } else {
+        valD.add(date.toString());
       }
     }
     return valD;
@@ -382,6 +384,8 @@ class MBridge {
     return text.split(pattern).last;
   }
 
+  static final isoRegexp = RegExp(r"\d+-\d+-\d+T\d+:\d+:\d+");
+
   static int parseDate(DateTime now, String date, DateFormat defaultFormat) {
     final today = DateTime(now.year, now.month, now.day);
 
@@ -409,6 +413,9 @@ class MBridge {
     String dateFormatLocale,
     Function((String, String, bool)) newLocale,
   ) {
+    // try ISO first
+    if (isoRegexp.hasMatch(date)) {
+      return DateTime.parse(date).millisecondsSinceEpoch;
     }
 
     final now = DateTime.now();

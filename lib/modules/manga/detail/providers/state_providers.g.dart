@@ -6,7 +6,7 @@ part of 'state_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$chaptersListStateHash() => r'251609214d127964e84d4616d2c3a7afa4fd80b4';
+String _$chaptersListStateHash() => r'0337201f0c9c4f33a3053b7d7ce3706baadf3a76';
 
 /// See also [ChaptersListState].
 @ProviderFor(ChaptersListState)
@@ -55,7 +55,7 @@ final isExtendedStateProvider =
 );
 
 typedef _$IsExtendedState = AutoDisposeNotifier<bool>;
-String _$sortChapterStateHash() => r'0431856a60ee9dd4ff24b620b7b14d3572da8759';
+String _$sortChapterStateHash() => r'78b39995c8f4e502f704105d82384fb70a506cf0';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -223,13 +223,13 @@ class _SortChapterStateProviderElement
 }
 
 String _$chapterFilterDownloadedStateHash() =>
-    r'974229e5af42122fbddb42e19fadb4eda82a7814';
+    r'f4d4b85e87056aca44725648db36fddeaf908114';
 
 abstract class _$ChapterFilterDownloadedState
-    extends BuildlessAutoDisposeNotifier<int> {
+    extends BuildlessAutoDisposeNotifier<FilterOptionModel> {
   late final int mangaId;
 
-  int build({
+  FilterOptionModel build({
     required int mangaId,
   });
 }
@@ -240,7 +240,7 @@ const chapterFilterDownloadedStateProvider =
     ChapterFilterDownloadedStateFamily();
 
 /// See also [ChapterFilterDownloadedState].
-class ChapterFilterDownloadedStateFamily extends Family<int> {
+class ChapterFilterDownloadedStateFamily extends Family<FilterOptionModel> {
   /// See also [ChapterFilterDownloadedState].
   const ChapterFilterDownloadedStateFamily();
 
@@ -279,7 +279,8 @@ class ChapterFilterDownloadedStateFamily extends Family<int> {
 
 /// See also [ChapterFilterDownloadedState].
 class ChapterFilterDownloadedStateProvider
-    extends AutoDisposeNotifierProviderImpl<ChapterFilterDownloadedState, int> {
+    extends AutoDisposeNotifierProviderImpl<ChapterFilterDownloadedState,
+        FilterOptionModel> {
   /// See also [ChapterFilterDownloadedState].
   ChapterFilterDownloadedStateProvider({
     required int mangaId,
@@ -310,7 +311,7 @@ class ChapterFilterDownloadedStateProvider
   final int mangaId;
 
   @override
-  int runNotifierBuild(
+  FilterOptionModel runNotifierBuild(
     covariant ChapterFilterDownloadedState notifier,
   ) {
     return notifier.build(
@@ -335,8 +336,8 @@ class ChapterFilterDownloadedStateProvider
   }
 
   @override
-  AutoDisposeNotifierProviderElement<ChapterFilterDownloadedState, int>
-      createElement() {
+  AutoDisposeNotifierProviderElement<ChapterFilterDownloadedState,
+      FilterOptionModel> createElement() {
     return _ChapterFilterDownloadedStateProviderElement(this);
   }
 
@@ -357,14 +358,15 @@ class ChapterFilterDownloadedStateProvider
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin ChapterFilterDownloadedStateRef on AutoDisposeNotifierProviderRef<int> {
+mixin ChapterFilterDownloadedStateRef
+    on AutoDisposeNotifierProviderRef<FilterOptionModel> {
   /// The parameter `mangaId` of this provider.
   int get mangaId;
 }
 
 class _ChapterFilterDownloadedStateProviderElement
     extends AutoDisposeNotifierProviderElement<ChapterFilterDownloadedState,
-        int> with ChapterFilterDownloadedStateRef {
+        FilterOptionModel> with ChapterFilterDownloadedStateRef {
   _ChapterFilterDownloadedStateProviderElement(super.provider);
 
   @override
@@ -372,13 +374,13 @@ class _ChapterFilterDownloadedStateProviderElement
 }
 
 String _$chapterFilterUnreadStateHash() =>
-    r'7fba451c72c9636354b3fbca36fa33fa45bd943f';
+    r'946b6dc5baad7d47a8f90cda94c47f95525ed6ab';
 
 abstract class _$ChapterFilterUnreadState
-    extends BuildlessAutoDisposeNotifier<int> {
+    extends BuildlessAutoDisposeNotifier<FilterOptionModel> {
   late final int mangaId;
 
-  int build({
+  FilterOptionModel build({
     required int mangaId,
   });
 }
@@ -388,7 +390,7 @@ abstract class _$ChapterFilterUnreadState
 const chapterFilterUnreadStateProvider = ChapterFilterUnreadStateFamily();
 
 /// See also [ChapterFilterUnreadState].
-class ChapterFilterUnreadStateFamily extends Family<int> {
+class ChapterFilterUnreadStateFamily extends Family<FilterOptionModel> {
   /// See also [ChapterFilterUnreadState].
   const ChapterFilterUnreadStateFamily();
 
@@ -426,8 +428,8 @@ class ChapterFilterUnreadStateFamily extends Family<int> {
 }
 
 /// See also [ChapterFilterUnreadState].
-class ChapterFilterUnreadStateProvider
-    extends AutoDisposeNotifierProviderImpl<ChapterFilterUnreadState, int> {
+class ChapterFilterUnreadStateProvider extends AutoDisposeNotifierProviderImpl<
+    ChapterFilterUnreadState, FilterOptionModel> {
   /// See also [ChapterFilterUnreadState].
   ChapterFilterUnreadStateProvider({
     required int mangaId,
@@ -458,7 +460,7 @@ class ChapterFilterUnreadStateProvider
   final int mangaId;
 
   @override
-  int runNotifierBuild(
+  FilterOptionModel runNotifierBuild(
     covariant ChapterFilterUnreadState notifier,
   ) {
     return notifier.build(
@@ -483,8 +485,8 @@ class ChapterFilterUnreadStateProvider
   }
 
   @override
-  AutoDisposeNotifierProviderElement<ChapterFilterUnreadState, int>
-      createElement() {
+  AutoDisposeNotifierProviderElement<ChapterFilterUnreadState,
+      FilterOptionModel> createElement() {
     return _ChapterFilterUnreadStateProviderElement(this);
   }
 
@@ -505,14 +507,15 @@ class ChapterFilterUnreadStateProvider
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin ChapterFilterUnreadStateRef on AutoDisposeNotifierProviderRef<int> {
+mixin ChapterFilterUnreadStateRef
+    on AutoDisposeNotifierProviderRef<FilterOptionModel> {
   /// The parameter `mangaId` of this provider.
   int get mangaId;
 }
 
 class _ChapterFilterUnreadStateProviderElement
-    extends AutoDisposeNotifierProviderElement<ChapterFilterUnreadState, int>
-    with ChapterFilterUnreadStateRef {
+    extends AutoDisposeNotifierProviderElement<ChapterFilterUnreadState,
+        FilterOptionModel> with ChapterFilterUnreadStateRef {
   _ChapterFilterUnreadStateProviderElement(super.provider);
 
   @override
@@ -520,13 +523,13 @@ class _ChapterFilterUnreadStateProviderElement
 }
 
 String _$chapterFilterBookmarkedStateHash() =>
-    r'd60b909cd01aa56a4797e7ab9e3613985edc231e';
+    r'1253ca52d2b8591edb81460d49e4fee6fc40442a';
 
 abstract class _$ChapterFilterBookmarkedState
-    extends BuildlessAutoDisposeNotifier<int> {
+    extends BuildlessAutoDisposeNotifier<FilterOptionModel> {
   late final int mangaId;
 
-  int build({
+  FilterOptionModel build({
     required int mangaId,
   });
 }
@@ -537,7 +540,7 @@ const chapterFilterBookmarkedStateProvider =
     ChapterFilterBookmarkedStateFamily();
 
 /// See also [ChapterFilterBookmarkedState].
-class ChapterFilterBookmarkedStateFamily extends Family<int> {
+class ChapterFilterBookmarkedStateFamily extends Family<FilterOptionModel> {
   /// See also [ChapterFilterBookmarkedState].
   const ChapterFilterBookmarkedStateFamily();
 
@@ -576,7 +579,8 @@ class ChapterFilterBookmarkedStateFamily extends Family<int> {
 
 /// See also [ChapterFilterBookmarkedState].
 class ChapterFilterBookmarkedStateProvider
-    extends AutoDisposeNotifierProviderImpl<ChapterFilterBookmarkedState, int> {
+    extends AutoDisposeNotifierProviderImpl<ChapterFilterBookmarkedState,
+        FilterOptionModel> {
   /// See also [ChapterFilterBookmarkedState].
   ChapterFilterBookmarkedStateProvider({
     required int mangaId,
@@ -607,7 +611,7 @@ class ChapterFilterBookmarkedStateProvider
   final int mangaId;
 
   @override
-  int runNotifierBuild(
+  FilterOptionModel runNotifierBuild(
     covariant ChapterFilterBookmarkedState notifier,
   ) {
     return notifier.build(
@@ -632,8 +636,8 @@ class ChapterFilterBookmarkedStateProvider
   }
 
   @override
-  AutoDisposeNotifierProviderElement<ChapterFilterBookmarkedState, int>
-      createElement() {
+  AutoDisposeNotifierProviderElement<ChapterFilterBookmarkedState,
+      FilterOptionModel> createElement() {
     return _ChapterFilterBookmarkedStateProviderElement(this);
   }
 
@@ -654,14 +658,15 @@ class ChapterFilterBookmarkedStateProvider
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin ChapterFilterBookmarkedStateRef on AutoDisposeNotifierProviderRef<int> {
+mixin ChapterFilterBookmarkedStateRef
+    on AutoDisposeNotifierProviderRef<FilterOptionModel> {
   /// The parameter `mangaId` of this provider.
   int get mangaId;
 }
 
 class _ChapterFilterBookmarkedStateProviderElement
     extends AutoDisposeNotifierProviderElement<ChapterFilterBookmarkedState,
-        int> with ChapterFilterBookmarkedStateRef {
+        FilterOptionModel> with ChapterFilterBookmarkedStateRef {
   _ChapterFilterBookmarkedStateProviderElement(super.provider);
 
   @override
@@ -669,7 +674,7 @@ class _ChapterFilterBookmarkedStateProviderElement
 }
 
 String _$chapterFilterResultStateHash() =>
-    r'ed7adcf7a9d34c3614547735b48789bb004f49cd';
+    r'561c87ae409091a35024f3491d35ddd6548b8ef9';
 
 abstract class _$ChapterFilterResultState
     extends BuildlessAutoDisposeNotifier<bool> {

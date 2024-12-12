@@ -160,6 +160,156 @@ class _GetAllHistoryStreamProviderElement
   bool get isManga => (origin as GetAllHistoryStreamProvider).isManga;
 }
 
+String _$getMangaHistoryStreamHash() =>
+    r'36b0e58f4d743e393655fc69750fbfe4fbf07b8a';
+
+/// See also [getMangaHistoryStream].
+@ProviderFor(getMangaHistoryStream)
+const getMangaHistoryStreamProvider = GetMangaHistoryStreamFamily();
+
+/// See also [getMangaHistoryStream].
+class GetMangaHistoryStreamFamily extends Family<AsyncValue<List<History>>> {
+  /// See also [getMangaHistoryStream].
+  const GetMangaHistoryStreamFamily();
+
+  /// See also [getMangaHistoryStream].
+  GetMangaHistoryStreamProvider call({
+    required bool isManga,
+    required int mangaId,
+  }) {
+    return GetMangaHistoryStreamProvider(
+      isManga: isManga,
+      mangaId: mangaId,
+    );
+  }
+
+  @override
+  GetMangaHistoryStreamProvider getProviderOverride(
+    covariant GetMangaHistoryStreamProvider provider,
+  ) {
+    return call(
+      isManga: provider.isManga,
+      mangaId: provider.mangaId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getMangaHistoryStreamProvider';
+}
+
+/// See also [getMangaHistoryStream].
+class GetMangaHistoryStreamProvider
+    extends AutoDisposeStreamProvider<List<History>> {
+  /// See also [getMangaHistoryStream].
+  GetMangaHistoryStreamProvider({
+    required bool isManga,
+    required int mangaId,
+  }) : this._internal(
+          (ref) => getMangaHistoryStream(
+            ref as GetMangaHistoryStreamRef,
+            isManga: isManga,
+            mangaId: mangaId,
+          ),
+          from: getMangaHistoryStreamProvider,
+          name: r'getMangaHistoryStreamProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getMangaHistoryStreamHash,
+          dependencies: GetMangaHistoryStreamFamily._dependencies,
+          allTransitiveDependencies:
+              GetMangaHistoryStreamFamily._allTransitiveDependencies,
+          isManga: isManga,
+          mangaId: mangaId,
+        );
+
+  GetMangaHistoryStreamProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.isManga,
+    required this.mangaId,
+  }) : super.internal();
+
+  final bool isManga;
+  final int mangaId;
+
+  @override
+  Override overrideWith(
+    Stream<List<History>> Function(GetMangaHistoryStreamRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetMangaHistoryStreamProvider._internal(
+        (ref) => create(ref as GetMangaHistoryStreamRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        isManga: isManga,
+        mangaId: mangaId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeStreamProviderElement<List<History>> createElement() {
+    return _GetMangaHistoryStreamProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetMangaHistoryStreamProvider &&
+        other.isManga == isManga &&
+        other.mangaId == mangaId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, isManga.hashCode);
+    hash = _SystemHash.combine(hash, mangaId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin GetMangaHistoryStreamRef on AutoDisposeStreamProviderRef<List<History>> {
+  /// The parameter `isManga` of this provider.
+  bool get isManga;
+
+  /// The parameter `mangaId` of this provider.
+  int get mangaId;
+}
+
+class _GetMangaHistoryStreamProviderElement
+    extends AutoDisposeStreamProviderElement<List<History>>
+    with GetMangaHistoryStreamRef {
+  _GetMangaHistoryStreamProviderElement(super.provider);
+
+  @override
+  bool get isManga => (origin as GetMangaHistoryStreamProvider).isManga;
+  @override
+  int get mangaId => (origin as GetMangaHistoryStreamProvider).mangaId;
+}
+
 String _$getAllUpdateStreamHash() =>
     r'353947a0cdea31ef3925bbcc078751b08d12d74d';
 
@@ -291,6 +441,139 @@ class _GetAllUpdateStreamProviderElement
 
   @override
   bool get isManga => (origin as GetAllUpdateStreamProvider).isManga;
+}
+
+String _$getAllMangasStreamHash() =>
+    r'e2b649fe416dcc40848978b864b05ea8aee677fb';
+
+/// See also [getAllMangasStream].
+@ProviderFor(getAllMangasStream)
+const getAllMangasStreamProvider = GetAllMangasStreamFamily();
+
+/// See also [getAllMangasStream].
+class GetAllMangasStreamFamily extends Family<AsyncValue<List<Manga>>> {
+  /// See also [getAllMangasStream].
+  const GetAllMangasStreamFamily();
+
+  /// See also [getAllMangasStream].
+  GetAllMangasStreamProvider call({
+    required bool isManga,
+  }) {
+    return GetAllMangasStreamProvider(
+      isManga: isManga,
+    );
+  }
+
+  @override
+  GetAllMangasStreamProvider getProviderOverride(
+    covariant GetAllMangasStreamProvider provider,
+  ) {
+    return call(
+      isManga: provider.isManga,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getAllMangasStreamProvider';
+}
+
+/// See also [getAllMangasStream].
+class GetAllMangasStreamProvider
+    extends AutoDisposeStreamProvider<List<Manga>> {
+  /// See also [getAllMangasStream].
+  GetAllMangasStreamProvider({
+    required bool isManga,
+  }) : this._internal(
+          (ref) => getAllMangasStream(
+            ref as GetAllMangasStreamRef,
+            isManga: isManga,
+          ),
+          from: getAllMangasStreamProvider,
+          name: r'getAllMangasStreamProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getAllMangasStreamHash,
+          dependencies: GetAllMangasStreamFamily._dependencies,
+          allTransitiveDependencies:
+              GetAllMangasStreamFamily._allTransitiveDependencies,
+          isManga: isManga,
+        );
+
+  GetAllMangasStreamProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.isManga,
+  }) : super.internal();
+
+  final bool isManga;
+
+  @override
+  Override overrideWith(
+    Stream<List<Manga>> Function(GetAllMangasStreamRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetAllMangasStreamProvider._internal(
+        (ref) => create(ref as GetAllMangasStreamRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        isManga: isManga,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeStreamProviderElement<List<Manga>> createElement() {
+    return _GetAllMangasStreamProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetAllMangasStreamProvider && other.isManga == isManga;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, isManga.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin GetAllMangasStreamRef on AutoDisposeStreamProviderRef<List<Manga>> {
+  /// The parameter `isManga` of this provider.
+  bool get isManga;
+}
+
+class _GetAllMangasStreamProviderElement
+    extends AutoDisposeStreamProviderElement<List<Manga>>
+    with GetAllMangasStreamRef {
+  _GetAllMangasStreamProviderElement(super.provider);
+
+  @override
+  bool get isManga => (origin as GetAllMangasStreamProvider).isManga;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

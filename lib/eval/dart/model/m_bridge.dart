@@ -44,18 +44,15 @@ class WordSet {
   WordSet(this.words);
 
   bool anyWordIn(String dateString) {
-    return words
-        .any((word) => dateString.toLowerCase().contains(word.toLowerCase()));
+    return words.any((word) => dateString.toLowerCase().contains(word.toLowerCase()));
   }
 
   bool startsWith(String dateString) {
-    return words
-        .any((word) => dateString.toLowerCase().startsWith(word.toLowerCase()));
+    return words.any((word) => dateString.toLowerCase().startsWith(word.toLowerCase()));
   }
 
   bool endsWith(String dateString) {
-    return words
-        .any((word) => dateString.toLowerCase().endsWith(word.toLowerCase()));
+    return words.any((word) => dateString.toLowerCase().endsWith(word.toLowerCase()));
   }
 }
 
@@ -82,8 +79,7 @@ class MBridge {
 
       //Return one attr
       else if (query.nodes.length == 1) {
-        String attr =
-            query.attr != null ? query.attr!.trim().trimLeft().trimRight() : "";
+        String attr = query.attr != null ? query.attr!.trim().trimLeft().trimRight() : "";
         if (attr.isNotEmpty) {
           attrs = [attr];
         }
@@ -106,10 +102,7 @@ class MBridge {
         statusMap = element;
       }
       for (var element in statusMap.entries) {
-        if (element.key
-            .toString()
-            .toLowerCase()
-            .contains(status.toLowerCase().trim().trimLeft().trimRight())) {
+        if (element.key.toString().toLowerCase().contains(status.toLowerCase().trim().trimLeft().trimRight())) {
           return switch (element.value as int) {
             0 => Status.ongoing,
             1 => Status.completed,
@@ -266,8 +259,7 @@ class MBridge {
   }
 
   //Parse a list of dates to millisecondsSinceEpoch
-  static List parseDates(
-      List value, String dateFormat, String dateFormatLocale) {
+  static List parseDates(List value, String dateFormat, String dateFormatLocale) {
     List<dynamic> val = [];
     for (var element in value) {
       if (element is $Value) {
@@ -312,8 +304,7 @@ class MBridge {
   }
 
   //Utility to use RegExp
-  static String regExp(
-      String expression, String source, String replace, int type, int group) {
+  static String regExp(String expression, String source, String replace, int type, int group) {
     if (type == 0) {
       return expression.replaceAll(RegExp(source), replace);
     }
@@ -328,58 +319,48 @@ class MBridge {
     return await DoodExtractor().videosFromUrl(url, quality: quality);
   }
 
-  static Future<List<Video>> streamWishExtractor(
-      String url, String prefix) async {
+  static Future<List<Video>> streamWishExtractor(String url, String prefix) async {
     return await StreamWishExtractor().videosFromUrl(url, prefix);
   }
 
-  static Future<List<Video>> filemoonExtractor(
-      String url, String prefix, String suffix) async {
+  static Future<List<Video>> filemoonExtractor(String url, String prefix, String suffix) async {
     return await FilemoonExtractor().videosFromUrl(url, prefix, suffix);
   }
 
-  static Future<List<Video>> mp4UploadExtractor(
-      String url, String? headers, String prefix, String suffix) async {
+  static Future<List<Video>> mp4UploadExtractor(String url, String? headers, String prefix, String suffix) async {
     Map<String, String> newHeaders = {};
     if (headers != null) {
       newHeaders = (jsonDecode(headers) as Map).toMapStringString!;
     }
-    return await Mp4uploadExtractor()
-        .videosFromUrl(url, newHeaders, prefix: prefix, suffix: suffix);
+    return await Mp4uploadExtractor().videosFromUrl(url, newHeaders, prefix: prefix, suffix: suffix);
   }
 
-  static Future<List<Map<String, String>>> quarkFilesExtractor(
-      List<String> url, String cookie) async {
+  static Future<List<Map<String, String>>> quarkFilesExtractor(List<String> url, String cookie) async {
     QuarkUcExtractor quark = QuarkUcExtractor();
     await quark.initCloudDrive(cookie, CloudDriveType.quark);
     return await quark.videoFilesFromUrl(url);
   }
 
-  static Future<List<Map<String, String>>> ucFilesExtractor(
-      List<String> url, String cookie) async {
+  static Future<List<Map<String, String>>> ucFilesExtractor(List<String> url, String cookie) async {
     QuarkUcExtractor uc = QuarkUcExtractor();
     await uc.initCloudDrive(cookie, CloudDriveType.uc);
     return await uc.videoFilesFromUrl(url);
   }
 
-  static Future<List<Video>> quarkVideosExtractor(
-      String url, String cookie) async {
+  static Future<List<Video>> quarkVideosExtractor(String url, String cookie) async {
     QuarkUcExtractor quark = QuarkUcExtractor();
     await quark.initCloudDrive(cookie, CloudDriveType.quark);
     return await quark.videosFromUrl(url);
   }
 
-  static Future<List<Video>> ucVideosExtractor(
-      String url, String cookie) async {
+  static Future<List<Video>> ucVideosExtractor(String url, String cookie) async {
     QuarkUcExtractor uc = QuarkUcExtractor();
     await uc.initCloudDrive(cookie, CloudDriveType.uc);
     return await uc.videosFromUrl(url);
   }
 
-  static Future<List<Video>> streamTapeExtractor(
-      String url, String? quality) async {
-    return await StreamTapeExtractor()
-        .videosFromUrl(url, quality: quality ?? "StreamTape");
+  static Future<List<Video>> streamTapeExtractor(String url, String? quality) async {
+    return await StreamTapeExtractor().videosFromUrl(url, quality: quality ?? "StreamTape");
   }
 
   //Utility to use substring
@@ -535,6 +516,7 @@ class MBridge {
           } catch (_) {}
         }
       }
+
       newLocale((dateFormat, dateFormatLocale, true));
       return DateTime.now().millisecondsSinceEpoch.toString();
     }
@@ -548,15 +530,13 @@ class MBridge {
     return await SibnetExtractor().videosFromUrl(url, prefix: prefix);
   }
 
-  static Future<List<Video>> sendVidExtractor(
-      String url, String? headers, String prefix) async {
+  static Future<List<Video>> sendVidExtractor(String url, String? headers, String prefix) async {
     Map<String, String> newHeaders = {};
     if (headers != null) {
       newHeaders = (jsonDecode(headers) as Map).toMapStringString!;
     }
 
-    return await SendvidExtractor(newHeaders)
-        .videosFromUrl(url, prefix: prefix);
+    return await SendvidExtractor(newHeaders).videosFromUrl(url, prefix: prefix);
   }
 
   static Future<List<Video>> myTvExtractor(String url) async {
@@ -567,14 +547,12 @@ class MBridge {
     return await OkruExtractor().videosFromUrl(url);
   }
 
-  static Future<List<Video>> yourUploadExtractor(
-      String url, String? headers, String? name, String prefix) async {
+  static Future<List<Video>> yourUploadExtractor(String url, String? headers, String? name, String prefix) async {
     Map<String, String> newHeaders = {};
     if (headers != null) {
       newHeaders = (jsonDecode(headers) as Map).toMapStringString!;
     }
-    return await YourUploadExtractor().videosFromUrl(url, newHeaders,
-        prefix: prefix, name: name ?? "YourUpload");
+    return await YourUploadExtractor().videosFromUrl(url, newHeaders, prefix: prefix, name: name ?? "YourUpload");
   }
 
   static Future<List<Video>> voeExtractor(String url, String? quality) async {
@@ -585,10 +563,8 @@ class MBridge {
     return await VidBomExtractor().videosFromUrl(url);
   }
 
-  static Future<List<Video>> streamlareExtractor(
-      String url, String prefix, String suffix) async {
-    return await StreamlareExtractor()
-        .videosFromUrl(url, prefix: prefix, suffix: suffix);
+  static Future<List<Video>> streamlareExtractor(String url, String prefix, String suffix) async {
+    return await StreamlareExtractor().videosFromUrl(url, prefix: prefix, suffix: suffix);
   }
 
   static String encryptAESCryptoJS(String plainText, String passphrase) {
@@ -599,18 +575,16 @@ class MBridge {
     return CryptoAES.decryptAESCryptoJS(encrypted, passphrase);
   }
 
-  static Video toVideo(String url, String quality, String originalUrl,
-      String? headers, List<Track>? subtitles, List<Track>? audios) {
+  static Video toVideo(
+      String url, String quality, String originalUrl, String? headers, List<Track>? subtitles, List<Track>? audios) {
     Map<String, String> newHeaders = {};
     if (headers != null) {
       newHeaders = (jsonDecode(headers) as Map).toMapStringString!;
     }
-    return Video(url, quality, originalUrl,
-        headers: newHeaders, subtitles: subtitles ?? [], audios: audios ?? []);
+    return Video(url, quality, originalUrl, headers: newHeaders, subtitles: subtitles ?? [], audios: audios ?? []);
   }
 
-  static String cryptoHandler(
-      String text, String iv, String secretKeyString, bool encrypt) {
+  static String cryptoHandler(String text, String iv, String secretKeyString, bool encrypt) {
     try {
       if (encrypt) {
         final encryptt = _encrypt(secretKeyString, iv);
@@ -691,11 +665,9 @@ void botToast(String title,
         ? (_) => OutlinedButton.icon(
               style: OutlinedButton.styleFrom(elevation: 10),
               onPressed: () {
-                context
-                    ?.push("/mangawebview", extra: {'url': url, 'title': ''});
+                context?.push("/mangawebview", extra: {'url': url, 'title': ''});
               },
-              label: Text("Resolve Cloudflare challenge",
-                  style: TextStyle(color: context?.secondaryColor)),
+              label: Text("Resolve Cloudflare challenge", style: TextStyle(color: context?.secondaryColor)),
               icon: const Icon(Icons.public),
             )
         : null,
@@ -705,7 +677,6 @@ void botToast(String title,
 (encrypt.Encrypter, encrypt.IV) _encrypt(String keyy, String ivv) {
   final key = encrypt.Key.fromUtf8(keyy);
   final iv = encrypt.IV.fromUtf8(ivv);
-  final encrypter = encrypt.Encrypter(
-      encrypt.AES(key, mode: encrypt.AESMode.cbc, padding: 'PKCS7'));
+  final encrypter = encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.cbc, padding: 'PKCS7'));
   return (encrypter, iv);
 }

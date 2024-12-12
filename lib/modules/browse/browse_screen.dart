@@ -28,8 +28,8 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen>
     _tabBarController.animateTo(0);
     _tabBarController.addListener(() {
       _chekPermission();
+      _textEditingController.clear();
       setState(() {
-        _textEditingController.clear();
         _isSearch = false;
       });
     });

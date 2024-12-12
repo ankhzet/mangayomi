@@ -5,6 +5,7 @@ import 'package:mangayomi/modules/more/backup_and_restore/providers/backup.dart'
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 part 'auto_backup.g.dart';
 
 @riverpod
@@ -30,8 +31,7 @@ class BackupFrequencyOptionsState extends _$BackupFrequencyOptionsState {
   void set(List<int> values) {
     final settings = isar.settings.getSync(227);
     state = values;
-    isar.writeTxnSync(() =>
-        isar.settings.putSync(settings!..backupFrequencyOptions = values));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..backupFrequencyOptions = values));
   }
 }
 
@@ -72,9 +72,9 @@ Future<void> checkAndBackup(Ref ref) async {
     final backupFrequency = _duration(settings.backupFrequency);
     if (backupFrequency != null) {
       if (settings.startDatebackup != null) {
-        final startDatebackup =
-            DateTime.fromMillisecondsSinceEpoch(settings.startDatebackup!);
-        if (DateTime.now().isAfter(startDatebackup)) {
+        final startBackupDate = DateTime.fromMillisecondsSinceEpoch(settings.startDatebackup!);
+
+        if (DateTime.now().isAfter(startBackupDate)) {
           _setBackupFrequency(settings.backupFrequency!);
           final storageProvider = StorageProvider();
           await storageProvider.requestPermission();
@@ -91,9 +91,10 @@ Future<void> checkAndBackup(Ref ref) async {
             backupDirectory.create();
           }
           ref.watch(doBackUpProvider(
-              list: ref.watch(backupFrequencyOptionsStateProvider),
-              path: backupDirectory.path,
-              context: null));
+            list: ref.watch(backupFrequencyOptionsStateProvider),
+            path: backupDirectory.path,
+            context: null,
+          ));
         }
       }
     }

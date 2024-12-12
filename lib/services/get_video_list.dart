@@ -11,6 +11,7 @@ import 'package:mangayomi/utils/utils.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 part 'get_video_list.g.dart';
 
 @riverpod
@@ -25,14 +26,9 @@ Future<(List<Video>, bool, List<String>)> getVideoList(Ref ref,
   List<String> infoHashes = [];
   if (await File(mp4animePath).exists() || isLocalArchive) {
     final path = isLocalArchive ? episode.archivePath : mp4animePath;
-    return (
-      [Video(path!, episode.name!, path, subtitles: [])],
-      true,
-      infoHashes
-    );
+    return ([Video(path!, episode.name!, path, subtitles: [])], true, infoHashes);
   }
-  final source =
-      getSource(episode.manga.value!.lang!, episode.manga.value!.source!);
+  final source = getSource(episode.manga.value!.lang!, episode.manga.value!.source!);
 
   if (source?.isTorrent ?? false || episode.manga.value!.source == "torrent") {
     List<Video> list = [];
@@ -45,11 +41,9 @@ Future<(List<Video>, bool, List<String>)> getVideoList(Ref ref,
       list = await JsExtensionService(source).getVideoList(episode.url!);
     }
     for (var v in list) {
-      final (videos, infohash) =
-          await MTorrentServer().getTorrentPlaylist(v.url, episode.archivePath);
+      final (videos, infohash) = await MTorrentServer().getTorrentPlaylist(v.url, episode.archivePath);
       for (var video in videos) {
-        torrentList
-            .add(video..quality = video.quality.substringBeforeLast("."));
+        torrentList.add(video..quality = video.quality.substringBeforeLast("."));
         if (infohash != null) {
           infoHashes.add(infohash);
         }

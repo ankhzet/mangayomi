@@ -48,8 +48,7 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
                         child: Material(
                           child: GestureDetector(
                             onTap: () {
-                              context.push('/manga-reader/detail',
-                                  extra: manga.id);
+                              context.push('/manga-reader/detail', extra: manga.id);
                             },
                             child: Ink.image(
                               fit: BoxFit.cover,
@@ -82,20 +81,16 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       fontSize: 14,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .color)),
-                              Text(chapter.name!,
+                                      color: regularColor
+                                  )),
+                              Text(update.label,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       fontSize: 11,
                                       color: chapter.isRead ?? false
                                           ? Colors.grey
-                                          : Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!
-                                              .color)),
+                                          : regularColor
+                                  )),
                             ],
                           ),
                         ),

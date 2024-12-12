@@ -34,9 +34,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
   final StorageProvider _storageProvider = StorageProvider();
 
   void _startDownload(bool? useWifi) async {
-    await ref.watch(
-        downloadChapterProvider(chapter: widget.chapter, useWifi: useWifi)
-            .future);
+    await ref.watch(downloadChapterProvider(chapter: widget.chapter, useWifi: useWifi).future);
   }
 
   late final manga = widget.chapter.manga.value!;
@@ -47,7 +45,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
     final path =
         await _storageProvider.getMangaChapterDirectory(widget.chapter);
 
-    List<XFile> files = [];
+    List<XFile> files;
 
     final cbzFile = File("${mangaDir!.path}${widget.chapter.name}.cbz");
     final mp4File = File(
@@ -59,6 +57,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
     } else {
       files = path!.listSync().map((e) => XFile(e.path)).toList();
     }
+
     if (files.isNotEmpty) {
       Share.shareXFiles(files, text: widget.chapter.name);
     }
@@ -87,16 +86,13 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
       path!.deleteSync(recursive: true);
     } catch (_) {}
     isar.writeTxnSync(() {
-      int id = isar.downloads
-          .filter()
-          .chapterIdEqualTo(widget.chapter.id!)
-          .findFirstSync()!
-          .id!;
+      int id = isar.downloads.filter().chapterIdEqualTo(widget.chapter.id!).findFirstSync()!.id!;
       isar.downloads.deleteSync(id);
     });
   }
 
   bool _isStarted = false;
+
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
@@ -122,8 +118,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                       child: Icon(
                         size: 25,
                         Icons.check_circle,
-                        color:
-                            Theme.of(context).iconTheme.color!.withOpacity(0.7),
+                        color: Theme.of(context).iconTheme.color!.withOpacity(0.7),
                       ),
                       onSelected: (value) {
                         if (value == 0) {
@@ -137,8 +132,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                         PopupMenuItem(value: 1, child: Text(l10n.delete)),
                       ],
                     )
-                  : entries.first.isStartDownload! &&
-                          entries.first.succeeded == 0
+                  : entries.first.isStartDownload! && entries.first.succeeded == 0
                       ? SizedBox(
                           height: 41,
                           width: 35,
@@ -157,9 +151,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                               }
                             },
                             itemBuilder: (context) => [
-                              PopupMenuItem(
-                                  value: 1,
-                                  child: Text(l10n.start_downloading)),
+                              PopupMenuItem(value: 1, child: Text(l10n.start_downloading)),
                               PopupMenuItem(value: 0, child: Text(l10n.cancel)),
                             ],
                           ))
@@ -174,25 +166,19 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                                     Align(
                                       alignment: Alignment.center,
                                       child: TweenAnimationBuilder<double>(
-                                        duration:
-                                            const Duration(milliseconds: 250),
+                                        duration: const Duration(milliseconds: 250),
                                         curve: Curves.easeInOut,
                                         tween: Tween<double>(
                                           begin: 0,
-                                          end: (entries.first.succeeded! /
-                                              entries.first.total!),
+                                          end: (entries.first.succeeded! / entries.first.total!),
                                         ),
-                                        builder: (context, value, _) =>
-                                            SizedBox(
+                                        builder: (context, value, _) => SizedBox(
                                           height: 2,
                                           width: 2,
                                           child: CircularProgressIndicator(
                                             strokeWidth: 19,
                                             value: value,
-                                            color: Theme.of(context)
-                                                .iconTheme
-                                                .color!
-                                                .withOpacity(0.7),
+                                            color: Theme.of(context).iconTheme.color!.withOpacity(0.7),
                                           ),
                                         ),
                                       ),
@@ -201,15 +187,9 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                                         alignment: Alignment.center,
                                         child: Icon(
                                           Icons.arrow_downward_sharp,
-                                          color: (entries.first.succeeded! /
-                                                      entries.first.total!) >
-                                                  0.5
-                                              ? Theme.of(context)
-                                                  .scaffoldBackgroundColor
-                                              : Theme.of(context)
-                                                  .iconTheme
-                                                  .color!
-                                                  .withOpacity(0.7),
+                                          color: (entries.first.succeeded! / entries.first.total!) > 0.5
+                                              ? Theme.of(context).scaffoldBackgroundColor
+                                              : Theme.of(context).iconTheme.color!.withOpacity(0.7),
                                         )),
                                   ],
                                 ),
@@ -225,11 +205,8 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                                   }
                                 },
                                 itemBuilder: (context) => [
-                                  PopupMenuItem(
-                                      value: 1,
-                                      child: Text(l10n.start_downloading)),
-                                  PopupMenuItem(
-                                      value: 0, child: Text(l10n.cancel)),
+                                  PopupMenuItem(value: 1, child: Text(l10n.start_downloading)),
+                                  PopupMenuItem(value: 0, child: Text(l10n.cancel)),
                                 ],
                               ))
                           : entries.first.succeeded == 0
@@ -242,10 +219,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                                   },
                                   icon: Icon(
                                     FontAwesomeIcons.circleDown,
-                                    color: Theme.of(context)
-                                        .iconTheme
-                                        .color!
-                                        .withOpacity(0.7),
+                                    color: Theme.of(context).iconTheme.color!.withOpacity(0.7),
                                     size: 25,
                                   ))
                               : SizedBox(
@@ -268,8 +242,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                                       }
                                     },
                                     itemBuilder: (context) => [
-                                      PopupMenuItem(
-                                          value: 0, child: Text(l10n.retry)),
+                                      PopupMenuItem(value: 0, child: Text(l10n.retry)),
                                     ],
                                   ));
             }
@@ -289,8 +262,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                         }
                       },
                       itemBuilder: (context) => [
-                        PopupMenuItem(
-                            value: 1, child: Text(l10n.start_downloading)),
+                        PopupMenuItem(value: 1, child: Text(l10n.start_downloading)),
                         PopupMenuItem(value: 0, child: Text(l10n.cancel)),
                       ],
                     ))
@@ -322,10 +294,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
         [];
     await FileDownloader().cancelTasksWithIds(_pageUrls);
     await Future.delayed(const Duration(seconds: 2));
-    final chapterD = isar.downloads
-        .filter()
-        .chapterIdEqualTo(widget.chapter.id!)
-        .findFirstSync();
+    final chapterD = isar.downloads.filter().chapterIdEqualTo(widget.chapter.id!).findFirstSync();
     if (chapterD != null) {
       final verifyId = isar.downloads.getSync(chapterD.id!);
       isar.writeTxnSync(() {

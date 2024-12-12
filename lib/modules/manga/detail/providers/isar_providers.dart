@@ -12,10 +12,7 @@ Stream<Manga?> getMangaDetailStream(Ref ref, {required int mangaId}) async* {
 }
 
 @riverpod
-Stream<List<Chapter>> getChaptersStream(
-  Ref ref, {
-  required int mangaId,
-}) async* {
+Stream<List<Chapter>> getChaptersStream(Ref ref, {required int mangaId}) async* {
   yield* isar.chapters
       .filter()
       .manga((q) => q.idEqualTo(mangaId))

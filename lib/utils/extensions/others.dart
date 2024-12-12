@@ -18,18 +18,15 @@ extension LetExtension<T> on T {
 }
 
 extension ImageProviderExtension on ImageProvider {
-  Future<Uint8List?> getBytes(BuildContext context,
-      {ImageByteFormat format = ImageByteFormat.png}) async {
+  Future<Uint8List?> getBytes(BuildContext context, {ImageByteFormat format = ImageByteFormat.png}) async {
     final imageStream = resolve(createLocalImageConfiguration(context));
     final Completer<Uint8List?> completer = Completer<Uint8List?>();
-    final ImageStreamListener listener = ImageStreamListener(
-      (imageInfo, synchronousCall) async {
-        final bytes = await imageInfo.image.toByteData(format: format);
-        if (!completer.isCompleted) {
-          completer.complete(bytes?.buffer.asUint8List());
-        }
-      },
-    );
+    final ImageStreamListener listener = ImageStreamListener((imageInfo, synchronousCall) async {
+      final bytes = await imageInfo.image.toByteData(format: format);
+      if (!completer.isCompleted) {
+        completer.complete(bytes?.buffer.asUint8List());
+      }
+    });
     imageStream.addListener(listener);
     final imageBytes = await completer.future;
     imageStream.removeListener(listener);

@@ -21,9 +21,9 @@ import 'package:mangayomi/modules/library/providers/library_state_provider.dart'
 import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
 
 class MainScreen extends ConsumerWidget {
-  const MainScreen({super.key, required this.child});
+  const MainScreen({super.key, required this.content});
 
-  final Widget child;
+  final Widget content;
 
   String getHyphenatedUpdatesLabel(String languageCode, String defaultLabel) {
     switch (languageCode) {
@@ -45,7 +45,7 @@ class MainScreen extends ConsumerWidget {
     ref.watch(fetchMangaSourcesListProvider(id: null, reFresh: false));
     ref.watch(fetchAnimeSourcesListProvider(id: null, reFresh: false));
     return ref.watch(migrationProvider).when(data: (_) {
-      return Consumer(builder: (context, ref, chuld) {
+      return Consumer(builder: (context, ref, _) {
         final location = ref.watch(
           routerCurrentLocationStateProvider(context),
         );
@@ -218,10 +218,10 @@ class MainScreen extends ConsumerWidget {
                               ],
                             ),
                           ),
-                          Expanded(child: child)
+                          Expanded(child: content)
                         ],
                       )
-                    : child,
+                    : content,
                 bottomNavigationBar: context.isTablet
                     ? null
                     : AnimatedContainer(

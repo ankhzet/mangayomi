@@ -20,10 +20,39 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
 
+extension SafeDelete on FileSystemEntity {
+  Future<bool> safeRecursiveDelete() async {
+    try {
+      await delete(recursive: true);
+
+      return true;
+    } on FileSystemException {
+      return false;
+    }
+  }
+
+  bool safeRecursiveDeleteSync() {
+    try {
+      deleteSync(recursive: true);
+
+      return true;
+    } on FileSystemException {
+      return false;
+    }
+  }
+}
+
 class StorageProvider {
   StorageProvider._();
 
   static late String documents;
+  static const String mangayomi = 'Mangayomi';
+  static const String androidStorage = '/storage/emulated/0';
+  static const String backup = 'backup';
+  static const String torrents = 'torrents';
+  static const String downloads = 'downloads';
+  static const String databases = 'databases';
+  static const String pictures = 'Pictures';
 
   static Future<bool> requestPermission() async {
     if (Platform.isAndroid) {
@@ -48,27 +77,15 @@ class StorageProvider {
   }
 
   static String getDefaultDirectoryPath() {
-    if (Platform.isAndroid) {
-      return '/storage/emulated/0/Mangayomi/';
-    }
-
-    return '$documents/Mangayomi/';
-  }
-
-  static Future<Directory> getDefaultDirectory() async {
-    if (Platform.isAndroid) {
-      return Directory("/storage/emulated/0/Mangayomi/");
-    }
-
-    return Directory("$documents/Mangayomi/");
+    return path.join(Platform.isAndroid ? androidStorage : documents, mangayomi);
   }
 
   static Future<String> getBackupDirectory() async {
-    return ensureDirectoryPath(path.join(getDefaultDirectoryPath(), 'backup'));
+    return ensureDirectoryPath(path.join(getDefaultDirectoryPath(), backup));
   }
 
   static String getBtDirectoryPath() {
-    return path.join(getDefaultDirectoryPath(), 'torrents');
+    return path.join(getDefaultDirectoryPath(), torrents);
   }
 
   static Future<String> getBtDirectory() async {
@@ -76,19 +93,19 @@ class StorageProvider {
   }
 
   static Future<void> deleteBtDirectory() async {
-    try {
-      await Directory(getBtDirectoryPath()).delete(recursive: true);
-    } catch (_) {}
+    await Directory(getBtDirectoryPath()).safeRecursiveDelete();
   }
 
-  static String getDownloadsDirectoryPath() {
+  static String getDownloadsDirectoryPath({bool useDefault = false}) {
     String location = isar.settings.getSync(227)!.downloadLocation ?? '';
 
-    if (location.isNotEmpty) {
-      return Platform.isAndroid ? '$location/' : '$location/Mangayomi/';
+    if (location.isNotEmpty && !useDefault) {
+      return (Platform.isAndroid || path.dirname('$location/').endsWith(mangayomi))
+          ? location
+          : path.join(location, mangayomi);
     }
 
-    return path.join(getDefaultDirectoryPath(), 'downloads');
+    return path.join(getDefaultDirectoryPath(), downloads);
   }
 
   static Future<String> getDownloadsDirectory() async {
@@ -112,9 +129,10 @@ class StorageProvider {
     final mangaPath = getMangaMainDirectoryPath(manga, relative: true);
 
     if (isManga) {
-      final scanlator = chapter.scanlator!.isNotEmpty ? "${chapter.scanlator!.replaceForbiddenCharacters('_')}_" : "";
+      final scanlator = chapter.scanlator!;
+      final prefix = scanlator.isNotEmpty ? '${scanlator.replaceForbiddenCharacters('_')}_' : '';
 
-      return path.join(mangaPath, "$scanlator${chapter.name!.replaceForbiddenCharacters('_')}");
+      return path.join(mangaPath, '$prefix${chapter.name!.replaceForbiddenCharacters('_')}');
     }
 
     return mangaPath;
@@ -144,16 +162,16 @@ class StorageProvider {
       return documents;
     }
 
-    return ensureDirectoryPath(path.join(documents, 'Mangayomi', 'databases'));
+    return ensureDirectoryPath(path.join(documents, mangayomi, databases));
   }
 
   static Future<String> getGalleryDirectory() async {
     String gPath;
 
     if (Platform.isAndroid) {
-      gPath = "/storage/emulated/0/Pictures/Mangayomi/";
+      gPath = path.join(androidStorage, pictures, mangayomi);
     } else {
-      gPath = path.join(getDownloadsDirectoryPath(), 'Pictures');
+      gPath = path.join(getDownloadsDirectoryPath(), pictures);
     }
 
     return ensureDirectoryPath(gPath);

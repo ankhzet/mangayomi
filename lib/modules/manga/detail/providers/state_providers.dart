@@ -4,6 +4,7 @@ import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
+import 'package:mangayomi/modules/manga/detail/chapters_list_model.dart';
 import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
 import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -78,222 +79,151 @@ class IsExtendedState extends _$IsExtendedState {
   }
 }
 
+abstract interface class Stateful<State> {
+  State get state;
+
+  set state(State state);
+}
+
+abstract interface class IFilterTypeState<T> implements Stateful<T> {
+  T getOption();
+
+  T getModel();
+
+  void setModel(T model);
+}
+
+mixin OptionState<T extends OptionModel> implements IFilterTypeState<T> {
+  late final settings = isar.settings.getSync(227)!;
+  late final int mangaId;
+
+  @visibleForOverriding
+  ChapterFilterOption get option;
+
+  @override
+  T getOption();
+
+  Iterable<T> get collection {
+    return switch (option) {
+      ChapterFilterOption.download => settings.chapterFilterDownloadedList! as Iterable<T>,
+      ChapterFilterOption.unread => settings.chapterFilterUnreadList! as Iterable<T>,
+      ChapterFilterOption.bookmark => settings.chapterFilterBookmarkedList! as Iterable<T>,
+      ChapterFilterOption.sort => settings.sortChapterList! as Iterable<T>,
+    };
+  }
+
+  @override
+  T getModel() {
+    return collection.where(OptionModel.isManga(mangaId)).firstOrNull ?? getOption();
+  }
+
+  @override
+  void setModel(T model) {
+    final dynamic list = collection.where(OptionModel.isNotManga(mangaId)).toList()..add(model);
+
+    switch (option) {
+      case ChapterFilterOption.download:
+        settings.chapterFilterDownloadedList = list;
+      case ChapterFilterOption.unread:
+        settings.chapterFilterUnreadList = list;
+      case ChapterFilterOption.bookmark:
+        settings.chapterFilterBookmarkedList = list;
+      case ChapterFilterOption.sort:
+        settings.sortChapterList = list;
+    }
+
+    isar.writeTxnSync(() {
+      isar.settings.putSync(settings);
+    });
+
+    state = model;
+  }
+}
+
 @riverpod
-class SortChapterState extends _$SortChapterState {
+class SortChapterState extends _$SortChapterState with OptionState<SortChapter> {
   @override
   SortChapter build({required int mangaId}) {
-    return isar.settings
-        .getSync(227)!
-        .sortChapterList!
-        .where((element) => element.mangaId == mangaId)
-        .toList()
-        .firstOrNull ?? SortChapter(
-          mangaId: mangaId,
-          index: 1,
-          reverse: false,
-        );
+    return getModel();
   }
 
-  void update(bool reverse, int index) {
-    var value = SortChapter()
-      ..index = index
-      ..mangaId = mangaId
-      ..reverse = state.index == index ? !reverse : reverse;
-    final settings = isar.settings.getSync(227)!;
-    List<SortChapter>? sortChapterList = [];
-    for (var sortChapter in settings.sortChapterList!) {
-      if (sortChapter.mangaId != mangaId) {
-        sortChapterList.add(sortChapter);
-      }
-    }
-    sortChapterList.add(value);
-    isar.writeTxnSync(() {
-      isar.settings.putSync(settings..sortChapterList = sortChapterList);
-    });
+  @override
+  final option = ChapterFilterOption.sort;
 
-    state = value;
+  @override
+  getOption() => SortChapter(mangaId: mangaId);
+
+  void set(SortType type) {
+    setModel(
+      getOption()
+        ..index = type.index
+        ..reverse = this.type == type ? !isReverse : isReverse,
+    );
   }
 
-  void set(int index) {
-    final reverse = isReverse();
-    update(reverse, index);
-  }
+  int get index => state.index!;
 
-  bool isReverse() {
-    return state.reverse!;
+  SortType get type => SortType.values[state.index!];
+
+  bool get isReverse => state.reverse!;
+}
+
+mixin FilterOption<T extends FilterOptionModel> implements Stateful<T>, OptionState<T> {
+  void update() {
+    setModel(getOption()..type = (state.type! + 1) % 3);
   }
 }
 
 @riverpod
-class ChapterFilterDownloadedState extends _$ChapterFilterDownloadedState {
+class ChapterFilterDownloadedState extends _$ChapterFilterDownloadedState with OptionState<FilterOptionModel>, FilterOption {
   @override
-  int build({required int mangaId}) {
-    state = getType();
-    return getType();
+  FilterOptionModel build({required int mangaId}) {
+    return getModel();
   }
 
-  int getType() {
-    return (isar.settings
-        .getSync(227)!
-        .chapterFilterDownloadedList!
-        .where((element) => element.mangaId == mangaId)
-        .toList()
-        .firstOrNull ?? ChapterFilterDownloaded(
-          mangaId: mangaId,
-          type: 0,
-        ))
-        .type!;
-  }
+  @override
+  final option = ChapterFilterOption.download;
 
-  void setType(int type) {
-    var value = ChapterFilterDownloaded()
-      ..type = type
-      ..mangaId = mangaId;
-    final settings = isar.settings.getSync(227)!;
-    List<ChapterFilterDownloaded>? chapterFilterDownloadedList = [];
-    for (var filterChapter in settings.chapterFilterDownloadedList!) {
-      if (filterChapter.mangaId != mangaId) {
-        chapterFilterDownloadedList.add(filterChapter);
-      }
-    }
-    chapterFilterDownloadedList.add(value);
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-          settings..chapterFilterDownloadedList = chapterFilterDownloadedList);
-    });
-
-    state = type;
-  }
-
-  void update() {
-    if (state == 0) {
-      setType(1);
-    } else if (state == 1) {
-      setType(2);
-    } else {
-      setType(0);
-    }
-  }
+  @override
+  getOption() => ChapterFilterDownloaded(mangaId: mangaId);
 }
 
 @riverpod
-class ChapterFilterUnreadState extends _$ChapterFilterUnreadState {
+class ChapterFilterUnreadState extends _$ChapterFilterUnreadState with OptionState<FilterOptionModel>, FilterOption {
   @override
-  int build({required int mangaId}) {
-    state = getType();
-    return getType();
+  FilterOptionModel build({required int mangaId}) {
+    return getModel();
   }
 
-  int getType() {
-    return (isar.settings
-        .getSync(227)!
-        .chapterFilterUnreadList!
-        .where((element) => element.mangaId == mangaId)
-        .toList()
-        .firstOrNull ?? ChapterFilterUnread(
-          mangaId: mangaId,
-          type: 0,
-        ))
-        .type!;
-  }
+  @override
+  final option = ChapterFilterOption.unread;
 
-  void setType(int type) {
-    var value = ChapterFilterUnread()
-      ..type = type
-      ..mangaId = mangaId;
-    final settings = isar.settings.getSync(227)!;
-    List<ChapterFilterUnread>? chapterFilterUnreadList = [];
-    for (var filterChapter in settings.chapterFilterUnreadList!) {
-      if (filterChapter.mangaId != mangaId) {
-        chapterFilterUnreadList.add(filterChapter);
-      }
-    }
-    chapterFilterUnreadList.add(value);
-    isar.writeTxnSync(() {
-      isar.settings
-          .putSync(settings..chapterFilterUnreadList = chapterFilterUnreadList);
-    });
-    state = type;
-  }
-
-  void update() {
-    if (state == 0) {
-      setType(1);
-    } else if (state == 1) {
-      setType(2);
-    } else {
-      setType(0);
-    }
-  }
+  @override
+  getOption() => ChapterFilterUnread(mangaId: mangaId);
 }
 
 @riverpod
-class ChapterFilterBookmarkedState extends _$ChapterFilterBookmarkedState {
+class ChapterFilterBookmarkedState extends _$ChapterFilterBookmarkedState with OptionState<FilterOptionModel>, FilterOption {
   @override
-  int build({required int mangaId}) {
-    state = getType();
-    return getType();
+  FilterOptionModel build({required int mangaId}) {
+    return getModel();
   }
 
-  int getType() {
-    return (isar.settings
-        .getSync(227)!
-        .chapterFilterBookmarkedList!
-        .where((element) => element.mangaId == mangaId)
-        .toList()
-        .firstOrNull ?? ChapterFilterBookmarked(
-          mangaId: mangaId,
-          type: 0,
-        ))
-        .type!;
-  }
+  @override
+  final option = ChapterFilterOption.bookmark;
 
-  void setType(int type) {
-    var value = ChapterFilterBookmarked()
-      ..type = type
-      ..mangaId = mangaId;
-    final settings = isar.settings.getSync(227)!;
-    List<ChapterFilterBookmarked>? chapterFilterBookmarkedList = [];
-    for (var filterChapter in settings.chapterFilterBookmarkedList!) {
-      if (filterChapter.mangaId != mangaId) {
-        chapterFilterBookmarkedList.add(filterChapter);
-      }
-    }
-    chapterFilterBookmarkedList.add(value);
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-          settings..chapterFilterBookmarkedList = chapterFilterBookmarkedList);
-    });
-    state = type;
-  }
-
-  void update() {
-    if (state == 0) {
-      setType(1);
-    } else if (state == 1) {
-      setType(2);
-    } else {
-      setType(0);
-    }
-  }
+  @override
+  getOption() => ChapterFilterBookmarked(mangaId: mangaId);
 }
 
 @riverpod
 class ChapterFilterResultState extends _$ChapterFilterResultState {
   @override
   bool build({required Manga manga}) {
-    final downloadFilterType =
-        ref.watch(chapterFilterDownloadedStateProvider(mangaId: manga.id!));
-    final unreadFilterType =
-        ref.watch(chapterFilterUnreadStateProvider(mangaId: manga.id!));
-
-    final bookmarkedFilterType =
-        ref.watch(chapterFilterBookmarkedStateProvider(mangaId: manga.id!));
-    final scanlators = ref.watch(scanlatorsFilterStateProvider(manga));
-    return downloadFilterType == 0 &&
-        unreadFilterType == 0 &&
-        bookmarkedFilterType == 0 &&
-        scanlators.$2.isEmpty;
+    return ref.watch(chapterFilterDownloadedStateProvider(mangaId: manga.id)).type == 0 &&
+        ref.watch(chapterFilterUnreadStateProvider(mangaId: manga.id)).type == 0 &&
+        ref.watch(chapterFilterBookmarkedStateProvider(mangaId: manga.id)).type == 0 &&
+        ref.watch(scanlatorsFilterStateProvider(manga)).$2.isEmpty;
   }
 }
 

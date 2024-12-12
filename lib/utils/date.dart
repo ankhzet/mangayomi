@@ -19,64 +19,48 @@ String dateFormat(String? timestamp,
   final dateTime = stringDate != null
       ? DateTime.parse(stringDate)
       : DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp!));
-  stringDate = null;
+
   final date = DateTime(dateTime.year, dateTime.month, dateTime.day);
-  if (stringDate == null) {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final yesterday = DateTime(now.year, now.month, now.day - 1);
-    final twoDaysAgo = DateTime(now.year, now.month, now.day - 2);
-    final threeDaysAgo = DateTime(now.year, now.month, now.day - 3);
-    final fourDaysAgo = DateTime(now.year, now.month, now.day - 4);
-    final fiveDaysAgo = DateTime(now.year, now.month, now.day - 5);
-    final sixDaysAgo = DateTime(now.year, now.month, now.day - 6);
-    final aWeekAgo = DateTime(now.year, now.month, now.day - 7);
-    final formatter = DateFormat(
-        dateFormat.isEmpty ? dateFrmt : dateFormat, locale.toLanguageTag());
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
 
-    if (date == today && useRelativeTimesTamps && relativeTimestamps != 0) {
-      if (showHOURorMINUTE) {
-        final difference = now.difference(dateTime);
-        if (difference.inMinutes < 60) {
-          return switch (difference.inMinutes) {
-            0 => l10n.now,
-            1 => l10n.n_minute_ago(difference.inMinutes),
-            _ => l10n.n_minutes_ago(difference.inMinutes),
-          };
-        } else if (difference.inHours < 24) {
-          return switch (difference.inHours) {
-            1 => l10n.n_hour_ago(difference.inHours),
-            _ => l10n.n_hours_ago(difference.inHours),
-          };
-        }
-      }
-
-      return l10n.today;
-    } else if (date == yesterday &&
-        useRelativeTimesTamps &&
-        relativeTimestamps != 0) {
-      return l10n.yesterday;
-    } else if (useRelativeTimesTamps && relativeTimestamps == 2) {
-      if (date.isAfter(twoDaysAgo) ||
-          date.isAfter(twoDaysAgo) ||
-          date.isAfter(threeDaysAgo) ||
-          date.isAfter(fourDaysAgo) ||
-          date.isAfter(fiveDaysAgo) ||
-          date.isAfter(sixDaysAgo) ||
-          date.isAfter(aWeekAgo)) {
-        final difference = today.difference(date).inDays;
-        return switch (difference) {
-          1 => l10n.n_day_ago(difference),
-          != 7 => l10n.n_days_ago(difference),
-          _ => l10n.a_week_ago,
+  if (date == today && useRelativeTimesTamps && relativeTimestamps != 0) {
+    if (showHOURorMINUTE) {
+      final difference = now.difference(dateTime);
+      if (difference.inMinutes < 60) {
+        return switch (difference.inMinutes) {
+          0 => l10n.now,
+          1 => l10n.n_minute_ago(difference.inMinutes),
+          _ => l10n.n_minutes_ago(difference.inMinutes),
+        };
+      } else if (difference.inHours < 24) {
+        return switch (difference.inHours) {
+          1 => l10n.n_hour_ago(difference.inHours),
+          _ => l10n.n_hours_ago(difference.inHours),
         };
       }
     }
-    return forHistoryValue
-        ? DateTime(dateTime.year, dateTime.month, dateTime.day).toString()
-        : formatter.format(date);
+
+    return l10n.today;
+  } else if (date == today.subtract(const Duration(days: 1)) && useRelativeTimesTamps && relativeTimestamps != 0) {
+    return l10n.yesterday;
+  } else if (useRelativeTimesTamps && relativeTimestamps == 2) {
+    final difference = today.difference(date).inDays;
+
+    if (difference <= 7) {
+      return switch (difference) {
+        1 => l10n.n_day_ago(difference),
+        != 7 => l10n.n_days_ago(difference),
+        _ => l10n.a_week_ago,
+      };
+    }
   }
-  return date.toString();
+
+  if (forHistoryValue) {
+    return DateTime(dateTime.year, dateTime.month, dateTime.day).toString();
+  }
+
+  return DateFormat(dateFormat.isEmpty ? dateFrmt : dateFormat, locale.toLanguageTag()).format(date);
 }
 
 String dateFormatHour(String timestamp, BuildContext context) {

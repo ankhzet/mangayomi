@@ -1,5 +1,7 @@
 import 'dart:io';
-import 'dart:typed_data';
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:draggable_menu/draggable_menu.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -15,41 +17,35 @@ import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/models/track_search.dart';
-import 'package:mangayomi/modules/library/library_screen.dart';
-import 'package:mangayomi/modules/library/providers/local_archive.dart';
+import 'package:mangayomi/modules/manga/detail/chapters_list_model.dart';
 import 'package:mangayomi/modules/manga/detail/chapters_selection_controls.dart';
+import 'package:mangayomi/modules/manga/detail/providers/isar_providers.dart';
+import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
+import 'package:mangayomi/modules/manga/detail/widgets/chapter_list_tile_widget.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/genre_badges_widget.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_actions_menu.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_chapters_counter.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_chapters_menu.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_cover_backdrop.dart';
+import 'package:mangayomi/modules/manga/detail/widgets/readmore.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_search_widget.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_widget.dart';
+import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/pure_black_dark_mode_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
-import 'package:mangayomi/modules/more/settings/track/widgets/track_listile.dart';
-import 'package:mangayomi/modules/widgets/custom_draggable_tabbar.dart';
-import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
+import 'package:mangayomi/modules/more/settings/track/widgets/track_list_tile.dart';
+import 'package:mangayomi/modules/widgets/error_text.dart';
+import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/services/get_source_baseurl.dart';
-import 'package:mangayomi/utils/utils.dart';
-import 'package:mangayomi/utils/cached_network.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/utils/extensions/manga.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:mangayomi/utils/global_style.dart';
-import 'package:mangayomi/utils/headers.dart';
-import 'package:mangayomi/modules/manga/detail/providers/isar_providers.dart';
-import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
-import 'package:mangayomi/modules/manga/detail/widgets/readmore.dart';
-import 'package:mangayomi/modules/manga/detail/widgets/chapter_filter_list_tile_widget.dart';
-import 'package:mangayomi/modules/manga/detail/widgets/chapter_list_tile_widget.dart';
-import 'package:mangayomi/modules/manga/detail/widgets/chapter_sort_list_tile_widget.dart';
-import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
-import 'package:mangayomi/modules/widgets/error_text.dart';
-import 'package:mangayomi/modules/widgets/progress_center.dart';
+import 'package:mangayomi/utils/utils.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:share_plus/share_plus.dart';
@@ -274,42 +270,29 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                               shadowColor: Colors.transparent,
                             ),
                             onPressed: () {
-                              final chapters =
-                                  ref.watch(chaptersListStateProvider);
+                              final chapters = ref.watch(chaptersListStateProvider);
                               isar.writeTxnSync(() {
                                 for (var chapter in chapters) {
                                   chapter.isBookmarked = !chapter.isBookmarked!;
                                   ref
-                                      .read(changedItemsManagerProvider(
-                                              managerId: 1)
-                                          .notifier)
+                                      .read(changedItemsManagerProvider(managerId: 1).notifier)
                                       .addUpdatedChapter(chapter, false, false);
-                                  isar.chapters.putSync(
-                                      chapter..manga.value = widget.manga);
+                                  isar.chapters.putSync(chapter..manga.value = widget.manga);
                                   chapter.manga.saveSync();
                                 }
                               });
-                              ref
-                                  .read(isLongPressedStateProvider.notifier)
-                                  .update(false);
-                              ref
-                                  .read(chaptersListStateProvider.notifier)
-                                  .clear();
+                              ref.read(isLongPressedStateProvider.notifier).update(false);
+                              ref.read(chaptersListStateProvider.notifier).clear();
                             },
                             child: Icon(
-                                checkFirstBookmarked
-                                    ? Icons.bookmark_remove_outlined
-                                    : Icons.bookmark_add_outlined,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .color)),
+                                checkFirstBookmarked ? Icons.bookmark_remove_outlined : Icons.bookmark_add_outlined,
+                                color: Theme.of(context).textTheme.bodyLarge!.color)),
                       ),
                     ),
                     Expanded(
                       child: SizedBox(
-                        height: 70,
-                        child: ElevatedButton(
+                          height: 70,
+                          child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor: Colors.transparent,
@@ -340,7 +323,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                               checkReadBookmarked ? Icons.remove_done_sharp : Icons.done_all_sharp,
                               color: Theme.of(context).textTheme.bodyLarge!.color!,
                             ),
-                      ),
+                          )),
                     ),
                     if (getLength1)
                       Expanded(
@@ -373,7 +356,10 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                               },
                               child: Stack(
                                 children: [
-                                  Icon(Icons.done_outlined, color: Theme.of(context).textTheme.bodyLarge!.color!),
+                                  Icon(
+                                    Icons.done_outlined,
+                                    color: Theme.of(context).textTheme.bodyLarge!.color!,
+                                  ),
                                   Positioned(
                                     bottom: 0,
                                     right: 0,
@@ -400,11 +386,8 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                               onPressed: () {
                                 isar.txnSync(() {
                                   for (var chapter in ref.watch(chaptersListStateProvider)) {
-                                    final entries = isar.downloads
-                                        .filter()
-                                        .idIsNotNull()
-                                        .chapterIdEqualTo(chapter.id)
-                                        .findAllSync();
+                                    final entries =
+                                        isar.downloads.filter().idIsNotNull().chapterIdEqualTo(chapter.id).findAllSync();
                                     if (entries.isEmpty || !entries.first.isDownload!) {
                                       ref.watch(downloadChapterProvider(chapter: chapter));
                                     }
@@ -435,13 +418,10 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                     context: context,
                                     builder: (context) {
                                       return AlertDialog(
-                                        title: Text(
-                                          l10n.delete_chapters,
-                                        ),
+                                        title: Text(l10n.delete_chapters),
                                         actions: [
                                           Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                            mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               TextButton(
                                                   onPressed: () {
@@ -454,23 +434,12 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                               TextButton(
                                                   onPressed: () async {
                                                     isar.writeTxnSync(() {
-                                                      for (var chapter in ref.watch(
-                                                          chaptersListStateProvider)) {
-                                                        isar.chapters
-                                                            .deleteSync(
-                                                                chapter.id!);
+                                                      for (var chapter in ref.watch(chaptersListStateProvider)) {
+                                                        isar.chapters.deleteSync(chapter.id!);
                                                       }
                                                     });
-                                                    ref
-                                                        .read(
-                                                            isLongPressedStateProvider
-                                                                .notifier)
-                                                        .update(false);
-                                                    ref
-                                                        .read(
-                                                            chaptersListStateProvider
-                                                                .notifier)
-                                                        .clear();
+                                                    ref.read(isLongPressedStateProvider.notifier).update(false);
+                                                    ref.read(chaptersListStateProvider.notifier).clear();
                                                     if (mounted) {
                                                       Navigator.pop(context);
                                                     }
@@ -484,10 +453,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                               },
                               child: Icon(
                                 Icons.delete_outline_outlined,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .color!,
+                                color: Theme.of(context).textTheme.bodyLarge!.color!,
                               )),
                         ),
                       )

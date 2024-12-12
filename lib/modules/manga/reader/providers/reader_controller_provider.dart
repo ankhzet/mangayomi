@@ -493,22 +493,23 @@ extension MangaExtensions on Manga {
         })
         .where((element) => !filterScanlator.contains(element.scanlator))
         .toList();
-    List<Chapter> chapters =
-        sortChapter == 1 ? chapterList.reversed.toList() : chapterList;
+
     if (sortChapter == 0) {
-      chapters.sort(
+      chapterList.sort(
         (a, b) {
-          return (a.scanlator == null ||
-                  b.scanlator == null ||
-                  a.dateUpload == null ||
-                  b.dateUpload == null)
+          return (a.scanlator == null || b.scanlator == null || a.dateUpload == null || b.dateUpload == null)
               ? 0
-              : a.scanlator!.compareTo(b.scanlator!) |
-                  a.dateUpload!.compareTo(b.dateUpload!);
+              : a.scanlator!.compareTo(b.scanlator!) | a.dateUpload!.compareTo(b.dateUpload!);
+        },
+      );
+    } else if (sortChapter == 1) {
+      chapterList.sort(
+        (a, b) {
+          return a.compareTo(b);
         },
       );
     } else if (sortChapter == 2) {
-      chapters.sort(
+      chapterList.sort(
         (a, b) {
           return (a.dateUpload == null || b.dateUpload == null)
               ? 0
@@ -516,14 +517,13 @@ extension MangaExtensions on Manga {
         },
       );
     } else if (sortChapter == 3) {
-      chapters.sort(
+      chapterList.sort(
         (a, b) {
-          return (a.name == null || b.name == null)
-              ? 0
-              : a.name!.compareTo(b.name!);
+          return (a.name == null || b.name == null) ? 0 : a.name!.compareTo(b.name!);
         },
       );
     }
+
     return chapterList;
   }
 }

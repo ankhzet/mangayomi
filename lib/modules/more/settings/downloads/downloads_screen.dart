@@ -20,8 +20,15 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
     final saveAsCBZArchiveState = ref.watch(saveAsCBZArchiveStateProvider);
     final onlyOnWifiState = ref.watch(onlyOnWifiStateProvider);
     final downloadLocationState = ref.watch(downloadLocationStateProvider);
-    ref.read(downloadLocationStateProvider.notifier).refresh();
     final l10n = l10nLocalizations(context);
+    final directoryProvider = ref.read(downloadLocationStateProvider.notifier);
+
+    final defaultLocation = directoryProvider.defaultLocation;
+    final customLocation = directoryProvider.customLocation;
+    final currentLocation = directoryProvider.currentLocation;
+
+    directoryProvider.refresh();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n!.downloads),
@@ -42,41 +49,45 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                               shrinkWrap: true,
                               children: [
                                 RadioListTile(
+                                  dense: true,
+                                  contentPadding: const EdgeInsets.all(0),
+                                  value: defaultLocation,
+                                  groupValue: currentLocation,
+                                  onChanged: (value) {
+                                    ref.read(downloadLocationStateProvider.notifier).set("");
+                                    Navigator.pop(context);
+                                  },
+                                  title: Text(l10n.default0),
+                                  subtitle: Text(defaultLocation),
+                                ),
+                                if (customLocation != defaultLocation)
+                                  RadioListTile(
                                     dense: true,
                                     contentPadding: const EdgeInsets.all(0),
-                                    value: downloadLocationState.$2.isEmpty
-                                        ? downloadLocationState.$1
-                                        : downloadLocationState.$2,
-                                    groupValue: downloadLocationState.$1,
-                                    onChanged: (value) {
-                                      ref
-                                          .read(downloadLocationStateProvider
-                                              .notifier)
-                                          .set("");
-                                      Navigator.pop(context);
-                                    },
-                                    title: Text(downloadLocationState.$1)),
+                                    value: customLocation,
+                                    groupValue: currentLocation,
+                                    onChanged: null,
+                                    title: Text(l10n.custom_location),
+                                    subtitle: Text(customLocation),
+                                  ),
                                 RadioListTile(
-                                    dense: true,
-                                    contentPadding: const EdgeInsets.all(0),
-                                    value: downloadLocationState.$2.isEmpty
-                                        ? downloadLocationState.$1
-                                        : downloadLocationState.$2,
-                                    groupValue: downloadLocationState.$2,
-                                    onChanged: (value) async {
-                                      String? result = await FilePicker.platform
-                                          .getDirectoryPath();
+                                  dense: true,
+                                  contentPadding: const EdgeInsets.all(0),
+                                  value: null,
+                                  groupValue: currentLocation,
+                                  onChanged: (value) async {
+                                    String? result = await FilePicker.platform.getDirectoryPath();
 
-                                      if (result != null) {
-                                        ref
-                                            .read(downloadLocationStateProvider
-                                                .notifier)
-                                            .set(result);
-                                      } else {}
-                                      if (!context.mounted) return;
+                                    if (result != null) {
+                                      ref.read(downloadLocationStateProvider.notifier).set(result);
+                                    }
+
+                                    if (context.mounted) {
                                       Navigator.pop(context);
-                                    },
-                                    title: Text(l10n.custom_location)),
+                                    }
+                                  },
+                                  title: Text(l10n.other),
+                                ),
                               ],
                             )),
                         actions: [
@@ -84,14 +95,9 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               TextButton(
-                                  onPressed: () async {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(
-                                    l10n.cancel,
-                                    style:
-                                        TextStyle(color: context.primaryColor),
-                                  )),
+                                onPressed: () async => Navigator.pop(context),
+                                child: Text(l10n.cancel, style: TextStyle(color: context.primaryColor)),
+                              ),
                             ],
                           )
                         ],
@@ -100,9 +106,7 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
               },
               title: Text(l10n.download_location),
               subtitle: Text(
-                downloadLocationState.$2.isEmpty
-                    ? downloadLocationState.$1
-                    : downloadLocationState.$2,
+                downloadLocationState.$2.isEmpty ? downloadLocationState.$1 : downloadLocationState.$2,
                 style: TextStyle(fontSize: 11, color: context.secondaryColor),
               ),
             ),

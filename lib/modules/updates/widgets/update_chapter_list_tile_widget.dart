@@ -1,30 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mangayomi/models/chapter.dart';
+import 'package:mangayomi/models/update_group.dart';
+import 'package:mangayomi/modules/manga/detail/widgets/fix_chapters_widget.dart';
 import 'package:mangayomi/modules/manga/download/download_page_widget.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
 import 'package:mangayomi/utils/extensions/manga.dart';
 
 class UpdateChapterListTileWidget extends ConsumerWidget {
-  final Chapter chapter;
+  final UpdateGroup update;
   final bool sourceExist;
+
   const UpdateChapterListTileWidget({
-    required this.chapter,
+    required this.update,
     required this.sourceExist,
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final manga = chapter.manga.value!;
+    final manga = update.manga;
+    final duplicates = manga.getDuplicateChapters();
+    final regularColor = Theme.of(context).textTheme.bodyLarge!.color;
+
     return Material(
       borderRadius: BorderRadius.circular(5),
       color: Colors.transparent,
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: InkWell(
         onTap: () async {
-          chapter.pushToReaderView(context, ignoreIsRead: true);
+          update.firstOrUnread.pushToReaderView(context, ignoreIsRead: true);
         },
         onLongPress: () {},
         onSecondaryTap: () {},
@@ -63,20 +68,16 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(manga.name!,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: regularColor
-                                  )),
-                              Text(update.label,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 11,
-                                      color: chapter.isRead ?? false
-                                          ? Colors.grey
-                                          : regularColor
-                                  )),
+                              Text(
+                                manga.name!,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(fontSize: 14, color: regularColor),
+                              ),
+                              Text(
+                                update.label,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(fontSize: 11, color: update.isRead ? Colors.grey : regularColor),
+                              ),
                             ],
                           ),
                         ),
@@ -84,7 +85,8 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
                     ],
                   ),
                 ),
-                if (sourceExist) ChapterPageDownload(chapter: chapter)
+                if (duplicates.isNotEmpty) ChaptersFix(manga: manga, duplicates: duplicates),
+                if (sourceExist) ChapterPageDownload(chapter: update.firstOrUnread),
               ],
             ),
           ),

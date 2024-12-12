@@ -10,6 +10,7 @@ import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/update_group.dart';
 import 'package:mangayomi/modules/manga/detail/providers/update_manga_detail_providers.dart';
 import 'package:mangayomi/modules/updates/widgets/update_chapter_list_tile_widget.dart';
 import 'package:mangayomi/modules/history/providers/isar_providers.dart';
@@ -19,6 +20,7 @@ import 'package:mangayomi/modules/library/widgets/search_text_form_field.dart';
 import 'package:mangayomi/modules/widgets/error_text.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/utils/extensions/others.dart';
 
 class UpdatesScreen extends ConsumerStatefulWidget {
   const UpdatesScreen({super.key});
@@ -35,8 +37,16 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> with TickerProvid
     setState(() {
       _isLoading = true;
     });
-    botToast(context.l10n.updating_library,
-        fontSize: 13, second: 1600, alignY: !context.isTablet ? 0.85 : 1);
+
+    CancelFunc? cancel;
+    final label = context.l10n.updating_library;
+
+    void toast (String text) {
+      cancel = botToast(text, fontSize: 13, second: 1600, alignY: !context.isTablet ? 0.85 : 1);
+    }
+
+    toast(label);
+
     final mangaList = isar.mangas
         .filter()
         .favoriteEqualTo(true)
@@ -44,22 +54,24 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> with TickerProvid
         .isMangaEqualTo(_tabBarController.index == 0)
         .findAllSync();
     int numbers = 0;
+    int total = mangaList.length;
+
+    toast('$label (0 / $total)');
 
     for (var manga in mangaList) {
-      try {
-        await ref.read(
-            updateMangaDetailProvider(mangaId: manga.id, isInit: false).future);
-      } catch (_) {}
+      await ref.read(updateMangaDetailProvider(mangaId: manga.id, isInit: false).future);
       numbers++;
-    }
-    await Future.doWhile(() async {
-      await Future.delayed(const Duration(seconds: 1));
-      if (mangaList.length == numbers) {
-        return false;
+
+      if (numbers % 5 == 0) {
+        toast('$label ($numbers / $total)');
+        await Future.delayed(const Duration(milliseconds: 100));
+      } else {
+        await Future.delayed(const Duration(milliseconds: 50));
       }
-      return true;
-    });
-    BotToast.cleanAll();
+    }
+
+    cancel!();
+
     setState(() {
       _isLoading = false;
     });
@@ -223,72 +235,80 @@ class _UpdateTabState extends ConsumerState<UpdateTab> {
       children: [
         update.when(
           data: (data) {
-            final entries = data
-                .where((element) => widget.query.isNotEmpty
-                    ? element.chapter.value!.manga.value!.name!
-                        .toLowerCase()
-                        .contains(widget.query.toLowerCase())
-                    : true)
-                .toList();
-            final lastUpdatedList = data
-                .map((e) => e.chapter.value!.manga.value!.lastUpdate!)
-                .toList();
-            lastUpdatedList.sort((a, b) => a.compareTo(b));
-            final lastUpdated = lastUpdatedList.firstOrNull;
-            if (entries.isNotEmpty) {
-              return CustomScrollView(
-                slivers: [
-                  if (lastUpdated != null)
-                    SliverPadding(
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 10, top: 10, bottom: 20),
-                      sliver: SliverList(
-                          delegate: SliverChildListDelegate.fixed([
-                        Text(
-                            l10n.library_last_updated(dateFormat(
-                                lastUpdated.toString(),
-                                ref: ref,
-                                context: context,
-                                showHOURorMINUTE: true)),
-                            style: TextStyle(
-                                fontStyle: FontStyle.italic,
-                                color: context.secondaryColor))
-                      ])),
-                    ),
-                  SliverGroupedListView<Update, String>(
-                    elements: entries,
-                    groupBy: (element) => dateFormat(element.date!,
-                        context: context,
-                        ref: ref,
-                        forHistoryValue: true,
-                        useRelativeTimesTamps: false),
-                    groupSeparatorBuilder: (String groupByValue) => Padding(
-                      padding: const EdgeInsets.only(bottom: 8, left: 12),
-                      child: Row(
-                        children: [
-                          Text(dateFormat(
-                            null,
-                            context: context,
-                            stringDate: groupByValue,
-                            ref: ref,
-                          )),
-                        ],
-                      ),
-                    ),
-                    itemBuilder: (context, element) {
-                      final chapter = element.chapter.value!;
-                      return UpdateChapterListTileWidget(
-                          chapter: chapter, sourceExist: true);
-                    },
-                    itemComparator: (item1, item2) =>
-                        item1.date!.compareTo(item2.date!),
-                    order: GroupedListOrder.DESC,
-                  ),
-                ],
+            final query = widget.query.toLowerCase();
+            final entries = query.isEmpty
+                ? data
+                : data
+                    .where((element) => element.chapter.value!.manga.value!.name!.toLowerCase().contains(query))
+                    .toList();
+
+            if (entries.isEmpty) {
+              return Center(
+                child: Text(l10n.no_recent_updates),
               );
             }
-            return Center(
-              child: Text(l10n.no_recent_updates),
+
+            int? lastUpdated = entries.fold(null, (result, update) {
+                final timestamp = update.lastMangaUpdate;
+
+                return (
+                    ((result == null) || (timestamp > result))
+                      ? timestamp
+                      : result
+                );
+            });
+
+            final groups = entries.fold<List<UpdateGroup>>([], (list, update) {
+              final date = dateFormat(update.date!, context: context, ref: ref, forHistoryValue: true, useRelativeTimesTamps: false);
+              final chapter = update.chapter.value!;
+              final manga = update.chapter.value!.manga.value!;
+              final bucket = list.firstWhereOrNull((item) => (item.timestamp == date) && (item.manga.id == manga.id));
+
+              if (bucket != null) {
+                bucket.chapters.add(chapter);
+              } else {
+                list.add(UpdateGroup.fromChapters([chapter], date));
+              }
+
+              return list;
+            });
+
+            return CustomScrollView(
+              slivers: [
+                if (lastUpdated != null)
+                  SliverPadding(
+                    padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 20),
+                    sliver: SliverList(
+                        delegate: SliverChildListDelegate.fixed([
+                      Text(
+                          l10n.library_last_updated(
+                              dateFormat(lastUpdated.toString(), ref: ref, context: context, showHOURorMINUTE: true)),
+                          style: TextStyle(fontStyle: FontStyle.italic, color: context.secondaryColor))
+                    ])),
+                  ),
+                SliverGroupedListView(
+                  elements: groups,
+                  groupBy: (element) => element.timestamp,
+                  groupSeparatorBuilder: (groupByValue) => Padding(
+                    padding: const EdgeInsets.only(bottom: 8, left: 12),
+                    child: Row(
+                      children: [
+                        Text(dateFormat(
+                          null,
+                          context: context,
+                          stringDate: groupByValue,
+                          ref: ref,
+                        )),
+                      ],
+                    ),
+                  ),
+                  itemBuilder: (context, element) {
+                    return UpdateChapterListTileWidget(update: element, sourceExist: true);
+                  },
+                  itemComparator: (item1, item2) => item1.compareTo(item2),
+                  order: GroupedListOrder.DESC,
+                ),
+              ],
             );
           },
           error: (Object error, StackTrace stackTrace) {

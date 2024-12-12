@@ -19,6 +19,7 @@ import 'package:mangayomi/modules/library/library_screen.dart';
 import 'package:mangayomi/modules/library/providers/local_archive.dart';
 import 'package:mangayomi/modules/manga/detail/chapters_selection_controls.dart';
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
+import 'package:mangayomi/modules/manga/detail/widgets/genre_badges_widget.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_actions_menu.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_chapters_counter.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_chapters_menu.dart';
@@ -809,82 +810,9 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                       ),
                     ),
                   Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: widget.manga!.genre!.isEmpty
-                          ? const SizedBox(
-                              height: 30,
-                            )
-                          : _expanded || context.isTablet
-                              ? Wrap(
-                                  children: [
-                                    for (var i = 0;
-                                        i < widget.manga!.genre!.length;
-                                        i++)
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 2, right: 2, bottom: 5),
-                                        child: SizedBox(
-                                          height: 30,
-                                          child: ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                elevation: 0,
-                                                backgroundColor: Colors.grey
-                                                    .withOpacity(0.2),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5))),
-                                            onPressed: () {},
-                                            child: Text(
-                                              widget.manga!.genre![i],
-                                              style: TextStyle(
-                                                  fontSize: 11.5,
-                                                  color: context.isLight
-                                                      ? Colors.black
-                                                      : Colors.white),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                  ],
-                                )
-                              : SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      for (var i = 0;
-                                          i < widget.manga!.genre!.length;
-                                          i++)
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 2, right: 2, bottom: 5),
-                                          child: SizedBox(
-                                            height: 30,
-                                            child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  elevation: 0,
-                                                  backgroundColor: Colors.grey
-                                                      .withOpacity(0.2),
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5))),
-                                              onPressed: () {},
-                                              child: Text(
-                                                widget.manga!.genre![i],
-                                                style: TextStyle(
-                                                    fontSize: 11.5,
-                                                    color: context.isLight
-                                                        ? Colors.black
-                                                        : Colors.white),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                )),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: GenreBadgesWidget(genres: manga.genre!, multiline: _expanded || context.isTablet),
+                  ),
                   if (!context.isTablet) MangaChaptersCounter(manga: manga),
                 ],
               ),

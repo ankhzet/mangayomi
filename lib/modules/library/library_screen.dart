@@ -994,35 +994,25 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                                 isar.writeTxnSync(() async {
                                   for (var manga in mangasList) {
                                     if (manga.isLocalArchive ?? false) {
+                                      final mangaDir = await StorageProvider.getMangaMainDirectory(manga);
+
                                       for (var chapter in manga.chapters) {
-                                        try {
-                                          final storageProvider =
-                                              StorageProvider();
-                                          final mangaDir = await storageProvider
-                                              .getMangaMainDirectory(chapter);
-                                          final path = await storageProvider
-                                              .getMangaChapterDirectory(
-                                            chapter,
-                                          );
+                                        final path = await StorageProvider.getMangaChapterDirectory(chapter);
 
                                           try {
                                             try {
-                                              if (File(
-                                                      "${mangaDir!.path}${chapter.name}.cbz")
-                                                  .existsSync()) {
-                                                File("${mangaDir.path}${chapter.name}.cbz")
-                                                    .deleteSync();
+                                              if (File("$mangaDir${chapter.name}.cbz").existsSync()) {
+                                                File("$mangaDir${chapter.name}.cbz").deleteSync();
                                               }
                                             } catch (_) {}
+
                                             try {
-                                              if (File(
-                                                      "${mangaDir!.path}${chapter.name}.mp4")
-                                                  .existsSync()) {
-                                                File("${mangaDir.path}${chapter.name}.mp4")
-                                                    .deleteSync();
+                                              if (File("$mangaDir${chapter.name}.mp4").existsSync()) {
+                                                File("$mangaDir${chapter.name}.mp4").deleteSync();
                                               }
                                             } catch (_) {}
-                                            path!.deleteSync(recursive: true);
+
+                                            Directory(path).deleteSync(recursive: true);
                                           } catch (_) {}
                                           isar.writeTxnSync(() {
                                             final download =

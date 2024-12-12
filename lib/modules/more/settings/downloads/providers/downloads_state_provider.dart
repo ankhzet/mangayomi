@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
@@ -43,19 +42,16 @@ class DownloadLocationState extends _$DownloadLocationState {
 
   void set(String location) {
     final settings = isar.settings.getSync(227);
-    state = ("${_storageProvider!.path}downloads", location);
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..downloadLocation = location));
+    state = (_storageProvider!, location);
+    isar.writeTxnSync(() {
+      isar.settings.putSync(settings!..downloadLocation = location);
+    });
   }
 
-  Directory? _storageProvider;
+  String? _storageProvider;
 
   Future refresh() async {
-    _storageProvider = await StorageProvider().getDefaultDirectory();
-    final settings = isar.settings.getSync(227);
-    state = (
-      "${_storageProvider!.path}downloads",
-      settings!.downloadLocation ?? ""
-    );
+    _storageProvider = StorageProvider.getDownloadsDirectoryPath();
+    state = (_storageProvider!, isar.settings.getSync(227)!.downloadLocation ?? "");
   }
 }

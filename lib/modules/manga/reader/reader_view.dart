@@ -326,11 +326,9 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                         button(context.l10n.share, Icons.share_outlined, () async {
                           await Share.shareXFiles([XFile.fromData(imageBytes, name: name, mimeType: 'image/png')]);
                         }),
-                        button(context.l10n.save, Icons.save_outlined,
-                            () async {
-                          final dir =
-                              await StorageProvider().getGalleryDirectory();
-                          final file = File("${dir!.path}/$name.png");
+                        button(context.l10n.save, Icons.save_outlined, () async {
+                          final dir = await StorageProvider.getGalleryDirectory();
+                          final file = File("$dir/$name.png");
                           file.writeAsBytesSync(imageBytes);
 
                           if (context.mounted) {

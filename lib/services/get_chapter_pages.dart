@@ -37,7 +37,6 @@ Future<GetChapterPagesModel> getChapterPages(
   required Chapter chapter,
 }) async {
   List<UChapDataPreload> uChapDataPreloadp = [];
-  Directory? path;
   List<PageUrl> pageUrls = [];
   List<bool> isLocaleList = [];
   final settings = isar.settings.getSync(227);
@@ -46,9 +45,8 @@ Future<GetChapterPagesModel> getChapterPages(
   final isarPageUrls =
       chapterPageUrlsList.where((element) => element.chapterId == chapter.id);
   final incognitoMode = ref.watch(incognitoModeStateProvider);
-  final storageProvider = StorageProvider();
-  path = await storageProvider.getMangaChapterDirectory(chapter);
-  final mangaDirectory = await storageProvider.getMangaMainDirectory(chapter);
+  final chapterDirectory = await StorageProvider.getMangaChapterDirectory(chapter);
+  final mangaDirectory = await StorageProvider.getMangaMainDirectory(chapter.manga.value!);
 
   List<Uint8List?> archiveImages = [];
   final isLocalArchive = (chapter.archivePath ?? '').isNotEmpty;
@@ -72,13 +70,11 @@ Future<GetChapterPagesModel> getChapterPages(
   }
 
   if (pageUrls.isNotEmpty || isLocalArchive) {
-    if (await File("${mangaDirectory!.path}${chapter.name}.cbz").exists() ||
-        isLocalArchive) {
-      final path = isLocalArchive
-          ? chapter.archivePath
-          : "${mangaDirectory.path}${chapter.name}.cbz";
-      final local =
-          await ref.watch(getArchiveDataFromFileProvider(path!).future);
+    final path = isLocalArchive ? chapter.archivePath! : "$mangaDirectory${chapter.name}.cbz";
+
+    if (isLocalArchive || (await File(path).exists())) {
+      final local = await ref.watch(getArchiveDataFromFileProvider(path).future);
+
       for (var image in local.images!) {
         archiveImages.add(image.image!);
         isLocaleList.add(true);

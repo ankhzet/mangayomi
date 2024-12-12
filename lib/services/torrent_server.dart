@@ -63,7 +63,7 @@ class MTorrentServer {
       final isFilePath = archivePath?.isNotEmpty ?? false;
       final isRunning = await check();
       if (!isRunning) {
-        final path = (await StorageProvider().getBtDirectory())!.path;
+        final path = await StorageProvider.getBtDirectory();
         final config = jsonEncode({"path": path, "address": "127.0.0.1:0"});
         int port = 0;
         if (Platform.isAndroid || Platform.isIOS) {

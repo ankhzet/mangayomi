@@ -21,118 +21,147 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
 
 class StorageProvider {
-  Future<bool> requestPermission() async {
-    Permission permission = Permission.manageExternalStorage;
+  StorageProvider._();
+
+  static late String documents;
+
+  static Future<bool> requestPermission() async {
     if (Platform.isAndroid) {
-      if (await permission.isGranted) {
-        return true;
-      } else {
-        final result = await permission.request();
-        if (result == PermissionStatus.granted) {
-          return true;
-        }
+      Permission permission = Permission.manageExternalStorage;
+
+      if (!(await permission.isGranted)) {
+        return false;
+      }
+
+      if (PermissionStatus.granted != (await permission.request())) {
         return false;
       }
     }
+
+    documents = (await getApplicationDocumentsDirectory()).path;
+
     return true;
   }
 
-  Future<void> deleteBtDirectory() async {
-    final d = await getBtDirectory();
-    await Directory(d!.path).delete(recursive: true);
+  static Future<String> ensureDirectoryPath(String path) async {
+    return (await Directory(path).create(recursive: true)).path;
   }
 
-  Future<Directory?> getDefaultDirectory() async {
-    Directory? directory;
+  static String getDefaultDirectoryPath() {
     if (Platform.isAndroid) {
-      directory = Directory("/storage/emulated/0/Mangayomi/");
-    } else {
-      final dir = await getApplicationDocumentsDirectory();
-      directory = Directory("${dir.path}/Mangayomi/");
+      return '/storage/emulated/0/Mangayomi/';
     }
-    return directory;
+
+    return '$documents/Mangayomi/';
   }
 
-  Future<Directory?> getBtDirectory() async {
-    final gefaultDirectory = await getDefaultDirectory();
-    String dbDir = path.join(gefaultDirectory!.path, 'torrents');
-    await Directory(dbDir).create(recursive: true);
-    return Directory(dbDir);
-  }
-
-  Future<Directory?> getIosBackupDirectory() async {
-    final gefaultDirectory = await getDefaultDirectory();
-    String dbDir = path.join(gefaultDirectory!.path, 'backup');
-    await Directory(dbDir).create(recursive: true);
-    return Directory(dbDir);
-  }
-
-  Future<Directory?> getDirectory() async {
-    Directory? directory;
-    String path = isar.settings.getSync(227)!.downloadLocation ?? "";
+  static Future<Directory> getDefaultDirectory() async {
     if (Platform.isAndroid) {
-      directory =
-          Directory(path.isEmpty ? "/storage/emulated/0/Mangayomi/" : "$path/");
-    } else {
-      final dir = await getApplicationDocumentsDirectory();
-      final p = path.isEmpty ? dir.path : path;
-      directory = Directory("$p/Mangayomi/");
+      return Directory("/storage/emulated/0/Mangayomi/");
     }
-    return directory;
+
+    return Directory("$documents/Mangayomi/");
   }
 
-  Future<Directory?> getMangaChapterDirectory(
-    Chapter chapter,
-  ) async {
+  static Future<String> getBackupDirectory() async {
+    return ensureDirectoryPath(path.join(getDefaultDirectoryPath(), 'backup'));
+  }
+
+  static String getBtDirectoryPath() {
+    return path.join(getDefaultDirectoryPath(), 'torrents');
+  }
+
+  static Future<String> getBtDirectory() async {
+    return ensureDirectoryPath(getBtDirectoryPath());
+  }
+
+  static Future<void> deleteBtDirectory() async {
+    try {
+      await Directory(getBtDirectoryPath()).delete(recursive: true);
+    } catch (_) {}
+  }
+
+  static String getDownloadsDirectoryPath() {
+    String location = isar.settings.getSync(227)!.downloadLocation ?? '';
+
+    if (location.isNotEmpty) {
+      return Platform.isAndroid ? '$location/' : '$location/Mangayomi/';
+    }
+
+    return path.join(getDefaultDirectoryPath(), 'downloads');
+  }
+
+  static Future<String> getDownloadsDirectory() async {
+    final path = await ensureDirectoryPath(getDownloadsDirectoryPath());
+
+    if (Platform.isAndroid) {
+      final nomedia = File("$path.nomedia");
+
+      if (!(await nomedia.exists())) {
+        await nomedia.create();
+      }
+    }
+
+    return path;
+  }
+
+  static String getChapterDirectoryRelativePath(Chapter chapter) {
     final manga = chapter.manga.value!;
-    String scanlator = chapter.scanlator?.isNotEmpty ?? false
-        ? "${chapter.scanlator!.replaceForbiddenCharacters('_')}_"
-        : "";
-    final isManga = chapter.manga.value!.isManga!;
-    final dir = await getDirectory();
-    return Directory(
-        "${dir!.path}/downloads/${isManga ? "Manga" : "Anime"}/${manga.source} (${manga.lang!.toUpperCase()})/${manga.name!.replaceForbiddenCharacters('_')}/$scanlator${chapter.name!.replaceForbiddenCharacters('_')}/");
+    final isManga = manga.isManga!;
+
+    final mangaPath = getMangaMainDirectoryPath(manga, relative: true);
+
+    if (isManga) {
+      final scanlator = chapter.scanlator!.isNotEmpty ? "${chapter.scanlator!.replaceForbiddenCharacters('_')}_" : "";
+
+      return path.join(mangaPath, "$scanlator${chapter.name!.replaceForbiddenCharacters('_')}");
+    }
+
+    return mangaPath;
   }
 
-  Future<Directory?> getMangaMainDirectory(Chapter chapter) async {
-    final manga = chapter.manga.value!;
-    final isManga = chapter.manga.value!.isManga!;
-    final dir = await getDirectory();
-    return Directory(
-        "${dir!.path}/downloads/${isManga ? "Manga" : "Anime"}/${manga.source} (${manga.lang!.toUpperCase()})/${manga.name!.replaceForbiddenCharacters('_')}/");
+  static Future<String> getMangaChapterDirectory(Chapter chapter) async {
+    return ensureDirectoryPath(path.join(
+      getDownloadsDirectoryPath(),
+      getChapterDirectoryRelativePath(chapter),
+    ));
   }
 
-  Future<Directory?> getDatabaseDirectory() async {
-    final dir = await getApplicationDocumentsDirectory();
+  static String getMangaMainDirectoryPath(Manga manga, {bool relative = false}) {
+    final type = manga.isManga! ? 'Manga' : 'Anime';
+    final source = '${manga.source} (${manga.lang!.toUpperCase()})';
+    final name = manga.name!.replaceForbiddenCharacters('_');
+
+    return relative ? path.join(type, source, name) : path.join(getDownloadsDirectoryPath(), type, source, name);
+  }
+
+  static Future<String> getMangaMainDirectory(Manga manga) async {
+    return ensureDirectoryPath(getMangaMainDirectoryPath(manga));
+  }
+
+  static Future<String> getDatabaseDirectory() async {
     if (Platform.isAndroid || Platform.isIOS || Platform.isMacOS) {
-      return dir;
-    } else {
-      String dbDir = path.join(dir.path, 'Mangayomi', 'databases');
-      await Directory(dbDir).create(recursive: true);
-      return Directory(dbDir);
+      return documents;
     }
+
+    return ensureDirectoryPath(path.join(documents, 'Mangayomi', 'databases'));
   }
 
-  Future<Directory?> getGalleryDirectory() async {
-    String gPath = (await getDirectory())!.path;
+  static Future<String> getGalleryDirectory() async {
+    String gPath;
+
     if (Platform.isAndroid) {
       gPath = "/storage/emulated/0/Pictures/Mangayomi/";
     } else {
-      gPath = path.join(gPath, 'Pictures');
+      gPath = path.join(getDownloadsDirectoryPath(), 'Pictures');
     }
-    await Directory(gPath).create(recursive: true);
-    return Directory(gPath);
+
+    return ensureDirectoryPath(gPath);
   }
 
-  Future<Isar> initDB(String? path, {bool? inspector = false}) async {
-    Directory? dir;
-    if (path == null) {
-      dir = await getDatabaseDirectory();
-    } else {
-      dir = Directory(path);
-    }
-
-    final isar = Isar.openSync([
+  static Future<Isar> initDB(String? path, {bool? inspector = false}) async {
+    final String directory = path ?? (await getDatabaseDirectory());
+    final schemas = [
       MangaSchema,
       ChangedItemsSchema,
       ChapterSchema,
@@ -147,14 +176,12 @@ class StorageProvider {
       SyncPreferenceSchema,
       SourcePreferenceSchema,
       SourcePreferenceStringValueSchema,
-    ], directory: dir!.path, name: "mangayomiDb", inspector: inspector!);
+    ];
+
+    final isar = Isar.openSync(schemas, directory: directory, name: "mangayomiDb", inspector: inspector!);
 
     if (isar.settings.filter().idEqualTo(227).isEmptySync()) {
-      isar.writeTxnSync(
-        () {
-          isar.settings.putSync(Settings());
-        },
-      );
+      isar.writeTxnSync(() => isar.settings.putSync(Settings()));
     }
 
     return isar;

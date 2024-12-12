@@ -1689,16 +1689,12 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                         )),
                                     GestureDetector(
                                         onTap: () async {
-                                          final dir = await StorageProvider()
-                                              .getGalleryDirectory();
+                                          final dir = await StorageProvider.getGalleryDirectory();
 
                                           if (context.mounted) {
-                                            final bytes = await imageProvider
-                                                .getBytes(context);
-                                            if (bytes != null &&
-                                                context.mounted) {
-                                              final file = File(
-                                                  '${dir!.path}/${widget.manga!.name}.png');
+                                            final bytes = await imageProvider.getBytes(context);
+                                            if (bytes != null && context.mounted) {
+                                              final file = File('$dir/${manga.name}.png');
                                               file.writeAsBytesSync(bytes);
                                               botToast(context.l10n.cover_saved, second: 3);
                                             }

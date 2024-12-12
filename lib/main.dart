@@ -52,9 +52,10 @@ void main(List<String> args) async {
         settings: WebViewEnvironmentSettings(
             userDataFolder: p.join(document.path, 'flutter_inappwebview')));
   }
-  isar = await StorageProvider().initDB(null, inspector: kDebugMode);
-  await StorageProvider().requestPermission();
-  await StorageProvider().deleteBtDirectory();
+
+  await StorageProvider.requestPermission();
+  await StorageProvider.deleteBtDirectory();
+  isar = await StorageProvider.initDB(null, inspector: kDebugMode);
   GoogleFonts.aBeeZee();
 
   iniDateFormatting();

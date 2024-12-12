@@ -6,6 +6,7 @@ import 'package:draggable_menu/draggable_menu.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
@@ -575,10 +576,17 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(manga.name!,
-            style: const TextStyle(
-              fontSize: 20,
-            )),
+        GestureDetector(
+          onTap: () {
+            Clipboard.setData(ClipboardData(text: manga.name!));
+
+            botToast('Copied!', second: 3);
+          },
+          child: Text(manga.name!,
+              style: const TextStyle(
+                fontSize: 20,
+              )),
+        ),
         widget.titleDescription!,
       ],
     );

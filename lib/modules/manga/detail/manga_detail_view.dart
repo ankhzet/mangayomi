@@ -17,6 +17,7 @@ import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/models/track_search.dart';
 import 'package:mangayomi/modules/library/library_screen.dart';
 import 'package:mangayomi/modules/library/providers/local_archive.dart';
+import 'package:mangayomi/modules/manga/detail/chapters_selection_controls.dart';
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_cover_backdrop.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_search_widget.dart';
@@ -167,69 +168,9 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                 preferredSize: Size.fromHeight(AppBar().preferredSize.height),
                 child: Consumer(
                   builder: (context, ref, child) {
-                    final l10n = l10nLocalizations(context)!;
-                    final isNotFiltering = ref.watch(
-                        chapterFilterResultStateProvider(manga: widget.manga!));
                     final isLongPressed = ref.watch(isLongPressedStateProvider);
                     return isLongPressed
-                        ? Container(
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                            child: AppBar(
-                              title: Text(chapterList.length.toString()),
-                              backgroundColor:
-                                  context.primaryColor.withOpacity(0.2),
-                              leading: IconButton(
-                                  onPressed: () {
-                                    ref
-                                        .read(
-                                            chaptersListStateProvider.notifier)
-                                        .clear();
-
-                                    ref
-                                        .read(
-                                            isLongPressedStateProvider.notifier)
-                                        .update(!isLongPressed);
-                                  },
-                                  icon: const Icon(Icons.clear)),
-                              actions: [
-                                IconButton(
-                                    onPressed: () {
-                                      for (var chapter in chapters) {
-                                        ref
-                                            .read(chaptersListStateProvider
-                                                .notifier)
-                                            .selectAll(chapter);
-                                      }
-                                    },
-                                    icon: const Icon(Icons.select_all)),
-                                IconButton(
-                                    onPressed: () {
-                                      if (chapters.length ==
-                                          chapterList.length) {
-                                        for (var chapter in chapters) {
-                                          ref
-                                              .read(chaptersListStateProvider
-                                                  .notifier)
-                                              .selectSome(chapter);
-                                        }
-                                        ref
-                                            .read(isLongPressedStateProvider
-                                                .notifier)
-                                            .update(false);
-                                      } else {
-                                        for (var chapter in chapters) {
-                                          ref
-                                              .read(chaptersListStateProvider
-                                                  .notifier)
-                                              .selectSome(chapter);
-                                        }
-                                      }
-                                    },
-                                    icon:
-                                        const Icon(Icons.flip_to_back_rounded)),
-                              ],
-                            ),
-                          )
+                        ? ChaptersSelectionBar(manga: manga, chapters: chapters, selection: chaptersSelection)
                         : AppBar(
                             title: ref.watch(offetProvider) > 200
                                 ? Text(

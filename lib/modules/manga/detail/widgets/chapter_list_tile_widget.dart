@@ -25,6 +25,9 @@ class ChapterListTileWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isLongPressed = ref.watch(isLongPressedStateProvider);
     final l10n = l10nLocalizations(context)!;
+    final hasProgress = !chapter.isRead! && chapter.lastPageRead!.isNotEmpty && chapter.lastPageRead != "1";
+    final hasScanlators = chapter.scanlator?.isNotEmpty ?? false;
+
     return Container(
       color: chapterList.contains(chapter) ? context.primaryColor.withOpacity(0.4) : null,
       child: ListTile(
@@ -77,44 +80,32 @@ class ChapterListTileWidget extends ConsumerWidget {
                     : "",
                 style: const TextStyle(fontSize: 11),
               ),
-            if (!chapter.isRead!)
-              if (chapter.lastPageRead!.isNotEmpty &&
-                  chapter.lastPageRead != "1")
-                Row(
-                  children: [
-                    const Text(' • '),
-                    Text(
-                      !chapter.manga.value!.isManga!
-                          ? l10n.episode_progress(Duration(
-                                  milliseconds:
-                                      int.parse(chapter.lastPageRead!))
-                              .toString()
-                              .substringBefore("."))
-                          : l10n.page(chapter.lastPageRead!),
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: context.isLight
-                              ? Colors.black.withOpacity(0.4)
-                              : Colors.white.withOpacity(0.3)),
-                    ),
-                  ],
+            if (hasProgress) const Text(' • '),
+            if (hasProgress)
+              Text(
+                !chapter.manga.value!.isManga!
+                    ? l10n.episode_progress(
+                        Duration(milliseconds: int.parse(chapter.lastPageRead!)).toString().substringBefore("."))
+                    : l10n.page(chapter.lastPageRead!),
+                style: TextStyle(
+                    fontSize: 11,
+                    color: context.isLight ? Colors.black.withOpacity(0.4) : Colors.white.withOpacity(0.3)),
+              ),
+            if (hasScanlators) const Text(' • '),
+            if (hasScanlators)
+              Flexible(
+                child: Text(
+                  chapter.scanlator!,
+                  style: TextStyle(
+                      fontSize: 11,
+                      color: chapter.isRead!
+                          ? context.isLight
+                          ? Colors.black.withOpacity(0.4)
+                          : Colors.white.withOpacity(0.3)
+                          : null),
+                  overflow: TextOverflow.ellipsis,
                 ),
-            if (chapter.scanlator?.isNotEmpty ?? false)
-              Row(
-                children: [
-                  const Text(' • '),
-                  Text(
-                    chapter.scanlator!,
-                    style: TextStyle(
-                        fontSize: 11,
-                        color: chapter.isRead!
-                            ? context.isLight
-                                ? Colors.black.withOpacity(0.4)
-                                : Colors.white.withOpacity(0.3)
-                            : null),
-                  ),
-                ],
-              )
+              ),
           ],
         ),
         trailing: !sourceExist || (chapter.manga.value!.isLocalArchive ?? false)

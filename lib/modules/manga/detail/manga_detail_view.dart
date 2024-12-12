@@ -202,11 +202,10 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                 children: [
                   if (context.isTablet)
                     SizedBox(
-                        width: context.width(0.5),
-                        height: context.height(1),
-                        child: SingleChildScrollView(
-                            child: _bodyContainer(
-                                chapterLength: chapters.length))),
+                      width: context.width(0.5),
+                      height: context.height(1),
+                      child: SingleChildScrollView(child: _bodyContainer(chapterLength: chapterLength)),
+                    ),
                   Expanded(
                     child: Scrollbar(
                         interactive: true,
@@ -413,8 +412,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                               shadowColor: Colors.transparent,
                             ),
                             onPressed: () {
-                              final chapters =
-                                  ref.watch(chaptersListStateProvider);
+                              final chapters = ref.watch(chaptersListStateProvider);
                               isar.writeTxnSync(() {
                                 for (var chapter in chapters) {
                                   chapter.isRead = !chapter.isRead!;
@@ -422,33 +420,22 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                     chapter.lastPageRead = "1";
                                   }
                                   ref
-                                      .read(changedItemsManagerProvider(
-                                              managerId: 1)
-                                          .notifier)
+                                      .read(changedItemsManagerProvider(managerId: 1).notifier)
                                       .addUpdatedChapter(chapter, false, false);
-                                  isar.chapters.putSync(
-                                      chapter..manga.value = widget.manga);
+                                  isar.chapters.putSync(chapter..manga.value = widget.manga);
                                   chapter.manga.saveSync();
                                   if (chapter.isRead!) {
                                     chapter.updateTrackChapterRead(ref);
                                   }
                                 }
                               });
-                              ref
-                                  .read(isLongPressedStateProvider.notifier)
-                                  .update(false);
-                              ref
-                                  .read(chaptersListStateProvider.notifier)
-                                  .clear();
+                              ref.read(isLongPressedStateProvider.notifier).update(false);
+                              ref.read(chaptersListStateProvider.notifier).clear();
                             },
                             child: Icon(
-                                checkReadBookmarked
-                                    ? Icons.remove_done_sharp
-                                    : Icons.done_all_sharp,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .color!)),
+                              checkReadBookmarked ? Icons.remove_done_sharp : Icons.done_all_sharp,
+                              color: Theme.of(context).textTheme.bodyLarge!.color!,
+                            ),
                       ),
                     ),
                     if (getLength1)
@@ -465,47 +452,33 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                 int index = chapters.indexOf(chap.first);
                                 chapters[index + 1].updateTrackChapterRead(ref);
                                 isar.writeTxnSync(() {
-                                  for (var i = index + 1;
-                                      i < chapters.length;
-                                      i++) {
+                                  for (var i = index + 1; i < chapterLength; i++) {
                                     if (!chapters[i].isRead!) {
                                       chapters[i].isRead = true;
                                       chapters[i].lastPageRead = "1";
                                       ref
-                                          .read(changedItemsManagerProvider(
-                                                  managerId: 1)
-                                              .notifier)
-                                          .addUpdatedChapter(
-                                              chapters[i], false, false);
-                                      isar.chapters.putSync(chapters[i]
-                                        ..manga.value = widget.manga);
+                                          .read(changedItemsManagerProvider(managerId: 1).notifier)
+                                          .addUpdatedChapter(chapters[i], false, false);
+                                      isar.chapters.putSync(chapters[i]..manga.value = widget.manga);
                                       chapters[i].manga.saveSync();
                                     }
                                   }
-                                  ref
-                                      .read(isLongPressedStateProvider.notifier)
-                                      .update(false);
-                                  ref
-                                      .read(chaptersListStateProvider.notifier)
-                                      .clear();
+                                  ref.read(isLongPressedStateProvider.notifier).update(false);
+                                  ref.read(chaptersListStateProvider.notifier).clear();
                                 });
                               },
                               child: Stack(
                                 children: [
-                                  Icon(Icons.done_outlined,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .color!),
+                                  Icon(Icons.done_outlined, color: Theme.of(context).textTheme.bodyLarge!.color!),
                                   Positioned(
-                                      bottom: 0,
-                                      right: 0,
-                                      child: Icon(Icons.arrow_downward_outlined,
-                                          size: 11,
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!
-                                              .color!))
+                                    bottom: 0,
+                                    right: 0,
+                                    child: Icon(
+                                      Icons.arrow_downward_outlined,
+                                      size: 11,
+                                      color: Theme.of(context).textTheme.bodyLarge!.color!,
+                                    ),
+                                  )
                                 ],
                               )),
                         ),
@@ -522,34 +495,25 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                               ),
                               onPressed: () {
                                 isar.txnSync(() {
-                                  for (var chapter
-                                      in ref.watch(chaptersListStateProvider)) {
+                                  for (var chapter in ref.watch(chaptersListStateProvider)) {
                                     final entries = isar.downloads
                                         .filter()
                                         .idIsNotNull()
                                         .chapterIdEqualTo(chapter.id)
                                         .findAllSync();
-                                    if (entries.isEmpty ||
-                                        !entries.first.isDownload!) {
-                                      ref.watch(downloadChapterProvider(
-                                          chapter: chapter));
+                                    if (entries.isEmpty || !entries.first.isDownload!) {
+                                      ref.watch(downloadChapterProvider(chapter: chapter));
                                     }
                                   }
                                 });
-                                ref
-                                    .read(isLongPressedStateProvider.notifier)
-                                    .update(false);
-                                ref
-                                    .read(chaptersListStateProvider.notifier)
-                                    .clear();
+                                ref.read(isLongPressedStateProvider.notifier).update(false);
+                                ref.read(chaptersListStateProvider.notifier).clear();
                               },
                               child: Icon(
                                 Icons.download_outlined,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .color!,
-                              )),
+                                color: Theme.of(context).textTheme.bodyLarge!.color!,
+                              ),
+                            ),
                         ),
                       ),
                     if (isLocalArchive)
@@ -924,11 +888,11 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (widget.manga!.description != null)
+                  if (manga.description != null)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ReadMoreWidget(
-                        text: widget.manga!.description!,
+                        text: manga.description!,
                         onChanged: (value) {
                           setState(() {
                             _expanded = value;
@@ -1114,7 +1078,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(widget.manga!.name!,
+        Text(manga.name!,
             style: const TextStyle(
               fontSize: 20,
             )),
@@ -1184,15 +1148,9 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                 style:
                     ElevatedButton.styleFrom(backgroundColor: Theme.of(context).scaffoldBackgroundColor, elevation: 0),
                 onPressed: () async {
-                  final manga = widget.manga!;
-
-                  final source =
-                      getSource(widget.manga!.lang!, widget.manga!.source!)!;
-                  final baseUrl =
-                      ref.watch(sourceBaseUrlProvider(source: source));
-                  String url = widget.manga!.link!.startsWith('/')
-                      ? "$baseUrl${widget.manga!.link!}"
-                      : widget.manga!.link!;
+                  final source = getSource(manga.lang!, manga.source!)!;
+                  final baseUrl = ref.watch(sourceBaseUrlProvider(source: source));
+                  String url = manga.link!.startsWith('/') ? "$baseUrl${manga.link!}" : manga.link!;
 
                   Map<String, dynamic> data = {'url': url, 'sourceId': source.id.toString(), 'title': manga.name!};
                   context.push("/mangawebview", extra: data);
@@ -1271,11 +1229,11 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                           onPressed: () async {
                                             final trackSearch = await trackersSearchraggableMenu(
                                               context,
-                                              isManga: widget.manga!.isManga!,
+                                              isManga: manga.isManga!,
                                               track: Track(
                                                   status: TrackStatus.planToRead,
                                                   syncId: e.syncId!,
-                                                  title: widget.manga!.name!),
+                                                  title: manga.name!),
                                             ) as TrackSearch?;
                                             if (trackSearch != null) {
                                               isar.writeTxnSync(() {
@@ -1375,7 +1333,6 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                         ];
                                       },
                                       onSelected: (value) async {
-                                        final manga = widget.manga!;
                                         if (value == 0) {
                                           isar.writeTxnSync(() {
                                             isar.mangas.putSync(manga
@@ -1384,22 +1341,11 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                           });
                                           Navigator.pop(context);
                                         } else if (value == 1) {
-                                          FilePickerResult? result =
-                                              await FilePicker.platform
-                                                  .pickFiles(
-                                                      type: FileType.custom,
-                                                      allowedExtensions: [
-                                                'png',
-                                                'jpg',
-                                                'jpeg'
-                                              ]);
-                                          if (result != null &&
-                                              context.mounted) {
-                                            if (result.files.first.size <
-                                                5000000) {
-                                              final customCoverImage =
-                                                  File(result.files.first.path!)
-                                                      .readAsBytesSync();
+                                          FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                              type: FileType.custom, allowedExtensions: ['png', 'jpg', 'jpeg']);
+                                          if (result != null && context.mounted) {
+                                            if (result.files.first.size < 5000000) {
+                                              final customCoverImage = File(result.files.first.path!).readAsBytesSync();
                                               isar.writeTxnSync(() {
                                                 isar.mangas.putSync(manga..customCoverImage = customCoverImage);
                                               });
@@ -1498,7 +1444,6 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                   TextButton(
                       onPressed: () {
                         isar.writeTxnSync(() {
-                          final manga = widget.manga!;
                           manga.description = description.text;
                           manga.name = name.text;
                           isar.mangas.putSync(manga);
@@ -1540,26 +1485,26 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                           .filter()
                           .idIsNotNull()
                           .syncIdEqualTo(entries[index].syncId)
-                          .mangaIdEqualTo(widget.manga!.id!)
+                          .mangaIdEqualTo(mangaId)
                           .watch(fireImmediately: true),
                       builder: (context, snapshot) {
                         List<Track>? trackRes = snapshot.hasData ? snapshot.data : [];
                         return trackRes!.isNotEmpty
                             ? TrackerWidget(
-                                mangaId: widget.manga!.id!,
+                                mangaId: mangaId,
                                 syncId: entries[index].syncId!,
                                 trackRes: trackRes.first,
-                                isManga: widget.manga!.isManga!)
+                                isManga: manga.isManga!)
                             : TrackListTile(
                                 text: l10nLocalizations(context)!.add_tracker,
                                 onTap: () async {
                                   final trackSearch = await trackersSearchraggableMenu(
                                     context,
-                                    isManga: widget.manga!.isManga!,
+                                    isManga: manga.isManga!,
                                     track: Track(
                                         status: TrackStatus.planToRead,
                                         syncId: entries[index].syncId!,
-                                        title: widget.manga!.name!),
+                                        title: manga.name!),
                                   ) as TrackSearch?;
                                   if (trackSearch != null) {
                                     await ref

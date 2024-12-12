@@ -517,6 +517,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                       padding: const EdgeInsets.all(8.0),
                       child: ReadMoreWidget(
                         text: manga.description!,
+                        initial: _expanded,
                         onChanged: (value) {
                           setState(() {
                             _expanded = value;

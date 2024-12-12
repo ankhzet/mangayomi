@@ -106,12 +106,8 @@ class _MangaReaderDetailState extends ConsumerState<MangaReaderDetail> {
               );
             });
       },
-      error: (Object error, StackTrace stackTrace) {
-        return ErrorText(error);
-      },
-      loading: () {
-        return const ProgressCenter();
-      },
+      error: (Object error, StackTrace stackTrace) => ErrorText(error),
+      loading: () => const ProgressCenter(),
     ));
   }
 }

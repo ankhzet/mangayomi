@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:mangayomi/models/source.dart';
+import 'package:mangayomi/modules/manga/detail/chapters_list_model.dart';
 import 'package:mangayomi/utils/constant.dart';
 part 'settings.g.dart';
 
@@ -583,11 +584,41 @@ class SortLibraryManga {
   Map<String, dynamic> toJson() => {'index': index, 'reverse': reverse};
 }
 
+abstract interface class OptionModel {
+  static bool Function(T element) isManga<T extends OptionModel>(int id) => (T element) => id == element.mangaId;
+  static bool Function(T element) isNotManga<T extends OptionModel>(int id) => (T element) => id != element.mangaId;
+
+  int? get mangaId;
+}
+
+abstract interface class SortOptionModel extends OptionModel {
+  late int? index;
+  late bool? reverse;
+
+  @ignore
+  SortType get sort;
+}
+
+enum ChapterFilterOption {
+  download,
+  unread,
+  bookmark,
+  sort,
+}
+
 @embedded
-class SortChapter {
+class SortChapter implements SortOptionModel {
+  @override
   int? mangaId;
+  @override
   bool? reverse;
+  @override
   int? index;
+
+  @ignore
+  @override
+  SortType get sort => SortType.values[index ?? 0];
+
   SortChapter({this.mangaId, this.reverse = false, this.index = 1});
   SortChapter.fromJson(Map<String, dynamic> json) {
     index = json['index'];
@@ -599,10 +630,32 @@ class SortChapter {
       {'index': index, 'mangaId': mangaId, 'reverse': reverse};
 }
 
+enum FilterType {
+  keep,
+  include,
+  exclude,
+}
+
+abstract interface class FilterOptionModel extends OptionModel {
+  late int? type;
+
+  @ignore
+  FilterType get filter;
+}
+
+mixin FilterModel implements FilterOptionModel {
+  @ignore
+  @override
+  get filter => FilterType.values[type ?? 0];
+}
+
 @embedded
-class ChapterFilterDownloaded {
+class ChapterFilterDownloaded with FilterModel {
+  @override
   int? mangaId;
+  @override
   int? type;
+
   ChapterFilterDownloaded({this.mangaId, this.type = 0});
   ChapterFilterDownloaded.fromJson(Map<String, dynamic> json) {
     mangaId = json['mangaId'];
@@ -613,9 +666,12 @@ class ChapterFilterDownloaded {
 }
 
 @embedded
-class ChapterFilterUnread {
+class ChapterFilterUnread with FilterModel {
+  @override
   int? mangaId;
+  @override
   int? type;
+
   ChapterFilterUnread({this.mangaId, this.type = 0});
   ChapterFilterUnread.fromJson(Map<String, dynamic> json) {
     mangaId = json['mangaId'];
@@ -626,9 +682,12 @@ class ChapterFilterUnread {
 }
 
 @embedded
-class ChapterFilterBookmarked {
+class ChapterFilterBookmarked with FilterModel {
+  @override
   int? mangaId;
+  @override
   int? type;
+
   ChapterFilterBookmarked({this.mangaId, this.type = 0});
   ChapterFilterBookmarked.fromJson(Map<String, dynamic> json) {
     mangaId = json['mangaId'];

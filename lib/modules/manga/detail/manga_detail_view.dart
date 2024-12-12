@@ -89,25 +89,31 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
   bool _expanded = false;
   ScrollController _scrollController = ScrollController();
   late final isLocalArchive = widget.manga!.isLocalArchive ?? false;
+  late final manga = widget.manga!;
+  late final mangaId = manga.id;
+
   @override
   Widget build(BuildContext context) {
     final isLongPressed = ref.watch(isLongPressedStateProvider);
-    final chapterNameList = ref.watch(chaptersListStateProvider);
-    final scanlators = ref.watch(scanlatorsFilterStateProvider(widget.manga!));
-    final reverse = ref
-        .watch(sortChapterStateProvider(mangaId: widget.manga!.id!))
-        .reverse!;
-    final filterUnread =
-        ref.watch(chapterFilterUnreadStateProvider(mangaId: widget.manga!.id!));
-    final filterBookmarked = ref.watch(
-        chapterFilterBookmarkedStateProvider(mangaId: widget.manga!.id!));
-    final filterDownloaded = ref.watch(
-        chapterFilterDownloadedStateProvider(mangaId: widget.manga!.id!));
-    final sortChapter = ref
-        .watch(sortChapterStateProvider(mangaId: widget.manga!.id!))
-        .index as int;
-    final chapters =
-        ref.watch(getChaptersStreamProvider(mangaId: widget.manga!.id!));
+    final chaptersSelection = ref.watch(chaptersListStateProvider);
+    final scanlators = ref.watch(scanlatorsFilterStateProvider(manga));
+    final sortState = ref.watch(sortChapterStateProvider(mangaId: mangaId));
+    final filterUnread = ref.watch(chapterFilterUnreadStateProvider(mangaId: mangaId));
+    final filterBookmarked = ref.watch(chapterFilterBookmarkedStateProvider(mangaId: mangaId));
+    final filterDownloaded = ref.watch(chapterFilterDownloadedStateProvider(mangaId: mangaId));
+    final chapters = ref.watch(getChaptersStreamProvider(mangaId: mangaId));
+
+    final filter = ChapterFilterModel(
+      filterUnread: filterUnread.filter,
+      filterBookmarked: filterBookmarked.filter,
+      filterDownloaded: filterDownloaded.filter,
+      filterScanlator: scanlators.$2,
+    );
+    final sort = ChapterSortModel(
+      sort: sortState.sort,
+      reverse: sortState.reverse!,
+    );
+
     return NotificationListener<UserScrollNotification>(
         onNotification: (notification) {
           if (notification.direction == ScrollDirection.forward) {
@@ -120,107 +126,36 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
         },
         child: chapters.when(
           data: (data) {
-            List<Chapter> chapters = _filterAndSortChapter(
-                data: data.reversed.toList(),
-                filterUnread: filterUnread,
-                filterBookmarked: filterBookmarked,
-                filterDownloaded: filterDownloaded,
-                sortChapter: sortChapter,
-                filterScanlator: scanlators.$2);
+            final chapters = ChaptersListModel(chapters: data).build(filter: filter, sort: sort);
+
             ref.read(chaptersListttStateProvider.notifier).set(chapters);
+
             return _buildWidget(
                 chapters: chapters,
-                reverse: reverse,
-                chapterList: chapterNameList,
+                reverse: sortState.reverse!,
+                chaptersSelection: chaptersSelection,
                 isLongPressed: isLongPressed);
           },
-          error: (Object error, StackTrace stackTrace) {
-            return ErrorText(error);
-          },
-          loading: () {
-            return _buildWidget(
-                chapters: widget.manga!.chapters.toList().reversed.toList(),
-                reverse: reverse,
-                chapterList: chapterNameList,
-                isLongPressed: isLongPressed);
-          },
+          error: (Object error, StackTrace stackTrace) => ErrorText(error),
+          loading: () => _buildWidget(
+              chapters: manga.chapters.toList(),
+              reverse: sortState.reverse!,
+              chaptersSelection: chaptersSelection,
+              isLongPressed: isLongPressed),
         ));
   }
 
-  List<Chapter> _filterAndSortChapter(
-      {required List<Chapter> data,
-      required int filterUnread,
-      required int filterBookmarked,
-      required int filterDownloaded,
-      required int sortChapter,
-      required List<String> filterScanlator}) {
-    List<Chapter>? chapterList;
-    chapterList = data
-        .where((element) => filterUnread == 1
-            ? element.isRead == false
-            : filterUnread == 2
-                ? element.isRead == true
-                : true)
-        .where((element) => filterBookmarked == 1
-            ? element.isBookmarked == true
-            : filterBookmarked == 2
-                ? element.isBookmarked == false
-                : true)
-        .where((element) {
-          final modelChapDownload = isar.downloads
-              .filter()
-              .idIsNotNull()
-              .chapterIdEqualTo(element.id)
-              .findAllSync();
-          return filterDownloaded == 1
-              ? modelChapDownload.isNotEmpty &&
-                  modelChapDownload.first.isDownload == true
-              : filterDownloaded == 2
-                  ? !(modelChapDownload.isNotEmpty &&
-                      modelChapDownload.first.isDownload == true)
-                  : true;
-        })
-        .where((element) => !filterScanlator.contains(element.scanlator))
-        .toList();
-    List<Chapter> chapters =
-        sortChapter == 1 ? chapterList.reversed.toList() : chapterList;
-    if (sortChapter == 0) {
-      chapters.sort(
-        (a, b) {
-          return (a.scanlator == null ||
-                  b.scanlator == null ||
-                  a.dateUpload == null ||
-                  b.dateUpload == null)
-              ? 0
-              : a.scanlator!.compareTo(b.scanlator!) |
-                  a.dateUpload!.compareTo(b.dateUpload!);
-        },
-      );
-    } else if (sortChapter == 2) {
-      chapters.sort(
-        (a, b) {
-          return (a.dateUpload == null || b.dateUpload == null)
-              ? 0
-              : int.parse(a.dateUpload!).compareTo(int.parse(b.dateUpload!));
-        },
-      );
-    } else if (sortChapter == 3) {
-      chapters.sort(
-        (a, b) {
-          return (a.name == null || b.name == null)
-              ? 0
-              : a.name!.compareTo(b.name!);
-        },
-      );
-    }
-    return chapterList;
-  }
+  Widget _buildWidget({
+    required List<Chapter> chapters,
+    required bool reverse,
+    required List<Chapter> chaptersSelection,
+    required bool isLongPressed,
+  }) {
+    final l10n = l10nLocalizations(context)!;
+    final offset = ref.watch(offsetProvider);
+    final chapterLength = chapters.length;
+    final reverseList = chapters.reversed.toList();
 
-  Widget _buildWidget(
-      {required List<Chapter> chapters,
-      required bool reverse,
-      required List<Chapter> chapterList,
-      required bool isLongPressed}) {
     return Stack(
       children: [
         Consumer(

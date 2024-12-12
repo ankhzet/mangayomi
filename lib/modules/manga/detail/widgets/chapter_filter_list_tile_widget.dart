@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mangayomi/models/settings.dart';
 
 class ListTileChapterFilter extends StatelessWidget {
   final String label;
@@ -17,11 +18,9 @@ class ListTileChapterFilter extends StatelessWidget {
     return CheckboxListTile(
       dense: true,
       tristate: true,
-      value: type == 0
-          ? false
-          : type == 1
-              ? true
-              : null,
+      value: type == FilterType.exclude.index
+          ? null
+          : type == FilterType.include.index,
       title: Text(
         label,
         style: const TextStyle(fontSize: 14),

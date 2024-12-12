@@ -982,7 +982,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                                       ref
                                           .read(changedItemsManagerProvider(managerId: 1).notifier)
                                           .addDeletedManga(manga, false);
-                                      isar.mangas.deleteSync(manga.id!);
+                                      isar.mangas.deleteSync(manga.id);
                                     } else {
                                       manga.favorite = false;
                                       isar.mangas.putSync(manga);

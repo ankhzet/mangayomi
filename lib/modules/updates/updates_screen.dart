@@ -2,7 +2,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
-
 import 'package:isar/isar.dart';
 import 'package:mangayomi/eval/dart/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
@@ -41,18 +40,14 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> with TickerProvid
     CancelFunc? cancel;
     final label = context.l10n.updating_library;
 
-    void toast (String text) {
+    void toast(String text) {
       cancel = botToast(text, fontSize: 13, second: 1600, alignY: !context.isTablet ? 0.85 : 1);
     }
 
     toast(label);
 
-    final mangaList = isar.mangas
-        .filter()
-        .favoriteEqualTo(true)
-        .and()
-        .isMangaEqualTo(_tabBarController.index == 0)
-        .findAllSync();
+    final mangaList =
+        isar.mangas.filter().favoriteEqualTo(true).and().isMangaEqualTo(_tabBarController.index == 0).findAllSync();
     int numbers = 0;
     int total = mangaList.length;
 
@@ -171,7 +166,7 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> with TickerProvid
                                           .filter()
                                           .idIsNotNull()
                                           .chapter(
-                                              (q) => q.manga((q) => q.isMangaEqualTo(_tabBarController.index == 0))
+                                            (q) => q.manga((q) => q.isMangaEqualTo(_tabBarController.index == 0)),
                                           )
                                           .findAllSync()
                                           .toList();
@@ -249,13 +244,9 @@ class _UpdateTabState extends ConsumerState<UpdateTab> {
             }
 
             int? lastUpdated = entries.fold(null, (result, update) {
-                final timestamp = update.lastMangaUpdate;
+              final timestamp = update.lastMangaUpdate;
 
-                return (
-                    ((result == null) || (timestamp > result))
-                      ? timestamp
-                      : result
-                );
+              return (((result == null) || (timestamp > result)) ? timestamp : result);
             });
 
             final groups = entries.fold<List<UpdateGroup>>([], (list, update) {

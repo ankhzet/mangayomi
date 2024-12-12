@@ -9,7 +9,7 @@ class UpdateGroup {
 
   UpdateGroup.fromChapters(this.chapters, this.timestamp): manga = chapters.first.manga.value!;
 
-  int get mangaId => manga.id!;
+  int get mangaId => manga.id;
 
   String get label {
     final indexes = chapters.sorted((a, b) => a.compareTo(b)).map((chapter) => chapter.getNumber).toList(growable: false);
@@ -84,6 +84,6 @@ String indexesToStr(List<(int, int, int)> indexes) {
       return '$start, $end';
     }
 
-    return '$start..$end';;
+    return '$start..$end';
   }).join(', ');
 }

@@ -318,12 +318,10 @@ class ReaderController extends _$ReaderController {
   void setPageIndex(int newIndex, bool save) {
     if (chapter.isRead!) return;
     if (incognitoMode) return;
-    final isRead = (getReaderMode() == ReaderMode.verticalContinuous ||
-            getReaderMode() == ReaderMode.webtoon)
-        ? ((newIndex + 1) == getPageLength([]) - 1)
-            ? ((newIndex + 1) == getPageLength([]) - 1)
-            : (newIndex + 1) == getPageLength([])
-        : (newIndex + 1) == getPageLength([]);
+    final mode = getReaderMode();
+    final continuous = mode == ReaderMode.verticalContinuous || mode == ReaderMode.webtoon;
+    final pages = continuous ? getPageLength([]) : 0;
+    final isRead = (newIndex >= pages - 1) || (continuous && (newIndex >= pages - 2));
 
     if (isRead || save) {
       List<ChapterPageIndex>? chapterPageIndexs = [];

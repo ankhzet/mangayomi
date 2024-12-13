@@ -117,11 +117,8 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
 
     return NotificationListener<UserScrollNotification>(
         onNotification: (notification) {
-          if (notification.direction == ScrollDirection.forward) {
-            widget.isExtended(true);
-          }
-          if (notification.direction == ScrollDirection.reverse) {
-            widget.isExtended(false);
+          if (notification.direction != ScrollDirection.idle) {
+            widget.isExtended(notification.direction == ScrollDirection.forward);
           }
 
           return true;
@@ -131,16 +128,14 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
             ref.read(chaptersListttStateProvider.notifier).set(data);
 
             return _buildWidget(
-                reverse: sortState.reverse!,
-                chaptersSelection: chaptersSelection,
-                isLongPressed: isLongPressed);
-          },
-          error: (Object error, StackTrace stackTrace) => ErrorText(error),
-          loading: () => _buildWidget(
               chapters: data,
               reverse: sortState.reverse!,
               chaptersSelection: chaptersSelection,
-              isLongPressed: isLongPressed),
+              isLongPressed: isLongPressed,
+            );
+          },
+          error: (Object error, StackTrace stackTrace) => ErrorText(error),
+          loading: () => const ProgressCenter(),
         ));
   }
 

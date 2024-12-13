@@ -6,6 +6,7 @@ import 'package:isar/isar.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
+import 'package:mangayomi/modules/manga/detail/chapters_list_model.dart';
 import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
 import 'package:mangayomi/utils/constant.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
@@ -44,5 +45,37 @@ extension MangaExtension on Manga {
     }
 
     return result;
+  }
+
+  ChapterFilterModel getChapterFilterModel(Settings settings) {
+    final filterUnread = getOption(settings.chapterFilterUnreadList)?.type ?? 0;
+    final filterBookmarked = getOption(settings.chapterFilterBookmarkedList)?.type ?? 0;
+    final filterDownloaded = getOption(settings.chapterFilterDownloadedList)?.type ?? 0;
+    final scanlators = getOption(settings.filterScanlatorList)?.scanlators ?? [];
+
+    return ChapterFilterModel(
+      filterUnread: FilterType.values[filterUnread],
+      filterBookmarked: FilterType.values[filterBookmarked],
+      filterDownloaded: FilterType.values[filterDownloaded],
+      filterScanlator: scanlators,
+    );
+  }
+
+  ChapterSortModel getChapterSortModel(Settings settings) {
+    return ChapterSortModel(
+      getOption(settings.sortChapterList) ??
+          SortChapter(
+            mangaId: id,
+            index: 1,
+            reverse: false,
+          ),
+    );
+  }
+
+  ChaptersListModel getChapterModel(Settings settings) {
+    return ChaptersListModel(
+      filter: getChapterFilterModel(settings),
+      sort: getChapterSortModel(settings),
+    );
   }
 }

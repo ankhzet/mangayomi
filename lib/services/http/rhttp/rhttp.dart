@@ -19,4 +19,4 @@ export 'src/model/header.dart';
 export 'src/model/request.dart' show BaseHttpRequest, HttpRequest;
 export 'src/model/response.dart' show HttpResponse, HttpBytesResponse, HttpStreamResponse, HttpVersion;
 export 'src/model/settings.dart'
-    show ClientSettings, ProxySettings, RedirectSettings, TlsSettings, ClientCertificatepVersion;
+    show ClientSettings, ProxySettings, RedirectSettings, TlsSettings;

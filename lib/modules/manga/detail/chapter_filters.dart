@@ -32,21 +32,21 @@ class _ChapterFiltersState extends ConsumerState<ChapterFilters> {
       return Column(
         children: [
           if (!isLocalArchive)
-            ListTileChapterFilter(
+            ListTileItemFilter(
               label: l10n.downloaded,
               type: ref.watch(chapterFilterDownloadedStateProvider(mangaId: mangaId)).type!,
               onTap: () {
                 ref.read(chapterFilterDownloadedStateProvider(mangaId: mangaId).notifier).update();
               },
             ),
-          ListTileChapterFilter(
+          ListTileItemFilter(
             label: l10n.unread,
             type: ref.watch(chapterFilterUnreadStateProvider(mangaId: mangaId)).type!,
             onTap: () {
               ref.read(chapterFilterUnreadStateProvider(mangaId: mangaId).notifier).update();
             },
           ),
-          ListTileChapterFilter(
+          ListTileItemFilter(
             label: l10n.bookmarked,
             type: ref.watch(chapterFilterBookmarkedStateProvider(mangaId: mangaId)).type!,
             onTap: () {
@@ -86,7 +86,7 @@ class _ChapterFiltersState extends ConsumerState<ChapterFilters> {
           child: ListView.builder(
             shrinkWrap: true,
             itemCount: scanlators.$1.length,
-            itemBuilder: (context, index) => ListTileChapterFilter(
+            itemBuilder: (context, index) => ListTileItemFilter(
               label: scanlators.$1[index],
               type: scanlators.$3.contains(scanlators.$1[index]) ? 2 : 0,
               onTap: () {

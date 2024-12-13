@@ -150,7 +150,7 @@ class _SourcePreferenceWidgetState extends State<SourcePreferenceWidget> {
                                         shrinkWrap: true,
                                         itemCount: pref.entries!.length,
                                         itemBuilder: (context, index) {
-                                          return ListTileChapterFilter(
+                                          return ListTileItemFilter(
                                               label: pref.entries![index],
                                               type: indexList.contains(pref.entryValues![index]) ? 1 : 0,
                                               onTap: () {

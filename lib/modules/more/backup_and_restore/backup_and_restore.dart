@@ -48,7 +48,7 @@ class BackupAndRestore extends ConsumerWidget {
                                   shrinkWrap: true,
                                   itemCount: list.length,
                                   itemBuilder: (context, index) {
-                                    return ListTileChapterFilter(
+                                    return ListTileItemFilter(
                                         label: list[index],
                                         type: indexList.contains(index) ? 1 : 0,
                                         onTap: () {
@@ -271,7 +271,7 @@ class BackupAndRestore extends ConsumerWidget {
                                   shrinkWrap: true,
                                   itemCount: list.length,
                                   itemBuilder: (context, index) {
-                                    return ListTileChapterFilter(
+                                    return ListTileItemFilter(
                                         label: list[index],
                                         type: indexList.contains(index) ? 1 : 0,
                                         onTap: () {

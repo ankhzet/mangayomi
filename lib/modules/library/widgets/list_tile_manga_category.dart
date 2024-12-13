@@ -36,7 +36,7 @@ class _ListTileMangaCategoryState extends State<ListTileMangaCategory> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTileChapterFilter(
+    return ListTileItemFilter(
       label: widget.category.name!,
       onTap: widget.onTap,
       type: widget.categoryIds.contains(widget.category.id) ? 1 : 0,

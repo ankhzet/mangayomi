@@ -352,7 +352,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     final backgroundColor = ref.watch(backgroundColorStateProvider);
     final fullScreenReader = ref.watch(fullScreenReaderStateProvider);
     final cropBorders = ref.watch(cropBordersStateProvider);
-    final bool isHorizontalContinuaous = ref.watch(_currentReaderMode) == ReaderMode.horizontalContinuous;
+    final bool isHorizontalContinuous = ref.watch(_currentReaderMode) == ReaderMode.horizontalContinuous;
     if (cropBorders) {
       _processCropBorders();
     }
@@ -435,10 +435,10 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                                   basePosition: _scalePosition,
                                   onScaleEnd: _onScaleEnd,
                                   child: ScrollablePositionedList.separated(
-                                    scrollDirection: isHorizontalContinuaous ? Axis.horizontal : Axis.vertical,
+                                    scrollDirection: isHorizontalContinuous ? Axis.horizontal : Axis.vertical,
                                     minCacheExtent: pagePreloadAmount * context.height(1),
                                     initialScrollIndex: _readerController.getPageIndex(),
-                                    itemCount: (_pageMode == PageMode.doublePage && !isHorizontalContinuaous)
+                                    itemCount: (_pageMode == PageMode.doublePage && !isHorizontalContinuous)
                                         ? (_uChapDataPreload.length / 2).ceil() + 1
                                         : _uChapDataPreload.length,
                                     physics: const ClampingScrollPhysics(),
@@ -454,7 +454,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                                           _toggleScale(details.globalPosition);
                                         },
                                         onDoubleTap: () {},
-                                        child: (_pageMode == PageMode.doublePage && !isHorizontalContinuaous)
+                                        child: (_pageMode == PageMode.doublePage && !isHorizontalContinuous)
                                             ? DoubleColummVerticalView(
                                                 datas: index == 0
                                                     ? [_uChapDataPreload[0], null]
@@ -495,7 +495,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                           : Material(
                               color: getBackgroundColor(backgroundColor),
                               shadowColor: getBackgroundColor(backgroundColor),
-                              child: (_pageMode == PageMode.doublePage && !isHorizontalContinuaous)
+                              child: (_pageMode == PageMode.doublePage && !isHorizontalContinuous)
                                   ? ExtendedImageGesturePageView.builder(
                                       controller: _extendedController,
                                       scrollDirection: _scrollDirection,

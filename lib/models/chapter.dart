@@ -5,6 +5,8 @@ import 'package:mangayomi/models/manga.dart';
 
 part 'chapter.g.dart';
 
+typedef ChapterCompositeNumber = (int, int, int);
+
 @collection
 @Name("Chapter")
 class Chapter {
@@ -99,7 +101,7 @@ class Chapter {
   int get samenessHash => Object.hash(mangaId, scanlator, name);
 
   @ignore
-  (int, int, int) get getNumber {
+  ChapterCompositeNumber get getNumber {
     if ((name ?? '').isNotEmpty) {
       final match = numberRegexp.firstMatch(name!);
 

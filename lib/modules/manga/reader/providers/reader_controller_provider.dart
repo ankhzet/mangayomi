@@ -175,6 +175,7 @@ class ReaderController extends _$ReaderController {
 
   void checkAndSyncProgress() {
     final syncAfterReading = ref.watch(syncAfterReadingStateProvider);
+
     if (syncAfterReading) {
       ref.read(syncServerProvider(syncId: 1).notifier).checkForSync(true);
     }
@@ -182,8 +183,10 @@ class ReaderController extends _$ReaderController {
 
   void setChapterBookmarked() {
     if (incognitoMode) return;
+
     final isBookmarked = getChapterBookmarked();
     final chap = chapter;
+
     isar.writeTxnSync(() {
       chap.isBookmarked = !isBookmarked;
       ref.read(changedItemsManagerProvider(managerId: 1).notifier).addUpdatedChapter(chap, false, false);
@@ -315,6 +318,7 @@ class ReaderController extends _$ReaderController {
         ref.read(changedItemsManagerProvider(managerId: 1).notifier).addUpdatedChapter(chap, false, false);
         isar.chapters.putSync(chap);
       });
+
       if (isRead) {
         chapter.updateTrackChapterRead(ref);
       }

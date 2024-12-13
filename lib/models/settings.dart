@@ -704,8 +704,7 @@ class PersonalReaderMode {
     readerMode = ReaderMode.values[json['readerMode']];
   }
 
-  Map<String, dynamic> toJson() =>
-      {'mangaId': mangaId, 'readerMode': readerMode.index};
+  Map<String, dynamic> toJson() => {'mangaId': mangaId, 'readerMode': readerMode.index};
 }
 
 @embedded

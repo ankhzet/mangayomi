@@ -121,9 +121,7 @@ class Chapter {
 
   @Index(name: "order")
   double get order {
-    (int, int, int) aNumber = getNumber;
-    int chapter = aNumber.$2;
-    int fraction = aNumber.$3;
+    final (_, chapter, fraction) = getNumber;
 
     if (fraction == 0) {
       return chapter.toDouble();
@@ -133,15 +131,15 @@ class Chapter {
   }
 
   int compareTo(Chapter b) {
-    (int, int, int) aNumber = getNumber;
-    (int, int, int) bNumber = b.getNumber;
+    final (_, ac, af) = getNumber;
+    final (_, bc, bf) = b.getNumber;
 
-    if (aNumber.$2 != bNumber.$2) {
-      return aNumber.$2 < bNumber.$2 ? 1 : -1;
+    if (ac != bc) {
+      return ac < bc ? 1 : -1;
     }
 
-    if (aNumber.$3 != bNumber.$3) {
-      return aNumber.$3 < bNumber.$3 ? 1 : -1;
+    if (af != bf) {
+      return af < bf ? 1 : -1;
     }
 
     return (scanlator ?? '').compareTo(b.scanlator ?? '');

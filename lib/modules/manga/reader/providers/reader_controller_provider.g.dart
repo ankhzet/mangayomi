@@ -171,7 +171,7 @@ class _CurrentIndexProviderElement
   Chapter get chapter => (origin as CurrentIndexProvider).chapter;
 }
 
-String _$readerControllerHash() => r'8186d6809edae023a184240d454b20214adf3f46';
+String _$readerControllerHash() => r'0830626654a83e6b71cb155727eaf3e5c511f03c';
 
 abstract class _$ReaderController extends BuildlessAutoDisposeNotifier<void> {
   late final Chapter chapter;

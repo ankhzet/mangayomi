@@ -267,24 +267,20 @@ Future<void> pushToMangaReaderDetail({
   final existing = sortList.firstWhereOrNull(OfManga.isManga(mangaId));
 
   if (existing == null) {
-    isar.writeTxnSync(
-      () {
-        isar.settings.putSync(settings
-          ..sortChapterList = [...sortList, SortChapter()..mangaId = mangaId]
-          ..chapterFilterBookmarkedList = [
-            ...settings.chapterFilterBookmarkedList ?? [],
-            ChapterFilterBookmarked()..mangaId = mangaId
-          ]
-          ..chapterFilterDownloadedList = [
-            ...settings.chapterFilterDownloadedList ?? [],
-            ChapterFilterDownloaded()..mangaId = mangaId
-          ]
-          ..chapterFilterUnreadList = [
-            ...settings.chapterFilterUnreadList ?? [],
-            ChapterFilterUnread()..mangaId = mangaId
-          ]);
-      },
-    );
+    isar.settings.first = settings
+      ..sortChapterList = [...sortList, SortChapter()..mangaId = mangaId]
+      ..chapterFilterBookmarkedList = [
+        ...settings.chapterFilterBookmarkedList ?? [],
+        ChapterFilterBookmarked()..mangaId = mangaId
+      ]
+      ..chapterFilterDownloadedList = [
+        ...settings.chapterFilterDownloadedList ?? [],
+        ChapterFilterDownloaded()..mangaId = mangaId
+      ]
+      ..chapterFilterUnreadList = [
+        ...settings.chapterFilterUnreadList ?? [],
+        ChapterFilterUnread()..mangaId = mangaId
+      ];
   }
   if (addToFavourite) {
     final getManga = isar.mangas.filter().idEqualTo(mangaId).findFirstSync()!;

@@ -22,7 +22,6 @@ class AppFontFamily extends _$AppFontFamily {
   void set(String? fontFamily) {
     final settings = isar.settings.first;
     state = fontFamily;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings..appFontFamily = fontFamily));
+    isar.settings.first = settings..appFontFamily = fontFamily;
   }
 }

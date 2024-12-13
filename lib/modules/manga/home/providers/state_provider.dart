@@ -16,8 +16,6 @@ class MangaHomeDisplayTypeState extends _$MangaHomeDisplayTypeState {
 
     state = displayType;
 
-    isar.writeTxnSync(() {
-      isar.settings.putSync(settings..mangaHomeDisplayType = displayType);
-    });
+    isar.settings.first = settings..mangaHomeDisplayType = displayType;
   }
 }

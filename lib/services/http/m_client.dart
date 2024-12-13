@@ -98,12 +98,11 @@ class MClient {
       cookieList.add(MCookie()
         ..host = host
         ..cookie = newCookie);
-      isar.writeTxnSync(
-          () => isar.settings.putSync(settings..cookiesList = cookieList));
+      isar.settings.first = settings..cookiesList = cookieList;
     }
     if (ua.isNotEmpty) {
       final settings = isar.settings.first;
-      isar.writeTxnSync(() => isar.settings.putSync(settings..userAgent = ua));
+      isar.settings.first = settings..userAgent = ua;
     }
   }
 

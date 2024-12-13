@@ -31,7 +31,7 @@ class BackupFrequencyOptionsState extends _$BackupFrequencyOptionsState {
   void set(List<int> values) {
     final settings = isar.settings.first;
     state = values;
-    isar.writeTxnSync(() => isar.settings.putSync(settings..backupFrequencyOptions = values));
+    isar.settings.first = settings..backupFrequencyOptions = values;
   }
 }
 
@@ -46,9 +46,7 @@ class AutoBackupLocationState extends _$AutoBackupLocationState {
 
   void set(String location) {
     state = ("${_storagePath}backup", location);
-    isar.writeTxnSync(() {
-      isar.settings.putSync(settings..autoBackupLocation = location);
-    });
+    isar.settings.first = settings..autoBackupLocation = location;
   }
 
   String? _storagePath;
@@ -105,7 +103,7 @@ void _setBackupFrequency(int value) {
   final duration = _duration(value);
   final now = DateTime.now();
   final startDate = duration != null ? now.add(duration) : null;
-  isar.writeTxnSync(() => isar.settings.putSync(settings
+  isar.settings.first = settings
     ..backupFrequency = value
-    ..startDatebackup = startDate?.millisecondsSinceEpoch));
+    ..startDatebackup = startDate?.millisecondsSinceEpoch;
 }

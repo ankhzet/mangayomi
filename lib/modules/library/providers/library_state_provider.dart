@@ -37,9 +37,7 @@ class LibraryDisplayTypeState extends _$LibraryDisplayTypeState {
       appSettings = settings..animeDisplayType = displayType;
     }
 
-    isar.writeTxnSync(() {
-      isar.settings.putSync(appSettings);
-    });
+    isar.settings.first = appSettings;
   }
 }
 
@@ -65,9 +63,7 @@ class LibraryGridSizeState extends _$LibraryGridSizeState {
         appSettings = settings..animeGridSize = value;
       }
 
-      isar.writeTxnSync(() {
-        isar.settings.putSync(appSettings);
-      });
+      isar.settings.first = appSettings;
     }
   }
 }
@@ -96,9 +92,7 @@ class MangaFilterDownloadedState extends _$MangaFilterDownloadedState {
     } else {
       appSettings = settings..libraryFilterAnimeDownloadType = type;
     }
-    isar.writeTxnSync(() {
-      isar.settings.putSync(appSettings);
-    });
+    isar.settings.first = appSettings;
     state = type;
   }
 
@@ -137,9 +131,7 @@ class MangaFilterUnreadState extends _$MangaFilterUnreadState {
     } else {
       appSettings = settings..libraryFilterAnimeUnreadType = type;
     }
-    isar.writeTxnSync(() {
-      isar.settings.putSync(appSettings);
-    });
+    isar.settings.first = appSettings;
     state = type;
   }
 
@@ -227,9 +219,7 @@ class MangaFilterStartedState extends _$MangaFilterStartedState {
     } else {
       appSettings = settings..libraryFilterAnimeStartedType = type;
     }
-    isar.writeTxnSync(() {
-      isar.settings.putSync(appSettings);
-    });
+    isar.settings.first = appSettings;
     state = type;
   }
 
@@ -317,9 +307,7 @@ class MangaFilterBookmarkedState extends _$MangaFilterBookmarkedState {
     } else {
       appSettings = settings..libraryFilterAnimeBookMarkedType = type;
     }
-    isar.writeTxnSync(() {
-      isar.settings.putSync(appSettings);
-    });
+    isar.settings.first = appSettings;
     state = type;
   }
 
@@ -422,9 +410,7 @@ class LibraryShowCategoryTabsState extends _$LibraryShowCategoryTabsState {
       appSettings = settings..animeLibraryShowCategoryTabs = value;
     }
     state = value;
-    isar.writeTxnSync(() {
-      isar.settings.putSync(appSettings);
-    });
+    isar.settings.first = appSettings;
   }
 }
 
@@ -445,9 +431,7 @@ class LibraryDownloadedChaptersState extends _$LibraryDownloadedChaptersState {
       appSettings = settings..animeLibraryDownloadedChapters = value;
     }
     state = value;
-    isar.writeTxnSync(() {
-      isar.settings.putSync(appSettings);
-    });
+    isar.settings.first = appSettings;
   }
 }
 
@@ -468,9 +452,7 @@ class LibraryLanguageState extends _$LibraryLanguageState {
       appSettings = settings..animeLibraryShowLanguage = value;
     }
     state = value;
-    isar.writeTxnSync(() {
-      isar.settings.putSync(appSettings);
-    });
+    isar.settings.first = appSettings;
   }
 }
 
@@ -491,9 +473,7 @@ class LibraryLocalSourceState extends _$LibraryLocalSourceState {
       appSettings = settings..animeLibraryLocalSource = value;
     }
     state = value;
-    isar.writeTxnSync(() {
-      isar.settings.putSync(appSettings);
-    });
+    isar.settings.first = appSettings;
   }
 }
 
@@ -514,9 +494,7 @@ class LibraryShowNumbersOfItemsState extends _$LibraryShowNumbersOfItemsState {
       appSettings = settings..animeLibraryShowNumbersOfItems = value;
     }
     state = value;
-    isar.writeTxnSync(() {
-      isar.settings.putSync(appSettings);
-    });
+    isar.settings.first = appSettings;
   }
 }
 
@@ -538,9 +516,7 @@ class LibraryShowContinueReadingButtonState
       appSettings = settings..animeLibraryShowContinueReadingButton = value;
     }
     state = value;
-    isar.writeTxnSync(() {
-      isar.settings.putSync(appSettings);
-    });
+    isar.settings.first = appSettings;
   }
 }
 
@@ -564,9 +540,7 @@ class SortLibraryMangaState extends _$SortLibraryMangaState {
     } else {
       appSettings = settings..sortLibraryAnime = value;
     }
-    isar.writeTxnSync(() {
-      isar.settings.putSync(appSettings);
-    });
+    isar.settings.first = appSettings;
     state = value;
   }
 

@@ -153,9 +153,7 @@ mixin OptionState<T extends OfManga> implements IFilterTypeState<T> {
         settings.sortChapterList = list;
     }
 
-    isar.writeTxnSync(() {
-      isar.settings.putSync(settings);
-    });
+    isar.settings.first = settings;
 
     state = model;
   }
@@ -357,9 +355,7 @@ class ScanlatorsFilterState extends _$ScanlatorsFilterState {
     }
 
     filterScanlatorList.add(value);
-    isar.writeTxnSync(() {
-      isar.settings.putSync(settings..filterScanlatorList = filterScanlatorList);
-    });
+    isar.settings.first = settings..filterScanlatorList = filterScanlatorList;
     state = (_getScanlators(), _getFilterScanlator()!, filterScanlators);
   }
 

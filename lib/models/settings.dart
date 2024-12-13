@@ -2,6 +2,7 @@ import 'package:isar/isar.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/modules/manga/detail/chapters_list_model.dart';
 import 'package:mangayomi/utils/constant.dart';
+
 part 'settings.g.dart';
 
 @collection
@@ -281,62 +282,45 @@ class Settings {
 
   Settings.fromJson(Map<String, dynamic> json) {
     animatePageTransitions = json['animatePageTransitions'];
-    animeDisplayType = DisplayType
-        .values[json['animeDisplayType'] ?? DisplayType.compactGrid.index];
+    animeDisplayType = DisplayType.values[json['animeDisplayType'] ?? DisplayType.compactGrid.index];
     animeLibraryDownloadedChapters = json['animeLibraryDownloadedChapters'];
     animeLibraryLocalSource = json['animeLibraryLocalSource'];
     animeLibraryShowCategoryTabs = json['animeLibraryShowCategoryTabs'];
-    animeLibraryShowContinueReadingButton =
-        json['animeLibraryShowContinueReadingButton'];
+    animeLibraryShowContinueReadingButton = json['animeLibraryShowContinueReadingButton'];
     animeLibraryShowLanguage = json['animeLibraryShowLanguage'];
     animeLibraryShowNumbersOfItems = json['animeLibraryShowNumbersOfItems'];
     autoExtensionsUpdates = json['autoExtensionsUpdates'];
-    backgroundColor = BackgroundColor
-        .values[json['backgroundColor'] ?? BackgroundColor.black.index];
+    backgroundColor = BackgroundColor.values[json['backgroundColor'] ?? BackgroundColor.black.index];
     if (json['chapterFilterBookmarkedList'] != null) {
       chapterFilterBookmarkedList =
-          (json['chapterFilterBookmarkedList'] as List)
-              .map((e) => ChapterFilterBookmarked.fromJson(e))
-              .toList();
+          (json['chapterFilterBookmarkedList'] as List).map((e) => ChapterFilterBookmarked.fromJson(e)).toList();
     }
     if (json['chapterFilterDownloadedList'] != null) {
       chapterFilterDownloadedList =
-          (json['chapterFilterDownloadedList'] as List)
-              .map((e) => ChapterFilterDownloaded.fromJson(e))
-              .toList();
+          (json['chapterFilterDownloadedList'] as List).map((e) => ChapterFilterDownloaded.fromJson(e)).toList();
     }
     if (json['chapterFilterUnreadList'] != null) {
-      chapterFilterUnreadList = (json['chapterFilterUnreadList'] as List)
-          .map((e) => ChapterFilterUnread.fromJson(e))
-          .toList();
+      chapterFilterUnreadList =
+          (json['chapterFilterUnreadList'] as List).map((e) => ChapterFilterUnread.fromJson(e)).toList();
     }
     if (json['chapterPageIndexList'] != null) {
-      chapterPageIndexList = (json['chapterPageIndexList'] as List)
-          .map((e) => ChapterPageIndex.fromJson(e))
-          .toList();
+      chapterPageIndexList = (json['chapterPageIndexList'] as List).map((e) => ChapterPageIndex.fromJson(e)).toList();
     }
     if (json['chapterPageUrlsList'] != null) {
-      chapterPageUrlsList = (json['chapterPageUrlsList'] as List)
-          .map((e) => ChapterPageurls.fromJson(e))
-          .toList();
+      chapterPageUrlsList = (json['chapterPageUrlsList'] as List).map((e) => ChapterPageurls.fromJson(e)).toList();
     }
     checkForExtensionUpdates = json['checkForExtensionUpdates'];
     if (json['cookiesList'] != null) {
-      cookiesList = (json['cookiesList'] as List)
-          .map((e) => MCookie.fromJson(e))
-          .toList();
+      cookiesList = (json['cookiesList'] as List).map((e) => MCookie.fromJson(e)).toList();
     }
     cropBorders = json['cropBorders'];
     dateFormat = json['dateFormat'];
-    defaultReaderMode = ReaderMode
-        .values[json['defaultReaderMode'] ?? ReaderMode.vertical.index];
+    defaultReaderMode = ReaderMode.values[json['defaultReaderMode'] ?? ReaderMode.vertical.index];
     displayType = DisplayType.values[json['displayType']];
     doubleTapAnimationSpeed = json['doubleTapAnimationSpeed'];
     downloadLocation = json['downloadLocation'];
     downloadOnlyOnWifi = json['downloadOnlyOnWifi'];
-    filterScanlatorList = (json['filterScanlatorList'] as List?)
-        ?.map((e) => FilterScanlator.fromJson(e))
-        .toList();
+    filterScanlatorList = (json['filterScanlatorList'] as List?)?.map((e) => FilterScanlator.fromJson(e)).toList();
     flexColorSchemeBlendLevel = json['flexColorSchemeBlendLevel'] is double
         ? json['flexColorSchemeBlendLevel']
         : (json['flexColorSchemeBlendLevel'] as int).toDouble();
@@ -348,8 +332,7 @@ class Settings {
     libraryFilterAnimeDownloadType = json['libraryFilterAnimeDownloadType'];
     libraryFilterAnimeStartedType = json['libraryFilterAnimeStartedType'];
     libraryFilterAnimeUnreadType = json['libraryFilterAnimeUnreadType'];
-    libraryFilterMangasBookMarkedType =
-        json['libraryFilterMangasBookMarkedType'];
+    libraryFilterMangasBookMarkedType = json['libraryFilterMangasBookMarkedType'];
     libraryFilterMangasDownloadType = json['libraryFilterMangasDownloadType'];
     libraryFilterMangasStartedType = json['libraryFilterMangasStartedType'];
     libraryFilterMangasUnreadType = json['libraryFilterMangasUnreadType'];
@@ -358,41 +341,28 @@ class Settings {
     libraryShowContinueReadingButton = json['libraryShowContinueReadingButton'];
     libraryShowLanguage = json['libraryShowLanguage'];
     libraryShowNumbersOfItems = json['libraryShowNumbersOfItems'];
-    locale =
-        json['locale'] != null ? L10nLocale.fromJson(json['locale']) : null;
+    locale = json['locale'] != null ? L10nLocale.fromJson(json['locale']) : null;
     onlyIncludePinnedSources = json['onlyIncludePinnedSources'];
     pagePreloadAmount = json['pagePreloadAmount'];
     if (json['personalPageModeList'] != null) {
-      personalPageModeList = (json['personalPageModeList'] as List)
-          .map((e) => PersonalPageMode.fromJson(e))
-          .toList();
+      personalPageModeList = (json['personalPageModeList'] as List).map((e) => PersonalPageMode.fromJson(e)).toList();
     }
     if (json['personalReaderModeList'] != null) {
-      personalReaderModeList = (json['personalReaderModeList'] as List)
-          .map((e) => PersonalReaderMode.fromJson(e))
-          .toList();
+      personalReaderModeList =
+          (json['personalReaderModeList'] as List).map((e) => PersonalReaderMode.fromJson(e)).toList();
     }
     pureBlackDarkMode = json['pureBlackDarkMode'];
     relativeTimesTamps = json['relativeTimesTamps'];
     saveAsCBZArchive = json['saveAsCBZArchive'];
-    scaleType =
-        ScaleType.values[json['scaleType'] ?? ScaleType.fitScreen.index];
+    scaleType = ScaleType.values[json['scaleType'] ?? ScaleType.fitScreen.index];
     showPagesNumber = json['showPagesNumber'];
     if (json['sortChapterList'] != null) {
-      sortChapterList = (json['sortChapterList'] as List)
-          .map((e) => SortChapter.fromJson(e))
-          .toList();
+      sortChapterList = (json['sortChapterList'] as List).map((e) => SortChapter.fromJson(e)).toList();
     }
-    sortLibraryAnime = json['sortLibraryAnime'] != null
-        ? SortLibraryManga.fromJson(json['sortLibraryAnime'])
-        : null;
-    sortLibraryManga = json['sortLibraryManga'] != null
-        ? SortLibraryManga.fromJson(json['sortLibraryManga'])
-        : null;
+    sortLibraryAnime = json['sortLibraryAnime'] != null ? SortLibraryManga.fromJson(json['sortLibraryAnime']) : null;
+    sortLibraryManga = json['sortLibraryManga'] != null ? SortLibraryManga.fromJson(json['sortLibraryManga']) : null;
     if (json['autoScrollPages'] != null) {
-      autoScrollPages = (json['autoScrollPages'] as List)
-          .map((e) => AutoScrollPages.fromJson(e))
-          .toList();
+      autoScrollPages = (json['autoScrollPages'] as List).map((e) => AutoScrollPages.fromJson(e)).toList();
     }
     themeIsDark = json['themeIsDark'];
     userAgent = json['userAgent'];
@@ -416,22 +386,17 @@ class Settings {
     aniSkipTimeoutLength = json['aniSkipTimeoutLength'];
     btServerAddress = json['btServerAddress'];
     btServerPort = json['btServerPort'];
-    customColorFilter = json['customColorFilter'] != null
-        ? CustomColorFilter.fromJson(json['customColorFilter'])
-        : null;
+    customColorFilter =
+        json['customColorFilter'] != null ? CustomColorFilter.fromJson(json['customColorFilter']) : null;
     enableCustomColorFilter = json['enableCustomColorFilter'];
-    colorFilterBlendMode = ColorFilterBlendMode
-        .values[json['colorFilterBlendMode'] ?? ColorFilterBlendMode.none];
-    playerSubtitleSettings = json['playerSubtitleSettings'] != null
-        ? PlayerSubtitleSettings.fromJson(json['playerSubtitleSettings'])
-        : null;
-    mangaHomeDisplayType = DisplayType.values[
-        json['mangaHomeDisplayType'] ?? DisplayType.comfortableGrid.index];
+    colorFilterBlendMode = ColorFilterBlendMode.values[json['colorFilterBlendMode'] ?? ColorFilterBlendMode.none];
+    playerSubtitleSettings =
+        json['playerSubtitleSettings'] != null ? PlayerSubtitleSettings.fromJson(json['playerSubtitleSettings']) : null;
+    mangaHomeDisplayType = DisplayType.values[json['mangaHomeDisplayType'] ?? DisplayType.comfortableGrid.index];
     appFontFamily = json['appFontFamily'];
     mangaGridSize = json['mangaGridSize'];
     animeGridSize = json['animeGridSize'];
-    disableSectionType =
-        SectionType.values[json['disableSectionType'] ?? SectionType.all];
+    disableSectionType = SectionType.values[json['disableSectionType'] ?? SectionType.all];
     useLibass = json['useLibass'];
   }
 
@@ -441,22 +406,16 @@ class Settings {
         'animeLibraryDownloadedChapters': animeLibraryDownloadedChapters,
         'animeLibraryLocalSource': animeLibraryLocalSource,
         'animeLibraryShowCategoryTabs': animeLibraryShowCategoryTabs,
-        'animeLibraryShowContinueReadingButton':
-            animeLibraryShowContinueReadingButton,
+        'animeLibraryShowContinueReadingButton': animeLibraryShowContinueReadingButton,
         'animeLibraryShowLanguage': animeLibraryShowLanguage,
         'animeLibraryShowNumbersOfItems': animeLibraryShowNumbersOfItems,
         'autoExtensionsUpdates': autoExtensionsUpdates,
         'backgroundColor': backgroundColor.index,
-        'chapterFilterBookmarkedList':
-            chapterFilterBookmarkedList?.map((v) => v.toJson()).toList(),
-        'chapterFilterDownloadedList':
-            chapterFilterDownloadedList?.map((v) => v.toJson()).toList(),
-        'chapterFilterUnreadList':
-            chapterFilterUnreadList?.map((v) => v.toJson()).toList(),
-        'chapterPageIndexList':
-            chapterPageIndexList?.map((v) => v.toJson()).toList(),
-        'chapterPageUrlsList':
-            chapterPageUrlsList?.map((v) => v.toJson()).toList(),
+        'chapterFilterBookmarkedList': chapterFilterBookmarkedList?.map((v) => v.toJson()).toList(),
+        'chapterFilterDownloadedList': chapterFilterDownloadedList?.map((v) => v.toJson()).toList(),
+        'chapterFilterUnreadList': chapterFilterUnreadList?.map((v) => v.toJson()).toList(),
+        'chapterPageIndexList': chapterPageIndexList?.map((v) => v.toJson()).toList(),
+        'chapterPageUrlsList': chapterPageUrlsList?.map((v) => v.toJson()).toList(),
         'checkForExtensionUpdates': checkForExtensionUpdates,
         'cookiesList': cookiesList,
         'cropBorders': cropBorders,
@@ -488,10 +447,8 @@ class Settings {
         'locale': locale?.toJson(),
         'onlyIncludePinnedSources': onlyIncludePinnedSources,
         'pagePreloadAmount': pagePreloadAmount,
-        'personalPageModeList':
-            personalPageModeList?.map((v) => v.toJson()).toList(),
-        'personalReaderModeList':
-            personalReaderModeList?.map((v) => v.toJson()).toList(),
+        'personalPageModeList': personalPageModeList?.map((v) => v.toJson()).toList(),
+        'personalReaderModeList': personalReaderModeList?.map((v) => v.toJson()).toList(),
         'pureBlackDarkMode': pureBlackDarkMode,
         'relativeTimesTamps': relativeTimesTamps,
         'saveAsCBZArchive': saveAsCBZArchive,
@@ -522,12 +479,10 @@ class Settings {
         'btServerAddress': btServerAddress,
         'btServerPort': btServerPort,
         'fullScreenReader': fullScreenReader,
-        if (customColorFilter != null)
-          'customColorFilter': customColorFilter!.toJson(),
+        if (customColorFilter != null) 'customColorFilter': customColorFilter!.toJson(),
         'enableCustomColorFilter': enableCustomColorFilter,
         'colorFilterBlendMode': colorFilterBlendMode.index,
-        if (playerSubtitleSettings != null)
-          'playerSubtitleSettings': playerSubtitleSettings!.toJson(),
+        if (playerSubtitleSettings != null) 'playerSubtitleSettings': playerSubtitleSettings!.toJson(),
         'mangaHomeDisplayType': mangaHomeDisplayType.index,
         'appFontFamily': appFontFamily,
         'mangaGridSize': mangaGridSize,
@@ -561,6 +516,7 @@ enum BackgroundColor { black, grey, white, automatic }
 class MCookie {
   String? host;
   String? cookie;
+
   MCookie({this.host, this.cookie});
 
   MCookie.fromJson(Map<String, dynamic> json) {
@@ -575,7 +531,9 @@ class MCookie {
 class SortLibraryManga {
   bool? reverse;
   int? index;
+
   SortLibraryManga({this.reverse = false, this.index = 0});
+
   SortLibraryManga.fromJson(Map<String, dynamic> json) {
     index = json['index'];
     reverse = json['reverse'];
@@ -620,14 +578,14 @@ class SortChapter implements SortOptionModel {
   SortType get sort => SortType.values[index ?? 0];
 
   SortChapter({this.mangaId, this.reverse = false, this.index = 1});
+
   SortChapter.fromJson(Map<String, dynamic> json) {
     index = json['index'];
     mangaId = json['mangaId'];
     reverse = json['reverse'];
   }
 
-  Map<String, dynamic> toJson() =>
-      {'index': index, 'mangaId': mangaId, 'reverse': reverse};
+  Map<String, dynamic> toJson() => {'index': index, 'mangaId': mangaId, 'reverse': reverse};
 }
 
 enum FilterType {
@@ -657,6 +615,7 @@ class ChapterFilterDownloaded with FilterModel {
   int? type;
 
   ChapterFilterDownloaded({this.mangaId, this.type = 0});
+
   ChapterFilterDownloaded.fromJson(Map<String, dynamic> json) {
     mangaId = json['mangaId'];
     type = json['type'];
@@ -673,6 +632,7 @@ class ChapterFilterUnread with FilterModel {
   int? type;
 
   ChapterFilterUnread({this.mangaId, this.type = 0});
+
   ChapterFilterUnread.fromJson(Map<String, dynamic> json) {
     mangaId = json['mangaId'];
     type = json['type'];
@@ -689,6 +649,7 @@ class ChapterFilterBookmarked with FilterModel {
   int? type;
 
   ChapterFilterBookmarked({this.mangaId, this.type = 0});
+
   ChapterFilterBookmarked.fromJson(Map<String, dynamic> json) {
     mangaId = json['mangaId'];
     type = json['type'];
@@ -704,14 +665,14 @@ class ChapterPageurls {
   List<String>? headers;
 
   ChapterPageurls({this.chapterId, this.urls});
+
   ChapterPageurls.fromJson(Map<String, dynamic> json) {
     chapterId = json['chapterId'];
     urls = json['headers']?.cast<String>();
     urls = json['headers']?.cast<String>();
   }
 
-  Map<String, dynamic> toJson() =>
-      {'chapterId': chapterId, 'urls': urls, 'headers': headers};
+  Map<String, dynamic> toJson() => {'chapterId': chapterId, 'urls': urls, 'headers': headers};
 }
 
 @embedded
@@ -720,6 +681,7 @@ class ChapterPageIndex {
   int? index;
 
   ChapterPageIndex({this.chapterId, this.index});
+
   ChapterPageIndex.fromJson(Map<String, dynamic> json) {
     chapterId = json['chapterId'];
     index = json['index'];
@@ -734,6 +696,7 @@ class PersonalReaderMode {
 
   @enumerated
   ReaderMode readerMode = ReaderMode.vertical;
+
   PersonalReaderMode({this.mangaId, this.readerMode = ReaderMode.vertical});
 
   PersonalReaderMode.fromJson(Map<String, dynamic> json) {
@@ -750,8 +713,12 @@ class AutoScrollPages {
   int? mangaId;
   double? pageOffset;
   bool? autoScroll;
-  AutoScrollPages(
-      {this.mangaId, this.pageOffset = 10, this.autoScroll = false});
+
+  AutoScrollPages({
+    this.mangaId,
+    this.pageOffset = 10,
+    this.autoScroll = false,
+  });
 
   AutoScrollPages.fromJson(Map<String, dynamic> json) {
     mangaId = json['mangaId'];
@@ -759,8 +726,7 @@ class AutoScrollPages {
     autoScroll = json['autoScroll'];
   }
 
-  Map<String, dynamic> toJson() =>
-      {'mangaId': mangaId, 'pageOffset': pageOffset, 'autoScroll': autoScroll};
+  Map<String, dynamic> toJson() => {'mangaId': mangaId, 'pageOffset': pageOffset, 'autoScroll': autoScroll};
 }
 
 @embedded
@@ -769,6 +735,7 @@ class PersonalPageMode {
 
   @enumerated
   PageMode pageMode = PageMode.onePage;
+
   PersonalPageMode({this.mangaId, this.pageMode = PageMode.onePage});
 
   PersonalPageMode.fromJson(Map<String, dynamic> json) {
@@ -776,18 +743,10 @@ class PersonalPageMode {
     pageMode = PageMode.values[json['pageMode']];
   }
 
-  Map<String, dynamic> toJson() =>
-      {'mangaId': mangaId, 'pageMode': pageMode.index};
+  Map<String, dynamic> toJson() => {'mangaId': mangaId, 'pageMode': pageMode.index};
 }
 
-enum ReaderMode {
-  vertical,
-  ltr,
-  rtl,
-  verticalContinuous,
-  webtoon,
-  horizontalContinuous
-}
+enum ReaderMode { vertical, ltr, rtl, verticalContinuous, webtoon, horizontalContinuous }
 
 enum PageMode { onePage, doublePage }
 
@@ -797,19 +756,20 @@ class FilterScanlator {
   List<String>? scanlators;
 
   FilterScanlator({this.mangaId, this.scanlators});
+
   FilterScanlator.fromJson(Map<String, dynamic> json) {
     mangaId = json['mangaId'];
     scanlators = json['scanlators']?.cast<String>();
   }
 
-  Map<String, dynamic> toJson() =>
-      {'mangaId': mangaId, 'scanlators': scanlators};
+  Map<String, dynamic> toJson() => {'mangaId': mangaId, 'scanlators': scanlators};
 }
 
 @embedded
 class L10nLocale {
   String? languageCode;
   String? countryCode;
+
   L10nLocale({this.languageCode, this.countryCode});
 
   L10nLocale.fromJson(Map<String, dynamic> json) {
@@ -817,8 +777,7 @@ class L10nLocale {
     languageCode = json['languageCode'];
   }
 
-  Map<String, dynamic> toJson() =>
-      {'countryCode': countryCode, 'languageCode': languageCode};
+  Map<String, dynamic> toJson() => {'countryCode': countryCode, 'languageCode': languageCode};
 }
 
 @embedded
@@ -827,7 +786,9 @@ class CustomColorFilter {
   int? r;
   int? g;
   int? b;
+
   CustomColorFilter({this.a, this.r, this.g, this.b});
+
   CustomColorFilter.fromJson(Map<String, dynamic> json) {
     a = json['a'];
     r = json['r'];
@@ -855,6 +816,7 @@ class PlayerSubtitleSettings {
   int? backgroundColorR;
   int? backgroundColorG;
   int? backgroundColorB;
+
   PlayerSubtitleSettings(
       {this.fontSize = 45,
       this.useBold = true,
@@ -871,6 +833,7 @@ class PlayerSubtitleSettings {
       this.backgroundColorR = 0,
       this.backgroundColorG = 0,
       this.backgroundColorB = 0});
+
   PlayerSubtitleSettings.fromJson(Map<String, dynamic> json) {
     fontSize = json['fontSize'];
     useBold = json['useBold'];

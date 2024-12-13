@@ -46,6 +46,8 @@ import 'package:window_manager/window_manager.dart';
 
 typedef DoubleClickAnimationListener = void Function();
 
+bool isLogicalKeyPressed(LogicalKeyboardKey key) => HardwareKeyboard.instance.isLogicalKeyPressed(key);
+
 class MangaReaderView extends ConsumerWidget {
   final Chapter chapter;
 
@@ -362,10 +364,10 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
       autofocus: true,
       focusNode: FocusNode(),
       onKeyEvent: (event) {
-        bool isLogicalKeyPressed(LogicalKeyboardKey key) => HardwareKeyboard.instance.isLogicalKeyPressed(key);
         bool hasNextChapter = _readerController.getChapterIndex().$1 != 0;
         bool hasPrevChapter = _readerController.getChapterIndex().$1 + 1 !=
             _readerController.getChaptersLength(_readerController.getChapterIndex().$2);
+
         final action = switch (event.logicalKey) {
           LogicalKeyboardKey.f11 => (!isLogicalKeyPressed(LogicalKeyboardKey.f11)) ? _setFullScreen() : null,
           LogicalKeyboardKey.escape => (!isLogicalKeyPressed(LogicalKeyboardKey.escape)) ? _goBack(context) : null,

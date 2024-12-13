@@ -1,62 +1,34 @@
-import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:draggable_menu/draggable_menu.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
-import 'package:mangayomi/eval/dart/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/models/manga.dart';
-import 'package:mangayomi/models/track.dart';
-import 'package:mangayomi/models/track_preference.dart';
-import 'package:mangayomi/models/track_search.dart';
 import 'package:mangayomi/modules/manga/detail/chapters_list_model.dart';
 import 'package:mangayomi/modules/manga/detail/chapters_selection_controls.dart';
+import 'package:mangayomi/modules/manga/detail/manga_info.dart';
 import 'package:mangayomi/modules/manga/detail/providers/isar_providers.dart';
 import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
-import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/chapter_list_tile_widget.dart';
-import 'package:mangayomi/modules/manga/detail/widgets/genre_badges_widget.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_actions_menu.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_chapters_counter.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_chapters_menu.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_cover_backdrop.dart';
-import 'package:mangayomi/modules/manga/detail/widgets/readmore.dart';
-import 'package:mangayomi/modules/manga/detail/widgets/tracker_search_widget.dart';
-import 'package:mangayomi/modules/manga/detail/widgets/tracker_widget.dart';
 import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
-import 'package:mangayomi/modules/more/settings/appearance/providers/pure_black_dark_mode_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
-import 'package:mangayomi/modules/more/settings/track/widgets/track_list_tile.dart';
 import 'package:mangayomi/modules/widgets/error_text.dart';
-import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/providers/storage_provider.dart';
-import 'package:mangayomi/services/get_source_baseurl.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
-import 'package:mangayomi/utils/extensions/manga.dart';
-import 'package:mangayomi/utils/extensions/others.dart';
-import 'package:mangayomi/utils/global_style.dart';
-import 'package:mangayomi/utils/utils.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
-
-import '../../../utils/constant.dart';
 
 class MangaDetailView extends ConsumerStatefulWidget {
   final Function(bool) isExtended;
-  final Widget? titleDescription;
   final List<Color>? backButtonColors;
   final Manga? manga;
   final bool sourceExist;
@@ -68,7 +40,6 @@ class MangaDetailView extends ConsumerStatefulWidget {
     required this.sourceExist,
     required this.manga,
     required this.checkForUpdate,
-    this.titleDescription,
     this.backButtonColors,
   });
 
@@ -86,7 +57,6 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
     super.initState();
   }
 
-  bool _expanded = false;
   ScrollController _scrollController = ScrollController();
   final offsetProvider = StateProvider((ref) => 0.0);
   late final isLocalArchive = widget.manga!.isLocalArchive ?? false;
@@ -143,6 +113,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
     final l10n = l10nLocalizations(context)!;
     final chapterLength = chapters.length;
     final reverseList = chapters.reversed.toList();
+    final details = MangaInfo(manga: manga, sourceExist: widget.sourceExist, chapters: chapterLength);
 
     return Stack(
       children: [
@@ -188,7 +159,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                     SizedBox(
                       width: context.width(0.5),
                       height: context.height(1),
-                      child: SingleChildScrollView(child: _bodyContainer(chapterLength: chapterLength)),
+                      child: SingleChildScrollView(child: details),
                     ),
                   Expanded(
                     child: Scrollbar(
@@ -452,245 +423,5 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
             })),
       ],
     );
-  }
-
-  Widget _bodyContainer({required int chapterLength}) {
-    return Stack(
-      children: [
-        Container(
-          height: 300,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Theme.of(context).scaffoldBackgroundColor.withOpacity(0.05),
-                Theme.of(context).scaffoldBackgroundColor
-              ],
-              stops: const [0, .3],
-            ),
-          ),
-        ),
-        Column(
-          children: [
-            Stack(
-              children: [
-                SizedBox(
-                  width: context.width(1),
-                  child: Row(
-                    children: [
-                      _coverCard(),
-                      Expanded(child: _titles()),
-                    ],
-                  ),
-                ),
-                if (isLocalArchive)
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: IconButton(
-                      onPressed: _editLocalArchiveInfos,
-                      icon: const CircleAvatar(child: Icon(Icons.edit_outlined)),
-                    ),
-                  )
-              ],
-            ),
-            Container(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (manga.description != null)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ReadMoreWidget(
-                        text: manga.description!,
-                        initial: _expanded,
-                        onChanged: (value) {
-                          setState(() {
-                            _expanded = value;
-                          });
-                        },
-                      ),
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: GenreBadgesWidget(genres: manga.genre!, multiline: _expanded || context.isTablet),
-                  ),
-                  if (!context.isTablet) MangaChaptersCounter(manga: manga),
-                ],
-              ),
-            ),
-            if (chapterLength == 0)
-              Container(
-                  width: context.width(1), height: context.height(1), color: Theme.of(context).scaffoldBackgroundColor)
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _titles() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GestureDetector(
-          onTap: () {
-            Clipboard.setData(ClipboardData(text: manga.name!));
-
-            botToast('Copied!', second: 3);
-          },
-          child: Text(manga.name!,
-              style: const TextStyle(
-                fontSize: 20,
-              )),
-        ),
-        widget.titleDescription!,
-      ],
-    );
-  }
-
-  void _editLocalArchiveInfos() {
-    final l10n = l10nLocalizations(context)!;
-    TextEditingController? name = TextEditingController(text: manga.name!);
-    TextEditingController? description = TextEditingController(text: manga.description!);
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(
-              l10n.edit,
-            ),
-            content: SizedBox(
-              height: 200,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: Text(l10n.name),
-                        ),
-                        TextFormField(
-                          controller: name,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: Text(l10n.description),
-                        ),
-                        TextFormField(
-                          controller: description,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(l10n.cancel)),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        isar.writeTxnSync(() {
-                          manga.description = description.text;
-                          manga.name = name.text;
-                          isar.mangas.putSync(manga);
-                        });
-                        Navigator.pop(context);
-                      },
-                      child: Text(l10n.edit)),
-                ],
-              )
-            ],
-          );
-        });
-  }
-
-  void _trackingDraggableMenu(List<TrackPreference>? entries) {
-    DraggableMenu.open(
-        context,
-        DraggableMenu(
-          ui: ClassicDraggableMenu(radius: 20, barItem: Container(), color: Theme.of(context).scaffoldBackgroundColor),
-          allowToShrink: true,
-          child: Material(
-            color: context.isLight
-                ? Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9)
-                : !ref.watch(pureBlackDarkModeStateProvider)
-                    ? Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9)
-                    : Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(20),
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.separated(
-                padding: const EdgeInsets.all(0),
-                itemCount: entries!.length,
-                primary: false,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return StreamBuilder(
-                      stream: isar.tracks
-                          .filter()
-                          .idIsNotNull()
-                          .syncIdEqualTo(entries[index].syncId)
-                          .mangaIdEqualTo(mangaId)
-                          .watch(fireImmediately: true),
-                      builder: (context, snapshot) {
-                        List<Track>? trackRes = snapshot.hasData ? snapshot.data : [];
-                        return trackRes!.isNotEmpty
-                            ? TrackerWidget(
-                                mangaId: mangaId,
-                                syncId: entries[index].syncId!,
-                                trackRes: trackRes.first,
-                                isManga: manga.isManga!)
-                            : TrackListTile(
-                                text: l10nLocalizations(context)!.add_tracker,
-                                onTap: () async {
-                                  final trackSearch = await trackersSearchraggableMenu(
-                                    context,
-                                    isManga: manga.isManga!,
-                                    track: Track(
-                                        status: TrackStatus.planToRead,
-                                        syncId: entries[index].syncId!,
-                                        title: manga.name!),
-                                  ) as TrackSearch?;
-                                  if (trackSearch != null) {
-                                    await ref
-                                        .read(trackStateProvider(track: null, isManga: manga.isManga!).notifier)
-                                        .setTrackSearch(trackSearch, mangaId, entries[index].syncId!);
-                                  }
-                                },
-                                id: entries[index].syncId!,
-                                entries: const []);
-                      });
-                },
-                separatorBuilder: (context, index) => const Divider(),
-              ),
-            ),
-          ),
-        ));
   }
 }

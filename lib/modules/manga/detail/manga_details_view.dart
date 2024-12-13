@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:isar/isar.dart';
-import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/category.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/history/providers/isar_providers.dart';
 import 'package:mangayomi/modules/manga/detail/manga_detail_view.dart';
 import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
-import 'package:mangayomi/modules/manga/detail/widgets/chapter_filter_list_tile_widget.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/custom_floating_action_btn.dart';
 import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
 import 'package:mangayomi/modules/widgets/error_text.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/utils/constant.dart';
-import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
 import 'package:mangayomi/utils/extensions/consumer_state.dart';
 
@@ -42,7 +35,6 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
-    bool? isLocalArchive = manga.isLocalArchive ?? false;
 
     return Scaffold(
       floatingActionButton: Consumer(
@@ -94,33 +86,6 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
         },
       ),
       body: MangaDetailView(
-        titleDescription: isLocalArchive
-            ? Container()
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    manga.author!,
-                    style: const TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      Icon(getMangaStatusIcon(manga.status), size: 14),
-                      const SizedBox(width: 4),
-                      Text(getMangaStatusName(manga.status, context)),
-                      const Text(' • '),
-                      Text(manga.source!),
-                      Text(' (${manga.lang!.toUpperCase()})'),
-                      if (!widget.sourceExist)
-                        const Padding(
-                          padding: EdgeInsets.all(3),
-                          child: Icon(Icons.warning_amber, color: Colors.deepOrangeAccent, size: 14),
-                        )
-                    ],
-                  )
-                ],
-              ),
         manga: manga,
         isExtended: (value) {
           ref.read(isExtendedStateProvider.notifier).update(value);

@@ -39,7 +39,7 @@ class UpdateGroup {
 
 
     if (volumes.length > 1) {
-      final volumes = indexes.fold<Map<int, List<(int, int, int)>>>({}, (map, index) {
+      final volumes = indexes.fold<Map<int, List<ChapterCompositeNumber>>>({}, (map, index) {
         final bucket = map[index.$1];
 
         if (bucket != null) {
@@ -92,7 +92,7 @@ List<List<String>> groupRanges(List<String> indexes) {
   return groups;
 }
 String indexToStr(int c, int s) => s != 0 ? '$c.$s' : c.toString();
-String indexesToStr(List<(int, int, int)> indexes) {
+String indexesToStr(List<ChapterCompositeNumber> indexes) {
   final groups = groupRanges(
       indexes.map((index) => indexToStr(index.$2, index.$3)).toUnique(growable: false)
   );

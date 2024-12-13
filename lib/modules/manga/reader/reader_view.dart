@@ -1173,9 +1173,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
       return const SizedBox.shrink();
     }
 
-    // todo: use sort model instead
     final (hasPrevChapter, hasNextChapter) = _readerController.getChapterPrevNext();
-    final readerMode = ref.watch(_currentReaderMode);
 
     return Positioned(
       bottom: 0,
@@ -1368,10 +1366,11 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                               value: mode,
                               child: Row(
                                 children: [
-                                  Icon(
-                                    Icons.check,
-                                    color: readerMode == mode ? Colors.white : Colors.transparent,
-                                  ),
+                                  Consumer(
+                                      builder: (context, ref, _) => Icon(Icons.check,
+                                          color: ref.watch(_currentReaderMode) == mode
+                                              ? Colors.white
+                                              : Colors.transparent)),
                                   const SizedBox(
                                     width: 7,
                                   ),
@@ -1417,32 +1416,32 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                         ),
                       );
                     }),
-                    IconButton(
-                      onPressed: () async {
-                        if (!(readerMode == ReaderMode.horizontalContinuous)) {
-                          PageMode newPageMode;
+                    Consumer(builder: (context, ref, _) {
+                      final readerMode = ref.watch(_currentReaderMode);
 
-                          _onBtnTapped(
-                            _pageMode == PageMode.onePage
-                                ? (_geCurrentIndex(_uChapDataPreload[_currentIndex!].index) / 2).ceil()
-                                : _geCurrentIndex(_uChapDataPreload[_currentIndex!].index),
-                            true,
-                            isSlide: true,
-                          );
-                          newPageMode = _pageMode == PageMode.onePage ? PageMode.doublePage : PageMode.onePage;
+                      return IconButton(
+                        onPressed: readerMode == ReaderMode.horizontalContinuous
+                            ? null
+                            : () {
+                                bool isOnePage = _pageMode == PageMode.onePage;
+                                PageMode newPageMode = isOnePage ? PageMode.doublePage : PageMode.onePage;
+                                int index = _geCurrentIndex(_uChapDataPreload[_currentIndex!].index);
 
-                          _readerController.setPageMode(newPageMode);
-                          if (mounted) {
-                            setState(() {
-                              _pageMode = newPageMode;
-                            });
-                          }
-                        }
-                      },
-                      icon: Icon(
-                        _pageMode == PageMode.doublePage ? CupertinoIcons.book_solid : CupertinoIcons.book,
-                      ),
-                    ),
+                                _onBtnTapped(isOnePage ? (index / 2).ceil() : index, true, isSlide: true);
+
+                                _readerController.setPageMode(newPageMode);
+
+                                if (mounted) {
+                                  setState(() {
+                                    _pageMode = newPageMode;
+                                  });
+                                }
+                              },
+                        icon: Icon(
+                          _pageMode == PageMode.doublePage ? CupertinoIcons.book_solid : CupertinoIcons.book,
+                        ),
+                      );
+                    }),
                     IconButton(
                       onPressed: () {
                         _showModalSettings();

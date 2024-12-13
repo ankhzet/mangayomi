@@ -26,7 +26,7 @@ extension MangaExtension on Manga {
       return CustomExtendedNetworkImageProvider(
         toImgUrl(customCoverFromTracker ?? imageUrl!),
         headers: ref.watch(headersProvider(source: source!, lang: lang!)),
-        cacheMaxAge: cacheMaxAge,
+        cacheMaxAge: cacheMaxAge ?? const Duration(days: 30),
       );
     }
 

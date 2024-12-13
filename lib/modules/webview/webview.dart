@@ -52,14 +52,17 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
         await MClient.setCookie(_url, ua, null, cookie: cookie);
       } catch (_) {}
     });
+
+    final ctx = context;
+
     _desktopWebview!
       ..setBrightness(Brightness.dark)
       ..launch(widget.url)
       ..onClose.whenComplete(() {
         timer.cancel();
 
-        if (context.mounted) {
-          Navigator.pop(context);
+        if (ctx.mounted) {
+          Navigator.pop(ctx);
         }
       });
   }
@@ -90,15 +93,15 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
           )
         : Material(
             child: SafeArea(
-              child: WillPopScope(
-                onWillPop: () async {
+              child: PopScope(
+                canPop: false,
+                onPopInvokedWithResult: (didPop, _) async {
                   final canGoback = await _webViewController?.canGoBack();
                   if (canGoback ?? false) {
                     _webViewController?.goBack();
                   } else if (context.mounted) {
                     context.pop();
                   }
-                  return false;
                 },
                 child: Column(
                   children: [

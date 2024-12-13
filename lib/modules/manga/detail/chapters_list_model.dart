@@ -89,38 +89,110 @@ class ChapterFilterModel {
 }
 
 class ChapterSortModel {
-  SortType sort;
-  bool reverse;
+  final SortOptionModel sort;
 
-  ChapterSortModel({
-    required this.sort,
-    this.reverse = false,
-  });
+  const ChapterSortModel(this.sort);
 
-  Comparator<Chapter> build() {
-    return switch (sort) {
-      SortType.scanlator => (a, b) => switch (compareStrings(a.scanlator, b.scanlator)) {
-            0 => compareOrder(a, b),
-            var cmp => cmp,
-          },
-      SortType.number => (a, b) => switch (compareOrder(a, b)) {
-            0 => compareStrings(a.scanlator, b.scanlator),
-            var cmp => cmp,
-          },
-      SortType.timestamp => (a, b) => compareTimestamps(a.dateUpload, b.dateUpload),
-      SortType.name => (a, b) => compareStrings(a.name, b.name),
+  Comparator<Chapter> compareOrder(Iterable<Chapter> chapters) {
+    final Map<int, ChapterCompositeNumber> cache = {};
+    final int multiplier = sort.inReverse ? -1 : 1;
+
+    for (var chapter in chapters) {
+      cache[chapter.id!] = chapter.getNumber;
+    }
+
+    return (Chapter a, Chapter b) {
+      final (_, ac, af) = cache[a.id!]!;
+      final (_, bc, bf) = cache[b.id!]!;
+
+      if (ac != bc) {
+        return multiplier * (ac < bc ? 1 : -1);
+      }
+
+      return (
+          (af == bf)
+            ? 0
+            : multiplier * (af < bf ? 1 : -1)
+      );
     };
+  }
+
+  Comparator<Chapter> compareName(Iterable<Chapter> chapters) {
+    final Map<int, String> cache = {};
+    final int multiplier = sort.inReverse ? -1 : 1;
+
+    for (var chapter in chapters) {
+      cache[chapter.id!] = chapter.name?.toLowerCase() ?? '';
+    }
+
+    return (Chapter a, Chapter b) => multiplier * cache[a.id!]!.compareTo(cache[b.id!]!);
+  }
+
+  Comparator<Chapter> compareScanlator(Iterable<Chapter> chapters) {
+    final Map<int, String> cache = {};
+    final int multiplier = sort.inReverse ? -1 : 1;
+
+    for (var chapter in chapters) {
+      cache[chapter.id!] = chapter.scanlator?.toLowerCase() ?? '';
+    }
+
+    return (Chapter a, Chapter b) => multiplier * cache[a.id!]!.compareTo(cache[b.id!]!);
+  }
+
+  Comparator<Chapter> compareDateUpload(Iterable<Chapter> chapters) {
+    final Map<int, int> cache = {};
+    final int multiplier = sort.inReverse ? -1 : 1;
+
+    for (var chapter in chapters) {
+      cache[chapter.id!] = chapter.dateUpload != null ? multiplier * int.parse(chapter.dateUpload!) : 0;
+    }
+
+    return (Chapter a, Chapter b) {
+      int i1 = cache[a.id!]!;
+      int i2 = cache[b.id!]!;
+
+      return switch (i1 - i2) {
+        > 0 => 1,
+        < 0 => -1,
+        _ => 0,
+      };
+    };
+  }
+
+  Iterable<Chapter> build(Iterable<Chapter> chapters) {
+    final list = chapters is List<Chapter> ? chapters : chapters.toList(growable: false);
+    final order = compareOrder(chapters);
+    final name = compareName(chapters);
+    final scanlator = compareScanlator(chapters);
+    final timestamp = compareDateUpload(chapters);
+
+    return list
+      ..sort(switch (sort.sort) {
+        SortType.scanlator => (a, b) => switch (scanlator(a, b)) {
+              0 => order(a, b),
+              var cmp => cmp,
+            },
+        SortType.number => (a, b) => switch (order(a, b)) {
+              0 => scanlator(a, b),
+              var cmp => cmp,
+            },
+        SortType.timestamp => timestamp,
+        SortType.name => name,
+      });
   }
 }
 
 class ChaptersListModel {
-  List<Chapter> chapters;
+  final ChapterFilterModel filter;
+  final ChapterSortModel sort;
 
-  ChaptersListModel({
-    required this.chapters,
-  });
+  const ChaptersListModel({required this.filter, required this.sort});
 
-  List<Chapter> build({required ChapterFilterModel filter, required ChapterSortModel sort}) {
-    return chapters.where(filter.build()).toList(growable: false)..sort(sort.build());
+  List<Chapter> build(Iterable<Chapter> chapters) {
+    return sort
+        .build(
+          chapters.where(filter.build()),
+        )
+        .toList(growable: false);
   }
 }

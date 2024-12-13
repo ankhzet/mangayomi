@@ -41,13 +41,6 @@ int compareTimestamps(String? a, String? b) {
 
 int compareOrder(Chapter a, Chapter b) => a.order.compareTo(b.order);
 
-enum SortType {
-  scanlator,
-  number,
-  timestamp,
-  name,
-}
-
 class ChapterFilterModel {
   FilterType filterUnread;
   FilterType filterBookmarked;

@@ -14,6 +14,7 @@ import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.da
 import 'package:mangayomi/modules/more/settings/track/providers/track_providers.dart';
 import 'package:mangayomi/services/sync_server.dart';
 import 'package:mangayomi/utils/chapter_recognition.dart';
+import 'package:mangayomi/utils/extensions/chapter.dart';
 import 'package:mangayomi/utils/extensions/manga.dart';
 import 'package:mangayomi/utils/extensions/settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -239,43 +240,35 @@ class ReaderController extends _$ReaderController with WithSettings {
   }
 
   int getPageIndex() {
-    if (incognitoMode) return 0;
-    final chapterPageIndexList = settings.chapterPageIndexList ?? [];
-    final index = chapterPageIndexList.where((element) => element.chapterId == chapter.id);
-    return chapter.isRead!
-        ? 0
-        : index.isNotEmpty
-            ? index.first.index!
-            : 0;
+    if (incognitoMode || chapter.isRead!) return 0;
+
+    return chapter.getOption(settings.chapterPageIndexList)?.index ?? 0;
   }
 
   int getPageLength(List incognitoPageLength) {
     if (incognitoMode) return incognitoPageLength.length;
 
-    return settings.chapterPageUrlsList!.where((element) => element.chapterId == chapter.id).first.urls!.length;
+    return chapter.getOption(settings.chapterPageUrlsList)?.urls!.length ?? 0;
   }
 
   void setPageIndex(int newIndex, bool save) {
-    if (chapter.isRead!) return;
-    if (incognitoMode) return;
+    if (chapter.isRead! || incognitoMode) return;
+
     final mode = getReaderMode();
     final continuous = mode == ReaderMode.verticalContinuous || mode == ReaderMode.webtoon;
     final pages = continuous ? getPageLength([]) : 0;
     final isRead = (newIndex >= pages - 1) || (continuous && (newIndex >= pages - 2));
 
     if (isRead || save) {
-      List<ChapterPageIndex>? chapterPageIndexes = [];
-      for (var chapterPageIndex in settings.chapterPageIndexList ?? []) {
-        if (chapterPageIndex.chapterId != chapter.id) {
-          chapterPageIndexes.add(chapterPageIndex);
-        }
-      }
-      chapterPageIndexes.add(ChapterPageIndex()
-        ..chapterId = chapter.id
-        ..index = isRead ? 0 : newIndex);
-      final chap = chapter;
+      settings = settings
+        ..chapterPageIndexList = [
+          ...chapter.getOtherOptions(settings.chapterPageIndexList),
+          ChapterPageIndex()
+            ..chapterId = chapter.id
+            ..index = isRead ? 0 : newIndex,
+        ];
 
-      settings = settings..chapterPageIndexList = chapterPageIndexes;
+      final chap = chapter;
 
       isar.writeTxnSync(() {
         chap.isRead = isRead;
@@ -292,10 +285,6 @@ class ReaderController extends _$ReaderController with WithSettings {
 
   String getMangaName() {
     return manga.name!;
-  }
-
-  String getSourceName() {
-    return manga.source!;
   }
 
   String getChapterTitle() {

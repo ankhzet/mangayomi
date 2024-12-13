@@ -1,7 +1,9 @@
 import 'package:isar/isar.dart';
+import 'package:mangayomi/models/options.dart';
 import 'package:mangayomi/models/source.dart';
-import 'package:mangayomi/modules/manga/detail/chapters_list_model.dart';
 import 'package:mangayomi/utils/constant.dart';
+
+export 'package:mangayomi/models/options.dart';
 
 part 'settings.g.dart';
 
@@ -542,32 +544,6 @@ class SortLibraryManga {
   Map<String, dynamic> toJson() => {'index': index, 'reverse': reverse};
 }
 
-abstract interface class OfManga {
-  static bool Function(T element) isManga<T extends OfManga>(int id) => (T element) => id == element.mangaId;
-
-  static bool Function(T element) isNotManga<T extends OfManga>(int id) => (T element) => id != element.mangaId;
-
-  int? get mangaId;
-}
-
-abstract interface class SortOptionModel extends OfManga {
-  late int? index;
-  late bool? reverse;
-
-  @ignore
-  SortType get sort;
-
-  @ignore
-  bool get inReverse;
-}
-
-enum ChapterFilterOption {
-  download,
-  unread,
-  bookmark,
-  sort,
-}
-
 @embedded
 class SortChapter implements SortOptionModel {
   @override
@@ -594,25 +570,6 @@ class SortChapter implements SortOptionModel {
   }
 
   Map<String, dynamic> toJson() => {'index': index, 'mangaId': mangaId, 'reverse': reverse};
-}
-
-enum FilterType {
-  keep,
-  include,
-  exclude,
-}
-
-abstract interface class FilterOptionModel extends OfManga {
-  late int? type;
-
-  @ignore
-  FilterType get filter;
-}
-
-mixin FilterModel implements FilterOptionModel {
-  @ignore
-  @override
-  get filter => FilterType.values[type ?? 0];
 }
 
 @embedded
@@ -667,7 +624,8 @@ class ChapterFilterBookmarked with FilterModel {
 }
 
 @embedded
-class ChapterPageurls {
+class ChapterPageurls implements OfChapter {
+  @override
   int? chapterId;
   List<String>? urls;
   List<String>? headers;
@@ -684,7 +642,8 @@ class ChapterPageurls {
 }
 
 @embedded
-class ChapterPageIndex {
+class ChapterPageIndex implements OfChapter {
+  @override
   int? chapterId;
   int? index;
 

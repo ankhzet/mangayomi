@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/blend_level_state_provider.dart';
@@ -26,11 +27,8 @@ class BlendLevelSlider extends ConsumerWidget {
           max: 40.0,
           divisions: max(39, 1),
           value: blendLevel,
-          onChanged: (value) =>
-              ref.read(blendLevelStateProvider.notifier).setBlendLevel(value),
-          onChangeEnd: (value) => ref
-              .read(blendLevelStateProvider.notifier)
-              .setBlendLevel(value, end: true),
+          onChanged: (value) => ref.read(blendLevelStateProvider.notifier).setBlendLevel(value),
+          onChangeEnd: (value) => ref.read(blendLevelStateProvider.notifier).setBlendLevel(value, end: true),
         ),
       ],
     );

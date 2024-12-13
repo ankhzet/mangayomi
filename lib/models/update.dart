@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:mangayomi/models/chapter.dart';
+
 part 'update.g.dart';
 
 @collection

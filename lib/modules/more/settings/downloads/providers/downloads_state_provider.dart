@@ -41,7 +41,9 @@ class DownloadLocationState extends _$DownloadLocationState {
   }
 
   String get currentLocation => state.$2.isEmpty ? state.$1 : state.$2;
+
   String get defaultLocation => StorageProvider.getDownloadsDirectoryPath(useDefault: true);
+
   String get customLocation => state.$2;
 
   void set(String location) {

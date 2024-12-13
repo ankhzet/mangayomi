@@ -6,12 +6,9 @@ class ListViewWidget extends StatelessWidget {
   final int? itemCount;
   final bool reverse;
   final Widget? Function(BuildContext, int) itemBuilder;
+
   const ListViewWidget(
-      {super.key,
-      this.controller,
-      required this.itemCount,
-      required this.itemBuilder,
-      this.reverse = false});
+      {super.key, this.controller, required this.itemCount, required this.itemBuilder, this.reverse = false});
 
   @override
   Widget build(BuildContext context) {

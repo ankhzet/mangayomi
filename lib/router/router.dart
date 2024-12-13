@@ -1,48 +1,51 @@
 import 'dart:io';
+
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/modules/anime/anime_player_view.dart';
+import 'package:mangayomi/modules/browse/browse_screen.dart';
 import 'package:mangayomi/modules/browse/extension/edit_code.dart';
 import 'package:mangayomi/modules/browse/extension/extension_detail.dart';
-import 'package:mangayomi/modules/browse/extension/widgets/create_extension.dart';
-import 'package:mangayomi/modules/browse/sources/sources_filter_screen.dart';
-import 'package:mangayomi/modules/updates/updates_screen.dart';
-import 'package:mangayomi/modules/more/backup_and_restore/backup_and_restore.dart';
-import 'package:mangayomi/modules/more/categories/categories_screen.dart';
-import 'package:mangayomi/modules/more/settings/downloads/downloads_screen.dart';
-import 'package:mangayomi/modules/more/settings/player/player_screen.dart';
-import 'package:mangayomi/modules/more/settings/sync/sync.dart';
-import 'package:mangayomi/modules/more/settings/track/track.dart';
-import 'package:mangayomi/modules/more/settings/track/manage_trackers/manage_trackers.dart';
-import 'package:mangayomi/modules/more/settings/track/manage_trackers/tracking_detail.dart';
-import 'package:mangayomi/modules/webview/webview.dart';
-import 'package:mangayomi/modules/browse/browse_screen.dart';
 import 'package:mangayomi/modules/browse/extension/extension_lang.dart';
+import 'package:mangayomi/modules/browse/extension/widgets/create_extension.dart';
 import 'package:mangayomi/modules/browse/global_search/global_search_screen.dart';
-import 'package:mangayomi/modules/main_view/main_screen.dart';
+import 'package:mangayomi/modules/browse/sources/sources_filter_screen.dart';
 import 'package:mangayomi/modules/history/history_screen.dart';
 import 'package:mangayomi/modules/library/library_screen.dart';
+import 'package:mangayomi/modules/main_view/main_screen.dart';
 import 'package:mangayomi/modules/manga/detail/manga_detail_main.dart';
 import 'package:mangayomi/modules/manga/home/manga_home_screen.dart';
 import 'package:mangayomi/modules/manga/reader/reader_view.dart';
 import 'package:mangayomi/modules/more/about/about_screen.dart';
+import 'package:mangayomi/modules/more/backup_and_restore/backup_and_restore.dart';
+import 'package:mangayomi/modules/more/categories/categories_screen.dart';
 import 'package:mangayomi/modules/more/download_queue/download_queue_screen.dart';
 import 'package:mangayomi/modules/more/more_screen.dart';
 import 'package:mangayomi/modules/more/settings/appearance/appearance_screen.dart';
 import 'package:mangayomi/modules/more/settings/browse/browse_screen.dart';
+import 'package:mangayomi/modules/more/settings/downloads/downloads_screen.dart';
 import 'package:mangayomi/modules/more/settings/general/general_screen.dart';
+import 'package:mangayomi/modules/more/settings/player/player_screen.dart';
 import 'package:mangayomi/modules/more/settings/reader/reader_screen.dart';
 import 'package:mangayomi/modules/more/settings/settings_screen.dart';
+import 'package:mangayomi/modules/more/settings/sync/sync.dart';
+import 'package:mangayomi/modules/more/settings/track/manage_trackers/manage_trackers.dart';
+import 'package:mangayomi/modules/more/settings/track/manage_trackers/tracking_detail.dart';
+import 'package:mangayomi/modules/more/settings/track/track.dart';
+import 'package:mangayomi/modules/updates/updates_screen.dart';
+import 'package:mangayomi/modules/webview/webview.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/cupertino.dart';
+
 part 'router.g.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 @riverpod
 GoRouter router(Ref ref) {
   final router = RouterNotifier();
@@ -67,11 +70,9 @@ class RouterCurrentLocationState extends _$RouterCurrentLocationState {
   _listener() {
     final router = GoRouter.of(context);
     router.routerDelegate.addListener(() {
-      final RouteMatch lastMatch =
-          router.routerDelegate.currentConfiguration.last;
-      final RouteMatchList matchList = lastMatch is ImperativeRouteMatch
-          ? lastMatch.matches
-          : router.routerDelegate.currentConfiguration;
+      final RouteMatch lastMatch = router.routerDelegate.currentConfiguration.last;
+      final RouteMatchList matchList =
+          lastMatch is ImperativeRouteMatch ? lastMatch.matches : router.routerDelegate.currentConfiguration;
       state = matchList.uri.toString();
     });
   }
@@ -79,72 +80,70 @@ class RouterCurrentLocationState extends _$RouterCurrentLocationState {
 
 class RouterNotifier extends ChangeNotifier {
   List<RouteBase> get _routes => [
-        ShellRoute(
-            builder: (context, state, child) => MainScreen(content: child),
-            routes: [
-              GoRoute(
-                name: "MangaLibrary",
-                path: '/MangaLibrary',
-                builder: (context, state) => const LibraryScreen(
-                  isManga: true,
-                ),
-                pageBuilder: (context, state) => transitionPage(
-                  key: state.pageKey,
-                  child: const LibraryScreen(
-                    isManga: true,
-                  ),
-                ),
+        ShellRoute(builder: (context, state, child) => MainScreen(content: child), routes: [
+          GoRoute(
+            name: "MangaLibrary",
+            path: '/MangaLibrary',
+            builder: (context, state) => const LibraryScreen(
+              isManga: true,
+            ),
+            pageBuilder: (context, state) => transitionPage(
+              key: state.pageKey,
+              child: const LibraryScreen(
+                isManga: true,
               ),
-              GoRoute(
-                name: "AnimeLibrary",
-                path: '/AnimeLibrary',
-                builder: (context, state) => const LibraryScreen(
-                  isManga: false,
-                ),
-                pageBuilder: (context, state) => transitionPage(
-                  key: state.pageKey,
-                  child: const LibraryScreen(
-                    isManga: false,
-                  ),
-                ),
+            ),
+          ),
+          GoRoute(
+            name: "AnimeLibrary",
+            path: '/AnimeLibrary',
+            builder: (context, state) => const LibraryScreen(
+              isManga: false,
+            ),
+            pageBuilder: (context, state) => transitionPage(
+              key: state.pageKey,
+              child: const LibraryScreen(
+                isManga: false,
               ),
-              GoRoute(
-                name: "history",
-                path: '/history',
-                builder: (context, state) => const HistoryScreen(),
-                pageBuilder: (context, state) => transitionPage(
-                  key: state.pageKey,
-                  child: const HistoryScreen(),
-                ),
-              ),
-              GoRoute(
-                name: "updates",
-                path: '/updates',
-                builder: (context, state) => const UpdatesScreen(),
-                pageBuilder: (context, state) => transitionPage(
-                  key: state.pageKey,
-                  child: const UpdatesScreen(),
-                ),
-              ),
-              GoRoute(
-                name: "browse",
-                path: '/browse',
-                builder: (context, state) => const BrowseScreen(),
-                pageBuilder: (context, state) => transitionPage(
-                  key: state.pageKey,
-                  child: const BrowseScreen(),
-                ),
-              ),
-              GoRoute(
-                name: "more",
-                path: '/more',
-                builder: (context, state) => const MoreScreen(),
-                pageBuilder: (context, state) => transitionPage(
-                  key: state.pageKey,
-                  child: const MoreScreen(),
-                ),
-              ),
-            ]),
+            ),
+          ),
+          GoRoute(
+            name: "history",
+            path: '/history',
+            builder: (context, state) => const HistoryScreen(),
+            pageBuilder: (context, state) => transitionPage(
+              key: state.pageKey,
+              child: const HistoryScreen(),
+            ),
+          ),
+          GoRoute(
+            name: "updates",
+            path: '/updates',
+            builder: (context, state) => const UpdatesScreen(),
+            pageBuilder: (context, state) => transitionPage(
+              key: state.pageKey,
+              child: const UpdatesScreen(),
+            ),
+          ),
+          GoRoute(
+            name: "browse",
+            path: '/browse',
+            builder: (context, state) => const BrowseScreen(),
+            pageBuilder: (context, state) => transitionPage(
+              key: state.pageKey,
+              child: const BrowseScreen(),
+            ),
+          ),
+          GoRoute(
+            name: "more",
+            path: '/more',
+            builder: (context, state) => const MoreScreen(),
+            pageBuilder: (context, state) => transitionPage(
+              key: state.pageKey,
+              child: const MoreScreen(),
+            ),
+          ),
+        ]),
         GoRoute(
             path: "/mangaHome",
             name: "mangaHome",
@@ -551,9 +550,7 @@ class RouterNotifier extends ChangeNotifier {
 }
 
 Page transitionPage({required LocalKey key, required child}) {
-  return Platform.isIOS
-      ? CupertinoPage(key: key, child: child)
-      : CustomTransition(child: child, key: key);
+  return Platform.isIOS ? CupertinoPage(key: key, child: child) : CustomTransition(child: child, key: key);
 }
 
 class CustomTransition extends CustomTransitionPage {

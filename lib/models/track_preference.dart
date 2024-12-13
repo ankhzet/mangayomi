@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+
 part 'track_preference.g.dart';
 
 @collection
@@ -26,6 +27,5 @@ class TrackPreference {
     prefs = json['prefs'];
   }
 
-  Map<String, dynamic> toJson() =>
-      {'syncId': syncId, 'username': username, 'oAuth': oAuth, 'prefs': prefs};
+  Map<String, dynamic> toJson() => {'syncId': syncId, 'username': username, 'oAuth': oAuth, 'prefs': prefs};
 }

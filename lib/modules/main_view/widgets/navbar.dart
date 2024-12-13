@@ -235,7 +235,7 @@ Widget _updatesTotalNumbers(WidgetRef ref) {
       if (snapshot.hasData && snapshot.data!.isNotEmpty) {
         final groups = UpdateGroup.groupUpdates(
           snapshot.data!,
-              (Update update) => '${update.mangaId!}-${update.chapter.value!.order}',
+          (Update update) => '${update.mangaId!}-${update.chapter.value!.order}',
         );
 
         count = groups.length;

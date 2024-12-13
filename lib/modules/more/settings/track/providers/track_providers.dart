@@ -4,6 +4,7 @@ import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/models/track_preference.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'track_providers.g.dart';
 
 @riverpod
@@ -26,11 +27,7 @@ class Tracks extends _$Tracks {
   }
 
   void updateTrackManga(Track track, bool? isManga) {
-    final tra = isar.tracks
-        .filter()
-        .syncIdEqualTo(syncId)
-        .mangaIdEqualTo(track.mangaId)
-        .findAllSync();
+    final tra = isar.tracks.filter().syncIdEqualTo(syncId).mangaIdEqualTo(track.mangaId).findAllSync();
     if (tra.isNotEmpty) {
       if (tra.first.mediaId != track.mangaId) {
         track.id = tra.first.id;

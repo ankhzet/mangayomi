@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+
 part 'changed_items.g.dart';
 
 @collection
@@ -8,6 +9,7 @@ class ChangedItems {
   List<DeletedManga>? deletedMangas;
   List<UpdatedChapter>? updatedChapters;
   List<DeletedCategory>? deletedCategories;
+
   ChangedItems(
       {this.id = Isar.autoIncrement,
       this.deletedMangas = const [],
@@ -32,7 +34,9 @@ class ChangedItems {
 @embedded
 class DeletedManga {
   int? mangaId;
+
   DeletedManga({this.mangaId});
+
   DeletedManga.fromJson(Map<String, dynamic> json) {
     mangaId = json['mangaId'];
   }
@@ -48,13 +52,9 @@ class UpdatedChapter {
   bool? isRead;
   String? lastPageRead;
   bool? deleted;
-  UpdatedChapter(
-      {this.chapterId,
-      this.mangaId,
-      this.isBookmarked,
-      this.isRead,
-      this.lastPageRead,
-      this.deleted});
+
+  UpdatedChapter({this.chapterId, this.mangaId, this.isBookmarked, this.isRead, this.lastPageRead, this.deleted});
+
   UpdatedChapter.fromJson(Map<String, dynamic> json) {
     chapterId = json['chapterId'];
     mangaId = json['mangaId'];
@@ -77,7 +77,9 @@ class UpdatedChapter {
 @embedded
 class DeletedCategory {
   int? categoryId;
+
   DeletedCategory({this.categoryId});
+
   DeletedCategory.fromJson(Map<String, dynamic> json) {
     categoryId = json['categoryId'];
   }

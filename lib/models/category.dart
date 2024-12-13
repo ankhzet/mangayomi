@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+
 part 'category.g.dart';
 
 @collection
@@ -7,10 +8,8 @@ class Category {
   Id? id;
   String? name;
   bool? forManga;
-  Category(
-      {this.id = Isar.autoIncrement,
-      required this.name,
-      required this.forManga});
+
+  Category({this.id = Isar.autoIncrement, required this.name, required this.forManga});
 
   Category.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -18,6 +17,5 @@ class Category {
     forManga = json['forManga'];
   }
 
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'name': name, 'forManga': forManga};
+  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'forManga': forManga};
 }

@@ -10,15 +10,16 @@ import 'package:mangayomi/providers/l10n_providers.dart';
 
 class CategoriesScreen extends ConsumerStatefulWidget {
   final (bool, int) data;
+
   const CategoriesScreen({required this.data, super.key});
 
   @override
   ConsumerState<CategoriesScreen> createState() => _CategoriesScreenState();
 }
 
-class _CategoriesScreenState extends ConsumerState<CategoriesScreen>
-    with TickerProviderStateMixin {
+class _CategoriesScreenState extends ConsumerState<CategoriesScreen> with TickerProviderStateMixin {
   late TabController _tabBarController;
+
   @override
   void initState() {
     _tabBarController = TabController(length: 2, vsync: this);
@@ -65,6 +66,7 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen>
 
 class CategoriesTab extends ConsumerStatefulWidget {
   final bool isManga;
+
   const CategoriesTab({required this.isManga, super.key});
 
   @override
@@ -73,11 +75,11 @@ class CategoriesTab extends ConsumerStatefulWidget {
 
 class _CategoriesTabState extends ConsumerState<CategoriesTab> {
   List<Category> _entries = [];
+
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
-    final categories =
-        ref.watch(getMangaCategorieStreamProvider(isManga: widget.isManga));
+    final categories = ref.watch(getMangaCategorieStreamProvider(isManga: widget.isManga));
     return Scaffold(
       body: categories.when(
         data: (data) {
@@ -143,8 +145,7 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
                                   onPressed: () {
                                     _renameCategory(_entries[index]);
                                   },
-                                  icon: const Icon(
-                                      Icons.mode_edit_outline_outlined)),
+                                  icon: const Icon(Icons.mode_edit_outline_outlined)),
                               IconButton(
                                   onPressed: () {
                                     showDialog(
@@ -156,46 +157,30 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
                                                 title: Text(
                                                   l10n.delete_category,
                                                 ),
-                                                content: Text(
-                                                    l10n.delete_category_msg(
-                                                        _entries[index].name!)),
+                                                content: Text(l10n.delete_category_msg(_entries[index].name!)),
                                                 actions: [
                                                   Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
+                                                    mainAxisAlignment: MainAxisAlignment.end,
                                                     children: [
                                                       TextButton(
                                                           onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
+                                                            Navigator.pop(context);
                                                           },
-                                                          child: Text(
-                                                              l10n.cancel)),
+                                                          child: Text(l10n.cancel)),
                                                       const SizedBox(
                                                         width: 15,
                                                       ),
                                                       TextButton(
                                                           onPressed: () async {
-                                                            await isar.writeTxn(
-                                                                () async {
+                                                            await isar.writeTxn(() async {
                                                               await ref
-                                                                  .read(changedItemsManagerProvider(
-                                                                          managerId:
-                                                                              1)
+                                                                  .read(changedItemsManagerProvider(managerId: 1)
                                                                       .notifier)
-                                                                  .addDeletedCategoryAsync(
-                                                                      _entries[
-                                                                          index], false);
-                                                              await isar
-                                                                  .categorys
-                                                                  .delete(_entries[
-                                                                          index]
-                                                                      .id!);
+                                                                  .addDeletedCategoryAsync(_entries[index], false);
+                                                              await isar.categorys.delete(_entries[index].id!);
                                                             });
-                                                            if (context
-                                                                .mounted) {
-                                                              Navigator.pop(
-                                                                  context);
+                                                            if (context.mounted) {
+                                                              Navigator.pop(context);
                                                             }
                                                           },
                                                           child: Text(
@@ -273,8 +258,7 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
                                   width: 15,
                                 ),
                                 TextButton(
-                                    onPressed: controller.text.isEmpty ||
-                                            isExist
+                                    onPressed: controller.text.isEmpty || isExist
                                         ? null
                                         : () async {
                                             await isar.writeTxn(() async {
@@ -290,12 +274,9 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
                                     child: Text(
                                       l10n.add,
                                       style: TextStyle(
-                                          color:
-                                              controller.text.isEmpty || isExist
-                                                  ? Theme.of(context)
-                                                      .primaryColor
-                                                      .withOpacity(0.2)
-                                                  : null),
+                                          color: controller.text.isEmpty || isExist
+                                              ? Theme.of(context).primaryColor.withOpacity(0.2)
+                                              : null),
                                     )),
                               ],
                             )
@@ -361,27 +342,22 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
                         width: 15,
                       ),
                       TextButton(
-                          onPressed:
-                              controller.text.isEmpty || isExist || isSameName
-                                  ? null
-                                  : () async {
-                                      await isar.writeTxn(() async {
-                                        category.name = controller.text;
-                                        await isar.categorys.put(category);
-                                      });
-                                      if (context.mounted) {
-                                        Navigator.pop(context);
-                                      }
-                                    },
+                          onPressed: controller.text.isEmpty || isExist || isSameName
+                              ? null
+                              : () async {
+                                  await isar.writeTxn(() async {
+                                    category.name = controller.text;
+                                    await isar.categorys.put(category);
+                                  });
+                                  if (context.mounted) {
+                                    Navigator.pop(context);
+                                  }
+                                },
                           child: Text(
                             l10n.ok,
                             style: TextStyle(
-                                color: controller.text.isEmpty ||
-                                        isExist ||
-                                        isSameName
-                                    ? Theme.of(context)
-                                        .primaryColor
-                                        .withOpacity(0.2)
+                                color: controller.text.isEmpty || isExist || isSameName
+                                    ? Theme.of(context).primaryColor.withOpacity(0.2)
                                     : null),
                           )),
                     ],

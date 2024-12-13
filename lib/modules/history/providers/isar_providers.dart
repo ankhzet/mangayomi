@@ -1,11 +1,12 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/update.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 part 'isar_providers.g.dart';
 
 @riverpod
@@ -37,12 +38,8 @@ Stream<List<Update>> getAllUpdateStream(Ref ref, {required bool isManga}) async*
       .chapter((q) => q.manga((q) => q.isMangaEqualTo(isManga)))
       .findAll();
 
-  final List<int> toDelete = (
-      updates
-          .where((update) => update.chapter.value!.isRead!)
-          .map((update) => update.id!)
-          .toList(growable: false)
-  );
+  final List<int> toDelete =
+      (updates.where((update) => update.chapter.value!.isRead!).map((update) => update.id!).toList(growable: false));
 
   if (toDelete.isNotEmpty) {
     await isar.writeTxn(() async {
@@ -60,8 +57,5 @@ Stream<List<Update>> getAllUpdateStream(Ref ref, {required bool isManga}) async*
 
 @riverpod
 Stream<List<Manga>> getAllMangasStream(Ref ref, {required bool isManga}) async* {
-  yield* isar.mangas
-      .filter()
-      .isMangaEqualTo(isManga)
-      .watch(fireImmediately: true);
+  yield* isar.mangas.filter().isMangaEqualTo(isManga).watch(fireImmediately: true);
 }

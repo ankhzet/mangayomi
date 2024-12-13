@@ -5,9 +5,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:logging/logging.dart';
+
 import '../localstore.dart';
 import 'utils_impl.dart';
-import 'package:logging/logging.dart';
 
 final _log = Logger('Localstore');
 
@@ -29,8 +30,7 @@ final class Utils implements UtilsImpl {
   }
 
   @override
-  Future<Map<String, dynamic>?> get(String path,
-      [bool? isCollection = false, List<List>? conditions]) async {
+  Future<Map<String, dynamic>?> get(String path, [bool? isCollection = false, List<List>? conditions]) async {
     // Fetch the documents for this collection
     if (isCollection != null && isCollection == true) {
       final dbDir = await Localstore.instance.databaseDirectory;
@@ -39,8 +39,7 @@ final class Utils implements UtilsImpl {
       if (!await dir.exists()) {
         return {};
       }
-      List<FileSystemEntity> entries =
-          dir.listSync(recursive: false).whereType<File>().toList();
+      List<FileSystemEntity> entries = dir.listSync(recursive: false).whereType<File>().toList();
       return await _getAll(entries);
     } else {
       try {
@@ -128,8 +127,7 @@ final class Utils implements UtilsImpl {
     final fullPath = '${dbDir.path}$path';
     final dir = Directory(fullPath);
     try {
-      List<FileSystemEntity> entries =
-          dir.listSync(recursive: false).whereType<File>().toList();
+      List<FileSystemEntity> entries = dir.listSync(recursive: false).whereType<File>().toList();
       for (var e in entries) {
         final path = e.path.replaceAll(dbDir.path, '');
         final file = await _getFile(path);

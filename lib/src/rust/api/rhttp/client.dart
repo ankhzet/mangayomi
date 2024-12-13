@@ -3,9 +3,11 @@
 
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
-import '../../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
+
+import '../../frb_generated.dart';
+
 part 'client.freezed.dart';
 
 // These functions are ignored because they are not marked as `pub`: `create_client`, `new_default`, `new`
@@ -52,8 +54,7 @@ class ClientSettings {
     this.tlsSettings,
   });
 
-  static Future<ClientSettings> default_() =>
-      RustLib.instance.api.crateApiRhttpClientClientSettingsDefault();
+  static Future<ClientSettings> default_() => RustLib.instance.api.crateApiRhttpClientClientSettingsDefault();
 
   @override
   int get hashCode =>
@@ -87,6 +88,7 @@ sealed class RedirectSettings with _$RedirectSettings {
   const RedirectSettings._();
 
   const factory RedirectSettings.noRedirect() = RedirectSettings_NoRedirect;
+
   const factory RedirectSettings.limitedRedirects(
     int field0,
   ) = RedirectSettings_LimitedRedirects;

@@ -4,14 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
-import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/flex_scheme_color_state_provider.dart';
+import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 
 class ThemeSelector extends ConsumerStatefulWidget {
   const ThemeSelector({
     super.key,
     this.contentPadding,
   });
+
   final EdgeInsetsGeometry? contentPadding;
 
   @override
@@ -45,9 +46,7 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
                       Column(
                         children: [
                           FlexThemeModeOptionButton(
-                            flexSchemeColor: isLight
-                                ? ThemeAA.schemes[index].light
-                                : ThemeAA.schemes[index].dark,
+                            flexSchemeColor: isLight ? ThemeAA.schemes[index].light : ThemeAA.schemes[index].dark,
                             selected: selected == index,
                             selectedBorder: BorderSide(
                               color: theme.primaryColorLight,
@@ -65,15 +64,11 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
                               });
                               isLight
                                   ? ref
-                                      .read(
-                                          flexSchemeColorStateProvider.notifier)
-                                      .setTheme(ThemeAA.schemes[selected].light,
-                                          selected)
+                                      .read(flexSchemeColorStateProvider.notifier)
+                                      .setTheme(ThemeAA.schemes[selected].light, selected)
                                   : ref
-                                      .read(
-                                          flexSchemeColorStateProvider.notifier)
-                                      .setTheme(ThemeAA.schemes[selected].dark,
-                                          selected);
+                                      .read(flexSchemeColorStateProvider.notifier)
+                                      .setTheme(ThemeAA.schemes[selected].dark, selected);
                             },
                             optionButtonPadding: EdgeInsets.zero,
                             optionButtonMargin: EdgeInsets.zero,
@@ -83,8 +78,7 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
                           ),
                           Text(
                             ThemeAA.schemes[index].name,
-                            style: const TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.w300),
+                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
                           )
                         ],
                       ),

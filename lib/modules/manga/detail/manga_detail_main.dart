@@ -4,13 +4,14 @@ import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/modules/manga/detail/manga_details_view.dart';
-import 'package:mangayomi/modules/manga/detail/providers/update_manga_detail_providers.dart';
 import 'package:mangayomi/modules/manga/detail/providers/isar_providers.dart';
+import 'package:mangayomi/modules/manga/detail/providers/update_manga_detail_providers.dart';
 import 'package:mangayomi/modules/widgets/error_text.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
 
 class MangaReaderDetail extends ConsumerStatefulWidget {
   final int mangaId;
+
   const MangaReaderDetail({super.key, required this.mangaId});
 
   @override
@@ -26,9 +27,7 @@ class _MangaReaderDetailState extends ConsumerState<MangaReaderDetail> {
 
   _init() async {
     await Future.delayed(const Duration(milliseconds: 100));
-    await ref.read(
-        updateMangaDetailProvider(mangaId: widget.mangaId, isInit: true)
-            .future);
+    await ref.read(updateMangaDetailProvider(mangaId: widget.mangaId, isInit: true).future);
     if (mounted) {
       setState(() {
         _isLoading = false;
@@ -37,10 +36,10 @@ class _MangaReaderDetailState extends ConsumerState<MangaReaderDetail> {
   }
 
   bool _isLoading = true;
+
   @override
   Widget build(BuildContext context) {
-    final manga =
-        ref.watch(getMangaDetailStreamProvider(mangaId: widget.mangaId));
+    final manga = ref.watch(getMangaDetailStreamProvider(mangaId: widget.mangaId));
     return Scaffold(
         body: manga.when(
       data: (manga) {
@@ -62,9 +61,7 @@ class _MangaReaderDetailState extends ConsumerState<MangaReaderDetail> {
               return RefreshIndicator(
                 onRefresh: () async {
                   if (sourceExist && !_isLoading) {
-                    await ref.read(updateMangaDetailProvider(
-                            mangaId: manga.id, isInit: false)
-                        .future);
+                    await ref.read(updateMangaDetailProvider(mangaId: manga.id, isInit: false).future);
                   }
                 },
                 child: Stack(
@@ -78,9 +75,7 @@ class _MangaReaderDetailState extends ConsumerState<MangaReaderDetail> {
                             _isLoading = true;
                           });
                           if (sourceExist) {
-                            await ref.read(updateMangaDetailProvider(
-                                    mangaId: manga.id, isInit: false)
-                                .future);
+                            await ref.read(updateMangaDetailProvider(mangaId: manga.id, isInit: false).future);
                           }
                           if (mounted) {
                             setState(() {

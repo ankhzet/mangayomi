@@ -16,9 +16,8 @@ String dateFormat(String? timestamp,
   final locale = currentLocale(context);
   final relativeTimestamps = ref.watch(relativeTimesTampsStateProvider);
   final dateFrmt = ref.watch(dateFormatStateProvider);
-  final dateTime = stringDate != null
-      ? DateTime.parse(stringDate)
-      : DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp!));
+  final dateTime =
+      stringDate != null ? DateTime.parse(stringDate) : DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp!));
 
   final date = DateTime(dateTime.year, dateTime.month, dateTime.day);
   final now = DateTime.now();
@@ -70,14 +69,7 @@ String dateFormatHour(String timestamp, BuildContext context) {
   return DateFormat.Hm(locale.toLanguageTag()).format(dateTime);
 }
 
-List<String> dateFormatsList = [
-  "M/d/y",
-  "MM/dd/yy",
-  "dd/MM/yy",
-  "yyyy-MM-dd",
-  "dd MMM yyyy",
-  "MMM dd, yyyy"
-];
+List<String> dateFormatsList = ["M/d/y", "MM/dd/yy", "dd/MM/yy", "yyyy-MM-dd", "dd MMM yyyy", "MMM dd, yyyy"];
 
 List<String> relativeTimestampsList(BuildContext context) {
   final l10n = l10nLocalizations(context)!;

@@ -7,6 +7,7 @@ class GridViewWidget extends StatelessWidget {
   final double? childAspectRatio;
   final Widget? Function(BuildContext, int) itemBuilder;
   final int? gridSize;
+
   const GridViewWidget(
       {super.key,
       this.controller,
@@ -29,8 +30,7 @@ class GridViewWidget extends StatelessWidget {
                     maxCrossAxisExtent: 220,
                   )
                 : SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: gridSize!,
-                    childAspectRatio: childAspectRatio!),
+                    crossAxisCount: gridSize!, childAspectRatio: childAspectRatio!),
             itemCount: itemCount,
             itemBuilder: itemBuilder));
   }

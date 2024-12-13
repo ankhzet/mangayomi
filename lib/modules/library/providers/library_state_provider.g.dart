@@ -2514,7 +2514,7 @@ class _SortLibraryMangaStateProviderElement
   Settings get settings => (origin as SortLibraryMangaStateProvider).settings;
 }
 
-String _$mangasListStateHash() => r'ad1cc419dfd3793bfc8c90f3ce8b7726561dd9ad';
+String _$mangasListStateHash() => r'5a3f1a7aec1576af25bd071db4081654fc600b62';
 
 /// See also [MangasListState].
 @ProviderFor(MangasListState)

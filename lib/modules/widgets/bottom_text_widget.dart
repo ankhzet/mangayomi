@@ -9,6 +9,7 @@ class BottomTextWidget extends StatelessWidget {
   final int? maxLines;
   final Color? textColor;
   final bool? isTorrent;
+
   const BottomTextWidget(
       {super.key,
       required this.text,
@@ -58,9 +59,7 @@ class BottomTextWidget extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 13.0,
                             color: textColor ?? Colors.white,
-                            shadows: const <Shadow>[
-                              Shadow(offset: Offset(0.5, 0.9), blurRadius: 3.0)
-                            ],
+                            shadows: const <Shadow>[Shadow(offset: Offset(0.5, 0.9), blurRadius: 3.0)],
                           ),
                           maxLines: isTorrent! ? 8 : maxLines,
                           overflow: TextOverflow.ellipsis,
@@ -76,10 +75,7 @@ class BottomTextWidget extends StatelessWidget {
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          Colors.black.withOpacity(0.6)
-                        ],
+                        colors: [Colors.transparent, Colors.black.withOpacity(0.6)],
                         stops: const [0, 1],
                       ),
                     ),
@@ -94,10 +90,7 @@ class BottomTextWidget extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 13.0,
                               color: textColor ?? Colors.white,
-                              shadows: const <Shadow>[
-                                Shadow(
-                                    offset: Offset(0.5, 0.9), blurRadius: 3.0)
-                              ],
+                              shadows: const <Shadow>[Shadow(offset: Offset(0.5, 0.9), blurRadius: 3.0)],
                             ),
                             maxLines: isTorrent! ? 8 : maxLines,
                             overflow: TextOverflow.ellipsis,

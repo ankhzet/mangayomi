@@ -67,7 +67,6 @@ Future<GetChapterPagesModel> getChapterPages(
   List<Uint8List?> archiveImages = [];
   final isLocalArchive = (chapter.archivePath ?? '').isNotEmpty;
 
-
   if (!manga.isLocalArchive!) {
     final source = getSource(manga.lang!, manga.source!)!;
     final data = isarPageUrls.isNotEmpty ? isarPageUrls.first : null;
@@ -107,9 +106,7 @@ Future<GetChapterPagesModel> getChapterPages(
     } else {
       for (var i = 0; i < pageUrls.length; i++) {
         archiveImages.add(null);
-        isLocalList.add(
-          await UChapDataPreload.file(chapterDirectory, i).exists()
-        );
+        isLocalList.add(await UChapDataPreload.file(chapterDirectory, i).exists());
       }
     }
     if (isLocalArchive) {

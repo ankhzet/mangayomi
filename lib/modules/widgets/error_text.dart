@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class ErrorText extends StatelessWidget {
   final dynamic errorText;
+
   const ErrorText(
     this.errorText, {
     super.key,

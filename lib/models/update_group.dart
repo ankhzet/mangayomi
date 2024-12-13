@@ -1,5 +1,5 @@
-import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/chapter.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 
@@ -8,7 +8,7 @@ class UpdateGroup {
   List<Chapter> chapters;
   String group;
 
-  UpdateGroup.fromChapters(this.chapters, this.group): manga = chapters.first.manga.value!;
+  UpdateGroup.fromChapters(this.chapters, this.group) : manga = chapters.first.manga.value!;
 
   static String groupBy(UpdateGroup element) => element.group;
 
@@ -34,9 +34,9 @@ class UpdateGroup {
   int get mangaId => manga.id;
 
   String get label {
-    final indexes = chapters.sorted((a, b) => a.compareTo(b)).map((chapter) => chapter.getNumber).toList(growable: false);
+    final indexes =
+        chapters.sorted((a, b) => a.compareTo(b)).map((chapter) => chapter.getNumber).toList(growable: false);
     final volumes = indexes.map((index) => index.$1).toUnique(growable: false);
-
 
     if (volumes.length > 1) {
       final volumes = indexes.fold<Map<int, List<ChapterCompositeNumber>>>({}, (map, index) {
@@ -50,7 +50,7 @@ class UpdateGroup {
 
         return map;
       });
-      
+
       return volumes.entries.map((entry) => 'Vol. ${entry.key}: ${indexesToStr(entry.value)}').join(', ');
     }
 
@@ -91,11 +91,11 @@ List<List<String>> groupRanges(List<String> indexes) {
 
   return groups;
 }
+
 String indexToStr(int c, int s) => s != 0 ? '$c.$s' : c.toString();
+
 String indexesToStr(List<ChapterCompositeNumber> indexes) {
-  final groups = groupRanges(
-      indexes.map((index) => indexToStr(index.$2, index.$3)).toUnique(growable: false)
-  );
+  final groups = groupRanges(indexes.map((index) => indexToStr(index.$2, index.$3)).toUnique(growable: false));
 
   return groups.map((group) {
     final [start, end] = group;

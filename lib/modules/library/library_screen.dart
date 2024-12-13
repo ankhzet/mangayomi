@@ -2,6 +2,7 @@
 
 import 'dart:io';
 import 'dart:math';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,25 +19,25 @@ import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/modules/library/providers/add_torrent.dart';
-import 'package:mangayomi/modules/library/providers/local_archive.dart';
-import 'package:mangayomi/modules/manga/detail/providers/update_manga_detail_providers.dart';
-import 'package:mangayomi/modules/more/categories/providers/isar_providers.dart';
-import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
-import 'package:mangayomi/modules/widgets/custom_draggable_tabbar.dart';
-import 'package:mangayomi/modules/widgets/manga_image_card_widget.dart';
-import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/providers/storage_provider.dart';
-import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/modules/library/providers/isar_providers.dart';
 import 'package:mangayomi/modules/library/providers/library_state_provider.dart';
-import 'package:mangayomi/modules/library/widgets/search_text_form_field.dart';
+import 'package:mangayomi/modules/library/providers/local_archive.dart';
 import 'package:mangayomi/modules/library/widgets/library_gridview_widget.dart';
 import 'package:mangayomi/modules/library/widgets/library_listview_widget.dart';
 import 'package:mangayomi/modules/library/widgets/list_tile_manga_category.dart';
+import 'package:mangayomi/modules/library/widgets/search_text_form_field.dart';
+import 'package:mangayomi/modules/manga/detail/providers/update_manga_detail_providers.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/chapter_filter_list_tile_widget.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/chapter_sort_list_tile_widget.dart';
+import 'package:mangayomi/modules/more/categories/providers/isar_providers.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
+import 'package:mangayomi/modules/widgets/custom_draggable_tabbar.dart';
 import 'package:mangayomi/modules/widgets/error_text.dart';
+import 'package:mangayomi/modules/widgets/manga_image_card_widget.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
+import 'package:mangayomi/providers/l10n_providers.dart';
+import 'package:mangayomi/providers/storage_provider.dart';
+import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/global_style.dart';
 
 class LibraryScreen extends ConsumerStatefulWidget {

@@ -3,12 +3,14 @@
 
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
+import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
+
 import '../../frb_generated.dart';
 import '../../lib.dart';
 import 'client.dart';
 import 'error.dart';
-import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
-import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
+
 part 'http.freezed.dart';
 
 // These functions are ignored because they are not marked as `pub`: `build_cancel_tokens`, `from_version`, `header_to_vec`, `make_http_request_helper`, `make_http_request_receive_stream_inner`, `register_client_internal`, `to_method`
@@ -19,8 +21,7 @@ Future<RequestClient> registerClient({required ClientSettings settings}) =>
     RustLib.instance.api.crateApiRhttpHttpRegisterClient(settings: settings);
 
 RequestClient registerClientSync({required ClientSettings settings}) =>
-    RustLib.instance.api
-        .crateApiRhttpHttpRegisterClientSync(settings: settings);
+    RustLib.instance.api.crateApiRhttpHttpRegisterClientSync(settings: settings);
 
 Future<void> cancelRunningRequests({required RequestClient client}) =>
     RustLib.instance.api.crateApiRhttpHttpCancelRunningRequests(client: client);
@@ -60,6 +61,7 @@ sealed class HttpHeaders with _$HttpHeaders {
   const factory HttpHeaders.map(
     Map<String, String> field0,
   ) = HttpHeaders_Map;
+
   const factory HttpHeaders.list(
     List<(String, String)> field0,
   ) = HttpHeaders_List;
@@ -92,8 +94,7 @@ class HttpResponse {
   });
 
   @override
-  int get hashCode =>
-      headers.hashCode ^ version.hashCode ^ statusCode.hashCode ^ body.hashCode;
+  int get hashCode => headers.hashCode ^ version.hashCode ^ statusCode.hashCode ^ body.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -113,9 +114,11 @@ sealed class HttpResponseBody with _$HttpResponseBody {
   const factory HttpResponseBody.text(
     String field0,
   ) = HttpResponseBody_Text;
+
   const factory HttpResponseBody.bytes(
     Uint8List field0,
   ) = HttpResponseBody_Bytes;
+
   const factory HttpResponseBody.stream() = HttpResponseBody_Stream;
 }
 

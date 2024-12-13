@@ -10,6 +10,7 @@ class AniSkipCountDownButton extends ConsumerStatefulWidget {
   final String skipTypeText;
   final Results? aniSkipResult;
   final Player player;
+
   const AniSkipCountDownButton(
       {super.key,
       required this.skipTypeText,
@@ -20,18 +21,15 @@ class AniSkipCountDownButton extends ConsumerStatefulWidget {
       required this.timeoutLength});
 
   @override
-  ConsumerState<AniSkipCountDownButton> createState() =>
-      _AniSkipCountDownButtonState();
+  ConsumerState<AniSkipCountDownButton> createState() => _AniSkipCountDownButtonState();
 }
 
-class _AniSkipCountDownButtonState extends ConsumerState<AniSkipCountDownButton>
-    with TickerProviderStateMixin {
+class _AniSkipCountDownButtonState extends ConsumerState<AniSkipCountDownButton> with TickerProviderStateMixin {
   late AnimationController _controller;
+
   @override
   void initState() {
-    _controller = AnimationController(
-        vsync: this, duration: Duration(seconds: widget.timeoutLength))
-      ..forward();
+    _controller = AnimationController(vsync: this, duration: Duration(seconds: widget.timeoutLength))..forward();
     super.initState();
     if (widget.active) {
       if (widget.autoSkip) {
@@ -54,11 +52,11 @@ class _AniSkipCountDownButtonState extends ConsumerState<AniSkipCountDownButton>
       _isCompleted = true;
     });
     _controller.reset();
-    widget.player.seek(
-        Duration(seconds: widget.aniSkipResult!.interval!.endTime!.ceil()));
+    widget.player.seek(Duration(seconds: widget.aniSkipResult!.interval!.endTime!.ceil()));
   }
 
   bool _isCompleted = false;
+
   @override
   void dispose() {
     _controller.dispose();
@@ -77,8 +75,7 @@ class _AniSkipCountDownButtonState extends ConsumerState<AniSkipCountDownButton>
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: MaterialButton(
                       padding: const EdgeInsets.all(0),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                       onPressed: () {
                         _seekTo();
                       },
@@ -109,21 +106,15 @@ class _AniSkipCountDownButtonState extends ConsumerState<AniSkipCountDownButton>
                             ),
                             Positioned.fill(
                                 child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
                                   Text(
                                     widget.skipTypeText.toUpperCase(),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
+                                    style: const TextStyle(fontWeight: FontWeight.bold),
                                   ),
-                                  Text((widget.timeoutLength -
-                                          (_controller.duration! *
-                                                  _controller.value)
-                                              .inSeconds)
+                                  Text((widget.timeoutLength - (_controller.duration! * _controller.value).inSeconds)
                                       .toString()),
                                 ],
                               ),

@@ -310,9 +310,8 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
 
                                   chapter.isRead = true;
                                   chapter.lastPageRead = "1";
-                                  changeLog.addUpdatedChapter(chapter, false, false);
+                                  changeLog.addUpdatedChapter(chapter, false, true);
                                   updated.add(chapter..manga.value = widget.manga);
-                                  chapter.manga.saveSync();
                                 }
 
                                 isar.writeTxnSync(() {

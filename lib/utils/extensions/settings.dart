@@ -10,9 +10,9 @@ mixin WithSettings {
   set settings(Settings value) {
     _settings = value;
 
-    isar.writeTxn(() async {
-      isar.settings.put(value);
-    }).onError((_, __) => null);
+    isar.writeTxnSync(() {
+      isar.settings.putSync(value);
+    });
   }
 }
 
@@ -20,8 +20,8 @@ extension Singletone on IsarCollection<Settings> {
   Settings get first => getSync(227) ?? Settings(id: 227);
 
   set first(Settings value) {
-    isar.writeTxn(() async {
-      await isar.settings.put(value);
+    isar.writeTxnSync(() {
+      isar.settings.putSync(value);
     });
   }
 }

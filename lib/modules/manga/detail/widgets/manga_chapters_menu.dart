@@ -21,7 +21,7 @@ class MangaChaptersMenu extends ConsumerStatefulWidget {
 
 class _MangaChaptersMenuState extends ConsumerState<MangaChaptersMenu> with TickerProviderStateMixin {
   late final manga = widget.manga;
-  late final mangaId = widget.manga.id!;
+  late final mangaId = widget.manga.id;
 
   @override
   Widget build(BuildContext context) {

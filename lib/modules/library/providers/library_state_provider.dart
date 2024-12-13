@@ -566,7 +566,7 @@ class MangasListState extends _$MangasListState {
     if (newList.contains(value.id)) {
       newList.remove(value.id);
     } else {
-      newList.add(value.id!);
+      newList.add(value.id);
     }
     if (newList.isEmpty) {
       ref.read(isLongPressedMangaStateProvider.notifier).update(false);
@@ -577,7 +577,7 @@ class MangasListState extends _$MangasListState {
   void selectAll(Manga value) {
     var newList = state.reversed.toList();
     if (!newList.contains(value.id)) {
-      newList.add(value.id!);
+      newList.add(value.id);
     }
 
     state = newList;
@@ -588,7 +588,7 @@ class MangasListState extends _$MangasListState {
     if (newList.contains(value.id)) {
       newList.remove(value.id);
     } else {
-      newList.add(value.id!);
+      newList.add(value.id);
     }
     state = newList;
   }

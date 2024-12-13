@@ -396,7 +396,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                                                                       false);
                                                               await isar.mangas
                                                                   .delete(manga
-                                                                      .id!);
+                                                                      .id);
                                                             });
                                                             if (context
                                                                 .mounted) {

@@ -88,9 +88,9 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
     super.initState();
   }
 
-  final offsetProvider = StateProvider((ref) => 0.0);
   bool _expanded = false;
   ScrollController _scrollController = ScrollController();
+  final offsetProvider = StateProvider((ref) => 0.0);
   late final isLocalArchive = widget.manga!.isLocalArchive ?? false;
   late final manga = widget.manga!;
   late final mangaId = manga.id;
@@ -98,7 +98,6 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
   @override
   Widget build(BuildContext context) {
     final isLongPressed = ref.watch(isLongPressedStateProvider);
-    final chaptersSelection = ref.watch(chaptersListStateProvider);
     final scanlators = ref.watch(scanlatorsFilterStateProvider(manga));
     final sortState = ref.watch(sortChapterStateProvider(mangaId: mangaId));
     final filterUnread = ref.watch(chapterFilterUnreadStateProvider(mangaId: mangaId));
@@ -130,7 +129,6 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
             return _buildWidget(
               chapters: data,
               reverse: sortState.reverse!,
-              chaptersSelection: chaptersSelection,
               isLongPressed: isLongPressed,
             );
           },
@@ -142,17 +140,15 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
   Widget _buildWidget({
     required List<Chapter> chapters,
     required bool reverse,
-    required List<Chapter> chaptersSelection,
     required bool isLongPressed,
   }) {
     final l10n = l10nLocalizations(context)!;
-    final offset = ref.watch(offsetProvider);
     final chapterLength = chapters.length;
     final reverseList = chapters.reversed.toList();
 
     return Stack(
       children: [
-        MangaCoverBackdrop(manga: manga, active: offset < 100),
+        Consumer(builder: (context, ref, child) => MangaCoverBackdrop(manga: manga, active: ref.watch(offsetProvider) < 100)),
         Scaffold(
             backgroundColor: Colors.transparent,
             extendBodyBehindAppBar: true,
@@ -166,7 +162,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
 
                     final isLongPressed = ref.watch(isLongPressedStateProvider);
                     return isLongPressed
-                        ? ChaptersSelectionBar(manga: manga, chapters: chapters, selection: chaptersSelection)
+                        ? ChaptersSelectionBar(manga: manga, chapters: chapters)
                         : AppBar(
                             title: textAlpha > 0
                                 ? Text(
@@ -207,26 +203,27 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                           slivers: [
                             SliverPadding(
                               padding: const EdgeInsets.only(top: 0, bottom: 60),
-                              sliver: SuperSliverList.builder(
-                                  itemCount: chapterLength + 1,
-                                  itemBuilder: (context, index) {
-                                    int finalIndex = index - 1;
+                              sliver: Consumer(builder: (context, ref, _) {
+                                final chaptersSelection = ref.watch(chaptersListStateProvider);
 
-                                    if (index == 0) {
-                                      return context.isTablet
-                                          ? MangaChaptersCounter(manga: manga)
-                                          : _bodyContainer(chapterLength: chapterLength);
-                                    }
+                                return SuperSliverList.builder(
+                                    itemCount: chapterLength + 1,
+                                    itemBuilder: (context, index) {
+                                      if (index == 0) {
+                                        return context.isTablet //
+                                            ? MangaChaptersCounter(manga: manga, chapters: chapterLength)
+                                            : details;
+                                      }
 
-                                    int reverseIndex = chapterLength - reverseList.indexOf(reverseList[finalIndex]) - 1;
-                                    final indexx = reverse ? reverseIndex : finalIndex;
+                                      final chapter = chapters[index - 1];
 
-                                    return ChapterListTileWidget(
-                                      chapter: chapters[indexx],
-                                      chapterList: chaptersSelection,
-                                      sourceExist: widget.sourceExist,
-                                    );
-                                  }),
+                                      return ChapterListTileWidget(
+                                        chapter: chapter,
+                                        isSelected: chaptersSelection.contains(chapter),
+                                        sourceExist: widget.sourceExist,
+                                      );
+                                    });
+                              }),
                             ),
                           ],
                         )),

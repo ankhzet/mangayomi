@@ -11,13 +11,13 @@ import 'package:mangayomi/utils/extensions/string_extensions.dart';
 
 class ChapterListTileWidget extends ConsumerWidget {
   final Chapter chapter;
-  final List<Chapter> chapterList;
   final bool sourceExist;
+  final bool isSelected;
 
   const ChapterListTileWidget({
-    required this.chapterList,
     required this.chapter,
     required this.sourceExist,
+    required this.isSelected,
     super.key,
   });
 
@@ -27,9 +27,10 @@ class ChapterListTileWidget extends ConsumerWidget {
     final l10n = l10nLocalizations(context)!;
     final hasProgress = !chapter.isRead! && chapter.lastPageRead!.isNotEmpty && chapter.lastPageRead != "1";
     final hasScanlators = chapter.scanlator?.isNotEmpty ?? false;
+    final isLocalArchive = chapter.manga.value!.isLocalArchive ?? false;
 
     return Container(
-      color: chapterList.contains(chapter) ? context.primaryColor.withOpacity(0.4) : null,
+      color: isSelected ? context.primaryColor.withOpacity(0.4) : null,
       child: ListTile(
         textColor: chapter.isRead!
             ? context.isLight
@@ -73,7 +74,7 @@ class ChapterListTileWidget extends ConsumerWidget {
         ),
         subtitle: Row(
           children: [
-            if (!(chapter.manga.value!.isLocalArchive ?? false))
+            if (!isLocalArchive)
               Text(
                 (chapter.dateUpload?.isNotEmpty ?? false)
                     ? dateFormat(chapter.dateUpload!, ref: ref, context: context)
@@ -108,9 +109,7 @@ class ChapterListTileWidget extends ConsumerWidget {
               ),
           ],
         ),
-        trailing: !sourceExist || (chapter.manga.value!.isLocalArchive ?? false)
-            ? null
-            : ChapterPageDownload(chapter: chapter),
+        trailing: sourceExist && !isLocalArchive ? ChapterPageDownload(chapter: chapter) : null,
       ),
     );
   }

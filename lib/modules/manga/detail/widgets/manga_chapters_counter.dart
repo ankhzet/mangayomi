@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_import_widget.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 
 class MangaChaptersCounter extends StatelessWidget {
   final Manga manga;
+  final int chapters;
 
   const MangaChaptersCounter({
     super.key,
     required this.manga,
+    required this.chapters,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
-    final chapters = manga.chapters.length;
     final isLocalArchive = manga.isLocalArchive ?? false;
 
     return Column(
@@ -26,7 +26,6 @@ class MangaChaptersCounter extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                height: chapters > 0 ? null : context.height(1),
                 color: Theme.of(context).scaffoldBackgroundColor,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),

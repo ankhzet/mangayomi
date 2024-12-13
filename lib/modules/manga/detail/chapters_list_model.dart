@@ -86,6 +86,21 @@ class ChapterFilterModel {
       return !filterScanlator.contains(chapter.scanlator);
     };
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ChapterFilterModel &&
+        filterUnread == other.filterUnread &&
+        filterBookmarked == other.filterBookmarked &&
+        filterDownloaded == other.filterDownloaded &&
+        filterScanlator == other.filterScanlator;
+  }
+
+  @override
+  int get hashCode =>
+      filterUnread.hashCode ^ filterBookmarked.hashCode ^ filterDownloaded.hashCode ^ filterScanlator.hashCode;
 }
 
 class ChapterSortModel {
@@ -178,6 +193,16 @@ class ChapterSortModel {
         SortType.name => name,
       });
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ChapterSortModel && (sort == other.sort);
+  }
+
+  @override
+  int get hashCode => sort.hashCode;
 }
 
 class ChaptersListModel {
@@ -193,4 +218,14 @@ class ChaptersListModel {
         )
         .toList(growable: false);
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ChaptersListModel && (filter == other.filter && sort == other.sort);
+  }
+
+  @override
+  int get hashCode => filter.hashCode ^ sort.hashCode;
 }

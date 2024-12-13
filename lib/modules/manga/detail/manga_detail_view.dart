@@ -73,46 +73,47 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
     final filterDownloaded = ref.watch(chapterFilterDownloadedStateProvider(mangaId: mangaId));
     final chapters = ref.watch(getChaptersFilteredStreamProvider(
       mangaId: mangaId,
-      filter: ChapterFilterModel(
-        filterUnread: filterUnread.filter,
-        filterBookmarked: filterBookmarked.filter,
-        filterDownloaded: filterDownloaded.filter,
-        filterScanlator: scanlators.$2,
+      model: ChaptersListModel(
+        filter: ChapterFilterModel(
+          filterUnread: filterUnread.filter,
+          filterBookmarked: filterBookmarked.filter,
+          filterDownloaded: filterDownloaded.filter,
+          filterScanlator: scanlators.$2,
+        ),
+        sort: ChapterSortModel(sortState),
       ),
-      sort: ChapterSortModel(sortState),
     ));
 
     return NotificationListener<UserScrollNotification>(
-        onNotification: (notification) {
-          if (notification.direction != ScrollDirection.idle) {
-            widget.isExtended(notification.direction == ScrollDirection.forward);
-          }
+      onNotification: (notification) {
+        if (notification.direction != ScrollDirection.idle) {
+          widget.isExtended(notification.direction == ScrollDirection.forward);
+        }
 
-          return true;
+        return true;
+      },
+      child: chapters.when(
+        data: (data) {
+          ref.read(chaptersListttStateProvider.notifier).set(data);
+
+          return _buildWidget(
+            chapters: data,
+            isLongPressed: isLongPressed,
+          );
         },
-        child: chapters.when(
-          data: (data) {
-            ref.read(chaptersListttStateProvider.notifier).set(data);
-
-            return _buildWidget(
-              chapters: data,
-              reverse: sortState.reverse!,
-              isLongPressed: isLongPressed,
-            );
-          },
-          error: (Object error, StackTrace stackTrace) => ErrorText(error),
-          loading: () => const ProgressCenter(),
-        ));
+        error: (Object error, StackTrace stackTrace) => ErrorText(error),
+        loading: () => _buildWidget(
+          chapters: manga.chapters.toList(growable: false),
+          isLongPressed: isLongPressed,
+        ),
+      ),
+    );
   }
 
-  Widget _buildWidget({
-    required List<Chapter> chapters,
-    required bool reverse,
-    required bool isLongPressed,
-  }) {
+  Widget _buildWidget({required List<Chapter> chapters, required bool isLongPressed}) {
     final l10n = l10nLocalizations(context)!;
     final chapterLength = chapters.length;
-    final reverseList = chapters.reversed.toList();
+
     final details = MangaInfo(manga: manga, sourceExist: widget.sourceExist, chapters: chapterLength);
 
     return Stack(

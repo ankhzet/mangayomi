@@ -57,7 +57,6 @@ class UpdateProgressAfterReadingState extends _$UpdateProgressAfterReadingState 
   void set(bool value) {
     final settings = isar.settings.first;
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings..updateProgressAfterReading = value));
+    isar.settings.first = settings..updateProgressAfterReading = value;
   }
 }

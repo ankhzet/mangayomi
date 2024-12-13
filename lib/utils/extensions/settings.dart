@@ -17,5 +17,11 @@ mixin WithSettings {
 }
 
 extension Singletone on IsarCollection<Settings> {
-  Settings get first => getSync(227)!;
+  Settings get first => getSync(227) ?? Settings(id: 227);
+
+  set first(Settings value) {
+    isar.writeTxnSync(() async {
+      isar.settings.put(value);
+    });
+  }
 }

@@ -263,8 +263,7 @@ class SyncOnAppLaunchState extends _$SyncOnAppLaunchState {
   void set(bool value) {
     final settings = isar.settings.first;
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings..syncOnAppLaunch = value));
+    isar.settings.first = settings..syncOnAppLaunch = value;
   }
 }
 
@@ -278,7 +277,6 @@ class SyncAfterReadingState extends _$SyncAfterReadingState {
   void set(bool value) {
     final settings = isar.settings.first;
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings..syncAfterReading = value));
+    isar.settings.first = settings..syncAfterReading = value;
   }
 }

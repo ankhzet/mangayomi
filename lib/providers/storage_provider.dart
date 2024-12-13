@@ -199,7 +199,7 @@ class StorageProvider {
     final isar = Isar.openSync(schemas, directory: directory, name: "mangayomiDb", inspector: inspector!);
 
     if (isar.settings.filter().idEqualTo(227).isEmptySync()) {
-      isar.writeTxnSync(() => isar.settings.putSync(Settings()));
+      isar.settings.first = Settings();
     }
 
     return isar;

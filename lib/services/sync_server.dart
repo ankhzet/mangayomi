@@ -407,7 +407,7 @@ class SyncServer extends _$SyncServer {
         final history = (backup["history"] as List?)
             ?.map((e) => History.fromJson(e))
             .toList();
-        final settings = (backup["settings"] as List?)
+        final settingsList = (backup["settings"] as List?)
             ?.map((e) => Settings.fromJson(e))
             .toList();
         final extensions = (backup["extensions"] as List?)
@@ -479,22 +479,25 @@ class SyncServer extends _$SyncServer {
           }
 
           isar.sourcePreferences.clearSync();
+
           if (extensionsPref != null) {
             isar.sourcePreferences.putAllSync(extensionsPref);
           }
-          final syncAfterReading = isar.settings.first.syncAfterReading;
-          final syncOnAppLaunch = isar.settings.first.syncOnAppLaunch;
+
+          Settings settings = isar.settings.first;
+          (bool?, bool?) old = (settings.syncAfterReading, settings.syncOnAppLaunch);
+
           isar.settings.clearSync();
-          if (settings != null) {
-            isar.settings.putAllSync(settings);
+
+          if (settingsList != null) {
+            isar.settings.putAllSync(settingsList);
           }
-          if (isar.settings.first == null) {
-            isar.settings.putSync(Settings(id: 227));
-          }
-          isar.settings.putSync(
-              isar.settings.first..syncAfterReading = syncAfterReading);
-          isar.settings.putSync(
-              isar.settings.first..syncOnAppLaunch = syncOnAppLaunch);
+
+          isar.settings.first =
+              isar.settings.first
+                ..syncAfterReading = old.$1
+                ..syncOnAppLaunch = old.$2;
+
           ref.invalidate(themeModeStateProvider);
           ref.invalidate(blendLevelStateProvider);
           ref.invalidate(flexSchemeColorStateProvider);

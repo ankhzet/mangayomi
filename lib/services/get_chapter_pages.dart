@@ -129,7 +129,7 @@ Future<GetChapterPagesModel> getChapterPages(
         ..chapterId = chapter.id
         ..urls = pageUrls.map((e) => e.url).toList()
         ..headers = chapterPageHeaders.first != null ? chapterPageHeaders.map((e) => e.toString()).toList() : null);
-      isar.writeTxnSync(() => isar.settings.putSync(settings..chapterPageUrlsList = chapterPageUrls));
+      isar.settings.first = settings..chapterPageUrlsList = chapterPageUrls;
     }
     for (var i = 0; i < pageUrls.length; i++) {
       uChapDataPreload.add(UChapDataPreload(

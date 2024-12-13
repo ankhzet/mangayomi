@@ -14,8 +14,7 @@ class BlendLevelState extends _$BlendLevelState {
     final settings = isar.settings.first;
     state = blendLevelValue;
     if (end) {
-      isar.writeTxnSync(() =>
-          isar.settings.putSync(settings..flexColorSchemeBlendLevel = state));
+      isar.settings.first = settings..flexColorSchemeBlendLevel = state;
     }
   }
 }

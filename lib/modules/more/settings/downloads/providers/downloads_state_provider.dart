@@ -16,7 +16,7 @@ class OnlyOnWifiState extends _$OnlyOnWifiState {
   void set(bool value) {
     final settings = isar.settings.first;
     state = value;
-    isar.writeTxnSync(() => isar.settings.putSync(settings..downloadOnlyOnWifi = value));
+    isar.settings.first = settings..downloadOnlyOnWifi = value;
   }
 }
 
@@ -30,7 +30,7 @@ class SaveAsCBZArchiveState extends _$SaveAsCBZArchiveState {
   void set(bool value) {
     final settings = isar.settings.first;
     state = value;
-    isar.writeTxnSync(() => isar.settings.putSync(settings..saveAsCBZArchive = value));
+    isar.settings.first = settings..saveAsCBZArchive = value;
   }
 }
 
@@ -48,9 +48,7 @@ class DownloadLocationState extends _$DownloadLocationState {
   void set(String location) {
     final settings = isar.settings.first;
     state = (defaultLocation, location);
-    isar.writeTxnSync(() {
-      isar.settings.putSync(settings..downloadLocation = location);
-    });
+    isar.settings.first = settings..downloadLocation = location;
   }
 
   Future refresh() async {

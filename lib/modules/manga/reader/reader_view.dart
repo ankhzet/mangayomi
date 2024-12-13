@@ -880,70 +880,24 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     if (_isView && !isSlide) {
       _isViewFunction();
     }
-    final readerMode = ref.watch(_currentReaderMode);
-    final animatePageTransitions = ref.watch(animatePageTransitionsStateProvider);
-    if (isPrev) {
-      if (readerMode == ReaderMode.verticalContinuous ||
-          readerMode == ReaderMode.webtoon ||
-          readerMode == ReaderMode.horizontalContinuous) {
-        if (index != -1) {
-          if (isSlide) {
-            _itemScrollController.jumpTo(
-              index: index,
-            );
-          } else {
-            animatePageTransitions
-                ? _itemScrollController.scrollTo(
-                    curve: Curves.ease, index: index, duration: const Duration(milliseconds: 150))
-                : _itemScrollController.jumpTo(
-                    index: index,
-                  );
-          }
-        }
+
+    final animatePageTransitions = ref.read(animatePageTransitionsStateProvider);
+    final isContinuousMode = _isVerticalOrHorizontalContinuous();
+
+    if ((isPrev && index == -1) || !(isContinuousMode || _extendedController.hasClients)) {
+      return;
+    }
+
+    if (animatePageTransitions && !isSlide) {
+      if (isContinuousMode) {
+        _itemScrollController.scrollTo(curve: Curves.ease, index: index, duration: const Duration(milliseconds: 150));
       } else {
-        if (index != -1) {
-          if (_extendedController.hasClients) {
-            if (isSlide) {
-              _extendedController.jumpToPage(index);
-            } else {
-              animatePageTransitions
-                  ? _extendedController.animateToPage(index,
-                      duration: const Duration(milliseconds: 150), curve: Curves.ease)
-                  : _extendedController.jumpToPage(index);
-            }
-          }
-        }
+        _extendedController.animateToPage(index, duration: const Duration(milliseconds: 150), curve: Curves.ease);
       }
+    } else if (isContinuousMode || (isSlide && !isPrev)) {
+      _itemScrollController.jumpTo(index: index);
     } else {
-      if (readerMode == ReaderMode.verticalContinuous ||
-          readerMode == ReaderMode.webtoon ||
-          readerMode == ReaderMode.horizontalContinuous) {
-        if (isSlide) {
-          _itemScrollController.jumpTo(
-            index: index,
-          );
-        } else {
-          animatePageTransitions
-              ? _itemScrollController.scrollTo(
-                  curve: Curves.ease, index: index, duration: const Duration(milliseconds: 150))
-              : _itemScrollController.jumpTo(
-                  index: index,
-                );
-        }
-      } else {
-        if (_extendedController.hasClients) {
-          if (isSlide) {
-            _itemScrollController.jumpTo(
-              index: index,
-            );
-          } else {
-            animatePageTransitions
-                ? _extendedController.animateToPage(index,
-                    duration: const Duration(milliseconds: 150), curve: Curves.ease)
-                : _extendedController.jumpToPage(index);
-          }
-        }
-      }
+      _extendedController.jumpToPage(index);
     }
   }
 

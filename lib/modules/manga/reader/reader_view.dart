@@ -364,9 +364,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
       autofocus: true,
       focusNode: FocusNode(),
       onKeyEvent: (event) {
-        bool hasNextChapter = _readerController.getChapterIndex().$1 != 0;
-        bool hasPrevChapter = _readerController.getChapterIndex().$1 + 1 !=
-            _readerController.getChaptersLength(_readerController.getChapterIndex().$2);
+        final (hasPrevChapter, hasNextChapter) = _readerController.getChapterPrevNext();
 
         final action = switch (event.logicalKey) {
           LogicalKeyboardKey.f11 => (!isLogicalKeyPressed(LogicalKeyboardKey.f11)) ? _setFullScreen() : null,
@@ -1175,9 +1173,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     }
 
     // todo: use sort model instead
-    final index = _readerController.getChapterIndex();
-    bool hasPrevChapter = index.$1 + 1 != _readerController.getChaptersLength(index.$2);
-    bool hasNextChapter = index.$1 != 0;
+    final (hasPrevChapter, hasNextChapter) = _readerController.getChapterPrevNext();
     final readerMode = ref.watch(_currentReaderMode);
 
     return Positioned(

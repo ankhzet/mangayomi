@@ -28,7 +28,7 @@ class MangaActionsMenu extends ConsumerStatefulWidget {
 
 class _MangaActionsMenuState extends ConsumerState<MangaActionsMenu> {
   late final manga = widget.manga;
-  late final mangaId = widget.manga.id!;
+  late final mangaId = widget.manga.id;
   late final isLocalArchive = widget.manga.isLocalArchive ?? false;
 
   @override

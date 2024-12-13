@@ -189,13 +189,13 @@ class AnimeStreamController extends _$AnimeStreamController {
     final malId = isar.tracks
         .filter()
         .syncIdEqualTo(1)
-        .mangaIdEqualTo(episode.manga.value!.id!)
+        .mangaIdEqualTo(episode.manga.value!.id)
         .findFirstSync()
         ?.mediaId;
     final aniId = isar.tracks
         .filter()
         .syncIdEqualTo(2)
-        .mangaIdEqualTo(episode.manga.value!.id!)
+        .mangaIdEqualTo(episode.manga.value!.id)
         .findFirstSync()
         ?.mediaId;
     return switch (malId) {

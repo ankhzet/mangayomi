@@ -22,7 +22,7 @@ class ChaptersSelectionBar extends ConsumerStatefulWidget {
 }
 
 class _ChaptersSelectionBarState extends ConsumerState<ChaptersSelectionBar> {
-  late final mangaId = widget.manga.id!;
+  late final mangaId = widget.manga.id;
 
   void _selectAll() {
     ref.read(chaptersListStateProvider.notifier).selectAll(widget.chapters);

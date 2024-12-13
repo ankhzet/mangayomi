@@ -20,7 +20,7 @@ class ChapterSortType extends ConsumerStatefulWidget {
 
 class _ChapterSortTypeState extends ConsumerState<ChapterSortType> {
   late final manga = widget.manga;
-  late final mangaId = widget.manga.id!;
+  late final mangaId = widget.manga.id;
   late final isLocalArchive = widget.manga.isLocalArchive ?? false;
   late final l10n = l10nLocalizations(context)!;
 

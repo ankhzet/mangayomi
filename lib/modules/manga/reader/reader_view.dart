@@ -1256,18 +1256,12 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                                               .setCurrentIndex(value.toInt());
                                         },
                                         onChangeEnd: (newValue) {
-                                          try {
-                                            final index = _uChapDataPreload
-                                                .firstWhere((element) =>
-                                                    element.chapter == chapter && element.index == newValue.toInt())
-                                                .pageIndex;
+                                          final index = _uChapDataPreload
+                                              .firstWhere((element) =>
+                                                  element.chapter == chapter && element.index == newValue.toInt())
+                                              .pageIndex;
 
-                                            _onBtnTapped(
-                                              index!,
-                                              true,
-                                              isSlide: true,
-                                            );
-                                          } catch (_) {}
+                                          _onBtnTapped(index!, true, isSlide: true);
                                         },
                                         divisions: _readerController.getPageLength(_chapterUrlModel.pageUrls) == 1
                                             ? null
@@ -1648,11 +1642,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
-                  failedToLoadImage
-                      ? _isViewFunction()
-                      : usePageTapZones
-                          ? _onBtnTapped(_currentIndex! - 1, true)
-                          : _isViewFunction();
+                  failedToLoadImage || !usePageTapZones ? _isViewFunction() : _onBtnTapped(_currentIndex! - 1, true);
                 },
                 onDoubleTapDown: _isVerticalOrHorizontalContinuous()
                     ? (details) {
@@ -1678,11 +1668,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
-                  failedToLoadImage
-                      ? _isViewFunction()
-                      : usePageTapZones
-                          ? _onBtnTapped(_currentIndex! + 1, false)
-                          : _isViewFunction();
+                  failedToLoadImage || !usePageTapZones ? _isViewFunction() : _onBtnTapped(_currentIndex! + 1, false);
                 },
                 onDoubleTapDown: _isVerticalOrHorizontalContinuous()
                     ? (details) {
@@ -1706,8 +1692,9 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
 
   bool _isVerticalOrHorizontalContinuous() {
     final readerMode = ref.watch(_currentReaderMode);
-    return readerMode == ReaderMode.verticalContinuous ||
-        readerMode == ReaderMode.webtoon ||
+
+    return readerMode == ReaderMode.webtoon ||
+        readerMode == ReaderMode.verticalContinuous ||
         readerMode == ReaderMode.horizontalContinuous;
   }
 

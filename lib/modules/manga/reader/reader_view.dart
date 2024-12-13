@@ -816,7 +816,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     if (readerMode != ReaderMode.verticalContinuous && readerMode != ReaderMode.webtoon) {
       _autoScroll.value = false;
     }
-    _autoPagescroll();
+    _autoPageScroll();
     if (_readerController.getPageLength(_chapterUrlModel.pageUrls) == 1 &&
         (readerMode == ReaderMode.ltr || readerMode == ReaderMode.rtl || readerMode == ReaderMode.vertical)) {
       _onPageChanged(0);
@@ -863,7 +863,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
 
   late final _pageOffset = ValueNotifier(_readerController.getAutoScroll().$2);
 
-  void _autoPagescroll() async {
+  void _autoPageScroll() async {
     if (_isVerticalOrHorizontalContinous()) {
       for (int i = 0; i < 1; i++) {
         await Future.delayed(const Duration(milliseconds: 100));
@@ -872,7 +872,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
         }
         _pageOffsetController.animateScroll(offset: _pageOffset.value, duration: const Duration(milliseconds: 100));
       }
-      _autoPagescroll();
+      _autoPageScroll();
     }
   }
 
@@ -980,7 +980,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
       _autoScroll.value = false;
     } else {
       if (_autoScrollPage.value) {
-        _autoPagescroll();
+        _autoPageScroll();
         _autoScroll.value = true;
       }
     }
@@ -1157,7 +1157,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                             valueListenable: _autoScroll,
                             builder: (context, value, child) => IconButton(
                                 onPressed: () {
-                                  _autoPagescroll();
+                                  _autoPageScroll();
                                   _autoScroll.value = !value;
                                 },
                                 icon: Icon(value ? Icons.pause_circle : Icons.play_circle)),
@@ -1938,7 +1938,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     ], context: context, vsync: this, fullWidth: true);
 
     if (_autoScrollPage.value) {
-      _autoPagescroll();
+      _autoPageScroll();
       _autoScroll.value = true;
     }
   }

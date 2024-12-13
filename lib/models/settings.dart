@@ -556,6 +556,9 @@ abstract interface class SortOptionModel extends OfManga {
 
   @ignore
   SortType get sort;
+
+  @ignore
+  bool get inReverse;
 }
 
 enum ChapterFilterOption {
@@ -577,6 +580,10 @@ class SortChapter implements SortOptionModel {
   @ignore
   @override
   SortType get sort => SortType.values[index ?? 0];
+
+  @ignore
+  @override
+  bool get inReverse => reverse ?? false;
 
   SortChapter({this.mangaId, this.reverse = false, this.index = 1});
 
@@ -692,7 +699,8 @@ class ChapterPageIndex {
 }
 
 @embedded
-class PersonalReaderMode {
+class PersonalReaderMode implements OfManga {
+  @override
   int? mangaId;
 
   @enumerated
@@ -709,7 +717,8 @@ class PersonalReaderMode {
 }
 
 @embedded
-class AutoScrollPages {
+class AutoScrollPages implements OfManga {
+  @override
   int? mangaId;
   double? pageOffset;
   bool? autoScroll;
@@ -730,7 +739,8 @@ class AutoScrollPages {
 }
 
 @embedded
-class PersonalPageMode {
+class PersonalPageMode implements OfManga {
+  @override
   int? mangaId;
 
   @enumerated
@@ -751,7 +761,8 @@ enum ReaderMode { vertical, ltr, rtl, verticalContinuous, webtoon, horizontalCon
 enum PageMode { onePage, doublePage }
 
 @embedded
-class FilterScanlator {
+class FilterScanlator implements OfManga {
+  @override
   int? mangaId;
   List<String>? scanlators;
 

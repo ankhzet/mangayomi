@@ -264,7 +264,7 @@ Future<void> pushToMangaReaderDetail({
 
   final settings = isar.settings.getSync(227)!;
   final sortList = settings.sortChapterList ?? [];
-  final existing = sortList.firstWhereOrNull(OptionModel.isManga(mangaId));
+  final existing = sortList.firstWhereOrNull(OfManga.isManga(mangaId));
 
   if (existing == null) {
     isar.writeTxnSync(

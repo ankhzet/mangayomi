@@ -114,7 +114,7 @@ abstract interface class IFilterTypeState<T> implements Stateful<T> {
   void setModel(T model);
 }
 
-mixin OptionState<T extends OptionModel> implements IFilterTypeState<T> {
+mixin OptionState<T extends OfManga> implements IFilterTypeState<T> {
   late final settings = isar.settings.getSync(227)!;
   late final int mangaId;
 
@@ -135,12 +135,12 @@ mixin OptionState<T extends OptionModel> implements IFilterTypeState<T> {
 
   @override
   T getModel() {
-    return collection.where(OptionModel.isManga(mangaId)).firstOrNull ?? getOption();
+    return collection.where(OfManga.isManga(mangaId)).firstOrNull ?? getOption();
   }
 
   @override
   void setModel(T model) {
-    final dynamic list = collection.where(OptionModel.isNotManga(mangaId)).toList()..add(model);
+    final dynamic list = collection.where(OfManga.isNotManga(mangaId)).toList()..add(model);
 
     switch (option) {
       case ChapterFilterOption.download:

@@ -918,7 +918,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                       width: context.width(0.8),
                       child: Column(
                         children: [
-                          ListTileChapterFilter(
+                          ListTileItemFilter(
                             label: l10n.from_library,
                             onTap: () {
                               setState(() {
@@ -931,7 +931,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                             },
                             type: fromLibList.isNotEmpty ? 1 : 0,
                           ),
-                          ListTileChapterFilter(
+                          ListTileItemFilter(
                             label: l10n.downloaded_chapters,
                             onTap: () {
                               setState(() {
@@ -1059,7 +1059,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
       Consumer(builder: (context, ref, chil) {
         return Column(
           children: [
-            ListTileChapterFilter(
+            ListTileItemFilter(
                 label: l10n.downloaded,
                 type: ref.watch(mangaFilterDownloadedStateProvider(
                     isManga: widget.isManga, mangaList: _entries, settings: settings)),
@@ -1070,7 +1070,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                           .notifier)
                       .update();
                 }),
-            ListTileChapterFilter(
+            ListTileItemFilter(
                 label: l10n.unread,
                 type: ref.watch(
                     mangaFilterUnreadStateProvider(isManga: widget.isManga, mangaList: _entries, settings: settings)),
@@ -1081,7 +1081,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                           .notifier)
                       .update();
                 }),
-            ListTileChapterFilter(
+            ListTileItemFilter(
                 label: l10n.started,
                 type: ref.watch(
                     mangaFilterStartedStateProvider(isManga: widget.isManga, mangaList: _entries, settings: settings)),
@@ -1092,7 +1092,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                           .notifier)
                       .update();
                 }),
-            ListTileChapterFilter(
+            ListTileItemFilter(
                 label: l10n.bookmarked,
                 type: ref.watch(mangaFilterBookmarkedStateProvider(
                     isManga: widget.isManga, mangaList: _entries, settings: settings)),
@@ -1256,7 +1256,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                 padding: const EdgeInsets.only(top: 5),
                 child: Column(
                   children: [
-                    ListTileChapterFilter(
+                    ListTileItemFilter(
                         label: l10n.downloaded_chapters,
                         type: downloadedChapter ? 1 : 0,
                         onTap: () {
@@ -1265,7 +1265,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                                   .notifier)
                               .set(!downloadedChapter);
                         }),
-                    ListTileChapterFilter(
+                    ListTileItemFilter(
                         label: l10n.language,
                         type: language ? 1 : 0,
                         onTap: () {
@@ -1273,7 +1273,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                               .read(libraryLanguageStateProvider(isManga: widget.isManga, settings: settings).notifier)
                               .set(!language);
                         }),
-                    ListTileChapterFilter(
+                    ListTileItemFilter(
                         label: l10n.local_source,
                         type: localSource ? 1 : 0,
                         onTap: () {
@@ -1282,7 +1282,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                                   libraryLocalSourceStateProvider(isManga: widget.isManga, settings: settings).notifier)
                               .set(!localSource);
                         }),
-                    ListTileChapterFilter(
+                    ListTileItemFilter(
                         label: l10n.show_continue_reading_buttons,
                         type: continueReaderBtn ? 1 : 0,
                         onTap: () {
@@ -1305,7 +1305,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                 padding: const EdgeInsets.only(top: 5),
                 child: Column(
                   children: [
-                    ListTileChapterFilter(
+                    ListTileItemFilter(
                         label: l10n.show_category_tabs,
                         type: showCategoryTabs ? 1 : 0,
                         onTap: () {
@@ -1314,7 +1314,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                                   .notifier)
                               .set(!showCategoryTabs);
                         }),
-                    ListTileChapterFilter(
+                    ListTileItemFilter(
                         label: l10n.show_numbers_of_items,
                         type: showNumbersOfItems ? 1 : 0,
                         onTap: () {

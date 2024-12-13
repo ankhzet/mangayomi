@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mangayomi/models/settings.dart';
 
-class ListTileChapterFilter extends StatelessWidget {
+class ListTileItemFilter extends StatelessWidget {
   final String label;
   final int type;
   final VoidCallback onTap;
 
-  const ListTileChapterFilter({
+  const ListTileItemFilter({
     super.key,
     required this.label,
     required this.type,
@@ -24,9 +24,7 @@ class ListTileChapterFilter extends StatelessWidget {
         style: const TextStyle(fontSize: 14),
       ),
       controlAffinity: ListTileControlAffinity.leading,
-      onChanged: (value) {
-        onTap.call();
-      },
+      onChanged: (_) => onTap(),
     );
   }
 }

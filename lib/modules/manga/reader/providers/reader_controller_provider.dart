@@ -51,19 +51,13 @@ class ReaderController extends _$ReaderController {
   @override
   void build({required Chapter chapter}) {}
 
-  Manga getManga() {
-    return chapter.manga.value!;
-  }
-
-  Chapter geChapter() {
-    return chapter;
-  }
+  late final manga = chapter.manga.value!;
 
   final incognitoMode = isar.settings.getSync(227)!.incognitoMode!;
 
   ReaderMode getReaderMode() {
     final personalReaderModeList = getIsarSetting().personalReaderModeList ?? [];
-    final personalReaderMode = personalReaderModeList.where((element) => element.mangaId == getManga().id);
+    final personalReaderMode = personalReaderModeList.where((element) => element.mangaId == manga.id);
     if (personalReaderMode.isNotEmpty) {
       return personalReaderMode.first.readerMode;
     }
@@ -72,7 +66,7 @@ class ReaderController extends _$ReaderController {
 
   (bool, double) getAutoScroll() {
     final autoScrollPagesList = getIsarSetting().autoScrollPages ?? [];
-    final autoScrollPages = autoScrollPagesList.where((element) => element.mangaId == getManga().id);
+    final autoScrollPages = autoScrollPagesList.where((element) => element.mangaId == manga.id);
     if (autoScrollPages.isNotEmpty) {
       return (autoScrollPages.first.autoScroll ?? false, autoScrollPages.first.pageOffset ?? 10);
     }
@@ -82,12 +76,12 @@ class ReaderController extends _$ReaderController {
   void setAutoScroll(bool value, double offset) {
     List<AutoScrollPages>? autoScrollPagesList = [];
     for (var autoScrollPages in getIsarSetting().autoScrollPages ?? []) {
-      if (autoScrollPages.mangaId != getManga().id) {
+      if (autoScrollPages.mangaId != manga.id) {
         autoScrollPagesList.add(autoScrollPages);
       }
     }
     autoScrollPagesList.add(AutoScrollPages()
-      ..mangaId = getManga().id
+      ..mangaId = manga.id
       ..pageOffset = offset
       ..autoScroll = value);
     isar.writeTxnSync(() => isar.settings.putSync(getIsarSetting()..autoScrollPages = autoScrollPagesList));
@@ -95,7 +89,7 @@ class ReaderController extends _$ReaderController {
 
   PageMode getPageMode() {
     final personalPageModeList = getIsarSetting().personalPageModeList ?? [];
-    final personalPageMode = personalPageModeList.where((element) => element.mangaId == getManga().id);
+    final personalPageMode = personalPageModeList.where((element) => element.mangaId == manga.id);
     if (personalPageMode.isNotEmpty) {
       return personalPageMode.first.pageMode;
     }
@@ -105,12 +99,12 @@ class ReaderController extends _$ReaderController {
   void setReaderMode(ReaderMode newReaderMode) {
     List<PersonalReaderMode>? personalReaderModeLists = [];
     for (var personalReaderMode in getIsarSetting().personalReaderModeList ?? []) {
-      if (personalReaderMode.mangaId != getManga().id) {
+      if (personalReaderMode.mangaId != manga.id) {
         personalReaderModeLists.add(personalReaderMode);
       }
     }
     personalReaderModeLists.add(PersonalReaderMode()
-      ..mangaId = getManga().id
+      ..mangaId = manga.id
       ..readerMode = newReaderMode);
     isar.writeTxnSync(() => isar.settings.putSync(getIsarSetting()..personalReaderModeList = personalReaderModeLists));
   }
@@ -118,12 +112,12 @@ class ReaderController extends _$ReaderController {
   void setPageMode(PageMode newPageMode) {
     List<PersonalPageMode>? personalPageModeLists = [];
     for (var personalPageMode in getIsarSetting().personalPageModeList ?? []) {
-      if (personalPageMode.mangaId != getManga().id) {
+      if (personalPageMode.mangaId != manga.id) {
         personalPageModeLists.add(personalPageMode);
       }
     }
     personalPageModeLists.add(PersonalPageMode()
-      ..mangaId = getManga().id
+      ..mangaId = manga.id
       ..pageMode = newPageMode);
     isar.writeTxnSync(() => isar.settings.putSync(getIsarSetting()..personalPageModeList = personalPageModeLists));
   }
@@ -154,17 +148,17 @@ class ReaderController extends _$ReaderController {
     });
     History? history;
 
-    final empty = isar.historys.filter().mangaIdEqualTo(getManga().id).isEmptySync();
+    final empty = isar.historys.filter().mangaIdEqualTo(manga.id).isEmptySync();
 
     if (empty) {
       history = History(
-          mangaId: getManga().id,
+          mangaId: manga.id,
           date: DateTime.now().millisecondsSinceEpoch.toString(),
-          isManga: getManga().isManga,
+          isManga: manga.isManga,
           chapterId: chapter.id)
         ..chapter.value = chapter;
     } else {
-      history = (isar.historys.filter().mangaIdEqualTo(getManga().id).findFirstSync())!
+      history = (isar.historys.filter().mangaIdEqualTo(manga.id).findFirstSync())!
         ..chapterId = chapter.id
         ..chapter.value = chapter
         ..date = DateTime.now().millisecondsSinceEpoch.toString();
@@ -204,7 +198,7 @@ class ReaderController extends _$ReaderController {
     final id = chapter.id;
     int index = 0;
 
-    for (var chapter in getManga().getFilteredChapterList()) {
+    for (var chapter in manga.getFilteredChapterList()) {
       if (id == chapter.id) {
         return (index, true);
       }
@@ -214,7 +208,7 @@ class ReaderController extends _$ReaderController {
 
     index = 0;
 
-    for (var chapter in getManga().chapters.toList().reversed.toList()) {
+    for (var chapter in manga.chapters.toList().reversed.toList()) {
       if (id == chapter.id) {
         break;
       }
@@ -245,8 +239,8 @@ class ReaderController extends _$ReaderController {
 
   Chapter getChapterByIndex(ChapterCacheIndex index) {
     return index.$2
-        ? getManga().getFilteredChapterList()[index.$1]
-        : getManga().chapters.toList().reversed.toList()[index.$1];
+        ? manga.getFilteredChapterList()[index.$1]
+        : manga.chapters.toList().reversed.toList()[index.$1];
   }
 
   Chapter getPrevChapter() {
@@ -259,8 +253,8 @@ class ReaderController extends _$ReaderController {
 
   int getChaptersLength(ChapterCacheIndex index) {
     return index.$2
-        ? getManga().getFilteredChapterList().length
-        : getManga().chapters.toList().reversed.toList().length;
+        ? manga.getFilteredChapterList().length
+        : manga.chapters.toList().reversed.toList().length;
   }
 
   (bool, bool) getChapterPrevNext() {
@@ -324,11 +318,11 @@ class ReaderController extends _$ReaderController {
   }
 
   String getMangaName() {
-    return getManga().name!;
+    return manga.name!;
   }
 
   String getSourceName() {
-    return getManga().source!;
+    return manga.source!;
   }
 
   String getChapterTitle() {
@@ -345,7 +339,7 @@ extension ChapterExtensions on Chapter {
     final chapterNumber = ChapterRecognition().parseChapterNumber(manga.name!, name!);
 
     final tracks =
-        isar.tracks.filter().idIsNotNull().isMangaEqualTo(manga.isManga).mangaIdEqualTo(manga.id!).findAllSync();
+        isar.tracks.filter().idIsNotNull().isMangaEqualTo(manga.isManga).mangaIdEqualTo(manga.id).findAllSync();
 
     if (tracks.isEmpty) return;
     for (var track in tracks) {
@@ -372,7 +366,7 @@ extension ChapterExtensions on Chapter {
 extension MangaExtensions on Manga {
   List<Chapter> getFilteredChapterList() {
     // todo: use sort model instead
-    final data = this.chapters.toList().reversed.toList();
+    final data = chapters.toList().reversed.toList();
     final filterUnread = (isar.settings
                 .getSync(227)!
                 .chapterFilterUnreadList!

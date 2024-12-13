@@ -58,7 +58,6 @@ class MangaDetailView extends ConsumerStatefulWidget {
   final Function(bool) isExtended;
   final Widget? titleDescription;
   final List<Color>? backButtonColors;
-  final Widget? action;
   final Manga? manga;
   final bool sourceExist;
   final Function(bool) checkForUpdate;
@@ -71,7 +70,6 @@ class MangaDetailView extends ConsumerStatefulWidget {
     required this.checkForUpdate,
     this.titleDescription,
     this.backButtonColors,
-    this.action,
   });
 
   @override
@@ -497,7 +495,6 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                   )
               ],
             ),
-            if (!isLocalArchive) _actionFavouriteAndWebview(),
             Container(
               color: Theme.of(context).scaffoldBackgroundColor,
               child: Column(
@@ -577,98 +574,6 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
         ),
         widget.titleDescription!,
       ],
-    );
-  }
-
-  Widget _actionFavouriteAndWebview() {
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: Row(
-        children: [
-          Expanded(child: widget.action!),
-          Expanded(
-            child: StreamBuilder(
-                stream: isar.trackPreferences.filter().syncIdIsNotNull().watch(fireImmediately: true),
-                builder: (context, snapshot) {
-                  List<TrackPreference>? entries = snapshot.hasData ? snapshot.data! : [];
-                  if (entries.isEmpty) {
-                    return Container();
-                  }
-                  return SizedBox(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).scaffoldBackgroundColor, elevation: 0),
-                      onPressed: () {
-                        _trackingDraggableMenu(entries);
-                      },
-                      child: StreamBuilder(
-                          stream:
-                              isar.tracks.filter().idIsNotNull().mangaIdEqualTo(mangaId).watch(fireImmediately: true),
-                          builder: (context, snapshot) {
-                            final l10n = l10nLocalizations(context)!;
-                            List<Track>? trackRes = snapshot.hasData ? snapshot.data : [];
-                            bool isNotEmpty = trackRes!.isNotEmpty;
-                            Color color = isNotEmpty ? context.primaryColor : context.secondaryColor;
-                            return Column(
-                              children: [
-                                Icon(
-                                  isNotEmpty ? Icons.done_rounded : Icons.sync_outlined,
-                                  size: 20,
-                                  color: color,
-                                ),
-                                const SizedBox(
-                                  height: 4,
-                                ),
-                                Text(
-                                  isNotEmpty
-                                      ? trackRes.length == 1
-                                          ? l10n.one_tracker
-                                          : l10n.n_tracker(trackRes.length)
-                                      : l10n.tracking,
-                                  style: TextStyle(fontSize: 11, color: color),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            );
-                          }),
-                    ),
-                  );
-                }),
-          ),
-          Expanded(
-            child: SizedBox(
-              child: ElevatedButton(
-                style:
-                    ElevatedButton.styleFrom(backgroundColor: Theme.of(context).scaffoldBackgroundColor, elevation: 0),
-                onPressed: () async {
-                  final source = getSource(manga.lang!, manga.source!)!;
-                  final baseUrl = ref.watch(sourceBaseUrlProvider(source: source));
-                  String url = manga.link!.startsWith('/') ? "$baseUrl${manga.link!}" : manga.link!;
-
-                  Map<String, dynamic> data = {'url': url, 'sourceId': source.id.toString(), 'title': manga.name!};
-                  context.push("/mangawebview", extra: data);
-                },
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.public,
-                      size: 20,
-                      color: context.secondaryColor,
-                    ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      'WebView',
-                      style: TextStyle(fontSize: 11, color: context.secondaryColor),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
     );
   }
 

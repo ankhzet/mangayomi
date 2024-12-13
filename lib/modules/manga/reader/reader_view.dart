@@ -427,7 +427,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                 builder: (context, failedToLoadImage, child) {
                   return Stack(
                     children: [
-                      _isVerticalOrHorizontalContinous()
+                      _isVerticalOrHorizontalContinuous()
                           ? PhotoViewGallery.builder(
                               itemCount: 1,
                               builder: (_, __) => PhotoViewGalleryPageOptions.customChild(
@@ -807,7 +807,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     _setReaderMode(readerMode, ref);
     ref.read(currentIndexProvider(chapter).notifier).setCurrentIndex(_uChapDataPreload[_currentIndex!].index);
 
-    if (!(_isVerticalOrHorizontalContinous())) {
+    if (!(_isVerticalOrHorizontalContinuous())) {
       for (var i = 1; i < pagePreloadAmount + 1; i++) {
         _precacheImages(_currentIndex! + i);
         _precacheImages(_currentIndex! - i);
@@ -864,7 +864,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
   late final _pageOffset = ValueNotifier(_readerController.getAutoScroll().$2);
 
   void _autoPageScroll() async {
-    if (_isVerticalOrHorizontalContinous()) {
+    if (_isVerticalOrHorizontalContinuous()) {
       for (int i = 0; i < 1; i++) {
         await Future.delayed(const Duration(milliseconds: 100));
         if (!_autoScroll.value) {
@@ -1145,7 +1145,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
   }
 
   Widget _autoScrollPlayPauseBtn() {
-    return _isVerticalOrHorizontalContinous()
+    return _isVerticalOrHorizontalContinuous()
         ? Positioned(
             bottom: 0,
             right: 0,
@@ -1558,18 +1558,18 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                     _isViewFunction();
                   }
                 },
-                onDoubleTapDown: _isVerticalOrHorizontalContinous()
+                onDoubleTapDown: _isVerticalOrHorizontalContinuous()
                     ? (details) {
                         _toggleScale(details.globalPosition);
                       }
                     : null,
-                onSecondaryTapDown: _isVerticalOrHorizontalContinous()
+                onSecondaryTapDown: _isVerticalOrHorizontalContinuous()
                     ? (details) {
                         _toggleScale(details.globalPosition);
                       }
                     : null,
-                onDoubleTap: _isVerticalOrHorizontalContinous() ? () {} : null,
-                onSecondaryTap: _isVerticalOrHorizontalContinous() ? () {} : null,
+                onDoubleTap: _isVerticalOrHorizontalContinuous() ? () {} : null,
+                onSecondaryTap: _isVerticalOrHorizontalContinuous() ? () {} : null,
               ),
             ),
 
@@ -1586,18 +1586,18 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                       onTap: () {
                         _isViewFunction();
                       },
-                      onDoubleTapDown: _isVerticalOrHorizontalContinous()
+                      onDoubleTapDown: _isVerticalOrHorizontalContinuous()
                           ? (details) {
                               _toggleScale(details.globalPosition);
                             }
                           : null,
-                      onSecondaryTapDown: _isVerticalOrHorizontalContinous()
+                      onSecondaryTapDown: _isVerticalOrHorizontalContinuous()
                           ? (details) {
                               _toggleScale(details.globalPosition);
                             }
                           : null,
-                      onDoubleTap: _isVerticalOrHorizontalContinous() ? () {} : null,
-                      onSecondaryTap: _isVerticalOrHorizontalContinous() ? () {} : null,
+                      onDoubleTap: _isVerticalOrHorizontalContinuous() ? () {} : null,
+                      onSecondaryTap: _isVerticalOrHorizontalContinuous() ? () {} : null,
                     ),
             ),
 
@@ -1617,18 +1617,18 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                     _isViewFunction();
                   }
                 },
-                onDoubleTapDown: _isVerticalOrHorizontalContinous()
+                onDoubleTapDown: _isVerticalOrHorizontalContinuous()
                     ? (details) {
                         _toggleScale(details.globalPosition);
                       }
                     : null,
-                onSecondaryTapDown: _isVerticalOrHorizontalContinous()
+                onSecondaryTapDown: _isVerticalOrHorizontalContinuous()
                     ? (details) {
                         _toggleScale(details.globalPosition);
                       }
                     : null,
-                onDoubleTap: _isVerticalOrHorizontalContinous() ? () {} : null,
-                onSecondaryTap: _isVerticalOrHorizontalContinous() ? () {} : null,
+                onDoubleTap: _isVerticalOrHorizontalContinuous() ? () {} : null,
+                onSecondaryTap: _isVerticalOrHorizontalContinuous() ? () {} : null,
               ),
             ),
           ],
@@ -1654,18 +1654,18 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                           ? _onBtnTapped(_currentIndex! - 1, true)
                           : _isViewFunction();
                 },
-                onDoubleTapDown: _isVerticalOrHorizontalContinous()
+                onDoubleTapDown: _isVerticalOrHorizontalContinuous()
                     ? (details) {
                         _toggleScale(details.globalPosition);
                       }
                     : null,
-                onSecondaryTapDown: _isVerticalOrHorizontalContinous()
+                onSecondaryTapDown: _isVerticalOrHorizontalContinuous()
                     ? (details) {
                         _toggleScale(details.globalPosition);
                       }
                     : null,
-                onDoubleTap: _isVerticalOrHorizontalContinous() ? () {} : null,
-                onSecondaryTap: _isVerticalOrHorizontalContinous() ? () {} : null,
+                onDoubleTap: _isVerticalOrHorizontalContinuous() ? () {} : null,
+                onSecondaryTap: _isVerticalOrHorizontalContinuous() ? () {} : null,
               ),
             ),
 
@@ -1684,18 +1684,18 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                           ? _onBtnTapped(_currentIndex! + 1, false)
                           : _isViewFunction();
                 },
-                onDoubleTapDown: _isVerticalOrHorizontalContinous()
+                onDoubleTapDown: _isVerticalOrHorizontalContinuous()
                     ? (details) {
                         _toggleScale(details.globalPosition);
                       }
                     : null,
-                onSecondaryTapDown: _isVerticalOrHorizontalContinous()
+                onSecondaryTapDown: _isVerticalOrHorizontalContinuous()
                     ? (details) {
                         _toggleScale(details.globalPosition);
                       }
                     : null,
-                onDoubleTap: _isVerticalOrHorizontalContinous() ? () {} : null,
-                onSecondaryTap: _isVerticalOrHorizontalContinous() ? () {} : null,
+                onDoubleTap: _isVerticalOrHorizontalContinuous() ? () {} : null,
+                onSecondaryTap: _isVerticalOrHorizontalContinuous() ? () {} : null,
               ),
             ),
           ],
@@ -1704,7 +1704,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     );
   }
 
-  bool _isVerticalOrHorizontalContinous() {
+  bool _isVerticalOrHorizontalContinuous() {
     final readerMode = ref.watch(_currentReaderMode);
     return readerMode == ReaderMode.verticalContinuous ||
         readerMode == ReaderMode.webtoon ||

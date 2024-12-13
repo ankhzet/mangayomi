@@ -25,6 +25,7 @@ class ReadMoreWidgetState extends State<ReadMoreWidget> with TickerProviderState
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
+
     return widget.text.isEmpty
         ? Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -37,20 +38,20 @@ class ReadMoreWidgetState extends State<ReadMoreWidget> with TickerProviderState
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 6),
                     child: ExpandableText(
-                      animationDuration: const Duration(milliseconds: 500),
+                      widget.text.trim(),
+                      expanded: expanded,
                       onExpandedChanged: (value) {
                         setState(() => expanded = value);
                         widget.onChanged(value);
                       },
-                      expandOnTextTap: true,
-                      widget.text.trim(),
+                      animationDuration: const Duration(milliseconds: 500),
                       expandText: '',
+                      prefixText: '',
                       maxLines: 3,
-                      expanded: expanded,
                       linkColor: Theme.of(context).scaffoldBackgroundColor,
                       animation: true,
+                      expandOnTextTap: true,
                       collapseOnTextTap: true,
-                      prefixText: '',
                     ),
                   ),
                   if (!expanded)
@@ -58,7 +59,7 @@ class ReadMoreWidgetState extends State<ReadMoreWidget> with TickerProviderState
                       bottom: 0,
                       right: 0,
                       left: 0,
-                      child: Container(
+                      child: IgnorePointer(child: Container(
                         width: context.width(1),
                         height: 30,
                         decoration: BoxDecoration(
@@ -74,7 +75,7 @@ class ReadMoreWidgetState extends State<ReadMoreWidget> with TickerProviderState
                           ),
                         ),
                         child: const Icon(Icons.keyboard_arrow_down_sharp),
-                      ),
+                      )),
                     ),
                 ],
               ),

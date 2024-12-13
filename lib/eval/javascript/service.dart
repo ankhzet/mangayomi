@@ -1,14 +1,15 @@
 import 'dart:convert';
+
 import 'package:flutter_qjs/flutter_qjs.dart';
+import 'package:mangayomi/eval/dart/model/filter.dart';
+import 'package:mangayomi/eval/dart/model/m_manga.dart';
+import 'package:mangayomi/eval/dart/model/m_pages.dart';
+import 'package:mangayomi/eval/dart/model/source_preference.dart';
 import 'package:mangayomi/eval/javascript/dom_selector.dart';
 import 'package:mangayomi/eval/javascript/extractors.dart';
 import 'package:mangayomi/eval/javascript/http.dart';
 import 'package:mangayomi/eval/javascript/preferences.dart';
 import 'package:mangayomi/eval/javascript/utils.dart';
-import 'package:mangayomi/eval/dart/model/filter.dart';
-import 'package:mangayomi/eval/dart/model/m_manga.dart';
-import 'package:mangayomi/eval/dart/model/m_pages.dart';
-import 'package:mangayomi/eval/dart/model/source_preference.dart';
 import 'package:mangayomi/models/page.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/video.dart';
@@ -16,6 +17,7 @@ import 'package:mangayomi/models/video.dart';
 class JsExtensionService {
   late JavascriptRuntime runtime;
   late Source? source;
+
   JsExtensionService(this.source);
 
   void _init() {
@@ -129,9 +131,7 @@ var extention = new DefaultExtension();
 
   Future<List<PageUrl>> getPageList(String url) async {
     return (await _extensionCallAsync<List>('getPageList(`$url`)', []))
-        .map((e) => e is String
-          ? PageUrl(e.trim())
-          : PageUrl.fromJson((e as Map).toMapStringDynamic!))
+        .map((e) => e is String ? PageUrl(e.trim()) : PageUrl.fromJson((e as Map).toMapStringDynamic!))
         .toList();
   }
 

@@ -121,17 +121,12 @@ Widget _fixWidget(BuildContext context, int items, bool isLoading) {
       Align(
         alignment: const Alignment(2, 2),
         child: Badge(
-            backgroundColor: Theme.of(context)
-                .badgeTheme
-                .backgroundColor,
-            textColor: Theme.of(context)
-                .badgeTheme
-                .textColor,
+            backgroundColor: Theme.of(context).badgeTheme.backgroundColor,
+            textColor: Theme.of(context).badgeTheme.textColor,
             smallSize: 8,
             largeSize: 8,
             padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 2),
-            label: Text(items > 0 ? items.toString() : '!', style: const TextStyle(fontSize: 6))
-        ),
+            label: Text(items > 0 ? items.toString() : '!', style: const TextStyle(fontSize: 6))),
       ),
     ],
   );

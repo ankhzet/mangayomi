@@ -28,7 +28,8 @@ class UpdateBadge extends StatelessWidget {
           child: Text(
             count.toString(),
             style: TextStyle(
-                fontSize: Theme.of(context).textTheme.labelSmall?.fontSize ?? 10, color: context.dynamicBlackWhiteColor),
+                fontSize: Theme.of(context).textTheme.labelSmall?.fontSize ?? 10,
+                color: context.dynamicBlackWhiteColor),
           ),
         ),
       ),

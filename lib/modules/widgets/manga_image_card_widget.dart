@@ -39,11 +39,13 @@ class MangaImageCardWidget extends ConsumerWidget {
             .watch(fireImmediately: true),
         builder: (context, snapshot) {
           final hasData = snapshot.hasData && snapshot.data!.isNotEmpty;
-          final manga = hasData ? snapshot.data!.first : Manga(
-            imageUrl: getMangaDetail!.imageUrl ?? "",
-            source: source.name,
-            lang: source.lang,
-          );
+          final manga = hasData
+              ? snapshot.data!.first
+              : Manga(
+                  imageUrl: getMangaDetail!.imageUrl ?? "",
+                  source: source.name,
+                  lang: source.lang,
+                );
 
           return CoverViewWidget(
               bottomTextWidget: BottomTextWidget(
@@ -277,10 +279,7 @@ Future<void> pushToMangaReaderDetail({
         ...settings.chapterFilterDownloadedList ?? [],
         ChapterFilterDownloaded()..mangaId = mangaId
       ]
-      ..chapterFilterUnreadList = [
-        ...settings.chapterFilterUnreadList ?? [],
-        ChapterFilterUnread()..mangaId = mangaId
-      ];
+      ..chapterFilterUnreadList = [...settings.chapterFilterUnreadList ?? [], ChapterFilterUnread()..mangaId = mangaId];
   }
   if (addToFavourite) {
     final getManga = isar.mangas.filter().idEqualTo(mangaId).findFirstSync()!;

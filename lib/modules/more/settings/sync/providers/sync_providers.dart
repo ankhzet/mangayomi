@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/category.dart';
 import 'package:mangayomi/models/changed_items.dart';
@@ -10,12 +11,11 @@ import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/sync_preference.dart';
 import 'package:mangayomi/services/sync_server.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 part 'sync_providers.g.dart';
 
 @riverpod
-void addUpdatedChapterIndependent(Ref ref,
-    Chapter chapter, bool deleted, bool txn) {
+void addUpdatedChapterIndependent(Ref ref, Chapter chapter, bool deleted, bool txn) {
   final changedItems = isar.changedItems.getSync(1) ?? ChangedItems();
   bool updated = false;
   changedItems.updatedChapters = changedItems.updatedChapters?.map((e) {
@@ -35,8 +35,7 @@ void addUpdatedChapterIndependent(Ref ref,
         isRead: chapter.isRead,
         lastPageRead: chapter.lastPageRead,
         deleted: deleted);
-    changedItems.updatedChapters = changedItems.updatedChapters?.toList()
-      ?..add(updatedChapter);
+    changedItems.updatedChapters = changedItems.updatedChapters?.toList()?..add(updatedChapter);
   }
   if (!txn) {
     isar.changedItems.putSync(changedItems);
@@ -60,8 +59,7 @@ class ChangedItemsManager extends _$ChangedItemsManager {
   }
 
   void cleanChangedItems(bool txn) {
-    final changedItems =
-        isar.changedItems.getSync(managerId!) ?? ChangedItems(id: managerId);
+    final changedItems = isar.changedItems.getSync(managerId!) ?? ChangedItems(id: managerId);
     changedItems.deletedMangas = [];
     changedItems.updatedChapters = [];
     changedItems.deletedCategories = [];
@@ -75,13 +73,11 @@ class ChangedItemsManager extends _$ChangedItemsManager {
   }
 
   void addDeletedManga(Manga manga, bool txn) {
-    final changedItems =
-        isar.changedItems.getSync(managerId!) ?? ChangedItems(id: managerId);
+    final changedItems = isar.changedItems.getSync(managerId!) ?? ChangedItems(id: managerId);
     log("DEBUG");
     log(jsonEncode(changedItems));
     final deletedManga = DeletedManga(mangaId: manga.id);
-    changedItems.deletedMangas = changedItems.deletedMangas?.toList()
-      ?..add(deletedManga);
+    changedItems.deletedMangas = changedItems.deletedMangas?.toList()?..add(deletedManga);
     if (!txn) {
       isar.changedItems.putSync(changedItems);
     } else {
@@ -92,11 +88,9 @@ class ChangedItemsManager extends _$ChangedItemsManager {
   }
 
   Future addDeletedMangaAsync(Manga manga, bool txn) async {
-    final changedItems =
-        await isar.changedItems.get(managerId!) ?? ChangedItems(id: managerId);
+    final changedItems = await isar.changedItems.get(managerId!) ?? ChangedItems(id: managerId);
     final deletedManga = DeletedManga(mangaId: manga.id);
-    changedItems.deletedMangas = changedItems.deletedMangas?.toList()
-      ?..add(deletedManga);
+    changedItems.deletedMangas = changedItems.deletedMangas?.toList()?..add(deletedManga);
     if (!txn) {
       await isar.changedItems.put(changedItems);
     } else {
@@ -107,8 +101,7 @@ class ChangedItemsManager extends _$ChangedItemsManager {
   }
 
   void addUpdatedChapter(Chapter chapter, bool deleted, bool txn) {
-    final changedItems =
-        isar.changedItems.getSync(managerId!) ?? ChangedItems(id: managerId);
+    final changedItems = isar.changedItems.getSync(managerId!) ?? ChangedItems(id: managerId);
     bool updated = false;
     changedItems.updatedChapters = changedItems.updatedChapters?.map((e) {
       if (e.chapterId == chapter.id && e.mangaId == chapter.mangaId) {
@@ -128,8 +121,7 @@ class ChangedItemsManager extends _$ChangedItemsManager {
           isRead: chapter.isRead,
           lastPageRead: chapter.lastPageRead,
           deleted: deleted);
-      changedItems.updatedChapters = changedItems.updatedChapters?.toList()
-        ?..add(updatedChapter);
+      changedItems.updatedChapters = changedItems.updatedChapters?.toList()?..add(updatedChapter);
     }
     if (!txn) {
       isar.changedItems.putSync(changedItems);
@@ -141,8 +133,7 @@ class ChangedItemsManager extends _$ChangedItemsManager {
   }
 
   Future addUpdatedChapterAsync(Chapter chapter, bool deleted, bool txn) async {
-    final changedItems =
-        await isar.changedItems.get(managerId!) ?? ChangedItems(id: managerId);
+    final changedItems = await isar.changedItems.get(managerId!) ?? ChangedItems(id: managerId);
     bool updated = false;
     changedItems.updatedChapters = changedItems.updatedChapters?.map((e) {
       if (e.chapterId == chapter.id && e.mangaId == chapter.mangaId) {
@@ -162,8 +153,7 @@ class ChangedItemsManager extends _$ChangedItemsManager {
           isRead: chapter.isRead,
           lastPageRead: chapter.lastPageRead,
           deleted: deleted);
-      changedItems.updatedChapters = changedItems.updatedChapters?.toList()
-        ?..add(updatedChapter);
+      changedItems.updatedChapters = changedItems.updatedChapters?.toList()?..add(updatedChapter);
     }
     if (!txn) {
       await isar.changedItems.put(changedItems);
@@ -175,11 +165,9 @@ class ChangedItemsManager extends _$ChangedItemsManager {
   }
 
   void addDeletedCategory(Category category, bool txn) {
-    final changedItems =
-        isar.changedItems.getSync(managerId!) ?? ChangedItems(id: managerId);
+    final changedItems = isar.changedItems.getSync(managerId!) ?? ChangedItems(id: managerId);
     final deletedCategory = DeletedCategory(categoryId: category.id);
-    changedItems.deletedCategories = changedItems.deletedCategories?.toList()
-      ?..add(deletedCategory);
+    changedItems.deletedCategories = changedItems.deletedCategories?.toList()?..add(deletedCategory);
     if (!txn) {
       isar.changedItems.putSync(changedItems);
     } else {
@@ -190,11 +178,9 @@ class ChangedItemsManager extends _$ChangedItemsManager {
   }
 
   Future addDeletedCategoryAsync(Category category, bool txn) async {
-    final changedItems =
-        await isar.changedItems.get(managerId!) ?? ChangedItems(id: managerId);
+    final changedItems = await isar.changedItems.get(managerId!) ?? ChangedItems(id: managerId);
     final deletedCategory = DeletedCategory(categoryId: category.id);
-    changedItems.deletedCategories = changedItems.deletedCategories?.toList()
-      ?..add(deletedCategory);
+    changedItems.deletedCategories = changedItems.deletedCategories?.toList()?..add(deletedCategory);
     if (!txn) {
       await isar.changedItems.put(changedItems);
     } else {
@@ -226,29 +212,25 @@ class Synching extends _$Synching {
 
   void setLastSync(int timestamp) {
     isar.writeTxnSync(() {
-      isar.syncPreferences.putSync(
-          isar.syncPreferences.getSync(syncId!)!..lastSync = timestamp);
+      isar.syncPreferences.putSync(isar.syncPreferences.getSync(syncId!)!..lastSync = timestamp);
     });
   }
 
   void setLastUpload(int timestamp) {
     isar.writeTxnSync(() {
-      isar.syncPreferences.putSync(
-          isar.syncPreferences.getSync(syncId!)!..lastUpload = timestamp);
+      isar.syncPreferences.putSync(isar.syncPreferences.getSync(syncId!)!..lastUpload = timestamp);
     });
   }
 
   void setLastDownload(int timestamp) {
     isar.writeTxnSync(() {
-      isar.syncPreferences.putSync(
-          isar.syncPreferences.getSync(syncId!)!..lastDownload = timestamp);
+      isar.syncPreferences.putSync(isar.syncPreferences.getSync(syncId!)!..lastDownload = timestamp);
     });
   }
 
   void setServer(String? server) {
     isar.writeTxnSync(() {
-      isar.syncPreferences
-          .putSync(isar.syncPreferences.getSync(syncId!)!..server = server);
+      isar.syncPreferences.putSync(isar.syncPreferences.getSync(syncId!)!..server = server);
     });
   }
 }

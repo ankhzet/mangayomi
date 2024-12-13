@@ -194,7 +194,8 @@ mixin FilterOption<T extends FilterOptionModel> implements Stateful<T>, OptionSt
 }
 
 @riverpod
-class ChapterFilterDownloadedState extends _$ChapterFilterDownloadedState with OptionState<FilterOptionModel>, FilterOption {
+class ChapterFilterDownloadedState extends _$ChapterFilterDownloadedState
+    with OptionState<FilterOptionModel>, FilterOption {
   @override
   FilterOptionModel build({required int mangaId}) {
     return getModel();
@@ -222,7 +223,8 @@ class ChapterFilterUnreadState extends _$ChapterFilterUnreadState with OptionSta
 }
 
 @riverpod
-class ChapterFilterBookmarkedState extends _$ChapterFilterBookmarkedState with OptionState<FilterOptionModel>, FilterOption {
+class ChapterFilterBookmarkedState extends _$ChapterFilterBookmarkedState
+    with OptionState<FilterOptionModel>, FilterOption {
   @override
   FilterOptionModel build({required int mangaId}) {
     return getModel();

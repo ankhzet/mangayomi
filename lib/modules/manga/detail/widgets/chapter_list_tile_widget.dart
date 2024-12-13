@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/chapter.dart';
+import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
+import 'package:mangayomi/modules/manga/download/download_page_widget.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/date.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
-import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
-import 'package:mangayomi/modules/manga/download/download_page_widget.dart';
 
 class ChapterListTileWidget extends ConsumerWidget {
   final Chapter chapter;
@@ -100,8 +100,8 @@ class ChapterListTileWidget extends ConsumerWidget {
                       fontSize: 11,
                       color: chapter.isRead!
                           ? context.isLight
-                          ? Colors.black.withOpacity(0.4)
-                          : Colors.white.withOpacity(0.3)
+                              ? Colors.black.withOpacity(0.4)
+                              : Colors.white.withOpacity(0.3)
                           : null),
                   overflow: TextOverflow.ellipsis,
                 ),

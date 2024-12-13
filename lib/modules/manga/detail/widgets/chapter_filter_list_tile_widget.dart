@@ -18,9 +18,7 @@ class ListTileChapterFilter extends StatelessWidget {
     return CheckboxListTile(
       dense: true,
       tristate: true,
-      value: type == FilterType.exclude.index
-          ? null
-          : type == FilterType.include.index,
+      value: type == FilterType.exclude.index ? null : type == FilterType.include.index,
       title: Text(
         label,
         style: const TextStyle(fontSize: 14),

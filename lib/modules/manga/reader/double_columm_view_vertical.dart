@@ -13,6 +13,7 @@ class DoubleColummVerticalView extends StatelessWidget {
   final Function(UChapDataPreload datas) onLongPressData;
   final BackgroundColor backgroundColor;
   final Function(bool) isFailedToLoadImage;
+
   const DoubleColummVerticalView(
       {super.key,
       required this.datas,
@@ -39,18 +40,14 @@ class DoubleColummVerticalView extends StatelessWidget {
                   data: datas[0]!,
                   loadStateChanged: (state) {
                     if (state.extendedImageLoadState == LoadState.loading) {
-                      final ImageChunkEvent? loadingProgress =
-                          state.loadingProgress;
-                      final double progress =
-                          loadingProgress?.expectedTotalBytes != null
-                              ? loadingProgress!.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                              : 0;
+                      final ImageChunkEvent? loadingProgress = state.loadingProgress;
+                      final double progress = loadingProgress?.expectedTotalBytes != null
+                          ? loadingProgress!.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                          : 0;
                       return Container(
                         color: getBackgroundColor(backgroundColor),
                         height: context.height(0.8),
-                        child: CircularProgressIndicatorAnimateRotate(
-                            progress: progress),
+                        child: CircularProgressIndicatorAnimateRotate(progress: progress),
                       );
                     }
                     if (state.extendedImageLoadState == LoadState.completed) {
@@ -67,8 +64,7 @@ class DoubleColummVerticalView extends StatelessWidget {
                             children: [
                               Text(
                                 l10n.image_loading_error,
-                                style: TextStyle(
-                                    color: Colors.white.withOpacity(0.7)),
+                                style: TextStyle(color: Colors.white.withOpacity(0.7)),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -83,12 +79,9 @@ class DoubleColummVerticalView extends StatelessWidget {
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
-                                          color: context.primaryColor,
-                                          borderRadius:
-                                              BorderRadius.circular(30)),
+                                          color: context.primaryColor, borderRadius: BorderRadius.circular(30)),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 8, horizontal: 16),
+                                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                                         child: Text(
                                           l10n.retry,
                                         ),
@@ -110,18 +103,14 @@ class DoubleColummVerticalView extends StatelessWidget {
                   data: datas[1]!,
                   loadStateChanged: (state) {
                     if (state.extendedImageLoadState == LoadState.loading) {
-                      final ImageChunkEvent? loadingProgress =
-                          state.loadingProgress;
-                      final double progress =
-                          loadingProgress?.expectedTotalBytes != null
-                              ? loadingProgress!.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                              : 0;
+                      final ImageChunkEvent? loadingProgress = state.loadingProgress;
+                      final double progress = loadingProgress?.expectedTotalBytes != null
+                          ? loadingProgress!.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                          : 0;
                       return Container(
                         color: getBackgroundColor(backgroundColor),
                         height: context.height(0.8),
-                        child: CircularProgressIndicatorAnimateRotate(
-                            progress: progress),
+                        child: CircularProgressIndicatorAnimateRotate(progress: progress),
                       );
                     }
                     if (state.extendedImageLoadState == LoadState.completed) {
@@ -138,8 +127,7 @@ class DoubleColummVerticalView extends StatelessWidget {
                             children: [
                               Text(
                                 l10n.image_loading_error,
-                                style: TextStyle(
-                                    color: Colors.white.withOpacity(0.7)),
+                                style: TextStyle(color: Colors.white.withOpacity(0.7)),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -154,12 +142,9 @@ class DoubleColummVerticalView extends StatelessWidget {
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
-                                          color: context.primaryColor,
-                                          borderRadius:
-                                              BorderRadius.circular(30)),
+                                          color: context.primaryColor, borderRadius: BorderRadius.circular(30)),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 8, horizontal: 16),
+                                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                                         child: Text(
                                           l10n.retry,
                                         ),

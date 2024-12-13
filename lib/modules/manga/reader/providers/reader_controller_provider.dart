@@ -212,9 +212,7 @@ class ReaderController extends _$ReaderController with WithSettings {
   }
 
   Chapter getChapterByIndex(ChapterCacheIndex index) {
-    return index.$2
-        ? mangaFilteredChapters[index.$1]
-        : mangaChapters[index.$1];
+    return index.$2 ? mangaFilteredChapters[index.$1] : mangaChapters[index.$1];
   }
 
   Chapter getPrevChapter() {
@@ -226,9 +224,7 @@ class ReaderController extends _$ReaderController with WithSettings {
   }
 
   int getChaptersLength(ChapterCacheIndex index) {
-    return index.$2
-        ? mangaFilteredChapters.length
-        : mangaChapters.length;
+    return index.$2 ? mangaFilteredChapters.length : mangaChapters.length;
   }
 
   (bool, bool) getChapterPrevNext() {

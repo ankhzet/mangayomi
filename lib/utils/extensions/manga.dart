@@ -14,8 +14,11 @@ import 'package:mangayomi/utils/headers.dart';
 
 extension MangaExtension on Manga {
   bool isThisManga<T extends OfManga>(T element) => element.mangaId == id;
+
   bool isNotThisManga<T extends OfManga>(T element) => element.mangaId != id;
+
   T? getOption<T extends OfManga>(List<T>? list) => list?.where(isThisManga).firstOrNull;
+
   List<T> getOtherOptions<T extends OfManga>(List<T>? list) => list?.where(isNotThisManga).toList() ?? [];
 
   ImageProvider imageProvider(WidgetRef ref, {Duration? cacheMaxAge}) {

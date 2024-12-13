@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/utils/cached_network.dart';
+import 'package:mangayomi/utils/constant.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/headers.dart';
-import 'package:mangayomi/utils/constant.dart';
 
 class MangaCoverBackdrop extends StatelessWidget {
   final Manga manga;

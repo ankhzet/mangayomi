@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+
 part 'track.g.dart';
 
 @collection
@@ -48,6 +49,7 @@ class Track {
       this.finishedReadingDate,
       this.trackingUrl,
       this.isManga});
+
   Track.fromJson(Map<String, dynamic> json) {
     finishedReadingDate = json['finishedReadingDate'];
     id = json['id'];
@@ -83,14 +85,4 @@ class Track {
       };
 }
 
-enum TrackStatus {
-  reading,
-  completed,
-  onHold,
-  dropped,
-  planToRead,
-  rereading,
-  watching,
-  planToWatch,
-  reWatching
-}
+enum TrackStatus { reading, completed, onHold, dropped, planToRead, rereading, watching, planToWatch, reWatching }

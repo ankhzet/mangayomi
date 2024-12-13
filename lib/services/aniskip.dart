@@ -1,17 +1,18 @@
 import 'dart:convert';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'aniskip.g.dart';
 
 // credits: https://github.com/aniyomiorg/aniyomi/blob/master/app/src/main/java/eu/kanade/tachiyomi/util/AniSkipApi.kt
 @riverpod
 class AniSkip extends _$AniSkip {
   final http = MClient.init(reqcopyWith: {'useDartHttpClient': true});
+
   @override
   void build() {}
 
-  Future<List<Results>?> getResult(
-      (int, int) id, int episodeNumber, double episodeLength) async {
+  Future<List<Results>?> getResult((int, int) id, int episodeNumber, double episodeLength) async {
     try {
       final malId = await _getMalId(id);
 
@@ -56,8 +57,7 @@ class AniSkipResponse {
   factory AniSkipResponse.fromJson(Map<String, dynamic> json) {
     return AniSkipResponse(
       found: json['found'],
-      results:
-          (json['results'] as List?)?.map((e) => Results.fromJson(e)).toList(),
+      results: (json['results'] as List?)?.map((e) => Results.fromJson(e)).toList(),
       message: json['message'],
       statusCode: json['statusCode'],
     );

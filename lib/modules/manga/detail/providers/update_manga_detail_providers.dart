@@ -1,16 +1,16 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/eval/dart/model/m_bridge.dart';
 import 'package:mangayomi/eval/dart/model/m_manga.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/services/get_detail.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:mangayomi/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'update_manga_detail_providers.g.dart';
 
@@ -63,12 +63,12 @@ Future<dynamic> updateMangaDetail(Ref ref, {required int? mangaId, required bool
 
       if (updatedChaptersList != null && updatedChaptersList.isNotEmpty) {
         final mapped = updatedChaptersList.map((data) => Chapter(
-          name: data.name!.normalize(),
-          url: data.url!.normalize(),
-          dateUpload: data.dateUpload ?? timeString,
-          scanlator: data.scanlator ?? '',
-          mangaId: mangaId,
-        ));
+              name: data.name!.normalize(),
+              url: data.url!.normalize(),
+              dateUpload: data.dateUpload ?? timeString,
+              scanlator: data.scanlator ?? '',
+              mangaId: mangaId,
+            ));
 
         for (var chapter in mapped) {
           final similar = oldChaptersList.firstWhereOrNull((item) => item.isSame(chapter));
@@ -77,11 +77,12 @@ Future<dynamic> updateMangaDetail(Ref ref, {required int? mangaId, required bool
             chapter.manga.value = manga;
             chapters.add(chapter);
             added.add(chapter);
-          } else if (similar.isUpdated(chapter) && (null == chapters.firstWhereOrNull((item) => item.isSame(similar)))) {
+          } else if (similar.isUpdated(chapter) &&
+              (null == chapters.firstWhereOrNull((item) => item.isSame(similar)))) {
             chapters.add(similar);
           }
         }
-        
+
         for (var old in oldChaptersList) {
           if (null == mapped.firstWhereOrNull((item) => old.isSame(item))) {
             // old.isDeleted = true;
@@ -89,7 +90,7 @@ Future<dynamic> updateMangaDetail(Ref ref, {required int? mangaId, required bool
           }
         }
       }
-      
+
       if (chapters.isEmpty) {
         return;
       }
@@ -103,7 +104,8 @@ Future<dynamic> updateMangaDetail(Ref ref, {required int? mangaId, required bool
 
       isar.chapters.putAllSync(chapters);
 
-      if (hadChapters) { // not first update AND has new chapters
+      if (hadChapters) {
+        // not first update AND has new chapters
         final List<Update> updateBacklog = [];
 
         for (var chap in chapters.reversed.toList()) {

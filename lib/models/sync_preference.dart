@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+
 part 'sync_preference.g.dart';
 
 @collection

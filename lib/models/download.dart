@@ -37,6 +37,7 @@ class Download {
     required this.taskIds,
     required this.isStartDownload,
   });
+
   Download.fromJson(Map<String, dynamic> json) {
     chapterId = json['chapterId'];
     failed = json['failed'];

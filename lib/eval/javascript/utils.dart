@@ -6,6 +6,7 @@ import 'package:mangayomi/utils/log/log.dart';
 
 class JsUtils {
   late JavascriptRuntime runtime;
+
   JsUtils(this.runtime);
 
   void init() {

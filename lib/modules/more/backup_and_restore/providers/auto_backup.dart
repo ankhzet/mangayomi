@@ -1,10 +1,11 @@
 import 'dart:io';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/more/backup_and_restore/providers/backup.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'auto_backup.g.dart';
 

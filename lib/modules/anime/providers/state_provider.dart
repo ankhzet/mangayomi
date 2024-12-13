@@ -1,6 +1,7 @@
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'state_provider.g.dart';
 
 @riverpod
@@ -24,16 +25,8 @@ class SubtitleSettingsState extends _$SubtitleSettingsState {
   }
 
   void resetColor() {
-    final settings = isar.settings.first;
-    state = PlayerSubtitleSettings(
-        fontSize: state.fontSize,
-        useBold: state.useBold,
-        useItalic: state.useItalic);
+    state = PlayerSubtitleSettings(fontSize: state.fontSize, useBold: state.useBold, useItalic: state.useItalic);
 
-    isar.settings.first = settings
-      ..playerSubtitleSettings = PlayerSubtitleSettings(
-          fontSize: state.fontSize,
-          useBold: state.useBold,
-          useItalic: state.useItalic);
+    isar.settings.first = isar.settings.first..playerSubtitleSettings = state;
   }
 }

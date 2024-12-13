@@ -1,6 +1,7 @@
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'player_state_provider.g.dart';
 
 @riverpod
@@ -33,8 +34,7 @@ class DefaultSkipIntroLengthState extends _$DefaultSkipIntroLengthState {
 }
 
 @riverpod
-class DefaultDoubleTapToSkipLengthState
-    extends _$DefaultDoubleTapToSkipLengthState {
+class DefaultDoubleTapToSkipLengthState extends _$DefaultDoubleTapToSkipLengthState {
   @override
   int build() {
     return isar.settings.first.defaultDoubleTapToSkipLength ?? 10;

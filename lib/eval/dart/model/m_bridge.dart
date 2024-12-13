@@ -1,7 +1,9 @@
 import 'dart:convert';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dart_eval/dart_eval_bridge.dart';
 import 'package:dart_eval/stdlib/core.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:html/dom.dart' hide Text;
@@ -12,6 +14,7 @@ import 'package:json_path/json_path.dart';
 import 'package:mangayomi/eval/dart/model/document.dart';
 import 'package:mangayomi/eval/javascript/http.dart';
 import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/video.dart';
 import 'package:mangayomi/router/router.dart';
 import 'package:mangayomi/services/anime_extractors/dood_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/filemoon.dart';
@@ -19,11 +22,11 @@ import 'package:mangayomi/services/anime_extractors/gogocdn_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/mp4upload_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/mytv_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/okru_extractor.dart';
+import 'package:mangayomi/services/anime_extractors/quarkuc_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/sendvid_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/sibnet_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/streamlare_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/streamtape_extractor.dart';
-import 'package:mangayomi/models/video.dart';
 import 'package:mangayomi/services/anime_extractors/streamwish_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/vidbom_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/voe_extractor.dart';
@@ -36,8 +39,6 @@ import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/reg_exp_matcher.dart';
 import 'package:xpath_selector_html_parser/xpath_selector_html_parser.dart';
-import 'package:encrypt/encrypt.dart' as encrypt;
-import 'package:mangayomi/services/anime_extractors/quarkuc_extractor.dart';
 
 class WordSet {
   final List<String> words;

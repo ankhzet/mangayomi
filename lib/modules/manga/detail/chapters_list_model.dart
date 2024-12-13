@@ -109,11 +109,9 @@ class ChapterSortModel {
         return multiplier * (ac < bc ? 1 : -1);
       }
 
-      return (
-          (af == bf)
-            ? 0
-            : multiplier * (af < bf ? 1 : -1)
-      );
+      return ((af == bf) //
+          ? 0
+          : multiplier * (af < bf ? 1 : -1));
     };
   }
 

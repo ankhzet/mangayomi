@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
 import 'package:mangayomi/modules/manga/reader/reader_view.dart';
+import 'package:mangayomi/modules/manga/reader/widgets/circular_progress_indicator_animate_rotate.dart';
 import 'package:mangayomi/modules/manga/reader/widgets/color_filter_widget.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
-import 'package:mangayomi/modules/manga/reader/widgets/circular_progress_indicator_animate_rotate.dart';
 
 class ImageViewVertical extends ConsumerWidget {
   final UChapDataPreload data;
@@ -40,8 +40,7 @@ class ImageViewVertical extends ConsumerWidget {
           if (state.extendedImageLoadState == LoadState.loading) {
             final ImageChunkEvent? loadingProgress = state.loadingProgress;
             final double progress = loadingProgress?.expectedTotalBytes != null
-                ? loadingProgress!.cumulativeBytesLoaded /
-                    loadingProgress.expectedTotalBytes!
+                ? loadingProgress!.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
                 : 0;
             return Container(
               color: Colors.black,
@@ -59,8 +58,7 @@ class ImageViewVertical extends ConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(context.l10n.image_loading_error,
-                        style: TextStyle(color: Colors.white.withOpacity(0.7))),
+                    Text(context.l10n.image_loading_error, style: TextStyle(color: Colors.white.withOpacity(0.7))),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
@@ -73,12 +71,10 @@ class ImageViewVertical extends ConsumerWidget {
                             failedToLoadImage(false);
                           },
                           child: Container(
-                            decoration: BoxDecoration(
-                                color: context.primaryColor,
-                                borderRadius: BorderRadius.circular(30)),
+                            decoration:
+                                BoxDecoration(color: context.primaryColor, borderRadius: BorderRadius.circular(30)),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 16),
+                              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                               child: Text(
                                 context.l10n.retry,
                               ),

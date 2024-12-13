@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+
 import 'package:mangayomi/src/rust/api/rhttp/client.dart' as rust_client;
 
 export 'package:mangayomi/src/rust/api/rhttp/client.dart' show TlsVersion;
@@ -56,19 +57,11 @@ class ClientSettings {
     return ClientSettings(
       baseUrl: identical(baseUrl, _keepBaseUrl) ? this.baseUrl : baseUrl,
       timeout: identical(timeout, _keepDuration) ? this.timeout : timeout,
-      connectTimeout: identical(connectTimeout, _keepDuration)
-          ? this.connectTimeout
-          : connectTimeout,
+      connectTimeout: identical(connectTimeout, _keepDuration) ? this.connectTimeout : connectTimeout,
       throwOnStatusCode: throwOnStatusCode ?? this.throwOnStatusCode,
-      proxySettings: identical(proxySettings, _keepProxySettings)
-          ? this.proxySettings
-          : proxySettings,
-      redirectSettings: identical(redirectSettings, _keepRedirectSettings)
-          ? this.redirectSettings
-          : redirectSettings,
-      tlsSettings: identical(tlsSettings, _keepTlsSettings)
-          ? this.tlsSettings
-          : tlsSettings,
+      proxySettings: identical(proxySettings, _keepProxySettings) ? this.proxySettings : proxySettings,
+      redirectSettings: identical(redirectSettings, _keepRedirectSettings) ? this.redirectSettings : redirectSettings,
+      tlsSettings: identical(tlsSettings, _keepTlsSettings) ? this.tlsSettings : tlsSettings,
     );
   }
 }
@@ -183,8 +176,7 @@ extension on RedirectSettings {
   rust_client.RedirectSettings _toRustType() {
     return switch (this) {
       NoRedirectSetting() => const rust_client.RedirectSettings.noRedirect(),
-      LimitedRedirects r =>
-        rust_client.RedirectSettings.limitedRedirects(r.maxRedirects),
+      LimitedRedirects r => rust_client.RedirectSettings.limitedRedirects(r.maxRedirects),
     };
   }
 }
@@ -193,9 +185,7 @@ extension on TlsSettings {
   rust_client.TlsSettings _toRustType() {
     return rust_client.TlsSettings(
       trustRootCertificates: trustRootCertificates,
-      trustedRootCertificates: trustedRootCertificates
-          .map((e) => Uint8List.fromList(e.codeUnits))
-          .toList(),
+      trustedRootCertificates: trustedRootCertificates.map((e) => Uint8List.fromList(e.codeUnits)).toList(),
       verifyCertificates: verifyCertificates,
       clientCertificate: clientCertificate?._toRustType(),
       minTlsVersion: minTlsVersion,

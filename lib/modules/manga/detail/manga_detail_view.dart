@@ -125,6 +125,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
           if (notification.direction == ScrollDirection.reverse) {
             widget.isExtended(false);
           }
+
           return true;
         },
         child: chapters.when(

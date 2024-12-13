@@ -294,22 +294,28 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                 shadowColor: Colors.transparent,
                               ),
                               onPressed: () {
-                                int index = chapters.indexOf(chap.first);
+                                final int index = chapters.indexOf(chap.first);
                                 chapters[index + 1].updateTrackChapterRead(ref);
-                                isar.writeTxnSync(() {
-                                  for (var i = index + 1; i < chapterLength; i++) {
-                                    if (!chapters[i].isRead!) {
-                                      chapters[i].isRead = true;
-                                      chapters[i].lastPageRead = "1";
-                                      ref
-                                          .read(changedItemsManagerProvider(managerId: 1).notifier)
-                                          .addUpdatedChapter(chapters[i], false, false);
-                                      isar.chapters.putSync(chapters[i]..manga.value = widget.manga);
-                                      chapters[i].manga.saveSync();
-                                    }
+
+                                ref.read(isLongPressedStateProvider.notifier).update(false);
+                                ref.read(chaptersListStateProvider.notifier).clear();
+                                final changeLog = ref.read(changedItemsManagerProvider(managerId: 1).notifier);
+                                final List<Chapter> updated = [];
+
+                                for (var chapter in chapters.skip(index)) {
+                                  if (chapter.isRead!) {
+                                    continue;
                                   }
-                                  ref.read(isLongPressedStateProvider.notifier).update(false);
-                                  ref.read(chaptersListStateProvider.notifier).clear();
+
+                                  chapter.isRead = true;
+                                  chapter.lastPageRead = "1";
+                                  changeLog.addUpdatedChapter(chapter, false, false);
+                                  updated.add(chapter..manga.value = widget.manga);
+                                  chapter.manga.saveSync();
+                                }
+
+                                isar.writeTxnSync(() {
+                                  isar.chapters.putAllSync(updated);
                                 });
                               },
                               child: Stack(

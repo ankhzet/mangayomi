@@ -542,14 +542,15 @@ class SortLibraryManga {
   Map<String, dynamic> toJson() => {'index': index, 'reverse': reverse};
 }
 
-abstract interface class OptionModel {
-  static bool Function(T element) isManga<T extends OptionModel>(int id) => (T element) => id == element.mangaId;
-  static bool Function(T element) isNotManga<T extends OptionModel>(int id) => (T element) => id != element.mangaId;
+abstract interface class OfManga {
+  static bool Function(T element) isManga<T extends OfManga>(int id) => (T element) => id == element.mangaId;
+
+  static bool Function(T element) isNotManga<T extends OfManga>(int id) => (T element) => id != element.mangaId;
 
   int? get mangaId;
 }
 
-abstract interface class SortOptionModel extends OptionModel {
+abstract interface class SortOptionModel extends OfManga {
   late int? index;
   late bool? reverse;
 
@@ -594,7 +595,7 @@ enum FilterType {
   exclude,
 }
 
-abstract interface class FilterOptionModel extends OptionModel {
+abstract interface class FilterOptionModel extends OfManga {
   late int? type;
 
   @ignore

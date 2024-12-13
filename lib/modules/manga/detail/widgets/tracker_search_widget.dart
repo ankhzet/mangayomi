@@ -192,7 +192,11 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
   }
 }
 
-trackersSearchraggableMenu(BuildContext context, {required Track track, required bool isManga}) async {
+Future<TrackSearch?> trackersSearchDraggableMenu(
+  BuildContext context, {
+  required Track track,
+  required bool isManga,
+}) async {
   return await DraggableMenu.open(
       context,
       DraggableMenu(

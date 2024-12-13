@@ -8,7 +8,7 @@ part 'app_font_family.g.dart';
 class AppFontFamily extends _$AppFontFamily {
   @override
   String? build() {
-    final fontFamily = isar.settings.getSync(227)!.appFontFamily;
+    final fontFamily = isar.settings.first.appFontFamily;
     if (fontFamily == null) return null;
 
     return GoogleFonts.asMap()
@@ -20,9 +20,9 @@ class AppFontFamily extends _$AppFontFamily {
   }
 
   void set(String? fontFamily) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = fontFamily;
     isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..appFontFamily = fontFamily));
+        () => isar.settings.putSync(settings..appFontFamily = fontFamily));
   }
 }

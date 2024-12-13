@@ -27,6 +27,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:path/path.dart' as p;
 
+export 'package:mangayomi/utils/extensions/settings.dart' show Singletone;
+
 late Isar isar;
 WebViewEnvironment? webViewEnvironment;
 void main(List<String> args) async {

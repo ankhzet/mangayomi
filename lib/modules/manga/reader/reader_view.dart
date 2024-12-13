@@ -685,7 +685,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
   }
 
   Duration? _doubleTapAnimationDuration() {
-    int doubleTapAnimationValue = isar.settings.getSync(227)!.doubleTapAnimationSpeed!;
+    int doubleTapAnimationValue = isar.settings.first.doubleTapAnimationSpeed!;
     if (doubleTapAnimationValue == 0) {
       return const Duration(milliseconds: 10);
     } else if (doubleTapAnimationValue == 1) {

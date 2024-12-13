@@ -115,7 +115,7 @@ abstract interface class IFilterTypeState<T> implements Stateful<T> {
 }
 
 mixin OptionState<T extends OfManga> implements IFilterTypeState<T> {
-  late final settings = isar.settings.getSync(227)!;
+  late final settings = isar.settings.first;
   late final int mangaId;
 
   @visibleForOverriding
@@ -344,7 +344,7 @@ class ScanlatorsFilterState extends _$ScanlatorsFilterState {
   }
 
   void set(List<String> filterScanlators) async {
-    final settings = isar.settings.getSync(227)!;
+    final settings = isar.settings.first;
     var value = FilterScanlator()
       ..scanlators = filterScanlators
       ..mangaId = manga.id;
@@ -364,7 +364,7 @@ class ScanlatorsFilterState extends _$ScanlatorsFilterState {
   }
 
   List<String>? _getFilterScanlator() {
-    final scanlators = isar.settings.getSync(227)!.filterScanlatorList ?? [];
+    final scanlators = isar.settings.first.filterScanlatorList ?? [];
     final filter = scanlators.where((element) => element.mangaId == manga.id).toList();
     return filter.isEmpty ? null : filter.first.scanlators;
   }

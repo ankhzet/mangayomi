@@ -97,7 +97,7 @@ class StorageProvider {
   }
 
   static String getDownloadsDirectoryPath({bool useDefault = false}) {
-    String location = isar.settings.getSync(227)!.downloadLocation ?? '';
+    String location = isar.settings.first.downloadLocation ?? '';
 
     if (location.isNotEmpty && !useDefault) {
       return (Platform.isAndroid || path.dirname('$location/').endsWith(mangayomi))

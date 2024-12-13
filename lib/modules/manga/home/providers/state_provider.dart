@@ -7,12 +7,12 @@ part 'state_provider.g.dart';
 class MangaHomeDisplayTypeState extends _$MangaHomeDisplayTypeState {
   @override
   DisplayType build() {
-    final settings = isar.settings.getSync(227)!;
+    final settings = isar.settings.first;
     return settings.mangaHomeDisplayType;
   }
 
   void setMangaHomeDisplayType(DisplayType displayType) {
-    final settings = isar.settings.getSync(227)!;
+    final settings = isar.settings.first;
 
     state = displayType;
 

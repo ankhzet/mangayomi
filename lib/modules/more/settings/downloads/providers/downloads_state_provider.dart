@@ -10,13 +10,13 @@ part 'downloads_state_provider.g.dart';
 class OnlyOnWifiState extends _$OnlyOnWifiState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.downloadOnlyOnWifi ?? false;
+    return isar.settings.first.downloadOnlyOnWifi ?? false;
   }
 
   void set(bool value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
-    isar.writeTxnSync(() => isar.settings.putSync(settings!..downloadOnlyOnWifi = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings..downloadOnlyOnWifi = value));
   }
 }
 
@@ -24,13 +24,13 @@ class OnlyOnWifiState extends _$OnlyOnWifiState {
 class SaveAsCBZArchiveState extends _$SaveAsCBZArchiveState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.saveAsCBZArchive ?? false;
+    return isar.settings.first.saveAsCBZArchive ?? false;
   }
 
   void set(bool value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
-    isar.writeTxnSync(() => isar.settings.putSync(settings!..saveAsCBZArchive = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings..saveAsCBZArchive = value));
   }
 }
 
@@ -38,7 +38,7 @@ class SaveAsCBZArchiveState extends _$SaveAsCBZArchiveState {
 class DownloadLocationState extends _$DownloadLocationState {
   @override
   (String, String) build() {
-    return ('', isar.settings.getSync(227)!.downloadLocation ?? '');
+    return ('', isar.settings.first.downloadLocation ?? '');
   }
 
   String get currentLocation => state.$2.isEmpty ? state.$1 : state.$2;
@@ -46,16 +46,16 @@ class DownloadLocationState extends _$DownloadLocationState {
   String get customLocation => state.$2;
 
   void set(String location) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = (defaultLocation, location);
     isar.writeTxnSync(() {
-      isar.settings.putSync(settings!..downloadLocation = location);
+      isar.settings.putSync(settings..downloadLocation = location);
     });
   }
 
   Future refresh() async {
     await Future.delayed(const Duration(milliseconds: 50), () async {
-      state = (defaultLocation, isar.settings.getSync(227)!.downloadLocation ?? '');
+      state = (defaultLocation, isar.settings.first.downloadLocation ?? '');
     });
   }
 }

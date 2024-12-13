@@ -7,11 +7,11 @@ part 'incognito_mode_state_provider.g.dart';
 class IncognitoModeState extends _$IncognitoModeState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.incognitoMode!;
+    return isar.settings.first.incognitoMode!;
   }
 
   void setIncognitoMode(bool value) {
-    final settings = isar.settings.getSync(227)!;
+    final settings = isar.settings.first;
     state = value;
     isar.writeTxnSync(
         () => isar.settings.putSync(settings..incognitoMode = state));

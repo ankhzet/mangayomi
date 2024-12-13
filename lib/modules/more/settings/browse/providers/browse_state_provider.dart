@@ -7,14 +7,14 @@ part 'browse_state_provider.g.dart';
 class OnlyIncludePinnedSourceState extends _$OnlyIncludePinnedSourceState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.onlyIncludePinnedSources!;
+    return isar.settings.first.onlyIncludePinnedSources!;
   }
 
   void set(bool value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
     isar.writeTxnSync(() =>
-        isar.settings.putSync(settings!..onlyIncludePinnedSources = value));
+        isar.settings.putSync(settings..onlyIncludePinnedSources = value));
   }
 }
 
@@ -22,14 +22,14 @@ class OnlyIncludePinnedSourceState extends _$OnlyIncludePinnedSourceState {
 class AutoUpdateExtensionsState extends _$AutoUpdateExtensionsState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.autoExtensionsUpdates ?? false;
+    return isar.settings.first.autoExtensionsUpdates ?? false;
   }
 
   void set(bool value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
     isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..autoExtensionsUpdates = value));
+        () => isar.settings.putSync(settings..autoExtensionsUpdates = value));
   }
 }
 
@@ -37,13 +37,13 @@ class AutoUpdateExtensionsState extends _$AutoUpdateExtensionsState {
 class CheckForExtensionsUpdateState extends _$CheckForExtensionsUpdateState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.checkForExtensionUpdates ?? true;
+    return isar.settings.first.checkForExtensionUpdates ?? true;
   }
 
   void set(bool value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
     isar.writeTxnSync(() =>
-        isar.settings.putSync(settings!..checkForExtensionUpdates = value));
+        isar.settings.putSync(settings..checkForExtensionUpdates = value));
   }
 }

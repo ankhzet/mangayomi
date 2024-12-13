@@ -107,13 +107,13 @@ class MTorrentServer {
 }
 
 String get _baseUrl {
-  final settings = isar.settings.getSync(227);
-  final port = settings!.btServerPort ?? 0;
+  final settings = isar.settings.first;
+  final port = settings.btServerPort ?? 0;
   final address = settings.btServerAddress ?? "127.0.0.1";
   return "http://$address:$port";
 }
 
 void _setBtServerPort(int newPort) {
   isar.writeTxnSync(() => isar.settings
-      .putSync(isar.settings.getSync(227)!..btServerPort = newPort));
+      .putSync(isar.settings.first..btServerPort = newPort));
 }

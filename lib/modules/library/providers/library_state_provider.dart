@@ -51,7 +51,7 @@ class LibraryGridSizeState extends _$LibraryGridSizeState {
   }
 
   Settings get settings {
-    return isar.settings.getSync(227)!;
+    return isar.settings.first;
   }
 
   void set(int? value, {bool end = false}) {

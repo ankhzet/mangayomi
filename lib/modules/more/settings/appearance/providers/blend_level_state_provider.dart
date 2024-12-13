@@ -7,15 +7,15 @@ part 'blend_level_state_provider.g.dart';
 class BlendLevelState extends _$BlendLevelState {
   @override
   double build() {
-    return isar.settings.getSync(227)!.flexColorSchemeBlendLevel!;
+    return isar.settings.first.flexColorSchemeBlendLevel!;
   }
 
   void setBlendLevel(double blendLevelValue, {bool end = false}) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = blendLevelValue;
     if (end) {
       isar.writeTxnSync(() =>
-          isar.settings.putSync(settings!..flexColorSchemeBlendLevel = state));
+          isar.settings.putSync(settings..flexColorSchemeBlendLevel = state));
     }
   }
 }

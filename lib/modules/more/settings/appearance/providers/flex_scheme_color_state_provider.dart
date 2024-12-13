@@ -10,17 +10,17 @@ class FlexSchemeColorState extends _$FlexSchemeColorState {
   @override
   FlexSchemeColor build() {
     final flexSchemeColorIndex =
-        isar.settings.getSync(227)!.flexSchemeColorIndex!;
+        isar.settings.first.flexSchemeColorIndex!;
     return ref.read(themeModeStateProvider)
         ? ThemeAA.schemes[flexSchemeColorIndex].dark
         : ThemeAA.schemes[flexSchemeColorIndex].light;
   }
 
   void setTheme(FlexSchemeColor color, int index) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = color;
     isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..flexSchemeColorIndex = index));
+        () => isar.settings.putSync(settings..flexSchemeColorIndex = index));
   }
 }
 

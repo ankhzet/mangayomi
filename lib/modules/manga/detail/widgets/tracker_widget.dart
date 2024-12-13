@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/track.dart';
-import 'package:mangayomi/models/track_search.dart';
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_search_widget.dart';
 import 'package:mangayomi/modules/more/settings/track/providers/track_providers.dart';
@@ -78,9 +77,12 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                   borderRadius: const BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
                   onPressed: !widget.hide
                       ? () async {
-                          final trackSearch =
-                              await trackersSearchraggableMenu(context, isManga: widget.isManga, track: widget.trackRes)
-                                  as TrackSearch?;
+                          final trackSearch = await trackersSearchDraggableMenu(
+                            context,
+                            isManga: widget.isManga,
+                            track: widget.trackRes,
+                          );
+
                           if (trackSearch != null) {
                             await ref
                                 .read(trackStateProvider(track: null, isManga: widget.isManga).notifier)

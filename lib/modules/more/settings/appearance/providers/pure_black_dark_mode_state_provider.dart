@@ -7,13 +7,13 @@ part 'pure_black_dark_mode_state_provider.g.dart';
 class PureBlackDarkModeState extends _$PureBlackDarkModeState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.pureBlackDarkMode!;
+    return isar.settings.first.pureBlackDarkMode!;
   }
 
   void set(bool value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
     isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..pureBlackDarkMode = value));
+        () => isar.settings.putSync(settings..pureBlackDarkMode = value));
   }
 }

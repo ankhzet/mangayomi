@@ -67,7 +67,7 @@ Future<List<PageUrl>> downloadChapter(
   }
 
   void savePageUrls() {
-    final settings = isar.settings.getSync(227)!;
+    final settings = isar.settings.first;
     List<ChapterPageurls>? chapterPageUrls = [];
     for (var chapterPageUrl in settings.chapterPageUrlsList ?? []) {
       if (chapterPageUrl.chapterId != chapter.id) {
@@ -136,7 +136,7 @@ Future<List<PageUrl>> downloadChapter(
         final headers = isManga ? ref.watch(headersProvider(source: manga.source!, lang: manga.lang!)) : videoHeader;
 
         if (cookie.isNotEmpty) {
-          final userAgent = isar.settings.getSync(227)!.userAgent!;
+          final userAgent = isar.settings.first.userAgent!;
           headers.addAll(cookie);
           headers[HttpHeaders.userAgentHeader] = userAgent;
         }

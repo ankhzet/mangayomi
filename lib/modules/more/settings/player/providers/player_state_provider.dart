@@ -7,14 +7,14 @@ part 'player_state_provider.g.dart';
 class MarkEpisodeAsSeenTypeState extends _$MarkEpisodeAsSeenTypeState {
   @override
   int build() {
-    return isar.settings.getSync(227)!.markEpisodeAsSeenType ?? 75;
+    return isar.settings.first.markEpisodeAsSeenType ?? 75;
   }
 
   void set(int value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
     isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..markEpisodeAsSeenType = value));
+        () => isar.settings.putSync(settings..markEpisodeAsSeenType = value));
   }
 }
 
@@ -22,14 +22,14 @@ class MarkEpisodeAsSeenTypeState extends _$MarkEpisodeAsSeenTypeState {
 class DefaultSkipIntroLengthState extends _$DefaultSkipIntroLengthState {
   @override
   int build() {
-    return isar.settings.getSync(227)!.defaultSkipIntroLength ?? 85;
+    return isar.settings.first.defaultSkipIntroLength ?? 85;
   }
 
   void set(int value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
     isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..defaultSkipIntroLength = value));
+        () => isar.settings.putSync(settings..defaultSkipIntroLength = value));
   }
 }
 
@@ -38,14 +38,14 @@ class DefaultDoubleTapToSkipLengthState
     extends _$DefaultDoubleTapToSkipLengthState {
   @override
   int build() {
-    return isar.settings.getSync(227)!.defaultDoubleTapToSkipLength ?? 10;
+    return isar.settings.first.defaultDoubleTapToSkipLength ?? 10;
   }
 
   void set(int value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
     isar.writeTxnSync(() =>
-        isar.settings.putSync(settings!..defaultDoubleTapToSkipLength = value));
+        isar.settings.putSync(settings..defaultDoubleTapToSkipLength = value));
   }
 }
 
@@ -53,14 +53,14 @@ class DefaultDoubleTapToSkipLengthState
 class DefaultPlayBackSpeedState extends _$DefaultPlayBackSpeedState {
   @override
   double build() {
-    return isar.settings.getSync(227)!.defaultPlayBackSpeed ?? 1.0;
+    return isar.settings.first.defaultPlayBackSpeed ?? 1.0;
   }
 
   void set(double value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
     isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..defaultPlayBackSpeed = value));
+        () => isar.settings.putSync(settings..defaultPlayBackSpeed = value));
   }
 }
 
@@ -68,14 +68,14 @@ class DefaultPlayBackSpeedState extends _$DefaultPlayBackSpeedState {
 class FullScreenPlayerState extends _$FullScreenPlayerState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.fullScreenPlayer ?? false;
+    return isar.settings.first.fullScreenPlayer ?? false;
   }
 
   void set(bool value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
     isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..fullScreenPlayer = value));
+        () => isar.settings.putSync(settings..fullScreenPlayer = value));
   }
 }
 
@@ -83,14 +83,14 @@ class FullScreenPlayerState extends _$FullScreenPlayerState {
 class EnableAniSkipState extends _$EnableAniSkipState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.enableAniSkip ?? false;
+    return isar.settings.first.enableAniSkip ?? false;
   }
 
   void set(bool value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
     isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..enableAniSkip = value));
+        () => isar.settings.putSync(settings..enableAniSkip = value));
   }
 }
 
@@ -98,14 +98,14 @@ class EnableAniSkipState extends _$EnableAniSkipState {
 class EnableAutoSkipState extends _$EnableAutoSkipState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.enableAutoSkip ?? false;
+    return isar.settings.first.enableAutoSkip ?? false;
   }
 
   void set(bool value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
     isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..enableAutoSkip = value));
+        () => isar.settings.putSync(settings..enableAutoSkip = value));
   }
 }
 
@@ -113,14 +113,14 @@ class EnableAutoSkipState extends _$EnableAutoSkipState {
 class AniSkipTimeoutLengthState extends _$AniSkipTimeoutLengthState {
   @override
   int build() {
-    return isar.settings.getSync(227)!.aniSkipTimeoutLength ?? 5;
+    return isar.settings.first.aniSkipTimeoutLength ?? 5;
   }
 
   void set(int value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
     isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..aniSkipTimeoutLength = value));
+        () => isar.settings.putSync(settings..aniSkipTimeoutLength = value));
   }
 }
 
@@ -128,13 +128,13 @@ class AniSkipTimeoutLengthState extends _$AniSkipTimeoutLengthState {
 class UseLibassState extends _$UseLibassState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.useLibass ?? true;
+    return isar.settings.first.useLibass ?? true;
   }
 
   void set(bool value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
     isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..useLibass = value));
+        () => isar.settings.putSync(settings..useLibass = value));
   }
 }

@@ -280,7 +280,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
     setState(() {
       _isStarted = false;
     });
-    _pageUrls = (isar.settings.getSync(227)!.chapterPageUrlsList ?? [])
+    _pageUrls = (isar.settings.first.chapterPageUrlsList ?? [])
             .where((element) => element.chapterId == widget.chapter.id)
             .map((e) => e.urls)
             .firstOrNull ??

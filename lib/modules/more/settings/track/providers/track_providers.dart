@@ -51,13 +51,13 @@ class Tracks extends _$Tracks {
 class UpdateProgressAfterReadingState extends _$UpdateProgressAfterReadingState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.updateProgressAfterReading ?? true;
+    return isar.settings.first.updateProgressAfterReading ?? true;
   }
 
   void set(bool value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
     isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..updateProgressAfterReading = value));
+        () => isar.settings.putSync(settings..updateProgressAfterReading = value));
   }
 }

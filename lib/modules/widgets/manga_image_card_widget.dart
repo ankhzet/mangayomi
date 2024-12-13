@@ -262,7 +262,7 @@ Future<void> pushToMangaReaderDetail({
     mangaId = archiveId;
   }
 
-  final settings = isar.settings.getSync(227)!;
+  final settings = isar.settings.first;
   final sortList = settings.sortChapterList ?? [];
   final existing = sortList.firstWhereOrNull(OfManga.isManga(mangaId));
 

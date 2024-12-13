@@ -23,10 +23,10 @@ class AnimeStreamController extends _$AnimeStreamController {
     return episode.manga.value!;
   }
 
-  final incognitoMode = isar.settings.getSync(227)!.incognitoMode!;
+  final incognitoMode = isar.settings.first.incognitoMode!;
 
   Settings getIsarSetting() {
-    return isar.settings.getSync(227)!;
+    return isar.settings.first;
   }
 
   (int, bool) getEpisodeIndex() {

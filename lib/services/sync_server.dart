@@ -482,19 +482,19 @@ class SyncServer extends _$SyncServer {
           if (extensionsPref != null) {
             isar.sourcePreferences.putAllSync(extensionsPref);
           }
-          final syncAfterReading = isar.settings.getSync(227)!.syncAfterReading;
-          final syncOnAppLaunch = isar.settings.getSync(227)!.syncOnAppLaunch;
+          final syncAfterReading = isar.settings.first.syncAfterReading;
+          final syncOnAppLaunch = isar.settings.first.syncOnAppLaunch;
           isar.settings.clearSync();
           if (settings != null) {
             isar.settings.putAllSync(settings);
           }
-          if (isar.settings.getSync(227) == null) {
+          if (isar.settings.first == null) {
             isar.settings.putSync(Settings(id: 227));
           }
           isar.settings.putSync(
-              isar.settings.getSync(227)!..syncAfterReading = syncAfterReading);
+              isar.settings.first..syncAfterReading = syncAfterReading);
           isar.settings.putSync(
-              isar.settings.getSync(227)!..syncOnAppLaunch = syncOnAppLaunch);
+              isar.settings.first..syncOnAppLaunch = syncOnAppLaunch);
           ref.invalidate(themeModeStateProvider);
           ref.invalidate(blendLevelStateProvider);
           ref.invalidate(flexSchemeColorStateProvider);

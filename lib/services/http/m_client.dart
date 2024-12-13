@@ -52,7 +52,7 @@ class MClient {
   }
 
   static Map<String, String> getCookiesPref(String url) {
-    final cookiesList = isar.settings.getSync(227)!.cookiesList ?? [];
+    final cookiesList = isar.settings.first.cookiesList ?? [];
     if (cookiesList.isEmpty) return {};
     final cookies = cookiesList
         .firstWhere(
@@ -88,9 +88,9 @@ class MClient {
     if (cookies.isNotEmpty) {
       final host = Uri.parse(url).host;
       final newCookie = cookies.join("; ");
-      final settings = isar.settings.getSync(227);
+      final settings = isar.settings.first;
       List<MCookie>? cookieList = [];
-      for (var cookie in settings!.cookiesList ?? []) {
+      for (var cookie in settings.cookiesList ?? []) {
         if (cookie.host != host || (!host.contains(cookie.host))) {
           cookieList.add(cookie);
         }
@@ -102,13 +102,13 @@ class MClient {
           () => isar.settings.putSync(settings..cookiesList = cookieList));
     }
     if (ua.isNotEmpty) {
-      final settings = isar.settings.getSync(227);
-      isar.writeTxnSync(() => isar.settings.putSync(settings!..userAgent = ua));
+      final settings = isar.settings.first;
+      isar.writeTxnSync(() => isar.settings.putSync(settings..userAgent = ua));
     }
   }
 
   static void deleteAllCookies(String url) {
-    final cookiesList = isar.settings.getSync(227)!.cookiesList ?? [];
+    final cookiesList = isar.settings.first.cookiesList ?? [];
     List<MCookie>? cookieList = [];
     for (var cookie in cookiesList) {
       if (!(cookie.host == Uri.parse(url).host ||
@@ -117,7 +117,7 @@ class MClient {
       }
     }
     isar.writeTxnSync(() => isar.settings
-        .putSync(isar.settings.getSync(227)!..cookiesList = cookieList));
+        .putSync(isar.settings.first..cookiesList = cookieList));
   }
 }
 
@@ -131,7 +131,7 @@ class MCookieManager extends InterceptorContract {
   }) async {
     final cookie = MClient.getCookiesPref(request.url.toString());
     if (cookie.isNotEmpty) {
-      final userAgent = isar.settings.getSync(227)!.userAgent!;
+      final userAgent = isar.settings.first.userAgent!;
       if (request.headers[HttpHeaders.cookieHeader] == null) {
         request.headers.addAll(cookie);
       }

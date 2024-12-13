@@ -12,7 +12,7 @@ part 'auto_backup.g.dart';
 class BackupFrequencyState extends _$BackupFrequencyState {
   @override
   int build() {
-    return isar.settings.getSync(227)!.backupFrequency ?? 0;
+    return isar.settings.first.backupFrequency ?? 0;
   }
 
   void set(int value) {
@@ -25,29 +25,29 @@ class BackupFrequencyState extends _$BackupFrequencyState {
 class BackupFrequencyOptionsState extends _$BackupFrequencyOptionsState {
   @override
   List<int> build() {
-    return isar.settings.getSync(227)!.backupFrequencyOptions ?? [0, 1, 2, 3];
+    return isar.settings.first.backupFrequencyOptions ?? [0, 1, 2, 3];
   }
 
   void set(List<int> values) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = values;
-    isar.writeTxnSync(() => isar.settings.putSync(settings!..backupFrequencyOptions = values));
+    isar.writeTxnSync(() => isar.settings.putSync(settings..backupFrequencyOptions = values));
   }
 }
 
 @riverpod
 class AutoBackupLocationState extends _$AutoBackupLocationState {
-  late final settings = isar.settings.getSync(227);
+  late final settings = isar.settings.first;
 
   @override
   (String, String) build() {
-    return ("", isar.settings.getSync(227)!.autoBackupLocation ?? "");
+    return ("", isar.settings.first.autoBackupLocation ?? "");
   }
 
   void set(String location) {
     state = ("${_storagePath}backup", location);
     isar.writeTxnSync(() {
-      isar.settings.putSync(settings!..autoBackupLocation = location);
+      isar.settings.putSync(settings..autoBackupLocation = location);
     });
   }
 
@@ -55,14 +55,14 @@ class AutoBackupLocationState extends _$AutoBackupLocationState {
 
   Future refresh() async {
     _storagePath = await StorageProvider.getBackupDirectory();
-    state = (_storagePath!, settings!.autoBackupLocation ?? '');
+    state = (_storagePath!, settings.autoBackupLocation ?? '');
   }
 }
 
 @riverpod
 Future<void> checkAndBackup(Ref ref) async {
-  final settings = isar.settings.getSync(227);
-  if (settings!.backupFrequency != null) {
+  final settings = isar.settings.first;
+  if (settings.backupFrequency != null) {
     final backupFrequency = _duration(settings.backupFrequency);
     if (backupFrequency != null) {
       if (settings.startDatebackup != null) {
@@ -101,11 +101,11 @@ Duration? _duration(int? backupFrequency) {
 }
 
 void _setBackupFrequency(int value) {
-  final settings = isar.settings.getSync(227);
+  final settings = isar.settings.first;
   final duration = _duration(value);
   final now = DateTime.now();
   final startDate = duration != null ? now.add(duration) : null;
-  isar.writeTxnSync(() => isar.settings.putSync(settings!
+  isar.writeTxnSync(() => isar.settings.putSync(settings
     ..backupFrequency = value
     ..startDatebackup = startDate?.millisecondsSinceEpoch));
 }

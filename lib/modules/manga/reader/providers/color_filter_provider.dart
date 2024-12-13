@@ -8,11 +8,11 @@ class CustomColorFilterState extends _$CustomColorFilterState {
   @override
   CustomColorFilter? build() {
     if (!ref.watch(enableCustomColorFilterStateProvider)) return null;
-    return isar.settings.getSync(227)!.customColorFilter;
+    return isar.settings.first.customColorFilter;
   }
 
   void set(int a, int r, int g, int b, bool end) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     var value = CustomColorFilter()
       ..a = a
       ..r = r
@@ -20,7 +20,7 @@ class CustomColorFilterState extends _$CustomColorFilterState {
       ..b = b;
     if (end) {
       isar.writeTxnSync(
-          () => isar.settings.putSync(settings!..customColorFilter = value));
+          () => isar.settings.putSync(settings..customColorFilter = value));
     }
     state = value;
   }
@@ -30,14 +30,14 @@ class CustomColorFilterState extends _$CustomColorFilterState {
 class EnableCustomColorFilterState extends _$EnableCustomColorFilterState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.enableCustomColorFilter ?? false;
+    return isar.settings.first.enableCustomColorFilter ?? false;
   }
 
   void set(bool value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
 
     isar.writeTxnSync(() =>
-        isar.settings.putSync(settings!..enableCustomColorFilter = value));
+        isar.settings.putSync(settings..enableCustomColorFilter = value));
     state = value;
   }
 }
@@ -46,14 +46,14 @@ class EnableCustomColorFilterState extends _$EnableCustomColorFilterState {
 class ColorFilterBlendModeState extends _$ColorFilterBlendModeState {
   @override
   ColorFilterBlendMode build() {
-    return isar.settings.getSync(227)!.colorFilterBlendMode;
+    return isar.settings.first.colorFilterBlendMode;
   }
 
   void set(ColorFilterBlendMode value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
 
     isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..colorFilterBlendMode = value));
+        () => isar.settings.putSync(settings..colorFilterBlendMode = value));
     state = value;
   }
 }

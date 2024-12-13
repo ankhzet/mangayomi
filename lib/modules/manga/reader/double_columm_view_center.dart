@@ -37,7 +37,7 @@ class _DoubleColummViewState extends State<DoubleColummView>
       PhotoViewScaleStateController();
   Duration? _doubleTapAnimationDuration() {
     int doubleTapAnimationValue =
-        isar.settings.getSync(227)!.doubleTapAnimationSpeed!;
+        isar.settings.first.doubleTapAnimationSpeed!;
     if (doubleTapAnimationValue == 0) {
       return const Duration(milliseconds: 10);
     } else if (doubleTapAnimationValue == 1) {

@@ -55,8 +55,8 @@ Future<GetChapterPagesModel> getChapterPages(
   required Chapter chapter,
 }) async {
   final manga = chapter.manga.value!;
-  final settings = isar.settings.getSync(227);
-  List<ChapterPageurls>? chapterPageUrlsList = settings!.chapterPageUrlsList ?? [];
+  final settings = isar.settings.first;
+  List<ChapterPageurls>? chapterPageUrlsList = settings.chapterPageUrlsList ?? [];
   final isarPageUrls = chapterPageUrlsList.where((element) => element.chapterId == chapter.id);
   final incognitoMode = ref.watch(incognitoModeStateProvider);
   final chapterDirectory = await StorageProvider.getMangaChapterDirectory(chapter);

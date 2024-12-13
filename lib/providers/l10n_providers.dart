@@ -14,12 +14,12 @@ class L10nLocaleState extends _$L10nLocaleState {
   }
 
   L10nLocale? _getLocale() {
-    return isar.settings.getSync(227)!.locale ??
+    return isar.settings.first.locale ??
         L10nLocale(languageCode: "en", countryCode: "");
   }
 
   void setLocale(Locale locale) async {
-    final settings = isar.settings.getSync(227)!;
+    final settings = isar.settings.first;
     isar.writeTxnSync(() {
       isar.settings.putSync(settings
         ..locale = L10nLocale(

@@ -54,6 +54,7 @@ class ReaderController extends _$ReaderController {
   late final manga = chapter.manga.value!;
 
   final incognitoMode = isar.settings.getSync(227)!.incognitoMode!;
+  late final mangaId = manga.id;
 
   ReaderMode getReaderMode() {
     final personalReaderModeList = getIsarSetting().personalReaderModeList ?? [];
@@ -141,10 +142,13 @@ class ReaderController extends _$ReaderController {
 
   void setMangaHistoryUpdate() {
     if (incognitoMode) return;
+
+    final lastRead = DateTime.now().millisecondsSinceEpoch;
+
     isar.writeTxnSync(() {
-      Manga? manga = chapter.manga.value;
-      manga!.lastRead = DateTime.now().millisecondsSinceEpoch;
-      isar.mangas.putSync(manga);
+      isar.mangas.putSync(
+        manga..lastRead = lastRead,
+      );
     });
     History? history;
 
@@ -181,12 +185,11 @@ class ReaderController extends _$ReaderController {
     if (incognitoMode) return;
 
     final isBookmarked = getChapterBookmarked();
-    final chap = chapter;
 
     isar.writeTxnSync(() {
-      chap.isBookmarked = !isBookmarked;
-      ref.read(changedItemsManagerProvider(managerId: 1).notifier).addUpdatedChapter(chap, false, false);
-      isar.chapters.putSync(chap);
+      chapter.isBookmarked = !isBookmarked;
+      ref.read(changedItemsManagerProvider(managerId: 1).notifier).addUpdatedChapter(chapter, false, false);
+      isar.chapters.putSync(chapter);
     });
   }
 
@@ -263,8 +266,8 @@ class ReaderController extends _$ReaderController {
     final hasNextChapter = index.$1 != 0;
 
     return (
-    hasPrevChapter,
-    hasNextChapter,
+      hasPrevChapter,
+      hasNextChapter,
     );
   }
 
@@ -339,7 +342,7 @@ extension ChapterExtensions on Chapter {
     final chapterNumber = ChapterRecognition().parseChapterNumber(manga.name!, name!);
 
     final tracks =
-        isar.tracks.filter().idIsNotNull().isMangaEqualTo(manga.isManga).mangaIdEqualTo(manga.id).findAllSync();
+        isar.tracks.filter().idIsNotNull().isMangaEqualTo(manga.isManga).mangaIdEqualTo(mangaId).findAllSync();
 
     if (tracks.isEmpty) return;
     for (var track in tracks) {

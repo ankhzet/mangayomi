@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/eval/dart/model/m_bridge.dart';
-import 'package:mangayomi/eval/dart/model/m_manga.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/manga.dart';
@@ -15,7 +14,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'update_manga_detail_providers.g.dart';
 
 @riverpod
-Future<dynamic> updateMangaDetail(Ref ref, {required int? mangaId, required bool isInit}) async {
+Future<void> updateMangaDetail(Ref ref, {required int? mangaId, required bool isInit}) async {
   final manga = isar.mangas.getSync(mangaId!)!;
 
   if (manga.chapters.isNotEmpty && isInit) {
@@ -25,7 +24,12 @@ Future<dynamic> updateMangaDetail(Ref ref, {required int? mangaId, required bool
   final source = getSource(manga.lang!, manga.source!);
 
   try {
-    MManga getManga = await ref.watch(getDetailProvider(url: manga.link!, source: source!).future);
+    final getManga = await ref.watch(getDetailProvider(url: manga.link!, source: source!).future);
+    final hadChapters = isar.mangas.getSync(mangaId)!.chapters.isNotEmpty;
+
+    if (hadChapters && isInit) { // early return in case already updated?
+      return;
+    }
 
     final genre = getManga.genre?.map((e) => e.normalize()).toUnique() ?? [];
 
@@ -42,12 +46,6 @@ Future<dynamic> updateMangaDetail(Ref ref, {required int? mangaId, required bool
       ..lang = manga.lang
       ..isManga = source.isManga
       ..lastUpdate = DateTime.now().millisecondsSinceEpoch;
-
-    final hadChapters = isar.mangas.getSync(mangaId)!.chapters.isNotEmpty;
-
-    if (hadChapters && isInit) {
-      return;
-    }
 
     isar.writeTxnSync(() {
       final timestamp = DateTime.now().millisecondsSinceEpoch;

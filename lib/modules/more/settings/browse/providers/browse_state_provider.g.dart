@@ -7,7 +7,7 @@ part of 'browse_state_provider.dart';
 // **************************************************************************
 
 String _$onlyIncludePinnedSourceStateHash() =>
-    r'77c4bff96e186c4bce0a5c312871ceec88a269d0';
+    r'3ba966dd71f4225e5ab2f68e280e111eca00094d';
 
 /// See also [OnlyIncludePinnedSourceState].
 @ProviderFor(OnlyIncludePinnedSourceState)
@@ -24,7 +24,7 @@ final onlyIncludePinnedSourceStateProvider =
 
 typedef _$OnlyIncludePinnedSourceState = AutoDisposeNotifier<bool>;
 String _$autoUpdateExtensionsStateHash() =>
-    r'30ce3c558504e005f9c85e2fc969ab7a581510cd';
+    r'52f8b83d06073e1739b19e302e4bb7e7b62ac17d';
 
 /// See also [AutoUpdateExtensionsState].
 @ProviderFor(AutoUpdateExtensionsState)
@@ -41,7 +41,7 @@ final autoUpdateExtensionsStateProvider =
 
 typedef _$AutoUpdateExtensionsState = AutoDisposeNotifier<bool>;
 String _$checkForExtensionsUpdateStateHash() =>
-    r'1b1f22a50e0862a7d643fbe0fcb5d563bd0169c2';
+    r'046068691fc70738f70427d7d07667ae1df5fbf9';
 
 /// See also [CheckForExtensionsUpdateState].
 @ProviderFor(CheckForExtensionsUpdateState)

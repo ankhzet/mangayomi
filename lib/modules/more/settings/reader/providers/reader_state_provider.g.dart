@@ -7,7 +7,7 @@ part of 'reader_state_provider.dart';
 // **************************************************************************
 
 String _$defaultReadingModeStateHash() =>
-    r'2fe1d264041dd115bcc1a8c5648d0062a19f4c44';
+    r'a396bf7ed0a2f20d5702832b7ccb35fbe1a5402a';
 
 /// See also [DefaultReadingModeState].
 @ProviderFor(DefaultReadingModeState)
@@ -24,7 +24,7 @@ final defaultReadingModeStateProvider =
 
 typedef _$DefaultReadingModeState = AutoDisposeNotifier<ReaderMode>;
 String _$animatePageTransitionsStateHash() =>
-    r'c8fdb2acb7a551c41a54c1aa14e378f6b1edd5c1';
+    r'60ae726b3adbc54cdb6d7085648645a5024d5fd6';
 
 /// See also [AnimatePageTransitionsState].
 @ProviderFor(AnimatePageTransitionsState)
@@ -41,7 +41,7 @@ final animatePageTransitionsStateProvider =
 
 typedef _$AnimatePageTransitionsState = AutoDisposeNotifier<bool>;
 String _$doubleTapAnimationSpeedStateHash() =>
-    r'd88657a8a587a0a77b6230a7fe5b2c1b833afca8';
+    r'50c7e5754750a9d7c9838ef30d6f01636e139149';
 
 /// See also [DoubleTapAnimationSpeedState].
 @ProviderFor(DoubleTapAnimationSpeedState)
@@ -57,7 +57,7 @@ final doubleTapAnimationSpeedStateProvider =
 );
 
 typedef _$DoubleTapAnimationSpeedState = AutoDisposeNotifier<int>;
-String _$cropBordersStateHash() => r'65d636df7bebd9fb15b3915c1044c61f3479e806';
+String _$cropBordersStateHash() => r'7f4f7d764defebfefbf474d0bbe7ae415f9972d7';
 
 /// See also [CropBordersState].
 @ProviderFor(CropBordersState)
@@ -73,7 +73,7 @@ final cropBordersStateProvider =
 );
 
 typedef _$CropBordersState = AutoDisposeNotifier<bool>;
-String _$scaleTypeStateHash() => r'5e6943ab426e9f0bdfe16685a037f6def3a02ddf';
+String _$scaleTypeStateHash() => r'cbe88af8cc65bea12d30a08c4d9b3a2f6ef4a34e';
 
 /// See also [ScaleTypeState].
 @ProviderFor(ScaleTypeState)
@@ -90,7 +90,7 @@ final scaleTypeStateProvider =
 
 typedef _$ScaleTypeState = AutoDisposeNotifier<ScaleType>;
 String _$pagePreloadAmountStateHash() =>
-    r'f3b7f78ba1acc10631dc433298c49abe417f254e';
+    r'9bc9e6f39b4ff5c17ce396637be11666420645eb';
 
 /// See also [PagePreloadAmountState].
 @ProviderFor(PagePreloadAmountState)
@@ -107,7 +107,7 @@ final pagePreloadAmountStateProvider =
 
 typedef _$PagePreloadAmountState = AutoDisposeNotifier<int>;
 String _$backgroundColorStateHash() =>
-    r'912db0bc09d8aafe20b8eb46ed2f07a9d5439aaa';
+    r'1f10a0fada8e256b51dfc168f2190f1629f34624';
 
 /// See also [BackgroundColorState].
 @ProviderFor(BackgroundColorState)
@@ -124,7 +124,7 @@ final backgroundColorStateProvider =
 
 typedef _$BackgroundColorState = AutoDisposeNotifier<BackgroundColor>;
 String _$usePageTapZonesStateHash() =>
-    r'476a7831ca38386e6cd9c83e7c8943f1f4ba20b7';
+    r'5f2a8483572cb855b01ade4d7a398a42cba6f057';
 
 /// See also [UsePageTapZonesState].
 @ProviderFor(UsePageTapZonesState)
@@ -141,7 +141,7 @@ final usePageTapZonesStateProvider =
 
 typedef _$UsePageTapZonesState = AutoDisposeNotifier<bool>;
 String _$fullScreenReaderStateHash() =>
-    r'fe95b7d8cb6aee8910466f86bba97c854994b2d1';
+    r'9f15aa42bbcafe5379e4f5492a829658156fe57e';
 
 /// See also [FullScreenReaderState].
 @ProviderFor(FullScreenReaderState)

@@ -6,7 +6,7 @@ part of 'auto_backup.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$checkAndBackupHash() => r'b4022d26344d1e7bf7f6b9f97ba19c00f024ce0a';
+String _$checkAndBackupHash() => r'b5b5ce5ac43b4805ed3e21e14e60364999ddb865';
 
 /// See also [checkAndBackup].
 @ProviderFor(checkAndBackup)
@@ -24,7 +24,7 @@ final checkAndBackupProvider = AutoDisposeFutureProvider<void>.internal(
 // ignore: unused_element
 typedef CheckAndBackupRef = AutoDisposeFutureProviderRef<void>;
 String _$backupFrequencyStateHash() =>
-    r'2e73e3fe54456978ff92f49cdc67e84f2af6de7c';
+    r'8bffb8677cfb0582cbeaecd6381922050c0c94b3';
 
 /// See also [BackupFrequencyState].
 @ProviderFor(BackupFrequencyState)
@@ -41,7 +41,7 @@ final backupFrequencyStateProvider =
 
 typedef _$BackupFrequencyState = AutoDisposeNotifier<int>;
 String _$backupFrequencyOptionsStateHash() =>
-    r'79d93411a02867c8882d2d0f2143f5da6c107075';
+    r'0172d0356c67cbb78304dba5997c901c0b6d3941';
 
 /// See also [BackupFrequencyOptionsState].
 @ProviderFor(BackupFrequencyOptionsState)
@@ -58,7 +58,7 @@ final backupFrequencyOptionsStateProvider = AutoDisposeNotifierProvider<
 
 typedef _$BackupFrequencyOptionsState = AutoDisposeNotifier<List<int>>;
 String _$autoBackupLocationStateHash() =>
-    r'6dd927258fb1bd1cdd35340ee8db07826e006803';
+    r'a66f6e9ca00b1c126db0a2560e62f14cce18d32c';
 
 /// See also [AutoBackupLocationState].
 @ProviderFor(AutoBackupLocationState)

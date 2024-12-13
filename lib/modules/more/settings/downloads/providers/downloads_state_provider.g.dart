@@ -6,7 +6,7 @@ part of 'downloads_state_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$onlyOnWifiStateHash() => r'613d0fd2a72fdfeb0c8da05dc8ed4144cc8df6f5';
+String _$onlyOnWifiStateHash() => r'af2d4a27b7616bb265ddd16206f3576fc951a71c';
 
 /// See also [OnlyOnWifiState].
 @ProviderFor(OnlyOnWifiState)
@@ -23,7 +23,7 @@ final onlyOnWifiStateProvider =
 
 typedef _$OnlyOnWifiState = AutoDisposeNotifier<bool>;
 String _$saveAsCBZArchiveStateHash() =>
-    r'81c4d07dc96f0fae33274f2067911e5b94ac6161';
+    r'a9e4a48ed1235e86ac436b2346de40944f6b2a53';
 
 /// See also [SaveAsCBZArchiveState].
 @ProviderFor(SaveAsCBZArchiveState)
@@ -40,7 +40,7 @@ final saveAsCBZArchiveStateProvider =
 
 typedef _$SaveAsCBZArchiveState = AutoDisposeNotifier<bool>;
 String _$downloadLocationStateHash() =>
-    r'e2697122692cf8ced9028384ad8564ca89118885';
+    r'8c51a6425c1916d5848f3af2198a9fd9d0c187ca';
 
 /// See also [DownloadLocationState].
 @ProviderFor(DownloadLocationState)

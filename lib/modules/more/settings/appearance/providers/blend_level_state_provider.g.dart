@@ -6,7 +6,7 @@ part of 'blend_level_state_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$blendLevelStateHash() => r'ceb7965073b2d6676a91acbe662bfa881f2f5e30';
+String _$blendLevelStateHash() => r'fb2e1b7c3955b49ecec441082cf4d34c07c53713';
 
 /// See also [BlendLevelState].
 @ProviderFor(BlendLevelState)

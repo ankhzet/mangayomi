@@ -7,7 +7,7 @@ part of 'color_filter_provider.dart';
 // **************************************************************************
 
 String _$customColorFilterStateHash() =>
-    r'5138b52d1465b1e0109b9757375e8ce4fbeb21d9';
+    r'51034d80880ed32df2334befca8f46229c9e121a';
 
 /// See also [CustomColorFilterState].
 @ProviderFor(CustomColorFilterState)
@@ -24,7 +24,7 @@ final customColorFilterStateProvider = AutoDisposeNotifierProvider<
 
 typedef _$CustomColorFilterState = AutoDisposeNotifier<CustomColorFilter?>;
 String _$enableCustomColorFilterStateHash() =>
-    r'21d9944242971b5a6d034b61cc413d04b3075730';
+    r'f168cb8cb73fbc39acde0184045868b32fbf0f22';
 
 /// See also [EnableCustomColorFilterState].
 @ProviderFor(EnableCustomColorFilterState)
@@ -41,7 +41,7 @@ final enableCustomColorFilterStateProvider =
 
 typedef _$EnableCustomColorFilterState = AutoDisposeNotifier<bool>;
 String _$colorFilterBlendModeStateHash() =>
-    r'dc975e92e7217d4803b73d1850ca5d9d3d4d8575';
+    r'3a4bcc0f4f7ad3a88a81bfdb2ac1fb742ad3c165';
 
 /// See also [ColorFilterBlendModeState].
 @ProviderFor(ColorFilterBlendModeState)

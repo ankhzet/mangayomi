@@ -618,7 +618,7 @@ class _SynchingProviderElement
 }
 
 String _$syncOnAppLaunchStateHash() =>
-    r'dc7f3243e38a748462628229066c8fc0653c908b';
+    r'799666311602c13c88b72bbb1f6b1b2b1787daa9';
 
 /// See also [SyncOnAppLaunchState].
 @ProviderFor(SyncOnAppLaunchState)
@@ -635,7 +635,7 @@ final syncOnAppLaunchStateProvider =
 
 typedef _$SyncOnAppLaunchState = AutoDisposeNotifier<bool>;
 String _$syncAfterReadingStateHash() =>
-    r'e507acd490b5aea7fc1a8fd7a369ec01f4c47192';
+    r'd2b4b05c709105c95875b3f63ad7e66897744199';
 
 /// See also [SyncAfterReadingState].
 @ProviderFor(SyncAfterReadingState)

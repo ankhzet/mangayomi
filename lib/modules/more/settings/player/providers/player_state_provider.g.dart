@@ -7,7 +7,7 @@ part of 'player_state_provider.dart';
 // **************************************************************************
 
 String _$markEpisodeAsSeenTypeStateHash() =>
-    r'94ae90e6bc51bbd4f88dfc9780cc5e9eb4ed5770';
+    r'83c7a415f1f929ab6bc4bb7e226462f0fee9575b';
 
 /// See also [MarkEpisodeAsSeenTypeState].
 @ProviderFor(MarkEpisodeAsSeenTypeState)
@@ -24,7 +24,7 @@ final markEpisodeAsSeenTypeStateProvider =
 
 typedef _$MarkEpisodeAsSeenTypeState = AutoDisposeNotifier<int>;
 String _$defaultSkipIntroLengthStateHash() =>
-    r'fee9c7dd76ad84a16c6ac380285f5cdfe43fc537';
+    r'5c56ab15c695e2a32ded782f248433e8a9a971d5';
 
 /// See also [DefaultSkipIntroLengthState].
 @ProviderFor(DefaultSkipIntroLengthState)
@@ -41,7 +41,7 @@ final defaultSkipIntroLengthStateProvider =
 
 typedef _$DefaultSkipIntroLengthState = AutoDisposeNotifier<int>;
 String _$defaultDoubleTapToSkipLengthStateHash() =>
-    r'5f60e645c464503f06f992cba5b61fe81cc8d112';
+    r'cfaa8670ee6f006f8edfc77f15a74dfd4edfb36b';
 
 /// See also [DefaultDoubleTapToSkipLengthState].
 @ProviderFor(DefaultDoubleTapToSkipLengthState)
@@ -58,7 +58,7 @@ final defaultDoubleTapToSkipLengthStateProvider = AutoDisposeNotifierProvider<
 
 typedef _$DefaultDoubleTapToSkipLengthState = AutoDisposeNotifier<int>;
 String _$defaultPlayBackSpeedStateHash() =>
-    r'865d17020e99aad291633b0829e0b9b502356c71';
+    r'59ab4207232d67c87334e58350e3aa8bd4fe1d72';
 
 /// See also [DefaultPlayBackSpeedState].
 @ProviderFor(DefaultPlayBackSpeedState)
@@ -75,7 +75,7 @@ final defaultPlayBackSpeedStateProvider =
 
 typedef _$DefaultPlayBackSpeedState = AutoDisposeNotifier<double>;
 String _$fullScreenPlayerStateHash() =>
-    r'c041e3caa51c8320a3f136c19890120b38bb86be';
+    r'ad7bf84a6076026403e6307fd9f2b7bdadb27a76';
 
 /// See also [FullScreenPlayerState].
 @ProviderFor(FullScreenPlayerState)
@@ -92,7 +92,7 @@ final fullScreenPlayerStateProvider =
 
 typedef _$FullScreenPlayerState = AutoDisposeNotifier<bool>;
 String _$enableAniSkipStateHash() =>
-    r'1b448453e54f2a261820d40ca2d82971d165372a';
+    r'32e9e29417c2ba19821a2a37537c3c27e2620896';
 
 /// See also [EnableAniSkipState].
 @ProviderFor(EnableAniSkipState)
@@ -109,7 +109,7 @@ final enableAniSkipStateProvider =
 
 typedef _$EnableAniSkipState = AutoDisposeNotifier<bool>;
 String _$enableAutoSkipStateHash() =>
-    r'5f4d5e669cadf98396afe52635e2ec5f2ee7ff2f';
+    r'ee8fc12937ad3c2bbde490219a45686c0cc1aacf';
 
 /// See also [EnableAutoSkipState].
 @ProviderFor(EnableAutoSkipState)
@@ -126,7 +126,7 @@ final enableAutoSkipStateProvider =
 
 typedef _$EnableAutoSkipState = AutoDisposeNotifier<bool>;
 String _$aniSkipTimeoutLengthStateHash() =>
-    r'fc1c16c22fb129e1a2ea5434282baf2dcfa79c82';
+    r'7f3a53c57b862d0c7a058fbbf93a59d30a9f8d44';
 
 /// See also [AniSkipTimeoutLengthState].
 @ProviderFor(AniSkipTimeoutLengthState)
@@ -142,7 +142,7 @@ final aniSkipTimeoutLengthStateProvider =
 );
 
 typedef _$AniSkipTimeoutLengthState = AutoDisposeNotifier<int>;
-String _$useLibassStateHash() => r'91e5bbde72651f57f8775bf0fec14145ea42ced6';
+String _$useLibassStateHash() => r'6938bd00edaea8b8b4f6bb5c3f3eb32803659459';
 
 /// See also [UseLibassState].
 @ProviderFor(UseLibassState)

@@ -7,7 +7,7 @@ part of 'pure_black_dark_mode_state_provider.dart';
 // **************************************************************************
 
 String _$pureBlackDarkModeStateHash() =>
-    r'2dd98617810c8677341dc5cc485d226e6d610cf5';
+    r'b290a0d9a8096b47cd7f631ca3a7293024e2cb3b';
 
 /// See also [PureBlackDarkModeState].
 @ProviderFor(PureBlackDarkModeState)

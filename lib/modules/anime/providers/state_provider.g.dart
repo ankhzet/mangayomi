@@ -7,7 +7,7 @@ part of 'state_provider.dart';
 // **************************************************************************
 
 String _$subtitleSettingsStateHash() =>
-    r'4b89ea55392e662651d5aeee4dfce2fcd23ac0e7';
+    r'5e69138eb4abc41d0132d7b1f6305291d7cc40f0';
 
 /// See also [SubtitleSettingsState].
 @ProviderFor(SubtitleSettingsState)

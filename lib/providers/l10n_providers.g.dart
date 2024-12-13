@@ -6,7 +6,7 @@ part of 'l10n_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$l10nLocaleStateHash() => r'1c6cb9d6c0a56d54a6a5e7bc1b2dbc6c29538593';
+String _$l10nLocaleStateHash() => r'29fa6a4a5ba27c422dba0780f4251ef9dc3ddf32';
 
 /// See also [L10nLocaleState].
 @ProviderFor(L10nLocaleState)

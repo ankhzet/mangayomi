@@ -6,7 +6,7 @@ part of 'app_font_family.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appFontFamilyHash() => r'7f115012111256848d806e47382db1f8abcff5ec';
+String _$appFontFamilyHash() => r'5b21a5f1bd2527ab42c71f9f87d494f156d169f6';
 
 /// See also [AppFontFamily].
 @ProviderFor(AppFontFamily)

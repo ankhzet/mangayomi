@@ -6,7 +6,7 @@ part of 'update_manga_detail_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$updateMangaDetailHash() => r'3a2adbc98e4a98df8df94444b00ad9db1cd5a429';
+String _$updateMangaDetailHash() => r'58710378ed9a8cf0b1f2cbeef9476a1778e02035';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -34,7 +34,7 @@ class _SystemHash {
 const updateMangaDetailProvider = UpdateMangaDetailFamily();
 
 /// See also [updateMangaDetail].
-class UpdateMangaDetailFamily extends Family<AsyncValue<dynamic>> {
+class UpdateMangaDetailFamily extends Family<AsyncValue<void>> {
   /// See also [updateMangaDetail].
   const UpdateMangaDetailFamily();
 
@@ -75,7 +75,7 @@ class UpdateMangaDetailFamily extends Family<AsyncValue<dynamic>> {
 }
 
 /// See also [updateMangaDetail].
-class UpdateMangaDetailProvider extends AutoDisposeFutureProvider<dynamic> {
+class UpdateMangaDetailProvider extends AutoDisposeFutureProvider<void> {
   /// See also [updateMangaDetail].
   UpdateMangaDetailProvider({
     required int? mangaId,
@@ -115,7 +115,7 @@ class UpdateMangaDetailProvider extends AutoDisposeFutureProvider<dynamic> {
 
   @override
   Override overrideWith(
-    FutureOr<dynamic> Function(UpdateMangaDetailRef provider) create,
+    FutureOr<void> Function(UpdateMangaDetailRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -133,7 +133,7 @@ class UpdateMangaDetailProvider extends AutoDisposeFutureProvider<dynamic> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<dynamic> createElement() {
+  AutoDisposeFutureProviderElement<void> createElement() {
     return _UpdateMangaDetailProviderElement(this);
   }
 
@@ -156,7 +156,7 @@ class UpdateMangaDetailProvider extends AutoDisposeFutureProvider<dynamic> {
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin UpdateMangaDetailRef on AutoDisposeFutureProviderRef<dynamic> {
+mixin UpdateMangaDetailRef on AutoDisposeFutureProviderRef<void> {
   /// The parameter `mangaId` of this provider.
   int? get mangaId;
 
@@ -165,8 +165,7 @@ mixin UpdateMangaDetailRef on AutoDisposeFutureProviderRef<dynamic> {
 }
 
 class _UpdateMangaDetailProviderElement
-    extends AutoDisposeFutureProviderElement<dynamic>
-    with UpdateMangaDetailRef {
+    extends AutoDisposeFutureProviderElement<void> with UpdateMangaDetailRef {
   _UpdateMangaDetailProviderElement(super.provider);
 
   @override

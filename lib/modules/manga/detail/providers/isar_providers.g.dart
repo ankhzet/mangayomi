@@ -292,7 +292,7 @@ class _GetChaptersStreamProviderElement
 }
 
 String _$getChaptersFilteredStreamHash() =>
-    r'55dc99be8e4d5ed4c5e5c2768afb7943c9f604e6';
+    r'14e6b091493477450158cff0c6cfdf33d12d4c0e';
 
 /// See also [getChaptersFilteredStream].
 @ProviderFor(getChaptersFilteredStream)
@@ -307,13 +307,11 @@ class GetChaptersFilteredStreamFamily
   /// See also [getChaptersFilteredStream].
   GetChaptersFilteredStreamProvider call({
     required int mangaId,
-    required ChapterFilterModel filter,
-    required ChapterSortModel sort,
+    required ChaptersListModel model,
   }) {
     return GetChaptersFilteredStreamProvider(
       mangaId: mangaId,
-      filter: filter,
-      sort: sort,
+      model: model,
     );
   }
 
@@ -323,8 +321,7 @@ class GetChaptersFilteredStreamFamily
   ) {
     return call(
       mangaId: provider.mangaId,
-      filter: provider.filter,
-      sort: provider.sort,
+      model: provider.model,
     );
   }
 
@@ -349,14 +346,12 @@ class GetChaptersFilteredStreamProvider
   /// See also [getChaptersFilteredStream].
   GetChaptersFilteredStreamProvider({
     required int mangaId,
-    required ChapterFilterModel filter,
-    required ChapterSortModel sort,
+    required ChaptersListModel model,
   }) : this._internal(
           (ref) => getChaptersFilteredStream(
             ref as GetChaptersFilteredStreamRef,
             mangaId: mangaId,
-            filter: filter,
-            sort: sort,
+            model: model,
           ),
           from: getChaptersFilteredStreamProvider,
           name: r'getChaptersFilteredStreamProvider',
@@ -368,8 +363,7 @@ class GetChaptersFilteredStreamProvider
           allTransitiveDependencies:
               GetChaptersFilteredStreamFamily._allTransitiveDependencies,
           mangaId: mangaId,
-          filter: filter,
-          sort: sort,
+          model: model,
         );
 
   GetChaptersFilteredStreamProvider._internal(
@@ -380,13 +374,11 @@ class GetChaptersFilteredStreamProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.mangaId,
-    required this.filter,
-    required this.sort,
+    required this.model,
   }) : super.internal();
 
   final int mangaId;
-  final ChapterFilterModel filter;
-  final ChapterSortModel sort;
+  final ChaptersListModel model;
 
   @override
   Override overrideWith(
@@ -403,8 +395,7 @@ class GetChaptersFilteredStreamProvider
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         mangaId: mangaId,
-        filter: filter,
-        sort: sort,
+        model: model,
       ),
     );
   }
@@ -418,16 +409,14 @@ class GetChaptersFilteredStreamProvider
   bool operator ==(Object other) {
     return other is GetChaptersFilteredStreamProvider &&
         other.mangaId == mangaId &&
-        other.filter == filter &&
-        other.sort == sort;
+        other.model == model;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, mangaId.hashCode);
-    hash = _SystemHash.combine(hash, filter.hashCode);
-    hash = _SystemHash.combine(hash, sort.hashCode);
+    hash = _SystemHash.combine(hash, model.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -440,11 +429,8 @@ mixin GetChaptersFilteredStreamRef
   /// The parameter `mangaId` of this provider.
   int get mangaId;
 
-  /// The parameter `filter` of this provider.
-  ChapterFilterModel get filter;
-
-  /// The parameter `sort` of this provider.
-  ChapterSortModel get sort;
+  /// The parameter `model` of this provider.
+  ChaptersListModel get model;
 }
 
 class _GetChaptersFilteredStreamProviderElement
@@ -455,11 +441,8 @@ class _GetChaptersFilteredStreamProviderElement
   @override
   int get mangaId => (origin as GetChaptersFilteredStreamProvider).mangaId;
   @override
-  ChapterFilterModel get filter =>
-      (origin as GetChaptersFilteredStreamProvider).filter;
-  @override
-  ChapterSortModel get sort =>
-      (origin as GetChaptersFilteredStreamProvider).sort;
+  ChaptersListModel get model =>
+      (origin as GetChaptersFilteredStreamProvider).model;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

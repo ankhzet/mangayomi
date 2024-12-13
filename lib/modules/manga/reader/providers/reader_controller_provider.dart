@@ -44,6 +44,8 @@ BoxFit getBoxFit(ScaleType scaleType) {
   };
 }
 
+typedef ChapterCacheIndex = (int, bool);
+
 @riverpod
 class ReaderController extends _$ReaderController {
   @override
@@ -198,82 +200,78 @@ class ReaderController extends _$ReaderController {
     return isar.chapters.getSync(chapter.id!)!.isBookmarked!;
   }
 
-  (int, bool) getPrevChapterIndex() {
-    final chapters = getManga().getFilteredChapterList();
-    int? index;
-    for (var i = 0; i < chapters.length; i++) {
-      if (chapters[i].id == chapter.id) {
-        index = i + 1;
+  ChapterCacheIndex getChapterIndex() {
+    final id = chapter.id;
+    int index = 0;
+
+    for (var chapter in getManga().getFilteredChapterList()) {
+      if (id == chapter.id) {
+        return (index, true);
       }
+
+      index++;
     }
-    if (index == null) {
-      final chapters = getManga().chapters.toList().reversed.toList();
-      for (var i = 0; i < chapters.length; i++) {
-        if (chapters[i].id == chapter.id) {
-          index = i + 1;
-        }
+
+    index = 0;
+
+    for (var chapter in getManga().chapters.toList().reversed.toList()) {
+      if (id == chapter.id) {
+        break;
       }
-      return (index!, false);
+
+      index++;
     }
-    return (index, true);
+
+    return (index, false);
   }
 
-  (int, bool) getNextChapterIndex() {
-    final chapters = getManga().getFilteredChapterList();
-    int? index;
-    for (var i = 0; i < chapters.length; i++) {
-      if (chapters[i].id == chapter.id) {
-        index = i - 1;
-      }
-    }
-    if (index == null) {
-      final chapters = getManga().chapters.toList().reversed.toList();
-      for (var i = 0; i < chapters.length; i++) {
-        if (chapters[i].id == chapter.id) {
-          index = i - 1;
-        }
-      }
-      return (index!, false);
-    }
-    return (index, true);
+  ChapterCacheIndex getPrevChapterIndex() {
+    final (index, inFilter) = getChapterIndex();
+
+    return (
+      index + 1,
+      inFilter,
+    );
   }
 
-  (int, bool) getChapterIndex() {
-    final chapters = getManga().getFilteredChapterList();
-    int? index;
-    for (var i = 0; i < chapters.length; i++) {
-      if (chapters[i].id == chapter.id) {
-        index = i;
-      }
-    }
-    if (index == null) {
-      final chapters = getManga().chapters.toList().reversed.toList();
-      for (var i = 0; i < chapters.length; i++) {
-        if (chapters[i].id == chapter.id) {
-          index = i;
-        }
-      }
-      return (index!, false);
-    }
-    return (index, true);
+  ChapterCacheIndex getNextChapterIndex() {
+    final (index, inFilter) = getChapterIndex();
+
+    return (
+      index - 1,
+      inFilter,
+    );
+  }
+
+  Chapter getChapterByIndex(ChapterCacheIndex index) {
+    return index.$2
+        ? getManga().getFilteredChapterList()[index.$1]
+        : getManga().chapters.toList().reversed.toList()[index.$1];
   }
 
   Chapter getPrevChapter() {
-    final prevChapIdx = getPrevChapterIndex();
-    return prevChapIdx.$2
-        ? getManga().getFilteredChapterList()[prevChapIdx.$1]
-        : getManga().chapters.toList().reversed.toList()[prevChapIdx.$1];
+    return getChapterByIndex(getPrevChapterIndex());
   }
 
   Chapter getNextChapter() {
-    final nextChapIdx = getNextChapterIndex();
-    return nextChapIdx.$2
-        ? getManga().getFilteredChapterList()[nextChapIdx.$1]
-        : getManga().chapters.toList().reversed.toList()[nextChapIdx.$1];
+    return getChapterByIndex(getNextChapterIndex());
   }
 
-  int getChaptersLength(bool isInFilterList) {
-    return isInFilterList ? getManga().getFilteredChapterList().length : getManga().chapters.length;
+  int getChaptersLength(ChapterCacheIndex index) {
+    return index.$2
+        ? getManga().getFilteredChapterList().length
+        : getManga().chapters.toList().reversed.toList().length;
+  }
+
+  (bool, bool) getChapterPrevNext() {
+    final index = getChapterIndex();
+    final hasPrevChapter = index.$1 + 1 != getChaptersLength(index);
+    final hasNextChapter = index.$1 != 0;
+
+    return (
+    hasPrevChapter,
+    hasNextChapter,
+    );
   }
 
   int getPageIndex() {

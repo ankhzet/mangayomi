@@ -20,13 +20,13 @@ import 'package:mangayomi/modules/manga/reader/double_columm_view_center.dart';
 import 'package:mangayomi/modules/manga/reader/double_columm_view_vertical.dart';
 import 'package:mangayomi/modules/manga/reader/image_view_paged.dart';
 import 'package:mangayomi/modules/manga/reader/image_view_vertical.dart';
-import 'package:mangayomi/modules/manga/reader/providers/color_filter_provider.dart';
 import 'package:mangayomi/modules/manga/reader/providers/crop_borders_provider.dart';
 import 'package:mangayomi/modules/manga/reader/providers/push_router.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
 import 'package:mangayomi/modules/manga/reader/widgets/btn_chapter_list_dialog.dart';
 import 'package:mangayomi/modules/manga/reader/widgets/circular_progress_indicator_animate_rotate.dart';
-import 'package:mangayomi/modules/manga/reader/widgets/color_filter_widget.dart';
+import 'package:mangayomi/modules/manga/reader/widgets/custom_color_selector.dart';
+import 'package:mangayomi/modules/manga/reader/widgets/custom_popup_menu_button.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/reader/reader_screen.dart';
 import 'package:mangayomi/modules/widgets/custom_draggable_tabbar.dart';
@@ -1714,228 +1714,181 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
   void _showModalSettings() async {
     _autoScroll.value = false;
     final l10n = l10nLocalizations(context)!;
-    await customDraggableTabBar(tabs: [
-      Tab(text: l10n.reading_mode),
-      Tab(text: l10n.general),
-      Tab(text: l10n.custom_filter),
-    ], children: [
-      Consumer(builder: (context, ref, chil) {
-        final readerMode = ref.watch(_currentReaderMode);
-        final usePageTapZones = ref.watch(usePageTapZonesStateProvider);
-        final cropBorders = ref.watch(cropBordersStateProvider);
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Column(
-              children: [
-                CustomPopupMenuButton<ReaderMode>(
-                  label: l10n.reading_mode,
-                  title: getReaderModeName(readerMode!, context),
-                  onSelected: (value) {
-                    ref.read(_currentReaderMode.notifier).state = value;
-                    _setReaderMode(value, ref);
-                  },
-                  value: readerMode,
-                  list: ReaderMode.values,
-                  itemText: (mode) {
-                    return getReaderModeName(mode, context);
-                  },
-                ),
-                SwitchListTile(
-                    value: cropBorders,
-                    title: Text(
-                      l10n.crop_borders,
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9), fontSize: 14),
-                    ),
-                    onChanged: (value) {
-                      ref.read(cropBordersStateProvider.notifier).set(value);
-                    }),
-                SwitchListTile(
-                    value: usePageTapZones,
-                    title: Text(l10n.use_page_tap_zones,
-                        style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9), fontSize: 14)),
-                    onChanged: (value) {
-                      ref.read(usePageTapZonesStateProvider.notifier).set(value);
-                    }),
-                if (readerMode == ReaderMode.verticalContinuous ||
-                    readerMode == ReaderMode.webtoon ||
-                    readerMode == ReaderMode.horizontalContinuous)
-                  ValueListenableBuilder(
-                    valueListenable: _autoScrollPage,
-                    builder: (context, valueT, child) {
-                      return Column(
-                        children: [
-                          SwitchListTile(
-                              secondary: Icon(valueT ? Icons.timer : Icons.timer_outlined),
-                              value: valueT,
-                              title: Text(context.l10n.auto_scroll,
-                                  style: TextStyle(
-                                      color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9),
-                                      fontSize: 14)),
-                              onChanged: (val) {
-                                _readerController.setAutoScroll(val, _pageOffset.value);
-                                _autoScrollPage.value = val;
-                                _autoScroll.value = val;
-                              }),
-                          if (valueT)
-                            ValueListenableBuilder(
-                              valueListenable: _pageOffset,
-                              builder: (context, value, child) => Slider(
-                                  min: 2.0,
-                                  max: 30.0,
-                                  divisions: max(28, 3),
-                                  value: value,
-                                  onChanged: (val) {
-                                    _pageOffset.value = val;
-                                  },
-                                  onChangeEnd: (val) {
-                                    _readerController.setAutoScroll(valueT, val);
-                                  }),
-                            ),
-                        ],
-                      );
-                    },
-                  ),
-              ],
-            ),
-          ),
-        );
-      }),
-      Consumer(builder: (context, ref, chil) {
-        final showPageNumber = ref.watch(_showPagesNumber);
-        final animatePageTransitions = ref.watch(animatePageTransitionsStateProvider);
-        final scaleType = ref.watch(scaleTypeStateProvider);
-        final fullScreenReader = ref.watch(fullScreenReaderStateProvider);
-        final backgroundColor = ref.watch(backgroundColorStateProvider);
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomPopupMenuButton<BackgroundColor>(
-                  label: l10n.background_color,
-                  title: getBackgroundColorName(backgroundColor, context),
-                  onSelected: (value) {
-                    ref.read(backgroundColorStateProvider.notifier).set(value);
-                  },
-                  value: backgroundColor,
-                  list: BackgroundColor.values,
-                  itemText: (color) {
-                    return getBackgroundColorName(color, context);
-                  },
-                ),
-                CustomPopupMenuButton<ScaleType>(
-                  label: l10n.scale_type,
-                  title: getScaleTypeNames(context)[scaleType.index],
-                  onSelected: (value) {
-                    ref.read(scaleTypeStateProvider.notifier).set(ScaleType.values[value.index]);
-                  },
-                  value: scaleType,
-                  list: ScaleType.values.where((scale) {
-                    try {
-                      return getScaleTypeNames(context).contains(getScaleTypeNames(context)[scale.index]);
-                    } catch (_) {
-                      return false;
-                    }
-                  }).toList(),
-                  itemText: (scale) {
-                    return getScaleTypeNames(context)[scale.index];
-                  },
-                ),
-                SwitchListTile(
-                    value: fullScreenReader,
-                    title: Text(
-                      l10n.fullscreen,
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9), fontSize: 14),
-                    ),
-                    onChanged: (value) {
-                      _setFullScreen(value: value);
-                    }),
-                SwitchListTile(
-                    value: showPageNumber,
-                    title: Text(
-                      l10n.show_page_number,
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9), fontSize: 14),
-                    ),
-                    onChanged: (value) {
-                      ref.read(_showPagesNumber.notifier).state = value;
-                      _readerController.setShowPageNumber(value);
-                    }),
-                SwitchListTile(
-                    value: animatePageTransitions,
-                    title: Text(
-                      l10n.animate_page_transitions,
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9), fontSize: 14),
-                    ),
-                    onChanged: (value) {
-                      ref.read(animatePageTransitionsStateProvider.notifier).set(value);
-                    }),
-              ],
-            ),
-          ),
-        );
-      }),
-      Consumer(builder: (context, ref, chil) {
-        final customColorFilter = ref.watch(customColorFilterStateProvider);
-        final enableCustomColorFilter = ref.watch(enableCustomColorFilterStateProvider);
-        int r = customColorFilter?.r ?? 0;
-        int g = customColorFilter?.g ?? 0;
-        int b = customColorFilter?.b ?? 0;
-        int a = customColorFilter?.a ?? 0;
-        final colorFilterBlendMode = ref.watch(colorFilterBlendModeStateProvider);
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SwitchListTile(
-                    value: enableCustomColorFilter,
-                    title: Text(
-                      l10n.custom_color_filter,
-                      style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9), fontSize: 14),
-                    ),
-                    onChanged: (value) {
-                      ref.read(enableCustomColorFilterStateProvider.notifier).set(value);
-                    }),
-                if (enableCustomColorFilter) ...[
-                  rgbaFilterWidget(a, r, g, b, (val) {
-                    if (val.$3 == "r") {
-                      ref.read(customColorFilterStateProvider.notifier).set(a, val.$1.toInt(), g, b, val.$2);
-                    } else if (val.$3 == "g") {
-                      ref.read(customColorFilterStateProvider.notifier).set(a, r, val.$1.toInt(), b, val.$2);
-                    } else if (val.$3 == "b") {
-                      ref.read(customColorFilterStateProvider.notifier).set(a, r, g, val.$1.toInt(), val.$2);
-                    } else {
-                      ref.read(customColorFilterStateProvider.notifier).set(val.$1.toInt(), r, g, b, val.$2);
-                    }
-                  }, context),
-                  CustomPopupMenuButton<ColorFilterBlendMode>(
-                    label: l10n.color_filter_blend_mode,
-                    title: getColorFilterBlendModeName(colorFilterBlendMode, context),
+    await customDraggableTabBar(
+      tabs: [
+        Tab(text: l10n.reading_mode),
+        Tab(text: l10n.general),
+        Tab(text: l10n.custom_filter),
+      ],
+      children: [
+        Consumer(builder: (context, ref, chil) {
+          final readerMode = ref.watch(_currentReaderMode);
+          final usePageTapZones = ref.watch(usePageTapZonesStateProvider);
+          final cropBorders = ref.watch(cropBordersStateProvider);
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                children: [
+                  CustomPopupMenuButton<ReaderMode>(
+                    label: l10n.reading_mode,
+                    title: getReaderModeName(readerMode!, context),
                     onSelected: (value) {
-                      ref.read(colorFilterBlendModeStateProvider.notifier).set(value);
+                      ref.read(_currentReaderMode.notifier).state = value;
+                      _setReaderMode(value, ref);
                     },
-                    value: colorFilterBlendMode,
-                    list: ColorFilterBlendMode.values,
-                    itemText: (va) {
-                      return getColorFilterBlendModeName(va, context);
+                    value: readerMode,
+                    list: ReaderMode.values,
+                    itemText: (mode) {
+                      return getReaderModeName(mode, context);
                     },
                   ),
-                ]
-              ],
+                  SwitchListTile(
+                      value: cropBorders,
+                      title: Text(
+                        l10n.crop_borders,
+                        style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9), fontSize: 14),
+                      ),
+                      onChanged: (value) {
+                        ref.read(cropBordersStateProvider.notifier).set(value);
+                      }),
+                  SwitchListTile(
+                      value: usePageTapZones,
+                      title: Text(l10n.use_page_tap_zones,
+                          style: TextStyle(
+                              color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9), fontSize: 14)),
+                      onChanged: (value) {
+                        ref.read(usePageTapZonesStateProvider.notifier).set(value);
+                      }),
+                  if (readerMode == ReaderMode.verticalContinuous ||
+                      readerMode == ReaderMode.webtoon ||
+                      readerMode == ReaderMode.horizontalContinuous)
+                    ValueListenableBuilder(
+                      valueListenable: _autoScrollPage,
+                      builder: (context, valueT, child) {
+                        return Column(
+                          children: [
+                            SwitchListTile(
+                                secondary: Icon(valueT ? Icons.timer : Icons.timer_outlined),
+                                value: valueT,
+                                title: Text(context.l10n.auto_scroll,
+                                    style: TextStyle(
+                                        color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9),
+                                        fontSize: 14)),
+                                onChanged: (val) {
+                                  _readerController.setAutoScroll(val, _pageOffset.value);
+                                  _autoScrollPage.value = val;
+                                  _autoScroll.value = val;
+                                }),
+                            if (valueT)
+                              ValueListenableBuilder(
+                                valueListenable: _pageOffset,
+                                builder: (context, value, child) => Slider(
+                                    min: 2.0,
+                                    max: 30.0,
+                                    divisions: max(28, 3),
+                                    value: value,
+                                    onChanged: (val) {
+                                      _pageOffset.value = val;
+                                    },
+                                    onChangeEnd: (val) {
+                                      _readerController.setAutoScroll(valueT, val);
+                                    }),
+                              ),
+                          ],
+                        );
+                      },
+                    ),
+                ],
+              ),
             ),
-          ),
-        );
-      }),
-    ], context: context, vsync: this, fullWidth: true);
+          );
+        }),
+        Consumer(builder: (context, ref, chil) {
+          final showPageNumber = ref.watch(_showPagesNumber);
+          final animatePageTransitions = ref.watch(animatePageTransitionsStateProvider);
+          final scaleType = ref.watch(scaleTypeStateProvider);
+          final fullScreenReader = ref.watch(fullScreenReaderStateProvider);
+          final backgroundColor = ref.watch(backgroundColorStateProvider);
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomPopupMenuButton<BackgroundColor>(
+                    label: l10n.background_color,
+                    title: getBackgroundColorName(backgroundColor, context),
+                    onSelected: (value) {
+                      ref.read(backgroundColorStateProvider.notifier).set(value);
+                    },
+                    value: backgroundColor,
+                    list: BackgroundColor.values,
+                    itemText: (color) {
+                      return getBackgroundColorName(color, context);
+                    },
+                  ),
+                  CustomPopupMenuButton<ScaleType>(
+                    label: l10n.scale_type,
+                    title: getScaleTypeNames(context)[scaleType.index],
+                    onSelected: (value) {
+                      ref.read(scaleTypeStateProvider.notifier).set(ScaleType.values[value.index]);
+                    },
+                    value: scaleType,
+                    list: ScaleType.values.where((scale) {
+                      try {
+                        return getScaleTypeNames(context).contains(getScaleTypeNames(context)[scale.index]);
+                      } catch (_) {
+                        return false;
+                      }
+                    }).toList(),
+                    itemText: (scale) {
+                      return getScaleTypeNames(context)[scale.index];
+                    },
+                  ),
+                  SwitchListTile(
+                      value: fullScreenReader,
+                      title: Text(
+                        l10n.fullscreen,
+                        style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9), fontSize: 14),
+                      ),
+                      onChanged: (value) {
+                        _setFullScreen(value: value);
+                      }),
+                  SwitchListTile(
+                      value: showPageNumber,
+                      title: Text(
+                        l10n.show_page_number,
+                        style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9), fontSize: 14),
+                      ),
+                      onChanged: (value) {
+                        ref.read(_showPagesNumber.notifier).state = value;
+                        _readerController.setShowPageNumber(value);
+                      }),
+                  SwitchListTile(
+                      value: animatePageTransitions,
+                      title: Text(
+                        l10n.animate_page_transitions,
+                        style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9), fontSize: 14),
+                      ),
+                      onChanged: (value) {
+                        ref.read(animatePageTransitionsStateProvider.notifier).set(value);
+                      }),
+                ],
+              ),
+            ),
+          );
+        }),
+        const CustomColorSelector(),
+      ],
+      context: context,
+      vsync: this,
+      fullWidth: true,
+    );
 
     if (_autoScrollPage.value) {
       _autoPageScroll();
@@ -1964,73 +1917,4 @@ class UChapDataPreload {
   static String filename(int index) => '${padIndex(index + 1)}.jpg';
 
   static File file(String path, int index) => File('$path${filename(index)}');
-}
-
-class CustomPopupMenuButton<T> extends StatelessWidget {
-  final String label;
-  final String title;
-  final ValueChanged<T> onSelected;
-  final T value;
-  final List<T> list;
-  final String Function(T) itemText;
-
-  const CustomPopupMenuButton(
-      {super.key,
-      required this.label,
-      required this.title,
-      required this.onSelected,
-      required this.value,
-      required this.list,
-      required this.itemText});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: PopupMenuButton(
-        popUpAnimationStyle: popupAnimationStyle,
-        tooltip: "",
-        offset: Offset.fromDirection(1),
-        color: Colors.black,
-        onSelected: onSelected,
-        itemBuilder: (context) => [
-          for (var d in list)
-            PopupMenuItem(
-                value: d,
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.check,
-                      color: d == value ? Colors.white : Colors.transparent,
-                    ),
-                    const SizedBox(width: 7),
-                    Text(
-                      itemText(d),
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ],
-                )),
-        ],
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  label,
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9)),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-              ),
-              Row(
-                children: [Text(title), const SizedBox(width: 20), const Icon(Icons.keyboard_arrow_down_outlined)],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }

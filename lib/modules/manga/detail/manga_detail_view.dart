@@ -104,18 +104,16 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
     final filterUnread = ref.watch(chapterFilterUnreadStateProvider(mangaId: mangaId));
     final filterBookmarked = ref.watch(chapterFilterBookmarkedStateProvider(mangaId: mangaId));
     final filterDownloaded = ref.watch(chapterFilterDownloadedStateProvider(mangaId: mangaId));
-    final chapters = ref.watch(getChaptersStreamProvider(mangaId: mangaId));
-
-    final filter = ChapterFilterModel(
-      filterUnread: filterUnread.filter,
-      filterBookmarked: filterBookmarked.filter,
-      filterDownloaded: filterDownloaded.filter,
-      filterScanlator: scanlators.$2,
-    );
-    final sort = ChapterSortModel(
-      sort: sortState.sort,
-      reverse: sortState.reverse!,
-    );
+    final chapters = ref.watch(getChaptersFilteredStreamProvider(
+      mangaId: mangaId,
+      filter: ChapterFilterModel(
+        filterUnread: filterUnread.filter,
+        filterBookmarked: filterBookmarked.filter,
+        filterDownloaded: filterDownloaded.filter,
+        filterScanlator: scanlators.$2,
+      ),
+      sort: ChapterSortModel(sortState),
+    ));
 
     return NotificationListener<UserScrollNotification>(
         onNotification: (notification) {
@@ -130,19 +128,16 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
         },
         child: chapters.when(
           data: (data) {
-            final chapters = ChaptersListModel(chapters: data).build(filter: filter, sort: sort);
-
-            ref.read(chaptersListttStateProvider.notifier).set(chapters);
+            ref.read(chaptersListttStateProvider.notifier).set(data);
 
             return _buildWidget(
-                chapters: chapters,
                 reverse: sortState.reverse!,
                 chaptersSelection: chaptersSelection,
                 isLongPressed: isLongPressed);
           },
           error: (Object error, StackTrace stackTrace) => ErrorText(error),
           loading: () => _buildWidget(
-              chapters: manga.chapters.toList(),
+              chapters: data,
               reverse: sortState.reverse!,
               chaptersSelection: chaptersSelection,
               isLongPressed: isLongPressed),

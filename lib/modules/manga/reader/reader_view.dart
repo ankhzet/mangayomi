@@ -714,9 +714,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
       final current = _uChapDataPreload[_currentIndex!];
 
       if (_readerController.chapter.id != current.chapter.id) {
-        if (current.index > 0) {
-          _readerController.setPageIndex(_getPrevIndex(current.index), false);
-        }
+        _readerController.setPageIndex(_getPrevIndex(current.pageIndex!), false);
 
         if (mounted) {
           setState(() {

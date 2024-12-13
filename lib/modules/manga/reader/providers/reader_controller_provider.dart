@@ -70,7 +70,7 @@ class ReaderController extends _$ReaderController {
     return isar.settings.getSync(227)!.defaultReaderMode;
   }
 
-  (bool, double) autoScrollValues() {
+  (bool, double) getAutoScroll() {
     final autoScrollPagesList = getIsarSetting().autoScrollPages ?? [];
     final autoScrollPages = autoScrollPagesList.where((element) => element.mangaId == getManga().id);
     if (autoScrollPages.isNotEmpty) {

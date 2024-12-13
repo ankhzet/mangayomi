@@ -155,7 +155,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     super.dispose();
   }
 
-  late final _autoScroll = ValueNotifier(_readerController.autoScrollValues().$1);
+  late final _autoScroll = ValueNotifier(_readerController.getAutoScroll().$1);
   late final _autoScrollPage = ValueNotifier(_autoScroll.value);
   late GetChapterPagesModel _chapterUrlModel = widget.chapterUrlModel;
 
@@ -860,7 +860,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     }
   }
 
-  late final _pageOffset = ValueNotifier(_readerController.autoScrollValues().$2);
+  late final _pageOffset = ValueNotifier(_readerController.getAutoScroll().$2);
 
   void _autoPagescroll() async {
     if (_isVerticalOrHorizontalContinous()) {

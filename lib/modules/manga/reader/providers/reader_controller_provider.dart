@@ -8,6 +8,7 @@ import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/models/track_preference.dart';
+import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
 import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
@@ -17,6 +18,7 @@ import 'package:mangayomi/utils/chapter_recognition.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
 import 'package:mangayomi/utils/extensions/manga.dart';
 import 'package:mangayomi/utils/extensions/settings.dart';
+import 'package:mangayomi/utils/extensions/update.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'reader_controller_provider.g.dart';
@@ -278,6 +280,7 @@ class ReaderController extends _$ReaderController with WithSettings {
       });
 
       if (isRead) {
+        isar.updates.deleteForChaptersSync(mangaId, [chapter.id!]);
         chapter.updateTrackChapterRead(ref);
       }
     }

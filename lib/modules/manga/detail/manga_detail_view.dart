@@ -9,6 +9,7 @@ import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/modules/manga/detail/chapters_list_model.dart';
 import 'package:mangayomi/modules/manga/detail/chapters_selection_controls.dart';
 import 'package:mangayomi/modules/manga/detail/manga_info.dart';
@@ -25,6 +26,7 @@ import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.da
 import 'package:mangayomi/modules/widgets/error_text.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/utils/extensions/update.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 
 class MangaDetailView extends ConsumerStatefulWidget {
@@ -118,7 +120,9 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
 
     return Stack(
       children: [
-        Consumer(builder: (context, ref, child) => MangaCoverBackdrop(manga: manga, active: ref.watch(offsetProvider) < 100)),
+        Consumer(
+            builder: (context, ref, child) =>
+                MangaCoverBackdrop(manga: manga, active: ref.watch(offsetProvider) < 100)),
         Scaffold(
             backgroundColor: Colors.transparent,
             extendBodyBehindAppBar: true,
@@ -314,9 +318,15 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                   updated.add(chapter..manga.value = widget.manga);
                                 }
 
-                                isar.writeTxnSync(() {
-                                  isar.chapters.putAllSync(updated);
-                                });
+                                if (updated.isNotEmpty) {
+                                  isar
+                                      .updates
+                                      .deleteForChaptersSync(mangaId, updated.map((i) => i.id!));
+
+                                  isar.writeTxnSync(() {
+                                    isar.chapters.putAllSync(updated);
+                                  });
+                                }
                               },
                               child: Stack(
                                 children: [

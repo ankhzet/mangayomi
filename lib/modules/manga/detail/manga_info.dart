@@ -142,10 +142,14 @@ class _MangaInfoState extends ConsumerState<MangaInfo> with TickerProviderStateM
 
             botToast('Copied!', second: 3);
           },
-          child: Text(manga.name!,
-              style: const TextStyle(
-                fontSize: 20,
-              )),
+          child: Tooltip(
+            message: 'ID: @${manga.id}\nTap to copy name',
+            preferBelow: false,
+            child: Text(manga.name!,
+                style: const TextStyle(
+                  fontSize: 20,
+                )),
+          ),
         ),
         isLocalArchive
             ? Container()

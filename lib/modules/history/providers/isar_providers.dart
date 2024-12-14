@@ -31,22 +31,6 @@ Stream<List<History>> getMangaHistoryStream(Ref ref, {required bool isManga, req
 
 @riverpod
 Stream<List<Update>> getAllUpdateStream(Ref ref, {required bool isManga}) async* {
-  final updates = await isar.updates
-      .filter()
-      .idIsNotNull()
-      .and()
-      .chapter((q) => q.manga((q) => q.isMangaEqualTo(isManga)))
-      .findAll();
-
-  final List<int> toDelete =
-      (updates.where((update) => update.chapter.value!.isRead!).map((update) => update.id!).toList(growable: false));
-
-  if (toDelete.isNotEmpty) {
-    await isar.writeTxn(() async {
-      await isar.updates.deleteAll(toDelete);
-    });
-  }
-
   yield* isar.updates
       .filter()
       .idIsNotNull()

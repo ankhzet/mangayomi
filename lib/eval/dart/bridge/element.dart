@@ -1,7 +1,7 @@
 import 'package:dart_eval/dart_eval_bridge.dart';
 import 'package:dart_eval/stdlib/core.dart';
 import 'package:html/dom.dart';
-import 'package:mangayomi/eval/dart/model/element.dart';
+import 'package:mangayomi/eval/model/element.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 
 class $MElement implements MElement, $Instance {

@@ -1,22 +1,25 @@
 import 'dart:convert';
 
 import 'package:flutter_qjs/flutter_qjs.dart';
-import 'package:mangayomi/eval/dart/model/filter.dart';
-import 'package:mangayomi/eval/dart/model/m_manga.dart';
-import 'package:mangayomi/eval/dart/model/m_pages.dart';
-import 'package:mangayomi/eval/dart/model/source_preference.dart';
 import 'package:mangayomi/eval/javascript/dom_selector.dart';
 import 'package:mangayomi/eval/javascript/extractors.dart';
 import 'package:mangayomi/eval/javascript/http.dart';
 import 'package:mangayomi/eval/javascript/preferences.dart';
 import 'package:mangayomi/eval/javascript/utils.dart';
+import 'package:mangayomi/eval/model/filter.dart';
+import 'package:mangayomi/eval/model/m_manga.dart';
+import 'package:mangayomi/eval/model/m_pages.dart';
+import 'package:mangayomi/eval/model/source_preference.dart';
 import 'package:mangayomi/models/page.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/video.dart';
 
-class JsExtensionService {
+import '../interface.dart';
+
+class JsExtensionService implements ExtensionService {
   late JavascriptRuntime runtime;
-  late Source? source;
+  @override
+  late Source source;
 
   JsExtensionService(this.source);
 
@@ -31,7 +34,7 @@ class JsExtensionService {
     runtime.evaluate('''
 class MProvider {
     get source() {
-        return JSON.parse('${jsonEncode(source!.toMSource().toJson())}');
+        return JSON.parse('${jsonEncode(source.toMSource().toJson())}');
     }
     get supportsLatest() {
         throw new Error("supportsLatest not implemented");
@@ -68,7 +71,7 @@ async function jsonStringify(fn) {
     return JSON.stringify(await fn());
 }
 ''');
-    runtime.evaluate('''${source!.sourceCode}
+    runtime.evaluate('''${source.sourceCode}
 var extention = new DefaultExtension();
 ''');
   }
@@ -105,36 +108,50 @@ var extention = new DefaultExtension();
     }
   }
 
-  Map<String, String> getHeaders(String url) {
-    return _extensionCall<Map>('getHeaders(`$url`)', {}).toMapStringString!;
+  @override
+  Map<String, String> getHeaders() {
+    return _extensionCall<Map>('getHeaders(`${source.baseUrl ?? ''}`)', {}).toMapStringString!;
   }
 
+  @override
+  String get sourceBaseUrl {
+    return source.baseUrl!;
+  }
+
+  @override
   bool get supportsLatest {
     return _extensionCall<bool>('supportsLatest', true);
   }
 
+  @override
   Future<MPages> getPopular(int page) async {
     return MPages.fromJson(await _extensionCallAsync('getPopular($page)', {}));
   }
 
+  @override
   Future<MPages> getLatestUpdates(int page) async {
     return MPages.fromJson(await _extensionCallAsync('getLatestUpdates($page)', {}));
   }
 
-  Future<MPages> search(String query, int page, String filters) async {
-    return MPages.fromJson(await _extensionCallAsync('search("$query",$page,$filters)', {}));
+  @override
+  Future<MPages> search(String query, int page, List<dynamic> filters) async {
+    return MPages.fromJson(
+        await _extensionCallAsync('search("$query",$page,${jsonEncode(filterValuesListToJson(filters))})', {}));
   }
 
+  @override
   Future<MManga> getDetail(String url) async {
     return MManga.fromJson(await _extensionCallAsync('getDetail(`$url`)', {}));
   }
 
+  @override
   Future<List<PageUrl>> getPageList(String url) async {
     return (await _extensionCallAsync<List>('getPageList(`$url`)', []))
         .map((e) => e is String ? PageUrl(e.trim()) : PageUrl.fromJson((e as Map).toMapStringDynamic!))
         .toList();
   }
 
+  @override
   Future<List<Video>> getVideoList(String url) async {
     return (await _extensionCallAsync<List>('getVideoList(`$url`)', []))
         .where((element) => Video.isJson(element))
@@ -144,13 +161,15 @@ var extention = new DefaultExtension();
         .toList();
   }
 
-  dynamic getFilterList() {
-    return FilterList(fromJsonFilterValuestoList(_extensionCall('getFilterList()', [])));
+  @override
+  FilterList getFilterList() {
+    return FilterList(fromJsonFilterValuesToList(_extensionCall('getFilterList()', [])));
   }
 
+  @override
   List<SourcePreference> getSourcePreferences() {
     return _extensionCall('getSourcePreferences()', [])
-        .map((e) => SourcePreference.fromJson(e)..sourceId = source!.id)
+        .map((e) => SourcePreference.fromJson(e)..sourceId = source.id)
         .toList();
   }
 }

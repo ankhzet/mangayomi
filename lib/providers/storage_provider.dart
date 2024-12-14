@@ -2,7 +2,7 @@
 import 'dart:io';
 
 import 'package:isar/isar.dart';
-import 'package:mangayomi/eval/dart/model/source_preference.dart';
+import 'package:mangayomi/eval/model/source_preference.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/category.dart';
 import 'package:mangayomi/models/changed_items.dart';

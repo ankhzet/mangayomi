@@ -311,7 +311,7 @@ class _GetMangaHistoryStreamProviderElement
 }
 
 String _$getAllUpdateStreamHash() =>
-    r'353947a0cdea31ef3925bbcc078751b08d12d74d';
+    r'01f77807c8be11f471b6acee6e7bc358ce600a65';
 
 /// See also [getAllUpdateStream].
 @ProviderFor(getAllUpdateStream)

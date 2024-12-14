@@ -35,7 +35,7 @@ class UpdateGroup {
 
   String get label {
     final indexes =
-        chapters.sorted((a, b) => a.compareTo(b)).map((chapter) => chapter.getNumber).toList(growable: false);
+        chapters.sorted((a, b) => -a.compareTo(b)).map((chapter) => chapter.getNumber).toList(growable: false);
     final volumes = indexes.map((index) => index.$1).toUnique(growable: false);
 
     if (volumes.length > 1) {

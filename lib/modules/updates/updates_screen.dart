@@ -161,19 +161,20 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> with TickerProvid
                                 ),
                                 TextButton(
                                     onPressed: () {
-                                      List<Update> updates = isar.updates
+                                      List<int> updates = isar.updates
                                           .filter()
                                           .idIsNotNull()
                                           .chapter(
                                             (q) => q.manga((q) => q.isMangaEqualTo(_tabBarController.index == 0)),
                                           )
                                           .findAllSync()
-                                          .toList();
+                                          .map((i) => i.id!)
+                                          .toList(growable: false);
+
                                       isar.writeTxnSync(() {
-                                        for (var update in updates) {
-                                          isar.updates.deleteSync(update.id!);
-                                        }
+                                        isar.updates.deleteAll(updates);
                                       });
+
                                       if (mounted) {
                                         Navigator.pop(context);
                                       }
@@ -224,6 +225,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab> {
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
     final update = ref.watch(getAllUpdateStreamProvider(isManga: widget.isManga));
+
     return Scaffold(
         body: Stack(
       children: [
@@ -265,12 +267,15 @@ class _UpdateTabState extends ConsumerState<UpdateTab> {
                   SliverPadding(
                     padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 20),
                     sliver: SliverList(
-                        delegate: SliverChildListDelegate.fixed([
-                      Text(
+                      delegate: SliverChildListDelegate.fixed([
+                        Text(
                           l10n.library_last_updated(
-                              dateFormat(lastUpdated.toString(), ref: ref, context: context, showHOURorMINUTE: true)),
-                          style: TextStyle(fontStyle: FontStyle.italic, color: context.secondaryColor))
-                    ])),
+                            dateFormat(lastUpdated.toString(), ref: ref, context: context, showHOURorMINUTE: true),
+                          ),
+                          style: TextStyle(fontStyle: FontStyle.italic, color: context.secondaryColor),
+                        ),
+                      ]),
+                    ),
                   ),
                 SliverGroupedListView(
                   elements: groups,
@@ -288,32 +293,23 @@ class _UpdateTabState extends ConsumerState<UpdateTab> {
                       ],
                     ),
                   ),
-                  itemBuilder: (context, element) {
-                    return UpdateChapterListTileWidget(update: element, sourceExist: true);
-                  },
+                  itemBuilder: (context, element) => UpdateChapterListTileWidget(update: element, sourceExist: true),
                   itemComparator: (item1, item2) => item1.compareTo(item2),
                   order: GroupedListOrder.DESC,
                 ),
               ],
             );
           },
-          error: (Object error, StackTrace stackTrace) {
-            return ErrorText(error);
-          },
-          loading: () {
-            return const ProgressCenter();
-          },
+          error: (Object error, StackTrace stackTrace) => ErrorText(error),
+          loading: () => const ProgressCenter(),
         ),
         if (widget.isLoading)
           const Positioned(
-              top: 0,
+              top: 40,
               left: 0,
               right: 0,
-              child: Padding(
-                padding: EdgeInsets.only(top: 40),
-                child: Center(
-                  child: RefreshProgressIndicator(),
-                ),
+              child: Center(
+                child: RefreshProgressIndicator(),
               )),
       ],
     ));

@@ -157,7 +157,7 @@ class SyncScreen extends ConsumerWidget {
                                                     const SizedBox(width: 15),
                                                     ElevatedButton(
                                                         style: ElevatedButton.styleFrom(
-                                                            backgroundColor: Colors.red.withOpacity(0.7)),
+                                                            backgroundColor: Colors.red.withValues(alpha: 0.7)),
                                                         onPressed: () {
                                                           ref
                                                               .read(syncServerProvider(syncId: 1).notifier)
@@ -215,7 +215,7 @@ class SyncScreen extends ConsumerWidget {
                                                     const SizedBox(width: 15),
                                                     ElevatedButton(
                                                         style: ElevatedButton.styleFrom(
-                                                            backgroundColor: Colors.red.withOpacity(0.7)),
+                                                            backgroundColor: Colors.red.withValues(alpha: 0.7)),
                                                         onPressed: () {
                                                           ref
                                                               .read(syncServerProvider(syncId: 1).notifier)

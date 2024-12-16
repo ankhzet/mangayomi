@@ -44,6 +44,7 @@ import 'package:photo_view/photo_view_gallery.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:path/path.dart' as path;
 
 typedef DoubleClickAnimationListener = void Function();
 
@@ -227,7 +228,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
 
   late final _showPagesNumber = StateProvider((ref) => _readerController.getShowPageNumber());
 
-  Color _backgroundColor(BuildContext context) => Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9);
+  Color _backgroundColor(BuildContext context) => Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.9);
 
   void _setFullScreen({bool? value}) async {
     if (isDesktop) {
@@ -282,7 +283,8 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                         height: 7,
                         width: 35,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6), color: context.secondaryColor.withOpacity(0.4)),
+                            borderRadius: BorderRadius.circular(6),
+                            color: context.secondaryColor.withValues(alpha: 0.4)),
                       ),
                     ),
                     Row(
@@ -331,7 +333,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                         }),
                         button(context.l10n.save, Icons.save_outlined, () async {
                           final dir = await StorageProvider.getGalleryDirectory();
-                          final file = File("$dir/$name.png");
+                          final file = File(path.join(dir, "$name.png"));
                           file.writeAsBytesSync(imageBytes);
 
                           if (context.mounted) {
@@ -580,7 +582,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                                                     children: [
                                                       Text(
                                                         l10n.image_loading_error,
-                                                        style: TextStyle(color: Colors.white.withOpacity(0.7)),
+                                                        style: TextStyle(color: Colors.white.withValues(alpha: 0.7)),
                                                       ),
                                                       Padding(
                                                         padding: const EdgeInsets.all(8.0),
@@ -1158,7 +1160,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                               child: Icon(Icons.skip_previous_rounded,
                                   color: hasPrevChapter
                                       ? Theme.of(context).textTheme.bodyLarge!.color
-                                      : Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.4)),
+                                      : Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.4)),
                             )),
                       ),
                     ),
@@ -1284,7 +1286,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                               Icons.skip_next_rounded,
                               color: hasNextChapter
                                   ? Theme.of(context).textTheme.bodyLarge!.color
-                                  : Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.4),
+                                  : Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.4),
                               // size: 17,
                             ),
                           ),
@@ -1686,7 +1688,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                       title: Text(
                         l10n.crop_borders,
                         style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9), fontSize: 14),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
                       ),
                       onChanged: (value) {
                         ref.read(cropBordersStateProvider.notifier).set(value);
@@ -1695,7 +1697,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                       value: usePageTapZones,
                       title: Text(l10n.use_page_tap_zones,
                           style: TextStyle(
-                              color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9), fontSize: 14)),
+                            color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14)),
                       onChanged: (value) {
                         ref.read(usePageTapZonesStateProvider.notifier).set(value);
                       }),
@@ -1712,7 +1714,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                                 value: valueT,
                                 title: Text(context.l10n.auto_scroll,
                                     style: TextStyle(
-                                        color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9),
+                                      color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9),
                                         fontSize: 14)),
                                 onChanged: (val) {
                                   _readerController.setAutoScroll(val, _pageOffset.value);
@@ -1790,7 +1792,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                       title: Text(
                         l10n.fullscreen,
                         style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9), fontSize: 14),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
                       ),
                       onChanged: (value) {
                         _setFullScreen(value: value);
@@ -1800,7 +1802,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                       title: Text(
                         l10n.show_page_number,
                         style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9), fontSize: 14),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
                       ),
                       onChanged: (value) {
                         ref.read(_showPagesNumber.notifier).state = value;
@@ -1811,7 +1813,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                       title: Text(
                         l10n.animate_page_transitions,
                         style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.9), fontSize: 14),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
                       ),
                       onChanged: (value) {
                         ref.read(animatePageTransitionsStateProvider.notifier).set(value);

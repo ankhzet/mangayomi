@@ -87,13 +87,15 @@ class _FontSettingWidgetState extends ConsumerState<FontSettingWidget> {
                     .read(subtitleSettingsStateProvider.notifier)
                     .set(subtitleSettings..useBold = !subtitleSettings.useBold!, true);
                 setState(() {});
-              }, iconColors: subtitleSettings.useBold! ? null : context.dynamicWhiteBlackColor.withOpacity(0.5)),
+              }, iconColors: subtitleSettings.useBold! ? null : context.dynamicWhiteBlackColor.withValues(alpha: 0.5)),
               iconButton(Icons.format_italic, () {
                 ref
                     .read(subtitleSettingsStateProvider.notifier)
                     .set(subtitleSettings..useItalic = !subtitleSettings.useItalic!, true);
                 setState(() {});
-              }, iconColors: subtitleSettings.useItalic! ? null : context.dynamicWhiteBlackColor.withOpacity(0.5)),
+              },
+                  iconColors:
+                      subtitleSettings.useItalic! ? null : context.dynamicWhiteBlackColor.withValues(alpha: 0.5)),
             ],
           ),
           Padding(

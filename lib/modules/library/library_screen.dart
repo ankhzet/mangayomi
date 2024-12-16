@@ -359,7 +359,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
             return AnimatedContainer(
               curve: Curves.easeIn,
               decoration: BoxDecoration(
-                  color: context.primaryColor.withOpacity(0.2),
+                  color: context.primaryColor.withValues(alpha: 0.2),
                   borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
               duration: const Duration(milliseconds: 100),
               height: isLongPressed ? 70 : 0,
@@ -1170,7 +1170,8 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                                 : BorderSide(color: context.isLight ? Colors.black : Colors.white, width: 0.8),
                             shadowColor: Colors.transparent,
                             elevation: 0,
-                            backgroundColor: selected ? context.primaryColor.withOpacity(0.2) : Colors.transparent),
+                            backgroundColor:
+                                selected ? context.primaryColor.withValues(alpha: 0.2) : Colors.transparent),
                         onPressed: () {
                           displayV.setLibraryDisplayType(e);
                         },
@@ -1367,7 +1368,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                   color: Theme.of(context).scaffoldBackgroundColor,
                   child: AppBar(
                     title: Text(mangaIdsList.length.toString()),
-                    backgroundColor: context.primaryColor.withOpacity(0.2),
+                    backgroundColor: context.primaryColor.withValues(alpha: 0.2),
                     leading: IconButton(
                         onPressed: () {
                           ref.read(mangasListStateProvider.notifier).clear();

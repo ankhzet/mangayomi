@@ -76,51 +76,19 @@ var extention = new DefaultExtension();
 ''');
   }
 
-  T _extensionCall<T>(String call, T def) {
-    _init();
-
-    try {
-      final res = runtime.evaluate('JSON.stringify(extention.`$call`)');
-
-      return jsonDecode(res.stringResult) as T;
-    } catch (_) {
-      if (def != null) {
-        return def;
-      }
-
-      rethrow;
-    }
-  }
-
-  Future<T> _extensionCallAsync<T>(String call, T def) async {
-    _init();
-
-    try {
-      final promised = await runtime.handlePromise(await runtime.evaluateAsync('jsonStringify(() => extention.$call)'));
-
-      return jsonDecode(promised.stringResult) as T;
-    } catch (_) {
-      if (def != null) {
-        return def;
-      }
-
-      rethrow;
-    }
-  }
-
   @override
   Map<String, String> getHeaders() {
     return _extensionCall<Map>('getHeaders(`${source.baseUrl ?? ''}`)', {}).toMapStringString!;
   }
 
   @override
-  String get sourceBaseUrl {
-    return source.baseUrl!;
+  bool get supportsLatest {
+    return _extensionCall<bool>('supportsLatest', true);
   }
 
   @override
-  bool get supportsLatest {
-    return _extensionCall<bool>('supportsLatest', true);
+  String get sourceBaseUrl {
+    return source.baseUrl!;
   }
 
   @override
@@ -163,7 +131,15 @@ var extention = new DefaultExtension();
 
   @override
   FilterList getFilterList() {
-    return FilterList(fromJsonFilterValuesToList(_extensionCall('getFilterList()', [])));
+    List<dynamic> list;
+
+    try {
+      list = fromJsonFilterValuesToList(_extensionCall('getFilterList()', []));
+    } catch (_) {
+      list = [];
+    }
+
+    return FilterList(list);
   }
 
   @override
@@ -171,5 +147,38 @@ var extention = new DefaultExtension();
     return _extensionCall('getSourcePreferences()', [])
         .map((e) => SourcePreference.fromJson(e)..sourceId = source.id)
         .toList();
+  }
+
+
+  T _extensionCall<T>(String call, T def) {
+    _init();
+
+    try {
+      final res = runtime.evaluate('JSON.stringify(extention.`$call`)');
+
+      return jsonDecode(res.stringResult) as T;
+    } catch (_) {
+      if (def != null) {
+        return def;
+      }
+
+      rethrow;
+    }
+  }
+
+  Future<T> _extensionCallAsync<T>(String call, T def) async {
+    _init();
+
+    try {
+      final promised = await runtime.handlePromise(await runtime.evaluateAsync('jsonStringify(() => extention.$call)'));
+
+      return jsonDecode(promised.stringResult) as T;
+    } catch (_) {
+      if (def != null) {
+        return def;
+      }
+
+      rethrow;
+    }
   }
 }

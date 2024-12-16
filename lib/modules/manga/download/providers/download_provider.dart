@@ -57,7 +57,7 @@ Future<List<PageUrl>> downloadChapter(
 
   Future<void> processConvert() async {
     if (hasM3U8File) {
-      await m3u8Downloader?.mergeTsToMp4("${directory.path}/$chapterName.mp4", "${directory.path}/$chapterName");
+      await m3u8Downloader?.mergeTsToMp4(path.join(directory.path, "$chapterName.mp4"), path.join(directory.path, chapterName));
     } else {
       if (ref.watch(saveAsCBZArchiveStateProvider)) {
         await ref.watch(
@@ -103,7 +103,7 @@ Future<List<PageUrl>> downloadChapter(
         if (hasM3U8File) {
           m3u8Downloader = M3u8Downloader(
               m3u8Url: videosUrls.first.url,
-              downloadDir: "${directory.path}/$chapterName",
+              downloadDir: path.join(directory.path, chapterName),
               headers: videosUrls.first.headers ?? {});
           (tsList, tsKey, tsIv, m3u8MediaSequence) = await m3u8Downloader!.getTsList();
         }
@@ -124,8 +124,8 @@ Future<List<PageUrl>> downloadChapter(
 
   if (pageUrls.isNotEmpty) {
     bool shouldLoad = (isManga
-        ? !(ref.watch(saveAsCBZArchiveStateProvider) && await File("$mangaDir${chapter.name}.cbz").exists())
-        : !(await File("$mangaDir$chapterName.mp4").exists()));
+        ? !(ref.watch(saveAsCBZArchiveStateProvider) && await File(path.join(mangaDir, "${chapter.name}.cbz")).exists())
+        : !(await File(path.join(mangaDir, "$chapterName.mp4")).exists()));
 
     if (shouldLoad) {
       await directory.create(recursive: true);
@@ -144,9 +144,9 @@ Future<List<PageUrl>> downloadChapter(
         headers.addAll(page.headers ?? {});
 
         Future<void> scheduleLoad(String filename) async {
-          final uri = 'Mangayomi/$finalPath/$filename';
-          final tmp = File('${tempDir.path}/$uri');
-          final target = File('${directory.path}/$filename');
+          final uri = path.join('Mangayomi', finalPath, filename);
+          final tmp = File(path.join(tempDir.path, uri));
+          final target = File(path.join(directory.path, filename));
 
           target.parent.createSync(recursive: true);
 
@@ -175,8 +175,7 @@ Future<List<PageUrl>> downloadChapter(
           await scheduleLoad('$chapterName.mp4');
 
           if (hasM3U8File) {
-            await scheduleLoad('$chapterName/TS_${index + 1}.ts');
-          }
+            await scheduleLoad(path.join(chapterName, 'TS_${index + 1}.ts'));
         }
       }
     }
@@ -199,7 +198,7 @@ Future<List<PageUrl>> downloadChapter(
       });
     } else {
       if (hasM3U8File) {
-        await Directory("${directory.path}/$chapterName").create(recursive: true);
+        await Directory(path.join(directory.path, chapterName)).create(recursive: true);
       }
       savePageUrls();
       await FileDownloader().downloadBatch(
@@ -262,10 +261,14 @@ Future<List<PageUrl>> downloadChapter(
             }
           }
           if (progress == 1.0) {
-            final file = File("${tempDir.path}/${taskProgress.task.directory}/${taskProgress.task.filename}");
-            final newFile =
-                await file.copy("${directory.path}/${hasM3U8File ? "$chapterName/" : ""}${taskProgress.task.filename}");
+            final file = File(path.join(tempDir.path, taskProgress.task.directory, taskProgress.task.filename));
+            final target = hasM3U8File
+                ? path.join(directory.path, chapterName, taskProgress.task.filename)
+                : path.join(directory.path, taskProgress.task.filename);
+
+            final newFile = await file.copy(target);
             await file.delete();
+
             if (hasM3U8File) {
               await m3u8Downloader?.processBytes(newFile, tsKey, tsIv, m3u8MediaSequence);
             }

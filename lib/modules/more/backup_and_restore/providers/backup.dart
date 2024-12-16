@@ -20,6 +20,7 @@ import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:path/path.dart';
 
 part 'backup.g.dart';
 
@@ -27,7 +28,7 @@ part 'backup.g.dart';
 void doBackUp(
   Ref ref, {
   required List<int> list,
-  required String path,
+  required String pathname,
   required BuildContext? context,
 }) {
   Map<String, dynamic> data = {};
@@ -75,12 +76,12 @@ void doBackUp(
   }
   final regExp = RegExp(r'[^a-zA-Z0-9 .()\-\s]');
   final name = 'mangayomi_${DateTime.now().toString().replaceAll(regExp, '_').replaceAll(' ', '_')}';
-  final backupFilePath = '$path/$name.backup.db';
+  final backupFilePath = path.join(pathname, '$name.backup.db');
   final file = File(backupFilePath);
 
   file.writeAsStringSync(jsonEncode(data));
   var encoder = ZipFileEncoder();
-  encoder.create('$path/$name.backup');
+  encoder.create(path.join(pathname, "$name.backup"));
   encoder.addFile(File(backupFilePath));
   encoder.close();
   Directory(backupFilePath).deleteSync(recursive: true);
@@ -97,14 +98,17 @@ void doBackUp(
               "Backup created!",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-        trailing: (_) => UnconstrainedBox(
-              alignment: Alignment.topLeft,
-              child: ElevatedButton(
-                  onPressed: () {
-                    Share.shareXFiles([XFile('$path/$name.backup')], text: '$name.backup');
-                  },
-                  child: Text(context.l10n.share)),
-            ),
+        trailing: Platform.isLinux
+            ? null
+            : // Don't show share button on Linux, as there is no share-feature
+            (_) => UnconstrainedBox(
+                  alignment: Alignment.topLeft,
+                  child: ElevatedButton(
+                      onPressed: () {
+                    Share.shareXFiles([XFile(path.join(pathname, '$name.backup'))], text: '$name.backup');
+                      },
+                      child: Text(context.l10n.share)),
+                ),
         enableSlideOff: true,
         onlyOne: true,
         crossPage: true);

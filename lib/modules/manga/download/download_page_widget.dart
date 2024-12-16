@@ -15,6 +15,7 @@ import 'package:mangayomi/services/background_downloader/background_downloader.d
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/global_style.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:path/path.dart' as path;
 
 class ChapterPageDownload extends ConsumerStatefulWidget {
   final Chapter chapter;
@@ -40,8 +41,8 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
 
   void _sendFile() async {
     final mangaDir = await StorageProvider.getMangaMainDirectory(manga);
-    final cbzFile = File("$mangaDir${widget.chapter.name}.cbz");
-    final mp4File = File("$mangaDir${widget.chapter.name!.replaceForbiddenCharacters(' ')}.mp4");
+    final cbzFile = File(path.join(mangaDir, "${widget.chapter.name}.cbz"));
+    final mp4File = File(path.join(mangaDir, "${widget.chapter.name!.replaceForbiddenCharacters(' ')}.mp4"));
 
     List<XFile> files;
 
@@ -61,23 +62,23 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
 
   void _deleteFile() async {
     final mangaDir = await StorageProvider.getMangaMainDirectory(manga);
-    final path = await StorageProvider.getMangaChapterDirectory(widget.chapter);
+    final pathname = await StorageProvider.getMangaChapterDirectory(widget.chapter);
 
     try {
       try {
-        final cbzFile = File("$mangaDir${widget.chapter.name}.cbz");
+        final cbzFile = File(path.join(mangaDir, "${widget.chapter.name}.cbz"));
         if (cbzFile.existsSync()) {
           cbzFile.deleteSync();
         }
       } catch (_) {}
       try {
-        final mp4File = File("$mangaDir${widget.chapter.name!.replaceForbiddenCharacters(' ')}.mp4");
+        final mp4File = File(path.join(mangaDir, "${widget.chapter.name!.replaceForbiddenCharacters(' ')}.mp4"));
         if (mp4File.existsSync()) {
           mp4File.deleteSync();
         }
       } catch (_) {}
 
-      Directory(path).deleteSync(recursive: true);
+      Directory(pathname).deleteSync(recursive: true);
     } catch (_) {}
     isar.writeTxnSync(() {
       int id = isar.downloads.filter().chapterIdEqualTo(widget.chapter.id!).findFirstSync()!.id!;
@@ -112,7 +113,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                       child: Icon(
                         size: 25,
                         Icons.check_circle,
-                        color: Theme.of(context).iconTheme.color!.withOpacity(0.7),
+                        color: Theme.of(context).iconTheme.color!.withValues(alpha: 0.7),
                       ),
                       onSelected: (value) {
                         if (value == 0) {
@@ -172,7 +173,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                                           child: CircularProgressIndicator(
                                             strokeWidth: 19,
                                             value: value,
-                                            color: Theme.of(context).iconTheme.color!.withOpacity(0.7),
+                                            color: Theme.of(context).iconTheme.color!.withValues(alpha: 0.7),
                                           ),
                                         ),
                                       ),
@@ -183,7 +184,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                                           Icons.arrow_downward_sharp,
                                           color: (entries.first.succeeded! / entries.first.total!) > 0.5
                                               ? Theme.of(context).scaffoldBackgroundColor
-                                              : Theme.of(context).iconTheme.color!.withOpacity(0.7),
+                                              : Theme.of(context).iconTheme.color!.withValues(alpha: 0.7),
                                         )),
                                   ],
                                 ),
@@ -213,7 +214,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                                   },
                                   icon: Icon(
                                     FontAwesomeIcons.circleDown,
-                                    color: Theme.of(context).iconTheme.color!.withOpacity(0.7),
+                                    color: Theme.of(context).iconTheme.color!.withValues(alpha: 0.7),
                                     size: 25,
                                   ))
                               : SizedBox(
@@ -311,7 +312,7 @@ Widget _downloadWidget(BuildContext context, bool isLoading) {
           child: Icon(
             size: 18,
             Icons.arrow_downward_sharp,
-            color: Theme.of(context).iconTheme.color!.withOpacity(0.7),
+            color: Theme.of(context).iconTheme.color!.withValues(alpha: 0.7),
           )),
       Align(
         alignment: Alignment.center,
@@ -320,7 +321,7 @@ Widget _downloadWidget(BuildContext context, bool isLoading) {
           width: 20,
           child: CircularProgressIndicator(
             value: isLoading ? null : 1,
-            color: Theme.of(context).iconTheme.color!.withOpacity(0.7),
+            color: Theme.of(context).iconTheme.color!.withValues(alpha: 0.7),
             strokeWidth: 2,
           ),
         ),

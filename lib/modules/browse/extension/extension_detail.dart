@@ -42,7 +42,7 @@ class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
               padding: const EdgeInsets.only(top: 20),
               child: Container(
                 decoration: BoxDecoration(
-                    color: Theme.of(context).secondaryHeaderColor.withOpacity(0.5),
+                    color: Theme.of(context).secondaryHeaderColor.withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(10)),
                 child: widget.source.iconUrl!.isEmpty
                     ? const Icon(Icons.source_outlined, size: 140)
@@ -73,7 +73,7 @@ class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 decoration: BoxDecoration(
-                    color: context.primaryColor.withOpacity(0.2), borderRadius: BorderRadius.circular(10)),
+                    color: context.primaryColor.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(10)),
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Row(

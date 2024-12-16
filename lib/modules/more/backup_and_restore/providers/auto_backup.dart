@@ -46,7 +46,7 @@ class AutoBackupLocationState extends _$AutoBackupLocationState {
   }
 
   void set(String location) {
-    state = ("${_storagePath}backup", location);
+    state = (_storagePath, location);
     isar.settings.first = settings..autoBackupLocation = location;
   }
 
@@ -54,7 +54,7 @@ class AutoBackupLocationState extends _$AutoBackupLocationState {
 
   Future refresh() async {
     _storagePath = await StorageProvider.getBackupDirectory();
-    state = (_storagePath!, settings.autoBackupLocation ?? '');
+    state = (_storagePath, settings.autoBackupLocation ?? '');
   }
 }
 

@@ -77,13 +77,11 @@ class _CustomSubtitleViewState extends ConsumerState<CustomSubtitleView> {
     padding = widget.configuration.padding;
     return LayoutBuilder(
       builder: (context, constraints) {
-        final textScaleFactor = widget.configuration.textScaleFactor ??
-            MediaQuery.of(context).textScaleFactor *
-                sqrt(
-                  ((constraints.maxWidth * constraints.maxHeight) /
-                          (kTextScaleFactorReferenceWidth * kTextScaleFactorReferenceHeight))
-                      .clamp(0.0, 1.0),
-                );
+        final nr = (constraints.maxWidth * constraints.maxHeight);
+        const dr = kTextScaleFactorReferenceWidth * kTextScaleFactorReferenceHeight;
+        final textScaleFactor = sqrt((nr / dr).clamp(0.0, 1.0));
+
+        final textScaler = widget.configuration.textScaler ?? TextScaler.linear(textScaleFactor);
         return Material(
           color: Colors.transparent,
           child: AnimatedContainer(
@@ -97,7 +95,7 @@ class _CustomSubtitleViewState extends ConsumerState<CustomSubtitleView> {
               ].join('\n'),
               style: subtileTextStyle(ref),
               textAlign: textAlign,
-              textScaleFactor: textScaleFactor,
+              textScaler: textScaler,
             ),
           ),
         );

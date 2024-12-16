@@ -67,7 +67,7 @@ class SyncListile extends ConsumerWidget {
                                   )),
                               const SizedBox(width: 15),
                               ElevatedButton(
-                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red.withOpacity(0.7)),
+                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red.withValues(alpha: 0.7)),
                                   onPressed: () {
                                     ref.read(synchingProvider(syncId: id).notifier).logout();
                                     Navigator.pop(context);

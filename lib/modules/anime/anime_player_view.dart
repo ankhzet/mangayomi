@@ -852,8 +852,8 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage> with Tick
                       width: context.width(0.8),
                       child: Text(
                         widget.episode.name!,
-                        style:
-                            TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white.withOpacity(0.7)),
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white.withValues(alpha: 0.7)),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -895,7 +895,7 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage> with Tick
                   //                                   .textTheme
                   //                                   .bodyLarge!
                   //                                   .color!
-                  //                                   .withOpacity(0.9),
+                  //                                   .withValues(alpha: 0.9),
                   //                               fontSize: 14),
                   //                         ),
                   //                         onChanged: (value) {}),
@@ -908,7 +908,7 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage> with Tick
                   //                                   .textTheme
                   //                                   .bodyLarge!
                   //                                   .color!
-                  //                                   .withOpacity(0.9),
+                  //                                   .withValues(alpha: 0.9),
                   //                               fontSize: 14),
                   //                         ),
                   //                         onChanged: (value) {}),

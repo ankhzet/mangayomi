@@ -58,7 +58,8 @@ class ImageViewVertical extends ConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(context.l10n.image_loading_error, style: TextStyle(color: Colors.white.withOpacity(0.7))),
+                    Text(context.l10n.image_loading_error,
+                        style: TextStyle(color: Colors.white.withValues(alpha: 0.7))),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(

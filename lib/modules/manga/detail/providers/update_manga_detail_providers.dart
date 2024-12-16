@@ -27,7 +27,8 @@ Future<void> updateMangaDetail(Ref ref, {required int? mangaId, required bool is
     final getManga = await ref.watch(getDetailProvider(url: manga.link!, source: source!).future);
     final hadChapters = isar.mangas.getSync(mangaId)!.chapters.isNotEmpty;
 
-    if (hadChapters && isInit) { // early return in case already updated?
+    if (hadChapters && isInit) {
+      // early return in case already updated?
       return;
     }
 

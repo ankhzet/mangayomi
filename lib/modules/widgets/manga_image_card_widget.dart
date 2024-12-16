@@ -82,7 +82,7 @@ class MangaImageCardWidget extends ConsumerWidget {
                     addToFavourite: true);
               },
               children: [
-                Container(color: manga.favorite! ? Colors.black.withOpacity(0.5) : null),
+                Container(color: manga.favorite! ? Colors.black.withValues(alpha: 0.5) : null),
                 if (manga.favorite!)
                   Positioned(
                     top: 0,
@@ -181,7 +181,7 @@ class MangaImageCardListTileWidget extends ConsumerWidget {
                           Container(
                             height: 55,
                             width: 40,
-                            color: manga.favorite! ? Colors.black.withOpacity(0.5) : null,
+                            color: manga.favorite! ? Colors.black.withValues(alpha: 0.5) : null,
                           ),
                         ],
                       ),

@@ -151,7 +151,7 @@ class _DoubleColummViewState extends State<DoubleColummView> with TickerProvider
                                   children: [
                                     Text(
                                       l10n.image_loading_error,
-                                      style: TextStyle(color: Colors.white.withOpacity(0.7)),
+                                      style: TextStyle(color: Colors.white.withValues(alpha: 0.7)),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -214,7 +214,7 @@ class _DoubleColummViewState extends State<DoubleColummView> with TickerProvider
                                   children: [
                                     Text(
                                       l10n.image_loading_error,
-                                      style: TextStyle(color: Colors.white.withOpacity(0.7)),
+                                      style: TextStyle(color: Colors.white.withValues(alpha: 0.7)),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),

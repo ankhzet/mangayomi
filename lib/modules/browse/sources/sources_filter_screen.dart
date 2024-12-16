@@ -71,7 +71,7 @@ class SourcesFilterScreen extends ConsumerWidget {
                             height: 37,
                             width: 37,
                             decoration: BoxDecoration(
-                                color: Theme.of(context).secondaryHeaderColor.withOpacity(0.5),
+                                color: Theme.of(context).secondaryHeaderColor.withValues(alpha: 0.5),
                                 borderRadius: BorderRadius.circular(5)),
                             child: element.iconUrl!.isEmpty
                                 ? const Icon(Icons.source_outlined)

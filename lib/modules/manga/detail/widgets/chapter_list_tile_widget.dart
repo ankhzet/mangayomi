@@ -30,14 +30,14 @@ class ChapterListTileWidget extends ConsumerWidget {
     final isLocalArchive = chapter.manga.value!.isLocalArchive ?? false;
 
     return Container(
-      color: isSelected ? context.primaryColor.withOpacity(0.4) : null,
+      color: chapterList.contains(chapter) ? context.primaryColor.withValues(alpha: 0.4) : null,
       child: ListTile(
         textColor: chapter.isRead!
             ? context.isLight
-                ? Colors.black.withOpacity(0.4)
-                : Colors.white.withOpacity(0.3)
+                ? Colors.black.withValues(alpha: 0.4)
+                : Colors.white.withValues(alpha: 0.3)
             : null,
-        selectedColor: chapter.isRead! ? Colors.white.withOpacity(0.3) : Colors.white,
+        selectedColor: chapter.isRead! ? Colors.white.withValues(alpha: 0.3) : Colors.white,
         onLongPress: () {
           if (!isLongPressed) {
             ref.read(chaptersListStateProvider.notifier).update(chapter);
@@ -90,7 +90,9 @@ class ChapterListTileWidget extends ConsumerWidget {
                     : l10n.page(chapter.lastPageRead!),
                 style: TextStyle(
                     fontSize: 11,
-                    color: context.isLight ? Colors.black.withOpacity(0.4) : Colors.white.withOpacity(0.3)),
+                          color: context.isLight
+                              ? Colors.black.withValues(alpha: 0.4)
+                              : Colors.white.withValues(alpha: 0.3)),
               ),
             if (hasScanlators) const Text(' • '),
             if (hasScanlators)
@@ -101,8 +103,8 @@ class ChapterListTileWidget extends ConsumerWidget {
                       fontSize: 11,
                       color: chapter.isRead!
                           ? context.isLight
-                              ? Colors.black.withOpacity(0.4)
-                              : Colors.white.withOpacity(0.3)
+                                ? Colors.black.withValues(alpha: 0.4)
+                                : Colors.white.withValues(alpha: 0.3)
                           : null),
                   overflow: TextOverflow.ellipsis,
                 ),

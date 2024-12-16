@@ -58,7 +58,8 @@ class _ExtensionListTileWidgetState extends ConsumerState<ExtensionListTileWidge
           height: 37,
           width: 37,
           decoration: BoxDecoration(
-              color: Theme.of(context).secondaryHeaderColor.withOpacity(0.5), borderRadius: BorderRadius.circular(5)),
+              color: Theme.of(context).secondaryHeaderColor.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(5)),
           child: widget.source.iconUrl!.isEmpty
               ? const Icon(Icons.extension_rounded)
               : cachedNetworkImage(

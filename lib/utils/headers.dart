@@ -12,14 +12,19 @@ part 'headers.g.dart';
 @riverpod
 Map<String, String> headers(Ref ref, {required String source, required String lang}) {
   final mSource = getSource(lang, source);
-  if (mSource == null) return {};
+
   Map<String, String> headers = {};
-  if (mSource.headers?.isNotEmpty ?? false) {
-    headers = (jsonDecode(mSource.headers!) as Map).toMapStringString!;
+
+  if (mSource != null) {
+    final fromSource = mSource.headers;
+
+    if (fromSource != null && fromSource.isNotEmpty) {
+      headers.addAll((jsonDecode(fromSource) as Map).toMapStringString!);
+    }
+
+    headers.addAll(getExtensionService(mSource).getHeaders());
+    headers.addAll(MClient.getCookiesPref(mSource.baseUrl!));
   }
-  headers.addAll(getSourceHeaders(mSource));
-  final cookies = MClient.getCookiesPref(mSource.baseUrl!);
-  headers.addAll(cookies);
 
   return headers;
 }

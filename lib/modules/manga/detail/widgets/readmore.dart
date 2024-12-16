@@ -68,7 +68,7 @@ class ReadMoreWidgetState extends State<ReadMoreWidget> with TickerProviderState
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              Theme.of(context).scaffoldBackgroundColor.withOpacity(0.2),
+                              Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.2),
                               Theme.of(context).scaffoldBackgroundColor
                             ],
                             stops: const [0, .9],

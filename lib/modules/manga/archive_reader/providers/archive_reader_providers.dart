@@ -5,7 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/modules/manga/archive_reader/models/models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart' as path;
 part 'archive_reader_providers.g.dart';
 
 @riverpod
@@ -93,32 +94,31 @@ bool _isArchiveFile(String path) {
   return false;
 }
 
-LocalArchive _extractArchive(String path) {
+LocalArchive _extractArchive(String pathname) {
   final localArchive = LocalArchive()
-    ..path = path
-    ..extensionType = setTypeExtension(path.split('/').last.split("\\").last.split(".").last)
-    ..name = path.split('/').last.split("\\").last.replaceAll(RegExp(r'\.(cbz|zip|cbt|tar)'), '');
+    ..path = pathname
+    ..extensionType = setTypeExtension(path.extension(pathname).replaceFirst(".", ""))
+    ..name = path.basenameWithoutExtension(pathname);
   Archive? archive;
-  final inputStream = InputFileStream(path);
+  final inputStream = InputFileStream(pathname);
   final extensionType = localArchive.extensionType;
   if (extensionType == LocalExtensionType.cbt || extensionType == LocalExtensionType.tar) {
-    archive = TarDecoder().decodeBuffer(inputStream);
+    archive = TarDecoder().decodeStream(inputStream);
   } else {
-    archive = ZipDecoder().decodeBuffer(inputStream);
+    archive = ZipDecoder().decodeStream(inputStream);
   }
 
   for (final file in archive.files) {
     final filename = file.name;
     if (file.isFile) {
       if (_isImageFile(filename) && !filename.startsWith('.')) {
+        final data = file.content;
         if (filename.contains("cover")) {
-          final data = file.content as Uint8List;
           localArchive.coverImage = data;
         } else {
-          final data = file.content as Uint8List;
           localArchive.images!.add(LocalImage()
             ..image = data
-            ..name = filename.split('/').last.split("\\").last);
+            ..name = p.basename(filename));
         }
       }
     }
@@ -128,31 +128,31 @@ LocalArchive _extractArchive(String path) {
   return localArchive;
 }
 
-(String, LocalExtensionType, Uint8List, String) _extractArchiveOnly(String path) {
-  final extensionType = setTypeExtension(path.split('/').last.split("\\").last.split(".").last);
-  final name = path.split('/').last.split("\\").last.replaceAll(RegExp(r'\.(cbz|zip|cbt|tar)'), '');
+(String, LocalExtensionType, Uint8List, String) _extractArchiveOnly(String pathname) {
+  final extensionType = setTypeExtension(path.extension(pathname).replaceFirst('.', ''));
+  final name = path.basenameWithoutExtension(pathname);
   Uint8List? coverImage;
 
   Archive? archive;
-  final inputStream = InputFileStream(path);
+  final inputStream = InputFileStream(pathname);
 
   if (extensionType == LocalExtensionType.cbt || extensionType == LocalExtensionType.tar) {
-    archive = TarDecoder().decodeBuffer(inputStream);
+    archive = TarDecoder().decodeStream(inputStream);
   } else {
-    archive = ZipDecoder().decodeBuffer(inputStream);
+    archive = ZipDecoder().decodeStream(inputStream);
   }
 
   final cover = archive.files.where((file) => file.isFile && _isImageFile(file.name) && file.name.contains("cover"));
 
   if (cover.isNotEmpty) {
-    coverImage = cover.first.content as Uint8List;
+    coverImage = cover.first.content;
   } else {
     List<ArchiveFile> lArchive =
         archive.files.where((file) => file.isFile && _isImageFile(file.name) && !file.name.contains("cover")).toList();
     lArchive.sort(
       (a, b) => a.name.compareTo(b.name),
     );
-    coverImage = lArchive.first.content as Uint8List;
+    coverImage = lArchive.first.content;
   }
 
   return (name, extensionType, coverImage, path);

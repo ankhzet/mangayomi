@@ -96,8 +96,10 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                             children: [
                               TextButton(
                                 onPressed: () async => Navigator.pop(context),
-                                child: Text(l10n.cancel, style: TextStyle(color: context.primaryColor)),
-                              ),
+                                child: Text(
+                                    l10n.cancel,
+                                    style: TextStyle(color: context.primaryColor),
+                                )),
                             ],
                           )
                         ],

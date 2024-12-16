@@ -79,7 +79,8 @@ class LibraryListViewWidget extends StatelessWidget {
                 }
               },
               child: Container(
-                color: mangaIdsList.contains(entry.id) ? context.primaryColor.withOpacity(0.4) : Colors.transparent,
+                color:
+                    mangaIdsList.contains(entry.id) ? context.primaryColor.withValues(alpha: 0.4) : Colors.transparent,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   child: Container(
@@ -102,7 +103,7 @@ class LibraryListViewWidget extends StatelessWidget {
                                     child: InkWell(
                                         child: Container(
                                       color: mangaIdsList.contains(entry.id)
-                                          ? context.primaryColor.withOpacity(0.4)
+                                          ? context.primaryColor.withValues(alpha: 0.4)
                                           : Colors.transparent,
                                     )),
                                   ),
@@ -235,7 +236,7 @@ class LibraryListViewWidget extends StatelessWidget {
                                         child: Container(
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(5),
-                                            color: context.primaryColor.withOpacity(0.9),
+                                            color: context.primaryColor.withValues(alpha: 0.9),
                                           ),
                                           child: const Padding(
                                               padding: EdgeInsets.all(7),
@@ -254,7 +255,7 @@ class LibraryListViewWidget extends StatelessWidget {
                                       child: Container(
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(5),
-                                          color: context.primaryColor.withOpacity(0.9),
+                                          color: context.primaryColor.withValues(alpha: 0.9),
                                         ),
                                         child: const Padding(
                                             padding: EdgeInsets.all(7),
@@ -273,7 +274,7 @@ class LibraryListViewWidget extends StatelessWidget {
                                     child: Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(5),
-                                        color: context.primaryColor.withOpacity(0.9),
+                                        color: context.primaryColor.withValues(alpha: 0.9),
                                       ),
                                       child: const Padding(
                                           padding: EdgeInsets.all(7),

@@ -275,7 +275,7 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
                                       l10n.add,
                                       style: TextStyle(
                                           color: controller.text.isEmpty || isExist
-                                              ? Theme.of(context).primaryColor.withOpacity(0.2)
+                                              ? Theme.of(context).primaryColor.withValues(alpha: 0.2)
                                               : null),
                                     )),
                               ],
@@ -357,7 +357,7 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
                             l10n.ok,
                             style: TextStyle(
                                 color: controller.text.isEmpty || isExist || isSameName
-                                    ? Theme.of(context).primaryColor.withOpacity(0.2)
+                                    ? Theme.of(context).primaryColor.withValues(alpha: 0.2)
                                     : null),
                           )),
                     ],

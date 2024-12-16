@@ -68,13 +68,13 @@ class StorageProvider {
       }
     }
 
-    documents = (await getApplicationDocumentsDirectory()).path;
+    documents = (await getApplicationDocumentsDirectory()).path.fixSeparator;
 
     return true;
   }
 
   static Future<String> ensureDirectoryPath(String path) async {
-    return (await Directory(path).create(recursive: true)).path;
+    return (await Directory(path.fixSeparator).create(recursive: true)).path;
   }
 
   static String getDefaultDirectoryPath() {
@@ -98,10 +98,10 @@ class StorageProvider {
   }
 
   static String getDownloadsDirectoryPath({bool useDefault = false}) {
-    String location = isar.settings.first.downloadLocation ?? '';
+    String location = isar.settings.first.downloadLocation?.fixSeparator ?? '';
 
     if (location.isNotEmpty && !useDefault) {
-      return (Platform.isAndroid || path.dirname('$location/').endsWith(mangayomi))
+      return (Platform.isAndroid || path.basename(location.replaceAll(RegExp(r'[\\/]+$'), '')).endsWith(mangayomi))
           ? location
           : path.join(location, mangayomi);
     }
@@ -205,4 +205,8 @@ class StorageProvider {
 
     return isar;
   }
+}
+
+extension StringPathExtension on String {
+  String get fixSeparator => (path.separator == '/') ? this : replaceAll("/", path.separator);
 }

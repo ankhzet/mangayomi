@@ -61,10 +61,6 @@ class ReaderController extends _$ReaderController with WithSettings {
   late final mangaChapters = manga.chapters.toList(growable: false);
   late final incognitoMode = settings.incognitoMode!;
 
-  ReaderMode getReaderMode() {
-    return manga.getOption(settings.personalReaderModeList)?.readerMode ?? settings.defaultReaderMode;
-  }
-
   (bool, double) getAutoScroll() {
     final option = manga.getOption(settings.autoScrollPages);
 
@@ -85,8 +81,8 @@ class ReaderController extends _$ReaderController with WithSettings {
       ];
   }
 
-  PageMode getPageMode() {
-    return manga.getOption(settings.personalPageModeList)?.pageMode ?? PageMode.onePage;
+  ReaderMode getReaderMode() {
+    return manga.getOption(settings.personalReaderModeList)?.readerMode ?? settings.defaultReaderMode;
   }
 
   void setReaderMode(ReaderMode newReaderMode) {
@@ -97,6 +93,10 @@ class ReaderController extends _$ReaderController with WithSettings {
           ..mangaId = mangaId
           ..readerMode = newReaderMode,
       ];
+  }
+
+  PageMode getPageMode() {
+    return manga.getOption(settings.personalPageModeList)?.pageMode ?? PageMode.onePage;
   }
 
   void setPageMode(PageMode newPageMode) {
@@ -196,48 +196,60 @@ class ReaderController extends _$ReaderController with WithSettings {
     return (index, false);
   }
 
-  ChapterCacheIndex getPrevChapterIndex() {
-    final (index, inFilter) = getChapterIndex();
-
+  ChapterCacheIndex getPrevChapterIndex((int, bool) index) {
     return (
-      index + 1,
-      inFilter,
+      index.$1 + 1,
+      index.$2,
     );
   }
 
-  ChapterCacheIndex getNextChapterIndex() {
-    final (index, inFilter) = getChapterIndex();
-
+  ChapterCacheIndex getNextChapterIndex((int, bool) index) {
     return (
-      index - 1,
-      inFilter,
+      index.$1 - 1,
+      index.$2,
     );
   }
 
-  Chapter getChapterByIndex(ChapterCacheIndex index) {
-    return index.$2 ? mangaFilteredChapters[index.$1] : mangaChapters[index.$1];
+  Chapter? getChapterByIndex(ChapterCacheIndex index) {
+    final list = index.$2 ? mangaFilteredChapters : mangaChapters;
+    final at = index.$1;
+
+    return (
+        (at < 0 || at >= list.length)
+          ? null
+        : list[at]
+    );
   }
 
-  Chapter getPrevChapter() {
-    return getChapterByIndex(getPrevChapterIndex());
+  Chapter? getPrevChapter() {
+    return getChapterByIndex(getPrevChapterIndex(getChapterIndex()));
   }
 
-  Chapter getNextChapter() {
-    return getChapterByIndex(getNextChapterIndex());
+  Chapter? getNextChapter() {
+    return getChapterByIndex(getNextChapterIndex(getChapterIndex()));
   }
 
   int getChaptersLength(ChapterCacheIndex index) {
     return index.$2 ? mangaFilteredChapters.length : mangaChapters.length;
   }
 
-  (bool, bool) getChapterPrevNext() {
+  (Chapter?, Chapter?) getPrevNextChapter() {
     final index = getChapterIndex();
-    final hasPrevChapter = index.$1 + 1 != getChaptersLength(index);
-    final hasNextChapter = index.$1 != 0;
+    final prev = getChapterByIndex(getPrevChapterIndex(index));
+    final next = getChapterByIndex(getNextChapterIndex(index));
 
     return (
-      hasPrevChapter,
-      hasNextChapter,
+      prev,
+      next,
+    );
+  }
+
+  (bool, bool) getHasPrevNextChapter() {
+    final chapters = getPrevNextChapter();
+
+    return (
+      chapters.$1 != null,
+      chapters.$2 != null,
     );
   }
 
@@ -251,6 +263,19 @@ class ReaderController extends _$ReaderController with WithSettings {
     if (incognitoMode) return incognitoPageLength.length;
 
     return chapter.getOption(settings.chapterPageUrlsList)?.urls!.length ?? 0;
+  }
+
+  bool isGridMode() {
+    return (getPageMode() == PageMode.doublePage && !(getReaderMode() == ReaderMode.horizontalContinuous));
+  }
+
+  /// {int} [index] Index to snap to slides grid. Uses `_uChapDataPreload.length` if `null`
+  int snapIndex(int index, {int grid = 0, int list = 0}) {
+    if (isGridMode()) {
+      return (index / 2).ceil() + grid;
+    }
+
+    return index + list;
   }
 
   void setPageIndex(int newIndex, bool save) {

@@ -214,7 +214,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
               return AnimatedContainer(
                 curve: Curves.easeIn,
                 decoration: BoxDecoration(
-                  color: context.primaryColor.withOpacity(0.2),
+                  color: context.primaryColor.withValues(alpha: 0.2),
                   borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                 ),
                 duration: const Duration(milliseconds: 100),

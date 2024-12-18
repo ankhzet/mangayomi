@@ -20,7 +20,7 @@ import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as path;
 
 part 'backup.g.dart';
 

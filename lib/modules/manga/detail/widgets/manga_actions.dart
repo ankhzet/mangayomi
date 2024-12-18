@@ -252,9 +252,9 @@ class MangaActions extends StatelessWidget {
         child: Consumer(
           builder: (context, ref, _) => Material(
             color: context.isLight
-                ? Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9)
+                ? Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.9)
                 : !ref.watch(pureBlackDarkModeStateProvider)
-                    ? Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9)
+                    ? Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.9)
                     : Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(20),
             clipBehavior: Clip.antiAliasWithSaveLayer,

@@ -115,7 +115,7 @@ class DownloadQueueScreen extends ConsumerWidget {
                           child: const Icon(Icons.more_vert),
                           onSelected: (value) async {
                             if (value.toString() == 'Cancel') {
-                              final taskIds = (isar.settings.getSync(227)!.chapterPageUrlsList ?? [])
+                              final taskIds = (isar.settings.first.chapterPageUrlsList ?? [])
                                       .where((e) => e.chapterId == element.chapterId!)
                                       .map((e) => e.urls)
                                       .firstOrNull ??
@@ -140,7 +140,7 @@ class DownloadQueueScreen extends ConsumerWidget {
                                   .map((e) => e.chapterId)
                                   .toList();
                               for (var chapterId in chapterIds) {
-                                final taskIds = (isar.settings.getSync(227)!.chapterPageUrlsList ?? [])
+                                final taskIds = (isar.settings.first.chapterPageUrlsList ?? [])
                                         .where((e) => e.chapterId == chapterId!)
                                         .map((e) => e.urls)
                                         .firstOrNull ??

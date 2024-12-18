@@ -30,7 +30,7 @@ class ChapterListTileWidget extends ConsumerWidget {
     final isLocalArchive = chapter.manga.value!.isLocalArchive ?? false;
 
     return Container(
-      color: chapterList.contains(chapter) ? context.primaryColor.withValues(alpha: 0.4) : null,
+      color: isSelected ? context.primaryColor.withValues(alpha: 0.4) : null,
       child: ListTile(
         textColor: chapter.isRead!
             ? context.isLight

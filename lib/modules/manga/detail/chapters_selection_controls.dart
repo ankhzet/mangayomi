@@ -44,7 +44,7 @@ class _ChaptersSelectionBarState extends ConsumerState<ChaptersSelectionBar> {
           color: Theme.of(context).scaffoldBackgroundColor,
           child: AppBar(
             title: Text(selection.length.toString()),
-            backgroundColor: context.primaryColor.withOpacity(0.2),
+            backgroundColor: context.primaryColor.withValues(alpha: 0.2),
             leading: IconButton(onPressed: _clearSelection, icon: const Icon(Icons.clear)),
             actions: [
               IconButton(onPressed: _selectAll, icon: const Icon(Icons.select_all)),

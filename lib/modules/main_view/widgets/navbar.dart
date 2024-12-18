@@ -227,8 +227,11 @@ Widget _extensionUpdateTotalNumbers(WidgetRef ref) {
 
 Widget _updatesTotalNumbers(WidgetRef ref) {
   return StreamBuilder(
-    stream:
-        isar.updates.filter().idIsNotNull().chapter((q) => q.not().isReadEqualTo(true)).watch(fireImmediately: true),
+    stream: isar.updates
+        .filter()
+        .idIsNotNull()
+        .chapter((q) => q.not().group((q) => q.isReadEqualTo(true).and().idIsNotNull()))
+        .watch(fireImmediately: true),
     builder: (context, snapshot) {
       int count = 0;
 

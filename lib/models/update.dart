@@ -37,5 +37,5 @@ class Update {
         'date': date,
       };
 
-  int get lastMangaUpdate => chapter.value!.manga.value!.lastUpdate ?? 0;
+  int get lastMangaUpdate => chapter.value?.manga.value?.lastUpdate ?? 0;
 }

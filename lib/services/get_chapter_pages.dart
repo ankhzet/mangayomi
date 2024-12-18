@@ -22,12 +22,12 @@ part 'get_chapter_pages.g.dart';
 class GetChapterPagesModel {
   List<PageUrl> pageUrls = [];
   List<Uint8List?> archiveImages = [];
-  List<PreloadTask> uChapDataPreload;
+  List<PreloadTask> preloadTasks;
 
   GetChapterPagesModel({
     required this.pageUrls,
     required this.archiveImages,
-    required this.uChapDataPreload,
+    required this.preloadTasks,
   });
 }
 
@@ -64,7 +64,7 @@ Future<GetChapterPagesModel> getChapterPages(
   final chapterDirectory = await StorageProvider.getMangaChapterDirectory(chapter);
   final manga = chapter.manga.value!;
   final isLocalArchive = chapter.archivePath?.isNotEmpty ?? false;
-  final List<PreloadTask> pages = [];
+  final List<PreloadTask> tasks = [];
   final List<bool> isLocalList = [];
   final List<Uint8List?> archiveImages = [];
   final List<PageUrl> pageUrls = [];
@@ -88,7 +88,7 @@ Future<GetChapterPagesModel> getChapterPages(
   final model = GetChapterPagesModel(
     pageUrls: pageUrls,
     archiveImages: archiveImages,
-    uChapDataPreload: pages,
+    preloadTasks: tasks,
   );
 
   if (pageUrls.isNotEmpty || isLocalArchive) {
@@ -131,7 +131,7 @@ Future<GetChapterPagesModel> getChapterPages(
     }
 
     for (var (idx, item) in pageUrls.indexed) {
-      pages.add(PreloadTask(
+      tasks.add(PreloadTask(
         chapter,
         chapterDirectory,
         item,
@@ -139,7 +139,6 @@ Future<GetChapterPagesModel> getChapterPages(
         archiveImages[idx],
         idx,
         model,
-        idx,
       ));
     }
   }

@@ -3,9 +3,15 @@ import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 
 mixin WithSettings {
-  Settings _settings = isar.settings.first;
+  Settings loadSettings() => _settings = isar.settings.first;
 
-  Settings get settings => _settings;
+  void flushSettings() {
+    _settings = null;
+  }
+
+  Settings? _settings = isar.settings.first;
+
+  Settings get settings => _settings ?? loadSettings();
 
   set settings(Settings value) {
     _settings = value;

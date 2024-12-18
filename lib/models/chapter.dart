@@ -86,6 +86,10 @@ class Chapter {
         'url': url
       };
 
+  bool isSameNumber(Chapter other) {
+    return 0 == compareComposite(getNumber, other.getNumber);
+  }
+
   bool isSame(Chapter other) {
     if (mangaId != other.mangaId) {
       return false;

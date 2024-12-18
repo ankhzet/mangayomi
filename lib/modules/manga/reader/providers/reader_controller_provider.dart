@@ -197,15 +197,40 @@ class ReaderController extends _$ReaderController with WithSettings {
   }
 
   ChapterCacheIndex getPrevChapterIndex((int, bool) index) {
+    int at = index.$1;
+    final list = index.$2 ? mangaFilteredChapters : mangaChapters;
+    final current = list[at];
+    final last = list.length - 1;
+
+    while (++at <= last) {
+      final chapter = list[at];
+
+      if (!chapter.isSameNumber(current)) {
+        break;
+      }
+    }
+
     return (
-      index.$1 + 1,
+      at,
       index.$2,
     );
   }
 
   ChapterCacheIndex getNextChapterIndex((int, bool) index) {
+    int at = index.$1;
+    final list = index.$2 ? mangaFilteredChapters : mangaChapters;
+    final current = list[at];
+
+    while (--at >= 0) {
+      final chapter = list[at];
+
+      if (!chapter.isSameNumber(current)) {
+        break;
+      }
+    }
+
     return (
-      index.$1 - 1,
+      at,
       index.$2,
     );
   }
@@ -286,28 +311,30 @@ class ReaderController extends _$ReaderController with WithSettings {
     final pages = continuous ? getPageLength([]) : 0;
     final isRead = (newIndex >= pages - 1) || (continuous && (newIndex >= pages - 2));
 
-    if (isRead || save) {
-      settings = settings
-        ..chapterPageIndexList = [
-          ...chapter.getOtherOptions(settings.chapterPageIndexList),
-          ChapterPageIndex()
-            ..chapterId = chapter.id
-            ..index = isRead ? 0 : newIndex,
-        ];
+    if (!(isRead || save)) {
+      return;
+    }
 
-      final chap = chapter;
+    settings = settings
+      ..chapterPageIndexList = [
+        ...chapter.getOtherOptions(settings.chapterPageIndexList),
+        ChapterPageIndex()
+          ..chapterId = chapter.id
+          ..index = isRead ? 0 : newIndex,
+      ];
 
-      isar.writeTxnSync(() {
-        chap.isRead = isRead;
-        chap.lastPageRead = isRead ? '1' : (newIndex + 1).toString();
-        ref.read(changedItemsManagerProvider(managerId: 1).notifier).addUpdatedChapter(chap, false, false);
-        isar.chapters.putSync(chap);
-      });
+    final chap = chapter;
 
-      if (isRead) {
-        isar.updates.deleteForChaptersSync(mangaId, [chapter.id!]);
-        chapter.updateTrackChapterRead(ref);
-      }
+    isar.writeTxnSync(() {
+      chap.isRead = isRead;
+      chap.lastPageRead = isRead ? '1' : (newIndex + 1).toString();
+      ref.read(changedItemsManagerProvider(managerId: 1).notifier).addUpdatedChapter(chap, false, false);
+      isar.chapters.putSync(chap);
+    });
+
+    if (isRead) {
+      isar.updates.deleteForChaptersSync(mangaId, [chapter.id!]);
+      chapter.updateTrackChapterRead(ref);
     }
   }
 

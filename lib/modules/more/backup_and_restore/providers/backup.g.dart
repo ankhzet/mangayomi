@@ -6,7 +6,7 @@ part of 'backup.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$doBackUpHash() => r'f6f8e80e3d094734a216406f2ba8dec4a915d122';
+String _$doBackUpHash() => r'e12d3430593a144201dfdcf55f5db2f19a1c027e';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -41,12 +41,12 @@ class DoBackUpFamily extends Family<void> {
   /// See also [doBackUp].
   DoBackUpProvider call({
     required List<int> list,
-    required String path,
+    required String pathname,
     required BuildContext? context,
   }) {
     return DoBackUpProvider(
       list: list,
-      path: path,
+      pathname: pathname,
       context: context,
     );
   }
@@ -57,7 +57,7 @@ class DoBackUpFamily extends Family<void> {
   ) {
     return call(
       list: provider.list,
-      path: provider.path,
+      pathname: provider.pathname,
       context: provider.context,
     );
   }
@@ -82,13 +82,13 @@ class DoBackUpProvider extends AutoDisposeProvider<void> {
   /// See also [doBackUp].
   DoBackUpProvider({
     required List<int> list,
-    required String path,
+    required String pathname,
     required BuildContext? context,
   }) : this._internal(
           (ref) => doBackUp(
             ref as DoBackUpRef,
             list: list,
-            path: path,
+            pathname: pathname,
             context: context,
           ),
           from: doBackUpProvider,
@@ -100,7 +100,7 @@ class DoBackUpProvider extends AutoDisposeProvider<void> {
           dependencies: DoBackUpFamily._dependencies,
           allTransitiveDependencies: DoBackUpFamily._allTransitiveDependencies,
           list: list,
-          path: path,
+          pathname: pathname,
           context: context,
         );
 
@@ -112,12 +112,12 @@ class DoBackUpProvider extends AutoDisposeProvider<void> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.list,
-    required this.path,
+    required this.pathname,
     required this.context,
   }) : super.internal();
 
   final List<int> list;
-  final String path;
+  final String pathname;
   final BuildContext? context;
 
   @override
@@ -134,7 +134,7 @@ class DoBackUpProvider extends AutoDisposeProvider<void> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         list: list,
-        path: path,
+        pathname: pathname,
         context: context,
       ),
     );
@@ -149,7 +149,7 @@ class DoBackUpProvider extends AutoDisposeProvider<void> {
   bool operator ==(Object other) {
     return other is DoBackUpProvider &&
         other.list == list &&
-        other.path == path &&
+        other.pathname == pathname &&
         other.context == context;
   }
 
@@ -157,7 +157,7 @@ class DoBackUpProvider extends AutoDisposeProvider<void> {
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, list.hashCode);
-    hash = _SystemHash.combine(hash, path.hashCode);
+    hash = _SystemHash.combine(hash, pathname.hashCode);
     hash = _SystemHash.combine(hash, context.hashCode);
 
     return _SystemHash.finish(hash);
@@ -170,8 +170,8 @@ mixin DoBackUpRef on AutoDisposeProviderRef<void> {
   /// The parameter `list` of this provider.
   List<int> get list;
 
-  /// The parameter `path` of this provider.
-  String get path;
+  /// The parameter `pathname` of this provider.
+  String get pathname;
 
   /// The parameter `context` of this provider.
   BuildContext? get context;
@@ -184,7 +184,7 @@ class _DoBackUpProviderElement extends AutoDisposeProviderElement<void>
   @override
   List<int> get list => (origin as DoBackUpProvider).list;
   @override
-  String get path => (origin as DoBackUpProvider).path;
+  String get pathname => (origin as DoBackUpProvider).pathname;
   @override
   BuildContext? get context => (origin as DoBackUpProvider).context;
 }

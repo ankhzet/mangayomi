@@ -18,6 +18,7 @@ import 'package:mangayomi/services/get_chapter_pages.dart';
 import 'package:mangayomi/services/get_video_list.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/services/m3u8/m3u8_downloader.dart';
+import 'package:mangayomi/utils/extensions/chapter.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/headers.dart';
@@ -67,19 +68,15 @@ Future<List<PageUrl>> downloadChapter(
   }
 
   void savePageUrls() {
-    final settings = isar.settings.first;
-    List<ChapterPageurls>? chapterPageUrls = [];
-    for (var chapterPageUrl in settings.chapterPageUrlsList ?? []) {
-      if (chapterPageUrl.chapterId != chapter.id) {
-        chapterPageUrls.add(chapterPageUrl);
-      }
-    }
     final chapterPageHeaders = pageUrls.map((e) => e.headers == null ? null : jsonEncode(e.headers)).toList();
-    chapterPageUrls.add(ChapterPageurls()
-      ..chapterId = chapter.id
-      ..urls = pageUrls.map((e) => e.url).toList()
-      ..headers = chapterPageHeaders.first != null ? chapterPageHeaders.map((e) => e.toString()).toList() : null);
-    isar.settings.first = settings..chapterPageUrlsList = chapterPageUrls;
+    final settings = isar.settings.first;
+    isar.settings.first = settings..chapterPageUrlsList = [
+      ...chapter.getOtherOptions(settings.chapterPageUrlsList),
+      ChapterPageurls()
+        ..chapterId = chapter.id
+        ..urls = pageUrls.map((e) => e.url).toList()
+        ..headers = chapterPageHeaders.first != null ? chapterPageHeaders.map((e) => e.toString()).toList() : null
+    ];
   }
 
   if (isManga) {

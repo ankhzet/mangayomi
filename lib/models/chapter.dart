@@ -7,6 +7,21 @@ part 'chapter.g.dart';
 
 typedef ChapterCompositeNumber = (int, int, int);
 
+int compareComposite(ChapterCompositeNumber a, ChapterCompositeNumber b) {
+  final (_, ac, af) = a;
+  final (_, bc, bf) = b;
+
+  if (ac != bc) {
+    return ac < bc ? 1 : -1;
+  }
+
+  if (af != bf) {
+    return af < bf ? 1 : -1;
+  }
+
+  return 0;
+}
+
 @collection
 @Name("Chapter")
 class Chapter {
@@ -111,9 +126,9 @@ class Chapter {
         final s = match.namedGroup('s');
 
         return (
-          (v ?? '').isNotEmpty ? int.parse(v!) : 0,
-          (c ?? '').isNotEmpty ? int.parse(c!) : 0,
-          (s ?? '').isNotEmpty ? int.parse(s!) : 0,
+          (v != null) && v.isNotEmpty ? int.parse(v) : 0,
+          (c != null) && c.isNotEmpty ? int.parse(c) : 0,
+          (s != null) && s.isNotEmpty ? int.parse(s) : 0,
         );
       }
     }
@@ -133,15 +148,10 @@ class Chapter {
   }
 
   int compareTo(Chapter b) {
-    final (_, ac, af) = getNumber;
-    final (_, bc, bf) = b.getNumber;
+    final numbers = compareComposite(getNumber, b.getNumber);
 
-    if (ac != bc) {
-      return ac < bc ? 1 : -1;
-    }
-
-    if (af != bf) {
-      return af < bf ? 1 : -1;
+    if (numbers != 0) {
+      return numbers;
     }
 
     return (scanlator ?? '').compareTo(b.scanlator ?? '');

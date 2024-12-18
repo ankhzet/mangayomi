@@ -4,17 +4,16 @@ import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/history.dart';
-import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/update.dart';
+import 'package:mangayomi/models/update_group.dart';
+import 'package:mangayomi/utils/extensions/manga.dart';
 
 class ChaptersFix extends ConsumerStatefulWidget {
-  final Manga manga;
-  final List<Chapter> duplicates;
+  final UpdateGroup update;
 
   const ChaptersFix({
     super.key,
-    required this.manga,
-    required this.duplicates,
+    required this.update,
   });
 
   @override
@@ -22,18 +21,23 @@ class ChaptersFix extends ConsumerStatefulWidget {
 }
 
 class _ChaptersFixState extends ConsumerState<ChaptersFix> with AutomaticKeepAliveClientMixin<ChaptersFix> {
-  void _deleteDuplicates() async {
+  late final update = widget.update;
+  late final manga = update.manga;
+  late final favorite = manga.favorite ?? false;
+  bool _isStarted = false;
+
+  void _deleteChapters(Iterable<Chapter> chapters) async {
     setState(() {
       _isStarted = true;
     });
 
     try {
-      final duplicates = widget.duplicates.map((chapter) => chapter.id!).toList(growable: false);
+      final ids = chapters.map((chapter) => chapter.id!).toList(growable: false);
 
       await isar.writeTxn(() async {
-        await isar.updates.where().filter().chapter((q) => q.oneOf(duplicates, (q, id) => q.idEqualTo(id))).deleteAll();
-        await isar.historys.where().filter().oneOf(duplicates, (q, id) => q.chapterIdEqualTo(id)).deleteAll();
-        await isar.chapters.deleteAll(duplicates);
+        await isar.updates.where().filter().chapter((q) => q.oneOf(ids, (q, id) => q.idEqualTo(id))).deleteAll();
+        await isar.historys.where().filter().oneOf(ids, (q, id) => q.chapterIdEqualTo(id)).deleteAll();
+        await isar.chapters.deleteAll(ids);
       });
     } finally {
       setState(() {
@@ -49,9 +53,9 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> with AutomaticKeepAli
 
     try {
       await isar.writeTxn(() async {
-        await isar.updates.where().filter().mangaIdEqualTo(widget.manga.id).deleteAll();
-        await isar.historys.where().filter().mangaIdEqualTo(widget.manga.id).deleteAll();
-        await isar.chapters.where().filter().mangaIdEqualTo(widget.manga.id).deleteAll();
+        await isar.updates.where().filter().mangaIdEqualTo(manga.id).deleteAll();
+        await isar.historys.where().filter().mangaIdEqualTo(manga.id).deleteAll();
+        await isar.chapters.where().filter().mangaIdEqualTo(manga.id).deleteAll();
       });
     } finally {
       setState(() {
@@ -60,33 +64,58 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> with AutomaticKeepAli
     }
   }
 
-  late final chapters = widget.manga.chapters;
-  bool _isStarted = false;
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    return SizedBox(
-      height: 41,
-      width: 35,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 3),
-        child: IconButton(
-          splashRadius: 5,
-          iconSize: 17,
-          onPressed: () {
-            if (widget.duplicates.isNotEmpty) {
-              _deleteDuplicates();
-            }
+    return StreamBuilder(
+      stream: manga.chapters.filter().watch(fireImmediately: true),
+      builder: (context, snapshot) {
+        final List<Chapter> chapters = snapshot.hasData ? snapshot.data! : [];
+        final List<Chapter> duplicates = manga.getDuplicateChapters(all: chapters);
+        final List<Chapter> unread = manga.getUnreadChapters(update.chapters, all: chapters);
+        final List<Chapter> ghosts =
+            chapters.where((chapter) => chapter.name == null || chapter.name!.isEmpty).toList();
+        final int readUpdates = update.chapters.length - unread.length;
 
-            if (widget.manga.favorite != true) {
-              _deleteUpdate();
-            }
-          },
-          icon: _fixWidget(context, widget.duplicates.length, _isStarted),
-        ),
-      ),
+        if (duplicates.isEmpty && ghosts.isEmpty && (readUpdates <= 0) && favorite) {
+          return Container();
+        }
+
+        return SizedBox(
+          height: 41,
+          width: 35,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: IconButton(
+              splashRadius: 5,
+              iconSize: 17,
+              onPressed: () {
+                if (!favorite) {
+                  _deleteUpdate();
+                }
+
+                if (duplicates.isNotEmpty) {
+                  _deleteChapters(duplicates);
+                }
+
+                if (ghosts.isNotEmpty) {
+                  _deleteChapters(ghosts);
+                }
+
+                if (readUpdates > 0) {
+                  _deleteChapters(update.chapters.where((chapter) => !unread.any((item) => item.id == chapter.id)));
+                }
+              },
+              icon: _fixWidget(
+                context,
+                duplicates.length + ghosts.length + readUpdates,
+                _isStarted,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -95,7 +124,7 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> with AutomaticKeepAli
 }
 
 Widget _fixWidget(BuildContext context, int items, bool isLoading) {
-  final color = Theme.of(context).iconTheme.color!.withOpacity(0.7);
+  final color = Theme.of(context).iconTheme.color!.withValues(alpha: 0.7);
 
   return Stack(
     children: [

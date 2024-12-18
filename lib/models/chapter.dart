@@ -87,7 +87,17 @@ class Chapter {
       };
 
   bool isSame(Chapter other) {
-    return (mangaId == other.mangaId) && ((url == other.url) || (scanlator == other.scanlator && name == other.name));
+    if (mangaId != other.mangaId) {
+      return false;
+    }
+
+    if ((url?.isNotEmpty ?? false) && url == other.url) {
+      return true;
+    } else if ((archivePath?.isNotEmpty ?? false) && archivePath == other.archivePath) {
+      return true;
+    }
+
+    return scanlator == other.scanlator && name == other.name;
   }
 
   bool isUpdated(Chapter other) {

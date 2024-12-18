@@ -11743,9 +11743,9 @@ ChapterPageurls _chapterPageurlsDeserialize(
 ) {
   final object = ChapterPageurls(
     chapterId: reader.readLongOrNull(offsets[0]),
+    headers: reader.readStringList(offsets[1]),
     urls: reader.readStringList(offsets[2]),
   );
-  object.headers = reader.readStringList(offsets[1]);
   return object;
 }
 

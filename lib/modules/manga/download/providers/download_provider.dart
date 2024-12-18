@@ -167,7 +167,7 @@ Future<List<PageUrl>> downloadChapter(
         }
 
         if (isManga) {
-          await scheduleLoad(UChapDataPreload.filename(index));
+          await scheduleLoad(PreloadTask.filename(index));
         } else {
           await scheduleLoad('$chapterName.mp4');
 

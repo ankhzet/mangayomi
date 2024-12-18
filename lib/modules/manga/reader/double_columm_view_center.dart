@@ -12,8 +12,8 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class DoubleColummView extends StatefulWidget {
-  final List<UChapDataPreload?> datas;
-  final Function(UChapDataPreload datas) onLongPressData;
+  final List<PreloadTask?> datas;
+  final Function(PreloadTask datas) onLongPressData;
   final BackgroundColor backgroundColor;
   final Function(bool) isFailedToLoadImage;
 

@@ -12,7 +12,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'crop_borders_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-Future<Uint8List?> cropBorders(Ref ref, {required UChapDataPreload data, required bool cropBorder}) async {
+Future<Uint8List?> cropBorders(Ref ref, {required PreloadTask data, required bool cropBorder}) async {
   Uint8List? imageBytes;
 
   if (cropBorder) {

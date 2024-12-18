@@ -71,7 +71,7 @@ extension ImageProviderExtension on ImageProvider {
   }
 }
 
-extension UChapDataPreloadExtensions on UChapDataPreload {
+extension UChapDataPreloadExtensions on PreloadTask {
   Future<Uint8List?> get getImageBytes async {
     Uint8List? imageBytes;
 

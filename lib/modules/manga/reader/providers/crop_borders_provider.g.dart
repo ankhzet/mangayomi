@@ -6,7 +6,7 @@ part of 'crop_borders_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$cropBordersHash() => r'04b24357737d6cc75caa38feca77bb5d41f00aa6';
+String _$cropBordersHash() => r'7f6797c987443a39398cf9ff218dfbf24cbe1d29';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -40,7 +40,7 @@ class CropBordersFamily extends Family<AsyncValue<Uint8List?>> {
 
   /// See also [cropBorders].
   CropBordersProvider call({
-    required UChapDataPreload data,
+    required PreloadTask data,
     required bool cropBorder,
   }) {
     return CropBordersProvider(
@@ -78,7 +78,7 @@ class CropBordersFamily extends Family<AsyncValue<Uint8List?>> {
 class CropBordersProvider extends FutureProvider<Uint8List?> {
   /// See also [cropBorders].
   CropBordersProvider({
-    required UChapDataPreload data,
+    required PreloadTask data,
     required bool cropBorder,
   }) : this._internal(
           (ref) => cropBorders(
@@ -110,7 +110,7 @@ class CropBordersProvider extends FutureProvider<Uint8List?> {
     required this.cropBorder,
   }) : super.internal();
 
-  final UChapDataPreload data;
+  final PreloadTask data;
   final bool cropBorder;
 
   @override
@@ -158,7 +158,7 @@ class CropBordersProvider extends FutureProvider<Uint8List?> {
 // ignore: unused_element
 mixin CropBordersRef on FutureProviderRef<Uint8List?> {
   /// The parameter `data` of this provider.
-  UChapDataPreload get data;
+  PreloadTask get data;
 
   /// The parameter `cropBorder` of this provider.
   bool get cropBorder;
@@ -169,7 +169,7 @@ class _CropBordersProviderElement extends FutureProviderElement<Uint8List?>
   _CropBordersProviderElement(super.provider);
 
   @override
-  UChapDataPreload get data => (origin as CropBordersProvider).data;
+  PreloadTask get data => (origin as CropBordersProvider).data;
   @override
   bool get cropBorder => (origin as CropBordersProvider).cropBorder;
 }

@@ -11,8 +11,8 @@ import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 
 class ImageViewVertical extends ConsumerWidget {
-  final UChapDataPreload data;
-  final Function(UChapDataPreload data) onLongPressData;
+  final PreloadTask data;
+  final Function(PreloadTask data) onLongPressData;
   final bool isHorizontal;
 
   final Function(bool) failedToLoadImage;

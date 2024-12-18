@@ -15,6 +15,7 @@ import 'package:mangayomi/modules/manga/reader/reader_view.dart';
 import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
+import 'package:mangayomi/utils/extensions/chapter.dart';
 import 'package:mangayomi/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -23,7 +24,7 @@ part 'get_chapter_pages.g.dart';
 class GetChapterPagesModel {
   List<PageUrl> pageUrls = [];
   List<Uint8List?> archiveImages = [];
-  List<UChapDataPreload> uChapDataPreload;
+  List<PreloadTask> uChapDataPreload;
 
   GetChapterPagesModel({
     required this.pageUrls,
@@ -33,20 +34,27 @@ class GetChapterPagesModel {
 }
 
 // fixme: remove this when extension is patched https://github.com/kodjodevf/mangayomi/issues/228
-List<PageUrl> patchPages(Source source, List<PageUrl> pages) {
-  if (source.typeSource != 'comick') {
-    return pages;
-  }
+int patchPages(Source source, List<PageUrl> pages) {
+  if (source.typeSource == 'comick') {
+    final List<int> delete = [];
 
-  return pages.fold([], (accumulator, item) {
-    if (item.url.length <= 4) {
-      accumulator[accumulator.length - 1].url += '_.${item.url}';
-    } else {
-      accumulator.add(item);
+    for (var (index, item) in pages.indexed) {
+      if (item.url.length <= 4) {
+        pages[index - 1].url += '_.${item.url}';
+        delete.add(index);
+      }
     }
 
-    return accumulator;
-  });
+    if (delete.isNotEmpty) {
+      for (var idx in delete.reversed) {
+        pages.removeAt(idx);
+      }
+
+      return delete.length;
+    }
+  }
+
+  return 0;
 }
 
 @riverpod
@@ -54,40 +62,39 @@ Future<GetChapterPagesModel> getChapterPages(
   Ref ref, {
   required Chapter chapter,
 }) async {
-  final manga = chapter.manga.value!;
-  final incognitoMode = ref.watch(incognitoModeStateProvider);
-  final chapterDirectory = await StorageProvider.getMangaChapterDirectory(chapter);
-  final mangaDirectory = await StorageProvider.getMangaMainDirectory(manga);
   final settings = isar.settings.first;
-  List<UChapDataPreload> uChapDataPreload = [];
-  List<bool> isLocalList = [];
-  List<PageUrl> pageUrls = [];
-  List<Uint8List?> archiveImages = [];
-  final isLocalArchive = (chapter.archivePath ?? '').isNotEmpty;
+  final chapterDirectory = await StorageProvider.getMangaChapterDirectory(chapter);
+  final manga = chapter.manga.value!;
+  final isLocalArchive = chapter.archivePath?.isNotEmpty ?? false;
+  final List<PreloadTask> pages = [];
+  final List<bool> isLocalList = [];
+  final List<Uint8List?> archiveImages = [];
+  final List<PageUrl> pageUrls = [];
 
   if (!manga.isLocalArchive!) {
-    final source = getSource(manga.lang!, manga.source!)!;
     final data = chapter.getOption(settings.chapterPageUrlsList);
-    final urls = data?.urls;
+    final source = getSource(manga.lang!, manga.source!)!;
+    final Iterable<PageUrl> loaded;
 
-    if (urls?.isNotEmpty ?? false) {
-      for (var i = 0; i < urls!.length; i++) {
-        Map<String, String>? headers;
-
-        if (data!.headers?.isNotEmpty ?? false) {
-          headers = (jsonDecode(data.headers![i]) as Map?)?.toMapStringString;
-        }
-
-        pageUrls.add(PageUrl(urls[i], headers: headers));
-      }
+    if (data?.urls?.isNotEmpty ?? false) {
+      loaded = data!.urls!.indexed.map((i) => PageUrl(i.$2, headers: data.getUrlHeaders(i.$1))).toList();
     } else {
-      pageUrls = await getExtensionService(source).getPageList(chapter.url!);
+      loaded = await getExtensionService(source).getPageList(chapter.url!);
     }
 
-    pageUrls = patchPages(source, pageUrls);
+    pageUrls.addAll(loaded);
+
+    patchPages(source, pageUrls);
   }
 
+  final model = GetChapterPagesModel(
+    pageUrls: pageUrls,
+    archiveImages: archiveImages,
+    uChapDataPreload: pages,
+  );
+
   if (pageUrls.isNotEmpty || isLocalArchive) {
+    final mangaDirectory = await StorageProvider.getMangaMainDirectory(manga);
     final path = isLocalArchive ? chapter.archivePath! : "$mangaDirectory${chapter.name}.cbz";
 
     if (isLocalArchive || (await File(path).exists())) {
@@ -100,7 +107,7 @@ Future<GetChapterPagesModel> getChapterPages(
     } else {
       for (var i = 0; i < pageUrls.length; i++) {
         archiveImages.add(null);
-        isLocalList.add(await UChapDataPreload.file(chapterDirectory, i).exists());
+        isLocalList.add(await PreloadTask.file(chapterDirectory, i).exists());
       }
     }
 
@@ -110,37 +117,34 @@ Future<GetChapterPagesModel> getChapterPages(
       }
     }
 
-    if (!incognitoMode) {
-      final chapterPageHeaders = pageUrls.map((e) => e.headers == null ? null : jsonEncode(e.headers)).toList();
+    // .read() ?
+    if (!ref.watch(incognitoModeStateProvider)) {
+      final List<String> urls = pageUrls.map((e) => e.url).toList();
+      final List<String>? headers =
+          pageUrls.any((e) => e.headers != null) ? pageUrls.map((e) => jsonEncode(e.headers ?? {})).toList() : null;
+
       isar.settings.first = settings..chapterPageUrlsList = [
         ...chapter.getOtherOptions(settings.chapterPageUrlsList),
-        ChapterPageurls()
-          ..chapterId = chapter.id
-          ..urls = pageUrls.map((e) => e.url).toList()
-          ..headers = chapterPageHeaders.first != null ? chapterPageHeaders.map((e) => e.toString()).toList() : null,
+          ChapterPageurls()
+            ..chapterId = chapter.id
+            ..urls = urls
+            ..headers = headers,
       ];
     }
-    for (var i = 0; i < pageUrls.length; i++) {
-      uChapDataPreload.add(UChapDataPreload(
+
+    for (var (idx, item) in pageUrls.indexed) {
+      pages.add(PreloadTask(
         chapter,
         chapterDirectory,
-        pageUrls[i],
-        isLocalList[i],
-        archiveImages[i],
-        i,
-        GetChapterPagesModel(
-          pageUrls: pageUrls,
-          archiveImages: archiveImages,
-          uChapDataPreload: uChapDataPreload,
-        ),
-        i,
+        item,
+        isLocalList[idx],
+        archiveImages[idx],
+        idx,
+        model,
+        idx,
       ));
     }
   }
 
-  return GetChapterPagesModel(
-    pageUrls: pageUrls,
-    archiveImages: archiveImages,
-    uChapDataPreload: uChapDataPreload,
-  );
+  return model;
 }

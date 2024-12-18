@@ -176,6 +176,7 @@ Future<List<PageUrl>> downloadChapter(
 
           if (hasM3U8File) {
             await scheduleLoad(path.join(chapterName, 'TS_${index + 1}.ts'));
+          }
         }
       }
     }
@@ -277,5 +278,6 @@ Future<List<PageUrl>> downloadChapter(
       );
     }
   }
+
   return pageUrls;
 }

@@ -21,7 +21,7 @@ class UpdateBadge extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: color.withOpacity(0.6),
+          color: color.withValues(alpha: 0.6),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),

@@ -39,12 +39,12 @@ import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:mangayomi/utils/global_style.dart';
 import 'package:mangayomi/utils/reg_exp_matcher.dart';
 import 'package:mangayomi/utils/utils.dart';
+import 'package:path/path.dart' as path;
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:path/path.dart' as path;
 
 typedef DoubleClickAnimationListener = void Function();
 
@@ -1688,7 +1688,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                       title: Text(
                         l10n.crop_borders,
                         style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
+                            color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
                       ),
                       onChanged: (value) {
                         ref.read(cropBordersStateProvider.notifier).set(value);
@@ -1697,7 +1697,9 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                       value: usePageTapZones,
                       title: Text(l10n.use_page_tap_zones,
                           style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14)),
+                            color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9),
+                            fontSize: 14,
+                          )),
                       onChanged: (value) {
                         ref.read(usePageTapZonesStateProvider.notifier).set(value);
                       }),
@@ -1714,7 +1716,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                                 value: valueT,
                                 title: Text(context.l10n.auto_scroll,
                                     style: TextStyle(
-                                      color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9),
+                                        color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9),
                                         fontSize: 14)),
                                 onChanged: (val) {
                                   _readerController.setAutoScroll(val, _pageOffset.value);
@@ -1792,7 +1794,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                       title: Text(
                         l10n.fullscreen,
                         style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
+                            color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
                       ),
                       onChanged: (value) {
                         _setFullScreen(value: value);
@@ -1802,7 +1804,9 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                       title: Text(
                         l10n.show_page_number,
                         style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9),
+                          fontSize: 14,
+                        ),
                       ),
                       onChanged: (value) {
                         ref.read(_showPagesNumber.notifier).state = value;
@@ -1813,7 +1817,9 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                       title: Text(
                         l10n.animate_page_transitions,
                         style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9),
+                          fontSize: 14,
+                        ),
                       ),
                       onChanged: (value) {
                         ref.read(animatePageTransitionsStateProvider.notifier).set(value);

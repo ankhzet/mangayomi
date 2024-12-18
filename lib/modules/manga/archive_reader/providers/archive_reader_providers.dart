@@ -5,8 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/modules/manga/archive_reader/models/models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as path;
+
 part 'archive_reader_providers.g.dart';
 
 @riverpod
@@ -118,7 +118,7 @@ LocalArchive _extractArchive(String pathname) {
         } else {
           localArchive.images!.add(LocalImage()
             ..image = data
-            ..name = p.basename(filename));
+            ..name = path.basename(filename));
         }
       }
     }
@@ -131,10 +131,10 @@ LocalArchive _extractArchive(String pathname) {
 (String, LocalExtensionType, Uint8List, String) _extractArchiveOnly(String pathname) {
   final extensionType = setTypeExtension(path.extension(pathname).replaceFirst('.', ''));
   final name = path.basenameWithoutExtension(pathname);
-  Uint8List? coverImage;
-
-  Archive? archive;
   final inputStream = InputFileStream(pathname);
+
+  Uint8List coverImage;
+  Archive archive;
 
   if (extensionType == LocalExtensionType.cbt || extensionType == LocalExtensionType.tar) {
     archive = TarDecoder().decodeStream(inputStream);
@@ -155,7 +155,7 @@ LocalArchive _extractArchive(String pathname) {
     coverImage = lArchive.first.content;
   }
 
-  return (name, extensionType, coverImage, path);
+  return (name, extensionType, coverImage, pathname);
 }
 
 String getTypeExtension(LocalExtensionType type) {

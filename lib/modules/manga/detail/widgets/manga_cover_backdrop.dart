@@ -36,7 +36,7 @@ class MangaCoverBackdrop extends StatelessWidget {
             height: 465 + AppBar().preferredSize.height,
             color: context.isTablet
                 ? Theme.of(context).scaffoldBackgroundColor
-                : Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
+                : Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.9),
           ),
           Positioned(
             bottom: 0,

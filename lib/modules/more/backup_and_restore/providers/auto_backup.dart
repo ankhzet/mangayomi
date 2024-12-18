@@ -50,7 +50,7 @@ class AutoBackupLocationState extends _$AutoBackupLocationState {
     isar.settings.first = settings..autoBackupLocation = location;
   }
 
-  String? _storagePath;
+  String _storagePath = '';
 
   Future refresh() async {
     _storagePath = await StorageProvider.getBackupDirectory();
@@ -79,7 +79,7 @@ Future<void> checkAndBackup(Ref ref) async {
 
           ref.watch(doBackUpProvider(
             list: ref.watch(backupFrequencyOptionsStateProvider),
-            path: backupDirectory.path,
+            pathname: backupDirectory.path,
             context: null,
           ));
         }

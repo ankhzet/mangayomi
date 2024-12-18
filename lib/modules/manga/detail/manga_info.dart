@@ -9,7 +9,6 @@ import 'package:mangayomi/modules/manga/detail/widgets/manga_actions.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_chapters_counter.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_cover.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/readmore.dart';
-import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/constant.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
@@ -49,7 +48,7 @@ class _MangaInfoState extends ConsumerState<MangaInfo> with TickerProviderStateM
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Theme.of(context).scaffoldBackgroundColor.withOpacity(0.05),
+                Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.05),
                 Theme.of(context).scaffoldBackgroundColor
               ],
               stops: const [0, .3],
@@ -145,10 +144,7 @@ class _MangaInfoState extends ConsumerState<MangaInfo> with TickerProviderStateM
           child: Tooltip(
             message: 'ID: @${manga.id}\nTap to copy name',
             preferBelow: false,
-            child: Text(manga.name!,
-                style: const TextStyle(
-                  fontSize: 20,
-                )),
+            child: SelectableText(manga.name!, style: const TextStyle(fontSize: 20)),
           ),
         ),
         isLocalArchive

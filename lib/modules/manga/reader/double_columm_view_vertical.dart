@@ -9,8 +9,8 @@ import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 
 class DoubleColummVerticalView extends StatelessWidget {
-  final List<UChapDataPreload?> datas;
-  final Function(UChapDataPreload datas) onLongPressData;
+  final List<PreloadTask?> datas;
+  final Function(PreloadTask datas) onLongPressData;
   final BackgroundColor backgroundColor;
   final Function(bool) isFailedToLoadImage;
 

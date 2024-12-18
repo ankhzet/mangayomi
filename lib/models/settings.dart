@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:isar/isar.dart';
+import 'package:mangayomi/eval/javascript/http.dart';
 import 'package:mangayomi/models/options.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/utils/constant.dart';
@@ -630,15 +633,29 @@ class ChapterPageurls implements OfChapter {
   List<String>? urls;
   List<String>? headers;
 
-  ChapterPageurls({this.chapterId, this.urls});
+  ChapterPageurls({this.chapterId, this.urls, this.headers});
 
   ChapterPageurls.fromJson(Map<String, dynamic> json) {
     chapterId = json['chapterId'];
-    urls = json['headers']?.cast<String>();
-    urls = json['headers']?.cast<String>();
+    urls = json['urls']?.cast<String>();
+    headers = json['headers']?.cast<String>();
   }
 
   Map<String, dynamic> toJson() => {'chapterId': chapterId, 'urls': urls, 'headers': headers};
+
+  Map<String, String>? getUrlHeaders(int urlIndex) {
+    final header = headers?.elementAtOrNull(urlIndex);
+
+    if (header != null) {
+      final value = jsonDecode(header);
+
+      if (value is Map) {
+        return value.toMapStringString;
+      }
+    }
+
+    return null;
+  }
 }
 
 @embedded

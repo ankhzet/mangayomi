@@ -8,8 +8,8 @@ import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_pr
 import 'package:mangayomi/utils/extensions/others.dart';
 
 class ImageViewPaged extends ConsumerWidget {
-  final UChapDataPreload data;
-  final Function(UChapDataPreload data) onLongPressData;
+  final PreloadTask data;
+  final Function(PreloadTask data) onLongPressData;
   final Widget? Function(ExtendedImageState state) loadStateChanged;
   final Function(ExtendedImageGestureState state)? onDoubleTap;
   final GestureConfig Function(ExtendedImageState state)? initGestureConfigHandler;

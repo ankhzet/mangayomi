@@ -19,9 +19,8 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final manga = update.manga;
-    final duplicates = manga.getDuplicateChapters();
     final regularColor = Theme.of(context).textTheme.bodyLarge!.color;
+    final manga = update.manga;
 
     return Material(
       borderRadius: BorderRadius.circular(5),
@@ -85,7 +84,7 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
                     ],
                   ),
                 ),
-                if (manga.favorite != true || duplicates.isNotEmpty) ChaptersFix(manga: manga, duplicates: duplicates),
+                ChaptersFix(update: update),
                 if (sourceExist) ChapterPageDownload(chapter: update.firstOrUnread),
               ],
             ),

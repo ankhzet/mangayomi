@@ -34,15 +34,35 @@ extension MangaExtension on Manga {
   }
 
   @ignore
-  List<Chapter> get sortedChapters => chapters.sorted((a, b) => a.compareTo(b));
+  List<Chapter> get sortedChapters => getSortedChapters();
 
-  List<Chapter> getDuplicateChapters() {
+  List<Chapter> getSortedChapters({List<Chapter>? all}) {
+    return (all ?? chapters).sorted((a, b) => a.compareTo(b));
+  }
+
+  List<Chapter> getDuplicateChapters({List<Chapter>? all}) {
+    final List<Chapter> sorted = getSortedChapters(all: all);
     final List<Chapter> result = [];
 
-    for (var chapter in sortedChapters) {
+    for (var chapter in sorted) {
       final found = chapters.firstWhereOrNull((had) => had.isSame(chapter));
 
       if (found != null && found.id != chapter.id) {
+        result.add(chapter);
+      }
+    }
+
+    return result;
+  }
+
+  List<Chapter> getUnreadChapters(List<Chapter> candidates, {List<Chapter>? all}) {
+    final List<ChapterCompositeNumber> read = (all ?? chapters).where((chapter) => chapter.isRead ?? false).map((chapter) => chapter.getNumber).toList();
+    final List<Chapter> result = [];
+
+    for (var chapter in candidates) {
+      final found = read.any((had) => compareComposite(chapter.getNumber, had) == 0);
+
+      if (!found) {
         result.add(chapter);
       }
     }

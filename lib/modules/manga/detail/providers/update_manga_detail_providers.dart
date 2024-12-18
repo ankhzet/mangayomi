@@ -123,11 +123,12 @@ Future<void> updateMangaDetail(Ref ref, {required int? mangaId, required bool is
         isar.updates.putAllSync(updateBacklog);
       }
     });
-  } catch (e) {
+  } catch (e, trace) {
     botToast(e.toString());
 
     if (kDebugMode) {
       print(e.toString());
+      print(trace);
     }
   }
 }

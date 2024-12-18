@@ -150,7 +150,9 @@ class ChapterSortModel {
     final int multiplier = sort.inReverse ? -1 : 1;
 
     for (var chapter in chapters) {
-      cache[chapter.id!] = chapter.dateUpload != null ? multiplier * int.parse(chapter.dateUpload!) : 0;
+      cache[chapter.id!] = chapter.dateUpload != null && chapter.dateUpload!.isNotEmpty
+          ? multiplier * int.parse(chapter.dateUpload!)
+          : 0;
     }
 
     return (Chapter a, Chapter b) {

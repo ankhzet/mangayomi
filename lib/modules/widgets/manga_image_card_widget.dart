@@ -125,6 +125,7 @@ class MangaImageCardListTileWidget extends ConsumerWidget {
             .langEqualTo(source.lang)
             .nameEqualTo(getMangaDetail!.name)
             .sourceEqualTo(source.name)
+            .linkEqualTo(getMangaDetail!.link)
             .watch(fireImmediately: true),
         builder: (context, snapshot) {
           final manga = (snapshot.hasData && snapshot.data!.isNotEmpty)

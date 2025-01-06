@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_code_editor/flutter_code_editor.dart';
 import 'package:flutter_highlight/themes/atom-one-dark.dart';
-import 'package:highlight/highlight.dart';
-import 'package:json_view/json_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:highlight/highlight.dart';
 import 'package:highlight/languages/dart.dart';
 import 'package:highlight/languages/javascript.dart';
+import 'package:json_view/json_view.dart';
 import 'package:mangayomi/eval/lib.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/source.dart';
@@ -252,14 +252,10 @@ class _CodeEditorState extends ConsumerState<CodeEditor> {
                                           result = getManga.toJson();
                                         } else if (_serviceIndex == 4) {
                                           result = {
-                                            "pages": (await service.getPageList(_url))
-                                                .map((e) => e.toJson())
-                                                .toList(),
+                                            "pages": (await service.getPageList(_url)).map((e) => e.toJson()).toList(),
                                           };
                                         } else {
-                                          result = (await service.getVideoList(_url))
-                                              .map((e) => e.toJson())
-                                              .toList();
+                                          result = (await service.getVideoList(_url)).map((e) => e.toJson()).toList();
                                         }
                                         if (mounted) {
                                           setState(() {

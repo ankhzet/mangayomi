@@ -111,7 +111,7 @@ Future<GetChapterPagesModel> getChapterPages(
 
     if (isLocalArchive) {
       for (var i = 0; i < archiveImages.length; i++) {
-        pageUrls.add(PageUrl(""));
+        pageUrls.add(PageUrl(''));
       }
     }
 

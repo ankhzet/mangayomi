@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_qjs/flutter_qjs.dart';
 import 'package:mangayomi/eval/javascript/dom_selector.dart';
 import 'package:mangayomi/eval/javascript/extractors.dart';
@@ -173,7 +174,12 @@ var extention = new DefaultExtension();
       final promised = await runtime.handlePromise(await runtime.evaluateAsync('jsonStringify(() => extention.$call)'));
 
       return jsonDecode(promised.stringResult) as T;
-    } catch (_) {
+    } catch (e, trace) {
+      if (kDebugMode) {
+        print(e);
+        print(trace);
+      }
+
       if (def != null) {
         return def;
       }

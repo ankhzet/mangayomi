@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/manga/reader/images_slice.dart';
-import 'package:mangayomi/modules/manga/reader/reader_view.dart';
+import 'package:mangayomi/models/dto/preload_task.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
@@ -88,18 +88,26 @@ class _ImageRowViewState extends State<ImageRowView> with TickerProviderStateMix
     List<PreloadTask?> result = [];
 
     if (index < 0) {
-      result.add(data[0]);
+      final task = data[0];
+
+      if (task.isValid) {
+        result.add(task);
+      }
     } else {
       bool next = false;
 
       while (index <= target) {
+        final task = data[index++];
+
         if (next && widget.separator) {
           result.add(null);
         } else {
-          next = true;
+          next = task.isValid;
         }
 
-        result.add(data[index++]);
+        if (task.isValid) {
+          result.add(task);
+        }
       }
     }
 

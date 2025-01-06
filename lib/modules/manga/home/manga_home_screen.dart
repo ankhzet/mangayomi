@@ -85,20 +85,7 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
         await Future.delayed(const Duration(milliseconds: 500));
         _fullDataLength = _fullDataLength + 50;
       } else {
-        if (_selectedIndex == 0 && !_isSearch && _query.isEmpty) {
-          mangaRes = await ref.watch(getPopularProvider(
-            source: source,
-            page: _page + 1,
-          ).future);
-        } else if (_selectedIndex == 1 && !_isSearch && _query.isEmpty) {
-          mangaRes = await ref.watch(getLatestUpdatesProvider(
-            source: source,
-            page: _page + 1,
-          ).future);
-        } else if (_selectedIndex == 2 && (_isSearch && _query.isNotEmpty) || _isFiltering) {
-          mangaRes = await ref
-              .watch(searchProvider(source: source, query: _query, page: _page + 1, filterList: filters).future);
-        }
+        mangaRes = await ref.watch(_getProvider(_page + 1).future);
       }
 
       if (mounted && mangaRes!.list.isNotEmpty) {
@@ -119,23 +106,31 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
   int _length = 0;
   bool _isFiltering = false;
 
+  AutoDisposeFutureProvider<MPages?> _getProvider(int page) {
+    if (_isFiltering || (_isSearch && _query.isNotEmpty)) {
+      return searchProvider(source: source, query: _query, page: page, filterList: filters);
+    }
+
+    return switch (_selectedIndex) {
+      1 => getLatestUpdatesProvider(source: source, page: page),
+      0 => getPopularProvider(source: source, page: page),
+      _ => throw AssertionError('Unknown _selectedIndex: $_selectedIndex'),
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     final supportsLatest = ref.watch(supportsLatestProvider(source: source));
     final filterList = getFilterList(source: source);
-    if (_selectedIndex == 2 && (_isSearch && _query.isNotEmpty) || _isFiltering) {
-      _getManga = ref.watch(searchProvider(source: source, query: _query, page: 1, filterList: filters));
-    } else if (_selectedIndex == 1 && !_isSearch && _query.isEmpty) {
-      _getManga = ref.watch(getLatestUpdatesProvider(source: source, page: 1));
-    } else if (_selectedIndex == 0 && !_isSearch && _query.isEmpty) {
-      _getManga = ref.watch(getPopularProvider(source: source, page: 1));
-    }
     final l10n = context.l10n;
     final displayType = ref.watch(mangaHomeDisplayTypeStateProvider);
     final displayTypeIcon = switch (displayType) {
       DisplayType.comfortableGrid || DisplayType.compactGrid => Icons.view_module,
       _ => Icons.view_list,
     };
+
+    _getManga = ref.watch(_getProvider(1));
+
     return Scaffold(
         appBar: AppBar(
           title: _isSearch ? null : Text('${source.name}'),
@@ -190,50 +185,50 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
                     icon: Icon(Icons.search, color: Theme.of(context).hintColor),
                   ),
             PopupMenuButton(
-                popUpAnimationStyle: popupAnimationStyle,
-                icon: Icon(displayTypeIcon),
-                itemBuilder: (context) {
-                  final displayType = ref.watch(mangaHomeDisplayTypeStateProvider);
-                  final displayTypeNotifier = ref.read(mangaHomeDisplayTypeStateProvider.notifier);
-                  return [
-                    PopupMenuItem<int>(
-                      value: 0,
-                      child: RadioListTile(
-                        title: Text(context.l10n.comfortable_grid),
-                        value: DisplayType.comfortableGrid,
-                        groupValue: displayType,
-                        onChanged: (a) {
-                          context.pop();
-                          displayTypeNotifier.setMangaHomeDisplayType(a!);
-                        },
-                      ),
+              popUpAnimationStyle: popupAnimationStyle,
+              icon: Icon(displayTypeIcon),
+              itemBuilder: (context) {
+                final displayType = ref.watch(mangaHomeDisplayTypeStateProvider);
+                final displayTypeNotifier = ref.read(mangaHomeDisplayTypeStateProvider.notifier);
+                return [
+                  PopupMenuItem<int>(
+                    value: 0,
+                    child: RadioListTile(
+                      title: Text(context.l10n.comfortable_grid),
+                      value: DisplayType.comfortableGrid,
+                      groupValue: displayType,
+                      onChanged: (a) {
+                        context.pop();
+                        displayTypeNotifier.setMangaHomeDisplayType(a!);
+                      },
                     ),
-                    PopupMenuItem<int>(
-                      value: 1,
-                      child: RadioListTile(
-                        title: Text(context.l10n.compact_grid),
-                        value: DisplayType.compactGrid,
-                        groupValue: displayType,
-                        onChanged: (a) {
-                          context.pop();
-                          displayTypeNotifier.setMangaHomeDisplayType(a!);
-                        },
-                      ),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 1,
+                    child: RadioListTile(
+                      title: Text(context.l10n.compact_grid),
+                      value: DisplayType.compactGrid,
+                      groupValue: displayType,
+                      onChanged: (a) {
+                        context.pop();
+                        displayTypeNotifier.setMangaHomeDisplayType(a!);
+                      },
                     ),
-                    PopupMenuItem<int>(
-                      value: 2,
-                      child: RadioListTile(
-                        title: Text(context.l10n.list),
-                        value: DisplayType.list,
-                        groupValue: displayType,
-                        onChanged: (a) {
-                          context.pop();
-                          displayTypeNotifier.setMangaHomeDisplayType(a!);
-                        },
-                      ),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 2,
+                    child: RadioListTile(
+                      title: Text(context.l10n.list),
+                      value: DisplayType.list,
+                      groupValue: displayType,
+                      onChanged: (a) {
+                        context.pop();
+                        displayTypeNotifier.setMangaHomeDisplayType(a!);
+                      },
                     ),
-                  ];
-                },
+                  ),
+                ];
+              },
               onSelected: (value) {},
             ),
             PopupMenuButton(
@@ -349,8 +344,7 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
                                 });
                               }
 
-                              _getManga = ref
-                                  .refresh(searchProvider(source: source, query: _query, page: 1, filterList: filters));
+                              _getManga = ref.refresh(_getProvider(1));
                             }
                           } else {
                             _mangaList.clear();
@@ -526,20 +520,9 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
                           Column(
                             children: [
                               IconButton(
-                                  onPressed: () {
-                                    if (_selectedIndex == 2 && (_isSearch && _query.isNotEmpty) || _isFiltering) {
-                                      ref.invalidate(
-                                          searchProvider(source: source, query: _query, page: 1, filterList: filters));
-                                    } else if (_selectedIndex == 1 && !_isSearch && _query.isEmpty) {
-                                      ref.invalidate(getLatestUpdatesProvider(source: source, page: 1));
-                                    } else if (_selectedIndex == 0 && !_isSearch && _query.isEmpty) {
-                                      ref.invalidate(getPopularProvider(
-                                        source: source,
-                                        page: 1,
-                                      ));
-                                    }
-                                  },
-                                  icon: const Icon(Icons.refresh)),
+                                onPressed: () => ref.invalidate(_getProvider(1)),
+                                icon: const Icon(Icons.refresh),
+                              ),
                               Text(l10n.refresh)
                             ],
                           ),
@@ -578,9 +561,7 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
                     ),
                   ],
                 ),
-                loading: () => const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                loading: () => const ProgressCenter(),
               ));
   }
 }

@@ -6,11 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/eval/lib.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
+import 'package:mangayomi/models/dto/preload_task.dart';
 import 'package:mangayomi/models/page.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/modules/manga/archive_reader/providers/archive_reader_providers.dart';
-import 'package:mangayomi/modules/manga/reader/reader_view.dart';
 import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
@@ -29,6 +29,22 @@ class GetChapterPagesModel {
     required this.archiveImages,
     required this.preloadTasks,
   });
+
+  bool get isValid {
+    if (pageUrls.any((url) => url.isValid)) {
+      return true;
+    }
+
+    if (archiveImages.any((buffer) => buffer?.isNotEmpty == true)) {
+      return true;
+    }
+
+    if (preloadTasks.any((task) => task.isValid)) {
+      return true;
+    }
+
+    return false;
+  }
 }
 
 // fixme: remove this when extension is patched https://github.com/kodjodevf/mangayomi/issues/228
@@ -37,7 +53,7 @@ int patchPages(Source source, List<PageUrl> pages) {
     final List<int> delete = [];
 
     for (var (index, item) in pages.indexed) {
-      if (item.url.length <= 4) {
+      if (item.url.isNotEmpty && item.url.length <= 4) {
         pages[index - 1].url += '_.${item.url}';
         delete.add(index);
       }

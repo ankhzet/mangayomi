@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mangayomi/models/dto/preload_task.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/manga/reader/image_view.dart';
-import 'package:mangayomi/modules/manga/reader/reader_view.dart';
 
 class ImagesSlice extends StatelessWidget {
   final Iterable<PreloadTask?> preloads;

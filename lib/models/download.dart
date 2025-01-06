@@ -30,12 +30,12 @@ class Download {
     this.id = Isar.autoIncrement,
     required this.chapterId,
     required this.mangaId,
-    required this.succeeded,
-    required this.failed,
-    required this.total,
-    required this.isDownload,
-    required this.taskIds,
-    required this.isStartDownload,
+    this.succeeded,
+    this.failed,
+    this.total,
+    this.isDownload,
+    this.taskIds,
+    this.isStartDownload,
   });
 
   Download.fromJson(Map<String, dynamic> json) {

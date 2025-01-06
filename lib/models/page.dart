@@ -6,6 +6,8 @@ class PageUrl {
 
   PageUrl(this.url, {this.headers});
 
+  bool get isValid => url.isNotEmpty == true;
+
   factory PageUrl.fromJson(Map<String, dynamic> json) {
     return PageUrl(
       json['url'].toString().trim(),

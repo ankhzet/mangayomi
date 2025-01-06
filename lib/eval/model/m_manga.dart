@@ -67,4 +67,6 @@ class MManga {
         'genre': genre,
         'chapters': chapters!.map((e) => e.toJson()).toList()
       };
+
+  bool get isValid => link?.isNotEmpty ?? chapters?.isNotEmpty ?? false;
 }

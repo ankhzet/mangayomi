@@ -132,6 +132,9 @@ class $MManga implements MManga, $Instance {
   List<String>? get genre => $value.genre;
 
   @override
+  bool get isValid => $value.isValid;
+
+  @override
   set author(String? author) {
     //  implement author
   }

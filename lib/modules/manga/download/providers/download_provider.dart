@@ -7,10 +7,10 @@ import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
+import 'package:mangayomi/models/dto/preload_task.dart';
 import 'package:mangayomi/models/page.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/manga/download/providers/convert_to_cbz.dart';
-import 'package:mangayomi/modules/manga/reader/reader_view.dart';
 import 'package:mangayomi/modules/more/settings/downloads/providers/downloads_state_provider.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/services/background_downloader/background_downloader.dart';
@@ -47,7 +47,6 @@ Future<List<PageUrl>> downloadChapter(
   List<PageUrl> pageUrls = [];
   List<DownloadTask> tasks = [];
   Directory directory = Directory("$path1$finalPath");
-  bool isOk = false;
   Map<String, String> videoHeader = {};
   bool hasM3U8File = false;
   bool nonM3U8File = false;
@@ -58,7 +57,8 @@ Future<List<PageUrl>> downloadChapter(
 
   Future<void> processConvert() async {
     if (hasM3U8File) {
-      await m3u8Downloader?.mergeTsToMp4(path.join(directory.path, "$chapterName.mp4"), path.join(directory.path, chapterName));
+      await m3u8Downloader?.mergeTsToMp4(
+          path.join(directory.path, "$chapterName.mp4"), path.join(directory.path, chapterName));
     } else {
       if (ref.watch(saveAsCBZArchiveStateProvider)) {
         await ref.watch(
@@ -70,28 +70,29 @@ Future<List<PageUrl>> downloadChapter(
   void savePageUrls() {
     final chapterPageHeaders = pageUrls.map((e) => e.headers == null ? null : jsonEncode(e.headers)).toList();
     final settings = isar.settings.first;
-    isar.settings.first = settings..chapterPageUrlsList = [
-      ...chapter.getOtherOptions(settings.chapterPageUrlsList),
-      ChapterPageurls()
-        ..chapterId = chapter.id
-        ..urls = pageUrls.map((e) => e.url).toList()
-        ..headers = chapterPageHeaders.first != null ? chapterPageHeaders.map((e) => e.toString()).toList() : null
-    ];
+    isar.settings.first = settings
+      ..chapterPageUrlsList = [
+        ...chapter.getOtherOptions(settings.chapterPageUrlsList),
+        ChapterPageurls()
+          ..chapterId = chapter.id
+          ..urls = pageUrls.map((e) => e.url).toList()
+          ..headers = chapterPageHeaders.first != null ? chapterPageHeaders.map((e) => e.toString()).toList() : null
+      ];
   }
 
-  if (isManga) {
-    ref.read(getChapterPagesProvider(chapter: chapter).future).then((value) {
+  await Duration(seconds: 1).waitFor(() async {
+    if (isManga) {
+      final value = await ref.read(getChapterPagesProvider(chapter: chapter).future);
+
       if (value.pageUrls.isNotEmpty) {
         pageUrls = value.pageUrls;
-        isOk = true;
       }
-    });
-  } else {
-    ref.read(getVideoListProvider(episode: chapter).future).then((value) async {
-      final m3u8Urls = value.$1
+    } else {
+      final (videos, _, _) = await ref.read(getVideoListProvider(episode: chapter).future);
+      final m3u8Urls = videos
           .where((element) => element.originalUrl.endsWith(".m3u8") || element.originalUrl.endsWith(".m3u"))
           .toList();
-      final nonM3u8Urls = value.$1.where((element) => element.originalUrl.isMediaVideo()).toList();
+      final nonM3u8Urls = videos.where((element) => element.originalUrl.isMediaVideo()).toList();
       nonM3U8File = nonM3u8Urls.isNotEmpty;
       hasM3U8File = nonM3U8File ? false : m3u8Urls.isNotEmpty;
       final videosUrls = nonM3U8File ? nonM3u8Urls : m3u8Urls;
@@ -106,175 +107,170 @@ Future<List<PageUrl>> downloadChapter(
         }
         pageUrls = hasM3U8File ? [...tsList.map((e) => PageUrl(e.url))] : [PageUrl(videosUrls.first.url)];
         videoHeader.addAll(videosUrls.first.headers ?? {});
-        isOk = true;
       }
-    });
-  }
-
-  await Future.doWhile(() async {
-    await Future.delayed(const Duration(seconds: 1));
-    if (isOk == true) {
-      return false;
     }
-    return true;
   });
 
-  if (pageUrls.isNotEmpty) {
-    bool shouldLoad = (isManga
-        ? !(ref.watch(saveAsCBZArchiveStateProvider) && await File(path.join(mangaDir, "${chapter.name}.cbz")).exists())
-        : !(await File(path.join(mangaDir, "$chapterName.mp4")).exists()));
+  final filtered = pageUrls.where((item) => item.isValid);
 
-    if (shouldLoad) {
-      await directory.create(recursive: true);
+  if (filtered.isEmpty) {
+    return [];
+  }
 
-      for (var index = 0; index < pageUrls.length; index++) {
-        final page = pageUrls[index];
-        final cookie = MClient.getCookiesPref(page.url);
-        final headers = isManga ? ref.watch(headersProvider(source: manga.source!, lang: manga.lang!)) : videoHeader;
+  final urls = filtered.map((e) => e.url).toList();
 
-        if (cookie.isNotEmpty) {
-          final userAgent = isar.settings.first.userAgent!;
-          headers.addAll(cookie);
-          headers[HttpHeaders.userAgentHeader] = userAgent;
-        }
+  bool shouldLoad = (isManga
+      ? !(ref.watch(saveAsCBZArchiveStateProvider) && await File(path.join(mangaDir, "${chapter.name}.cbz")).exists())
+      : !(await File(path.join(mangaDir, "$chapterName.mp4")).exists()));
 
-        headers.addAll(page.headers ?? {});
+  if (shouldLoad) {
+    await directory.create(recursive: true);
 
-        Future<void> scheduleLoad(String filename) async {
-          final uri = path.join('Mangayomi', finalPath, filename);
-          final tmp = File(path.join(tempDir.path, uri));
-          final target = File(path.join(directory.path, filename));
+    for (final (index, page) in filtered.indexed) {
+      final cookie = MClient.getCookiesPref(page.url);
+      final headers = isManga ? ref.watch(headersProvider(source: manga.source!, lang: manga.lang!)) : videoHeader;
 
-          target.parent.createSync(recursive: true);
+      if (cookie.isNotEmpty) {
+        headers.addAll(cookie);
+        headers[HttpHeaders.userAgentHeader] = isar.settings.first.userAgent!;
+      }
 
-          if (tmp.existsSync()) {
-            await tmp.copy(target.path);
-            await tmp.delete();
-          } else if (!target.existsSync()) {
-            tasks.add(DownloadTask(
-              taskId: page.url,
-              headers: headers,
-              url: page.url.normalize(),
-              baseDirectory: BaseDirectory.temporary,
-              updates: Updates.statusAndProgress,
-              allowPause: true,
-              retries: 3,
-              requiresWiFi: onlyOnWifi,
-              directory: path.dirname(uri),
-              filename: path.basename(uri),
-            ));
-          }
-        }
+      if (page.headers != null) {
+        headers.addAll(page.headers!);
+      }
 
-        if (isManga) {
-          await scheduleLoad(PreloadTask.filename(index));
-        } else {
-          await scheduleLoad('$chapterName.mp4');
+      Future<void> scheduleLoad(String filename) async {
+        final uri = path.join('Mangayomi', finalPath, filename);
+        final tmp = File(path.join(tempDir.path, uri));
+        final target = File(path.join(directory.path, filename));
 
-          if (hasM3U8File) {
-            await scheduleLoad(path.join(chapterName, 'TS_${index + 1}.ts'));
-          }
+        target.parent.createSync(recursive: true);
+
+        if (tmp.existsSync()) {
+          await tmp.copy(target.path);
+          await tmp.delete();
+        } else if (!target.existsSync()) {
+          tasks.add(DownloadTask(
+            taskId: page.url,
+            headers: headers,
+            url: page.url.normalize(),
+            baseDirectory: BaseDirectory.temporary,
+            updates: Updates.statusAndProgress,
+            allowPause: true,
+            retries: 3,
+            requiresWiFi: onlyOnWifi,
+            directory: path.dirname(uri),
+            filename: path.basename(uri),
+          ));
         }
       }
-    }
 
-    if (tasks.isEmpty && pageUrls.isNotEmpty) {
-      await processConvert();
-      savePageUrls();
-      final download = Download(
-          succeeded: 0,
-          failed: 0,
-          total: 0,
-          isDownload: true,
-          taskIds: pageUrls.map((e) => e.url).toList(),
-          isStartDownload: false,
-          chapterId: chapter.id,
-          mangaId: manga.id);
+      if (isManga) {
+        await scheduleLoad(PreloadTask.filename(index));
+      } else {
+        await scheduleLoad('$chapterName.mp4');
 
-      isar.writeTxnSync(() {
-        isar.downloads.putSync(download..chapter.value = chapter);
-      });
-    } else {
-      if (hasM3U8File) {
-        await Directory(path.join(directory.path, chapterName)).create(recursive: true);
+        if (hasM3U8File) {
+          await scheduleLoad(path.join(chapterName, 'TS_${index + 1}.ts'));
+        }
       }
-      savePageUrls();
-      await FileDownloader().downloadBatch(
-        tasks,
-        batchProgressCallback: (succeeded, failed) async {
-          if (isManga || hasM3U8File) {
-            if (succeeded == tasks.length) {
-              await processConvert();
-            }
-            bool isEmpty = isar.downloads.filter().chapterIdEqualTo(chapter.id!).isEmptySync();
-            if (isEmpty) {
-              final download = Download(
-                  succeeded: succeeded,
-                  failed: failed,
-                  total: tasks.length,
-                  isDownload: (succeeded == tasks.length),
-                  taskIds: pageUrls.map((e) => e.url).toList(),
-                  isStartDownload: true,
-                  chapterId: chapter.id,
-                  mangaId: manga.id);
-              isar.writeTxnSync(() {
-                isar.downloads.putSync(download..chapter.value = chapter);
-              });
-            } else {
-              final download = isar.downloads.filter().chapterIdEqualTo(chapter.id!).findFirstSync()!;
-              isar.writeTxnSync(() {
-                isar.downloads.putSync(download
-                  ..succeeded = succeeded
-                  ..failed = failed
-                  ..isDownload = (succeeded == tasks.length));
-              });
-            }
-          }
-        },
-        taskProgressCallback: (taskProgress) async {
-          final progress = taskProgress.progress;
-          if (!isManga && !hasM3U8File) {
-            bool isEmpty = isar.downloads.filter().chapterIdEqualTo(chapter.id!).isEmptySync();
-            if (isEmpty) {
-              final download = Download(
-                  succeeded: (progress * 100).toInt(),
-                  failed: 0,
-                  total: 100,
-                  isDownload: (progress == 1.0),
-                  taskIds: pageUrls.map((e) => e.url).toList(),
-                  isStartDownload: true,
-                  chapterId: chapter.id,
-                  mangaId: manga.id);
-              isar.writeTxnSync(() {
-                isar.downloads.putSync(download..chapter.value = chapter);
-              });
-            } else {
-              final download = isar.downloads.filter().chapterIdEqualTo(chapter.id!).findFirstSync()!;
-              isar.writeTxnSync(() {
-                isar.downloads.putSync(download
-                  ..succeeded = (progress * 100).toInt()
-                  ..failed = 0
-                  ..isDownload = (progress == 1.0));
-              });
-            }
-          }
-          if (progress == 1.0) {
-            final file = File(path.join(tempDir.path, taskProgress.task.directory, taskProgress.task.filename));
-            final target = hasM3U8File
-                ? path.join(directory.path, chapterName, taskProgress.task.filename)
-                : path.join(directory.path, taskProgress.task.filename);
-
-            final newFile = await file.copy(target);
-            await file.delete();
-
-            if (hasM3U8File) {
-              await m3u8Downloader?.processBytes(newFile, tsKey, tsIv, m3u8MediaSequence);
-            }
-          }
-        },
-      );
     }
   }
 
-  return pageUrls;
+  if (tasks.isEmpty && pageUrls.isNotEmpty) {
+    await processConvert();
+    savePageUrls();
+    final download = Download(
+      succeeded: 0,
+      failed: 0,
+      total: 0,
+      isDownload: true,
+      taskIds: urls,
+      isStartDownload: false,
+      chapterId: chapter.id,
+      mangaId: manga.id,
+    );
+
+    isar.writeTxnSync(() {
+      isar.downloads.putSync(download..chapter.value = chapter);
+    });
+  } else {
+    if (hasM3U8File) {
+      await Directory(path.join(directory.path, chapterName)).create(recursive: true);
+    }
+
+    savePageUrls();
+
+    final isBatch = isManga || hasM3U8File;
+
+    await FileDownloader().downloadBatch(
+      tasks,
+      batchProgressCallback: (succeeded, failed) async {
+        if (!isBatch) {
+          return;
+        }
+
+        if (succeeded == tasks.length) {
+          await processConvert();
+        }
+
+        final download = isar.downloads.filter().chapterIdEqualTo(chapter.id!).findFirstSync() ??
+            Download(
+              chapterId: chapter.id,
+              mangaId: manga.id,
+              total: tasks.length,
+              taskIds: urls,
+              isStartDownload: true,
+            )
+          ..chapter.value = chapter;
+
+        isar.writeTxnSync(() {
+          isar.downloads.putSync(download
+            ..succeeded = succeeded
+            ..failed = failed
+            ..isDownload = succeeded == tasks.length);
+        });
+      },
+      taskProgressCallback: (taskProgress) async {
+        final progress = taskProgress.progress;
+        final percent = (progress * 100).toInt();
+        final isDone = percent >= 100;
+
+        if (!isBatch) {
+          final download = isar.downloads.filter().chapterIdEqualTo(chapter.id!).findFirstSync() ??
+              Download(
+                chapterId: chapter.id,
+                mangaId: manga.id,
+                total: 100,
+                taskIds: urls,
+                isStartDownload: true,
+              )
+            ..chapter.value = chapter;
+
+          isar.writeTxnSync(() {
+            isar.downloads.putSync(download
+              ..failed = 0
+              ..succeeded = percent
+              ..isDownload = isDone);
+          });
+        }
+
+        if (isDone) {
+          final file = File(path.join(tempDir.path, taskProgress.task.directory, taskProgress.task.filename));
+          final target = hasM3U8File
+              ? path.join(directory.path, chapterName, taskProgress.task.filename)
+              : path.join(directory.path, taskProgress.task.filename);
+
+          final newFile = await file.copy(target);
+          await file.delete();
+
+          if (hasM3U8File) {
+            await m3u8Downloader?.processBytes(newFile, tsKey, tsIv, m3u8MediaSequence);
+          }
+        }
+      },
+    );
+  }
+
+  return filtered.toList();
 }

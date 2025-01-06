@@ -6,7 +6,7 @@ import 'dart:ui';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mangayomi/modules/manga/reader/reader_view.dart';
+import 'package:mangayomi/models/dto/preload_task.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
 import 'package:mangayomi/utils/headers.dart';
@@ -119,5 +119,17 @@ extension UChapDataPreloadExtensions on PreloadTask {
         ...ref.watch(headersProvider(source: chapter.manga.value!.source!, lang: chapter.manga.value!.lang!))
       },
     );
+  }
+}
+
+extension Waiting on Duration {
+  Future waitFor(Future<void> Function() callback) {
+    bool isReady = false;
+
+    callback().then((void _) {
+      isReady = true;
+    });
+
+    return Future.doWhile(() => Future.delayed(this, () => !isReady));
   }
 }

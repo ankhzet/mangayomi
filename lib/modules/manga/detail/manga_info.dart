@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/modules/manga/detail/providers/isar_providers.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/genre_badges_widget.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_actions.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_chapters_counter.dart';
@@ -12,6 +13,7 @@ import 'package:mangayomi/modules/manga/detail/widgets/readmore.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/constant.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/utils/utils.dart';
 
 class MangaInfo extends ConsumerStatefulWidget {
   final Manga manga;
@@ -30,12 +32,33 @@ class MangaInfo extends ConsumerStatefulWidget {
 }
 
 class _MangaInfoState extends ConsumerState<MangaInfo> with TickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    final details = ref.watch(getMangaDetailStreamProvider(mangaId: widget.manga.id));
+
+    return details.when(
+        data: (data) => MangaInfoView(
+        sourceExist: widget.sourceExist,
+        manga: data ?? widget.manga,
+        chapters: widget.chapters,
+      ),
+      error: (error, _) => ErrorWidget(error),
+      loading: () => ProgressCenter(),
+    );
+  }
+}
+
+class MangaInfoView extends StatelessWidget {
+  final Manga manga;
+  final int chapters;
+  final bool sourceExist;
+
   final offsetProvider = StateProvider((ref) => 0.0);
-  late final isLocalArchive = widget.manga.isLocalArchive ?? false;
-  late final manga = widget.manga;
+  late final isLocalArchive = manga.isLocalArchive ?? false;
   late final mangaId = manga.id;
 
   bool _expanded = false;
+  MangaInfoView({super.key, required this.manga, required this.chapters, required this.sourceExist});
 
   @override
   Widget build(BuildContext context) {

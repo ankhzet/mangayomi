@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:mangayomi/models/chapter.dart';
+import 'package:mangayomi/models/manga.dart';
 
 part 'update.g.dart';
 
@@ -36,6 +37,9 @@ class Update {
         'chapterName': chapterName,
         'date': date,
       };
+
+  @ignore
+  Manga get manga => chapter.value!.manga.value!;
 
   int get lastMangaUpdate => chapter.value?.manga.value?.lastUpdate ?? 0;
 }

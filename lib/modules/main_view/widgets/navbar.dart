@@ -6,7 +6,7 @@ import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/update.dart';
-import 'package:mangayomi/models/update_group.dart';
+import 'package:mangayomi/models/dto/update_group.dart';
 import 'package:mangayomi/modules/library/providers/library_state_provider.dart';
 import 'package:mangayomi/modules/main_view/widgets/update_badge.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';

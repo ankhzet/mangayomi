@@ -5,7 +5,7 @@ import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/update.dart';
-import 'package:mangayomi/models/update_group.dart';
+import 'package:mangayomi/models/dto/update_group.dart';
 import 'package:mangayomi/utils/extensions/manga.dart';
 
 class ChaptersFix extends ConsumerStatefulWidget {

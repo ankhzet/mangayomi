@@ -3,20 +3,25 @@ import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 
-class UpdateGroup {
+class UpdateGroup<T> {
   Manga manga;
   List<Chapter> chapters;
-  String group;
+  T group;
 
   UpdateGroup.fromChapters(this.chapters, this.group) : manga = chapters.first.manga.value!;
 
-  static String groupBy(UpdateGroup element) => element.group;
+  static T groupBy<T>(UpdateGroup<T> element) => element.group;
 
-  static List<UpdateGroup> groupUpdates(Iterable<Update> updates, String Function(Update update) groupBy) {
-    final List<UpdateGroup> list = [];
+  static List<UpdateGroup<T>> groupUpdates<T>(Iterable<Update> updates, T Function(Update update) groupBy) {
+    final List<UpdateGroup<T>> list = [];
 
     for (var update in updates) {
-      final chapter = update.chapter.value!;
+      final chapter = update.chapter.value;
+
+      if (chapter == null) {
+        continue;
+      }
+
       final mangaId = chapter.mangaId!;
       final group = groupBy(update);
       final bucket = list.firstWhereOrNull((item) => (item.group == group) && (item.manga.id == mangaId));

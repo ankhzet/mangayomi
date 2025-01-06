@@ -40,6 +40,26 @@ Stream<List<Update>> getAllUpdateStream(Ref ref, {required bool isManga}) async*
 }
 
 @riverpod
+Stream<List<bool>> getUpdateTypesStream(Ref ref, { required bool d }) async* {
+  yield* isar.updates
+      .filter()
+      .idIsNotNull()
+      .distinctByMangaId()
+      .mangaIdProperty()
+      .watch(fireImmediately: true)
+      .map((ids) => (
+        isar.mangas
+            .where()
+            .anyOf(ids.whereType<int>(), (q, id) => q.idEqualTo(id))
+            .distinctByIsManga()
+            .isMangaProperty()
+            .findAllSync()
+            .map((type) => type == true)
+            .toList(growable: false)
+    ));
+}
+
+@riverpod
 Stream<List<Manga>> getAllMangasStream(Ref ref, {required bool isManga}) async* {
   yield* isar.mangas.filter().isMangaEqualTo(isManga).watch(fireImmediately: true);
 }

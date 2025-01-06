@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
@@ -10,6 +11,7 @@ import 'package:mangayomi/modules/manga/detail/widgets/manga_actions.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_chapters_counter.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_cover.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/readmore.dart';
+import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/constant.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
@@ -57,7 +59,6 @@ class MangaInfoView extends StatelessWidget {
   late final isLocalArchive = manga.isLocalArchive ?? false;
   late final mangaId = manga.id;
 
-  bool _expanded = false;
   MangaInfoView({super.key, required this.manga, required this.chapters, required this.sourceExist});
 
   @override
@@ -94,7 +95,7 @@ class MangaInfoView extends StatelessWidget {
                           height: 65 * 2.3,
                         ),
                       ),
-                      Expanded(child: _titles()),
+                      Expanded(child: _titles(context)),
                     ],
                   ),
                 ),
@@ -103,7 +104,7 @@ class MangaInfoView extends StatelessWidget {
                     top: 0,
                     right: 0,
                     child: IconButton(
-                      onPressed: _editLocalArchiveInfos,
+                      onPressed: () => _editLocalArchiveInfos(context),
                       icon: const CircleAvatar(child: Icon(Icons.edit_outlined)),
                     ),
                   )
@@ -117,31 +118,35 @@ class MangaInfoView extends StatelessWidget {
               ),
             Container(
               color: Theme.of(context).scaffoldBackgroundColor,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (manga.description != null)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ReadMoreWidget(
-                        text: manga.description!,
-                        initial: _expanded,
-                        onChanged: (value) {
-                          setState(() {
-                            _expanded = value;
-                          });
-                        },
+              child: StatefulBuilder(builder: (context, setState) {
+                bool expanded = false;
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (manga.description != null)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ReadMoreWidget(
+                          text: manga.description!,
+                          initial: expanded,
+                          onChanged: (value) {
+                            setState(() {
+                              expanded = value;
+                            });
+                          },
+                        ),
                       ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: GenreBadgesWidget(genres: manga.genre!, multiline: expanded || context.isTablet),
                     ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: GenreBadgesWidget(genres: manga.genre!, multiline: _expanded || context.isTablet),
-                  ),
-                  if (!context.isTablet) MangaChaptersCounter(manga: manga, chapters: widget.chapters),
-                ],
-              ),
+                    if (!context.isTablet) MangaChaptersCounter(manga: manga, chapters: chapters),
+                  ],
+                );
+              }),
             ),
-            if (widget.chapters == 0)
+            if (chapters == 0)
               Container(
                 width: context.width(1),
                 height: context.height(1),
@@ -153,7 +158,7 @@ class MangaInfoView extends StatelessWidget {
     );
   }
 
-  Widget _titles() {
+  Widget _titles(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -188,7 +193,7 @@ class MangaInfoView extends StatelessWidget {
                       const Text(' • '),
                       Text(manga.source!),
                       Text(' (${manga.lang!.toUpperCase()})'),
-                      if (!widget.sourceExist)
+                      if (!sourceExist)
                         const Padding(
                           padding: EdgeInsets.all(3),
                           child: Icon(Icons.warning_amber, color: Colors.deepOrangeAccent, size: 14),
@@ -201,7 +206,7 @@ class MangaInfoView extends StatelessWidget {
     );
   }
 
-  void _editLocalArchiveInfos() {
+  void _editLocalArchiveInfos(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
     TextEditingController? name = TextEditingController(text: manga.name!);
     TextEditingController? description = TextEditingController(text: manga.description!);

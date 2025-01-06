@@ -163,14 +163,15 @@ class MangaInfoView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        GestureDetector(
-          onTap: () {
+        InkResponse(
+          onLongPress: () {
             Clipboard.setData(ClipboardData(text: manga.name!));
 
             botToast('Copied!', second: 3);
           },
           child: Tooltip(
-            message: 'ID: @${manga.id}\nTap to copy name',
+            message:
+                'ID: @${manga.id}, Link: ${manga.link}\nLong press on title to copy name, on source extension to copy link.\nClick source to navigate to settings',
             preferBelow: false,
             child: SelectableText(manga.name!, style: const TextStyle(fontSize: 20)),
           ),
@@ -191,7 +192,18 @@ class MangaInfoView extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(getMangaStatusName(manga.status, context)),
                       const Text(' • '),
-                      Text(manga.source!),
+                      InkResponse(
+                        onTap: () {
+                          final source = getSource(manga.lang!, manga.source!);
+                          context.push('/extension_detail', extra: source);
+                        },
+                        onLongPress: () {
+                          Clipboard.setData(ClipboardData(text: manga.link!));
+
+                          botToast('Copied!', second: 3);
+                        },
+                        child: Text(manga.source!),
+                      ),
                       Text(' (${manga.lang!.toUpperCase()})'),
                       if (!sourceExist)
                         const Padding(

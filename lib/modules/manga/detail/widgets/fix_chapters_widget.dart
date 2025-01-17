@@ -5,11 +5,11 @@ import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/update.dart';
-import 'package:mangayomi/models/dto/update_group.dart';
+import 'package:mangayomi/models/dto/chapter_group.dart';
 import 'package:mangayomi/utils/extensions/manga.dart';
 
 class ChaptersFix extends ConsumerStatefulWidget {
-  final UpdateGroup update;
+  final ChapterGroup update;
 
   const ChaptersFix({
     super.key,

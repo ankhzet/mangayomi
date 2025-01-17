@@ -4,9 +4,8 @@ import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/models/dto/update_group.dart';
+import 'package:mangayomi/models/dto/chapter_group.dart';
 import 'package:mangayomi/models/manga.dart';
-import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/modules/history/providers/isar_providers.dart';
 import 'package:mangayomi/modules/updates/widgets/update_chapter_list_tile_widget.dart';
 import 'package:mangayomi/modules/widgets/error_text.dart';
@@ -141,12 +140,12 @@ class _UpdatesTabState extends ConsumerState<UpdatesTab> {
                 return (((result == null) || (timestamp > result)) ? timestamp : result);
               });
 
-              int getPeriodicity(Update update) {
-                if (update.manga.favorite != true) {
+              int getPeriodicity(Chapter chapter) {
+                if (chapter.manga.value!.favorite != true) {
                   return -2;
                 }
 
-                final p = periodicity[update.manga.id];
+                final p = periodicity[chapter.mangaId];
 
                 if (p != null) {
                   final days = p.inDays;
@@ -163,8 +162,8 @@ class _UpdatesTabState extends ConsumerState<UpdatesTab> {
                 return 0;
               }
 
-              final groups = UpdateGroup.groupUpdates(
-                entries,
+              final groups = ChapterGroup.groupUpdates(
+                entries.map((update) => update.chapter.value).whereType<Chapter>(),
                 getPeriodicity,
               );
 
@@ -186,7 +185,7 @@ class _UpdatesTabState extends ConsumerState<UpdatesTab> {
                     ),
                   SliverGroupedListView(
                     elements: groups,
-                    groupBy: UpdateGroup.groupBy,
+                    groupBy: ChapterGroup.groupBy,
                     groupHeaderBuilder: (value) => Padding(
                       padding: const EdgeInsets.only(top: 16, bottom: 8, left: 12),
                       child: Row(

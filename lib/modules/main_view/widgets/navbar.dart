@@ -6,7 +6,7 @@ import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/update.dart';
-import 'package:mangayomi/models/dto/update_group.dart';
+import 'package:mangayomi/models/dto/chapter_group.dart';
 import 'package:mangayomi/modules/library/providers/library_state_provider.dart';
 import 'package:mangayomi/modules/widgets/count_badge.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
@@ -236,9 +236,9 @@ Widget _updatesTotalNumbers(WidgetRef ref) {
       int count = 0;
 
       if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-        final groups = UpdateGroup.groupUpdates(
-          snapshot.data!,
-          (Update update) => '${update.mangaId!}-${update.chapter.value!.order}',
+        final groups = ChapterGroup.groupUpdates(
+          snapshot.data!.map((update) => update.chapter.value).whereType<Chapter>(),
+          (Chapter chapter) => '${chapter.mangaId!}-${chapter.order}',
         );
 
         count = groups.length;

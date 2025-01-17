@@ -1,35 +1,28 @@
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/manga.dart';
-import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 
-class UpdateGroup<T> {
+class ChapterGroup<T> {
   Manga manga;
   List<Chapter> chapters;
   T group;
 
-  UpdateGroup.fromChapters(this.chapters, this.group) : manga = chapters.first.manga.value!;
+  ChapterGroup.fromChapters(this.chapters, this.group) : manga = chapters.first.manga.value!;
 
-  static T groupBy<T>(UpdateGroup<T> element) => element.group;
+  static T groupBy<T>(ChapterGroup<T> element) => element.group;
 
-  static List<UpdateGroup<T>> groupUpdates<T>(Iterable<Update> updates, T Function(Update update) groupBy) {
-    final List<UpdateGroup<T>> list = [];
+  static List<ChapterGroup<T>> groupUpdates<T>(Iterable<Chapter> items, T Function(Chapter item) groupBy) {
+    final List<ChapterGroup<T>> list = [];
 
-    for (var update in updates) {
-      final chapter = update.chapter.value;
-
-      if (chapter == null) {
-        continue;
-      }
-
+    for (final chapter in items) {
       final mangaId = chapter.mangaId!;
-      final group = groupBy(update);
+      final group = groupBy(chapter);
       final bucket = list.firstWhereOrNull((item) => (item.group == group) && (item.manga.id == mangaId));
 
       if (bucket != null) {
         bucket.chapters.add(chapter);
       } else {
-        list.add(UpdateGroup.fromChapters([chapter], group));
+        list.add(ChapterGroup.fromChapters([chapter], group));
       }
     }
 
@@ -70,7 +63,7 @@ class UpdateGroup<T> {
 
   int get lastUpdate => manga.lastUpdate ?? DateTime.fromMicrosecondsSinceEpoch(0).millisecondsSinceEpoch;
 
-  int compareTo(UpdateGroup other) => lastUpdate.compareTo(other.lastUpdate);
+  int compareTo(ChapterGroup other) => lastUpdate.compareTo(other.lastUpdate);
 }
 
 List<List<String>> groupRanges(List<String> indexes) {

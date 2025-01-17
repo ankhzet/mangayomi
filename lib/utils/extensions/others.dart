@@ -123,13 +123,15 @@ extension UChapDataPreloadExtensions on PreloadTask {
 }
 
 extension Waiting on Duration {
-  Future waitFor(Future<void> Function() callback) {
+  Future<T> waitFor<T>(Future<T> Function() callback) {
     bool isReady = false;
+    T? value;
 
-    callback().then((void _) {
+    callback().then((v) {
       isReady = true;
+      value = v;
     });
 
-    return Future.doWhile(() => Future.delayed(this, () => !isReady));
+    return Future.doWhile(() => Future.delayed(this, () => !isReady)).then((void _) => value!);
   }
 }

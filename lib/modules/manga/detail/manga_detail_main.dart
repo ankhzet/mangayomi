@@ -25,7 +25,7 @@ class _MangaReaderDetailState extends ConsumerState<MangaReaderDetail> {
     super.initState();
   }
 
-  bool _isLoading = true;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class _MangaReaderDetailState extends ConsumerState<MangaReaderDetail> {
   }
 
   Widget _body(BuildContext context, Manga manga) {
-    final value = ref.watch(getSourceStreamProvider(name: manga.source!, lang: manga.lang!));
+    final value = ref.watch(getSourceStreamProvider(title: manga.source!, lang: manga.lang!));
 
     return AsyncValueWidget(
       async: value,

@@ -27,12 +27,18 @@ class ChaptersListState extends _$ChaptersListState {
   }
 
   void update(Chapter value) {
+    updateAll([value]);
+  }
+
+  void updateAll(Iterable<Chapter> value) {
     var result = state.reversed.toList();
 
-    if (result.contains(value)) {
-      result.remove(value);
-    } else {
-      result.add(value);
+    for (final chapter in value) {
+      if (result.contains(chapter)) {
+        result.remove(chapter);
+      } else {
+        result.add(chapter);
+      }
     }
 
     state = result;
@@ -72,6 +78,7 @@ class ChaptersListState extends _$ChaptersListState {
 
   void clear() {
     state = [];
+    toggleMode(false);
   }
 }
 

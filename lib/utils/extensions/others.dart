@@ -132,6 +132,6 @@ extension Waiting on Duration {
       value = v;
     });
 
-    return Future.doWhile(() => Future.delayed(this, () => !isReady)).then((void _) => value!);
+    return Future.doWhile(() => Future.delayed(this, () => !isReady)).then((void _) => value as T);
   }
 }

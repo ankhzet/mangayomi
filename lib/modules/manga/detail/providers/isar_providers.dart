@@ -25,7 +25,7 @@ Stream<List<Chapter>> getChaptersStream(Ref ref, {required int mangaId}) async* 
 Stream<bool> getSourceStream(
   Ref ref, {
   required String lang,
-  required String name,
+  required String title,
 }) async* {
   yield* isar.sources
       .filter()
@@ -36,7 +36,7 @@ Stream<bool> getSourceStream(
       .and()
       .langContains(lang, caseSensitive: false)
       .and()
-      .nameContains(name, caseSensitive: false)
+      .nameContains(title, caseSensitive: false)
       .watch(fireImmediately: true)
       .map((sources) => sources.isNotEmpty);
 }

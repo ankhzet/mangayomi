@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:isar/isar.dart';
 import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/utils/extensions/chapter.dart';
 
 part 'chapter.g.dart';
 
@@ -25,11 +26,19 @@ int compareComposite(ChapterCompositeNumber a, ChapterCompositeNumber b) {
 @collection
 @Name("Chapter")
 class Chapter {
+  @ignore ChapterCompositeNumber? _order;
+  @ignore String? _name;
+
   Id? id;
 
   int? mangaId;
 
-  String? name;
+  String? get name => _name;
+
+  set name(String? value) {
+    _name = value;
+    _order = null;
+  }
 
   String? url;
 
@@ -48,17 +57,54 @@ class Chapter {
 
   final manga = IsarLink<Manga>();
 
+  static bool isChapterBookmarked(Chapter chapter) => chapter.isBookmarked ?? false;
+  static bool isChapterRead(Chapter chapter) => chapter.isRead ?? false;
+  static bool isChapterUnread(Chapter chapter) => !(chapter.isRead ?? false);
+  static bool hasChapterScanlators(Chapter chapter) => chapter.scanlator?.isNotEmpty ?? false;
+  static DateTime? firstUpload(Iterable<Chapter> chapters) {
+    DateTime? min;
+
+    for (final chapter in chapters) {
+      final time = chapter.datetimeUpload();
+
+      if (time != null && (min == null || time.millisecondsSinceEpoch < min.millisecondsSinceEpoch)) {
+        min = time;
+      }
+    }
+
+    return min;
+  }
+
+  static String fullTitle(Iterable<Chapter> chapters) {
+    for (final chapter in chapters) {
+      final name = chapter.name;
+
+      if (name?.contains(':') ?? false) {
+        return name!;
+      }
+    }
+
+    final (v, c, s) = chapters.first.compositeOrder;
+    final chapter = (s > 0) ? '$c.$s' : '$c';
+
+    if (v > 0) {
+      return 'Vol. $v, Chap. $chapter';
+    }
+
+    return 'Chapter $chapter';
+  }
+
   Chapter(
       {this.id = Isar.autoIncrement,
       required this.mangaId,
-      required this.name,
+      required String? name,
       this.url = '',
       this.dateUpload = '',
       this.isBookmarked = false,
       this.scanlator = '',
       this.isRead = false,
       this.lastPageRead = '',
-      this.archivePath = ''});
+      this.archivePath = ''}): _name = name;
 
   Chapter.fromJson(Map<String, dynamic> json) {
     archivePath = json['archivePath'];
@@ -87,7 +133,7 @@ class Chapter {
       };
 
   bool isSameNumber(Chapter other) {
-    return 0 == compareComposite(getNumber, other.getNumber);
+    return 0 == compareComposite(compositeOrder, other.compositeOrder);
   }
 
   bool isSame(Chapter other) {
@@ -130,29 +176,13 @@ class Chapter {
   int get samenessHash => Object.hash(mangaId, scanlator, name);
 
   @ignore
-  ChapterCompositeNumber get getNumber {
-    if ((name ?? '').isNotEmpty) {
-      final match = numberRegexp.firstMatch(name!);
-
-      if (match != null) {
-        final v = match.namedGroup('v');
-        final c = match.namedGroup('c');
-        final s = match.namedGroup('s');
-
-        return (
-          (v != null) && v.isNotEmpty ? int.parse(v) : 0,
-          (c != null) && c.isNotEmpty ? int.parse(c) : 0,
-          (s != null) && s.isNotEmpty ? int.parse(s) : 0,
-        );
-      }
-    }
-
-    return (0, 0, 0);
+  ChapterCompositeNumber get compositeOrder {
+    return (_order ??= calculateOrder());
   }
 
   @Index(name: "order")
   double get order {
-    final (_, chapter, fraction) = getNumber;
+    final (_, chapter, fraction) = compositeOrder;
 
     if (fraction == 0) {
       return chapter.toDouble();
@@ -162,13 +192,33 @@ class Chapter {
   }
 
   int compareTo(Chapter b) {
-    final numbers = compareComposite(getNumber, b.getNumber);
+    final numbers = compareComposite(compositeOrder, b.compositeOrder);
 
     if (numbers != 0) {
       return numbers;
     }
 
     return (scanlator ?? '').compareTo(b.scanlator ?? '');
+  }
+
+  ChapterCompositeNumber calculateOrder() {
+    if ((name ?? '').isNotEmpty) {
+      final match = numberRegexp.firstMatch(name!);
+
+      if (match != null) {
+        final v = match.namedGroup('v');
+        final c = match.namedGroup('c');
+        final s = match.namedGroup('s');
+
+        return (
+        (v != null) && v.isNotEmpty ? int.parse(v) : 0,
+        (c != null) && c.isNotEmpty ? int.parse(c) : 0,
+        (s != null) && s.isNotEmpty ? int.parse(s) : 0,
+        );
+      }
+    }
+
+    return (0, 0, 0);
   }
 }
 

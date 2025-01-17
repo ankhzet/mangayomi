@@ -236,7 +236,7 @@ Widget _updatesTotalNumbers(WidgetRef ref) {
       int count = 0;
 
       if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-        final groups = ChapterGroup.groupUpdates(
+        final groups = ChapterGroup.groupChapters(
           snapshot.data!.map((update) => update.chapter.value).whereType<Chapter>(),
           (Chapter chapter) => '${chapter.mangaId!}-${chapter.order}',
         );

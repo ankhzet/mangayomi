@@ -8,6 +8,7 @@ import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
+import 'package:mangayomi/models/dto/chapter_group.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/modules/manga/detail/chapters_list_model.dart';
@@ -98,25 +99,31 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
         data: (data) {
           ref.read(chaptersListttStateProvider.notifier).set(data);
 
+          final grouped = ChapterGroup.groupChapters(data, (chapter) => chapter.compositeOrder);
+
           return _buildWidget(
             chapters: data,
+            grouped: grouped,
             isLongPressed: isLongPressed,
           );
         },
         error: (Object error, StackTrace stackTrace) => ErrorText(error),
         loading: () => _buildWidget(
-          chapters: manga.chapters.toList(growable: false),
+          chapters: [],
+          grouped: [],
           isLongPressed: isLongPressed,
         ),
       ),
     );
   }
 
-  Widget _buildWidget({required List<Chapter> chapters, required bool isLongPressed}) {
+  Widget _buildWidget({
+    required List<Chapter> chapters,
+    required List<ChapterGroup<ChapterCompositeNumber>> grouped,
+    required bool isLongPressed,
+  }) {
     final l10n = l10nLocalizations(context)!;
-    final chapterLength = chapters.length;
-
-    final details = MangaInfo(manga: manga, sourceExist: widget.sourceExist, chapters: chapterLength);
+    final details = MangaInfo(manga: manga, sourceExist: widget.sourceExist, chapters: grouped.length);
 
     return Stack(
       children: [
@@ -135,6 +142,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                     final textAlpha = max(0, bgAlpha - 128 - 64) * 4;
 
                     final isLongPressed = ref.watch(isLongPressedStateProvider);
+
                     return isLongPressed
                         ? ChaptersSelectionBar(manga: manga, chapters: chapters)
                         : AppBar(
@@ -179,21 +187,23 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                               padding: const EdgeInsets.only(top: 0, bottom: 60),
                               sliver: Consumer(builder: (context, ref, _) {
                                 final chaptersSelection = ref.watch(chaptersListStateProvider);
+                                final total = grouped.length;
 
                                 return SuperSliverList.builder(
-                                    itemCount: chapterLength + 1,
+                                    itemCount: total + 1,
                                     itemBuilder: (context, index) {
                                       if (index == 0) {
                                         return context.isTablet //
-                                            ? MangaChaptersCounter(manga: manga, chapters: chapterLength)
+                                            ? MangaChaptersCounter(manga: manga, chapters: total)
                                             : details;
                                       }
 
-                                      final chapter = chapters[index - 1];
+                                      final group = grouped[index - 1];
 
                                       return ChapterListTileWidget(
-                                        chapter: chapter,
-                                        isSelected: chaptersSelection.contains(chapter),
+                                        manga: manga,
+                                        group: group,
+                                        isSelected: chaptersSelection.contains(group.chapters.firstOrNull),
                                         sourceExist: widget.sourceExist,
                                       );
                                     });
@@ -206,10 +216,10 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
               ),
             ),
             bottomNavigationBar: Consumer(builder: (context, ref, child) {
-              final chap = ref.watch(chaptersListStateProvider);
-              bool getLength1 = chap.length == 1;
-              bool checkFirstBookmarked = chap.isNotEmpty && chap.first.isBookmarked! && getLength1;
-              bool checkReadBookmarked = chap.isNotEmpty && chap.first.isRead! && getLength1;
+              final selection = ref.watch(chaptersListStateProvider);
+              final isOneSelected = selection.length == 1;
+              final checkFirstBookmarked = isOneSelected && Chapter.isChapterBookmarked(selection.first);
+              final checkReadBookmarked = isOneSelected && Chapter.isChapterRead(selection.first);
 
               return AnimatedContainer(
                 curve: Curves.easeIn,
@@ -233,9 +243,8 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                               shadowColor: Colors.transparent,
                             ),
                             onPressed: () {
-                              final chapters = ref.watch(chaptersListStateProvider);
                               isar.writeTxnSync(() {
-                                for (var chapter in chapters) {
+                                for (final chapter in selection) {
                                   chapter.isBookmarked = !chapter.isBookmarked!;
                                   ref
                                       .read(changedItemsManagerProvider(managerId: 1).notifier)
@@ -244,8 +253,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                   chapter.manga.saveSync();
                                 }
                               });
-                              ref.read(isLongPressedStateProvider.notifier).update(false);
-                              ref.read(chaptersListStateProvider.notifier).clear();
+                              _unselect(ref);
                             },
                             child: Icon(
                                 checkFirstBookmarked ? Icons.bookmark_remove_outlined : Icons.bookmark_add_outlined,
@@ -279,8 +287,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                   }
                                 }
                               });
-                              ref.read(isLongPressedStateProvider.notifier).update(false);
-                              ref.read(chaptersListStateProvider.notifier).clear();
+                              _unselect(ref);
                             },
                             child: Icon(
                               checkReadBookmarked ? Icons.remove_done_sharp : Icons.done_all_sharp,
@@ -288,7 +295,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                             ),
                           )),
                     ),
-                    if (getLength1)
+                    if (isOneSelected)
                       Expanded(
                         child: SizedBox(
                           height: 70,
@@ -299,11 +306,11 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                 shadowColor: Colors.transparent,
                               ),
                               onPressed: () {
-                                final int index = chapters.indexOf(chap.first);
+                                final int index = chapters.indexOf(selection.first);
                                 chapters[index + 1].updateTrackChapterRead(ref);
 
-                                ref.read(isLongPressedStateProvider.notifier).update(false);
-                                ref.read(chaptersListStateProvider.notifier).clear();
+                                _unselect(ref);
+
                                 final changeLog = ref.read(changedItemsManagerProvider(managerId: 1).notifier);
                                 final List<Chapter> updated = [];
 
@@ -319,9 +326,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                 }
 
                                 if (updated.isNotEmpty) {
-                                  isar
-                                      .updates
-                                      .deleteForChaptersSync(mangaId, updated.map((i) => i.id!));
+                                  isar.updates.deleteForChaptersSync(mangaId, updated.map((i) => i.id!));
 
                                   isar.writeTxnSync(() {
                                     isar.chapters.putAllSync(updated);
@@ -370,8 +375,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                     }
                                   }
                                 });
-                                ref.read(isLongPressedStateProvider.notifier).update(false);
-                                ref.read(chaptersListStateProvider.notifier).clear();
+                                _unselect(ref);
                               },
                               child: Icon(
                                 Icons.download_outlined,
@@ -414,8 +418,9 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                                         isar.chapters.deleteSync(chapter.id!);
                                                       }
                                                     });
-                                                    ref.read(isLongPressedStateProvider.notifier).update(false);
-                                                    ref.read(chaptersListStateProvider.notifier).clear();
+
+                                                    _unselect(ref);
+
                                                     if (mounted) {
                                                       Navigator.pop(context);
                                                     }
@@ -439,5 +444,10 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
             })),
       ],
     );
+  }
+
+  _unselect(WidgetRef ref) {
+    ref.read(isLongPressedStateProvider.notifier).update(false);
+    ref.read(chaptersListStateProvider.notifier).clear();
   }
 }

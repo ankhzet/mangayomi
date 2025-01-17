@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/chapter.dart';
+import 'package:mangayomi/models/dto/chapter_group.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
 import 'package:mangayomi/modules/manga/download/download_page_widget.dart';
+import 'package:mangayomi/modules/widgets/separated_row.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/date.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
-import 'package:mangayomi/utils/extensions/string_extensions.dart';
 
 class ChapterListTileWidget extends ConsumerWidget {
-  final Chapter chapter;
+  final Manga manga;
+  final ChapterGroup<ChapterCompositeNumber> group;
   final bool sourceExist;
   final bool isSelected;
 
   const ChapterListTileWidget({
-    required this.chapter,
+    required this.manga,
+    required this.group,
     required this.sourceExist,
     required this.isSelected,
     super.key,
@@ -23,89 +27,66 @@ class ChapterListTileWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLongPressed = ref.watch(isLongPressedStateProvider);
     final l10n = l10nLocalizations(context)!;
-    final hasProgress = !chapter.isRead! && chapter.lastPageRead!.isNotEmpty && chapter.lastPageRead != "1";
-    final hasScanlators = chapter.scanlator?.isNotEmpty ?? false;
-    final isLocalArchive = chapter.manga.value!.isLocalArchive ?? false;
+    final isLongPressed = ref.watch(isLongPressedStateProvider);
+    final isLocalArchive = manga.isLocalArchive ?? false;
+    final isBookmarked = group.isAnyBookmarked;
+    final isRead = group.isAnyRead;
+    final chapter = group.firstOrRead;
+    final hasScanlators = group.hasAnyScanlators;
+    final progress = isRead ? '' : chapter.progress();
+    final dateUpload = !isLocalArchive ? group.dateUpload : null;
+    final textColor = context.isLight ? Colors.black.withValues(alpha: 0.4) : Colors.white.withValues(alpha: 0.3);
 
     return Container(
       color: isSelected ? context.primaryColor.withValues(alpha: 0.4) : null,
       child: ListTile(
-        textColor: chapter.isRead!
-            ? context.isLight
-                ? Colors.black.withValues(alpha: 0.4)
-                : Colors.white.withValues(alpha: 0.3)
-            : null,
-        selectedColor: chapter.isRead! ? Colors.white.withValues(alpha: 0.3) : Colors.white,
+        textColor: isRead ? textColor : null,
+        selectedColor: isRead ? Colors.white.withValues(alpha: 0.3) : Colors.white,
         onLongPress: () {
-          if (!isLongPressed) {
-            ref.read(chaptersListStateProvider.notifier).update(chapter);
+          ref.read(chaptersListStateProvider.notifier).updateAll(group.chapters);
 
-            ref.read(isLongPressedStateProvider.notifier).update(!isLongPressed);
-          } else {
-            ref.read(chaptersListStateProvider.notifier).update(chapter);
+          if (!isLongPressed) {
+            ref.read(isLongPressedStateProvider.notifier).update(true);
           }
         },
         onTap: () async {
           if (isLongPressed) {
-            ref.read(chaptersListStateProvider.notifier).update(chapter);
+            ref.read(chaptersListStateProvider.notifier).updateAll(group.chapters);
           } else {
             chapter.pushToReaderView(context, ignoreIsRead: true);
           }
         },
         title: Row(
           children: [
-            chapter.isBookmarked!
-                ? Icon(
-                    Icons.bookmark,
-                    size: 16,
-                    color: context.primaryColor,
-                  )
-                : Container(),
+            if (isBookmarked) Icon(Icons.bookmark, size: 16, color: context.primaryColor),
             Flexible(
               child: Text(
-                chapter.name!,
+                group.fullTitle,
                 style: const TextStyle(fontSize: 13),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
         ),
-        subtitle: Row(
+        subtitle: SeparatedRow(
+          separator: const Text(' • '),
           children: [
-            if (!isLocalArchive)
+            if (dateUpload != null)
               Text(
-                (chapter.dateUpload?.isNotEmpty ?? false)
-                    ? dateFormat(chapter.dateUpload!, ref: ref, context: context)
-                    : "",
+                dateFormat(null, datetimeDate: dateUpload, ref: ref, context: context),
                 style: const TextStyle(fontSize: 11),
               ),
-            if (hasProgress) const Text(' • '),
-            if (hasProgress)
+            if (progress.isNotEmpty)
               Text(
-                !chapter.manga.value!.isManga!
-                    ? l10n.episode_progress(
-                        Duration(milliseconds: int.parse(chapter.lastPageRead!)).toString().substringBefore("."))
-                    : l10n.page(chapter.lastPageRead!),
-                style: TextStyle(
-                    fontSize: 11,
-                          color: context.isLight
-                              ? Colors.black.withValues(alpha: 0.4)
-                              : Colors.white.withValues(alpha: 0.3)),
+                chapter.isManga ? l10n.page(progress) : l10n.episode_progress(progress),
+                style: TextStyle(fontSize: 11, color: textColor),
               ),
-            if (hasScanlators) const Text(' • '),
             if (hasScanlators)
               Flexible(
                 child: Text(
-                  chapter.scanlator!,
-                  style: TextStyle(
-                      fontSize: 11,
-                      color: chapter.isRead!
-                          ? context.isLight
-                                ? Colors.black.withValues(alpha: 0.4)
-                                : Colors.white.withValues(alpha: 0.3)
-                          : null),
+                  group.scanlators,
+                  style: TextStyle(fontSize: 11, color: isRead ? textColor : null),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),

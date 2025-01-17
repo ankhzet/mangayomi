@@ -106,7 +106,7 @@ class ChapterSortModel {
     final int multiplier = sort.inReverse ? -1 : 1;
 
     for (var chapter in chapters) {
-      cache[chapter.id!] = chapter.getNumber;
+      cache[chapter.id!] = chapter.compositeOrder;
     }
 
     return (Chapter a, Chapter b) {

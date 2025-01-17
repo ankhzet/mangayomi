@@ -2,6 +2,8 @@ import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 
+bool isRead(Chapter chapter) => chapter.isRead ?? false;
+
 class ChapterGroup<T> {
   Manga manga;
   List<Chapter> chapters;
@@ -11,7 +13,7 @@ class ChapterGroup<T> {
 
   static T groupBy<T>(ChapterGroup<T> element) => element.group;
 
-  static List<ChapterGroup<T>> groupUpdates<T>(Iterable<Chapter> items, T Function(Chapter item) groupBy) {
+  static List<ChapterGroup<T>> groupChapters<T>(Iterable<Chapter> items, T Function(Chapter item) groupBy) {
     final List<ChapterGroup<T>> list = [];
 
     for (final chapter in items) {
@@ -33,7 +35,7 @@ class ChapterGroup<T> {
 
   String get label {
     final indexes =
-        chapters.sorted((a, b) => -a.compareTo(b)).map((chapter) => chapter.getNumber).toList(growable: false);
+        chapters.sorted((a, b) => -a.compareTo(b)).map((chapter) => chapter.compositeOrder).toList(growable: false);
     final volumes = indexes.map((index) => index.$1).toUnique(growable: false);
 
     if (volumes.length > 1) {
@@ -55,11 +57,18 @@ class ChapterGroup<T> {
     return 'Ch. ${indexesToStr(indexes)}';
   }
 
-  bool get isRead => chapters.every((chapter) => chapter.isRead ?? false);
+  late bool isRead = chapters.every(Chapter.isChapterRead);
+  late bool isAnyRead = chapters.any(Chapter.isChapterRead);
+  late bool isAnyBookmarked = chapters.any(Chapter.isChapterBookmarked);
+  late bool hasAnyScanlators = chapters.any(Chapter.hasChapterScanlators);
+  late DateTime? dateUpload = Chapter.firstUpload(chapters);
+  late String fullTitle = Chapter.fullTitle(chapters);
 
-  Chapter get firstOrUnread {
-    return chapters.firstWhere((chapter) => chapter.isRead ?? false, orElse: () => chapters.first);
-  }
+  late Chapter firstOrRead = chapters.firstWhere(Chapter.isChapterRead, orElse: () => chapters.first);
+  late Chapter firstOrUnread = chapters.firstWhere(Chapter.isChapterUnread, orElse: () => chapters.first);
+
+  late String scanlators =
+      chapters.map((chapter) => (chapter.scanlator?.isEmpty ?? true) ? '?' : chapter.scanlator).join(', ');
 
   int get lastUpdate => manga.lastUpdate ?? DateTime.fromMicrosecondsSinceEpoch(0).millisecondsSinceEpoch;
 

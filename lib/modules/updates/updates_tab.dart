@@ -162,7 +162,7 @@ class _UpdatesTabState extends ConsumerState<UpdatesTab> {
                 return 0;
               }
 
-              final groups = ChapterGroup.groupUpdates(
+              final groups = ChapterGroup.groupChapters(
                 entries.map((update) => update.chapter.value).whereType<Chapter>(),
                 getPeriodicity,
               );

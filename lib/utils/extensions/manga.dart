@@ -56,11 +56,11 @@ extension MangaExtension on Manga {
   }
 
   List<Chapter> getUnreadChapters(List<Chapter> candidates, {List<Chapter>? all}) {
-    final List<ChapterCompositeNumber> read = (all ?? chapters).where((chapter) => chapter.isRead ?? false).map((chapter) => chapter.getNumber).toList();
+    final List<ChapterCompositeNumber> read = (all ?? chapters).where((chapter) => chapter.isRead ?? false).map((chapter) => chapter.compositeOrder).toList();
     final List<Chapter> result = [];
 
     for (var chapter in candidates) {
-      final found = read.any((had) => compareComposite(chapter.getNumber, had) == 0);
+      final found = read.any((had) => compareComposite(chapter.compositeOrder, had) == 0);
 
       if (!found) {
         result.add(chapter);

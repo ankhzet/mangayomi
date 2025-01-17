@@ -4,54 +4,60 @@ import 'package:intl/intl.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/date_format_state_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 
-String dateFormat(String? timestamp,
-    {required WidgetRef ref,
-    required BuildContext context,
-    String? stringDate,
-    bool forHistoryValue = false,
-    bool useRelativeTimesTamps = true,
-    String dateFormat = "",
-    bool showHOURorMINUTE = false}) {
+String dateFormat(
+  String? timestamp, {
+  required WidgetRef ref,
+  required BuildContext context,
+  String? stringDate,
+  DateTime? datetimeDate,
+  bool forHistoryValue = false,
+  bool useRelativeTimesTamps = true,
+  String dateFormat = "",
+  bool showHourOrMinute = false,
+}) {
   final l10n = l10nLocalizations(context)!;
   final locale = currentLocale(context);
   final relativeTimestamps = ref.watch(relativeTimesTampsStateProvider);
-  final dateFrmt = ref.watch(dateFormatStateProvider);
-  final dateTime =
-      stringDate != null ? DateTime.parse(stringDate) : DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp!));
+  final dateTime = datetimeDate ??
+      (stringDate != null ? DateTime.parse(stringDate) : DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp!)));
 
   final date = DateTime(dateTime.year, dateTime.month, dateTime.day);
   final now = DateTime.now();
   final today = DateTime(now.year, now.month, now.day);
 
-  if (date == today && useRelativeTimesTamps && relativeTimestamps != 0) {
-    if (showHOURorMINUTE) {
-      final difference = now.difference(dateTime);
-      if (difference.inMinutes < 60) {
-        return switch (difference.inMinutes) {
-          0 => l10n.now,
-          1 => l10n.n_minute_ago(difference.inMinutes),
-          _ => l10n.n_minutes_ago(difference.inMinutes),
-        };
-      } else if (difference.inHours < 24) {
-        return switch (difference.inHours) {
-          1 => l10n.n_hour_ago(difference.inHours),
-          _ => l10n.n_hours_ago(difference.inHours),
+  if (useRelativeTimesTamps) {
+    if (date == today && relativeTimestamps != 0) {
+      if (showHourOrMinute) {
+        final difference = now.difference(dateTime);
+        if (difference.inMinutes < 60) {
+          return switch (difference.inMinutes) {
+            0 => l10n.now,
+            1 => l10n.n_minute_ago(difference.inMinutes),
+            _ => l10n.n_minutes_ago(difference.inMinutes),
+          };
+        } else if (difference.inHours < 24) {
+          return switch (difference.inHours) {
+            1 => l10n.n_hour_ago(difference.inHours),
+            _ => l10n.n_hours_ago(difference.inHours),
+          };
+        }
+      }
+
+      return l10n.today;
+    } else if (date == today.subtract(const Duration(days: 1)) && relativeTimestamps != 0) {
+      return l10n.yesterday;
+    } else if (relativeTimestamps == 2) {
+      final difference = today
+          .difference(date)
+          .inDays;
+
+      if (difference <= 7) {
+        return switch (difference) {
+          1 => l10n.n_day_ago(difference),
+          != 7 => l10n.n_days_ago(difference),
+          _ => l10n.a_week_ago,
         };
       }
-    }
-
-    return l10n.today;
-  } else if (date == today.subtract(const Duration(days: 1)) && useRelativeTimesTamps && relativeTimestamps != 0) {
-    return l10n.yesterday;
-  } else if (useRelativeTimesTamps && relativeTimestamps == 2) {
-    final difference = today.difference(date).inDays;
-
-    if (difference <= 7) {
-      return switch (difference) {
-        1 => l10n.n_day_ago(difference),
-        != 7 => l10n.n_days_ago(difference),
-        _ => l10n.a_week_ago,
-      };
     }
   }
 
@@ -59,7 +65,9 @@ String dateFormat(String? timestamp,
     return DateTime(dateTime.year, dateTime.month, dateTime.day).toString();
   }
 
-  return DateFormat(dateFormat.isEmpty ? dateFrmt : dateFormat, locale.toLanguageTag()).format(date);
+  final format = dateFormat.isEmpty ? ref.watch(dateFormatStateProvider) : dateFormat;
+
+  return DateFormat(format, locale.toLanguageTag()).format(date);
 }
 
 String dateFormatHour(String timestamp, BuildContext context) {

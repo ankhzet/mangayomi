@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mangayomi/modules/widgets/error_text.dart';
-import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 
 class MediaTabs extends ConsumerStatefulWidget {
   final Widget Function(bool isManga) content;
   final Widget Function(TabBar? tabBar, Widget view) wrap;
-  final AsyncValue<List<bool>>? types;
   final Tab Function(bool isManga)? tab;
+  final List<bool>? types;
   final List<bool>? defaultTypes;
   final void Function(bool isManga)? onChange;
 
@@ -31,21 +29,13 @@ class _MediaTabsState extends ConsumerState<MediaTabs> {
 
   @override
   Widget build(BuildContext context) {
-    final async = widget.types;
+    final types = widget.types ?? defaultTypes;
 
-    if (async != null) {
-      return async.when(
-        data: (types) => switch (types.length) {
-          0 => _tabBar(context, defaultTypes),
-          <= 1 => widget.wrap(null, widget.content(types.first)),
-          _ => _tabBar(context, types),
-        },
-        error: (Object error, StackTrace stackTrace) => ErrorText(error),
-        loading: () => const ProgressCenter(),
-      );
-    }
-
-    return _tabBar(context, defaultTypes);
+    return switch (types.length) {
+      0 => _tabBar(context, defaultTypes),
+      <= 1 => widget.wrap(null, widget.content(types.first)),
+      _ => _tabBar(context, types),
+    };
   }
 
   Widget _tabBar(BuildContext context, List<bool> types) {
@@ -94,16 +84,10 @@ class _TypeTabBarState<T> extends ConsumerState<TypeTabBarView<T>> with TickerPr
     final onChange = widget.onChange;
 
     if (onChange != null) {
-      _tabBarController.addListener(() => onChange(getTypeByIndex(index)));
+      _tabBarController.addListener(() => onChange(types[_tabBarController.index]));
     }
 
     super.initState();
-  }
-
-  get index => _tabBarController.index;
-
-  getTypeByIndex(int index) {
-    return types[index];
   }
 
   @override

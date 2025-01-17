@@ -11,6 +11,7 @@ import 'package:mangayomi/modules/library/providers/library_state_provider.dart'
 import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
 import 'package:mangayomi/modules/widgets/listview_widget.dart';
 import 'package:mangayomi/modules/widgets/manga_image_card_widget.dart';
+import 'package:mangayomi/utils/date.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
 import 'package:mangayomi/utils/extensions/manga.dart';
@@ -19,18 +20,21 @@ class LibraryListViewWidget extends StatelessWidget {
   final List<Manga> entriesManga;
   final bool language;
   final bool downloadedChapter;
+  final bool unreadChapter;
   final List<int> mangaIdsList;
   final bool continueReaderBtn;
   final bool localSource;
 
-  const LibraryListViewWidget(
-      {super.key,
-      required this.entriesManga,
-      required this.language,
-      required this.downloadedChapter,
-      required this.continueReaderBtn,
-      required this.mangaIdsList,
-      required this.localSource});
+  const LibraryListViewWidget({
+    super.key,
+    required this.entriesManga,
+    required this.language,
+    required this.unreadChapter,
+    required this.downloadedChapter,
+    required this.continueReaderBtn,
+    required this.mangaIdsList,
+    required this.localSource,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +43,10 @@ class LibraryListViewWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         final entry = entriesManga[index];
         bool isLocalArchive = entry.isLocalArchive ?? false;
+
         return Consumer(builder: (context, ref, child) {
           final isLongPressed = ref.watch(isLongPressedMangaStateProvider);
+
           return Material(
             borderRadius: BorderRadius.circular(5),
             color: Colors.transparent,
@@ -51,31 +57,28 @@ class LibraryListViewWidget extends StatelessWidget {
                   ref.read(mangasListStateProvider.notifier).update(entry);
                 } else {
                   await pushToMangaReaderDetail(
-                      archiveId: isLocalArchive ? entry.id : null,
-                      context: context,
-                      lang: entry.lang!,
-                      mangaM: entry,
-                      source: entry.source!);
+                    archiveId: isLocalArchive ? entry.id : null,
+                    context: context,
+                    lang: entry.lang!,
+                    mangaM: entry,
+                    source: entry.source!,
+                  );
                   ref.invalidate(getAllMangaWithoutCategoriesStreamProvider(isManga: entry.isManga));
                   ref.invalidate(getAllMangaStreamProvider(categoryId: null, isManga: entry.isManga));
                 }
               },
               onLongPress: () {
-                if (!isLongPressed) {
-                  ref.read(mangasListStateProvider.notifier).update(entry);
+                ref.read(mangasListStateProvider.notifier).update(entry);
 
+                if (!isLongPressed) {
                   ref.read(isLongPressedMangaStateProvider.notifier).update(!isLongPressed);
-                } else {
-                  ref.read(mangasListStateProvider.notifier).update(entry);
                 }
               },
               onSecondaryTap: () {
-                if (!isLongPressed) {
-                  ref.read(mangasListStateProvider.notifier).update(entry);
+                ref.read(mangasListStateProvider.notifier).update(entry);
 
+                if (!isLongPressed) {
                   ref.read(isLongPressedMangaStateProvider.notifier).update(!isLongPressed);
-                } else {
-                  ref.read(mangasListStateProvider.notifier).update(entry);
                 }
               },
               child: Container(
@@ -112,7 +115,22 @@ class LibraryListViewWidget extends StatelessWidget {
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text(entry.name!),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(entry.name!, overflow: TextOverflow.ellipsis),
+                                      Row(children: [
+                                        Text.rich(TextSpan(children: [
+                                          TextSpan(text: 'Added: '),
+                                          TextSpan(
+                                              text: dateFormat(null,
+                                                  ref: ref,
+                                                  context: context,
+                                                  datetimeDate: DateTime.fromMillisecondsSinceEpoch(entry.dateAdded!))),
+                                        ]), style: Theme.of(context).textTheme.labelSmall!)
+                                      ]),
+                                    ],
+                                  ),
                                 ),
                               )
                             ],
@@ -120,97 +138,7 @@ class LibraryListViewWidget extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(5),
-                          child: Container(
-                            decoration:
-                                BoxDecoration(borderRadius: BorderRadius.circular(3), color: context.primaryColor),
-                            child: SizedBox(
-                              height: 22,
-                              child: Row(
-                                children: [
-                                  if (localSource && isLocalArchive)
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(3), bottomLeft: Radius.circular(3)),
-                                        color: Theme.of(context).hintColor,
-                                      ),
-                                      child: const Padding(
-                                        padding: EdgeInsets.only(left: 3, right: 3),
-                                        child: Text(
-                                          "Local",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                  if (downloadedChapter)
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 5),
-                                      child: Consumer(
-                                        builder: (context, ref, child) {
-                                          List nbrDown = [];
-                                          isar.txnSync(() {
-                                            for (var i = 0; i < entry.chapters.length; i++) {
-                                              final entries = isar.downloads
-                                                  .filter()
-                                                  .idIsNotNull()
-                                                  .chapterIdEqualTo(entry.chapters.toList()[i].id)
-                                                  .findAllSync();
-
-                                              if (entries.isNotEmpty && entries.first.isDownload!) {
-                                                nbrDown.add(entries.first);
-                                              }
-                                            }
-                                          });
-                                          if (nbrDown.isNotEmpty) {
-                                            return Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius: const BorderRadius.only(
-                                                    topLeft: Radius.circular(3), bottomLeft: Radius.circular(3)),
-                                                color: Theme.of(context).hintColor,
-                                              ),
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(left: 3, right: 3),
-                                                child: Text(
-                                                  nbrDown.length.toString(),
-                                                  style: const TextStyle(color: Colors.white),
-                                                ),
-                                              ),
-                                            );
-                                          } else {
-                                            return Container();
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 3),
-                                    child: Text(
-                                      entry.chapters.length.toString(),
-                                      style: const TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                  if (language && entry.lang!.isNotEmpty)
-                                    Container(
-                                      color: context.primaryColor,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.only(
-                                              topRight: Radius.circular(3), bottomRight: Radius.circular(3)),
-                                          color: Theme.of(context).hintColor,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(left: 3, right: 3),
-                                          child: Text(
-                                            entry.lang!.toUpperCase(),
-                                            style: const TextStyle(color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          child: _badges(context: context, entry: entry),
                         ),
                         if (continueReaderBtn)
                           Consumer(
@@ -298,6 +226,66 @@ class LibraryListViewWidget extends StatelessWidget {
           );
         });
       },
+    );
+  }
+
+  String unreadChapters(Manga entry) {
+    int count = isar.chapters.filter().idIsNotNull().mangaIdEqualTo(entry.id).not().isReadEqualTo(true).countSync();
+
+    return count > 0 ? '$count' : '';
+  }
+
+  String downloadedChapters(Manga entry) {
+    int count = isar.downloads.filter().idIsNotNull().mangaIdEqualTo(entry.id).distinctByChapterId().countSync();
+
+    return count > 0 ? '$count' : '';
+  }
+
+  Widget _badges({required BuildContext context, required Manga entry}) {
+    final List<(String, TextStyle?)> samples = [
+      if (localSource && (entry.isLocalArchive ?? false)) ('Local', null),
+      if (downloadedChapter) (downloadedChapters(entry), const TextStyle(color: Colors.deepOrange)),
+      if (unreadChapter) (unreadChapters(entry), const TextStyle(color: Colors.yellowAccent)),
+      ('${entry.chapters.length}', null),
+      if (language && entry.lang!.isNotEmpty) (entry.lang!.toUpperCase(), const TextStyle(color: Colors.green)),
+    ];
+
+    final items = samples.fold<List<Widget>>([], (result, item) {
+      if (item.$1.isEmpty) {
+        return result;
+      }
+
+      if (result.isEmpty) {
+        result.add(_badge(item.$1, style: item.$2));
+      } else {
+        result.add(Padding(
+          padding: const EdgeInsets.only(left: 5),
+          child: _badge(item.$1, style: item.$2),
+        ));
+      }
+
+      return result;
+    });
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(3),
+        color: context.primaryColor,
+      ),
+      child: SizedBox(
+        height: 22,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 3),
+          child: Row(children: items),
+        ),
+      ),
+    );
+  }
+
+  Widget _badge(String text, {TextStyle? style}) {
+    return Text(
+      text,
+      style: style ?? const TextStyle(color: Colors.white),
     );
   }
 }

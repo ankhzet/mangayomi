@@ -8,7 +8,7 @@ import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/models/dto/update_group.dart';
 import 'package:mangayomi/modules/library/providers/library_state_provider.dart';
-import 'package:mangayomi/modules/main_view/widgets/update_badge.dart';
+import 'package:mangayomi/modules/widgets/count_badge.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/router/router.dart';
 import 'package:mangayomi/services/fetch_sources_list.dart';
@@ -217,7 +217,7 @@ class Navbar extends StatelessWidget {
 Widget _extensionUpdateTotalNumbers(WidgetRef ref) {
   return StreamBuilder(
     stream: isar.sources.filter().idIsNotNull().and().isActiveEqualTo(true).watch(fireImmediately: true),
-    builder: (context, snapshot) => UpdateBadge(
+    builder: (context, snapshot) => CountBadge(
       count: ((snapshot.hasData && snapshot.data!.isNotEmpty)
           ? snapshot.data!.where((element) => compareVersions(element.version!, element.versionLast!) < 0).length
           : 0),
@@ -244,7 +244,7 @@ Widget _updatesTotalNumbers(WidgetRef ref) {
         count = groups.length;
       }
 
-      return UpdateBadge(
+      return CountBadge(
         count: count,
       );
     },

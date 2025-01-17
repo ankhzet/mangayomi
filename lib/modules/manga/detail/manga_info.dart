@@ -119,7 +119,7 @@ class MangaInfoView extends StatelessWidget {
             Container(
               color: Theme.of(context).scaffoldBackgroundColor,
               child: StatefulBuilder(builder: (context, setState) {
-                bool expanded = false;
+                bool expanded = context.isTablet;
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

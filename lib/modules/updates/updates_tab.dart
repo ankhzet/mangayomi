@@ -177,7 +177,7 @@ class _UpdatesTabState extends ConsumerState<UpdatesTab> {
                         delegate: SliverChildListDelegate.fixed([
                           Text(
                             l10n.library_last_updated(
-                              dateFormat(lastUpdated.toString(), ref: ref, context: context, showHOURorMINUTE: true),
+                              dateFormat(lastUpdated.toString(), ref: ref, context: context, showHourOrMinute: true),
                             ),
                             style: TextStyle(fontStyle: FontStyle.italic, color: context.secondaryColor),
                           ),

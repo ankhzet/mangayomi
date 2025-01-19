@@ -28,18 +28,41 @@ String dateFormat(
   if (useRelativeTimesTamps) {
     if (date == today && relativeTimestamps != 0) {
       if (showHourOrMinute) {
-        final difference = now.difference(dateTime);
-        if (difference.inMinutes < 60) {
-          return switch (difference.inMinutes) {
-            0 => l10n.now,
-            1 => l10n.n_minute_ago(difference.inMinutes),
-            _ => l10n.n_minutes_ago(difference.inMinutes),
-          };
-        } else if (difference.inHours < 24) {
-          return switch (difference.inHours) {
-            1 => l10n.n_hour_ago(difference.inHours),
-            _ => l10n.n_hours_ago(difference.inHours),
-          };
+        final delta = now.difference(dateTime);
+        final difference = delta.abs();
+
+        if (difference.inMinutes == 0) {
+          return l10n.now;
+        }
+
+        if (delta.inMilliseconds > 0) {
+          if (difference.inMinutes < 60) {
+            return switch (difference.inMinutes) {
+              1 => l10n.a_minute_ago,
+              _ => l10n.n_minutes_ago(difference.inMinutes),
+            };
+          }
+
+          if (difference.inHours < 24) {
+            return switch (difference.inHours) {
+              1 => l10n.an_hour_ago,
+              _ => l10n.n_hours_ago(difference.inHours),
+            };
+          }
+        } else {
+          if (difference.inMinutes < 60) {
+            return switch (difference.inMinutes) {
+              1 => l10n.in_a_minute,
+              _ => l10n.in_n_minutes(difference.inMinutes),
+            };
+          }
+
+          if (difference.inHours < 24) {
+            return switch (difference.inHours) {
+              1 => l10n.in_an_hour,
+              _ => l10n.in_n_hours(difference.inHours),
+            };
+          }
         }
       }
 
@@ -47,15 +70,26 @@ String dateFormat(
     } else if (date == today.subtract(const Duration(days: 1)) && relativeTimestamps != 0) {
       return l10n.yesterday;
     } else if (relativeTimestamps == 2) {
-      final difference = today
-          .difference(date)
-          .inDays;
+      final inDays = today.difference(date).inDays;
+      final ago = inDays >= 0;
+      final days = inDays.abs();
 
-      if (difference <= 7) {
-        return switch (difference) {
-          1 => l10n.n_day_ago(difference),
-          != 7 => l10n.n_days_ago(difference),
-          _ => l10n.a_week_ago,
+      if (days <= 7) {
+        return switch (days) {
+          1 => ago ? l10n.a_day_ago : l10n.in_a_day,
+          != 7 => ago ? l10n.n_days_ago(days) : l10n.in_n_days(days),
+          _ => ago ? l10n.a_week_ago : l10n.in_a_week,
+        };
+      }
+
+      final months = days ~/ 30;
+
+      if (months <= 12) {
+        return switch (months) {
+          0 => ago ? l10n.n_days_ago(days) : l10n.in_n_days(days),
+          1 => ago ? l10n.a_month_ago : l10n.in_a_month,
+          != 12 => ago ? l10n.n_month_ago(months) : l10n.in_n_month(months),
+          _ => ago ? l10n.a_year_ago : l10n.in_a_year,
         };
       }
     }

@@ -20,7 +20,7 @@ class ChaptersFix extends ConsumerStatefulWidget {
   ConsumerState createState() => _ChaptersFixState();
 }
 
-class _ChaptersFixState extends ConsumerState<ChaptersFix> with AutomaticKeepAliveClientMixin<ChaptersFix> {
+class _ChaptersFixState extends ConsumerState<ChaptersFix> {
   late final update = widget.update;
   late final manga = update.manga;
   late final favorite = manga.favorite ?? false;
@@ -66,17 +66,15 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> with AutomaticKeepAli
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return StreamBuilder(
       stream: manga.chapters.filter().watch(fireImmediately: true),
       builder: (context, snapshot) {
         final List<Chapter> chapters = snapshot.hasData ? snapshot.data! : [];
         final List<Chapter> duplicates = manga.getDuplicateChapters(all: chapters);
-        final List<Chapter> unread = manga.getUnreadChapters(update.chapters, all: chapters);
+        final List<Chapter> unread = manga.getUnreadChapters(update.items, all: chapters);
         final List<Chapter> ghosts =
             chapters.where((chapter) => chapter.name == null || chapter.name!.isEmpty).toList();
-        final int readUpdates = update.chapters.length - unread.length;
+        final int readUpdates = update.items.length - unread.length;
 
         if (duplicates.isEmpty && ghosts.isEmpty && (readUpdates <= 0) && favorite) {
           return Container();
@@ -104,7 +102,7 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> with AutomaticKeepAli
                 }
 
                 if (readUpdates > 0) {
-                  _deleteChapters(update.chapters.where((chapter) => !unread.any((item) => item.id == chapter.id)));
+                  _deleteChapters(update.items.where((chapter) => !unread.any((item) => item.id == chapter.id)));
                 }
               },
               icon: _fixWidget(
@@ -118,9 +116,6 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> with AutomaticKeepAli
       },
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 Widget _fixWidget(BuildContext context, int items, bool isLoading) {

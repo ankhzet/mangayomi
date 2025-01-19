@@ -25,10 +25,14 @@ class Manga {
 
   bool? isManga;
 
+  String? updateError;
+
   List<String>? genre;
 
+  @Index(name: "favorite")
   bool? favorite;
 
+  @Index(name: "source")
   String? source;
 
   String? lang;
@@ -41,6 +45,7 @@ class Manga {
 
   List<int>? categories;
 
+  @Index(name: "isLocalArchive")
   bool? isLocalArchive;
 
   List<byte>? customCoverImage;

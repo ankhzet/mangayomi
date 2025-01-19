@@ -17,11 +17,30 @@ extension LetExtension<T> on T {
   }
 }
 
-extension ListUnique<T> on Iterable<T> {
-  List<T> toUnique({bool growable = true}) => toSet().toList(growable: growable);
-}
-
 extension IterableUtils<T> on Iterable<T> {
+  List<T> toUnique({bool growable = true}) => toSet().toList(growable: growable);
+
+  List<R> mapToList<R>(R Function(T element) mapper, { bool growable = false }) {
+    return map(mapper).toList(growable: growable);
+  }
+
+  Map<K, List<T>> groupBy<K>(K Function(T) keyFunction) {
+    return fold(
+      <K, List<T>>{},
+      (Map<K, List<T>> map, T element) => map..putIfAbsent(keyFunction(element), () => <T>[]).add(element),
+    );
+  }
+
+  Iterable<T> takeLast(int count) {
+    final offset = length - count;
+
+    if (offset > 0) {
+      return skip(offset);
+    }
+
+    return <T>[];
+  }
+
   List<T> sorted(Comparator<T> comparator) {
     final result = [...this];
     result.sort(comparator);

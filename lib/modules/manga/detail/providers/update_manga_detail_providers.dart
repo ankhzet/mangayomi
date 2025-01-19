@@ -16,10 +16,12 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'update_manga_detail_providers.g.dart';
 
 @riverpod
-Future<void> updateMangaDetail(Ref ref, {required int? mangaId, required bool isInit}) async {
-  final manga = isar.mangas.getSync(mangaId!)!;
+Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isInit}) async {
+  final manga = isar.mangas.getSync(mangaId)!;
+  final oldChapters = manga.chapters;
+  final hadChapters = oldChapters.isNotEmpty;
 
-  if (manga.chapters.isNotEmpty && isInit) {
+  if (hadChapters && isInit) {
     return;
   }
 
@@ -29,29 +31,59 @@ Future<void> updateMangaDetail(Ref ref, {required int? mangaId, required bool is
     return;
   }
 
-  try {
-    MManga details;
+  void setError(String? error) {
+    final instance = isar.mangas.getSync(mangaId)!;
 
-    try {
-      details = (await ref.watch(getDetailProvider(url: manga.link!, source: source).future));
-    } catch (e) {
-      final others = await getExtensionService(source).search(manga.name!, 1, []);
-      final duplicate = others.list.firstWhereOrNull((dto) => dto.name == manga.name);
-      final link = duplicate?.link ?? manga.link!;
-
-      details = (await ref.watch(getDetailProvider(url: link, source: source).future))..link = link;
+    if (error != null) {
+      if (kDebugMode) {
+        print('Manga ${instance.name} ($mangaId) update error: $error');
+      }
     }
 
-    final oldChapters = manga.chapters;
-    final hadChapters = oldChapters.isNotEmpty;
+    isar.writeTxnSync(() {
+      isar.mangas.putSync(
+          instance
+            ..lastUpdate = (instance.lastUpdate ?? 0) + 1
+            ..updateError = error
+      );
+    });
+  }
 
-    if ((hadChapters && isInit) || !details.isValid) {
-      // early return in case already updated?
+  try {
+    Future<MManga> fetch = ref.watch(getDetailProvider(url: manga.link!, source: source).future);
+    final MManga? details = await Duration(milliseconds: 100).waitFor(() async {
+      try {
+        return await fetch;
+      } catch (_) {
+        final others = await getExtensionService(source).search(manga.name!, 1, []);
+        final duplicate = others.list.firstWhereOrNull((dto) => dto.name == manga.name);
+        final link = duplicate?.link ?? manga.link!;
+
+        try {
+          final other = await ref.watch(getDetailProvider(url: link, source: source).future);
+
+          return other..link = link;
+        } catch (e) {
+          setError('${source.name!} extension details update returns error (${e.toString()})');
+          return null;
+        }
+      }
+    });
+
+    if (details == null) {
+      return;
+    }
+
+    if (!details.isValid) {
+      setError('${source.name!} extension details update returns invalid data (${details.toJson().toString()})');
+
       return;
     }
 
     final genre = details.genre?.map((e) => e.normalize()).toUnique() ?? [];
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
+    final timestamp = DateTime
+        .now()
+        .millisecondsSinceEpoch;
 
     manga
       ..imageUrl = details.imageUrl ?? manga.imageUrl
@@ -65,23 +97,26 @@ Future<void> updateMangaDetail(Ref ref, {required int? mangaId, required bool is
       ..source = manga.source
       ..lang = manga.lang
       ..isManga = source.isManga
+      ..updateError = null
       ..lastUpdate = timestamp;
 
     final timeString = timestamp.toString();
-    final mapped = (details.chapters ?? []).map((data) => Chapter(
-      name: data.name!.normalize(),
-      url: data.url!.normalize(),
-      dateUpload: data.dateUpload ?? timeString,
-      scanlator: data.scanlator ?? '',
-      mangaId: mangaId,
-    ));
+    final mapped = (details.chapters ?? []).map((data) =>
+        Chapter(
+          name: data.name!.normalize(),
+          url: data.url!.normalize(),
+          dateUpload: data.dateUpload ?? timeString,
+          scanlator: data.scanlator ?? '',
+          mangaId: mangaId,
+        ));
 
     final List<Chapter> chapters = [];
     final List<Chapter> deleted = [];
     final List<Chapter> added = [];
     final read = oldChapters.where((chapter) => chapter.isRead == true);
-    final lastRead = read.fold<Chapter?>(null, (last, chapter) => (
-      last?.compareTo(chapter) == -1 ? last : chapter
+    final lastRead = read.fold<Chapter?>(null, (last, chapter) =>
+    (
+        last?.compareTo(chapter) == -1 ? last : chapter
     ));
 
     if (mapped.isNotEmpty) {
@@ -139,7 +174,8 @@ Future<void> updateMangaDetail(Ref ref, {required int? mangaId, required bool is
             mangaId: mangaId,
             chapterName: chap.name,
             date: timeString,
-          )..chapter.value = chap;
+          )
+            ..chapter.value = chap;
           updateBacklog.add(update);
         }
 

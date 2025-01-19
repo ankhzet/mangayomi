@@ -1,51 +1,41 @@
 import 'package:mangayomi/models/chapter.dart';
+import 'package:mangayomi/models/dto/group.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 
 bool isRead(Chapter chapter) => chapter.isRead ?? false;
 
-class ChapterGroup<T> {
+class ChapterGroup<T> extends Group<Chapter, T> {
   Manga manga;
-  List<Chapter> chapters;
-  T group;
 
-  ChapterGroup.fromChapters(this.chapters, this.group) : manga = chapters.first.manga.value!;
+  ChapterGroup.fromItems(super.items, super.group) : manga = items.first.manga.value!;
 
   static T groupBy<T>(ChapterGroup<T> element) => element.group;
 
   static List<ChapterGroup<T>> groupChapters<T>(Iterable<Chapter> items, T Function(Chapter item) groupBy) {
-    final List<ChapterGroup<T>> list = [];
-
-    for (final chapter in items) {
-      final mangaId = chapter.mangaId!;
-      final group = groupBy(chapter);
-      final bucket = list.firstWhereOrNull((item) => (item.group == group) && (item.manga.id == mangaId));
-
-      if (bucket != null) {
-        bucket.chapters.add(chapter);
-      } else {
-        list.add(ChapterGroup.fromChapters([chapter], group));
-      }
-    }
-
-    return list;
+    return Group.groupItems(
+      items,
+      groupBy,
+      (items, group) => ChapterGroup.fromItems(items, group),
+      belongsTo: (chapter, group) => group.mangaId == chapter.mangaId,
+    );
   }
 
   int get mangaId => manga.id;
 
+  @override
   String get label {
-    final indexes =
-        chapters.sorted((a, b) => -a.compareTo(b)).map((chapter) => chapter.compositeOrder).toList(growable: false);
-    final volumes = indexes.map((index) => index.$1).toUnique(growable: false);
+    final List<ChapterCompositeNumber> indexes = items.mapToList((chapter) => chapter.compositeOrder);
+    final volumes = indexes.map((index) => index.$1).toUnique(growable: false)..sort((a, b) => a - b);
 
     if (volumes.length > 1) {
-      final volumes = indexes.fold<Map<int, List<ChapterCompositeNumber>>>({}, (map, index) {
+      final volumes = indexes.fold<Map<int, List<double>>>({}, (map, index) {
         final bucket = map[index.$1];
 
         if (bucket != null) {
-          bucket.add(index);
+          bucket.add(index.toDouble());
         } else {
-          map[index.$1] = [index];
+          map[index.$1] = [index.toDouble()];
         }
 
         return map;
@@ -54,39 +44,39 @@ class ChapterGroup<T> {
       return volumes.entries.map((entry) => 'Vol. ${entry.key}: ${indexesToStr(entry.value)}').join(', ');
     }
 
-    return 'Ch. ${indexesToStr(indexes)}';
+    return 'Ch. ${indexesToStr(indexes.map((index) => index.toDouble()))}';
   }
 
-  late bool isRead = chapters.every(Chapter.isChapterRead);
-  late bool isAnyRead = chapters.any(Chapter.isChapterRead);
-  late bool isAnyBookmarked = chapters.any(Chapter.isChapterBookmarked);
-  late bool hasAnyScanlators = chapters.any(Chapter.hasChapterScanlators);
-  late DateTime? dateUpload = Chapter.firstUpload(chapters);
-  late String fullTitle = Chapter.fullTitle(chapters);
+  late bool isRead = items.every(Chapter.isChapterRead);
+  late bool isAnyRead = items.any(Chapter.isChapterRead);
+  late bool isAnyBookmarked = items.any(Chapter.isChapterBookmarked);
+  late bool hasAnyScanlators = items.any(Chapter.hasChapterScanlators);
+  late DateTime? dateUpload = Chapter.firstUpload(items);
+  late String fullTitle = Chapter.fullTitle(items);
 
-  late Chapter firstOrRead = chapters.firstWhere(Chapter.isChapterRead, orElse: () => chapters.first);
-  late Chapter firstOrUnread = chapters.firstWhere(Chapter.isChapterUnread, orElse: () => chapters.first);
+  late Chapter firstOrRead = items.firstWhere(Chapter.isChapterRead, orElse: () => items.first);
+  late Chapter firstOrUnread = items.firstWhere(Chapter.isChapterUnread, orElse: () => items.first);
 
   late String scanlators =
-      chapters.map((chapter) => (chapter.scanlator?.isEmpty ?? true) ? '?' : chapter.scanlator).join(', ');
+      items.map((chapter) => (chapter.scanlator?.isEmpty ?? true) ? '?' : chapter.scanlator).join(', ');
 
   int get lastUpdate => manga.lastUpdate ?? DateTime.fromMicrosecondsSinceEpoch(0).millisecondsSinceEpoch;
 
   int compareTo(ChapterGroup other) => lastUpdate.compareTo(other.lastUpdate);
 }
 
-List<List<String>> groupRanges(List<String> indexes) {
-  List<List<String>> groups = [];
+List<(double, double)> groupRanges(List<double> indexes) {
+  List<(double, double)> groups = [];
   int pos = 0;
   int start = pos;
   int end = pos;
-  int prev = double.parse(indexes[start]).floor();
+  int prev = indexes[start].floor();
 
   while (++pos < indexes.length) {
-    final next = double.parse(indexes[pos]).floor();
+    final next = indexes[pos].floor();
 
-    if (next.floor() != prev.floor() + 1) {
-      groups.add([indexes[start], indexes[end]]);
+    if (next != prev + 1) {
+      groups.add((indexes[start], indexes[end]));
       start = pos;
     }
 
@@ -94,25 +84,35 @@ List<List<String>> groupRanges(List<String> indexes) {
     end = pos;
   }
 
-  groups.add([indexes[start], indexes[end]]);
+  groups.add((indexes[start], indexes[end]));
 
   return groups;
 }
 
-String indexToStr(int c, int s) => s != 0 ? '$c.$s' : c.toString();
+String indexToStr(double number) {
+  final floor = number.floor();
+  final ceil = number.ceil();
 
-String indexesToStr(List<ChapterCompositeNumber> indexes) {
-  final groups = groupRanges(indexes.map((index) => indexToStr(index.$2, index.$3)).toUnique(growable: false));
+  return ceil != floor ? number.toString() : floor.toString();
+}
+
+String indexesToStr(Iterable<double> indexes) {
+  final groups = groupRanges(indexes.toUnique(growable: false)..sort((a, b) => a.compareTo(b)));
 
   return groups.map((group) {
-    final [start, end] = group;
+    final (start, end) = group;
+    final first = indexToStr(start);
 
     if (start == end) {
-      return start;
-    } else if (double.parse(start) + 1 == double.parse(end)) {
-      return '$start, $end';
+      return first;
     }
 
-    return '$start..$end';
+    final last = indexToStr(end);
+
+    if (start + 1 == end) {
+      return '$first, $last';
+    }
+
+    return '$first..$last';
   }).join(', ');
 }

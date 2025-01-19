@@ -7,6 +7,7 @@ import 'package:mangayomi/modules/manga/detail/providers/update_manga_detail_pro
 import 'package:mangayomi/modules/widgets/async_value_widget.dart';
 import 'package:mangayomi/modules/widgets/overlay_refresh_center.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
+import 'package:mangayomi/utils/extensions/async_value.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 
 class MangaReaderDetail extends ConsumerStatefulWidget {
@@ -29,47 +30,46 @@ class _MangaReaderDetailState extends ConsumerState<MangaReaderDetail> {
 
   @override
   Widget build(BuildContext context) {
-    final manga = ref.watch(getMangaDetailStreamProvider(mangaId: widget.mangaId));
+    final manga = ref.watch(getMangaDetailStreamProvider(mangaId: widget.mangaId)).combiner();
 
     return Scaffold(
       body: AsyncValueWidget(
-          async: manga,
-          builder: (manga) => manga != null ? _body(context, manga) : const ProgressCenter(),
+        async: manga,
+        builder: (values) => manga.build(values, (Manga? manga) => _body(context, manga)),
       ),
     );
   }
 
-  Widget _body(BuildContext context, Manga manga) {
-    final value = ref.watch(getSourceStreamProvider(title: manga.source!, lang: manga.lang!));
+  Widget _body(BuildContext context, Manga? manga) {
+    if (manga == null) {
+      return const ProgressCenter();
+    }
+
+    final value = ref.watch(getSourceStreamProvider(title: manga.source!, lang: manga.lang!)).combiner();
 
     return AsyncValueWidget(
       async: value,
-      builder: (sourceExists) {
+      builder: (values) => value.build(values, (bool sourceExists) {
+        final view = MangaDetailsView(
+          manga: manga,
+          sourceExist: sourceExists,
+          checkForUpdate: (sourceExists ? (bool initial) => _update(true, initial) : (bool initial) {}),
+        );
 
-      final view = MangaDetailsView(
-        manga: manga,
-        sourceExist: sourceExists,
-        checkForUpdate: (
-            sourceExists
-              ? (bool initial) => _update(true, initial)
-              : (bool initial) {}
-        ),
-      );
+        if (!sourceExists) {
+          return view;
+        }
 
-      if (!sourceExists) {
-        return view;
-      }
-
-      return RefreshIndicator(
-        onRefresh: () => _update(false, false),
-        child: Stack(
-          children: [
-            view,
-            if (_isLoading) const OverlayRefreshCenter(),
-          ],
-        ),
-      );
-      },
+        return RefreshIndicator(
+          onRefresh: () => _update(false, false),
+          child: Stack(
+            children: [
+              view,
+              if (_isLoading) const OverlayRefreshCenter(),
+            ],
+          ),
+        );
+      }),
     );
   }
 
@@ -90,5 +90,4 @@ class _MangaReaderDetailState extends ConsumerState<MangaReaderDetail> {
       }
     }
   }
-
 }

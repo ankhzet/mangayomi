@@ -176,6 +176,7 @@ var extention = new DefaultExtension();
       return jsonDecode(promised.stringResult) as T;
     } catch (e, trace) {
       if (kDebugMode) {
+        print('Evaluating $call');
         print(e);
         print(trace);
       }

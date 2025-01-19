@@ -3,10 +3,23 @@ import 'dart:math';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
+import 'package:mangayomi/utils/extensions/string_extensions.dart';
 
 part 'chapter.g.dart';
 
 typedef ChapterCompositeNumber = (int, int, int);
+
+extension CompositeUtils on ChapterCompositeNumber {
+  double toDouble() {
+    final (_, chapter, fraction) = this;
+
+    if (fraction == 0) {
+      return chapter.toDouble();
+    }
+
+    return chapter + fraction.toDouble() / pow(10, (log(fraction) * log10e).floor() + 1);
+  }
+}
 
 int compareComposite(ChapterCompositeNumber a, ChapterCompositeNumber b) {
   final (_, ac, af) = a;
@@ -23,6 +36,32 @@ int compareComposite(ChapterCompositeNumber a, ChapterCompositeNumber b) {
   return 0;
 }
 
+final Map<String, String> chapterTitles = {};
+
+String calculateTitle(ChapterCompositeNumber number, String? name) {
+  final (vol, chap, sub) = number;
+  final key = '$vol.$chap.$sub:${name ?? ''}';
+  final has = chapterTitles[key];
+
+  if (has != null) {
+    return has;
+  }
+
+  String title = (sub > 0) ? '$chap.$sub' : '$chap';
+
+  if (vol > 0) {
+    title = 'Vol. $vol, Ch. $title';
+  } else {
+    title = 'Chapter $title';
+  }
+
+  if (name != null) {
+    title += ': ${name.substringAfter(':').trim()}';
+  }
+
+  return chapterTitles[key] = title;
+}
+
 @collection
 @Name("Chapter")
 class Chapter {
@@ -31,6 +70,7 @@ class Chapter {
 
   Id? id;
 
+  @Index(name: "mangaId")
   int? mangaId;
 
   String? get name => _name;
@@ -76,22 +116,24 @@ class Chapter {
   }
 
   static String fullTitle(Iterable<Chapter> chapters) {
-    for (final chapter in chapters) {
-      final name = chapter.name;
+    String? name;
+    ChapterCompositeNumber number = chapters.first.compositeOrder;
 
-      if (name?.contains(':') ?? false) {
-        return name!;
+    for (final chapter in chapters) {
+      if ((name == null) && (chapter.name?.contains(':') ?? false)) {
+        name = chapter.name;
+      }
+
+      if (number.$1 == 0) {
+        final order = chapter.compositeOrder;
+
+        if (order.$1 > 0) {
+          number = order;
+        }
       }
     }
 
-    final (v, c, s) = chapters.first.compositeOrder;
-    final chapter = (s > 0) ? '$c.$s' : '$c';
-
-    if (v > 0) {
-      return 'Vol. $v, Chap. $chapter';
-    }
-
-    return 'Chapter $chapter';
+    return calculateTitle(number, name);
   }
 
   Chapter(
@@ -182,13 +224,7 @@ class Chapter {
 
   @Index(name: "order")
   double get order {
-    final (_, chapter, fraction) = compositeOrder;
-
-    if (fraction == 0) {
-      return chapter.toDouble();
-    }
-
-    return chapter + fraction.toDouble() / pow(10, (log(fraction) * log10e).floor() + 1);
+    return compositeOrder.toDouble();
   }
 
   int compareTo(Chapter b) {

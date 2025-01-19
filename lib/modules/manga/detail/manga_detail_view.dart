@@ -27,6 +27,7 @@ import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.da
 import 'package:mangayomi/modules/widgets/error_text.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:mangayomi/utils/extensions/update.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 
@@ -99,7 +100,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
         data: (data) {
           ref.read(chaptersListttStateProvider.notifier).set(data);
 
-          final grouped = ChapterGroup.groupChapters(data, (chapter) => chapter.compositeOrder);
+          final grouped = ChapterGroup.groupChapters(data, (chapter) => chapter.order);
 
           return _buildWidget(
             chapters: data,
@@ -119,7 +120,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
 
   Widget _buildWidget({
     required List<Chapter> chapters,
-    required List<ChapterGroup<ChapterCompositeNumber>> grouped,
+    required List<ChapterGroup> grouped,
     required bool isLongPressed,
   }) {
     final l10n = l10nLocalizations(context)!;
@@ -203,7 +204,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                       return ChapterListTileWidget(
                                         manga: manga,
                                         group: group,
-                                        isSelected: chaptersSelection.contains(group.chapters.firstOrNull),
+                                        isSelected: chaptersSelection.contains(group.items.firstOrNull),
                                         sourceExist: widget.sourceExist,
                                       );
                                     });
@@ -217,7 +218,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
             ),
             bottomNavigationBar: Consumer(builder: (context, ref, child) {
               final selection = ref.watch(chaptersListStateProvider);
-              final isOneSelected = selection.length == 1;
+              final isOneSelected = selection.groupBy((chapter) => chapter.order).length == 1;
               final checkFirstBookmarked = isOneSelected && Chapter.isChapterBookmarked(selection.first);
               final checkReadBookmarked = isOneSelected && Chapter.isChapterRead(selection.first);
 

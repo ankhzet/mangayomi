@@ -1,27 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
-import 'package:isar/isar.dart';
-import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/dto/chapter_group.dart';
-import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/dto/group.dart';
+import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/modules/history/providers/isar_providers.dart';
+import 'package:mangayomi/modules/manga/detail/providers/update_periodicity_provider.dart';
 import 'package:mangayomi/modules/updates/widgets/update_chapter_list_tile_widget.dart';
-import 'package:mangayomi/modules/widgets/error_text.dart';
-import 'package:mangayomi/modules/widgets/progress_center.dart';
-import 'package:mangayomi/modules/widgets/refresh_center.dart';
+import 'package:mangayomi/modules/updates/widgets/update_queue_list_tile_widget.dart';
+import 'package:mangayomi/modules/widgets/async_value_widget.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/date.dart';
+import 'package:mangayomi/utils/extensions/async_value.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
-import 'package:mangayomi/utils/extensions/others.dart';
 
 class UpdatesTab extends ConsumerStatefulWidget {
   final String query;
   final bool isManga;
-  final bool isLoading;
+  final bool isOverdraft;
+  final Iterable<MangaPeriodicity> queue;
+  final Iterable<MangaPeriodicity> periodicity;
 
-  const UpdatesTab({required this.isManga, required this.query, required this.isLoading, super.key});
+  const UpdatesTab({
+    super.key,
+    required this.isManga,
+    required this.queue,
+    required this.periodicity,
+    required this.query,
+    required this.isOverdraft,
+  });
 
   @override
   ConsumerState<UpdatesTab> createState() => _UpdatesTabState();
@@ -36,136 +44,44 @@ final types = {
   90: 'Update every 3 month',
   180: 'Update twice a year',
   356: 'Update once a year',
+  3560: 'Update once a decade',
 };
-final ranges = types.keys;
 
 class _UpdatesTabState extends ConsumerState<UpdatesTab> {
-
-  Map<int, Duration> calculatePeriodicity() {
-    final Map<int, Duration> result = {};
-    final now = (DateTime.now().millisecondsSinceEpoch / granularity).toInt();
-    final mangas = isar.mangas.filter().favoriteEqualTo(true).and().sourceIsNotNull().findAllSync();
-    final periodicity = mangas.map((manga) {
-      final uploads =
-      isar.chapters.filter().mangaIdEqualTo(manga.id).distinctByDateUpload().dateUploadProperty().findAllSync();
-      final timestamps =
-      uploads.map((str) => (str?.isEmpty ?? true) ? 0 : int.parse(str!) ~/ granularity).sorted((a, b) => a - b);
-
-      if (timestamps.isEmpty) {
-        return (manga, (0, 0, 0, 0));
-      }
-
-      return (manga, _getPeriodicity(timestamps.followedBy([now])));
-    }).sorted((a, b) => a.$2.$1 - b.$2.$1);
-
-    for (final (manga, i) in periodicity) {
-      result[manga.id] = Duration(milliseconds: i.$1 * granularity);
-    }
-
-    return result;
-  }
-
-  (int, int, int, int) _getPeriodicity(Iterable<int> dates) {
-    int prev = dates.first;
-
-    final List<int> deltas = [];
-
-    for (final timestamp in dates.skip(1)) {
-      deltas.add(timestamp - prev);
-      prev = timestamp;
-    }
-
-    final List<int>  uniques = deltas.toUnique(growable: false);
-    final List<int> median = uniques.length > 2
-        ? uniques.sorted((a, b) => a - b).skip(1).take(uniques.length - 2).toList(growable: false)
-        : uniques;
-
-    int min = median.first;
-    int max = min;
-    int sum = min;
-
-    for (final delta in median) {
-      if (delta > max) {
-        max = delta;
-      }
-
-      if (delta < min) {
-        min = delta;
-      }
-
-      sum += delta;
-    }
-
-    final avg = sum / median.length;
-    final from = ((min + avg) / 2).toInt();
-    final to = ((max + avg) / 2).toInt();
-    final weighted = ((from + to) / 2).toInt();
-
-    return (
-    weighted,
-    avg.toInt(),
-    from,
-    to,
-    );
-  }
+  late final Map<int, int> periodicityMap =
+      Map.fromEntries(widget.periodicity.map((i) => MapEntry(i.manga.id, i.days)));
 
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
-    final update = ref.watch(getAllUpdateStreamProvider(isManga: widget.isManga));
+    final async = ref.watch(getAllUpdateStreamProvider(isManga: widget.isManga)).combiner();
 
     return Scaffold(
       body: Stack(
         children: [
-          update.when(
-            data: (data) {
+          AsyncValueWidget(
+            async: async,
+            builder: (values) => async.build(values, (List<Update> updates) {
               final query = widget.query.toLowerCase();
+              final Map<int?, bool> map = {};
               final entries = query.isEmpty
-                  ? data
-                  : data
-                      .where((element) => element.chapter.value!.manga.value!.name!.toLowerCase().contains(query))
-                      .toList();
+                  ? updates
+                  : updates.where((element) {
+                      final mangaId = element.mangaId;
+                      final value = map[mangaId];
 
-              if (entries.isEmpty) {
-                return Center(
-                  child: Text(l10n.no_recent_updates),
-                );
-              }
+                      if (value != null) {
+                        return value;
+                      }
 
-              final periodicity = calculatePeriodicity();
+                      return map[mangaId] = element.chapter.value!.manga.value!.name!.toLowerCase().contains(query);
+                    }).toList();
 
               int? lastUpdated = entries.fold(null, (result, update) {
                 final timestamp = update.lastMangaUpdate;
 
                 return (((result == null) || (timestamp > result)) ? timestamp : result);
               });
-
-              int getPeriodicity(Chapter chapter) {
-                if (chapter.manga.value!.favorite != true) {
-                  return -2;
-                }
-
-                final p = periodicity[chapter.mangaId];
-
-                if (p != null) {
-                  final days = p.inDays;
-
-                  for (final range in ranges) {
-                    if (days <= range) {
-                      return range;
-                    }
-                  }
-
-                  return -1;
-                }
-
-                return 0;
-              }
-
-              final groups = ChapterGroup.groupChapters(
-                entries.map((update) => update.chapter.value).whereType<Chapter>(),
-                getPeriodicity,
-              );
 
               return CustomScrollView(
                 slivers: [
@@ -183,43 +99,87 @@ class _UpdatesTabState extends ConsumerState<UpdatesTab> {
                         ]),
                       ),
                     ),
-                  SliverGroupedListView(
-                    elements: groups,
-                    groupBy: ChapterGroup.groupBy,
-                    groupHeaderBuilder: (value) => Padding(
-                      padding: const EdgeInsets.only(top: 16, bottom: 8, left: 12),
-                      child: Row(
-                        children: [
-                          Text(switch (value.group) {
-                            -2 => 'Dropped title',
-                            -1 => 'Infrequent updates',
-                            0 => 'Update frequency unknown',
-                            _ => types[value.group] ?? 'Infrequent updates',
-                          }),
-                        ],
-                      ),
+                  if (widget.queue.isNotEmpty) _queue(widget.queue),
+                  if (entries.isEmpty)
+                    Center(
+                      child: Text(l10n.no_recent_updates),
                     ),
-
-                    itemBuilder: (context, element) => UpdateChapterListTileWidget(update: element, sourceExist: true),
-                    itemComparator: (item1, item2) => item1.compareTo(item2),
-                    groupComparator: (item1, item2) => item2 - item1,
-                    order: GroupedListOrder.DESC,
-                  ),
+                  _updates(entries),
                 ],
               );
-            },
-            error: (Object error, StackTrace stackTrace) => ErrorText(error),
-            loading: () => const ProgressCenter(),
+            }),
           ),
-          if (widget.isLoading)
-            const Positioned(
-              top: 40,
-              left: 0,
-              right: 0,
-              child: RefreshCenter(),
-            ),
         ],
       ),
+    );
+  }
+
+  int _getPeriodicity(Chapter chapter) {
+    if (chapter.manga.value!.favorite != true) {
+      return -2;
+    }
+
+    return periodicityMap[chapter.mangaId] ?? -1;
+  }
+
+  String _getGroup(int days) {
+    return switch (days) {
+      -2 => 'Dropped title',
+      -1 => 'Infrequent updates',
+      0 => 'Update frequency unknown',
+      _ => types[days] ?? 'Infrequent updates',
+    };
+  }
+
+  Widget _queue(Iterable<MangaPeriodicity> queue) {
+    final List<Group<MangaPeriodicity, int>> groups = Group.groupItems(
+      queue,
+      (periodicity) => periodicity.days,
+      Group<MangaPeriodicity, int>.new,
+      belongsTo: (periodicity, group) => group.first!.manga.id == periodicity.manga.id,
+    );
+
+    final label = widget.isOverdraft ? 'Not checked in a while' : 'Next in queue';
+
+    return SliverGroupedListView(
+      elements: groups,
+      groupBy: Group.groupBy<int>,
+      groupHeaderBuilder: (value) => Padding(
+        padding: const EdgeInsets.only(top: 16, bottom: 8, left: 12),
+        child: Row(
+          children: [
+            Text('$label: ${_getGroup(value.group)}', style: TextStyle(fontWeight: FontWeight.bold)),
+          ],
+        ),
+      ),
+      itemBuilder: (context, element) => UpdateQueueListTileWidget(candidate: element),
+      itemComparator: (item1, item2) => item1.first!.last.compareTo(item2.first!.last),
+      groupComparator: (item1, item2) => item2 - item1,
+      order: GroupedListOrder.DESC,
+    );
+  }
+
+  Widget _updates(List<Update> entries) {
+    final groups = ChapterGroup.groupChapters(
+      entries.map((update) => update.chapter.value).whereType<Chapter>(),
+      _getPeriodicity,
+    );
+
+    return SliverGroupedListView(
+      elements: groups,
+      groupBy: ChapterGroup.groupBy,
+      groupHeaderBuilder: (value) => Padding(
+        padding: const EdgeInsets.only(top: 16, bottom: 8, left: 12),
+        child: Row(
+          children: [
+            Text(_getGroup(value.group), style: TextStyle(fontWeight: FontWeight.bold)),
+          ],
+        ),
+      ),
+      itemBuilder: (context, element) => UpdateChapterListTileWidget(update: element, sourceExist: true),
+      itemComparator: (item1, item2) => item1.compareTo(item2),
+      groupComparator: (item1, item2) => item2 - item1,
+      order: GroupedListOrder.DESC,
     );
   }
 }

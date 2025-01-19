@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/dto/chapter_group.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
@@ -13,7 +12,7 @@ import 'package:mangayomi/utils/extensions/chapter.dart';
 
 class ChapterListTileWidget extends ConsumerWidget {
   final Manga manga;
-  final ChapterGroup<ChapterCompositeNumber> group;
+  final ChapterGroup group;
   final bool sourceExist;
   final bool isSelected;
 
@@ -44,7 +43,7 @@ class ChapterListTileWidget extends ConsumerWidget {
         textColor: isRead ? textColor : null,
         selectedColor: isRead ? Colors.white.withValues(alpha: 0.3) : Colors.white,
         onLongPress: () {
-          ref.read(chaptersListStateProvider.notifier).updateAll(group.chapters);
+          ref.read(chaptersListStateProvider.notifier).updateAll(group.items);
 
           if (!isLongPressed) {
             ref.read(isLongPressedStateProvider.notifier).update(true);
@@ -52,7 +51,7 @@ class ChapterListTileWidget extends ConsumerWidget {
         },
         onTap: () async {
           if (isLongPressed) {
-            ref.read(chaptersListStateProvider.notifier).updateAll(group.chapters);
+            ref.read(chaptersListStateProvider.notifier).updateAll(group.items);
           } else {
             chapter.pushToReaderView(context, ignoreIsRead: true);
           }

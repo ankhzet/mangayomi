@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mangayomi/modules/widgets/type_tab_bar_view.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 
 class MediaTabs extends ConsumerStatefulWidget {
@@ -42,69 +43,12 @@ class _MediaTabsState extends ConsumerState<MediaTabs> {
     final l10n = l10nLocalizations(context)!;
     final tab = widget.tab ?? (bool type) => Tab(text: (type == true) ? l10n.manga : l10n.anime);
 
-    return TypeTabBarView<bool>(
-      types: types,
+    return TypeTabBarView(
+      tabs: types,
       tab: tab,
       content: widget.content,
       wrap: widget.wrap,
       onChange: widget.onChange,
-    );
-  }
-}
-
-class TypeTabBarView<T> extends ConsumerStatefulWidget {
-  final List<T> types;
-  final Tab Function(T type) tab;
-  final Widget Function(T type) content;
-  final Widget Function(TabBar? tabBar, Widget view) wrap;
-  final void Function(T type)? onChange;
-
-  const TypeTabBarView({
-    super.key,
-    required this.types,
-    required this.wrap,
-    required this.tab,
-    required this.content,
-    this.onChange,
-  });
-
-  @override
-  ConsumerState<TypeTabBarView<T>> createState() => _TypeTabBarState();
-}
-
-class _TypeTabBarState<T> extends ConsumerState<TypeTabBarView<T>> with TickerProviderStateMixin {
-  late TabController _tabBarController;
-  late List<T> types = widget.types;
-
-  @override
-  void initState() {
-    _tabBarController = TabController(length: types.length, vsync: this);
-    _tabBarController.animateTo(0);
-
-    final onChange = widget.onChange;
-
-    if (onChange != null) {
-      _tabBarController.addListener(() => onChange(types[_tabBarController.index]));
-    }
-
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.wrap(
-      TabBar(
-        indicatorSize: TabBarIndicatorSize.tab,
-        controller: _tabBarController,
-        tabs: types.map(widget.tab).toList(growable: false),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(top: 10),
-        child: TabBarView(
-          controller: _tabBarController,
-          children: types.map(widget.content).toList(growable: false),
-        ),
-      ),
     );
   }
 }

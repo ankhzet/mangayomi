@@ -15,6 +15,24 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'update_manga_detail_providers.g.dart';
 
+void setError(int mangaId, String? error) {
+  final instance = isar.mangas.getSync(mangaId)!;
+
+  if (error != null) {
+    if (kDebugMode) {
+      print('Manga ${instance.name} ($mangaId) update error: $error');
+    }
+  }
+
+  isar.writeTxnSync(() {
+    isar.mangas.putSync(
+        instance
+          ..lastUpdate = (instance.lastUpdate ?? 0) + 1
+          ..updateError = error
+    );
+  });
+}
+
 @riverpod
 Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isInit}) async {
   final manga = isar.mangas.getSync(mangaId)!;
@@ -29,24 +47,6 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
 
   if (source == null || !(source.isActive ?? false)) {
     return;
-  }
-
-  void setError(String? error) {
-    final instance = isar.mangas.getSync(mangaId)!;
-
-    if (error != null) {
-      if (kDebugMode) {
-        print('Manga ${instance.name} ($mangaId) update error: $error');
-      }
-    }
-
-    isar.writeTxnSync(() {
-      isar.mangas.putSync(
-          instance
-            ..lastUpdate = (instance.lastUpdate ?? 0) + 1
-            ..updateError = error
-      );
-    });
   }
 
   try {
@@ -64,7 +64,7 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
 
           return other..link = link;
         } catch (e) {
-          setError('${source.name!} extension details update returns error (${e.toString()})');
+          setError(mangaId, '${source.name!} extension details update returns error (${e.toString()})');
           return null;
         }
       }
@@ -75,7 +75,7 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
     }
 
     if (!details.isValid) {
-      setError('${source.name!} extension details update returns invalid data (${details.toJson().toString()})');
+      setError(mangaId, '${source.name!} extension details update returns invalid data (${details.toJson().toString()})');
 
       return;
     }
@@ -114,10 +114,7 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
     final List<Chapter> deleted = [];
     final List<Chapter> added = [];
     final read = oldChapters.where((chapter) => chapter.isRead == true);
-    final lastRead = read.fold<Chapter?>(null, (last, chapter) =>
-    (
-        last?.compareTo(chapter) == -1 ? last : chapter
-    ));
+    final lastRead = read.fold<Chapter?>(null, (last, chapter) => (last?.compareTo(chapter) == -1 ? last : chapter));
 
     if (mapped.isNotEmpty) {
       for (var chapter in mapped) {
@@ -153,11 +150,11 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
         return;
       }
 
-      final notifier = ref.read(changedItemsManagerProvider(managerId: 1).notifier);
-
-      for (var chap in chapters.reversed.toList()) {
-        notifier.addUpdatedChapter(chap, deleted.contains(chap), false);
-      }
+      // final notifier = ref.read(changedItemsManagerProvider(managerId: 1).notifier);
+      //
+      // for (var chap in chapters.reversed.toList()) {
+      //   notifier.addUpdatedChapter(chap, deleted.contains(chap), false);
+      // }
 
       isar.chapters.putAllSync(chapters);
 

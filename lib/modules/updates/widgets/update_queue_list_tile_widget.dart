@@ -19,7 +19,7 @@ class UpdateQueueListTileWidget extends ConsumerWidget {
     final (:manga, :last, :period, :days) = candidate.first!;
     final regularColor = Theme.of(context).textTheme.bodyLarge!.color;
     final now = DateTime.now().millisecondsSinceEpoch;
-    final at = DateTime.fromMillisecondsSinceEpoch(last.millisecondsSinceEpoch + period.inMilliseconds);
+    final at = DateTime.fromMillisecondsSinceEpoch(last.millisecondsSinceEpoch + period.inMilliseconds ~/ 10);
     final isOverdue = at.millisecondsSinceEpoch < now;
     final atStr = dateFormat(
       null,

@@ -15,7 +15,6 @@ import 'package:mangayomi/modules/updates/updates_tab.dart';
 import 'package:mangayomi/modules/widgets/async_value_widget.dart';
 import 'package:mangayomi/modules/widgets/count_badge.dart';
 import 'package:mangayomi/modules/widgets/media_type_tab_bar_view.dart';
-import 'package:mangayomi/modules/widgets/refresh_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/async_value.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
@@ -122,15 +121,13 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
       return (manga, delta, period.inMilliseconds ~/ 10, i);
     });
     Iterable<(Manga, int, int, MangaPeriodicity)> filtered = deltas.where((i) => i.$2 >= i.$3);
-    Iterable<(Manga, int, int, MangaPeriodicity)> rest = deltas.where((i) => i.$2 < i.$3);
     final overdraft = filtered.isEmpty;
 
     if (overdraft) {
-      filtered = deltas.sorted((a, b) => a.$2 - b.$2).takeLast(10);
+      filtered = deltas.sorted((a, b) => a.$2 - b.$2).takeLast(50);
+    } else {
+      filtered = filtered.sorted((a, b) => -((a.$2 - a.$3) - (b.$2 - b.$3)));
     }
-
-    filtered = filtered.sorted((a, b) => -((a.$2 - a.$3) - (b.$2 - b.$3)));
-    rest = rest.sorted((a, b) => -((a.$2 - a.$3) - (b.$2 - b.$3)));
 
     if (_initial) {
       _initial = false;
@@ -141,6 +138,9 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
         for (final (idx, (manga, delta, period, _)) in filtered.indexed) {
           print('${idx.toString().padLeft(4)} | ${h(delta - period, 5)} overdue | ${manga.name}');
         }
+
+        Iterable<(Manga, int, int, MangaPeriodicity)> rest =
+            deltas.where((i) => i.$2 < i.$3).sorted((a, b) => -((a.$2 - a.$3) - (b.$2 - b.$3)));
         print('\n\n================================\nToo early for update:\n');
         print('     | next in | last check | period | updates roughly every | Title');
         for (final (idx, (manga, delta, period, periodicity)) in rest.indexed) {
@@ -154,21 +154,27 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
   }
 
   Widget _updateAction(List<MangaPeriodicity> queue, bool overdraft) {
+    final badge = CountBadge(
+      count: queue.length,
+      color: overdraft ? const Color.fromARGB(255, 176, 46, 37) : const Color.fromARGB(255, 46, 176, 37),
+    );
+
     return _actionButton(
       icon: _isLoading
-          ? ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: 20,
-                maxHeight: 20,
-              ),
-              child: RefreshCenter(),
+          ? RefreshProgressIndicator(
+              indicatorMargin: EdgeInsets.zero,
+              indicatorPadding: EdgeInsets.zero,
+              strokeAlign: 0,
             )
           : _actionIcon(Icons.refresh_outlined, queue.isNotEmpty),
+      constraints: _isLoading
+          ? BoxConstraints(
+              maxWidth: kMinInteractiveDimension - 8,
+              maxHeight: kMinInteractiveDimension - 8,
+            )
+          : null,
       onPressed: queue.isNotEmpty ? () => _updateLibrary(queue.map((i) => i.manga)) : null,
-      badge: CountBadge(
-        count: queue.length,
-        color: overdraft ? const Color.fromARGB(255, 176, 46, 37) : const Color.fromARGB(255, 46, 176, 37),
-      ),
+      badge: _isLoading ? Positioned.fill(child: Center(child: badge)) : badge,
     );
   }
 
@@ -187,17 +193,24 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
     );
   }
 
-  Widget _actionButton({required Widget icon, Widget? badge, VoidCallback? onPressed}) {
+  Widget _actionButton({
+    required Widget icon,
+    Widget? badge,
+    BoxConstraints? constraints,
+    VoidCallback? onPressed,
+  }) {
     final children = badge != null
         ? Stack(
             clipBehavior: Clip.none,
             children: [
               icon,
-              Positioned(
-                right: -5,
-                bottom: -5,
-                child: badge,
-              ),
+              badge is Positioned
+                  ? badge
+                  : Positioned(
+                      right: -5,
+                      bottom: -5,
+                      child: badge,
+                    ),
             ],
           )
         : icon;
@@ -205,6 +218,7 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
     return IconButton(
       onPressed: onPressed,
       splashRadius: 20,
+      constraints: constraints,
       disabledColor: Theme.of(context).disabledColor,
       icon: children,
     );
@@ -212,8 +226,12 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
 
   Future<void> _updateLibrary(Iterable<Manga> next) async {
     setState(() {
-      _isLoading = true;
+      _isLoading = !_isLoading;
     });
+
+    if (!_isLoading) {
+      return;
+    }
 
     final cancel = botToast(
       context.l10n.updating_library,
@@ -226,6 +244,10 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
       final interval = const Duration(milliseconds: 100);
 
       for (var manga in next) {
+        if (!_isLoading) {
+          break;
+        }
+
         await interval.waitFor(() async {
           if (mounted) {
             return ref.read(updateMangaDetailProvider(mangaId: manga.id, isInit: false).future);

@@ -77,6 +77,8 @@ class CountBadge extends StatelessWidget {
               fontSize: fontSize ?? Theme.of(context).textTheme.labelSmall?.fontSize ?? 10,
               color: context.dynamicBlackWhiteColor,
             ),
+            softWrap: false,
+            textAlign: TextAlign.center,
           ),
         ),
       ),

@@ -54,8 +54,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   late bool hideManga = ref.watch(hideMangaStateProvider);
   late bool hideAnime = ref.watch(hideAnimeStateProvider);
   late bool hideNovel = ref.watch(hideNovelStateProvider);
-  late String? location =
-      ref.watch(routerCurrentLocationStateProvider(context));
+  late String? location = ref.watch(routerCurrentLocationStateProvider(context));
   late String defaultLocation = hideManga
       ? hideAnime
           ? hideNovel
@@ -63,6 +62,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               : '/NovelLibrary'
           : '/AnimeLibrary'
       : '/MangaLibrary';
+
   @override
   initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -90,18 +90,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         hideManga = ref.watch(hideMangaStateProvider);
         hideAnime = ref.watch(hideAnimeStateProvider);
         hideNovel = ref.watch(hideNovelStateProvider);
-        bool isReadingScreen = location == '/mangaReaderView' ||
-            location == '/animePlayerView' ||
-            location == '/novelReaderView';
-        final dest = [
-          '/MangaLibrary',
-          '/AnimeLibrary',
-          '/NovelLibrary',
-          '/updates',
-          '/history',
-          '/browse',
-          '/more'
-        ];
+        bool isReadingScreen =
+            location == '/mangaReaderView' || location == '/animePlayerView' || location == '/novelReaderView';
+        final dest = ['/MangaLibrary', '/AnimeLibrary', '/NovelLibrary', '/updates', '/history', '/browse', '/more'];
         if (hideManga) {
           dest.removeWhere((d) => d == "/MangaLibrary");
         }
@@ -175,9 +166,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                               children: [
                                 NavigationRailTheme(
                                   data: NavigationRailThemeData(
-                                    indicatorShape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30)),
+                                    indicatorShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                                   ),
                                   child: Builder(builder: (context) {
                                     return NavigationRail(
@@ -186,87 +175,50 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                                       destinations: [
                                         if (!hideManga)
                                           NavigationRailDestination(
-                                              selectedIcon: const Icon(
-                                                  Icons.collections_bookmark),
-                                              icon: const Icon(Icons
-                                                  .collections_bookmark_outlined),
+                                              selectedIcon: const Icon(Icons.collections_bookmark),
+                                              icon: const Icon(Icons.collections_bookmark_outlined),
                                               label: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 5),
-                                                  child: Text(l10n.manga))),
+                                                  padding: const EdgeInsets.only(top: 5), child: Text(l10n.manga))),
                                         if (!hideAnime)
                                           NavigationRailDestination(
-                                              selectedIcon: const Icon(
-                                                  Icons.video_collection),
-                                              icon: const Icon(Icons
-                                                  .video_collection_outlined),
+                                              selectedIcon: const Icon(Icons.video_collection),
+                                              icon: const Icon(Icons.video_collection_outlined),
                                               label: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 5),
-                                                  child: Text(l10n.anime))),
+                                                  padding: const EdgeInsets.only(top: 5), child: Text(l10n.anime))),
                                         if (!hideNovel)
                                           NavigationRailDestination(
-                                              selectedIcon: const Icon(
-                                                  Icons.local_library),
-                                              icon: const Icon(
-                                                  Icons.local_library_outlined),
+                                              selectedIcon: const Icon(Icons.local_library),
+                                              icon: const Icon(Icons.local_library_outlined),
                                               label: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 5),
-                                                  child: Text(l10n.novel))),
+                                                  padding: const EdgeInsets.only(top: 5), child: Text(l10n.novel))),
                                         NavigationRailDestination(
-                                            selectedIcon: _updatesTotalNumbers(
-                                                ref, Icon(Icons.new_releases)),
-                                            icon: _updatesTotalNumbers(
-                                                ref,
-                                                Icon(Icons
-                                                    .new_releases_outlined)),
+                                            selectedIcon: _updatesTotalNumbers(ref, Icon(Icons.new_releases)),
+                                            icon: _updatesTotalNumbers(ref, Icon(Icons.new_releases_outlined)),
                                             label: Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 5),
+                                              padding: const EdgeInsets.only(top: 5),
                                               child: Text(
                                                 getHyphenatedUpdatesLabel(
-                                                  ref
-                                                      .watch(
-                                                          l10nLocaleStateProvider)
-                                                      .languageCode,
+                                                  ref.watch(l10nLocaleStateProvider).languageCode,
                                                   l10n.updates,
                                                 ),
                                                 textAlign: TextAlign.center,
                                               ),
                                             )),
                                         NavigationRailDestination(
-                                            selectedIcon:
-                                                const Icon(Icons.history),
-                                            icon: const Icon(
-                                                Icons.history_outlined),
+                                            selectedIcon: const Icon(Icons.history),
+                                            icon: const Icon(Icons.history_outlined),
                                             label: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 5),
-                                                child: Text(l10n.history))),
+                                                padding: const EdgeInsets.only(top: 5), child: Text(l10n.history))),
                                         NavigationRailDestination(
-                                            selectedIcon:
-                                                _extensionUpdateTotalNumbers(
-                                                    ref, Icon(Icons.explore)),
-                                            icon: _extensionUpdateTotalNumbers(
-                                                ref,
-                                                Icon(Icons.explore_outlined)),
+                                            selectedIcon: _extensionUpdateTotalNumbers(ref, Icon(Icons.explore)),
+                                            icon: _extensionUpdateTotalNumbers(ref, Icon(Icons.explore_outlined)),
                                             label: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 5),
-                                                child: Text(l10n.browse))),
+                                                padding: const EdgeInsets.only(top: 5), child: Text(l10n.browse))),
                                         NavigationRailDestination(
-                                            selectedIcon:
-                                                const Icon(Icons.more_horiz),
-                                            icon: const Icon(
-                                                Icons.more_horiz_outlined),
+                                            selectedIcon: const Icon(Icons.more_horiz),
+                                            icon: const Icon(Icons.more_horiz_outlined),
                                             label: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 5),
-                                                child: Text(l10n.more))),
+                                                padding: const EdgeInsets.only(top: 5), child: Text(l10n.more))),
                                       ],
                                       selectedIndex: currentIndex,
                                       onDestinationSelected: (newIndex) {
@@ -304,50 +256,38 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                         },
                         child: NavigationBarTheme(
                           data: NavigationBarThemeData(
-                            indicatorShape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30)),
+                            indicatorShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                           ),
                           child: NavigationBar(
-                            animationDuration:
-                                const Duration(milliseconds: 500),
+                            animationDuration: const Duration(milliseconds: 500),
                             selectedIndex: currentIndex,
                             destinations: [
                               if (!hideManga)
                                 NavigationDestination(
-                                    selectedIcon:
-                                        const Icon(Icons.collections_bookmark),
-                                    icon: const Icon(
-                                        Icons.collections_bookmark_outlined),
+                                    selectedIcon: const Icon(Icons.collections_bookmark),
+                                    icon: const Icon(Icons.collections_bookmark_outlined),
                                     label: l10n.manga),
                               if (!hideAnime)
                                 NavigationDestination(
-                                    selectedIcon:
-                                        const Icon(Icons.video_collection),
-                                    icon: const Icon(
-                                        Icons.video_collection_outlined),
+                                    selectedIcon: const Icon(Icons.video_collection),
+                                    icon: const Icon(Icons.video_collection_outlined),
                                     label: l10n.anime),
                               if (!hideNovel)
                                 NavigationDestination(
-                                    selectedIcon:
-                                        const Icon(Icons.local_library),
-                                    icon: const Icon(
-                                        Icons.local_library_outlined),
+                                    selectedIcon: const Icon(Icons.local_library),
+                                    icon: const Icon(Icons.local_library_outlined),
                                     label: l10n.novel),
                               NavigationDestination(
-                                  selectedIcon: _updatesTotalNumbers(
-                                      ref, Icon(Icons.new_releases)),
-                                  icon: _updatesTotalNumbers(
-                                      ref, Icon(Icons.new_releases_outlined)),
+                                  selectedIcon: _updatesTotalNumbers(ref, Icon(Icons.new_releases)),
+                                  icon: _updatesTotalNumbers(ref, Icon(Icons.new_releases_outlined)),
                                   label: l10n.updates),
                               NavigationDestination(
                                   selectedIcon: const Icon(Icons.history),
                                   icon: const Icon(Icons.history_outlined),
                                   label: l10n.history),
                               NavigationDestination(
-                                  selectedIcon: _extensionUpdateTotalNumbers(
-                                      ref, Icon(Icons.explore)),
-                                  icon: _extensionUpdateTotalNumbers(
-                                      ref, Icon(Icons.explore_outlined)),
+                                  selectedIcon: _extensionUpdateTotalNumbers(ref, Icon(Icons.explore)),
+                                  icon: _extensionUpdateTotalNumbers(ref, Icon(Icons.explore_outlined)),
                                   label: l10n.browse),
                               NavigationDestination(
                                   selectedIcon: const Icon(Icons.more_horiz),
@@ -378,21 +318,16 @@ Widget _extensionUpdateTotalNumbers(WidgetRef ref, Widget widget) {
       stream: isar.sources
           .filter()
           .idIsNotNull()
-          .optional(ref.watch(hideMangaStateProvider),
-              (q) => q.not().itemTypeEqualTo(ItemType.manga))
-          .optional(ref.watch(hideAnimeStateProvider),
-              (q) => q.not().itemTypeEqualTo(ItemType.anime))
-          .optional(ref.watch(hideNovelStateProvider),
-              (q) => q.not().itemTypeEqualTo(ItemType.novel))
+          .optional(ref.watch(hideMangaStateProvider), (q) => q.not().itemTypeEqualTo(ItemType.manga))
+          .optional(ref.watch(hideAnimeStateProvider), (q) => q.not().itemTypeEqualTo(ItemType.anime))
+          .optional(ref.watch(hideNovelStateProvider), (q) => q.not().itemTypeEqualTo(ItemType.novel))
           .and()
           .isActiveEqualTo(true)
           .watch(fireImmediately: true),
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-          final entries = snapshot.data!
-              .where((element) =>
-                  compareVersions(element.version!, element.versionLast!) < 0)
-              .toList();
+          final entries =
+              snapshot.data!.where((element) => compareVersions(element.version!, element.versionLast!) < 0).toList();
           if (entries.isEmpty) {
             return widget;
           }
@@ -410,20 +345,17 @@ Widget _updatesTotalNumbers(WidgetRef ref, Widget widget) {
           .optional(
               ref.watch(hideMangaStateProvider),
               (q) => q.chapter(
-                    (c) =>
-                        c.manga((m) => m.not().itemTypeEqualTo(ItemType.manga)),
+                    (c) => c.manga((m) => m.not().itemTypeEqualTo(ItemType.manga)),
                   ))
           .optional(
               ref.watch(hideAnimeStateProvider),
               (q) => q.chapter(
-                    (c) =>
-                        c.manga((m) => m.not().itemTypeEqualTo(ItemType.anime)),
+                    (c) => c.manga((m) => m.not().itemTypeEqualTo(ItemType.anime)),
                   ))
           .optional(
               ref.watch(hideNovelStateProvider),
               (q) => q.chapter(
-                    (c) =>
-                        c.manga((m) => m.not().itemTypeEqualTo(ItemType.novel)),
+                    (c) => c.manga((m) => m.not().itemTypeEqualTo(ItemType.novel)),
                   ))
           .watch(fireImmediately: true),
       builder: (context, snapshot) {

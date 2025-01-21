@@ -13,6 +13,7 @@ abstract interface class ExtensionService {
   ExtensionService(this.source);
 
   String get sourceBaseUrl;
+
   bool get supportsLatest;
 
   Map<String, String> getHeaders();

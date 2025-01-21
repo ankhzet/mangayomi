@@ -1,6 +1,7 @@
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'date_format_state_provider.g.dart';
 
 @riverpod
@@ -13,8 +14,7 @@ class DateFormatState extends _$DateFormatState {
   void set(String dateFormat) {
     final settings = isar.settings.getSync(227);
     state = dateFormat;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..dateFormat = state));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..dateFormat = state));
   }
 }
 
@@ -28,7 +28,6 @@ class RelativeTimesTampsState extends _$RelativeTimesTampsState {
   void set(int type) {
     final settings = isar.settings.getSync(227);
     state = type;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..relativeTimesTamps = state));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..relativeTimesTamps = state));
   }
 }

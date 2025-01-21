@@ -38,8 +38,7 @@ Future<void> pushMangaReaderView({
   }
 }
 
-void pushReplacementMangaReaderView(
-    {required BuildContext context, required Chapter chapter}) {
+void pushReplacementMangaReaderView({required BuildContext context, required Chapter chapter}) {
   switch (chapter.manga.value!.itemType) {
     case ItemType.manga:
       context.pushReplacement('/mangaReaderView', extra: chapter);

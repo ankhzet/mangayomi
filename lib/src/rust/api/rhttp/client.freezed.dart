@@ -22,6 +22,7 @@ mixin _$ProxySettings {
     required TResult Function(List<CustomProxy> field0) customProxyList,
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? noProxy,
@@ -35,13 +36,14 @@ mixin _$ProxySettings {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ProxySettings_NoProxy value) noProxy,
-    required TResult Function(ProxySettings_CustomProxyList value)
-        customProxyList,
+    required TResult Function(ProxySettings_CustomProxyList value) customProxyList,
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ProxySettings_NoProxy value)? noProxy,
@@ -59,19 +61,17 @@ mixin _$ProxySettings {
 
 /// @nodoc
 abstract class $ProxySettingsCopyWith<$Res> {
-  factory $ProxySettingsCopyWith(
-          ProxySettings value, $Res Function(ProxySettings) then) =
+  factory $ProxySettingsCopyWith(ProxySettings value, $Res Function(ProxySettings) then) =
       _$ProxySettingsCopyWithImpl<$Res, ProxySettings>;
 }
 
 /// @nodoc
-class _$ProxySettingsCopyWithImpl<$Res, $Val extends ProxySettings>
-    implements $ProxySettingsCopyWith<$Res> {
+class _$ProxySettingsCopyWithImpl<$Res, $Val extends ProxySettings> implements $ProxySettingsCopyWith<$Res> {
   _$ProxySettingsCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
+// ignore: unused_field
   final $Val _value;
-  // ignore: unused_field
+// ignore: unused_field
   final $Res Function($Val) _then;
 
   /// Create a copy of ProxySettings
@@ -81,8 +81,7 @@ class _$ProxySettingsCopyWithImpl<$Res, $Val extends ProxySettings>
 /// @nodoc
 abstract class _$$ProxySettings_NoProxyImplCopyWith<$Res> {
   factory _$$ProxySettings_NoProxyImplCopyWith(
-          _$ProxySettings_NoProxyImpl value,
-          $Res Function(_$ProxySettings_NoProxyImpl) then) =
+          _$ProxySettings_NoProxyImpl value, $Res Function(_$ProxySettings_NoProxyImpl) then) =
       __$$ProxySettings_NoProxyImplCopyWithImpl<$Res>;
 }
 
@@ -90,8 +89,8 @@ abstract class _$$ProxySettings_NoProxyImplCopyWith<$Res> {
 class __$$ProxySettings_NoProxyImplCopyWithImpl<$Res>
     extends _$ProxySettingsCopyWithImpl<$Res, _$ProxySettings_NoProxyImpl>
     implements _$$ProxySettings_NoProxyImplCopyWith<$Res> {
-  __$$ProxySettings_NoProxyImplCopyWithImpl(_$ProxySettings_NoProxyImpl _value,
-      $Res Function(_$ProxySettings_NoProxyImpl) _then)
+  __$$ProxySettings_NoProxyImplCopyWithImpl(
+      _$ProxySettings_NoProxyImpl _value, $Res Function(_$ProxySettings_NoProxyImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProxySettings
@@ -110,9 +109,7 @@ class _$ProxySettings_NoProxyImpl extends ProxySettings_NoProxy {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ProxySettings_NoProxyImpl);
+    return identical(this, other) || (other.runtimeType == runtimeType && other is _$ProxySettings_NoProxyImpl);
   }
 
   @override
@@ -153,8 +150,7 @@ class _$ProxySettings_NoProxyImpl extends ProxySettings_NoProxy {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ProxySettings_NoProxy value) noProxy,
-    required TResult Function(ProxySettings_CustomProxyList value)
-        customProxyList,
+    required TResult Function(ProxySettings_CustomProxyList value) customProxyList,
   }) {
     return noProxy(this);
   }
@@ -190,8 +186,7 @@ abstract class ProxySettings_NoProxy extends ProxySettings {
 /// @nodoc
 abstract class _$$ProxySettings_CustomProxyListImplCopyWith<$Res> {
   factory _$$ProxySettings_CustomProxyListImplCopyWith(
-          _$ProxySettings_CustomProxyListImpl value,
-          $Res Function(_$ProxySettings_CustomProxyListImpl) then) =
+          _$ProxySettings_CustomProxyListImpl value, $Res Function(_$ProxySettings_CustomProxyListImpl) then) =
       __$$ProxySettings_CustomProxyListImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<CustomProxy> field0});
@@ -199,12 +194,10 @@ abstract class _$$ProxySettings_CustomProxyListImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ProxySettings_CustomProxyListImplCopyWithImpl<$Res>
-    extends _$ProxySettingsCopyWithImpl<$Res,
-        _$ProxySettings_CustomProxyListImpl>
+    extends _$ProxySettingsCopyWithImpl<$Res, _$ProxySettings_CustomProxyListImpl>
     implements _$$ProxySettings_CustomProxyListImplCopyWith<$Res> {
   __$$ProxySettings_CustomProxyListImplCopyWithImpl(
-      _$ProxySettings_CustomProxyListImpl _value,
-      $Res Function(_$ProxySettings_CustomProxyListImpl) _then)
+      _$ProxySettings_CustomProxyListImpl _value, $Res Function(_$ProxySettings_CustomProxyListImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ProxySettings
@@ -225,8 +218,7 @@ class __$$ProxySettings_CustomProxyListImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ProxySettings_CustomProxyListImpl
-    extends ProxySettings_CustomProxyList {
+class _$ProxySettings_CustomProxyListImpl extends ProxySettings_CustomProxyList {
   const _$ProxySettings_CustomProxyListImpl(final List<CustomProxy> field0)
       : _field0 = field0,
         super._();
@@ -235,7 +227,7 @@ class _$ProxySettings_CustomProxyListImpl
   @override
   List<CustomProxy> get field0 {
     if (_field0 is EqualUnmodifiableListView) return _field0;
-    // ignore: implicit_dynamic_type
+// ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_field0);
   }
 
@@ -253,18 +245,15 @@ class _$ProxySettings_CustomProxyListImpl
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_field0));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_field0));
 
   /// Create a copy of ProxySettings
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ProxySettings_CustomProxyListImplCopyWith<
-          _$ProxySettings_CustomProxyListImpl>
-      get copyWith => __$$ProxySettings_CustomProxyListImplCopyWithImpl<
-          _$ProxySettings_CustomProxyListImpl>(this, _$identity);
+  _$$ProxySettings_CustomProxyListImplCopyWith<_$ProxySettings_CustomProxyListImpl> get copyWith =>
+      __$$ProxySettings_CustomProxyListImplCopyWithImpl<_$ProxySettings_CustomProxyListImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -301,8 +290,7 @@ class _$ProxySettings_CustomProxyListImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ProxySettings_NoProxy value) noProxy,
-    required TResult Function(ProxySettings_CustomProxyList value)
-        customProxyList,
+    required TResult Function(ProxySettings_CustomProxyList value) customProxyList,
   }) {
     return customProxyList(this);
   }
@@ -331,8 +319,7 @@ class _$ProxySettings_CustomProxyListImpl
 }
 
 abstract class ProxySettings_CustomProxyList extends ProxySettings {
-  const factory ProxySettings_CustomProxyList(final List<CustomProxy> field0) =
-      _$ProxySettings_CustomProxyListImpl;
+  const factory ProxySettings_CustomProxyList(final List<CustomProxy> field0) = _$ProxySettings_CustomProxyListImpl;
   const ProxySettings_CustomProxyList._() : super._();
 
   List<CustomProxy> get field0;
@@ -340,9 +327,8 @@ abstract class ProxySettings_CustomProxyList extends ProxySettings {
   /// Create a copy of ProxySettings
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ProxySettings_CustomProxyListImplCopyWith<
-          _$ProxySettings_CustomProxyListImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$ProxySettings_CustomProxyListImplCopyWith<_$ProxySettings_CustomProxyListImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -369,15 +355,13 @@ mixin _$RedirectSettings {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(RedirectSettings_NoRedirect value) noRedirect,
-    required TResult Function(RedirectSettings_LimitedRedirects value)
-        limitedRedirects,
+    required TResult Function(RedirectSettings_LimitedRedirects value) limitedRedirects,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RedirectSettings_NoRedirect value)? noRedirect,
-    TResult? Function(RedirectSettings_LimitedRedirects value)?
-        limitedRedirects,
+    TResult? Function(RedirectSettings_LimitedRedirects value)? limitedRedirects,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -391,19 +375,17 @@ mixin _$RedirectSettings {
 
 /// @nodoc
 abstract class $RedirectSettingsCopyWith<$Res> {
-  factory $RedirectSettingsCopyWith(
-          RedirectSettings value, $Res Function(RedirectSettings) then) =
+  factory $RedirectSettingsCopyWith(RedirectSettings value, $Res Function(RedirectSettings) then) =
       _$RedirectSettingsCopyWithImpl<$Res, RedirectSettings>;
 }
 
 /// @nodoc
-class _$RedirectSettingsCopyWithImpl<$Res, $Val extends RedirectSettings>
-    implements $RedirectSettingsCopyWith<$Res> {
+class _$RedirectSettingsCopyWithImpl<$Res, $Val extends RedirectSettings> implements $RedirectSettingsCopyWith<$Res> {
   _$RedirectSettingsCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
+// ignore: unused_field
   final $Val _value;
-  // ignore: unused_field
+// ignore: unused_field
   final $Res Function($Val) _then;
 
   /// Create a copy of RedirectSettings
@@ -413,19 +395,16 @@ class _$RedirectSettingsCopyWithImpl<$Res, $Val extends RedirectSettings>
 /// @nodoc
 abstract class _$$RedirectSettings_NoRedirectImplCopyWith<$Res> {
   factory _$$RedirectSettings_NoRedirectImplCopyWith(
-          _$RedirectSettings_NoRedirectImpl value,
-          $Res Function(_$RedirectSettings_NoRedirectImpl) then) =
+          _$RedirectSettings_NoRedirectImpl value, $Res Function(_$RedirectSettings_NoRedirectImpl) then) =
       __$$RedirectSettings_NoRedirectImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$RedirectSettings_NoRedirectImplCopyWithImpl<$Res>
-    extends _$RedirectSettingsCopyWithImpl<$Res,
-        _$RedirectSettings_NoRedirectImpl>
+    extends _$RedirectSettingsCopyWithImpl<$Res, _$RedirectSettings_NoRedirectImpl>
     implements _$$RedirectSettings_NoRedirectImplCopyWith<$Res> {
   __$$RedirectSettings_NoRedirectImplCopyWithImpl(
-      _$RedirectSettings_NoRedirectImpl _value,
-      $Res Function(_$RedirectSettings_NoRedirectImpl) _then)
+      _$RedirectSettings_NoRedirectImpl _value, $Res Function(_$RedirectSettings_NoRedirectImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of RedirectSettings
@@ -444,9 +423,7 @@ class _$RedirectSettings_NoRedirectImpl extends RedirectSettings_NoRedirect {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$RedirectSettings_NoRedirectImpl);
+    return identical(this, other) || (other.runtimeType == runtimeType && other is _$RedirectSettings_NoRedirectImpl);
   }
 
   @override
@@ -487,8 +464,7 @@ class _$RedirectSettings_NoRedirectImpl extends RedirectSettings_NoRedirect {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(RedirectSettings_NoRedirect value) noRedirect,
-    required TResult Function(RedirectSettings_LimitedRedirects value)
-        limitedRedirects,
+    required TResult Function(RedirectSettings_LimitedRedirects value) limitedRedirects,
   }) {
     return noRedirect(this);
   }
@@ -497,8 +473,7 @@ class _$RedirectSettings_NoRedirectImpl extends RedirectSettings_NoRedirect {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RedirectSettings_NoRedirect value)? noRedirect,
-    TResult? Function(RedirectSettings_LimitedRedirects value)?
-        limitedRedirects,
+    TResult? Function(RedirectSettings_LimitedRedirects value)? limitedRedirects,
   }) {
     return noRedirect?.call(this);
   }
@@ -518,16 +493,14 @@ class _$RedirectSettings_NoRedirectImpl extends RedirectSettings_NoRedirect {
 }
 
 abstract class RedirectSettings_NoRedirect extends RedirectSettings {
-  const factory RedirectSettings_NoRedirect() =
-      _$RedirectSettings_NoRedirectImpl;
+  const factory RedirectSettings_NoRedirect() = _$RedirectSettings_NoRedirectImpl;
   const RedirectSettings_NoRedirect._() : super._();
 }
 
 /// @nodoc
 abstract class _$$RedirectSettings_LimitedRedirectsImplCopyWith<$Res> {
   factory _$$RedirectSettings_LimitedRedirectsImplCopyWith(
-          _$RedirectSettings_LimitedRedirectsImpl value,
-          $Res Function(_$RedirectSettings_LimitedRedirectsImpl) then) =
+          _$RedirectSettings_LimitedRedirectsImpl value, $Res Function(_$RedirectSettings_LimitedRedirectsImpl) then) =
       __$$RedirectSettings_LimitedRedirectsImplCopyWithImpl<$Res>;
   @useResult
   $Res call({int field0});
@@ -535,12 +508,10 @@ abstract class _$$RedirectSettings_LimitedRedirectsImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$RedirectSettings_LimitedRedirectsImplCopyWithImpl<$Res>
-    extends _$RedirectSettingsCopyWithImpl<$Res,
-        _$RedirectSettings_LimitedRedirectsImpl>
+    extends _$RedirectSettingsCopyWithImpl<$Res, _$RedirectSettings_LimitedRedirectsImpl>
     implements _$$RedirectSettings_LimitedRedirectsImplCopyWith<$Res> {
   __$$RedirectSettings_LimitedRedirectsImplCopyWithImpl(
-      _$RedirectSettings_LimitedRedirectsImpl _value,
-      $Res Function(_$RedirectSettings_LimitedRedirectsImpl) _then)
+      _$RedirectSettings_LimitedRedirectsImpl _value, $Res Function(_$RedirectSettings_LimitedRedirectsImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of RedirectSettings
@@ -561,8 +532,7 @@ class __$$RedirectSettings_LimitedRedirectsImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RedirectSettings_LimitedRedirectsImpl
-    extends RedirectSettings_LimitedRedirects {
+class _$RedirectSettings_LimitedRedirectsImpl extends RedirectSettings_LimitedRedirects {
   const _$RedirectSettings_LimitedRedirectsImpl(this.field0) : super._();
 
   @override
@@ -589,10 +559,8 @@ class _$RedirectSettings_LimitedRedirectsImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RedirectSettings_LimitedRedirectsImplCopyWith<
-          _$RedirectSettings_LimitedRedirectsImpl>
-      get copyWith => __$$RedirectSettings_LimitedRedirectsImplCopyWithImpl<
-          _$RedirectSettings_LimitedRedirectsImpl>(this, _$identity);
+  _$$RedirectSettings_LimitedRedirectsImplCopyWith<_$RedirectSettings_LimitedRedirectsImpl> get copyWith =>
+      __$$RedirectSettings_LimitedRedirectsImplCopyWithImpl<_$RedirectSettings_LimitedRedirectsImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -629,8 +597,7 @@ class _$RedirectSettings_LimitedRedirectsImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(RedirectSettings_NoRedirect value) noRedirect,
-    required TResult Function(RedirectSettings_LimitedRedirects value)
-        limitedRedirects,
+    required TResult Function(RedirectSettings_LimitedRedirects value) limitedRedirects,
   }) {
     return limitedRedirects(this);
   }
@@ -639,8 +606,7 @@ class _$RedirectSettings_LimitedRedirectsImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RedirectSettings_NoRedirect value)? noRedirect,
-    TResult? Function(RedirectSettings_LimitedRedirects value)?
-        limitedRedirects,
+    TResult? Function(RedirectSettings_LimitedRedirects value)? limitedRedirects,
   }) {
     return limitedRedirects?.call(this);
   }
@@ -660,8 +626,7 @@ class _$RedirectSettings_LimitedRedirectsImpl
 }
 
 abstract class RedirectSettings_LimitedRedirects extends RedirectSettings {
-  const factory RedirectSettings_LimitedRedirects(final int field0) =
-      _$RedirectSettings_LimitedRedirectsImpl;
+  const factory RedirectSettings_LimitedRedirects(final int field0) = _$RedirectSettings_LimitedRedirectsImpl;
   const RedirectSettings_LimitedRedirects._() : super._();
 
   int get field0;
@@ -669,7 +634,6 @@ abstract class RedirectSettings_LimitedRedirects extends RedirectSettings {
   /// Create a copy of RedirectSettings
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RedirectSettings_LimitedRedirectsImplCopyWith<
-          _$RedirectSettings_LimitedRedirectsImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$RedirectSettings_LimitedRedirectsImplCopyWith<_$RedirectSettings_LimitedRedirectsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

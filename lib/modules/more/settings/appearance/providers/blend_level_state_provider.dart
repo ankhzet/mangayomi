@@ -1,6 +1,7 @@
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'blend_level_state_provider.g.dart';
 
 @riverpod
@@ -14,8 +15,7 @@ class BlendLevelState extends _$BlendLevelState {
     final settings = isar.settings.getSync(227);
     state = blendLevelValue;
     if (end) {
-      isar.writeTxnSync(() =>
-          isar.settings.putSync(settings!..flexColorSchemeBlendLevel = state));
+      isar.writeTxnSync(() => isar.settings.putSync(settings!..flexColorSchemeBlendLevel = state));
     }
   }
 }

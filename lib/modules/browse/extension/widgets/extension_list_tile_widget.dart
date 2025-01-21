@@ -16,28 +16,24 @@ import 'package:mangayomi/utils/language.dart';
 class ExtensionListTileWidget extends ConsumerStatefulWidget {
   final Source source;
   final bool isTestSource;
-  const ExtensionListTileWidget(
-      {super.key, required this.source, this.isTestSource = false});
+
+  const ExtensionListTileWidget({super.key, required this.source, this.isTestSource = false});
 
   @override
-  ConsumerState<ExtensionListTileWidget> createState() =>
-      _ExtensionListTileWidgetState();
+  ConsumerState<ExtensionListTileWidget> createState() => _ExtensionListTileWidgetState();
 }
 
-class _ExtensionListTileWidgetState
-    extends ConsumerState<ExtensionListTileWidget> {
+class _ExtensionListTileWidgetState extends ConsumerState<ExtensionListTileWidget> {
   bool _isLoading = false;
+
   @override
   Widget build(
     BuildContext context,
   ) {
     final l10n = l10nLocalizations(context)!;
-    final updateAivalable = widget.isTestSource
-        ? false
-        : compareVersions(widget.source.version!, widget.source.versionLast!) <
-            0;
-    final sourceNotEmpty = widget.source.sourceCode != null &&
-        widget.source.sourceCode!.isNotEmpty;
+    final updateAivalable =
+        widget.isTestSource ? false : compareVersions(widget.source.version!, widget.source.versionLast!) < 0;
+    final sourceNotEmpty = widget.source.sourceCode != null && widget.source.sourceCode!.isNotEmpty;
 
     return ListTile(
         onTap: () async {
@@ -51,16 +47,10 @@ class _ExtensionListTileWidgetState
               _isLoading = true;
             });
             widget.source.itemType == ItemType.manga
-                ? await ref.watch(fetchMangaSourcesListProvider(
-                        id: widget.source.id, reFresh: true)
-                    .future)
+                ? await ref.watch(fetchMangaSourcesListProvider(id: widget.source.id, reFresh: true).future)
                 : widget.source.itemType == ItemType.anime
-                    ? await ref.watch(fetchAnimeSourcesListProvider(
-                            id: widget.source.id, reFresh: true)
-                        .future)
-                    : await ref.watch(fetchNovelSourcesListProvider(
-                            id: widget.source.id, reFresh: true)
-                        .future);
+                    ? await ref.watch(fetchAnimeSourcesListProvider(id: widget.source.id, reFresh: true).future)
+                    : await ref.watch(fetchNovelSourcesListProvider(id: widget.source.id, reFresh: true).future);
             if (mounted) {
               setState(() {
                 _isLoading = false;
@@ -72,8 +62,7 @@ class _ExtensionListTileWidgetState
           height: 37,
           width: 37,
           decoration: BoxDecoration(
-              color:
-                  Theme.of(context).secondaryHeaderColor.withValues(alpha: 0.5),
+              color: Theme.of(context).secondaryHeaderColor.withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(5)),
           child: widget.source.iconUrl!.isEmpty
               ? const Icon(Icons.extension_rounded)
@@ -96,20 +85,14 @@ class _ExtensionListTileWidgetState
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(completeLanguageName(widget.source.lang!.toLowerCase()),
-                style:
-                    const TextStyle(fontWeight: FontWeight.w300, fontSize: 12)),
+                style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 12)),
             const SizedBox(width: 4),
-            Text(widget.source.version!,
-                style:
-                    const TextStyle(fontWeight: FontWeight.w300, fontSize: 12)),
+            Text(widget.source.version!, style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 12)),
             if (widget.source.isObsolete ?? false)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: Text("OBSOLETE",
-                    style: TextStyle(
-                        color: context.primaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12)),
+                    style: TextStyle(color: context.primaryColor, fontWeight: FontWeight.bold, fontSize: 12)),
               )
           ],
         ),
@@ -123,16 +106,10 @@ class _ExtensionListTileWidgetState
                     _isLoading = true;
                   });
                   widget.source.itemType == ItemType.manga
-                      ? await ref.watch(fetchMangaSourcesListProvider(
-                              id: widget.source.id, reFresh: true)
-                          .future)
+                      ? await ref.watch(fetchMangaSourcesListProvider(id: widget.source.id, reFresh: true).future)
                       : widget.source.itemType == ItemType.anime
-                          ? await ref.watch(fetchAnimeSourcesListProvider(
-                                  id: widget.source.id, reFresh: true)
-                              .future)
-                          : await ref.watch(fetchNovelSourcesListProvider(
-                                  id: widget.source.id, reFresh: true)
-                              .future);
+                          ? await ref.watch(fetchAnimeSourcesListProvider(id: widget.source.id, reFresh: true).future)
+                          : await ref.watch(fetchNovelSourcesListProvider(id: widget.source.id, reFresh: true).future);
                   if (mounted) {
                     setState(() {
                       _isLoading = false;

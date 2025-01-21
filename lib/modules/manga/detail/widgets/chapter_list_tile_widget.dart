@@ -14,6 +14,7 @@ class ChapterListTileWidget extends ConsumerWidget {
   final Chapter chapter;
   final List<Chapter> chapterList;
   final bool sourceExist;
+
   const ChapterListTileWidget({
     required this.chapterList,
     required this.chapter,
@@ -26,25 +27,19 @@ class ChapterListTileWidget extends ConsumerWidget {
     final isLongPressed = ref.watch(isLongPressedStateProvider);
     final l10n = l10nLocalizations(context)!;
     return Container(
-      color: chapterList.contains(chapter)
-          ? context.primaryColor.withValues(alpha: 0.4)
-          : null,
+      color: chapterList.contains(chapter) ? context.primaryColor.withValues(alpha: 0.4) : null,
       child: ListTile(
         textColor: chapter.isRead!
             ? context.isLight
                 ? Colors.black.withValues(alpha: 0.4)
                 : Colors.white.withValues(alpha: 0.3)
             : null,
-        selectedColor: chapter.isRead!
-            ? Colors.white.withValues(alpha: 0.3)
-            : Colors.white,
+        selectedColor: chapter.isRead! ? Colors.white.withValues(alpha: 0.3) : Colors.white,
         onLongPress: () {
           if (!isLongPressed) {
             ref.read(chaptersListStateProvider.notifier).update(chapter);
 
-            ref
-                .read(isLongPressedStateProvider.notifier)
-                .update(!isLongPressed);
+            ref.read(isLongPressedStateProvider.notifier).update(!isLongPressed);
           } else {
             ref.read(chaptersListStateProvider.notifier).update(chapter);
           }
@@ -80,25 +75,19 @@ class ChapterListTileWidget extends ConsumerWidget {
               Text(
                 chapter.dateUpload == null || chapter.dateUpload!.isEmpty
                     ? ""
-                    : dateFormat(chapter.dateUpload!,
-                        ref: ref, context: context),
+                    : dateFormat(chapter.dateUpload!, ref: ref, context: context),
                 style: const TextStyle(fontSize: 11),
               ),
             if (!chapter.isRead!)
-              if (chapter.lastPageRead!.isNotEmpty &&
-                  chapter.lastPageRead != "1")
+              if (chapter.lastPageRead!.isNotEmpty && chapter.lastPageRead != "1")
                 Row(
                   children: [
                     const Text(' • '),
                     Text(
                       chapter.manga.value!.itemType == ItemType.anime
-                          ? l10n.episode_progress(Duration(
-                                  milliseconds:
-                                      int.parse(chapter.lastPageRead!))
-                              .toString()
-                              .substringBefore("."))
-                          : l10n.page(chapter.manga.value!.itemType ==
-                                  ItemType.manga
+                          ? l10n.episode_progress(
+                              Duration(milliseconds: int.parse(chapter.lastPageRead!)).toString().substringBefore("."))
+                          : l10n.page(chapter.manga.value!.itemType == ItemType.manga
                               ? chapter.lastPageRead!
                               : "${((double.tryParse(chapter.lastPageRead!) ?? 0) * 100).toStringAsFixed(0)} %"),
                       style: TextStyle(

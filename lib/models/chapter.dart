@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:mangayomi/models/manga.dart';
+
 part 'chapter.g.dart';
 
 @collection

@@ -5,6 +5,7 @@ import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/models/track_preference.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'track_providers.g.dart';
 
 @riverpod
@@ -27,11 +28,7 @@ class Tracks extends _$Tracks {
   }
 
   void updateTrackManga(Track track, ItemType itemType) {
-    final tra = isar.tracks
-        .filter()
-        .syncIdEqualTo(syncId)
-        .mangaIdEqualTo(track.mangaId)
-        .findAllSync();
+    final tra = isar.tracks.filter().syncIdEqualTo(syncId).mangaIdEqualTo(track.mangaId).findAllSync();
     if (tra.isNotEmpty) {
       if (tra.first.mediaId != track.mangaId) {
         track.id = tra.first.id;
@@ -49,8 +46,7 @@ class Tracks extends _$Tracks {
 }
 
 @riverpod
-class UpdateProgressAfterReadingState
-    extends _$UpdateProgressAfterReadingState {
+class UpdateProgressAfterReadingState extends _$UpdateProgressAfterReadingState {
   @override
   bool build() {
     return isar.settings.getSync(227)!.updateProgressAfterReading ?? true;
@@ -59,7 +55,6 @@ class UpdateProgressAfterReadingState
   void set(bool value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(() =>
-        isar.settings.putSync(settings!..updateProgressAfterReading = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..updateProgressAfterReading = value));
   }
 }

@@ -5,8 +5,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:mangayomi/eval/model/m_source.dart';
 import 'package:mangayomi/main.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart'
-    as flutter_inappwebview;
+import 'package:flutter_inappwebview/flutter_inappwebview.dart' as flutter_inappwebview;
 import 'package:mangayomi/models/settings.dart';
 import 'package:http/io_client.dart';
 import 'package:mangayomi/services/http/rhttp/src/model/settings.dart';
@@ -15,25 +14,18 @@ import 'package:mangayomi/services/http/rhttp/rhttp.dart' as rhttp;
 
 class MClient {
   MClient();
-  static Client httpClient(
-      {Map<String, dynamic>? reqcopyWith, rhttp.ClientSettings? settings}) {
+
+  static Client httpClient({Map<String, dynamic>? reqcopyWith, rhttp.ClientSettings? settings}) {
     if (!(reqcopyWith?["useDartHttpClient"] ?? false)) {
       try {
         settings ??= rhttp.ClientSettings(
             throwOnStatusCode: false,
-            proxySettings: reqcopyWith?["noProxy"] ?? false
-                ? const rhttp.ProxySettings.noProxy()
-                : null,
-            timeout: reqcopyWith?["timeout"] != null
-                ? Duration(seconds: reqcopyWith?["timeout"])
-                : null,
+            proxySettings: reqcopyWith?["noProxy"] ?? false ? const rhttp.ProxySettings.noProxy() : null,
+            timeout: reqcopyWith?["timeout"] != null ? Duration(seconds: reqcopyWith?["timeout"]) : null,
             timeoutSettings: TimeoutSettings(
-                connectTimeout: reqcopyWith?["connectTimeout"] != null
-                    ? Duration(seconds: reqcopyWith?["connectTimeout"])
-                    : null),
-            tlsSettings: rhttp.TlsSettings(
-                verifyCertificates:
-                    reqcopyWith?["verifyCertificates"] ?? false));
+                connectTimeout:
+                    reqcopyWith?["connectTimeout"] != null ? Duration(seconds: reqcopyWith?["connectTimeout"]) : null),
+            tlsSettings: rhttp.TlsSettings(verifyCertificates: reqcopyWith?["verifyCertificates"] ?? false));
         return rhttp.RhttpCompatibleClient.createSync(settings: settings);
       } catch (_) {}
     }
@@ -48,10 +40,7 @@ class MClient {
     return InterceptedClient.build(
         client: httpClient(settings: settings, reqcopyWith: reqcopyWith),
         retryPolicy: ResolveCloudFlareChallenge(showCloudFlareError),
-        interceptors: [
-          MCookieManager(reqcopyWith),
-          LoggerInterceptor(showCloudFlareError)
-        ]);
+        interceptors: [MCookieManager(reqcopyWith), LoggerInterceptor(showCloudFlareError)]);
   }
 
   static Map<String, String> getCookiesPref(String url) {
@@ -59,9 +48,7 @@ class MClient {
     if (cookiesList.isEmpty) return {};
     final cookies = cookiesList
         .firstWhere(
-          (element) =>
-              element.host == Uri.parse(url).host ||
-              Uri.parse(url).host.contains(element.host!),
+          (element) => element.host == Uri.parse(url).host || Uri.parse(url).host.contains(element.host!),
           orElse: () => MCookie(cookie: ""),
         )
         .cookie!;
@@ -69,22 +56,14 @@ class MClient {
     return {HttpHeaders.cookieHeader: cookies};
   }
 
-  static Future<void> setCookie(String url, String ua,
-      flutter_inappwebview.InAppWebViewController? webViewController,
+  static Future<void> setCookie(String url, String ua, flutter_inappwebview.InAppWebViewController? webViewController,
       {String? cookie}) async {
     List<String> cookies = [];
     if (Platform.isLinux) {
-      cookies = cookie
-              ?.split(RegExp('(?<=)(,)(?=[^;]+?=)'))
-              .where((cookie) => cookie.isNotEmpty)
-              .toList() ??
-          [];
+      cookies = cookie?.split(RegExp('(?<=)(,)(?=[^;]+?=)')).where((cookie) => cookie.isNotEmpty).toList() ?? [];
     } else {
-      cookies = (await flutter_inappwebview.CookieManager.instance(
-                  webViewEnvironment: webViewEnvironment)
-              .getCookies(
-                  url: flutter_inappwebview.WebUri(url),
-                  webViewController: webViewController))
+      cookies = (await flutter_inappwebview.CookieManager.instance(webViewEnvironment: webViewEnvironment)
+              .getCookies(url: flutter_inappwebview.WebUri(url), webViewController: webViewController))
           .map((e) => "${e.name}=${e.value}")
           .toList();
     }
@@ -101,8 +80,7 @@ class MClient {
       cookieList.add(MCookie()
         ..host = host
         ..cookie = newCookie);
-      isar.writeTxnSync(
-          () => isar.settings.putSync(settings..cookiesList = cookieList));
+      isar.writeTxnSync(() => isar.settings.putSync(settings..cookiesList = cookieList));
     }
     if (ua.isNotEmpty) {
       final settings = isar.settings.getSync(227);
@@ -114,18 +92,17 @@ class MClient {
     final cookiesList = isar.settings.getSync(227)!.cookiesList ?? [];
     List<MCookie>? cookieList = [];
     for (var cookie in cookiesList) {
-      if (!(cookie.host == Uri.parse(url).host ||
-          Uri.parse(url).host.contains(cookie.host!))) {
+      if (!(cookie.host == Uri.parse(url).host || Uri.parse(url).host.contains(cookie.host!))) {
         cookieList.add(cookie);
       }
     }
-    isar.writeTxnSync(() => isar.settings
-        .putSync(isar.settings.getSync(227)!..cookiesList = cookieList));
+    isar.writeTxnSync(() => isar.settings.putSync(isar.settings.getSync(227)!..cookiesList = cookieList));
   }
 }
 
 class MCookieManager extends InterceptorContract {
   MCookieManager(this.reqcopyWith);
+
   Map<String, dynamic>? reqcopyWith;
 
   @override
@@ -171,13 +148,14 @@ class MCookieManager extends InterceptorContract {
 
 class LoggerInterceptor extends InterceptorContract {
   LoggerInterceptor(this.showCloudFlareError);
+
   bool showCloudFlareError;
+
   @override
   Future<BaseRequest> interceptRequest({
     required BaseRequest request,
   }) async {
-    final content =
-        "----- Request -----\n${request.toString()}\nheaders: ${request.headers.toString()}";
+    final content = "----- Request -----\n${request.toString()}\nheaders: ${request.headers.toString()}";
     if (kDebugMode) {
       print(content);
     }
@@ -194,8 +172,7 @@ class LoggerInterceptor extends InterceptorContract {
   }) async {
     if (showCloudFlareError) {
       final cloudflare = [403, 503].contains(response.statusCode) &&
-          ["cloudflare-nginx", "cloudflare"]
-              .contains(response.headers["server"]);
+          ["cloudflare-nginx", "cloudflare"].contains(response.headers["server"]);
       final content =
           "----- Response -----\n${response.request?.method}: ${response.request?.url}, statusCode: ${response.statusCode} ${cloudflare ? "Failed to bypass Cloudflare" : ""}";
       if (kDebugMode) {
@@ -216,9 +193,12 @@ class LoggerInterceptor extends InterceptorContract {
 
 class ResolveCloudFlareChallenge extends RetryPolicy {
   bool showCloudFlareError;
+
   ResolveCloudFlareChallenge(this.showCloudFlareError);
+
   @override
   int get maxRetryAttempts => 2;
+
   @override
   Future<bool> shouldAttemptRetryOnResponse(BaseResponse response) async {
     if (!showCloudFlareError || Platform.isLinux) return false;
@@ -231,29 +211,25 @@ class ResolveCloudFlareChallenge extends RetryPolicy {
       bool isCloudFlare = true;
       headlessWebView = flutter_inappwebview.HeadlessInAppWebView(
         webViewEnvironment: webViewEnvironment,
-        initialUrlRequest: flutter_inappwebview.URLRequest(
-            url: flutter_inappwebview.WebUri(response.request!.url.toString())),
+        initialUrlRequest:
+            flutter_inappwebview.URLRequest(url: flutter_inappwebview.WebUri(response.request!.url.toString())),
         onLoadStop: (controller, url) async {
-          isCloudFlare = await controller.platform.evaluateJavascript(
-              source:
-                  "document.head.innerHTML.includes('#challenge-success-text')");
+          isCloudFlare = await controller.platform
+              .evaluateJavascript(source: "document.head.innerHTML.includes('#challenge-success-text')");
 
           await Future.doWhile(() async {
             if (timeOut == true) {
               return false;
             }
             if (isCloudFlare) {
-              isCloudFlare = await controller.platform.evaluateJavascript(
-                  source:
-                      "document.head.innerHTML.includes('#challenge-success-text')");
+              isCloudFlare = await controller.platform
+                  .evaluateJavascript(source: "document.head.innerHTML.includes('#challenge-success-text')");
               return true;
             }
             return false;
           });
           if (!timeOut) {
-            final ua = await controller.evaluateJavascript(
-                    source: "navigator.userAgent") ??
-                "";
+            final ua = await controller.evaluateJavascript(source: "navigator.userAgent") ?? "";
             await MClient.setCookie(url.toString(), ua, controller);
           }
         },

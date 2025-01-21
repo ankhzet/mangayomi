@@ -20,8 +20,7 @@ class BrowseScreen extends ConsumerStatefulWidget {
   ConsumerState<BrowseScreen> createState() => _BrowseScreenState();
 }
 
-class _BrowseScreenState extends ConsumerState<BrowseScreen>
-    with TickerProviderStateMixin {
+class _BrowseScreenState extends ConsumerState<BrowseScreen> with TickerProviderStateMixin {
   late final hideManga = ref.watch(hideMangaStateProvider);
   late final hideAnime = ref.watch(hideAnimeStateProvider);
   late final hideNovel = ref.watch(hideNovelStateProvider);
@@ -56,16 +55,14 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen>
 
   final _textEditingController = TextEditingController();
   bool _isSearch = false;
+
   @override
   Widget build(BuildContext context) {
     if (_tabList.isEmpty) {
       return SizedBox.shrink();
     }
-    final containsExtensionTab = [
-      "mangaExtension",
-      "animeExtension",
-      "novelExtension"
-    ].any((element) => _tabList[_tabBarController.index] == element);
+    final containsExtensionTab = ["mangaExtension", "animeExtension", "novelExtension"]
+        .any((element) => _tabList[_tabBarController.index] == element);
 
     final l10n = l10nLocalizations(context)!;
     return DefaultTabController(
@@ -75,8 +72,7 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen>
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text(l10n.browse,
-              style: TextStyle(color: Theme.of(context).hintColor)),
+          title: Text(l10n.browse, style: TextStyle(color: Theme.of(context).hintColor)),
           actions: [
             _isSearch
                 ? SeachFormTextField(
@@ -96,15 +92,12 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen>
                   )
                 : Row(
                     children: [
-                      if (_tabBarController.index == 3 ||
-                          _tabBarController.index == 4 ||
-                          _tabBarController.index == 5)
+                      if (_tabBarController.index == 3 || _tabBarController.index == 4 || _tabBarController.index == 5)
                         IconButton(
                             onPressed: () {
                               context.push('/createExtension');
                             },
-                            icon: Icon(Icons.add_outlined,
-                                color: Theme.of(context).hintColor)),
+                            icon: Icon(Icons.add_outlined, color: Theme.of(context).hintColor)),
                       IconButton(
                           splashRadius: 20,
                           onPressed: () {
@@ -114,36 +107,28 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen>
                               });
                             } else {
                               context.push('/globalSearch',
-                                  extra: switch (
-                                      _tabList[_tabBarController.index]) {
+                                  extra: switch (_tabList[_tabBarController.index]) {
                                     "manga" => ItemType.manga,
                                     "anime" => ItemType.anime,
                                     _ => ItemType.novel,
                                   });
                             }
                           },
-                          icon: Icon(
-                              !containsExtensionTab
-                                  ? Icons.travel_explore_rounded
-                                  : Icons.search_rounded,
+                          icon: Icon(!containsExtensionTab ? Icons.travel_explore_rounded : Icons.search_rounded,
                               color: Theme.of(context).hintColor)),
                     ],
                   ),
             IconButton(
                 splashRadius: 20,
                 onPressed: () {
-                  context.push(
-                      containsExtensionTab ? '/ExtensionLang' : '/sourceFilter',
+                  context.push(containsExtensionTab ? '/ExtensionLang' : '/sourceFilter',
                       extra: switch (_tabList[_tabBarController.index]) {
                         "manga" || "mangaExtension" => ItemType.manga,
                         "anime" || "animeExtension" => ItemType.anime,
                         _ => ItemType.novel,
                       });
                 },
-                icon: Icon(
-                    !containsExtensionTab
-                        ? Icons.filter_list_sharp
-                        : Icons.translate_rounded,
+                icon: Icon(!containsExtensionTab ? Icons.filter_list_sharp : Icons.translate_rounded,
                     color: Theme.of(context).hintColor)),
           ],
           bottom: TabBar(
@@ -208,15 +193,9 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen>
                 _tabBarController.animateTo(index);
               },
             ),
-          if (!hideManga)
-            ExtensionScreen(
-                query: _textEditingController.text, itemType: ItemType.manga),
-          if (!hideAnime)
-            ExtensionScreen(
-                query: _textEditingController.text, itemType: ItemType.anime),
-          if (!hideNovel)
-            ExtensionScreen(
-                query: _textEditingController.text, itemType: ItemType.novel),
+          if (!hideManga) ExtensionScreen(query: _textEditingController.text, itemType: ItemType.manga),
+          if (!hideAnime) ExtensionScreen(query: _textEditingController.text, itemType: ItemType.anime),
+          if (!hideNovel) ExtensionScreen(query: _textEditingController.text, itemType: ItemType.novel),
         ]),
       ),
     );
@@ -234,18 +213,15 @@ Widget _extensionUpdateNumbers(WidgetRef ref, ItemType itemType) {
           .watch(fireImmediately: true),
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-          final entries = snapshot.data!
-              .where((element) =>
-                  compareVersions(element.version!, element.versionLast!) < 0)
-              .toList();
+          final entries =
+              snapshot.data!.where((element) => compareVersions(element.version!, element.versionLast!) < 0).toList();
           return entries.isEmpty
               ? SizedBox.shrink()
               : Badge(
                   backgroundColor: Theme.of(context).focusColor,
                   label: Text(
                     entries.length.toString(),
-                    style: TextStyle(
-                        color: Theme.of(context).textTheme.bodySmall!.color),
+                    style: TextStyle(color: Theme.of(context).textTheme.bodySmall!.color),
                   ));
         }
         return Container();

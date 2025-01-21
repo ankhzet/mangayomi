@@ -49,6 +49,7 @@ typedef DoubleClickAnimationListener = void Function();
 
 class MangaReaderView extends ConsumerWidget {
   final Chapter chapter;
+
   const MangaReaderView({
     super.key,
     required this.chapter,
@@ -62,16 +63,14 @@ class MangaReaderView extends ConsumerWidget {
 
     return chapterData.when(
       data: (data) {
-        if (data.pageUrls.isEmpty &&
-            (chapter.manga.value!.isLocalArchive ?? false) == false) {
+        if (data.pageUrls.isEmpty && (chapter.manga.value!.isLocalArchive ?? false) == false) {
           return Scaffold(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             appBar: AppBar(
               title: const Text(''),
               leading: BackButton(
                 onPressed: () {
-                  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-                      overlays: SystemUiOverlay.values);
+                  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
                   Navigator.pop(context);
                 },
               ),
@@ -121,6 +120,7 @@ class MangaChapterPageGallery extends ConsumerStatefulWidget {
     required this.chapter,
     required this.chapterUrlModel,
   });
+
   final GetChapterPagesModel chapterUrlModel;
 
   final Chapter chapter;
@@ -131,20 +131,16 @@ class MangaChapterPageGallery extends ConsumerStatefulWidget {
   }
 }
 
-class _MangaChapterPageGalleryState
-    extends ConsumerState<MangaChapterPageGallery>
-    with TickerProviderStateMixin {
+class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGallery> with TickerProviderStateMixin {
   late AnimationController _scaleAnimationController;
   late Animation<double> _animation;
-  late ReaderController _readerController =
-      ref.read(readerControllerProvider(chapter: chapter).notifier);
+  late ReaderController _readerController = ref.read(readerControllerProvider(chapter: chapter).notifier);
   bool isDesktop = Platform.isMacOS || Platform.isLinux || Platform.isWindows;
 
   @override
   void dispose() {
     _readerController.setMangaHistoryUpdate();
-    _readerController.setPageIndex(
-        _geCurrentIndex(_uChapDataPreload[_currentIndex!].index!), true);
+    _readerController.setPageIndex(_geCurrentIndex(_uChapDataPreload[_currentIndex!].index!), true);
     _rebuildDetail.close();
     _doubleClickAnimationController.dispose();
     _autoScroll.value = false;
@@ -152,14 +148,12 @@ class _MangaChapterPageGalleryState
     if (isDesktop) {
       setFullScreen(value: false);
     } else {
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-          overlays: SystemUiOverlay.values);
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     }
     super.dispose();
   }
 
-  late final _autoScroll =
-      ValueNotifier(_readerController.autoScrollValues().$1);
+  late final _autoScroll = ValueNotifier(_readerController.autoScrollValues().$1);
   late final _autoScrollPage = ValueNotifier(_autoScroll.value);
   late GetChapterPagesModel _chapterUrlModel = widget.chapterUrlModel;
 
@@ -171,27 +165,23 @@ class _MangaChapterPageGalleryState
 
   late int? _currentIndex = _readerController.getPageIndex();
 
-  late final ItemScrollController _itemScrollController =
-      ItemScrollController();
+  late final ItemScrollController _itemScrollController = ItemScrollController();
   final ScrollOffsetController _pageOffsetController = ScrollOffsetController();
-  final ItemPositionsListener _itemPositionsListener =
-      ItemPositionsListener.create();
+  final ItemPositionsListener _itemPositionsListener = ItemPositionsListener.create();
 
   late AnimationController _doubleClickAnimationController;
 
   Animation<double>? _doubleClickAnimation;
   late DoubleClickAnimationListener _doubleClickAnimationListener;
   List<double> doubleTapScales = <double>[1.0, 2.0];
-  final StreamController<double> _rebuildDetail =
-      StreamController<double>.broadcast();
+  final StreamController<double> _rebuildDetail = StreamController<double>.broadcast();
+
   @override
   void initState() {
-    _doubleClickAnimationController = AnimationController(
-        duration: _doubleTapAnimationDuration(), vsync: this);
-    _scaleAnimationController = AnimationController(
-        duration: _doubleTapAnimationDuration(), vsync: this);
-    _animation = Tween(begin: 1.0, end: 2.0).animate(
-        CurvedAnimation(curve: Curves.ease, parent: _scaleAnimationController));
+    _doubleClickAnimationController = AnimationController(duration: _doubleTapAnimationDuration(), vsync: this);
+    _scaleAnimationController = AnimationController(duration: _doubleTapAnimationDuration(), vsync: this);
+    _animation =
+        Tween(begin: 1.0, end: 2.0).animate(CurvedAnimation(curve: Curves.ease, parent: _scaleAnimationController));
     _animation.addListener(() => _photoViewController.scale = _animation.value);
     _itemPositionsListener.itemPositions.addListener(_readProgressListener);
     _initCurrentIndex();
@@ -209,36 +199,32 @@ class _MangaChapterPageGalleryState
   bool _isView = false;
   Alignment _scalePosition = Alignment.center;
   final PhotoViewController _photoViewController = PhotoViewController();
-  final PhotoViewScaleStateController _photoViewScaleStateController =
-      PhotoViewScaleStateController();
+  final PhotoViewScaleStateController _photoViewScaleStateController = PhotoViewScaleStateController();
   final List<int> _cropBorderCheckList = [];
 
-  void _onScaleEnd(BuildContext context, ScaleEndDetails details,
-      PhotoViewControllerValue controllerValue) {
+  void _onScaleEnd(BuildContext context, ScaleEndDetails details, PhotoViewControllerValue controllerValue) {
     if (controllerValue.scale! < 1) {
       _photoViewScaleStateController.reset();
     }
   }
 
-  late final _extendedController =
-      ExtendedPageController(initialPage: _currentIndex!);
+  late final _extendedController = ExtendedPageController(initialPage: _currentIndex!);
 
   double get pixelRatio => View.of(context).devicePixelRatio;
 
   Size get size => View.of(context).physicalSize / pixelRatio;
+
   Alignment _computeAlignmentByTapOffset(Offset offset) {
-    return Alignment((offset.dx - size.width / 2) / (size.width / 2),
-        (offset.dy - size.height / 2) / (size.height / 2));
+    return Alignment(
+        (offset.dx - size.width / 2) / (size.width / 2), (offset.dy - size.height / 2) / (size.height / 2));
   }
 
   Axis _scrollDirection = Axis.vertical;
   bool _isReverseHorizontal = false;
 
-  late final _showPagesNumber =
-      StateProvider((ref) => _readerController.getShowPageNumber());
+  late final _showPagesNumber = StateProvider((ref) => _readerController.getShowPageNumber());
 
-  Color _backgroundColor(BuildContext context) =>
-      Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.9);
+  Color _backgroundColor(BuildContext context) => Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.9);
 
   void _setFullScreen({bool? value}) async {
     if (isDesktop) {
@@ -248,17 +234,13 @@ class _MangaChapterPageGalleryState
     ref.read(fullScreenReaderStateProvider.notifier).set(!value!);
   }
 
-  void _onLongPressImageDialog(
-      UChapDataPreload datas, BuildContext context) async {
-    Widget button(String label, IconData icon, Function() onPressed) =>
-        Expanded(
+  void _onLongPressImageDialog(UChapDataPreload datas, BuildContext context) async {
+    Widget button(String label, IconData icon, Function() onPressed) => Expanded(
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    shadowColor: Colors.transparent),
+                    backgroundColor: Colors.transparent, elevation: 0, shadowColor: Colors.transparent),
                 onPressed: onPressed,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -274,9 +256,8 @@ class _MangaChapterPageGalleryState
         );
     final imageBytes = await datas.getImageBytes;
     if (imageBytes != null && context.mounted) {
-      final name =
-          "${widget.chapter.manga.value!.name} ${widget.chapter.name} - ${datas.pageIndex}"
-              .replaceAll(RegExp(r'[^a-zA-Z0-9 .()\-\s]'), '_');
+      final name = "${widget.chapter.manga.value!.name} ${widget.chapter.name} - ${datas.pageIndex}"
+          .replaceAll(RegExp(r'[^a-zA-Z0-9 .()\-\s]'), '_');
       showModalBottomSheet(
         context: context,
         constraints: BoxConstraints(
@@ -288,9 +269,7 @@ class _MangaChapterPageGalleryState
             children: [
               Container(
                 decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20)),
+                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                     color: context.themeData.scaffoldBackgroundColor),
                 child: Column(
                   children: [
@@ -301,20 +280,17 @@ class _MangaChapterPageGalleryState
                         width: 35,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(6),
-                            color:
-                                context.secondaryColor.withValues(alpha: 0.4)),
+                            color: context.secondaryColor.withValues(alpha: 0.4)),
                       ),
                     ),
                     Row(
                       children: [
-                        button(context.l10n.set_as_cover, Icons.image_outlined,
-                            () async {
+                        button(context.l10n.set_as_cover, Icons.image_outlined, () async {
                           final res = await showDialog(
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
-                                  content:
-                                      Text(context.l10n.use_this_as_cover_art),
+                                  content: Text(context.l10n.use_this_as_cover_art),
                                   actions: [
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
@@ -329,12 +305,9 @@ class _MangaChapterPageGalleryState
                                         ),
                                         TextButton(
                                             onPressed: () {
-                                              final manga =
-                                                  widget.chapter.manga.value!;
+                                              final manga = widget.chapter.manga.value!;
                                               isar.writeTxnSync(() {
-                                                isar.mangas.putSync(manga
-                                                  ..customCoverImage =
-                                                      imageBytes);
+                                                isar.mangas.putSync(manga..customCoverImage = imageBytes);
                                               });
                                               if (mounted) {
                                                 Navigator.pop(context, "ok");
@@ -351,17 +324,11 @@ class _MangaChapterPageGalleryState
                             botToast(context.l10n.cover_updated, second: 3);
                           }
                         }),
-                        button(context.l10n.share, Icons.share_outlined,
-                            () async {
-                          await Share.shareXFiles([
-                            XFile.fromData(imageBytes,
-                                name: name, mimeType: 'image/png')
-                          ]);
+                        button(context.l10n.share, Icons.share_outlined, () async {
+                          await Share.shareXFiles([XFile.fromData(imageBytes, name: name, mimeType: 'image/png')]);
                         }),
-                        button(context.l10n.save, Icons.save_outlined,
-                            () async {
-                          final dir =
-                              await StorageProvider().getGalleryDirectory();
+                        button(context.l10n.save, Icons.save_outlined, () async {
+                          final dir = await StorageProvider().getGalleryDirectory();
                           final file = File(p.join(dir!.path, "$name.png"));
                           file.writeAsBytesSync(imageBytes);
                           if (context.mounted) {
@@ -385,8 +352,7 @@ class _MangaChapterPageGalleryState
     final backgroundColor = ref.watch(backgroundColorStateProvider);
     final fullScreenReader = ref.watch(fullScreenReaderStateProvider);
     final cropBorders = ref.watch(cropBordersStateProvider);
-    final bool isHorizontalContinuaous =
-        ref.watch(_currentReaderMode) == ReaderMode.horizontalContinuous;
+    final bool isHorizontalContinuaous = ref.watch(_currentReaderMode) == ReaderMode.horizontalContinuous;
     if (cropBorders) {
       _processCropBorders();
     }
@@ -396,49 +362,32 @@ class _MangaChapterPageGalleryState
       autofocus: true,
       focusNode: FocusNode(),
       onKeyEvent: (event) {
-        bool isLogicalKeyPressed(LogicalKeyboardKey key) =>
-            HardwareKeyboard.instance.isLogicalKeyPressed(key);
+        bool isLogicalKeyPressed(LogicalKeyboardKey key) => HardwareKeyboard.instance.isLogicalKeyPressed(key);
         bool hasNextChapter = _readerController.getChapterIndex().$1 != 0;
         bool hasPrevChapter = _readerController.getChapterIndex().$1 + 1 !=
-            _readerController
-                .getChaptersLength(_readerController.getChapterIndex().$2);
+            _readerController.getChaptersLength(_readerController.getChapterIndex().$2);
         final action = switch (event.logicalKey) {
-          LogicalKeyboardKey.f11 =>
-            (!isLogicalKeyPressed(LogicalKeyboardKey.f11))
-                ? _setFullScreen()
-                : null,
-          LogicalKeyboardKey.escape =>
-            (!isLogicalKeyPressed(LogicalKeyboardKey.escape))
-                ? _goBack(context)
-                : null,
+          LogicalKeyboardKey.f11 => (!isLogicalKeyPressed(LogicalKeyboardKey.f11)) ? _setFullScreen() : null,
+          LogicalKeyboardKey.escape => (!isLogicalKeyPressed(LogicalKeyboardKey.escape)) ? _goBack(context) : null,
           LogicalKeyboardKey.backspace =>
-            (!isLogicalKeyPressed(LogicalKeyboardKey.backspace))
-                ? _goBack(context)
-                : null,
+            (!isLogicalKeyPressed(LogicalKeyboardKey.backspace)) ? _goBack(context) : null,
           LogicalKeyboardKey.arrowUp =>
-            (!isLogicalKeyPressed(LogicalKeyboardKey.arrowUp))
-                ? _onBtnTapped(_currentIndex! - 1, true)
-                : null,
-          LogicalKeyboardKey.arrowLeft =>
-            (!isLogicalKeyPressed(LogicalKeyboardKey.arrowLeft))
-                ? _isReverseHorizontal
-                    ? _onBtnTapped(_currentIndex! + 1, false)
-                    : _onBtnTapped(_currentIndex! - 1, true)
-                : null,
-          LogicalKeyboardKey.arrowRight =>
-            (!isLogicalKeyPressed(LogicalKeyboardKey.arrowRight))
-                ? _isReverseHorizontal
-                    ? _onBtnTapped(_currentIndex! - 1, true)
-                    : _onBtnTapped(_currentIndex! + 1, false)
-                : null,
+            (!isLogicalKeyPressed(LogicalKeyboardKey.arrowUp)) ? _onBtnTapped(_currentIndex! - 1, true) : null,
+          LogicalKeyboardKey.arrowLeft => (!isLogicalKeyPressed(LogicalKeyboardKey.arrowLeft))
+              ? _isReverseHorizontal
+                  ? _onBtnTapped(_currentIndex! + 1, false)
+                  : _onBtnTapped(_currentIndex! - 1, true)
+              : null,
+          LogicalKeyboardKey.arrowRight => (!isLogicalKeyPressed(LogicalKeyboardKey.arrowRight))
+              ? _isReverseHorizontal
+                  ? _onBtnTapped(_currentIndex! - 1, true)
+                  : _onBtnTapped(_currentIndex! + 1, false)
+              : null,
           LogicalKeyboardKey.arrowDown =>
-            (!isLogicalKeyPressed(LogicalKeyboardKey.arrowDown))
-                ? _onBtnTapped(_currentIndex! + 1, true)
-                : null,
+            (!isLogicalKeyPressed(LogicalKeyboardKey.arrowDown)) ? _onBtnTapped(_currentIndex! + 1, true) : null,
           LogicalKeyboardKey.keyN ||
           LogicalKeyboardKey.pageDown =>
-            ((!isLogicalKeyPressed(LogicalKeyboardKey.keyN) ||
-                    !isLogicalKeyPressed(LogicalKeyboardKey.pageDown)))
+            ((!isLogicalKeyPressed(LogicalKeyboardKey.keyN) || !isLogicalKeyPressed(LogicalKeyboardKey.pageDown)))
                 ? switch (hasNextChapter) {
                     true => pushReplacementMangaReaderView(
                         context: context,
@@ -447,17 +396,13 @@ class _MangaChapterPageGalleryState
                     _ => null
                   }
                 : null,
-          LogicalKeyboardKey.keyP ||
-          LogicalKeyboardKey.pageUp =>
-            ((!isLogicalKeyPressed(LogicalKeyboardKey.keyP) ||
-                    !isLogicalKeyPressed(LogicalKeyboardKey.pageUp)))
-                ? switch (hasPrevChapter) {
-                    true => pushReplacementMangaReaderView(
-                        context: context,
-                        chapter: _readerController.getPrevChapter()),
-                    _ => null
-                  }
-                : null,
+          LogicalKeyboardKey.keyP || LogicalKeyboardKey.pageUp => ((!isLogicalKeyPressed(LogicalKeyboardKey.keyP) ||
+                  !isLogicalKeyPressed(LogicalKeyboardKey.pageUp)))
+              ? switch (hasPrevChapter) {
+                  true => pushReplacementMangaReaderView(context: context, chapter: _readerController.getPrevChapter()),
+                  _ => null
+                }
+              : null,
           _ => null
         };
         action;
@@ -484,118 +429,73 @@ class _MangaChapterPageGalleryState
                       _isVerticalOrHorizontalContinous()
                           ? PhotoViewGallery.builder(
                               itemCount: 1,
-                              builder: (_, __) =>
-                                  PhotoViewGalleryPageOptions.customChild(
-                                      controller: _photoViewController,
-                                      scaleStateController:
-                                          _photoViewScaleStateController,
-                                      basePosition: _scalePosition,
-                                      onScaleEnd: _onScaleEnd,
-                                      child: ScrollablePositionedList.separated(
-                                        scrollDirection: isHorizontalContinuaous
-                                            ? Axis.horizontal
-                                            : Axis.vertical,
-                                        minCacheExtent: pagePreloadAmount *
-                                            context.height(1),
-                                        initialScrollIndex:
-                                            _readerController.getPageIndex(),
-                                        itemCount:
-                                            (_pageMode == PageMode.doublePage &&
-                                                    !isHorizontalContinuaous)
-                                                ? (_uChapDataPreload.length / 2)
-                                                        .ceil() +
-                                                    1
-                                                : _uChapDataPreload.length,
-                                        physics: const ClampingScrollPhysics(),
-                                        itemScrollController:
-                                            _itemScrollController,
-                                        scrollOffsetController:
-                                            _pageOffsetController,
-                                        itemPositionsListener:
-                                            _itemPositionsListener,
-                                        itemBuilder: (context, index) {
-                                          int index1 = index * 2 - 1;
-                                          int index2 = index1 + 1;
-                                          return GestureDetector(
-                                            behavior:
-                                                HitTestBehavior.translucent,
-                                            onDoubleTapDown: (details) {
-                                              _toggleScale(
-                                                  details.globalPosition);
-                                            },
-                                            onDoubleTap: () {},
-                                            child: (_pageMode ==
-                                                        PageMode.doublePage &&
-                                                    !isHorizontalContinuaous)
-                                                ? DoubleColummVerticalView(
-                                                    datas: index == 0
-                                                        ? [
-                                                            _uChapDataPreload[
-                                                                0],
-                                                            null
-                                                          ]
-                                                        : [
-                                                            index1 <
-                                                                    _uChapDataPreload
-                                                                        .length
-                                                                ? _uChapDataPreload[
-                                                                    index1]
-                                                                : null,
-                                                            index2 <
-                                                                    _uChapDataPreload
-                                                                        .length
-                                                                ? _uChapDataPreload[
-                                                                    index2]
-                                                                : null,
-                                                          ],
-                                                    backgroundColor:
-                                                        backgroundColor,
-                                                    isFailedToLoadImage:
-                                                        (val) {},
-                                                    onLongPressData: (datas) {
-                                                      _onLongPressImageDialog(
-                                                          datas, context);
-                                                    },
-                                                  )
-                                                : ImageViewVertical(
-                                                    data: _uChapDataPreload[
-                                                        index],
-                                                    failedToLoadImage: (value) {
-                                                      // _failedToLoadImage.value = value;
-                                                    },
-                                                    onLongPressData: (datas) {
-                                                      _onLongPressImageDialog(
-                                                          datas, context);
-                                                    },
-                                                    isHorizontal: ref.watch(
-                                                            _currentReaderMode) ==
-                                                        ReaderMode
-                                                            .horizontalContinuous,
-                                                  ),
-                                          );
+                              builder: (_, __) => PhotoViewGalleryPageOptions.customChild(
+                                  controller: _photoViewController,
+                                  scaleStateController: _photoViewScaleStateController,
+                                  basePosition: _scalePosition,
+                                  onScaleEnd: _onScaleEnd,
+                                  child: ScrollablePositionedList.separated(
+                                    scrollDirection: isHorizontalContinuaous ? Axis.horizontal : Axis.vertical,
+                                    minCacheExtent: pagePreloadAmount * context.height(1),
+                                    initialScrollIndex: _readerController.getPageIndex(),
+                                    itemCount: (_pageMode == PageMode.doublePage && !isHorizontalContinuaous)
+                                        ? (_uChapDataPreload.length / 2).ceil() + 1
+                                        : _uChapDataPreload.length,
+                                    physics: const ClampingScrollPhysics(),
+                                    itemScrollController: _itemScrollController,
+                                    scrollOffsetController: _pageOffsetController,
+                                    itemPositionsListener: _itemPositionsListener,
+                                    itemBuilder: (context, index) {
+                                      int index1 = index * 2 - 1;
+                                      int index2 = index1 + 1;
+                                      return GestureDetector(
+                                        behavior: HitTestBehavior.translucent,
+                                        onDoubleTapDown: (details) {
+                                          _toggleScale(details.globalPosition);
                                         },
-                                        separatorBuilder: (_, __) => ref.watch(
-                                                    _currentReaderMode) ==
-                                                ReaderMode.webtoon
-                                            ? const SizedBox.shrink()
-                                            : ref.watch(_currentReaderMode) ==
-                                                    ReaderMode
-                                                        .horizontalContinuous
-                                                ? VerticalDivider(
-                                                    color: getBackgroundColor(
-                                                        backgroundColor),
-                                                    width: 6)
-                                                : Divider(
-                                                    color: getBackgroundColor(
-                                                        backgroundColor),
-                                                    height: 6),
-                                      )),
+                                        onDoubleTap: () {},
+                                        child: (_pageMode == PageMode.doublePage && !isHorizontalContinuaous)
+                                            ? DoubleColummVerticalView(
+                                                datas: index == 0
+                                                    ? [_uChapDataPreload[0], null]
+                                                    : [
+                                                        index1 < _uChapDataPreload.length
+                                                            ? _uChapDataPreload[index1]
+                                                            : null,
+                                                        index2 < _uChapDataPreload.length
+                                                            ? _uChapDataPreload[index2]
+                                                            : null,
+                                                      ],
+                                                backgroundColor: backgroundColor,
+                                                isFailedToLoadImage: (val) {},
+                                                onLongPressData: (datas) {
+                                                  _onLongPressImageDialog(datas, context);
+                                                },
+                                              )
+                                            : ImageViewVertical(
+                                                data: _uChapDataPreload[index],
+                                                failedToLoadImage: (value) {
+                                                  // _failedToLoadImage.value = value;
+                                                },
+                                                onLongPressData: (datas) {
+                                                  _onLongPressImageDialog(datas, context);
+                                                },
+                                                isHorizontal:
+                                                    ref.watch(_currentReaderMode) == ReaderMode.horizontalContinuous,
+                                              ),
+                                      );
+                                    },
+                                    separatorBuilder: (_, __) => ref.watch(_currentReaderMode) == ReaderMode.webtoon
+                                        ? const SizedBox.shrink()
+                                        : ref.watch(_currentReaderMode) == ReaderMode.horizontalContinuous
+                                            ? VerticalDivider(color: getBackgroundColor(backgroundColor), width: 6)
+                                            : Divider(color: getBackgroundColor(backgroundColor), height: 6),
+                                  )),
                             )
                           : Material(
                               color: getBackgroundColor(backgroundColor),
                               shadowColor: getBackgroundColor(backgroundColor),
-                              child: (_pageMode == PageMode.doublePage &&
-                                      !isHorizontalContinuaous)
+                              child: (_pageMode == PageMode.doublePage && !isHorizontalContinuaous)
                                   ? ExtendedImageGesturePageView.builder(
                                       controller: _extendedController,
                                       scrollDirection: _scrollDirection,
@@ -610,36 +510,23 @@ class _MangaChapterPageGalleryState
                                         final pageList = (index == 0
                                             ? [_uChapDataPreload[0], null]
                                             : [
-                                                index1 <
-                                                        _uChapDataPreload.length
-                                                    ? _uChapDataPreload[index1]
-                                                    : null,
-                                                index2 <
-                                                        _uChapDataPreload.length
-                                                    ? _uChapDataPreload[index2]
-                                                    : null,
+                                                index1 < _uChapDataPreload.length ? _uChapDataPreload[index1] : null,
+                                                index2 < _uChapDataPreload.length ? _uChapDataPreload[index2] : null,
                                               ]);
                                         return DoubleColummView(
-                                          datas: _isReverseHorizontal
-                                              ? pageList.reversed.toList()
-                                              : pageList,
+                                          datas: _isReverseHorizontal ? pageList.reversed.toList() : pageList,
                                           backgroundColor: backgroundColor,
                                           isFailedToLoadImage: (val) {
-                                            if (_failedToLoadImage.value !=
-                                                    val &&
-                                                mounted) {
+                                            if (_failedToLoadImage.value != val && mounted) {
                                               _failedToLoadImage.value = val;
                                             }
                                           },
                                           onLongPressData: (datas) {
-                                            _onLongPressImageDialog(
-                                                datas, context);
+                                            _onLongPressImageDialog(datas, context);
                                           },
                                         );
                                       },
-                                      itemCount: (_uChapDataPreload.length / 2)
-                                              .ceil() +
-                                          1,
+                                      itemCount: (_uChapDataPreload.length / 2).ceil() + 1,
                                       onPageChanged: _onPageChanged)
                                   : ExtendedImageGesturePageView.builder(
                                       controller: _extendedController,
@@ -647,118 +534,71 @@ class _MangaChapterPageGalleryState
                                       reverse: _isReverseHorizontal,
                                       physics: const ClampingScrollPhysics(),
                                       canScrollPage: (gestureDetails) {
-                                        return gestureDetails != null
-                                            ? !(gestureDetails.totalScale! >
-                                                1.0)
-                                            : true;
+                                        return gestureDetails != null ? !(gestureDetails.totalScale! > 1.0) : true;
                                       },
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
+                                      itemBuilder: (BuildContext context, int index) {
                                         return ImageViewPaged(
                                           data: _uChapDataPreload[index],
                                           loadStateChanged: (state) {
-                                            if (state.extendedImageLoadState ==
-                                                LoadState.loading) {
-                                              final ImageChunkEvent?
-                                                  loadingProgress =
-                                                  state.loadingProgress;
-                                              final double progress = loadingProgress
-                                                          ?.expectedTotalBytes !=
-                                                      null
-                                                  ? loadingProgress!
-                                                          .cumulativeBytesLoaded /
-                                                      loadingProgress
-                                                          .expectedTotalBytes!
+                                            if (state.extendedImageLoadState == LoadState.loading) {
+                                              final ImageChunkEvent? loadingProgress = state.loadingProgress;
+                                              final double progress = loadingProgress?.expectedTotalBytes != null
+                                                  ? loadingProgress!.cumulativeBytesLoaded /
+                                                      loadingProgress.expectedTotalBytes!
                                                   : 0;
                                               return Container(
-                                                color: getBackgroundColor(
-                                                    backgroundColor),
+                                                color: getBackgroundColor(backgroundColor),
                                                 height: context.height(0.8),
-                                                child:
-                                                    CircularProgressIndicatorAnimateRotate(
-                                                        progress: progress),
+                                                child: CircularProgressIndicatorAnimateRotate(progress: progress),
                                               );
                                             }
-                                            if (state.extendedImageLoadState ==
-                                                LoadState.completed) {
-                                              if (_failedToLoadImage.value ==
-                                                  true) {
-                                                Future.delayed(const Duration(
-                                                        milliseconds: 10))
-                                                    .then((value) =>
-                                                        _failedToLoadImage
-                                                            .value = false);
+                                            if (state.extendedImageLoadState == LoadState.completed) {
+                                              if (_failedToLoadImage.value == true) {
+                                                Future.delayed(const Duration(milliseconds: 10))
+                                                    .then((value) => _failedToLoadImage.value = false);
                                               }
                                               return ExtendedImageGesture(
                                                 state,
                                                 canScaleImage: (_) => true,
                                                 imageBuilder: (Widget image,
-                                                    {ExtendedImageGestureState?
-                                                        imageGestureState}) {
+                                                    {ExtendedImageGestureState? imageGestureState}) {
                                                   return image;
                                                 },
                                               );
                                             }
-                                            if (state.extendedImageLoadState ==
-                                                LoadState.failed) {
-                                              if (_failedToLoadImage.value ==
-                                                  false) {
-                                                Future.delayed(const Duration(
-                                                        milliseconds: 10))
-                                                    .then((value) =>
-                                                        _failedToLoadImage
-                                                            .value = true);
+                                            if (state.extendedImageLoadState == LoadState.failed) {
+                                              if (_failedToLoadImage.value == false) {
+                                                Future.delayed(const Duration(milliseconds: 10))
+                                                    .then((value) => _failedToLoadImage.value = true);
                                               }
                                               return Container(
-                                                  color: getBackgroundColor(
-                                                      backgroundColor),
+                                                  color: getBackgroundColor(backgroundColor),
                                                   height: context.height(0.8),
                                                   child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
                                                       Text(
                                                         l10n.image_loading_error,
-                                                        style: TextStyle(
-                                                            color: Colors.white
-                                                                .withValues(
-                                                                    alpha:
-                                                                        0.7)),
+                                                        style: TextStyle(color: Colors.white.withValues(alpha: 0.7)),
                                                       ),
                                                       Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
+                                                        padding: const EdgeInsets.all(8.0),
                                                         child: GestureDetector(
                                                             onLongPress: () {
-                                                              state
-                                                                  .reLoadImage();
-                                                              _failedToLoadImage
-                                                                      .value =
-                                                                  false;
+                                                              state.reLoadImage();
+                                                              _failedToLoadImage.value = false;
                                                             },
                                                             onTap: () {
-                                                              state
-                                                                  .reLoadImage();
-                                                              _failedToLoadImage
-                                                                      .value =
-                                                                  false;
+                                                              state.reLoadImage();
+                                                              _failedToLoadImage.value = false;
                                                             },
                                                             child: Container(
                                                               decoration: BoxDecoration(
-                                                                  color: context
-                                                                      .primaryColor,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              30)),
+                                                                  color: context.primaryColor,
+                                                                  borderRadius: BorderRadius.circular(30)),
                                                               child: Padding(
-                                                                padding: const EdgeInsets
-                                                                    .symmetric(
-                                                                    vertical: 8,
-                                                                    horizontal:
-                                                                        16),
+                                                                padding: const EdgeInsets.symmetric(
+                                                                    vertical: 8, horizontal: 16),
                                                                 child: Text(
                                                                   l10n.retry,
                                                                 ),
@@ -777,28 +617,22 @@ class _MangaChapterPageGalleryState
                                               maxScale: 8,
                                               animationMaxScale: 8,
                                               cacheGesture: true,
-                                              hitTestBehavior:
-                                                  HitTestBehavior.translucent,
+                                              hitTestBehavior: HitTestBehavior.translucent,
                                             );
                                           },
                                           onDoubleTap: (state) {
-                                            final Offset? pointerDownPosition =
-                                                state.pointerDownPosition;
-                                            final double? begin = state
-                                                .gestureDetails!.totalScale;
+                                            final Offset? pointerDownPosition = state.pointerDownPosition;
+                                            final double? begin = state.gestureDetails!.totalScale;
                                             double end;
 
                                             //remove old
-                                            _doubleClickAnimation?.removeListener(
-                                                _doubleClickAnimationListener);
+                                            _doubleClickAnimation?.removeListener(_doubleClickAnimationListener);
 
                                             //stop pre
-                                            _doubleClickAnimationController
-                                                .stop();
+                                            _doubleClickAnimationController.stop();
 
                                             //reset to use
-                                            _doubleClickAnimationController
-                                                .reset();
+                                            _doubleClickAnimationController.reset();
 
                                             if (begin == doubleTapScales[0]) {
                                               end = doubleTapScales[1];
@@ -808,28 +642,20 @@ class _MangaChapterPageGalleryState
 
                                             _doubleClickAnimationListener = () {
                                               state.handleDoubleTap(
-                                                  scale: _doubleClickAnimation!
-                                                      .value,
-                                                  doubleTapPosition:
-                                                      pointerDownPosition);
+                                                  scale: _doubleClickAnimation!.value,
+                                                  doubleTapPosition: pointerDownPosition);
                                             };
 
-                                            _doubleClickAnimation = Tween(
-                                                    begin: begin, end: end)
-                                                .animate(CurvedAnimation(
-                                                    curve: Curves.ease,
-                                                    parent:
-                                                        _doubleClickAnimationController));
+                                            _doubleClickAnimation = Tween(begin: begin, end: end).animate(
+                                                CurvedAnimation(
+                                                    curve: Curves.ease, parent: _doubleClickAnimationController));
 
-                                            _doubleClickAnimation!.addListener(
-                                                _doubleClickAnimationListener);
+                                            _doubleClickAnimation!.addListener(_doubleClickAnimationListener);
 
-                                            _doubleClickAnimationController
-                                                .forward();
+                                            _doubleClickAnimationController.forward();
                                           },
                                           onLongPressData: (datas) {
-                                            _onLongPressImageDialog(
-                                                datas, context);
+                                            _onLongPressImageDialog(datas, context);
                                           },
                                         );
                                       },
@@ -853,15 +679,13 @@ class _MangaChapterPageGalleryState
   Future<void> _precacheImages(int index) async {
     try {
       if (0 <= index && index < _uChapDataPreload.length) {
-        await precacheImage(
-            _uChapDataPreload[index].getImageProvider(ref, false), context);
+        await precacheImage(_uChapDataPreload[index].getImageProvider(ref, false), context);
       }
     } catch (_) {}
   }
 
   Duration? _doubleTapAnimationDuration() {
-    int doubleTapAnimationValue =
-        isar.settings.getSync(227)!.doubleTapAnimationSpeed!;
+    int doubleTapAnimationValue = isar.settings.getSync(227)!.doubleTapAnimationSpeed!;
     if (doubleTapAnimationValue == 0) {
       return const Duration(milliseconds: 10);
     } else if (doubleTapAnimationValue == 1) {
@@ -873,32 +697,26 @@ class _MangaChapterPageGalleryState
   void _readProgressListener() {
     _currentIndex = _itemPositionsListener.itemPositions.value.first.index;
 
-    int pagesLength = (_pageMode == PageMode.doublePage &&
-            !(ref.watch(_currentReaderMode) == ReaderMode.horizontalContinuous))
-        ? (_uChapDataPreload.length / 2).ceil() + 1
-        : _uChapDataPreload.length;
+    int pagesLength =
+        (_pageMode == PageMode.doublePage && !(ref.watch(_currentReaderMode) == ReaderMode.horizontalContinuous))
+            ? (_uChapDataPreload.length / 2).ceil() + 1
+            : _uChapDataPreload.length;
 
     if (_currentIndex! >= 0 && _currentIndex! < pagesLength) {
-      if (_readerController.chapter.id !=
-          _uChapDataPreload[_currentIndex!].chapter!.id) {
-        _readerController.setPageIndex(
-            _geCurrentIndex(_uChapDataPreload[_currentIndex! - 1].index!),
-            false);
+      if (_readerController.chapter.id != _uChapDataPreload[_currentIndex!].chapter!.id) {
+        _readerController.setPageIndex(_geCurrentIndex(_uChapDataPreload[_currentIndex! - 1].index!), false);
         if (mounted) {
           setState(() {
-            _readerController = ref.read(readerControllerProvider(
-                    chapter: _uChapDataPreload[_currentIndex!].chapter!)
-                .notifier);
+            _readerController =
+                ref.read(readerControllerProvider(chapter: _uChapDataPreload[_currentIndex!].chapter!).notifier);
 
             chapter = _uChapDataPreload[_currentIndex!].chapter!;
-            _chapterUrlModel =
-                _uChapDataPreload[_currentIndex!].chapterUrlModel!;
+            _chapterUrlModel = _uChapDataPreload[_currentIndex!].chapterUrlModel!;
             _isBookmarked = _readerController.getChapterBookmarked();
           });
         }
       }
-      if (_itemPositionsListener.itemPositions.value.last.index ==
-          pagesLength - 1) {
+      if (_itemPositionsListener.itemPositions.value.last.index == pagesLength - 1) {
         try {
           ref
               .watch(getChapterPagesProvider(
@@ -921,21 +739,15 @@ class _MangaChapterPageGalleryState
       List<UChapDataPreload> uChapDataPreloadP = [];
       List<UChapDataPreload> uChapDataPreloadL = _uChapDataPreload;
       List<UChapDataPreload> preChap = [];
-      final uIsNotEmpty =
-          chapterData.uChapDataPreload.first.chapter!.url!.isNotEmpty;
-      final aIsNotEmpty =
-          chapterData.uChapDataPreload.first.chapter!.archivePath!.isNotEmpty;
+      final uIsNotEmpty = chapterData.uChapDataPreload.first.chapter!.url!.isNotEmpty;
+      final aIsNotEmpty = chapterData.uChapDataPreload.first.chapter!.archivePath!.isNotEmpty;
       for (var chp in _uChapDataPreload) {
         final cuIsNotEmpty = chp.chapter!.url!.isNotEmpty;
         final caIsNotEmpty = chp.chapter!.archivePath!.isNotEmpty;
-        if (uIsNotEmpty &&
-                cuIsNotEmpty &&
-                chapterData.uChapDataPreload.first.chapter!.url ==
-                    chp.chapter!.url ||
+        if (uIsNotEmpty && cuIsNotEmpty && chapterData.uChapDataPreload.first.chapter!.url == chp.chapter!.url ||
             aIsNotEmpty &&
                 caIsNotEmpty &&
-                chapterData.uChapDataPreload.first.chapter!.archivePath ==
-                    chp.chapter!.archivePath) {
+                chapterData.uChapDataPreload.first.chapter!.archivePath == chp.chapter!.archivePath) {
           isExist = true;
         }
       }
@@ -993,15 +805,12 @@ class _MangaChapterPageGalleryState
         _precacheImages(_currentIndex! - i);
       }
     }
-    if (readerMode != ReaderMode.verticalContinuous &&
-        readerMode != ReaderMode.webtoon) {
+    if (readerMode != ReaderMode.verticalContinuous && readerMode != ReaderMode.webtoon) {
       _autoScroll.value = false;
     }
     _autoPagescroll();
     if (_readerController.getPageLength(_chapterUrlModel.pageUrls) == 1 &&
-        (readerMode == ReaderMode.ltr ||
-            readerMode == ReaderMode.rtl ||
-            readerMode == ReaderMode.vertical)) {
+        (readerMode == ReaderMode.ltr || readerMode == ReaderMode.rtl || readerMode == ReaderMode.vertical)) {
       _onPageChanged(0);
     }
   }
@@ -1017,13 +826,11 @@ class _MangaChapterPageGalleryState
     }
 
     if (_readerController.chapter.id != _uChapDataPreload[index].chapter!.id) {
-      _readerController.setPageIndex(
-          _geCurrentIndex(_uChapDataPreload[_currentIndex!].index!), false);
+      _readerController.setPageIndex(_geCurrentIndex(_uChapDataPreload[_currentIndex!].index!), false);
       if (mounted) {
         setState(() {
-          _readerController = ref.read(readerControllerProvider(
-                  chapter: _uChapDataPreload[_currentIndex!].chapter!)
-              .notifier);
+          _readerController =
+              ref.read(readerControllerProvider(chapter: _uChapDataPreload[_currentIndex!].chapter!).notifier);
           chapter = _uChapDataPreload[_currentIndex!].chapter!;
           _chapterUrlModel = _uChapDataPreload[index].chapterUrlModel!;
           _isBookmarked = _readerController.getChapterBookmarked();
@@ -1032,9 +839,7 @@ class _MangaChapterPageGalleryState
     }
     _currentIndex = index;
 
-    ref
-        .read(currentIndexProvider(chapter).notifier)
-        .setCurrentIndex(_uChapDataPreload[index].index!);
+    ref.read(currentIndexProvider(chapter).notifier).setCurrentIndex(_uChapDataPreload[index].index!);
 
     if (_uChapDataPreload[index].pageIndex! == _uChapDataPreload.length - 1) {
       try {
@@ -1047,8 +852,7 @@ class _MangaChapterPageGalleryState
     }
   }
 
-  late final _pageOffset =
-      ValueNotifier(_readerController.autoScrollValues().$2);
+  late final _pageOffset = ValueNotifier(_readerController.autoScrollValues().$2);
 
   void _autoPagescroll() async {
     if (_isVerticalOrHorizontalContinous()) {
@@ -1057,9 +861,7 @@ class _MangaChapterPageGalleryState
         if (!_autoScroll.value) {
           return;
         }
-        _pageOffsetController.animateScroll(
-            offset: _pageOffset.value,
-            duration: const Duration(milliseconds: 100));
+        _pageOffsetController.animateScroll(offset: _pageOffset.value, duration: const Duration(milliseconds: 100));
       }
       _autoPagescroll();
     }
@@ -1070,8 +872,7 @@ class _MangaChapterPageGalleryState
       _isViewFunction();
     }
     final readerMode = ref.watch(_currentReaderMode);
-    final animatePageTransitions =
-        ref.watch(animatePageTransitionsStateProvider);
+    final animatePageTransitions = ref.watch(animatePageTransitionsStateProvider);
     if (isPrev) {
       if (readerMode == ReaderMode.verticalContinuous ||
           readerMode == ReaderMode.webtoon ||
@@ -1084,9 +885,7 @@ class _MangaChapterPageGalleryState
           } else {
             animatePageTransitions
                 ? _itemScrollController.scrollTo(
-                    curve: Curves.ease,
-                    index: index,
-                    duration: const Duration(milliseconds: 150))
+                    curve: Curves.ease, index: index, duration: const Duration(milliseconds: 150))
                 : _itemScrollController.jumpTo(
                     index: index,
                   );
@@ -1100,8 +899,7 @@ class _MangaChapterPageGalleryState
             } else {
               animatePageTransitions
                   ? _extendedController.animateToPage(index,
-                      duration: const Duration(milliseconds: 150),
-                      curve: Curves.ease)
+                      duration: const Duration(milliseconds: 150), curve: Curves.ease)
                   : _extendedController.jumpToPage(index);
             }
           }
@@ -1118,9 +916,7 @@ class _MangaChapterPageGalleryState
         } else {
           animatePageTransitions
               ? _itemScrollController.scrollTo(
-                  curve: Curves.ease,
-                  index: index,
-                  duration: const Duration(milliseconds: 150))
+                  curve: Curves.ease, index: index, duration: const Duration(milliseconds: 150))
               : _itemScrollController.jumpTo(
                   index: index,
                 );
@@ -1134,8 +930,7 @@ class _MangaChapterPageGalleryState
           } else {
             animatePageTransitions
                 ? _extendedController.animateToPage(index,
-                    duration: const Duration(milliseconds: 150),
-                    curve: Curves.ease)
+                    duration: const Duration(milliseconds: 150), curve: Curves.ease)
                 : _extendedController.jumpToPage(index);
           }
         }
@@ -1184,10 +979,10 @@ class _MangaChapterPageGalleryState
     _failedToLoadImage.value = false;
     _readerController.setReaderMode(value);
 
-    int index = (_pageMode == PageMode.doublePage &&
-            !(ref.watch(_currentReaderMode) == ReaderMode.horizontalContinuous))
-        ? (_currentIndex! / 2).ceil()
-        : _currentIndex!;
+    int index =
+        (_pageMode == PageMode.doublePage && !(ref.watch(_currentReaderMode) == ReaderMode.horizontalContinuous))
+            ? (_currentIndex! / 2).ceil()
+            : _currentIndex!;
     ref.read(_currentReaderMode.notifier).state = value;
     if (value == ReaderMode.vertical) {
       if (mounted) {
@@ -1220,10 +1015,7 @@ class _MangaChapterPageGalleryState
           _isReverseHorizontal = false;
         });
         await Future.delayed(const Duration(milliseconds: 30));
-        _itemScrollController.scrollTo(
-            index: index,
-            duration: const Duration(milliseconds: 1),
-            curve: Curves.ease);
+        _itemScrollController.scrollTo(index: index, duration: const Duration(milliseconds: 1), curve: Curves.ease);
       }
     }
   }
@@ -1231,11 +1023,7 @@ class _MangaChapterPageGalleryState
   void _processCropBordersByIndex(int index) async {
     if (!_cropBorderCheckList.contains(index)) {
       _cropBorderCheckList.add(index);
-      ref
-          .watch(cropBordersProvider(
-                  data: _uChapDataPreload[index], cropBorder: true)
-              .future)
-          .then((value) {
+      ref.watch(cropBordersProvider(data: _uChapDataPreload[index], cropBorder: true).future).then((value) {
         _uChapDataPreload[index] = _uChapDataPreload[index]..cropImage = value;
       });
       if (mounted) {
@@ -1248,11 +1036,7 @@ class _MangaChapterPageGalleryState
     for (var i = 0; i < _uChapDataPreload.length; i++) {
       if (!_cropBorderCheckList.contains(i)) {
         _cropBorderCheckList.add(i);
-        ref
-            .watch(cropBordersProvider(
-                    data: _uChapDataPreload[i], cropBorder: true)
-                .future)
-            .then((value) {
+        ref.watch(cropBordersProvider(data: _uChapDataPreload[i], cropBorder: true).future).then((value) {
           _uChapDataPreload[i] = _uChapDataPreload[i]..cropImage = value;
           if (mounted) {
             setState(() {});
@@ -1263,8 +1047,7 @@ class _MangaChapterPageGalleryState
   }
 
   void _goBack(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     Navigator.pop(context);
   }
 
@@ -1321,8 +1104,7 @@ class _MangaChapterPageGalleryState
               ),
             ),
             actions: [
-              btnToShowChapterListDialog(
-                  context, context.l10n.chapters, widget.chapter),
+              btnToShowChapterListDialog(context, context.l10n.chapters, widget.chapter),
               IconButton(
                   onPressed: () {
                     _readerController.setChapterBookmarked();
@@ -1330,16 +1112,13 @@ class _MangaChapterPageGalleryState
                       _isBookmarked = !_isBookmarked;
                     });
                   },
-                  icon: Icon(_isBookmarked
-                      ? Icons.bookmark
-                      : Icons.bookmark_border_outlined)),
+                  icon: Icon(_isBookmarked ? Icons.bookmark : Icons.bookmark_border_outlined)),
               if ((chapter.manga.value!.isLocalArchive ?? false) == false)
                 IconButton(
                     onPressed: () async {
                       final manga = chapter.manga.value!;
                       final source = getSource(manga.lang!, manga.source!)!;
-                      final url =
-                          "${source.baseUrl}${chapter.url!.getUrlWithoutDomain}";
+                      final url = "${source.baseUrl}${chapter.url!.getUrlWithoutDomain}";
                       Map<String, dynamic> data = {
                         'url': url,
                         'sourceId': source.id.toString(),
@@ -1372,9 +1151,7 @@ class _MangaChapterPageGalleryState
                                   _autoPagescroll();
                                   _autoScroll.value = !value;
                                 },
-                                icon: Icon(value
-                                    ? Icons.pause_circle
-                                    : Icons.play_circle)),
+                                icon: Icon(value ? Icons.pause_circle : Icons.play_circle)),
                           )
                         : const SizedBox.shrink(),
                   )
@@ -1387,8 +1164,7 @@ class _MangaChapterPageGalleryState
       return const SizedBox.shrink();
     }
     bool hasPrevChapter = _readerController.getChapterIndex().$1 + 1 !=
-        _readerController
-            .getChaptersLength(_readerController.getChapterIndex().$2);
+        _readerController.getChaptersLength(_readerController.getChapterIndex().$2);
     bool hasNextChapter = _readerController.getChapterIndex().$1 != 0;
     final readerMode = ref.watch(_currentReaderMode);
 
@@ -1415,24 +1191,15 @@ class _MangaChapterPageGalleryState
                             onPressed: hasPrevChapter
                                 ? () {
                                     pushReplacementMangaReaderView(
-                                        context: context,
-                                        chapter:
-                                            _readerController.getPrevChapter());
+                                        context: context, chapter: _readerController.getPrevChapter());
                                   }
                                 : null,
                             icon: Transform.scale(
                               scaleX: 1,
                               child: Icon(Icons.skip_previous_rounded,
                                   color: hasPrevChapter
-                                      ? Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .color
-                                      : Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .color!
-                                          .withValues(alpha: 0.4)),
+                                      ? Theme.of(context).textTheme.bodyLarge!.color
+                                      : Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.4)),
                             )),
                       ),
                     ),
@@ -1441,9 +1208,8 @@ class _MangaChapterPageGalleryState
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Container(
                           height: 70,
-                          decoration: BoxDecoration(
-                              color: _backgroundColor(context),
-                              borderRadius: BorderRadius.circular(25)),
+                          decoration:
+                              BoxDecoration(color: _backgroundColor(context), borderRadius: BorderRadius.circular(25)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -1452,10 +1218,8 @@ class _MangaChapterPageGalleryState
                                 child: SizedBox(
                                   width: 55,
                                   child: Center(
-                                    child: Consumer(
-                                        builder: (context, ref, child) {
-                                      final currentIndex = ref
-                                          .watch(currentIndexProvider(chapter));
+                                    child: Consumer(builder: (context, ref, child) {
+                                      final currentIndex = ref.watch(currentIndexProvider(chapter));
                                       return Text(
                                         _currentIndexLabel(currentIndex),
                                         style: const TextStyle(
@@ -1470,32 +1234,23 @@ class _MangaChapterPageGalleryState
                               if (_isView)
                                 Flexible(
                                   flex: 14,
-                                  child:
-                                      Consumer(builder: (context, ref, child) {
-                                    final currentIndex = ref
-                                        .watch(currentIndexProvider(chapter));
+                                  child: Consumer(builder: (context, ref, child) {
+                                    final currentIndex = ref.watch(currentIndexProvider(chapter));
                                     return SliderTheme(
                                       data: SliderTheme.of(context).copyWith(
-                                        overlayShape:
-                                            const RoundSliderOverlayShape(
-                                                overlayRadius: 5.0),
+                                        overlayShape: const RoundSliderOverlayShape(overlayRadius: 5.0),
                                       ),
                                       child: Slider(
                                         onChanged: (value) {
                                           ref
-                                              .read(
-                                                  currentIndexProvider(chapter)
-                                                      .notifier)
+                                              .read(currentIndexProvider(chapter).notifier)
                                               .setCurrentIndex(value.toInt());
                                         },
                                         onChangeEnd: (newValue) {
                                           try {
                                             final index = _uChapDataPreload
                                                 .firstWhere((element) =>
-                                                    element.chapter ==
-                                                        chapter &&
-                                                    element.index ==
-                                                        newValue.toInt())
+                                                    element.chapter == chapter && element.index == newValue.toInt())
                                                 .pageIndex;
 
                                             _onBtnTapped(
@@ -1505,61 +1260,32 @@ class _MangaChapterPageGalleryState
                                             );
                                           } catch (_) {}
                                         },
-                                        divisions: _readerController
-                                                    .getPageLength(
-                                                        _chapterUrlModel
-                                                            .pageUrls) ==
-                                                1
+                                        divisions: _readerController.getPageLength(_chapterUrlModel.pageUrls) == 1
                                             ? null
                                             : _pageMode == PageMode.doublePage
-                                                ? ((_readerController.getPageLength(
-                                                                _chapterUrlModel
-                                                                    .pageUrls)) /
-                                                            2)
+                                                ? ((_readerController.getPageLength(_chapterUrlModel.pageUrls)) / 2)
                                                         .ceil() +
                                                     1
-                                                : _readerController
-                                                        .getPageLength(
-                                                            _chapterUrlModel
-                                                                .pageUrls) -
-                                                    1,
+                                                : _readerController.getPageLength(_chapterUrlModel.pageUrls) - 1,
                                         value: min(
                                             (currentIndex).toDouble(),
                                             (_pageMode == PageMode.doublePage &&
-                                                    !(ref.watch(
-                                                            _currentReaderMode) ==
-                                                        ReaderMode
-                                                            .horizontalContinuous))
-                                                ? ((_readerController.getPageLength(
-                                                                _chapterUrlModel
-                                                                    .pageUrls)) /
-                                                            2)
+                                                    !(ref.watch(_currentReaderMode) == ReaderMode.horizontalContinuous))
+                                                ? ((_readerController.getPageLength(_chapterUrlModel.pageUrls)) / 2)
                                                         .ceil() +
                                                     1
                                                 : (_readerController
-                                                    .getPageLength(
-                                                        _chapterUrlModel
-                                                            .pageUrls)
+                                                    .getPageLength(_chapterUrlModel.pageUrls)
                                                     .toDouble())),
                                         label: _currentIndexLabel(currentIndex),
                                         min: 0,
-                                        max: (_pageMode ==
-                                                    PageMode.doublePage &&
-                                                !(ref.watch(
-                                                        _currentReaderMode) ==
-                                                    ReaderMode
-                                                        .horizontalContinuous))
-                                            ? (((_readerController.getPageLength(
-                                                                _chapterUrlModel
-                                                                    .pageUrls)) /
-                                                            2)
+                                        max: (_pageMode == PageMode.doublePage &&
+                                                !(ref.watch(_currentReaderMode) == ReaderMode.horizontalContinuous))
+                                            ? (((_readerController.getPageLength(_chapterUrlModel.pageUrls)) / 2)
                                                         .ceil() +
                                                     1)
                                                 .toDouble()
-                                            : (_readerController.getPageLength(
-                                                        _chapterUrlModel
-                                                            .pageUrls) -
-                                                    1)
+                                            : (_readerController.getPageLength(_chapterUrlModel.pageUrls) - 1)
                                                 .toDouble(),
                                       ),
                                     );
@@ -1605,11 +1331,7 @@ class _MangaChapterPageGalleryState
                               Icons.skip_next_rounded,
                               color: hasNextChapter
                                   ? Theme.of(context).textTheme.bodyLarge!.color
-                                  : Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .color!
-                                      .withValues(alpha: 0.4),
+                                  : Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.4),
                               // size: 17,
                             ),
                           ),
@@ -1645,9 +1367,7 @@ class _MangaChapterPageGalleryState
                                 children: [
                                   Icon(
                                     Icons.check,
-                                    color: readerMode == mode
-                                        ? Colors.white
-                                        : Colors.transparent,
+                                    color: readerMode == mode ? Colors.white : Colors.transparent,
                                   ),
                                   const SizedBox(
                                     width: 7,
@@ -1667,9 +1387,7 @@ class _MangaChapterPageGalleryState
                       final cropBorders = ref.watch(cropBordersStateProvider);
                       return IconButton(
                         onPressed: () {
-                          ref
-                              .read(cropBordersStateProvider.notifier)
-                              .set(!cropBorders);
+                          ref.read(cropBordersStateProvider.notifier).set(!cropBorders);
                         },
                         icon: Stack(
                           children: [
@@ -1703,19 +1421,12 @@ class _MangaChapterPageGalleryState
 
                           _onBtnTapped(
                             _pageMode == PageMode.onePage
-                                ? (_geCurrentIndex(
-                                            _uChapDataPreload[_currentIndex!]
-                                                .index!) /
-                                        2)
-                                    .ceil()
-                                : _geCurrentIndex(
-                                    _uChapDataPreload[_currentIndex!].index!),
+                                ? (_geCurrentIndex(_uChapDataPreload[_currentIndex!].index!) / 2).ceil()
+                                : _geCurrentIndex(_uChapDataPreload[_currentIndex!].index!),
                             true,
                             isSlide: true,
                           );
-                          newPageMode = _pageMode == PageMode.onePage
-                              ? PageMode.doublePage
-                              : PageMode.onePage;
+                          newPageMode = _pageMode == PageMode.onePage ? PageMode.doublePage : PageMode.onePage;
 
                           _readerController.setPageMode(newPageMode);
                           if (mounted) {
@@ -1726,9 +1437,7 @@ class _MangaChapterPageGalleryState
                         }
                       },
                       icon: Icon(
-                        _pageMode == PageMode.doublePage
-                            ? CupertinoIcons.book_solid
-                            : CupertinoIcons.book,
+                        _pageMode == PageMode.doublePage ? CupertinoIcons.book_solid : CupertinoIcons.book,
                       ),
                     ),
                     IconButton(
@@ -1784,8 +1493,7 @@ class _MangaChapterPageGalleryState
     }
     if (fullScreenReader) {
       if (_isView) {
-        SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-            overlays: SystemUiOverlay.values);
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
       } else {
         SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
       }
@@ -1846,8 +1554,7 @@ class _MangaChapterPageGalleryState
                       }
                     : null,
                 onDoubleTap: _isVerticalOrHorizontalContinous() ? () {} : null,
-                onSecondaryTap:
-                    _isVerticalOrHorizontalContinous() ? () {} : null,
+                onSecondaryTap: _isVerticalOrHorizontalContinous() ? () {} : null,
               ),
             ),
 
@@ -1874,10 +1581,8 @@ class _MangaChapterPageGalleryState
                               _toggleScale(details.globalPosition);
                             }
                           : null,
-                      onDoubleTap:
-                          _isVerticalOrHorizontalContinous() ? () {} : null,
-                      onSecondaryTap:
-                          _isVerticalOrHorizontalContinous() ? () {} : null,
+                      onDoubleTap: _isVerticalOrHorizontalContinous() ? () {} : null,
+                      onSecondaryTap: _isVerticalOrHorizontalContinous() ? () {} : null,
                     ),
             ),
 
@@ -1908,8 +1613,7 @@ class _MangaChapterPageGalleryState
                       }
                     : null,
                 onDoubleTap: _isVerticalOrHorizontalContinous() ? () {} : null,
-                onSecondaryTap:
-                    _isVerticalOrHorizontalContinous() ? () {} : null,
+                onSecondaryTap: _isVerticalOrHorizontalContinous() ? () {} : null,
               ),
             ),
           ],
@@ -1946,8 +1650,7 @@ class _MangaChapterPageGalleryState
                       }
                     : null,
                 onDoubleTap: _isVerticalOrHorizontalContinous() ? () {} : null,
-                onSecondaryTap:
-                    _isVerticalOrHorizontalContinous() ? () {} : null,
+                onSecondaryTap: _isVerticalOrHorizontalContinous() ? () {} : null,
               ),
             ),
 
@@ -1977,8 +1680,7 @@ class _MangaChapterPageGalleryState
                       }
                     : null,
                 onDoubleTap: _isVerticalOrHorizontalContinous() ? () {} : null,
-                onSecondaryTap:
-                    _isVerticalOrHorizontalContinous() ? () {} : null,
+                onSecondaryTap: _isVerticalOrHorizontalContinous() ? () {} : null,
               ),
             ),
           ],
@@ -2029,12 +1731,7 @@ class _MangaChapterPageGalleryState
                     title: Text(
                       l10n.crop_borders,
                       style: TextStyle(
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .color!
-                              .withValues(alpha: 0.9),
-                          fontSize: 14),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
                     ),
                     onChanged: (value) {
                       ref.read(cropBordersStateProvider.notifier).set(value);
@@ -2043,16 +1740,9 @@ class _MangaChapterPageGalleryState
                     value: usePageTapZones,
                     title: Text(l10n.use_page_tap_zones,
                         style: TextStyle(
-                            color: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .color!
-                                .withValues(alpha: 0.9),
-                            fontSize: 14)),
+                            color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14)),
                     onChanged: (value) {
-                      ref
-                          .read(usePageTapZonesStateProvider.notifier)
-                          .set(value);
+                      ref.read(usePageTapZonesStateProvider.notifier).set(value);
                     }),
                 if (readerMode == ReaderMode.verticalContinuous ||
                     readerMode == ReaderMode.webtoon ||
@@ -2063,20 +1753,14 @@ class _MangaChapterPageGalleryState
                       return Column(
                         children: [
                           SwitchListTile(
-                              secondary: Icon(
-                                  valueT ? Icons.timer : Icons.timer_outlined),
+                              secondary: Icon(valueT ? Icons.timer : Icons.timer_outlined),
                               value: valueT,
                               title: Text(context.l10n.auto_scroll,
                                   style: TextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .color!
-                                          .withValues(alpha: 0.9),
+                                      color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9),
                                       fontSize: 14)),
                               onChanged: (val) {
-                                _readerController.setAutoScroll(
-                                    val, _pageOffset.value);
+                                _readerController.setAutoScroll(val, _pageOffset.value);
                                 _autoScrollPage.value = val;
                                 _autoScroll.value = val;
                               }),
@@ -2092,8 +1776,7 @@ class _MangaChapterPageGalleryState
                                     _pageOffset.value = val;
                                   },
                                   onChangeEnd: (val) {
-                                    _readerController.setAutoScroll(
-                                        valueT, val);
+                                    _readerController.setAutoScroll(valueT, val);
                                   }),
                             ),
                         ],
@@ -2107,8 +1790,7 @@ class _MangaChapterPageGalleryState
       }),
       Consumer(builder: (context, ref, chil) {
         final showPageNumber = ref.watch(_showPagesNumber);
-        final animatePageTransitions =
-            ref.watch(animatePageTransitionsStateProvider);
+        final animatePageTransitions = ref.watch(animatePageTransitionsStateProvider);
         final scaleType = ref.watch(scaleTypeStateProvider);
         final fullScreenReader = ref.watch(fullScreenReaderStateProvider);
         final backgroundColor = ref.watch(backgroundColorStateProvider);
@@ -2134,15 +1816,12 @@ class _MangaChapterPageGalleryState
                   label: l10n.scale_type,
                   title: getScaleTypeNames(context)[scaleType.index],
                   onSelected: (value) {
-                    ref
-                        .read(scaleTypeStateProvider.notifier)
-                        .set(ScaleType.values[value.index]);
+                    ref.read(scaleTypeStateProvider.notifier).set(ScaleType.values[value.index]);
                   },
                   value: scaleType,
                   list: ScaleType.values.where((scale) {
                     try {
-                      return getScaleTypeNames(context)
-                          .contains(getScaleTypeNames(context)[scale.index]);
+                      return getScaleTypeNames(context).contains(getScaleTypeNames(context)[scale.index]);
                     } catch (_) {
                       return false;
                     }
@@ -2156,12 +1835,7 @@ class _MangaChapterPageGalleryState
                     title: Text(
                       l10n.fullscreen,
                       style: TextStyle(
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .color!
-                              .withValues(alpha: 0.9),
-                          fontSize: 14),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
                     ),
                     onChanged: (value) {
                       _setFullScreen(value: value);
@@ -2171,12 +1845,7 @@ class _MangaChapterPageGalleryState
                     title: Text(
                       l10n.show_page_number,
                       style: TextStyle(
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .color!
-                              .withValues(alpha: 0.9),
-                          fontSize: 14),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
                     ),
                     onChanged: (value) {
                       ref.read(_showPagesNumber.notifier).state = value;
@@ -2187,17 +1856,10 @@ class _MangaChapterPageGalleryState
                     title: Text(
                       l10n.animate_page_transitions,
                       style: TextStyle(
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .color!
-                              .withValues(alpha: 0.9),
-                          fontSize: 14),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
                     ),
                     onChanged: (value) {
-                      ref
-                          .read(animatePageTransitionsStateProvider.notifier)
-                          .set(value);
+                      ref.read(animatePageTransitionsStateProvider.notifier).set(value);
                     }),
               ],
             ),
@@ -2206,14 +1868,12 @@ class _MangaChapterPageGalleryState
       }),
       Consumer(builder: (context, ref, chil) {
         final customColorFilter = ref.watch(customColorFilterStateProvider);
-        final enableCustomColorFilter =
-            ref.watch(enableCustomColorFilterStateProvider);
+        final enableCustomColorFilter = ref.watch(enableCustomColorFilterStateProvider);
         int r = customColorFilter?.r ?? 0;
         int g = customColorFilter?.g ?? 0;
         int b = customColorFilter?.b ?? 0;
         int a = customColorFilter?.a ?? 0;
-        final colorFilterBlendMode =
-            ref.watch(colorFilterBlendModeStateProvider);
+        final colorFilterBlendMode = ref.watch(colorFilterBlendModeStateProvider);
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
@@ -2225,46 +1885,28 @@ class _MangaChapterPageGalleryState
                     title: Text(
                       l10n.custom_color_filter,
                       style: TextStyle(
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .color!
-                              .withValues(alpha: 0.9),
-                          fontSize: 14),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
                     ),
                     onChanged: (value) {
-                      ref
-                          .read(enableCustomColorFilterStateProvider.notifier)
-                          .set(value);
+                      ref.read(enableCustomColorFilterStateProvider.notifier).set(value);
                     }),
                 if (enableCustomColorFilter) ...[
                   rgbaFilterWidget(a, r, g, b, (val) {
                     if (val.$3 == "r") {
-                      ref
-                          .read(customColorFilterStateProvider.notifier)
-                          .set(a, val.$1.toInt(), g, b, val.$2);
+                      ref.read(customColorFilterStateProvider.notifier).set(a, val.$1.toInt(), g, b, val.$2);
                     } else if (val.$3 == "g") {
-                      ref
-                          .read(customColorFilterStateProvider.notifier)
-                          .set(a, r, val.$1.toInt(), b, val.$2);
+                      ref.read(customColorFilterStateProvider.notifier).set(a, r, val.$1.toInt(), b, val.$2);
                     } else if (val.$3 == "b") {
-                      ref
-                          .read(customColorFilterStateProvider.notifier)
-                          .set(a, r, g, val.$1.toInt(), val.$2);
+                      ref.read(customColorFilterStateProvider.notifier).set(a, r, g, val.$1.toInt(), val.$2);
                     } else {
-                      ref
-                          .read(customColorFilterStateProvider.notifier)
-                          .set(val.$1.toInt(), r, g, b, val.$2);
+                      ref.read(customColorFilterStateProvider.notifier).set(val.$1.toInt(), r, g, b, val.$2);
                     }
                   }, context),
                   CustomPopupMenuButton<ColorFilterBlendMode>(
                     label: l10n.color_filter_blend_mode,
-                    title: getColorFilterBlendModeName(
-                        colorFilterBlendMode, context),
+                    title: getColorFilterBlendModeName(colorFilterBlendMode, context),
                     onSelected: (value) {
-                      ref
-                          .read(colorFilterBlendModeStateProvider.notifier)
-                          .set(value);
+                      ref.read(colorFilterBlendModeStateProvider.notifier).set(value);
                     },
                     value: colorFilterBlendMode,
                     list: ColorFilterBlendMode.values,
@@ -2297,8 +1939,9 @@ class UChapDataPreload {
   GetChapterPagesModel? chapterUrlModel;
   int? pageIndex;
   Uint8List? cropImage;
-  UChapDataPreload(this.chapter, this.directory, this.pageUrl, this.isLocale,
-      this.archiveImage, this.index, this.chapterUrlModel, this.pageIndex,
+
+  UChapDataPreload(this.chapter, this.directory, this.pageUrl, this.isLocale, this.archiveImage, this.index,
+      this.chapterUrlModel, this.pageIndex,
       {this.cropImage});
 }
 
@@ -2309,6 +1952,7 @@ class CustomPopupMenuButton<T> extends StatelessWidget {
   final T value;
   final List<T> list;
   final String Function(T) itemText;
+
   const CustomPopupMenuButton(
       {super.key,
       required this.label,
@@ -2354,22 +1998,13 @@ class CustomPopupMenuButton<T> extends StatelessWidget {
               Flexible(
                 child: Text(
                   label,
-                  style: TextStyle(
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .color!
-                          .withValues(alpha: 0.9)),
+                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9)),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
               ),
               Row(
-                children: [
-                  Text(title),
-                  const SizedBox(width: 20),
-                  const Icon(Icons.keyboard_arrow_down_outlined)
-                ],
+                children: [Text(title), const SizedBox(width: 20), const Icon(Icons.keyboard_arrow_down_outlined)],
               ),
             ],
           ),

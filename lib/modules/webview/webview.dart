@@ -16,6 +16,7 @@ import 'package:share_plus/share_plus.dart';
 class MangaWebView extends ConsumerStatefulWidget {
   final String url;
   final String title;
+
   const MangaWebView({super.key, required this.url, required this.title});
 
   @override
@@ -26,6 +27,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
   late final MyInAppBrowser browser;
   double _progress = 0;
   bool isNotWebviewWindow = false;
+
   @override
   void initState() {
     if (Platform.isLinux || Platform.isWindows) {
@@ -39,6 +41,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
   }
 
   Webview? _desktopWebview;
+
   _runWebViewDesktop() async {
     if (Platform.isLinux) {
       _desktopWebview = await WebviewWindow.create();
@@ -46,11 +49,8 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
       final timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
         try {
           final cookieList = await _desktopWebview!.getAllCookies();
-          final ua = await _desktopWebview!
-                  .evaluateJavaScript("navigator.userAgent") ??
-              "";
-          final cookie =
-              cookieList.map((e) => "${e.name}=${e.value}").join(";");
+          final ua = await _desktopWebview!.evaluateJavaScript("navigator.userAgent") ?? "";
+          final cookie = cookieList.map((e) => "${e.name}=${e.value}").join(";");
           await MClient.setCookie(_url, ua, null, cookie: cookie);
         } catch (_) {}
       });
@@ -86,10 +86,8 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
       await browser.openUrlRequest(
         urlRequest: URLRequest(url: WebUri(widget.url)),
         settings: InAppBrowserClassSettings(
-          browserSettings: InAppBrowserSettings(
-              presentationStyle: ModalPresentationStyle.POPOVER),
-          webViewSettings: InAppWebViewSettings(
-              isInspectable: kDebugMode, useShouldOverrideUrlLoading: true),
+          browserSettings: InAppBrowserSettings(presentationStyle: ModalPresentationStyle.POPOVER),
+          webViewSettings: InAppWebViewSettings(isInspectable: kDebugMode, useShouldOverrideUrlLoading: true),
         ),
       );
     }
@@ -100,6 +98,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
   late String _title = widget.title;
   bool _canGoback = false;
   bool _canGoForward = false;
+
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context);
@@ -108,9 +107,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
             appBar: AppBar(
               title: Text(
                 _title,
-                style: const TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                    fontWeight: FontWeight.bold),
+                style: const TextStyle(overflow: TextOverflow.ellipsis, fontWeight: FontWeight.bold),
               ),
               leading: IconButton(
                   onPressed: () {
@@ -144,15 +141,11 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                               dense: true,
                               subtitle: Text(
                                 _url,
-                                style: const TextStyle(
-                                    fontSize: 10,
-                                    overflow: TextOverflow.ellipsis),
+                                style: const TextStyle(fontSize: 10, overflow: TextOverflow.ellipsis),
                               ),
                               title: Text(
                                 _title,
-                                style: const TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    fontWeight: FontWeight.bold),
+                                style: const TextStyle(overflow: TextOverflow.ellipsis, fontWeight: FontWeight.bold),
                               ),
                               leading: IconButton(
                                   onPressed: () {
@@ -168,8 +161,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                             ),
                           ),
                           IconButton(
-                            icon: Icon(Icons.arrow_back,
-                                color: _canGoback ? null : Colors.grey),
+                            icon: Icon(Icons.arrow_back, color: _canGoback ? null : Colors.grey),
                             onPressed: _canGoback
                                 ? () {
                                     _webViewController?.goBack();
@@ -177,8 +169,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                                 : null,
                           ),
                           IconButton(
-                            icon: Icon(Icons.arrow_forward,
-                                color: _canGoForward ? null : Colors.grey),
+                            icon: Icon(Icons.arrow_forward, color: _canGoForward ? null : Colors.grey),
                             onPressed: _canGoForward
                                 ? () {
                                     _webViewController?.goForward();
@@ -189,15 +180,10 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                               popUpAnimationStyle: popupAnimationStyle,
                               itemBuilder: (context) {
                                 return [
-                                  PopupMenuItem<int>(
-                                      value: 0, child: Text(l10n!.refresh)),
-                                  PopupMenuItem<int>(
-                                      value: 1, child: Text(l10n.share)),
-                                  PopupMenuItem<int>(
-                                      value: 2,
-                                      child: Text(l10n.open_in_browser)),
-                                  PopupMenuItem<int>(
-                                      value: 3, child: Text(l10n.clear_cookie)),
+                                  PopupMenuItem<int>(value: 0, child: Text(l10n!.refresh)),
+                                  PopupMenuItem<int>(value: 1, child: Text(l10n.share)),
+                                  PopupMenuItem<int>(value: 2, child: Text(l10n.open_in_browser)),
+                                  PopupMenuItem<int>(value: 3, child: Text(l10n.clear_cookie)),
                                 ];
                               },
                               onSelected: (value) async {
@@ -206,8 +192,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                                 } else if (value == 1) {
                                   Share.share(_url);
                                 } else if (value == 2) {
-                                  await InAppBrowser.openWithSystemBrowser(
-                                      url: WebUri(_url));
+                                  await InAppBrowser.openWithSystemBrowser(url: WebUri(_url));
                                 } else if (value == 3) {
                                   CookieManager.instance().deleteAllCookies();
                                   MClient.deleteAllCookies(_url);
@@ -216,9 +201,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                         ],
                       ),
                     ),
-                    _progress < 1.0
-                        ? LinearProgressIndicator(value: _progress)
-                        : Container(),
+                    _progress < 1.0 ? LinearProgressIndicator(value: _progress) : Container(),
                     if (!Platform.isWindows)
                       Expanded(
                         child: InAppWebView(
@@ -231,18 +214,10 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                               _url = url.toString();
                             });
                           },
-                          shouldOverrideUrlLoading:
-                              (controller, navigationAction) async {
+                          shouldOverrideUrlLoading: (controller, navigationAction) async {
                             var uri = navigationAction.request.url!;
-                            if (![
-                              "http",
-                              "https",
-                              "file",
-                              "chrome",
-                              "data",
-                              "javascript",
-                              "about"
-                            ].contains(uri.scheme)) {
+                            if (!["http", "https", "file", "chrome", "data", "javascript", "about"]
+                                .contains(uri.scheme)) {
                               if (await canLaunchUrl(uri)) {
                                 await launchUrl(uri);
                                 return NavigationActionPolicy.CANCEL;
@@ -264,16 +239,11 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                               });
                             }
                           },
-                          onUpdateVisitedHistory:
-                              (controller, url, isReload) async {
-                            final ua = await controller.evaluateJavascript(
-                                    source: "navigator.userAgent") ??
-                                "";
-                            await MClient.setCookie(
-                                url.toString(), ua, controller);
+                          onUpdateVisitedHistory: (controller, url, isReload) async {
+                            final ua = await controller.evaluateJavascript(source: "navigator.userAgent") ?? "";
+                            await MClient.setCookie(url.toString(), ua, controller);
                             final canGoback = await controller.canGoBack();
-                            final canGoForward =
-                                await controller.canGoForward();
+                            final canGoForward = await controller.canGoForward();
                             final title = await controller.getTitle();
                             if (mounted) {
                               setState(() {
@@ -284,8 +254,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                               });
                             }
                           },
-                          initialUrlRequest:
-                              URLRequest(url: WebUri(widget.url)),
+                          initialUrlRequest: URLRequest(url: WebUri(widget.url)),
                         ),
                       ),
                   ],
@@ -300,10 +269,8 @@ class MyInAppBrowser extends InAppBrowser {
   BuildContext context;
   void Function(InAppWebViewController) controller;
   void Function(int) onProgress;
-  MyInAppBrowser(
-      {required this.context,
-      required this.controller,
-      required this.onProgress})
+
+  MyInAppBrowser({required this.context, required this.controller, required this.onProgress})
       : super(webViewEnvironment: webViewEnvironment);
 
   @override
@@ -324,19 +291,15 @@ class MyInAppBrowser extends InAppBrowser {
   @override
   void onLoadStop(url) async {
     if (webViewController != null) {
-      final ua = await webViewController!
-              .evaluateJavascript(source: "navigator.userAgent") ??
-          "";
+      final ua = await webViewController!.evaluateJavascript(source: "navigator.userAgent") ?? "";
       await MClient.setCookie(url.toString(), ua, webViewController);
     }
   }
 
   @override
-  Future<NavigationActionPolicy> shouldOverrideUrlLoading(
-      navigationAction) async {
+  Future<NavigationActionPolicy> shouldOverrideUrlLoading(navigationAction) async {
     var uri = navigationAction.request.url!;
-    if (!["http", "https", "file", "chrome", "data", "javascript", "about"]
-        .contains(uri.scheme)) {
+    if (!["http", "https", "file", "chrome", "data", "javascript", "about"].contains(uri.scheme)) {
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri);
         return NavigationActionPolicy.CANCEL;

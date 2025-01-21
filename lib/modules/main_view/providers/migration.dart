@@ -6,12 +6,12 @@ import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 part 'migration.g.dart';
 
 @riverpod
 Future<void> migration(Ref ref) async {
-  final mangas =
-      isar.mangas.filter().idIsNotNull().isMangaIsNotNull().findAllSync();
+  final mangas = isar.mangas.filter().idIsNotNull().isMangaIsNotNull().findAllSync();
 
   final histories = isar.historys
       .filter()
@@ -23,19 +23,15 @@ Future<void> migration(Ref ref) async {
       .isMangaIsNotNull()
       .findAllSync();
 
-  final sources =
-      isar.sources.filter().idIsNotNull().isMangaIsNotNull().findAllSync();
-  final tracks =
-      isar.tracks.filter().idIsNotNull().isMangaIsNotNull().findAllSync();
+  final sources = isar.sources.filter().idIsNotNull().isMangaIsNotNull().findAllSync();
+  final tracks = isar.tracks.filter().idIsNotNull().isMangaIsNotNull().findAllSync();
 
   isar.writeTxnSync(() {
     for (var history in histories) {
-      isar.historys
-          .putSync(history..itemType = _convertToItemType(history.isManga!));
+      isar.historys.putSync(history..itemType = _convertToItemType(history.isManga!));
     }
     for (var source in sources) {
-      isar.sources
-          .putSync(source..itemType = _convertToItemType(source.isManga!));
+      isar.sources.putSync(source..itemType = _convertToItemType(source.isManga!));
     }
     for (var track in tracks) {
       isar.tracks.putSync(track..itemType = _convertToItemType(track.isManga!));

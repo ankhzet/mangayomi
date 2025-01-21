@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:mangayomi/models/manga.dart';
+
 part 'track.g.dart';
 
 @collection
@@ -53,6 +54,7 @@ class Track {
       this.trackingUrl,
       this.isManga,
       this.itemType = ItemType.manga});
+
   Track.fromJson(Map<String, dynamic> json) {
     finishedReadingDate = json['finishedReadingDate'];
     id = json['id'];
@@ -88,14 +90,4 @@ class Track {
       };
 }
 
-enum TrackStatus {
-  reading,
-  completed,
-  onHold,
-  dropped,
-  planToRead,
-  rereading,
-  watching,
-  planToWatch,
-  reWatching
-}
+enum TrackStatus { reading, completed, onHold, dropped, planToRead, rereading, watching, planToWatch, reWatching }

@@ -6,6 +6,7 @@ import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'library_state_provider.g.dart';
 
 @riverpod
@@ -22,8 +23,7 @@ class LibraryDisplayTypeState extends _$LibraryDisplayTypeState {
     }
   }
 
-  String getLibraryDisplayTypeName(
-      DisplayType displayType, BuildContext context) {
+  String getLibraryDisplayTypeName(DisplayType displayType, BuildContext context) {
     final l10n = context.l10n;
     return switch (displayType) {
       DisplayType.compactGrid => l10n.compact_grid,
@@ -99,10 +99,7 @@ class LibraryGridSizeState extends _$LibraryGridSizeState {
 @riverpod
 class MangaFilterDownloadedState extends _$MangaFilterDownloadedState {
   @override
-  int build(
-      {required List<Manga> mangaList,
-      required ItemType itemType,
-      required Settings settings}) {
+  int build({required List<Manga> mangaList, required ItemType itemType, required Settings settings}) {
     state = getType();
     return getType();
   }
@@ -150,10 +147,7 @@ class MangaFilterDownloadedState extends _$MangaFilterDownloadedState {
 @riverpod
 class MangaFilterUnreadState extends _$MangaFilterUnreadState {
   @override
-  int build(
-      {required List<Manga> mangaList,
-      required ItemType itemType,
-      required Settings settings}) {
+  int build({required List<Manga> mangaList, required ItemType itemType, required Settings settings}) {
     state = getType();
     return getType();
   }
@@ -250,10 +244,7 @@ class MangaFilterUnreadState extends _$MangaFilterUnreadState {
 @riverpod
 class MangaFilterStartedState extends _$MangaFilterStartedState {
   @override
-  int build(
-      {required List<Manga> mangaList,
-      required ItemType itemType,
-      required Settings settings}) {
+  int build({required List<Manga> mangaList, required ItemType itemType, required Settings settings}) {
     state = getType();
     return getType();
   }
@@ -350,10 +341,7 @@ class MangaFilterStartedState extends _$MangaFilterStartedState {
 @riverpod
 class MangaFilterBookmarkedState extends _$MangaFilterBookmarkedState {
   @override
-  int build(
-      {required List<Manga> mangaList,
-      required ItemType itemType,
-      required Settings settings}) {
+  int build({required List<Manga> mangaList, required ItemType itemType, required Settings settings}) {
     state = getType();
     return getType();
   }
@@ -450,22 +438,16 @@ class MangaFilterBookmarkedState extends _$MangaFilterBookmarkedState {
 @riverpod
 class MangasFilterResultState extends _$MangasFilterResultState {
   @override
-  bool build(
-      {required List<Manga> mangaList,
-      required ItemType itemType,
-      required Settings settings}) {
-    final downloadFilterType = ref.watch(mangaFilterDownloadedStateProvider(
-        mangaList: mangaList, itemType: itemType, settings: settings));
-    final unreadFilterType = ref.watch(mangaFilterUnreadStateProvider(
-        mangaList: mangaList, itemType: itemType, settings: settings));
-    final startedFilterType = ref.watch(mangaFilterStartedStateProvider(
-        mangaList: mangaList, itemType: itemType, settings: settings));
-    final bookmarkedFilterType = ref.watch(mangaFilterBookmarkedStateProvider(
-        mangaList: mangaList, itemType: itemType, settings: settings));
-    return downloadFilterType == 0 &&
-        unreadFilterType == 0 &&
-        startedFilterType == 0 &&
-        bookmarkedFilterType == 0;
+  bool build({required List<Manga> mangaList, required ItemType itemType, required Settings settings}) {
+    final downloadFilterType =
+        ref.watch(mangaFilterDownloadedStateProvider(mangaList: mangaList, itemType: itemType, settings: settings));
+    final unreadFilterType =
+        ref.watch(mangaFilterUnreadStateProvider(mangaList: mangaList, itemType: itemType, settings: settings));
+    final startedFilterType =
+        ref.watch(mangaFilterStartedStateProvider(mangaList: mangaList, itemType: itemType, settings: settings));
+    final bookmarkedFilterType =
+        ref.watch(mangaFilterBookmarkedStateProvider(mangaList: mangaList, itemType: itemType, settings: settings));
+    return downloadFilterType == 0 && unreadFilterType == 0 && startedFilterType == 0 && bookmarkedFilterType == 0;
   }
 }
 
@@ -635,8 +617,7 @@ class LibraryShowNumbersOfItemsState extends _$LibraryShowNumbersOfItemsState {
 }
 
 @riverpod
-class LibraryShowContinueReadingButtonState
-    extends _$LibraryShowContinueReadingButtonState {
+class LibraryShowContinueReadingButtonState extends _$LibraryShowContinueReadingButtonState {
   @override
   bool build({required ItemType itemType, required Settings settings}) {
     switch (itemType) {
@@ -671,8 +652,7 @@ class LibraryShowContinueReadingButtonState
 @riverpod
 class SortLibraryMangaState extends _$SortLibraryMangaState {
   @override
-  SortLibraryManga build(
-      {required ItemType itemType, required Settings settings}) {
+  SortLibraryManga build({required ItemType itemType, required Settings settings}) {
     switch (itemType) {
       case ItemType.manga:
         return settings.sortLibraryManga ?? SortLibraryManga();

@@ -7,12 +7,12 @@ import 'package:http/http.dart' as http;
 
 class JsHttpClient {
   late JavascriptRuntime runtime;
+
   JsHttpClient(this.runtime);
 
   void init() {
     InterceptedClient client(dynamic reqcopyWith) {
-      return MClient.init(
-          reqcopyWith: (reqcopyWith as Map?)?.toMapStringDynamic);
+      return MClient.init(reqcopyWith: (reqcopyWith as Map?)?.toMapStringDynamic);
     }
 
     runtime.onMessage('http_get', (dynamic args) async {
@@ -92,9 +92,7 @@ Future<String> _toHttpResponse(Client client, String method, List args) async {
       : null;
   var request = http.Request(method, Uri.parse(url));
   request.headers.addAll(headers ?? {});
-  if ((request.headers[HttpHeaders.contentTypeHeader]
-          ?.contains("application/json")) ??
-      false) {
+  if ((request.headers[HttpHeaders.contentTypeHeader]?.contains("application/json")) ?? false) {
     request.body = json.encode(body);
     request.headers.addAll(headers ?? {});
     http.StreamedResponse response = await client.send(request);
@@ -145,7 +143,6 @@ extension ToMapExtension on Map? {
   }
 
   Map<String, String>? get toMapStringString {
-    return this
-        ?.map((key, value) => MapEntry(key.toString(), value.toString()));
+    return this?.map((key, value) => MapEntry(key.toString(), value.toString()));
   }
 }

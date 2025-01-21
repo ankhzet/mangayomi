@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:mangayomi/models/chapter.dart';
+
 part 'manga.g.dart';
 
 @collection
@@ -123,13 +124,6 @@ class Manga {
       };
 }
 
-enum Status {
-  ongoing,
-  completed,
-  canceled,
-  unknown,
-  onHiatus,
-  publishingFinished
-}
+enum Status { ongoing, completed, canceled, unknown, onHiatus, publishingFinished }
 
 enum ItemType { manga, anime, novel }

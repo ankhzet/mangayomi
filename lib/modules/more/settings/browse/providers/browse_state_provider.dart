@@ -1,6 +1,7 @@
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'browse_state_provider.g.dart';
 
 @riverpod
@@ -13,8 +14,7 @@ class OnlyIncludePinnedSourceState extends _$OnlyIncludePinnedSourceState {
   void set(bool value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(() =>
-        isar.settings.putSync(settings!..onlyIncludePinnedSources = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..onlyIncludePinnedSources = value));
   }
 }
 
@@ -28,8 +28,7 @@ class AutoUpdateExtensionsState extends _$AutoUpdateExtensionsState {
   void set(bool value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..autoExtensionsUpdates = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..autoExtensionsUpdates = value));
   }
 }
 
@@ -43,7 +42,6 @@ class CheckForExtensionsUpdateState extends _$CheckForExtensionsUpdateState {
   void set(bool value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(() =>
-        isar.settings.putSync(settings!..checkForExtensionUpdates = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..checkForExtensionUpdates = value));
   }
 }

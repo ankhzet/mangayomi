@@ -1,6 +1,7 @@
 import 'package:isar/isar.dart';
 import 'package:mangayomi/eval/model/m_source.dart';
 import 'package:mangayomi/models/manga.dart';
+
 part 'source.g.dart';
 
 @collection
@@ -121,8 +122,7 @@ class Source {
     additionalParams = json['additionalParams'] ?? "";
     isObsolete = json['isObsolete'];
     isLocal = json['isLocal'];
-    sourceCodeLanguage =
-        SourceCodeLanguage.values[json['sourceCodeLanguage'] ?? 0];
+    sourceCodeLanguage = SourceCodeLanguage.values[json['sourceCodeLanguage'] ?? 0];
   }
 
   Map<String, dynamic> toJson() => {

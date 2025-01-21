@@ -20,8 +20,7 @@ class DataAndStorage extends ConsumerWidget {
     final autoBackupLocation = ref.watch(autoBackupLocationStateProvider);
     final downloadLocationState = ref.watch(downloadLocationStateProvider);
     final totalChapterCacheSize = ref.watch(totalChapterCacheSizeStateProvider);
-    final clearChapterCacheOnAppLaunch =
-        ref.watch(clearChapterCacheOnAppLaunchStateProvider);
+    final clearChapterCacheOnAppLaunch = ref.watch(clearChapterCacheOnAppLaunchStateProvider);
     final l10n = l10nLocalizations(context)!;
     return Scaffold(
       appBar: AppBar(
@@ -50,10 +49,7 @@ class DataAndStorage extends ConsumerWidget {
                                         : downloadLocationState.$2,
                                     groupValue: downloadLocationState.$1,
                                     onChanged: (value) {
-                                      ref
-                                          .read(downloadLocationStateProvider
-                                              .notifier)
-                                          .set("");
+                                      ref.read(downloadLocationStateProvider.notifier).set("");
                                       Navigator.pop(context);
                                     },
                                     title: Text(downloadLocationState.$1)),
@@ -65,14 +61,10 @@ class DataAndStorage extends ConsumerWidget {
                                         : downloadLocationState.$2,
                                     groupValue: downloadLocationState.$2,
                                     onChanged: (value) async {
-                                      String? result = await FilePicker.platform
-                                          .getDirectoryPath();
+                                      String? result = await FilePicker.platform.getDirectoryPath();
 
                                       if (result != null) {
-                                        ref
-                                            .read(downloadLocationStateProvider
-                                                .notifier)
-                                            .set(result);
+                                        ref.read(downloadLocationStateProvider.notifier).set(result);
                                       } else {}
                                       if (!context.mounted) return;
                                       Navigator.pop(context);
@@ -90,8 +82,7 @@ class DataAndStorage extends ConsumerWidget {
                                   },
                                   child: Text(
                                     l10n.cancel,
-                                    style:
-                                        TextStyle(color: context.primaryColor),
+                                    style: TextStyle(color: context.primaryColor),
                                   )),
                             ],
                           )
@@ -101,9 +92,7 @@ class DataAndStorage extends ConsumerWidget {
               },
               title: Text(l10n.download_location),
               subtitle: Text(
-                downloadLocationState.$2.isEmpty
-                    ? downloadLocationState.$1
-                    : downloadLocationState.$2,
+                downloadLocationState.$2.isEmpty ? downloadLocationState.$1 : downloadLocationState.$2,
                 style: TextStyle(fontSize: 11, color: context.secondaryColor),
               ),
             ),
@@ -112,22 +101,18 @@ class DataAndStorage extends ConsumerWidget {
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Row(
                   children: [
-                    Icon(Icons.info_outline_rounded,
-                        color: context.secondaryColor),
+                    Icon(Icons.info_outline_rounded, color: context.secondaryColor),
                   ],
                 ),
               ),
-              subtitle: Text(l10n.download_location_info,
-                  style:
-                      TextStyle(fontSize: 11, color: context.secondaryColor)),
+              subtitle:
+                  Text(l10n.download_location_info, style: TextStyle(fontSize: 11, color: context.secondaryColor)),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
               child: Row(
                 children: [
-                  Text(l10n.backup_and_restore,
-                      style:
-                          TextStyle(fontSize: 13, color: context.primaryColor)),
+                  Text(l10n.backup_and_restore, style: TextStyle(fontSize: 13, color: context.primaryColor)),
                 ],
               ),
             ),
@@ -139,9 +124,8 @@ class DataAndStorage extends ConsumerWidget {
                     child: SegmentedButton(
                       emptySelectionAllowed: true,
                       showSelectedIcon: false,
-                      style: TextButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50))),
+                      style:
+                          TextButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50))),
                       segments: [
                         ButtonSegment(
                           value: 'create',
@@ -175,16 +159,12 @@ class DataAndStorage extends ConsumerWidget {
                                         children: [
                                           Row(
                                             children: [
-                                              Icon(Icons.info_outline_rounded,
-                                                  color:
-                                                      context.secondaryColor),
+                                              Icon(Icons.info_outline_rounded, color: context.secondaryColor),
                                             ],
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 5),
-                                            child: Text(l10n
-                                                .restore_backup_warning_title),
+                                            padding: const EdgeInsets.symmetric(vertical: 5),
+                                            child: Text(l10n.restore_backup_warning_title),
                                           ),
                                         ],
                                       )),
@@ -198,24 +178,17 @@ class DataAndStorage extends ConsumerWidget {
                                             },
                                             child: Text(
                                               l10n.cancel,
-                                              style: TextStyle(
-                                                  color: context.primaryColor),
+                                              style: TextStyle(color: context.primaryColor),
                                             )),
                                         TextButton(
                                             onPressed: () async {
                                               try {
                                                 FilePickerResult? result =
-                                                    await FilePicker.platform
-                                                        .pickFiles(
-                                                            allowMultiple:
-                                                                false);
+                                                    await FilePicker.platform.pickFiles(allowMultiple: false);
 
-                                                if (result != null &&
-                                                    context.mounted) {
+                                                if (result != null && context.mounted) {
                                                   ref.watch(doRestoreProvider(
-                                                      path: result
-                                                          .files.first.path!,
-                                                      context: context));
+                                                      path: result.files.first.path!, context: context));
                                                 }
                                                 if (!context.mounted) return;
                                                 Navigator.pop(context);
@@ -226,8 +199,7 @@ class DataAndStorage extends ConsumerWidget {
                                             },
                                             child: Text(
                                               l10n.ok,
-                                              style: TextStyle(
-                                                  color: context.primaryColor),
+                                              style: TextStyle(color: context.primaryColor),
                                             )),
                                       ],
                                     )
@@ -261,10 +233,7 @@ class DataAndStorage extends ConsumerWidget {
                                   value: index,
                                   groupValue: backupFrequency,
                                   onChanged: (value) {
-                                    ref
-                                        .read(backupFrequencyStateProvider
-                                            .notifier)
-                                        .set(value!);
+                                    ref.read(backupFrequencyStateProvider.notifier).set(value!);
                                     Navigator.pop(context);
                                   },
                                   title: Row(
@@ -283,8 +252,7 @@ class DataAndStorage extends ConsumerWidget {
                                   },
                                   child: Text(
                                     l10n.cancel,
-                                    style:
-                                        TextStyle(color: context.primaryColor),
+                                    style: TextStyle(color: context.primaryColor),
                                   )),
                             ],
                           )
@@ -304,16 +272,12 @@ class DataAndStorage extends ConsumerWidget {
                   String? result = await FilePicker.platform.getDirectoryPath();
 
                   if (result != null) {
-                    ref
-                        .read(autoBackupLocationStateProvider.notifier)
-                        .set(result);
+                    ref.read(autoBackupLocationStateProvider.notifier).set(result);
                   }
                 },
                 title: Text(l10n.backup_location),
                 subtitle: Text(
-                  autoBackupLocation.$2.isEmpty
-                      ? autoBackupLocation.$1
-                      : autoBackupLocation.$2,
+                  autoBackupLocation.$2.isEmpty ? autoBackupLocation.$1 : autoBackupLocation.$2,
                   style: TextStyle(fontSize: 11, color: context.secondaryColor),
                 ),
               ),
@@ -322,42 +286,31 @@ class DataAndStorage extends ConsumerWidget {
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Row(
                   children: [
-                    Icon(Icons.info_outline_rounded,
-                        color: context.secondaryColor),
+                    Icon(Icons.info_outline_rounded, color: context.secondaryColor),
                   ],
                 ),
               ),
               subtitle: Text(l10n.backup_and_restore_warning_info,
-                  style:
-                      TextStyle(fontSize: 11, color: context.secondaryColor)),
+                  style: TextStyle(fontSize: 11, color: context.secondaryColor)),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
               child: Row(
                 children: [
-                  Text(l10n.storage,
-                      style:
-                          TextStyle(fontSize: 13, color: context.primaryColor)),
+                  Text(l10n.storage, style: TextStyle(fontSize: 13, color: context.primaryColor)),
                 ],
               ),
             ),
             ListTile(
               title: Text(l10n.clear_chapter_and_episode_cache),
-              onTap: () => ref
-                  .read(totalChapterCacheSizeStateProvider.notifier)
-                  .clearCache(),
-              subtitle: Text(totalChapterCacheSize,
-                  style:
-                      TextStyle(fontSize: 11, color: context.secondaryColor)),
+              onTap: () => ref.read(totalChapterCacheSizeStateProvider.notifier).clearCache(),
+              subtitle: Text(totalChapterCacheSize, style: TextStyle(fontSize: 11, color: context.secondaryColor)),
             ),
             SwitchListTile(
                 value: clearChapterCacheOnAppLaunch,
-                title: Text(
-                    context.l10n.clear_chapter_or_episode_cache_on_app_launch),
+                title: Text(context.l10n.clear_chapter_or_episode_cache_on_app_launch),
                 onChanged: (value) {
-                  ref
-                      .read(clearChapterCacheOnAppLaunchStateProvider.notifier)
-                      .set(value);
+                  ref.read(clearChapterCacheOnAppLaunchStateProvider.notifier).set(value);
                 }),
           ],
         ),
@@ -368,12 +321,5 @@ class DataAndStorage extends ConsumerWidget {
 
 List<String> _getBackupFrequencyList(BuildContext context) {
   final l10n = l10nLocalizations(context)!;
-  return [
-    l10n.off,
-    l10n.every_6_hours,
-    l10n.every_12_hours,
-    l10n.daily,
-    l10n.every_2_days,
-    l10n.weekly
-  ];
+  return [l10n.off, l10n.every_6_hours, l10n.every_12_hours, l10n.daily, l10n.every_2_days, l10n.weekly];
 }

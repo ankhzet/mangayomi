@@ -10,6 +10,7 @@ class CoverViewWidget extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback? onLongPress;
   final VoidCallback? onSecondaryTap;
+
   const CoverViewWidget(
       {super.key,
       required this.children,

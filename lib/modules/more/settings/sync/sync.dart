@@ -21,26 +21,18 @@ class SyncScreen extends ConsumerWidget {
       ),
       body: SingleChildScrollView(
         child: StreamBuilder(
-            stream: isar.syncPreferences
-                .filter()
-                .syncIdIsNotNull()
-                .watch(fireImmediately: true),
+            stream: isar.syncPreferences.filter().syncIdIsNotNull().watch(fireImmediately: true),
             builder: (context, snapshot) {
-              SyncPreference syncPreference = snapshot.data?.isNotEmpty ?? false
-                  ? snapshot.data?.first ?? SyncPreference()
-                  : SyncPreference();
-              final bool isLogged =
-                  syncPreference.authToken?.isNotEmpty ?? false;
+              SyncPreference syncPreference =
+                  snapshot.data?.isNotEmpty ?? false ? snapshot.data?.first ?? SyncPreference() : SyncPreference();
+              final bool isLogged = syncPreference.authToken?.isNotEmpty ?? false;
               return Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 15, right: 15, bottom: 10, top: 5),
+                    padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10, top: 5),
                     child: Row(
                       children: [
-                        Text(l10n.services,
-                            style: TextStyle(
-                                fontSize: 13, color: context.primaryColor)),
+                        Text(l10n.services, style: TextStyle(fontSize: 13, color: context.primaryColor)),
                       ],
                     ),
                   ),
@@ -61,9 +53,7 @@ class SyncScreen extends ConsumerWidget {
                             color: context.secondaryColor,
                           ),
                           const SizedBox(width: 10),
-                          Text(l10n.syncing_subtitle,
-                              style: TextStyle(
-                                  fontSize: 11, color: context.secondaryColor))
+                          Text(l10n.syncing_subtitle, style: TextStyle(fontSize: 11, color: context.secondaryColor))
                         ],
                       ),
                     ),
@@ -82,15 +72,11 @@ class SyncScreen extends ConsumerWidget {
                             const SizedBox(width: 20),
                             Text(
                                 "${l10n.last_upload}: ${dateFormat((syncPreference.lastUpload ?? 0).toString(), ref: ref, context: context)} ${dateFormatHour((syncPreference.lastUpload ?? 0).toString(), context)}",
-                                style: TextStyle(
-                                    fontSize: 11,
-                                    color: context.secondaryColor)),
+                                style: TextStyle(fontSize: 11, color: context.secondaryColor)),
                             const SizedBox(width: 20),
                             Text(
                                 "${l10n.last_download}: ${dateFormat((syncPreference.lastDownload ?? 0).toString(), ref: ref, context: context)} ${dateFormatHour((syncPreference.lastDownload ?? 0).toString(), context)}",
-                                style: TextStyle(
-                                    fontSize: 11,
-                                    color: context.secondaryColor)),
+                                style: TextStyle(fontSize: 11, color: context.secondaryColor)),
                           ]),
                         ],
                       ),
@@ -109,67 +95,39 @@ class SyncScreen extends ConsumerWidget {
                                           context: context,
                                           builder: (context) {
                                             return AlertDialog(
-                                              title: Text(
-                                                  l10n.sync_confirm_upload),
+                                              title: Text(l10n.sync_confirm_upload),
                                               actions: [
                                                 Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
+                                                  mainAxisAlignment: MainAxisAlignment.end,
                                                   children: [
                                                     ElevatedButton(
                                                         style: ElevatedButton.styleFrom(
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .transparent,
-                                                            shadowColor: Colors
-                                                                .transparent,
-                                                            surfaceTintColor:
-                                                                Colors
-                                                                    .transparent,
+                                                            backgroundColor: Colors.transparent,
+                                                            shadowColor: Colors.transparent,
+                                                            surfaceTintColor: Colors.transparent,
                                                             shape: RoundedRectangleBorder(
-                                                                side: BorderSide(
-                                                                    color: context
-                                                                        .secondaryColor),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            20))),
+                                                                side: BorderSide(color: context.secondaryColor),
+                                                                borderRadius: BorderRadius.circular(20))),
                                                         onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
+                                                          Navigator.pop(context);
                                                         },
                                                         child: Text(
                                                           l10n.cancel,
-                                                          style: TextStyle(
-                                                              color: context
-                                                                  .secondaryColor),
+                                                          style: TextStyle(color: context.secondaryColor),
                                                         )),
                                                     const SizedBox(width: 15),
                                                     ElevatedButton(
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                                backgroundColor: Colors
-                                                                    .red
-                                                                    .withValues(
-                                                                        alpha:
-                                                                            0.7)),
+                                                        style: ElevatedButton.styleFrom(
+                                                            backgroundColor: Colors.red.withValues(alpha: 0.7)),
                                                         onPressed: () {
                                                           ref
-                                                              .read(
-                                                                  syncServerProvider(
-                                                                          syncId:
-                                                                              1)
-                                                                      .notifier)
-                                                              .uploadToServer(
-                                                                  l10n);
-                                                          Navigator.pop(
-                                                              context);
+                                                              .read(syncServerProvider(syncId: 1).notifier)
+                                                              .uploadToServer(l10n);
+                                                          Navigator.pop(context);
                                                         },
                                                         child: Text(
                                                           l10n.dialog_confirm,
-                                                          style: TextStyle(
-                                                              color: context
-                                                                  .secondaryColor),
+                                                          style: TextStyle(color: context.secondaryColor),
                                                         )),
                                                   ],
                                                 )
@@ -179,9 +137,7 @@ class SyncScreen extends ConsumerWidget {
                                     },
                               icon: Icon(
                                 Icons.cloud_upload_outlined,
-                                color: !isLogged
-                                    ? context.secondaryColor
-                                    : context.primaryColor,
+                                color: !isLogged ? context.secondaryColor : context.primaryColor,
                               )),
                           Text(l10n.sync_button_upload),
                         ],
@@ -197,67 +153,39 @@ class SyncScreen extends ConsumerWidget {
                                           context: context,
                                           builder: (context) {
                                             return AlertDialog(
-                                              title: Text(
-                                                  l10n.sync_confirm_download),
+                                              title: Text(l10n.sync_confirm_download),
                                               actions: [
                                                 Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
+                                                  mainAxisAlignment: MainAxisAlignment.end,
                                                   children: [
                                                     ElevatedButton(
                                                         style: ElevatedButton.styleFrom(
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .transparent,
-                                                            shadowColor: Colors
-                                                                .transparent,
-                                                            surfaceTintColor:
-                                                                Colors
-                                                                    .transparent,
+                                                            backgroundColor: Colors.transparent,
+                                                            shadowColor: Colors.transparent,
+                                                            surfaceTintColor: Colors.transparent,
                                                             shape: RoundedRectangleBorder(
-                                                                side: BorderSide(
-                                                                    color: context
-                                                                        .secondaryColor),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            20))),
+                                                                side: BorderSide(color: context.secondaryColor),
+                                                                borderRadius: BorderRadius.circular(20))),
                                                         onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
+                                                          Navigator.pop(context);
                                                         },
                                                         child: Text(
                                                           l10n.cancel,
-                                                          style: TextStyle(
-                                                              color: context
-                                                                  .secondaryColor),
+                                                          style: TextStyle(color: context.secondaryColor),
                                                         )),
                                                     const SizedBox(width: 15),
                                                     ElevatedButton(
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                                backgroundColor: Colors
-                                                                    .red
-                                                                    .withValues(
-                                                                        alpha:
-                                                                            0.7)),
+                                                        style: ElevatedButton.styleFrom(
+                                                            backgroundColor: Colors.red.withValues(alpha: 0.7)),
                                                         onPressed: () {
                                                           ref
-                                                              .read(
-                                                                  syncServerProvider(
-                                                                          syncId:
-                                                                              1)
-                                                                      .notifier)
-                                                              .downloadFromServer(
-                                                                  l10n);
-                                                          Navigator.pop(
-                                                              context);
+                                                              .read(syncServerProvider(syncId: 1).notifier)
+                                                              .downloadFromServer(l10n);
+                                                          Navigator.pop(context);
                                                         },
                                                         child: Text(
                                                           l10n.dialog_confirm,
-                                                          style: TextStyle(
-                                                              color: context
-                                                                  .secondaryColor),
+                                                          style: TextStyle(color: context.secondaryColor),
                                                         )),
                                                   ],
                                                 )
@@ -267,9 +195,7 @@ class SyncScreen extends ConsumerWidget {
                                     },
                               icon: Icon(
                                 Icons.cloud_download_outlined,
-                                color: !isLogged
-                                    ? context.secondaryColor
-                                    : context.primaryColor,
+                                color: !isLogged ? context.secondaryColor : context.primaryColor,
                               )),
                           Text(l10n.sync_button_download),
                         ],
@@ -323,14 +249,11 @@ void _showDialogLogin(BuildContext context, WidgetRef ref) {
                         filled: false,
                         contentPadding: const EdgeInsets.all(12),
                         enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(width: 0.4),
-                            borderRadius: BorderRadius.circular(5)),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(),
-                            borderRadius: BorderRadius.circular(5)),
+                            borderSide: const BorderSide(width: 0.4), borderRadius: BorderRadius.circular(5)),
+                        focusedBorder:
+                            OutlineInputBorder(borderSide: const BorderSide(), borderRadius: BorderRadius.circular(5)),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: const BorderSide()))),
+                            borderRadius: BorderRadius.circular(5), borderSide: const BorderSide()))),
               ),
               const SizedBox(height: 10),
               Padding(
@@ -346,14 +269,11 @@ void _showDialogLogin(BuildContext context, WidgetRef ref) {
                         filled: false,
                         contentPadding: const EdgeInsets.all(12),
                         enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(width: 0.4),
-                            borderRadius: BorderRadius.circular(5)),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(),
-                            borderRadius: BorderRadius.circular(5)),
+                            borderSide: const BorderSide(width: 0.4), borderRadius: BorderRadius.circular(5)),
+                        focusedBorder:
+                            OutlineInputBorder(borderSide: const BorderSide(), borderRadius: BorderRadius.circular(5)),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: const BorderSide()))),
+                            borderRadius: BorderRadius.circular(5), borderSide: const BorderSide()))),
               ),
               const SizedBox(height: 10),
               Padding(
@@ -370,20 +290,15 @@ void _showDialogLogin(BuildContext context, WidgetRef ref) {
                             onPressed: () => setState(() {
                                   obscureText = !obscureText;
                                 }),
-                            icon: Icon(obscureText
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined)),
+                            icon: Icon(obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined)),
                         filled: false,
                         contentPadding: const EdgeInsets.all(12),
                         enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(width: 0.4),
-                            borderRadius: BorderRadius.circular(5)),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(),
-                            borderRadius: BorderRadius.circular(5)),
+                            borderSide: const BorderSide(width: 0.4), borderRadius: BorderRadius.circular(5)),
+                        focusedBorder:
+                            OutlineInputBorder(borderSide: const BorderSide(), borderRadius: BorderRadius.circular(5)),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: const BorderSide()))),
+                            borderRadius: BorderRadius.circular(5), borderSide: const BorderSide()))),
               ),
               const SizedBox(height: 10),
               Text(errorMessage, style: const TextStyle(color: Colors.red)),
@@ -401,8 +316,7 @@ void _showDialogLogin(BuildContext context, WidgetRef ref) {
                                   isLoading = true;
                                 });
                                 final res = await ref
-                                    .read(
-                                        syncServerProvider(syncId: 1).notifier)
+                                    .read(syncServerProvider(syncId: 1).notifier)
                                     .login(l10n, server, email, password);
                                 if (!res.$1) {
                                   setState(() {
@@ -415,9 +329,7 @@ void _showDialogLogin(BuildContext context, WidgetRef ref) {
                                   }
                                 }
                               },
-                        child: isLoading
-                            ? const CircularProgressIndicator()
-                            : Text(l10n.login))),
+                        child: isLoading ? const CircularProgressIndicator() : Text(l10n.login))),
               )
             ],
           ),

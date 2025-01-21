@@ -7,11 +7,11 @@ import 'package:mangayomi/src/rust/frb_generated.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 part 'crop_borders_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-Future<Uint8List?> cropBorders(Ref ref,
-    {required UChapDataPreload data, required bool cropBorder}) async {
+Future<Uint8List?> cropBorders(Ref ref, {required UChapDataPreload data, required bool cropBorder}) async {
   Uint8List? imageBytes;
 
   if (cropBorder) {

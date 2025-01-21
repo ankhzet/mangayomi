@@ -8,11 +8,11 @@ import 'package:mangayomi/services/get_detail.dart';
 import 'package:mangayomi/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 part 'update_manga_detail_providers.g.dart';
 
 @riverpod
-Future<dynamic> updateMangaDetail(Ref ref,
-    {required int? mangaId, required bool isInit}) async {
+Future<dynamic> updateMangaDetail(Ref ref, {required int? mangaId, required bool isInit}) async {
   final manga = isar.mangas.getSync(mangaId!);
   if (manga!.chapters.isNotEmpty && isInit) {
     return;
@@ -20,31 +20,20 @@ Future<dynamic> updateMangaDetail(Ref ref,
   final source = getSource(manga.lang!, manga.source!);
   MManga getManga;
   try {
-    getManga = await ref
-        .watch(getDetailProvider(url: manga.link!, source: source!).future);
+    getManga = await ref.watch(getDetailProvider(url: manga.link!, source: source!).future);
   } catch (e) {
     botToast(e.toString());
     return;
   }
-  final genre = getManga.genre
-          ?.map((e) => e.toString().trim().trimLeft().trimRight())
-          .toList()
-          .toSet()
-          .toList() ??
-      [];
+  final genre = getManga.genre?.map((e) => e.toString().trim().trimLeft().trimRight()).toList().toSet().toList() ?? [];
   manga
     ..imageUrl = getManga.imageUrl ?? manga.imageUrl
     ..name = getManga.name?.trim().trimLeft().trimRight() ?? manga.name
     ..genre = (genre.isEmpty ? null : genre) ?? manga.genre ?? []
-    ..author =
-        getManga.author?.trim().trimLeft().trimRight() ?? manga.author ?? ""
-    ..artist =
-        getManga.artist?.trim().trimLeft().trimRight() ?? manga.artist ?? ""
-    ..status =
-        getManga.status == Status.unknown ? manga.status : getManga.status!
-    ..description = getManga.description?.trim().trimLeft().trimRight() ??
-        manga.description ??
-        ""
+    ..author = getManga.author?.trim().trimLeft().trimRight() ?? manga.author ?? ""
+    ..artist = getManga.artist?.trim().trimLeft().trimRight() ?? manga.artist ?? ""
+    ..status = getManga.status == Status.unknown ? manga.status : getManga.status!
+    ..description = getManga.description?.trim().trimLeft().trimRight() ?? manga.description ?? ""
     ..link = getManga.link?.trim().trimLeft().trimRight() ?? manga.link
     ..source = manga.source
     ..lang = manga.lang
@@ -82,18 +71,15 @@ Future<dynamic> updateMangaDetail(Ref ref,
         isar.chapters.putSync(chap);
         chap.manga.saveSync();
         if (manga.chapters.isNotEmpty) {
-          final update = Update(
-              mangaId: mangaId,
-              chapterName: chap.name,
-              date: DateTime.now().millisecondsSinceEpoch.toString())
-            ..chapter.value = chap;
+          final update =
+              Update(mangaId: mangaId, chapterName: chap.name, date: DateTime.now().millisecondsSinceEpoch.toString())
+                ..chapter.value = chap;
           isar.updates.putSync(update);
           update.chapter.saveSync();
         }
       }
     }
-    final oldChapers =
-        isar.mangas.getSync(mangaId)!.chapters.toList().reversed.toList();
+    final oldChapers = isar.mangas.getSync(mangaId)!.chapters.toList().reversed.toList();
     if (oldChapers.length == chaps.length) {
       for (var i = 0; i < oldChapers.length; i++) {
         final oldChap = oldChapers[i];

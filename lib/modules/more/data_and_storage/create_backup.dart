@@ -24,13 +24,9 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
 
   void _set(int index, List<int> indexList) {
     if (indexList.contains(index)) {
-      ref
-          .read(backupFrequencyOptionsStateProvider.notifier)
-          .set(indexList.where((e) => e != index).toList());
+      ref.read(backupFrequencyOptionsStateProvider.notifier).set(indexList.where((e) => e != index).toList());
     } else {
-      ref
-          .read(backupFrequencyOptionsStateProvider.notifier)
-          .set([...indexList, index]);
+      ref.read(backupFrequencyOptionsStateProvider.notifier).set([...indexList, index]);
     }
   }
 
@@ -48,18 +44,15 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
           child: Column(
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Row(
                   children: [
-                    Text(l10n.library,
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(l10n.library, style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
               Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                 child: ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
                   shrinkWrap: true,
@@ -77,18 +70,15 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Row(
                   children: [
-                    Text(l10n.settings,
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(l10n.settings, style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
               Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                 child: ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
                   shrinkWrap: true,
@@ -106,18 +96,15 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Row(
                   children: [
-                    Text(l10n.extensions,
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(l10n.extensions, style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),
               Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                 child: ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
                   shrinkWrap: true,
@@ -144,29 +131,20 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: context.primaryColor),
+                          style: ElevatedButton.styleFrom(backgroundColor: context.primaryColor),
                           onPressed: () async {
                             String? result;
                             if (Platform.isIOS) {
-                              result = (await StorageProvider()
-                                      .getIosBackupDirectory())!
-                                  .path;
+                              result = (await StorageProvider().getIosBackupDirectory())!.path;
                             } else {
-                              result =
-                                  await FilePicker.platform.getDirectoryPath();
+                              result = await FilePicker.platform.getDirectoryPath();
                             }
 
                             if (result != null && context.mounted) {
-                              ref.watch(doBackUpProvider(
-                                  list: indexList,
-                                  path: result,
-                                  context: context));
+                              ref.watch(doBackUpProvider(list: indexList, path: result, context: context));
                             }
                           },
-                          child: Text(l10n.create,
-                              style: TextStyle(
-                                  color: context.dynamicBlackWhiteColor))),
+                          child: Text(l10n.create, style: TextStyle(color: context.dynamicBlackWhiteColor))),
                     ),
                   ),
                 ],

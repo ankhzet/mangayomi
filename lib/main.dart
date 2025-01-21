@@ -28,6 +28,7 @@ import 'package:path/path.dart' as p;
 
 late Isar isar;
 WebViewEnvironment? webViewEnvironment;
+
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isLinux) {
@@ -45,8 +46,7 @@ void main(List<String> args) async {
     if (availableVersion != null) {
       final document = await getApplicationDocumentsDirectory();
       webViewEnvironment = await WebViewEnvironment.create(
-          settings: WebViewEnvironmentSettings(
-              userDataFolder: p.join(document.path, 'flutter_inappwebview')));
+          settings: WebViewEnvironmentSettings(userDataFolder: p.join(document.path, 'flutter_inappwebview')));
     }
   }
   isar = await StorageProvider().initDB(null, inspector: kDebugMode);
@@ -78,9 +78,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     iniDateFormatting();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (ref.read(clearChapterCacheOnAppLaunchStateProvider)) {
-        ref
-            .read(totalChapterCacheSizeStateProvider.notifier)
-            .clearCache(showToast: false);
+        ref.read(totalChapterCacheSizeStateProvider.notifier).clearCache(showToast: false);
       }
     });
     super.initState();

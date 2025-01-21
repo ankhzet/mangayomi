@@ -14,12 +14,11 @@ import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 class TrackerWidgetSearch extends ConsumerStatefulWidget {
   final ItemType itemType;
   final Track track;
-  const TrackerWidgetSearch(
-      {required this.itemType, required this.track, super.key});
+
+  const TrackerWidgetSearch({required this.itemType, required this.track, super.key});
 
   @override
-  ConsumerState<TrackerWidgetSearch> createState() =>
-      _TrackerWidgetSearchState();
+  ConsumerState<TrackerWidgetSearch> createState() => _TrackerWidgetSearchState();
 }
 
 class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
@@ -33,14 +32,12 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
   bool hide = false;
   late List<TrackSearch>? tracks = [];
   String? _errorMsg;
+
   _init() async {
     await Future.delayed(const Duration(microseconds: 100));
     try {
-      tracks = await ref
-          .read(
-              trackStateProvider(track: widget.track, itemType: widget.itemType)
-                  .notifier)
-          .search(query);
+      tracks =
+          await ref.read(trackStateProvider(track: widget.track, itemType: widget.itemType).notifier).search(query);
     } catch (e) {
       _errorMsg = e.toString();
     }
@@ -53,12 +50,12 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
 
   late final _controller = TextEditingController(text: query);
   bool _isLoading = true;
+
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Theme.of(context).scaffoldBackgroundColor,
-      borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+      borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: _isLoading
           ? SizedBox(
@@ -73,9 +70,7 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
               child: SizedBox(
                 height: context.height(0.8),
                 child: Column(
-                  mainAxisAlignment: _errorMsg != null
-                      ? MainAxisAlignment.center
-                      : MainAxisAlignment.start,
+                  mainAxisAlignment: _errorMsg != null ? MainAxisAlignment.center : MainAxisAlignment.start,
                   children: [
                     if (_errorMsg != null)
                       Padding(
@@ -97,54 +92,41 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                                 child: Column(
                                   children: [
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Material(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
+                                          borderRadius: BorderRadius.circular(5),
                                           color: Colors.transparent,
-                                          clipBehavior:
-                                              Clip.antiAliasWithSaveLayer,
+                                          clipBehavior: Clip.antiAliasWithSaveLayer,
                                           child: Ink.image(
                                             height: 120,
                                             width: 80,
                                             fit: BoxFit.cover,
-                                            image:
-                                                CustomExtendedNetworkImageProvider(
-                                                    tracks![index].coverUrl!),
+                                            image: CustomExtendedNetworkImageProvider(tracks![index].coverUrl!),
                                           ),
                                         ),
                                         const SizedBox(
                                           width: 10,
                                         ),
                                         Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(
                                               width: context.width(0.6),
                                               child: Text(
                                                 tracks![index].title!,
-                                                style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                style: const TextStyle(fontWeight: FontWeight.bold),
                                               ),
                                             ),
                                             Row(
                                               children: [
                                                 const Text(
                                                   "Type : ",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 12),
+                                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                                                 ),
                                                 Text(
-                                                  tracks![index]
-                                                      .publishingType!,
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
+                                                  tracks![index].publishingType!,
+                                                  style: const TextStyle(fontSize: 12),
                                                 ),
                                               ],
                                             ),
@@ -152,16 +134,11 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                                               children: [
                                                 const Text(
                                                   "Status : ",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 12),
+                                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                                                 ),
                                                 Text(
-                                                  tracks![index]
-                                                      .publishingStatus!,
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
+                                                  tracks![index].publishingStatus!,
+                                                  style: const TextStyle(fontSize: 12),
                                                 ),
                                               ],
                                             ),
@@ -211,10 +188,7 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                           });
                           try {
                             tracks = await ref
-                                .read(trackStateProvider(
-                                        track: widget.track,
-                                        itemType: widget.itemType)
-                                    .notifier)
+                                .read(trackStateProvider(track: widget.track, itemType: widget.itemType).notifier)
                                 .search(d.trim());
                           } catch (e) {
                             _errorMsg = e.toString();
@@ -240,16 +214,12 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                                     },
                                     icon: const Icon(Icons.clear)),
                             enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: context.primaryColor),
+                              borderSide: BorderSide(color: context.primaryColor),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: context.primaryColor),
+                              borderSide: BorderSide(color: context.primaryColor),
                             ),
-                            border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: context.primaryColor))),
+                            border: OutlineInputBorder(borderSide: BorderSide(color: context.primaryColor))),
                       ),
                     ),
                   ],
@@ -260,8 +230,7 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
   }
 }
 
-trackersSearchraggableMenu(BuildContext context,
-    {required Track track, required ItemType itemType}) async {
+trackersSearchraggableMenu(BuildContext context, {required Track track, required ItemType itemType}) async {
   var padding = MediaQuery.of(context).padding;
   return await showDialog(
     context: context,
@@ -276,9 +245,7 @@ trackersSearchraggableMenu(BuildContext context,
               Container(
                 decoration: BoxDecoration(
                     color: Theme.of(context).scaffoldBackgroundColor,
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20))),
+                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
                 child: Column(
                   children: [
                     Row(

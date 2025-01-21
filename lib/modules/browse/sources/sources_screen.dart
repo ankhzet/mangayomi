@@ -12,8 +12,8 @@ import 'package:mangayomi/utils/language.dart';
 class SourcesScreen extends ConsumerStatefulWidget {
   final Function(int) tabIndex;
   final ItemType itemType;
-  const SourcesScreen(
-      {required this.tabIndex, required this.itemType, super.key});
+
+  const SourcesScreen({required this.tabIndex, required this.itemType, super.key});
 
   @override
   ConsumerState<SourcesScreen> createState() => _SourcesScreenState();
@@ -21,6 +21,7 @@ class SourcesScreen extends ConsumerStatefulWidget {
 
 class _SourcesScreenState extends ConsumerState<SourcesScreen> {
   final controller = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
@@ -52,24 +53,20 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton.icon(
-                          onPressed: () =>
-                              widget.tabIndex(widget.itemType == ItemType.manga
-                                  ? 3
-                                  : widget.itemType == ItemType.anime
-                                      ? 4
-                                      : 5),
+                          onPressed: () => widget.tabIndex(widget.itemType == ItemType.manga
+                              ? 3
+                              : widget.itemType == ItemType.anime
+                                  ? 4
+                                  : 5),
                           icon: const Icon(Icons.extension_rounded),
                           label: Text(context.l10n.show_extensions)),
                     )
                   ],
                 );
               }
-              final lastUsedEntries =
-                  sources.where((element) => element.lastUsed!).toList();
-              final isPinnedEntries =
-                  sources.where((element) => element.isPinned!).toList();
-              final allEntriesWithoutIspinned =
-                  sources.where((element) => !element.isPinned!).toList();
+              final lastUsedEntries = sources.where((element) => element.lastUsed!).toList();
+              final isPinnedEntries = sources.where((element) => element.isPinned!).toList();
+              final allEntriesWithoutIspinned = sources.where((element) => !element.isPinned!).toList();
               return Scrollbar(
                 interactive: true,
                 controller: controller,
@@ -87,8 +84,7 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
                           children: [
                             Text(
                               l10n.last_used,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 13),
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                             ),
                           ],
                         ),
@@ -99,10 +95,8 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
                           itemType: widget.itemType,
                         );
                       },
-                      groupComparator: (group1, group2) =>
-                          group1.compareTo(group2),
-                      itemComparator: (item1, item2) =>
-                          item1.name!.compareTo(item2.name!),
+                      groupComparator: (group1, group2) => group1.compareTo(group2),
+                      itemComparator: (item1, item2) => item1.name!.compareTo(item2.name!),
                       order: GroupedListOrder.ASC,
                     ),
                     SliverGroupedListView<Source, String>(
@@ -114,8 +108,7 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
                           children: [
                             Text(
                               l10n.pinned,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 13),
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                             ),
                           ],
                         ),
@@ -126,24 +119,20 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
                           itemType: widget.itemType,
                         );
                       },
-                      groupComparator: (group1, group2) =>
-                          group1.compareTo(group2),
-                      itemComparator: (item1, item2) =>
-                          item1.name!.compareTo(item2.name!),
+                      groupComparator: (group1, group2) => group1.compareTo(group2),
+                      itemComparator: (item1, item2) => item1.name!.compareTo(item2.name!),
                       order: GroupedListOrder.ASC,
                     ),
                     SliverGroupedListView<Source, String>(
                       elements: allEntriesWithoutIspinned,
-                      groupBy: (element) =>
-                          completeLanguageName(element.lang!.toLowerCase()),
+                      groupBy: (element) => completeLanguageName(element.lang!.toLowerCase()),
                       groupSeparatorBuilder: (String groupByValue) => Padding(
                         padding: const EdgeInsets.only(left: 12),
                         child: Row(
                           children: [
                             Text(
                               groupByValue,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 13),
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                             ),
                           ],
                         ),
@@ -154,10 +143,8 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
                           itemType: widget.itemType,
                         );
                       },
-                      groupComparator: (group1, group2) =>
-                          group1.compareTo(group2),
-                      itemComparator: (item1, item2) =>
-                          item1.name!.compareTo(item2.name!),
+                      groupComparator: (group1, group2) => group1.compareTo(group2),
+                      itemComparator: (item1, item2) => item1.name!.compareTo(item2.name!),
                       order: GroupedListOrder.ASC,
                     ),
                   ],

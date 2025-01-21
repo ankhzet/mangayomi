@@ -6,9 +6,12 @@ import 'package:mangayomi/utils/extensions/dom_extensions.dart';
 
 class JsDomSelector {
   late JavascriptRuntime runtime;
+
   JsDomSelector(this.runtime);
+
   final Map<int, Element?> _elements = {};
   int _elementKey = 0;
+
   void init() {
     runtime.onMessage('get_doc_element', (dynamic args) {
       final input = args[0];
@@ -67,10 +70,8 @@ class JsDomSelector {
       final type = args[0];
       final key = args[1];
       final ele = _elements[key];
-      final element = switch (type) {
-        'nextElementSibling' => ele?.nextElementSibling,
-        _ => ele?.previousElementSibling
-      };
+      final element =
+          switch (type) { 'nextElementSibling' => ele?.nextElementSibling, _ => ele?.previousElementSibling };
       _elementKey++;
       _elements[_elementKey] = element;
       return _elementKey;

@@ -12,9 +12,15 @@ import 'dart:math';
 import 'utils/html.dart' if (dart.library.io) 'utils/io.dart';
 
 part 'collection_ref.dart';
+
 part 'collection_ref_impl.dart';
+
 part 'document_ref.dart';
+
 part 'document_ref_impl.dart';
+
 part 'set_option.dart';
+
 part 'localstore_base.dart';
+
 part 'localstore_impl.dart';

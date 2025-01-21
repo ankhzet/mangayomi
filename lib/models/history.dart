@@ -1,6 +1,7 @@
 import 'package:isar/isar.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/manga.dart';
+
 part 'history.g.dart';
 
 @collection
@@ -39,11 +40,6 @@ class History {
     mangaId = json['mangaId'];
   }
 
-  Map<String, dynamic> toJson() => {
-        'chapterId': chapterId,
-        'date': date,
-        'id': id,
-        'itemType': itemType.index,
-        'mangaId': mangaId
-      };
+  Map<String, dynamic> toJson() =>
+      {'chapterId': chapterId, 'date': date, 'id': id, 'itemType': itemType.index, 'mangaId': mangaId};
 }

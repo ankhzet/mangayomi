@@ -7,17 +7,16 @@ import 'package:mangayomi/modules/manga/archive_reader/models/models.dart';
 import 'package:mangayomi/modules/manga/archive_reader/providers/archive_reader_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 part 'local_archive.g.dart';
 
 @riverpod
-Future importArchivesFromFile(Ref ref, Manga? mManga,
-    {required ItemType itemType, required bool init}) async {
+Future importArchivesFromFile(Ref ref, Manga? mManga, {required ItemType itemType, required bool init}) async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
       type: FileType.custom,
-      allowedExtensions: itemType == ItemType.manga
-          ? ['cbz', 'zip']
-          : ['mp4', 'mov', 'avi', 'flv', 'wmv', 'mpeg', 'mkv']);
+      allowedExtensions:
+          itemType == ItemType.manga ? ['cbz', 'zip'] : ['mp4', 'mov', 'avi', 'flv', 'wmv', 'mpeg', 'mkv']);
   if (result != null) {
     final dateNow = DateTime.now().millisecondsSinceEpoch;
     final manga = mManga ??
@@ -39,10 +38,8 @@ Future importArchivesFromFile(Ref ref, Manga? mManga,
           artist: '',
         );
     for (var file in result.files.reversed.toList()) {
-      (String, LocalExtensionType, Uint8List, String)? data = itemType ==
-              ItemType.manga
-          ? await ref.watch(getArchivesDataFromFileProvider(file.path!).future)
-          : null;
+      (String, LocalExtensionType, Uint8List, String)? data =
+          itemType == ItemType.manga ? await ref.watch(getArchivesDataFromFileProvider(file.path!).future) : null;
       String name = _getName(file.path!);
 
       if (init) {
@@ -65,6 +62,10 @@ Future importArchivesFromFile(Ref ref, Manga? mManga,
 }
 
 String _getName(String path) {
-  return path.split('/').last.split("\\").last.replaceAll(
-      RegExp(r'\.(mp4|mov|avi|flv|wmv|mpeg|mkv|cbz|zip|cbt|tar)'), '');
+  return path
+      .split('/')
+      .last
+      .split("\\")
+      .last
+      .replaceAll(RegExp(r'\.(mp4|mov|avi|flv|wmv|mpeg|mkv|cbz|zip|cbt|tar)'), '');
 }

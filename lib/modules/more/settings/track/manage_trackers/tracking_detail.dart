@@ -10,15 +10,16 @@ import 'package:mangayomi/utils/constant.dart';
 
 class TrackingDetail extends StatefulWidget {
   final TrackPreference trackerPref;
+
   const TrackingDetail({super.key, required this.trackerPref});
 
   @override
   State<TrackingDetail> createState() => _TrackingDetailState();
 }
 
-class _TrackingDetailState extends State<TrackingDetail>
-    with TickerProviderStateMixin {
+class _TrackingDetailState extends State<TrackingDetail> with TickerProviderStateMixin {
   late TabController _tabBarController;
+
   @override
   void initState() {
     _tabBarController = TabController(length: 2, vsync: this);
@@ -37,9 +38,7 @@ class _TrackingDetailState extends State<TrackingDetail>
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text(widget.trackerPref.syncId == -1
-              ? 'Local'
-              : trackInfos(widget.trackerPref.syncId!).$2),
+          title: Text(widget.trackerPref.syncId == -1 ? 'Local' : trackInfos(widget.trackerPref.syncId!).$2),
           bottom: TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
             controller: _tabBarController,
@@ -50,10 +49,8 @@ class _TrackingDetailState extends State<TrackingDetail>
           ),
         ),
         body: TabBarView(controller: _tabBarController, children: [
-          TrackingTab(
-              itemType: ItemType.manga, syncId: widget.trackerPref.syncId!),
-          TrackingTab(
-              itemType: ItemType.anime, syncId: widget.trackerPref.syncId!)
+          TrackingTab(itemType: ItemType.manga, syncId: widget.trackerPref.syncId!),
+          TrackingTab(itemType: ItemType.anime, syncId: widget.trackerPref.syncId!)
         ]),
       ),
     );
@@ -63,6 +60,7 @@ class _TrackingDetailState extends State<TrackingDetail>
 class TrackingTab extends StatelessWidget {
   final ItemType itemType;
   final int syncId;
+
   const TrackingTab({super.key, required this.itemType, required this.syncId});
 
   @override
@@ -86,14 +84,10 @@ class TrackingTab extends StatelessWidget {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 final mediaId = mediaIds[index];
-                final track = trackRes
-                    .firstWhere((element) => element.mediaId == mediaId);
+                final track = trackRes.firstWhere((element) => element.mediaId == mediaId);
                 return ExpansionTile(
                   title: Text(track.title!),
-                  children: [
-                    TrackingWidget(
-                        itemType: itemType, syncId: syncId, mediaId: mediaId!)
-                  ],
+                  children: [TrackingWidget(itemType: itemType, syncId: syncId, mediaId: mediaId!)],
                 );
               },
               separatorBuilder: (_, index) {
@@ -109,11 +103,8 @@ class TrackingWidget extends StatelessWidget {
   final int syncId;
   final ItemType itemType;
   final int mediaId;
-  const TrackingWidget(
-      {super.key,
-      required this.mediaId,
-      required this.itemType,
-      required this.syncId});
+
+  const TrackingWidget({super.key, required this.mediaId, required this.itemType, required this.syncId});
 
   @override
   Widget build(BuildContext context) {
@@ -128,10 +119,7 @@ class TrackingWidget extends StatelessWidget {
           List<Track>? trackRes = [];
           List<Track> res = snapshot.data ?? [];
           for (var track in res) {
-            if (!trackRes
-                .map((e) => e.mediaId)
-                .toList()
-                .contains(track.mediaId)) {
+            if (!trackRes.map((e) => e.mediaId).toList().contains(track.mediaId)) {
               trackRes.add(track);
             }
           }

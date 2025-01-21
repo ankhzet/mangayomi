@@ -1,6 +1,7 @@
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'reader_state_provider.g.dart';
 
 @riverpod
@@ -13,8 +14,7 @@ class DefaultReadingModeState extends _$DefaultReadingModeState {
   void set(ReaderMode value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..defaultReaderMode = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..defaultReaderMode = value));
   }
 }
 
@@ -28,8 +28,7 @@ class AnimatePageTransitionsState extends _$AnimatePageTransitionsState {
   void set(bool value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..animatePageTransitions = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..animatePageTransitions = value));
   }
 }
 
@@ -43,8 +42,7 @@ class DoubleTapAnimationSpeedState extends _$DoubleTapAnimationSpeedState {
   void set(int value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(() =>
-        isar.settings.putSync(settings!..doubleTapAnimationSpeed = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..doubleTapAnimationSpeed = value));
   }
 }
 
@@ -58,8 +56,7 @@ class CropBordersState extends _$CropBordersState {
   void set(bool value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..cropBorders = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..cropBorders = value));
   }
 }
 
@@ -73,8 +70,7 @@ class ScaleTypeState extends _$ScaleTypeState {
   void set(ScaleType value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..scaleType = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..scaleType = value));
   }
 }
 
@@ -88,8 +84,7 @@ class PagePreloadAmountState extends _$PagePreloadAmountState {
   void set(int value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..pagePreloadAmount = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..pagePreloadAmount = value));
   }
 }
 
@@ -103,8 +98,7 @@ class BackgroundColorState extends _$BackgroundColorState {
   void set(BackgroundColor value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..backgroundColor = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..backgroundColor = value));
   }
 }
 
@@ -118,8 +112,7 @@ class UsePageTapZonesState extends _$UsePageTapZonesState {
   void set(bool value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..usePageTapZones = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..usePageTapZones = value));
   }
 }
 
@@ -133,8 +126,7 @@ class FullScreenReaderState extends _$FullScreenReaderState {
   void set(bool value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..fullScreenReader = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..fullScreenReader = value));
   }
 }
 
@@ -148,8 +140,7 @@ class HideMangaState extends _$HideMangaState {
   void set(bool value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..hideManga = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..hideManga = value));
   }
 }
 
@@ -163,8 +154,7 @@ class HideAnimeState extends _$HideAnimeState {
   void set(bool value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..hideAnime = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..hideAnime = value));
   }
 }
 
@@ -178,8 +168,7 @@ class HideNovelState extends _$HideNovelState {
   void set(bool value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..hideNovel = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..hideNovel = value));
   }
 }
 
@@ -193,8 +182,7 @@ class NovelFontSizeState extends _$NovelFontSizeState {
   void set(int value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..novelFontSize = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..novelFontSize = value));
   }
 }
 
@@ -208,7 +196,6 @@ class NovelTextAlignState extends _$NovelTextAlignState {
   void set(NovelTextAlign value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(
-        () => isar.settings.putSync(settings!..novelTextAlign = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..novelTextAlign = value));
   }
 }

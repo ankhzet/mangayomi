@@ -7,6 +7,7 @@ import 'package:mangayomi/router/router.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 part 'storage_usage.g.dart';
 
 @riverpod
@@ -39,18 +40,15 @@ class TotalChapterCacheSizeState extends _$TotalChapterCacheSizeState {
     } catch (_) {}
     if (msg != null && showToast) {
       state = msg;
-      botToast(
-          navigatorKey.currentContext?.l10n.cache_cleared ?? "Cache cleared");
+      botToast(navigatorKey.currentContext?.l10n.cache_cleared ?? "Cache cleared");
     }
   }
 
   Future<int> _getTotalDiskSpace() async {
     final tempPath = (await getTemporaryDirectory()).path;
     try {
-      return await _getdirectorySize(
-              Directory(join(tempPath, _cacheImageMangaPath))) +
-          await _getdirectorySize(
-              Directory(join(tempPath, _cacheDownloadPath)));
+      return await _getdirectorySize(Directory(join(tempPath, _cacheImageMangaPath))) +
+          await _getdirectorySize(Directory(join(tempPath, _cacheDownloadPath)));
     } catch (_) {}
     return 0;
   }
@@ -85,8 +83,7 @@ class TotalChapterCacheSizeState extends _$TotalChapterCacheSizeState {
 }
 
 @riverpod
-class ClearChapterCacheOnAppLaunchState
-    extends _$ClearChapterCacheOnAppLaunchState {
+class ClearChapterCacheOnAppLaunchState extends _$ClearChapterCacheOnAppLaunchState {
   @override
   bool build() {
     return isar.settings.getSync(227)!.clearChapterCacheOnAppLaunch ?? false;
@@ -95,7 +92,6 @@ class ClearChapterCacheOnAppLaunchState
   void set(bool value) {
     final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(() =>
-        isar.settings.putSync(settings!..clearChapterCacheOnAppLaunch = value));
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..clearChapterCacheOnAppLaunch = value));
   }
 }

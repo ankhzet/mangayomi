@@ -8,7 +8,7 @@ bool isRead(Chapter chapter) => chapter.isRead ?? false;
 class ChapterGroup<T> extends Group<Chapter, T> {
   Manga manga;
 
-  ChapterGroup.fromItems(super.items, super.group) : manga = items.first.manga.value!;
+  ChapterGroup(super.items, super.group) : manga = items.first.manga.value!;
 
   static T groupBy<T>(ChapterGroup<T> element) => element.group;
 
@@ -16,7 +16,7 @@ class ChapterGroup<T> extends Group<Chapter, T> {
     return Group.groupItems(
       items,
       groupBy,
-      (items, group) => ChapterGroup.fromItems(items, group),
+      (items, group) => ChapterGroup(items, group),
       belongsTo: (chapter, group) => group.mangaId == chapter.mangaId,
     );
   }

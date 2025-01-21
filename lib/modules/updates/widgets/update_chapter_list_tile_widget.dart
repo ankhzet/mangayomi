@@ -1,14 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/dto/chapter_group.dart';
-import 'package:mangayomi/modules/manga/detail/widgets/fix_chapters_widget.dart';
+import 'package:mangayomi/models/dto/group.dart';
+import 'package:mangayomi/models/view_queue_item.dart';
 import 'package:mangayomi/modules/manga/download/download_page_widget.dart';
+import 'package:mangayomi/modules/updates/widgets/fix_chapters_widget.dart';
+import 'package:mangayomi/modules/updates/widgets/queue_chapters_widget.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
 import 'package:mangayomi/utils/extensions/manga.dart';
+import 'package:mangayomi/utils/extensions/view_queue_item.dart';
+
+class UpdateChaptersGroup<T> extends ChapterGroup<T> {
+  final bool isQueued;
+
+  static List<UpdateChaptersGroup<T>> groupChapters<T>(Iterable<Chapter> items, T Function(Chapter item) groupBy) {
+    final queued = isar.viewQueueItems.getQueuedSync(items.map((item) => item.id!));
+
+    return Group.groupItems(
+      items,
+      groupBy,
+      (items, group) => UpdateChaptersGroup(items, group, queued[items.first.id]!),
+      belongsTo: (chapter, group) => group.mangaId == chapter.mangaId,
+    );
+  }
+
+  UpdateChaptersGroup(super.items, super.group, this.isQueued);
+}
 
 class UpdateChapterListTileWidget extends ConsumerWidget {
-  final ChapterGroup update;
+  final UpdateChaptersGroup update;
   final bool sourceExist;
 
   const UpdateChapterListTileWidget({
@@ -85,6 +108,7 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
                   ),
                 ),
                 ChaptersFix(update: update),
+                QueueChaptersWidget(chapter: update.firstOrUnread),
                 if (sourceExist) ChapterPageDownload(chapter: update.firstOrUnread),
               ],
             ),

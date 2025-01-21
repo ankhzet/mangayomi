@@ -8,22 +8,18 @@ import 'package:mangayomi/modules/manga/detail/providers/update_periodicity_prov
 import 'package:mangayomi/modules/updates/widgets/update_chapter_list_tile_widget.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 
-class UpdatesTab extends ConsumerStatefulWidget {
+class ViewQueueTab extends ConsumerStatefulWidget {
   final List<Update> entries;
-  final bool isOverdraft;
-  final Iterable<MangaPeriodicity> queue;
   final Iterable<MangaPeriodicity> periodicity;
 
-  const UpdatesTab({
+  const ViewQueueTab({
     super.key,
     required this.entries,
-    required this.queue,
     required this.periodicity,
-    required this.isOverdraft,
   });
 
   @override
-  ConsumerState<UpdatesTab> createState() => _UpdatesTabState();
+  ConsumerState<ViewQueueTab> createState() => _ViewQueueTabState();
 }
 
 final int granularity = 1000 * 60 * 60 * 1; // 6h
@@ -38,7 +34,7 @@ final types = {
   3560: 'Update once a decade',
 };
 
-class _UpdatesTabState extends ConsumerState<UpdatesTab> {
+class _ViewQueueTabState extends ConsumerState<ViewQueueTab> {
   late final entries = widget.entries;
   late final Map<int, int> periodicityMap =
       Map.fromEntries(widget.periodicity.map((i) => MapEntry(i.manga.id, i.days)));
@@ -46,10 +42,30 @@ class _UpdatesTabState extends ConsumerState<UpdatesTab> {
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
+    final groups = UpdateChaptersGroup.groupChapters(
+      entries.map((update) => update.chapter.value).whereType<Chapter>(),
+      _getPeriodicity,
+    );
 
     return CustomScrollView(
       slivers: [
-        entries.isEmpty ? Center(child: Text(l10n.no_recent_updates)) : _updates(),
+        if (entries.isEmpty) Center(child: Text(l10n.no_recent_updates)),
+        SliverGroupedListView(
+          elements: groups,
+          groupBy: ChapterGroup.groupBy,
+          groupHeaderBuilder: (value) => Padding(
+            padding: const EdgeInsets.only(top: 16, bottom: 8, left: 12),
+            child: Row(
+              children: [
+                Text(_getGroup(value.group), style: TextStyle(fontWeight: FontWeight.bold)),
+              ],
+            ),
+          ),
+          itemBuilder: (context, element) => UpdateChapterListTileWidget(update: element, sourceExist: true),
+          itemComparator: (item1, item2) => item1.compareTo(item2),
+          groupComparator: (item1, item2) => item2 - item1,
+          order: GroupedListOrder.DESC,
+        )
       ],
     );
   }
@@ -69,29 +85,5 @@ class _UpdatesTabState extends ConsumerState<UpdatesTab> {
       0 => 'Update frequency unknown',
       _ => types[days] ?? 'Infrequent updates',
     };
-  }
-
-  Widget _updates() {
-    final groups = UpdateChaptersGroup.groupChapters(
-      entries.map((update) => update.chapter.value).whereType<Chapter>(),
-      _getPeriodicity,
-    );
-
-    return SliverGroupedListView(
-      elements: groups,
-      groupBy: ChapterGroup.groupBy,
-      groupHeaderBuilder: (value) => Padding(
-        padding: const EdgeInsets.only(top: 16, bottom: 8, left: 12),
-        child: Row(
-          children: [
-            Text(_getGroup(value.group), style: TextStyle(fontWeight: FontWeight.bold)),
-          ],
-        ),
-      ),
-      itemBuilder: (context, element) => UpdateChapterListTileWidget(update: element, sourceExist: true),
-      itemComparator: (item1, item2) => item1.compareTo(item2),
-      groupComparator: (item1, item2) => item2 - item1,
-      order: GroupedListOrder.DESC,
-    );
   }
 }

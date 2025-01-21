@@ -17,16 +17,14 @@ typedef MangaPeriodicity = ({Manga manga, Duration period, DateTime last, int da
 @riverpod
 Stream<Iterable<MangaPeriodicity>> updatePeriodicity(
   Ref ref, {
+  required bool type,
   int granularity = defaultGranularity,
 }) async* {
+  makeQuery() => isar.mangas.where().favoriteEqualTo(true).filter().isMangaEqualTo(type).sourceIsNotNull();
+
+  final query = makeQuery().build();
   // fetch watchable entities
-  final entities = isar.mangas
-      .where()
-      .favoriteEqualTo(true)
-      .filter()
-      .sourceIsNotNull()
-      .findAllSync()
-      .fold(<int, Manga>{}, (map, manga) => map..putIfAbsent(manga.id, () => manga));
+  final entities = query.findAllSync().fold(<int, Manga>{}, (map, manga) => map..putIfAbsent(manga.id, () => manga));
   final ids = entities.keys;
   // fetch initial chapters state
   final chapters =
@@ -38,16 +36,11 @@ Stream<Iterable<MangaPeriodicity>> updatePeriodicity(
   yield periodicity;
 
   // watch for updates
-  final updates =
-      isar.mangas.where().favoriteEqualTo(true).filter().sourceIsNotNull().watchLazy(fireImmediately: false);
+  final updates = query.watchLazy(fireImmediately: false);
 
   yield* updates.map((void _) {
     // get updated entities
-    final diff = isar.mangas
-        .where()
-        .favoriteEqualTo(true)
-        .filter()
-        .sourceIsNotNull()
+    final diff = makeQuery()
         .group((q) => q // (manga NOT IN fetched list) OR (manga IN fetched list AND lastUpdate changed)
             .group((qq) => qq.not().anyOf(entities.values, (q, manga) => q.group((q) => (q.idEqualTo(manga.id)))))
             .or()

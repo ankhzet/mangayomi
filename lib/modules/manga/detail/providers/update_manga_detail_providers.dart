@@ -7,7 +7,6 @@ import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/update.dart';
-import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/services/get_detail.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:mangayomi/utils/utils.dart';
@@ -25,11 +24,9 @@ void setError(int mangaId, String? error) {
   }
 
   isar.writeTxnSync(() {
-    isar.mangas.putSync(
-        instance
-          ..lastUpdate = (instance.lastUpdate ?? 0) + 1
-          ..updateError = error
-    );
+    isar.mangas.putSync(instance
+      ..lastUpdate = (instance.lastUpdate ?? 0) + 1
+      ..updateError = error);
   });
 }
 
@@ -75,15 +72,14 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
     }
 
     if (!details.isValid) {
-      setError(mangaId, '${source.name!} extension details update returns invalid data (${details.toJson().toString()})');
+      setError(
+          mangaId, '${source.name!} extension details update returns invalid data (${details.toJson().toString()})');
 
       return;
     }
 
     final genre = details.genre?.map((e) => e.normalize()).toUnique() ?? [];
-    final timestamp = DateTime
-        .now()
-        .millisecondsSinceEpoch;
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
 
     manga
       ..imageUrl = details.imageUrl ?? manga.imageUrl
@@ -101,8 +97,7 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
       ..lastUpdate = timestamp;
 
     final timeString = timestamp.toString();
-    final mapped = (details.chapters ?? []).map((data) =>
-        Chapter(
+    final mapped = (details.chapters ?? []).map((data) => Chapter(
           name: data.name!.normalize(),
           url: data.url!.normalize(),
           dateUpload: data.dateUpload ?? timeString,
@@ -129,8 +124,7 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
 
           chapters.add(chapter);
           added.add(chapter);
-        } else if (similar.isUpdated(chapter) &&
-            (null == chapters.firstWhereOrNull((item) => item.isSame(similar)))) {
+        } else if (similar.isUpdated(chapter) && (null == chapters.firstWhereOrNull((item) => item.isSame(similar)))) {
           chapters.add(similar);
         }
       }
@@ -171,8 +165,7 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
             mangaId: mangaId,
             chapterName: chap.name,
             date: timeString,
-          )
-            ..chapter.value = chap;
+          )..chapter.value = chap;
           updateBacklog.add(update);
         }
 

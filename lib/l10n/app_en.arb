@@ -384,5 +384,7 @@
   "a_year_ago": "a year ago",
   "in_a_year": "in a year",
   "now": "now",
-  "library_last_updated": "Library last updated: {lastUpdated}"
+  "library_last_updated": "Library last updated: {lastUpdated}",
+  "updateQueue": "Update queue",
+  "viewQueue": "View queue"
 }

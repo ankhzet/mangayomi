@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
-import 'package:mangayomi/modules/manga/detail/providers/isar_providers.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/genre_badges_widget.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_actions.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_chapters_counter.dart';
@@ -39,7 +38,7 @@ class _MangaInfoState extends ConsumerState<MangaInfo> with TickerProviderStateM
     final details = ref.watch(getMangaDetailStreamProvider(mangaId: widget.manga.id));
 
     return details.when(
-        data: (data) => MangaInfoView(
+      data: (data) => MangaInfoView(
         sourceExist: widget.sourceExist,
         manga: data ?? widget.manga,
         chapters: widget.chapters,

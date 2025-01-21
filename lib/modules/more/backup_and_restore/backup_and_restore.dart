@@ -87,7 +87,8 @@ class BackupAndRestore extends ConsumerWidget {
                                         }
 
                                         if (result != null && context.mounted) {
-                                          ref.watch(doBackUpProvider(list: indexList, pathname: result, context: context));
+                                          ref.watch(
+                                              doBackUpProvider(list: indexList, pathname: result, context: context));
                                         }
                                       },
                                       child: Text(

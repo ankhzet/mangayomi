@@ -396,7 +396,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
     );
   }
 
-  Widget _numberBadge(int value, { double fontSize = 10 }) {
+  Widget _numberBadge(int value, {double fontSize = 10}) {
     return CircleAvatar(
       backgroundColor: Theme.of(context).focusColor,
       radius: fontSize - 2,

@@ -31,7 +31,8 @@ class CustomColorSelector extends ConsumerWidget {
                 value: enableCustomColorFilter,
                 title: Text(
                   l10n.custom_color_filter,
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9), fontSize: 14),
                 ),
                 onChanged: (value) {
                   ref.read(enableCustomColorFilterStateProvider.notifier).set(value);

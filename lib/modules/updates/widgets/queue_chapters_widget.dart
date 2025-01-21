@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/view_queue_item.dart';
-import 'package:mangayomi/utils/extensions/view_queue_item.dart';
 
 class QueueChaptersWidget extends ConsumerStatefulWidget {
   final Chapter chapter;
@@ -59,7 +58,9 @@ class _QueueChaptersWidgetState extends ConsumerState<QueueChaptersWidget> {
           onPressed: _queueChapter,
           icon: Icon(
             _isQueued ? Icons.playlist_add_check : Icons.queue_outlined,
-            color: _isQueued ? Theme.of(context).buttonTheme.colorScheme!.primary : Theme.of(context).iconTheme.color!.withValues(alpha: 0.7),
+            color: _isQueued
+                ? Theme.of(context).buttonTheme.colorScheme!.primary
+                : Theme.of(context).iconTheme.color!.withValues(alpha: 0.7),
           ),
         ),
       ),

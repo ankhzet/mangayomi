@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/manga/detail/manga_details_view.dart';
-import 'package:mangayomi/modules/manga/detail/providers/isar_providers.dart';
-import 'package:mangayomi/modules/manga/detail/providers/update_manga_detail_providers.dart';
 import 'package:mangayomi/modules/widgets/async_value_widget.dart';
 import 'package:mangayomi/modules/widgets/overlay_refresh_center.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
-import 'package:mangayomi/utils/extensions/async_value.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 
 class MangaReaderDetail extends ConsumerStatefulWidget {

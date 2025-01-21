@@ -95,11 +95,11 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               TextButton(
-                                onPressed: () async => Navigator.pop(context),
-                                child: Text(
+                                  onPressed: () async => Navigator.pop(context),
+                                  child: Text(
                                     l10n.cancel,
                                     style: TextStyle(color: context.primaryColor),
-                                )),
+                                  )),
                             ],
                           )
                         ],

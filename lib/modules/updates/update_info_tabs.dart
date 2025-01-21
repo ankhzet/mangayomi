@@ -42,11 +42,13 @@ class _UpdateInfoTabsState extends ConsumerState<UpdateInfoTabs> {
 
   Widget _tabBar(BuildContext context, List<UpdateInfoType> types) {
     final l10n = l10nLocalizations(context)!;
-    final tab = widget.tab ?? (UpdateInfoType type) => Tab(text: switch (type) {
-      UpdateInfoType.updates => l10n.updates,
-      UpdateInfoType.updateQueue => l10n.updateQueue,
-      UpdateInfoType.viewQueue => l10n.viewQueue,
-    });
+    final tab = widget.tab ??
+        (UpdateInfoType type) => Tab(
+                text: switch (type) {
+              UpdateInfoType.updates => l10n.updates,
+              UpdateInfoType.updateQueue => l10n.updateQueue,
+              UpdateInfoType.viewQueue => l10n.viewQueue,
+            });
 
     return TypeTabBarView(
       tabs: types,

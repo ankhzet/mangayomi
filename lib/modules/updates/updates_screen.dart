@@ -95,9 +95,8 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
       builder: (values) => async.build(values, (Iterable<MangaPeriodicity> periodicity, List<Update> updates) {
         final (queue, overdraft) = _getQueue(periodicity);
         final entries = _filterUpdates(updates);
-        final viewQueue = entries
-            .where((update) => isar.viewQueueItems.isQueuedSync(update.chapter.value!.id!))
-            .toList();
+        final viewQueue =
+            entries.where((update) => isar.viewQueueItems.isQueuedSync(update.chapter.value!.id!)).toList();
         final List<UpdateInfoType> types = [];
 
         if (updates.isNotEmpty) {

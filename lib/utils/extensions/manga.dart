@@ -10,7 +10,6 @@ import 'package:mangayomi/modules/manga/detail/chapters_list_model.dart';
 import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
 import 'package:mangayomi/utils/constant.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
-import 'package:mangayomi/utils/headers.dart';
 
 extension MangaExtension on Manga {
   bool isThisManga<T extends OfManga>(T element) => element.mangaId == id;
@@ -56,7 +55,8 @@ extension MangaExtension on Manga {
   }
 
   List<Chapter> getUnreadChapters(List<Chapter> candidates, {List<Chapter>? all}) {
-    final List<ChapterCompositeNumber> read = (all ?? chapters).where((chapter) => chapter.isRead ?? false).map((chapter) => chapter.compositeOrder).toList();
+    final List<ChapterCompositeNumber> read =
+        (all ?? chapters).where((chapter) => chapter.isRead ?? false).map((chapter) => chapter.compositeOrder).toList();
     final List<Chapter> result = [];
 
     for (var chapter in candidates) {

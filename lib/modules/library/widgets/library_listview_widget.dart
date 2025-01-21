@@ -120,14 +120,17 @@ class LibraryListViewWidget extends StatelessWidget {
                                     children: [
                                       Text(entry.name!, overflow: TextOverflow.ellipsis),
                                       Row(children: [
-                                        Text.rich(TextSpan(children: [
-                                          TextSpan(text: 'Added: '),
-                                          TextSpan(
-                                              text: dateFormat(null,
-                                                  ref: ref,
-                                                  context: context,
-                                                  datetimeDate: DateTime.fromMillisecondsSinceEpoch(entry.dateAdded!))),
-                                        ]), style: Theme.of(context).textTheme.labelSmall!)
+                                        Text.rich(
+                                            TextSpan(children: [
+                                              TextSpan(text: 'Added: '),
+                                              TextSpan(
+                                                  text: dateFormat(null,
+                                                      ref: ref,
+                                                      context: context,
+                                                      datetimeDate:
+                                                          DateTime.fromMillisecondsSinceEpoch(entry.dateAdded!))),
+                                            ]),
+                                            style: Theme.of(context).textTheme.labelSmall!)
                                       ]),
                                     ],
                                   ),

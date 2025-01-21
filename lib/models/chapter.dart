@@ -65,8 +65,10 @@ String calculateTitle(ChapterCompositeNumber number, String? name) {
 @collection
 @Name("Chapter")
 class Chapter {
-  @ignore ChapterCompositeNumber? _order;
-  @ignore String? _name;
+  @ignore
+  ChapterCompositeNumber? _order;
+  @ignore
+  String? _name;
 
   Id? id;
 
@@ -98,9 +100,13 @@ class Chapter {
   final manga = IsarLink<Manga>();
 
   static bool isChapterBookmarked(Chapter chapter) => chapter.isBookmarked ?? false;
+
   static bool isChapterRead(Chapter chapter) => chapter.isRead ?? false;
+
   static bool isChapterUnread(Chapter chapter) => !(chapter.isRead ?? false);
+
   static bool hasChapterScanlators(Chapter chapter) => chapter.scanlator?.isNotEmpty ?? false;
+
   static DateTime? firstUpload(Iterable<Chapter> chapters) {
     DateTime? min;
 
@@ -146,7 +152,8 @@ class Chapter {
       this.scanlator = '',
       this.isRead = false,
       this.lastPageRead = '',
-      this.archivePath = ''}): _name = name;
+      this.archivePath = ''})
+      : _name = name;
 
   Chapter.fromJson(Map<String, dynamic> json) {
     archivePath = json['archivePath'];
@@ -247,9 +254,9 @@ class Chapter {
         final s = match.namedGroup('s');
 
         return (
-        (v != null) && v.isNotEmpty ? int.parse(v) : 0,
-        (c != null) && c.isNotEmpty ? int.parse(c) : 0,
-        (s != null) && s.isNotEmpty ? int.parse(s) : 0,
+          (v != null) && v.isNotEmpty ? int.parse(v) : 0,
+          (c != null) && c.isNotEmpty ? int.parse(c) : 0,
+          (s != null) && s.isNotEmpty ? int.parse(s) : 0,
         );
       }
     }

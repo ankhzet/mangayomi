@@ -10,9 +10,9 @@ typedef OnLoadingCombine = Widget Function();
 
 abstract interface class CombinerLike<Values extends Record> implements Iterable<AsyncValue> {
   Widget make(
-      Widget Function(List results) builder,
-      Widget Function(Object, StackTrace) error,
-      Widget Function() loading,
+    Widget Function(List results) builder,
+    Widget Function(Object, StackTrace) error,
+    Widget Function() loading,
   );
 }
 

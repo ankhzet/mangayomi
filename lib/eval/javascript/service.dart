@@ -150,7 +150,6 @@ var extention = new DefaultExtension();
         .toList();
   }
 
-
   T _extensionCall<T>(String call, T def) {
     _init();
 

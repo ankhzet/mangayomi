@@ -5,22 +5,11 @@ import 'package:archive/archive_io.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:isar/isar.dart';
-import 'package:mangayomi/eval/model/source_preference.dart';
 import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/category.dart';
-import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/models/download.dart';
-import 'package:mangayomi/models/history.dart';
-import 'package:mangayomi/models/manga.dart';
-import 'package:mangayomi/models/settings.dart';
-import 'package:mangayomi/models/source.dart';
-import 'package:mangayomi/models/track.dart';
-import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
+import 'package:path/path.dart' as path;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:path/path.dart' as path;
 
 part 'backup.g.dart';
 
@@ -105,7 +94,7 @@ void doBackUp(
                   alignment: Alignment.topLeft,
                   child: ElevatedButton(
                       onPressed: () {
-                    Share.shareXFiles([XFile(path.join(pathname, '$name.backup'))], text: '$name.backup');
+                        Share.shareXFiles([XFile(path.join(pathname, '$name.backup'))], text: '$name.backup');
                       },
                       child: Text(context.l10n.share)),
                 ),

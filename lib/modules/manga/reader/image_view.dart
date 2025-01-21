@@ -1,8 +1,8 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/dto/preload_task.dart';
+import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
 import 'package:mangayomi/modules/manga/reader/widgets/circular_progress_indicator_animate_rotate.dart';
 import 'package:mangayomi/modules/manga/reader/widgets/color_filter_widget.dart';
@@ -53,15 +53,15 @@ class ImageView extends ConsumerWidget {
         child: horizontal
             ? imageWidget
             : Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (data.index == 0)
-              SizedBox(
-                height: MediaQuery.of(context).padding.top,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (data.index == 0)
+                    SizedBox(
+                      height: MediaQuery.of(context).padding.top,
+                    ),
+                  imageWidget,
+                ],
               ),
-            imageWidget,
-          ],
-        ),
       ),
     );
   }

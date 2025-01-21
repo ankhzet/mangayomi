@@ -1,7 +1,8 @@
 import 'dart:convert';
+
 import 'package:flutter_qjs/flutter_qjs.dart';
-import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/eval/javascript/http.dart';
+import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/models/video.dart';
 
 class JsVideosExtractors {

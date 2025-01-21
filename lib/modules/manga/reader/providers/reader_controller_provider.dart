@@ -239,11 +239,7 @@ class ReaderController extends _$ReaderController with WithSettings {
     final list = index.$2 ? mangaFilteredChapters : mangaChapters;
     final at = index.$1;
 
-    return (
-        (at < 0 || at >= list.length)
-          ? null
-        : list[at]
-    );
+    return ((at < 0 || at >= list.length) ? null : list[at]);
   }
 
   Chapter? getPrevChapter() {

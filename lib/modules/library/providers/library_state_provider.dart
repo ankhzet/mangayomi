@@ -340,9 +340,8 @@ class LibraryShowNumbersOfItemsState extends _$LibraryShowNumbersOfItemsState {
 class LibraryShowContinueReadingButtonState extends _$LibraryShowContinueReadingButtonState {
   @override
   bool build({required bool isManga, required Settings settings}) {
-    return (isManga
-        ? settings.libraryShowContinueReadingButton
-        : settings.animeLibraryShowContinueReadingButton) ?? false;
+    return (isManga ? settings.libraryShowContinueReadingButton : settings.animeLibraryShowContinueReadingButton) ??
+        false;
   }
 
   void set(bool value) {

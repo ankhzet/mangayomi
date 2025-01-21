@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class SeparatedRow extends StatelessWidget {
   final Widget separator;
   final Iterable<Widget?> children;
+
   const SeparatedRow({super.key, required this.separator, required this.children});
 
   @override

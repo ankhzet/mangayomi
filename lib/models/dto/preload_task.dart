@@ -18,15 +18,15 @@ class PreloadTask {
   Uint8List? cropImage;
 
   PreloadTask(
-      this.chapter,
-      this.directory,
-      this.pageUrl,
-      this.isLocal,
-      this.archiveImage,
-      this.index,
-      this.chapterUrlModel, {
-        this.cropImage,
-      }) : pageIndex = index;
+    this.chapter,
+    this.directory,
+    this.pageUrl,
+    this.isLocal,
+    this.archiveImage,
+    this.index,
+    this.chapterUrlModel, {
+    this.cropImage,
+  }) : pageIndex = index;
 
   File get preloadFile => file(directory, index);
 

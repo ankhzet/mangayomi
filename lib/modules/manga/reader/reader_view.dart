@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/modules/manga/reader/manga_chapter_page_gallery.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
-import 'package:mangayomi/services/get_chapter_pages.dart';
 
 class MangaReaderView extends ConsumerWidget {
   final Chapter chapter;
@@ -28,9 +27,7 @@ class MangaReaderView extends ConsumerWidget {
               throw AssertionError('Failed to load');
             }
           } else {
-            if (data.pageUrls.every((task) => task.isValid)) {
-
-            }
+            if (data.pageUrls.every((task) => task.isValid)) {}
           }
 
           return MangaChapterPageGallery(chapter: chapter, chapterUrlModel: data);

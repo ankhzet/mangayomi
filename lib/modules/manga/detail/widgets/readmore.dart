@@ -59,23 +59,25 @@ class ReadMoreWidgetState extends State<ReadMoreWidget> with TickerProviderState
                       bottom: 0,
                       right: 0,
                       left: 0,
-                      child: IgnorePointer(child: Container(
-                        width: context.width(1),
-                        height: 30,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.2),
-                              Theme.of(context).scaffoldBackgroundColor
-                            ],
-                            stops: const [0, .9],
+                      child: IgnorePointer(
+                        child: Container(
+                          width: context.width(1),
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.2),
+                                Theme.of(context).scaffoldBackgroundColor
+                              ],
+                              stops: const [0, .9],
+                            ),
                           ),
+                          child: const Icon(Icons.keyboard_arrow_down_sharp),
                         ),
-                        child: const Icon(Icons.keyboard_arrow_down_sharp),
-                      )),
+                      ),
                     ),
                 ],
               ),

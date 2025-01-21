@@ -5,13 +5,11 @@ import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/dto/chapter_group.dart';
 import 'package:mangayomi/models/dto/group.dart';
-import 'package:mangayomi/models/view_queue_item.dart';
 import 'package:mangayomi/modules/manga/download/download_page_widget.dart';
 import 'package:mangayomi/modules/updates/widgets/fix_chapters_widget.dart';
 import 'package:mangayomi/modules/updates/widgets/queue_chapters_widget.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
 import 'package:mangayomi/utils/extensions/manga.dart';
-import 'package:mangayomi/utils/extensions/view_queue_item.dart';
 
 class UpdateChaptersGroup<T> extends ChapterGroup<T> {
   final bool isQueued;

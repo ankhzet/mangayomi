@@ -137,13 +137,14 @@ Future<GetChapterPagesModel> getChapterPages(
       final List<String>? headers =
           pageUrls.any((e) => e.headers != null) ? pageUrls.map((e) => jsonEncode(e.headers ?? {})).toList() : null;
 
-      isar.settings.first = settings..chapterPageUrlsList = [
-        ...chapter.getOtherOptions(settings.chapterPageUrlsList),
+      isar.settings.first = settings
+        ..chapterPageUrlsList = [
+          ...chapter.getOtherOptions(settings.chapterPageUrlsList),
           ChapterPageurls()
             ..chapterId = chapter.id
             ..urls = urls
             ..headers = headers,
-      ];
+        ];
     }
 
     for (var (idx, item) in pageUrls.indexed) {

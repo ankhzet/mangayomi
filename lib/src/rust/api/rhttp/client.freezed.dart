@@ -22,6 +22,7 @@ mixin _$RedirectSettings {
     required TResult Function(int field0) limitedRedirects,
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? noRedirect,
@@ -35,18 +36,18 @@ mixin _$RedirectSettings {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(RedirectSettings_NoRedirect value) noRedirect,
-    required TResult Function(RedirectSettings_LimitedRedirects value)
-        limitedRedirects,
+    required TResult Function(RedirectSettings_LimitedRedirects value) limitedRedirects,
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RedirectSettings_NoRedirect value)? noRedirect,
-    TResult? Function(RedirectSettings_LimitedRedirects value)?
-        limitedRedirects,
+    TResult? Function(RedirectSettings_LimitedRedirects value)? limitedRedirects,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -60,19 +61,17 @@ mixin _$RedirectSettings {
 
 /// @nodoc
 abstract class $RedirectSettingsCopyWith<$Res> {
-  factory $RedirectSettingsCopyWith(
-          RedirectSettings value, $Res Function(RedirectSettings) then) =
+  factory $RedirectSettingsCopyWith(RedirectSettings value, $Res Function(RedirectSettings) then) =
       _$RedirectSettingsCopyWithImpl<$Res, RedirectSettings>;
 }
 
 /// @nodoc
-class _$RedirectSettingsCopyWithImpl<$Res, $Val extends RedirectSettings>
-    implements $RedirectSettingsCopyWith<$Res> {
+class _$RedirectSettingsCopyWithImpl<$Res, $Val extends RedirectSettings> implements $RedirectSettingsCopyWith<$Res> {
   _$RedirectSettingsCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
+// ignore: unused_field
   final $Val _value;
-  // ignore: unused_field
+// ignore: unused_field
   final $Res Function($Val) _then;
 
   /// Create a copy of RedirectSettings
@@ -82,19 +81,16 @@ class _$RedirectSettingsCopyWithImpl<$Res, $Val extends RedirectSettings>
 /// @nodoc
 abstract class _$$RedirectSettings_NoRedirectImplCopyWith<$Res> {
   factory _$$RedirectSettings_NoRedirectImplCopyWith(
-          _$RedirectSettings_NoRedirectImpl value,
-          $Res Function(_$RedirectSettings_NoRedirectImpl) then) =
+          _$RedirectSettings_NoRedirectImpl value, $Res Function(_$RedirectSettings_NoRedirectImpl) then) =
       __$$RedirectSettings_NoRedirectImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$RedirectSettings_NoRedirectImplCopyWithImpl<$Res>
-    extends _$RedirectSettingsCopyWithImpl<$Res,
-        _$RedirectSettings_NoRedirectImpl>
+    extends _$RedirectSettingsCopyWithImpl<$Res, _$RedirectSettings_NoRedirectImpl>
     implements _$$RedirectSettings_NoRedirectImplCopyWith<$Res> {
   __$$RedirectSettings_NoRedirectImplCopyWithImpl(
-      _$RedirectSettings_NoRedirectImpl _value,
-      $Res Function(_$RedirectSettings_NoRedirectImpl) _then)
+      _$RedirectSettings_NoRedirectImpl _value, $Res Function(_$RedirectSettings_NoRedirectImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of RedirectSettings
@@ -113,9 +109,7 @@ class _$RedirectSettings_NoRedirectImpl extends RedirectSettings_NoRedirect {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$RedirectSettings_NoRedirectImpl);
+    return identical(this, other) || (other.runtimeType == runtimeType && other is _$RedirectSettings_NoRedirectImpl);
   }
 
   @override
@@ -156,8 +150,7 @@ class _$RedirectSettings_NoRedirectImpl extends RedirectSettings_NoRedirect {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(RedirectSettings_NoRedirect value) noRedirect,
-    required TResult Function(RedirectSettings_LimitedRedirects value)
-        limitedRedirects,
+    required TResult Function(RedirectSettings_LimitedRedirects value) limitedRedirects,
   }) {
     return noRedirect(this);
   }
@@ -166,8 +159,7 @@ class _$RedirectSettings_NoRedirectImpl extends RedirectSettings_NoRedirect {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RedirectSettings_NoRedirect value)? noRedirect,
-    TResult? Function(RedirectSettings_LimitedRedirects value)?
-        limitedRedirects,
+    TResult? Function(RedirectSettings_LimitedRedirects value)? limitedRedirects,
   }) {
     return noRedirect?.call(this);
   }
@@ -187,16 +179,14 @@ class _$RedirectSettings_NoRedirectImpl extends RedirectSettings_NoRedirect {
 }
 
 abstract class RedirectSettings_NoRedirect extends RedirectSettings {
-  const factory RedirectSettings_NoRedirect() =
-      _$RedirectSettings_NoRedirectImpl;
+  const factory RedirectSettings_NoRedirect() = _$RedirectSettings_NoRedirectImpl;
   const RedirectSettings_NoRedirect._() : super._();
 }
 
 /// @nodoc
 abstract class _$$RedirectSettings_LimitedRedirectsImplCopyWith<$Res> {
   factory _$$RedirectSettings_LimitedRedirectsImplCopyWith(
-          _$RedirectSettings_LimitedRedirectsImpl value,
-          $Res Function(_$RedirectSettings_LimitedRedirectsImpl) then) =
+          _$RedirectSettings_LimitedRedirectsImpl value, $Res Function(_$RedirectSettings_LimitedRedirectsImpl) then) =
       __$$RedirectSettings_LimitedRedirectsImplCopyWithImpl<$Res>;
   @useResult
   $Res call({int field0});
@@ -204,12 +194,10 @@ abstract class _$$RedirectSettings_LimitedRedirectsImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$RedirectSettings_LimitedRedirectsImplCopyWithImpl<$Res>
-    extends _$RedirectSettingsCopyWithImpl<$Res,
-        _$RedirectSettings_LimitedRedirectsImpl>
+    extends _$RedirectSettingsCopyWithImpl<$Res, _$RedirectSettings_LimitedRedirectsImpl>
     implements _$$RedirectSettings_LimitedRedirectsImplCopyWith<$Res> {
   __$$RedirectSettings_LimitedRedirectsImplCopyWithImpl(
-      _$RedirectSettings_LimitedRedirectsImpl _value,
-      $Res Function(_$RedirectSettings_LimitedRedirectsImpl) _then)
+      _$RedirectSettings_LimitedRedirectsImpl _value, $Res Function(_$RedirectSettings_LimitedRedirectsImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of RedirectSettings
@@ -230,8 +218,7 @@ class __$$RedirectSettings_LimitedRedirectsImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RedirectSettings_LimitedRedirectsImpl
-    extends RedirectSettings_LimitedRedirects {
+class _$RedirectSettings_LimitedRedirectsImpl extends RedirectSettings_LimitedRedirects {
   const _$RedirectSettings_LimitedRedirectsImpl(this.field0) : super._();
 
   @override
@@ -258,10 +245,8 @@ class _$RedirectSettings_LimitedRedirectsImpl
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RedirectSettings_LimitedRedirectsImplCopyWith<
-          _$RedirectSettings_LimitedRedirectsImpl>
-      get copyWith => __$$RedirectSettings_LimitedRedirectsImplCopyWithImpl<
-          _$RedirectSettings_LimitedRedirectsImpl>(this, _$identity);
+  _$$RedirectSettings_LimitedRedirectsImplCopyWith<_$RedirectSettings_LimitedRedirectsImpl> get copyWith =>
+      __$$RedirectSettings_LimitedRedirectsImplCopyWithImpl<_$RedirectSettings_LimitedRedirectsImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -298,8 +283,7 @@ class _$RedirectSettings_LimitedRedirectsImpl
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(RedirectSettings_NoRedirect value) noRedirect,
-    required TResult Function(RedirectSettings_LimitedRedirects value)
-        limitedRedirects,
+    required TResult Function(RedirectSettings_LimitedRedirects value) limitedRedirects,
   }) {
     return limitedRedirects(this);
   }
@@ -308,8 +292,7 @@ class _$RedirectSettings_LimitedRedirectsImpl
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RedirectSettings_NoRedirect value)? noRedirect,
-    TResult? Function(RedirectSettings_LimitedRedirects value)?
-        limitedRedirects,
+    TResult? Function(RedirectSettings_LimitedRedirects value)? limitedRedirects,
   }) {
     return limitedRedirects?.call(this);
   }
@@ -329,8 +312,7 @@ class _$RedirectSettings_LimitedRedirectsImpl
 }
 
 abstract class RedirectSettings_LimitedRedirects extends RedirectSettings {
-  const factory RedirectSettings_LimitedRedirects(final int field0) =
-      _$RedirectSettings_LimitedRedirectsImpl;
+  const factory RedirectSettings_LimitedRedirects(final int field0) = _$RedirectSettings_LimitedRedirectsImpl;
   const RedirectSettings_LimitedRedirects._() : super._();
 
   int get field0;
@@ -338,7 +320,6 @@ abstract class RedirectSettings_LimitedRedirects extends RedirectSettings {
   /// Create a copy of RedirectSettings
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RedirectSettings_LimitedRedirectsImplCopyWith<
-          _$RedirectSettings_LimitedRedirectsImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$RedirectSettings_LimitedRedirectsImplCopyWith<_$RedirectSettings_LimitedRedirectsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

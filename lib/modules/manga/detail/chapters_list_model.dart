@@ -1,7 +1,5 @@
-import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/models/settings.dart';
 
 bool isTrue(bool? value) => value == true;

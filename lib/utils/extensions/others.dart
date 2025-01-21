@@ -20,7 +20,7 @@ extension LetExtension<T> on T {
 extension IterableUtils<T> on Iterable<T> {
   List<T> toUnique({bool growable = true}) => toSet().toList(growable: growable);
 
-  List<R> mapToList<R>(R Function(T element) mapper, { bool growable = false }) {
+  List<R> mapToList<R>(R Function(T element) mapper, {bool growable = false}) {
     return map(mapper).toList(growable: growable);
   }
 

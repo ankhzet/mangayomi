@@ -164,24 +164,24 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
 
   void _onLongPressImageDialog(PreloadTask preload, BuildContext context) async {
     Widget button(String label, IconData icon, Function() onPressed) => Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent, elevation: 0, shadowColor: Colors.transparent),
-            onPressed: onPressed,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Icon(icon),
-                ),
-                Text(label)
-              ],
-            )),
-      ),
-    );
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent, elevation: 0, shadowColor: Colors.transparent),
+                onPressed: onPressed,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Icon(icon),
+                    ),
+                    Text(label)
+                  ],
+                )),
+          ),
+        );
     final imageBytes = await preload.getImageBytes;
     if (imageBytes != null && context.mounted) {
       final name = "${widget.chapter.manga.value!.name} ${widget.chapter.name} - ${preload.pageIndex}"
@@ -312,92 +312,92 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                     children: [
                       _isVerticalOrHorizontalContinuous()
                           ? PhotoViewGallery.builder(
-                        itemCount: 1,
-                        builder: (_, __) => PhotoViewGalleryPageOptions.customChild(
-                            controller: _photoViewController,
-                            scaleStateController: _photoViewScaleStateController,
-                            basePosition: _scalePosition,
-                            onScaleEnd: _onScaleEnd,
-                            child: ScrollablePositionedList.separated(
-                              scrollDirection: isHorizontalContinuous ? Axis.horizontal : Axis.vertical,
-                              minCacheExtent: pagePreloadAmount * context.height(1),
-                              initialScrollIndex: _readerController.getPageIndex(),
-                              itemCount: _readerController.snapIndex(_uChapDataPreload.length, grid: 1),
-                              physics: const ClampingScrollPhysics(),
-                              itemScrollController: _itemScrollController,
-                              scrollOffsetController: _pageOffsetController,
-                              itemPositionsListener: _itemPositionsListener,
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onDoubleTapDown: (details) {
-                                    _toggleScale(details.globalPosition);
-                                  },
-                                  child: _readerController.isGridMode()
-                                      ? ImageRowView(
-                                    data: _uChapDataPreload,
-                                    slides: 2,
-                                    offset: index,
-                                    mirror: _isReverseHorizontal,
-                                    backgroundColor: backgroundColor,
-                                    onLongPressData: (data) {
-                                      _onLongPressImageDialog(data, context);
-                                    },
-                                  )
-                                      : Consumer(
-                                      builder: (context, ref, _) => ImageView(
-                                        data: _uChapDataPreload[index],
-                                        backgroundColor: backgroundColor,
-                                        onLongPressData: (data) {
-                                          _onLongPressImageDialog(data, context);
+                              itemCount: 1,
+                              builder: (_, __) => PhotoViewGalleryPageOptions.customChild(
+                                  controller: _photoViewController,
+                                  scaleStateController: _photoViewScaleStateController,
+                                  basePosition: _scalePosition,
+                                  onScaleEnd: _onScaleEnd,
+                                  child: ScrollablePositionedList.separated(
+                                    scrollDirection: isHorizontalContinuous ? Axis.horizontal : Axis.vertical,
+                                    minCacheExtent: pagePreloadAmount * context.height(1),
+                                    initialScrollIndex: _readerController.getPageIndex(),
+                                    itemCount: _readerController.snapIndex(_uChapDataPreload.length, grid: 1),
+                                    physics: const ClampingScrollPhysics(),
+                                    itemScrollController: _itemScrollController,
+                                    scrollOffsetController: _pageOffsetController,
+                                    itemPositionsListener: _itemPositionsListener,
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        behavior: HitTestBehavior.translucent,
+                                        onDoubleTapDown: (details) {
+                                          _toggleScale(details.globalPosition);
                                         },
-                                        horizontal: ref.watch(_currentReaderMode) ==
-                                            ReaderMode.horizontalContinuous,
-                                      )),
-                                );
-                              },
-                              separatorBuilder: (_, __) {
-                                final readerMode = ref.watch(_currentReaderMode);
+                                        child: _readerController.isGridMode()
+                                            ? ImageRowView(
+                                                data: _uChapDataPreload,
+                                                slides: 2,
+                                                offset: index,
+                                                mirror: _isReverseHorizontal,
+                                                backgroundColor: backgroundColor,
+                                                onLongPressData: (data) {
+                                                  _onLongPressImageDialog(data, context);
+                                                },
+                                              )
+                                            : Consumer(
+                                                builder: (context, ref, _) => ImageView(
+                                                      data: _uChapDataPreload[index],
+                                                      backgroundColor: backgroundColor,
+                                                      onLongPressData: (data) {
+                                                        _onLongPressImageDialog(data, context);
+                                                      },
+                                                      horizontal: ref.watch(_currentReaderMode) ==
+                                                          ReaderMode.horizontalContinuous,
+                                                    )),
+                                      );
+                                    },
+                                    separatorBuilder: (_, __) {
+                                      final readerMode = ref.watch(_currentReaderMode);
 
-                                return readerMode == ReaderMode.webtoon
-                                    ? const SizedBox.shrink()
-                                    : readerMode == ReaderMode.horizontalContinuous
-                                    ? VerticalDivider(color: getBackgroundColor(backgroundColor), width: 6)
-                                    : Divider(color: getBackgroundColor(backgroundColor), height: 6);
-                              },
-                            )),
-                      )
+                                      return readerMode == ReaderMode.webtoon
+                                          ? const SizedBox.shrink()
+                                          : readerMode == ReaderMode.horizontalContinuous
+                                              ? VerticalDivider(color: getBackgroundColor(backgroundColor), width: 6)
+                                              : Divider(color: getBackgroundColor(backgroundColor), height: 6);
+                                    },
+                                  )),
+                            )
                           : Material(
-                        color: getBackgroundColor(backgroundColor),
-                        shadowColor: getBackgroundColor(backgroundColor),
-                        child: ExtendedImageGesturePageView.builder(
-                          controller: _extendedController,
-                          scrollDirection: _scrollDirection,
-                          reverse: _isReverseHorizontal,
-                          physics: const ClampingScrollPhysics(),
-                          canScrollPage: _readerController.isGridMode()
-                              ? (_) => _horizontalScaleValue == 1.0
-                              : (gestureDetails) =>
-                          gestureDetails != null ? !(gestureDetails.totalScale! > 1.0) : true,
-                          itemBuilder: (context, index) => ImageRowView(
-                            data: _uChapDataPreload,
-                            offset: index,
-                            slides: _readerController.isGridMode() ? 2 : 1,
-                            mirror: _isReverseHorizontal,
-                            backgroundColor: backgroundColor,
-                            onLoadError: (val) {
-                              if (mounted && _failedToLoadImage.value != val) {
-                                _failedToLoadImage.value = val;
-                              }
-                            },
-                            onLongPressData: (data) {
-                              _onLongPressImageDialog(data, context);
-                            },
-                          ),
-                          itemCount: _readerController.snapIndex(_uChapDataPreload.length, grid: 1),
-                          onPageChanged: _onPageChanged,
-                        ),
-                      ),
+                              color: getBackgroundColor(backgroundColor),
+                              shadowColor: getBackgroundColor(backgroundColor),
+                              child: ExtendedImageGesturePageView.builder(
+                                controller: _extendedController,
+                                scrollDirection: _scrollDirection,
+                                reverse: _isReverseHorizontal,
+                                physics: const ClampingScrollPhysics(),
+                                canScrollPage: _readerController.isGridMode()
+                                    ? (_) => _horizontalScaleValue == 1.0
+                                    : (gestureDetails) =>
+                                        gestureDetails != null ? !(gestureDetails.totalScale! > 1.0) : true,
+                                itemBuilder: (context, index) => ImageRowView(
+                                  data: _uChapDataPreload,
+                                  offset: index,
+                                  slides: _readerController.isGridMode() ? 2 : 1,
+                                  mirror: _isReverseHorizontal,
+                                  backgroundColor: backgroundColor,
+                                  onLoadError: (val) {
+                                    if (mounted && _failedToLoadImage.value != val) {
+                                      _failedToLoadImage.value = val;
+                                    }
+                                  },
+                                  onLongPressData: (data) {
+                                    _onLongPressImageDialog(data, context);
+                                  },
+                                ),
+                                itemCount: _readerController.snapIndex(_uChapDataPreload.length, grid: 1),
+                                onPageChanged: _onPageChanged,
+                              ),
+                            ),
                       _gestureRightLeft(failedToLoadImage, usePageTapZones),
                       _gestureTopBottom(failedToLoadImage, usePageTapZones),
                       _appBar(),
@@ -706,8 +706,11 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
           _scrollDirection = Axis.vertical;
           _isReverseHorizontal = false;
         });
-        await Future.delayed(const Duration(milliseconds: 30));
+      }
 
+      await Future.delayed(const Duration(milliseconds: 30));
+
+      if (mounted) {
         _extendedController.jumpToPage(index);
       }
     } else if (value == ReaderMode.ltr || value == ReaderMode.rtl) {
@@ -721,8 +724,11 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
 
           _scrollDirection = Axis.horizontal;
         });
-        await Future.delayed(const Duration(milliseconds: 30));
+      }
 
+      await Future.delayed(const Duration(milliseconds: 30));
+
+      if (mounted) {
         _extendedController.jumpToPage(index);
       }
     } else {
@@ -730,7 +736,11 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
         setState(() {
           _isReverseHorizontal = false;
         });
-        await Future.delayed(const Duration(milliseconds: 30));
+      }
+
+      await Future.delayed(const Duration(milliseconds: 30));
+
+      if (mounted) {
         _itemScrollController.scrollTo(index: index, duration: const Duration(milliseconds: 1), curve: Curves.ease);
       }
     }
@@ -774,10 +784,10 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     final fullScreenReader = ref.watch(fullScreenReaderStateProvider);
     double height = _isView
         ? Platform.isIOS
-        ? 120
-        : fullScreenReader
-        ? 80
-        : 55
+            ? 120
+            : fullScreenReader
+                ? 80
+                : 55
         : 0;
     return Positioned(
       top: 0,
@@ -854,24 +864,24 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
   Widget _autoScrollPlayPauseBtn() {
     return _isVerticalOrHorizontalContinuous()
         ? Positioned(
-        bottom: 0,
-        right: 0,
-        child: !_isView
-            ? ValueListenableBuilder(
-          valueListenable: _autoScrollPage,
-          builder: (context, valueT, child) => valueT
-              ? ValueListenableBuilder(
-            valueListenable: _autoScroll,
-            builder: (context, value, child) => IconButton(
-                onPressed: () {
-                  _autoPageScroll();
-                  _autoScroll.value = !value;
-                },
-                icon: Icon(value ? Icons.pause_circle : Icons.play_circle)),
-          )
-              : const SizedBox.shrink(),
-        )
-            : const SizedBox.shrink())
+            bottom: 0,
+            right: 0,
+            child: !_isView
+                ? ValueListenableBuilder(
+                    valueListenable: _autoScrollPage,
+                    builder: (context, valueT, child) => valueT
+                        ? ValueListenableBuilder(
+                            valueListenable: _autoScroll,
+                            builder: (context, value, child) => IconButton(
+                                onPressed: () {
+                                  _autoPageScroll();
+                                  _autoScroll.value = !value;
+                                },
+                                icon: Icon(value ? Icons.pause_circle : Icons.play_circle)),
+                          )
+                        : const SizedBox.shrink(),
+                  )
+                : const SizedBox.shrink())
         : const SizedBox.shrink();
   }
 
@@ -1027,18 +1037,18 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                         onPressed: readerMode == ReaderMode.horizontalContinuous
                             ? null
                             : () {
-                          PageMode newPageMode = isOnePage ? PageMode.doublePage : PageMode.onePage;
+                                PageMode newPageMode = isOnePage ? PageMode.doublePage : PageMode.onePage;
 
-                          _onBtnTapped(_readerController.snapIndex(_getSnappedIndex()), true, isSlide: true);
+                                _onBtnTapped(_readerController.snapIndex(_getSnappedIndex()), true, isSlide: true);
 
-                          _readerController.setPageMode(newPageMode);
+                                _readerController.setPageMode(newPageMode);
 
-                          if (mounted) {
-                            setState(() {
-                              _pageMode = newPageMode;
-                            });
-                          }
-                        },
+                                if (mounted) {
+                                  setState(() {
+                                    _pageMode = newPageMode;
+                                  });
+                                }
+                              },
                         icon: Icon(
                           isOnePage ? CupertinoIcons.book : CupertinoIcons.book_solid,
                         ),
@@ -1071,21 +1081,21 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
       final currentIndex = ref.watch(currentIndexProvider(chapter));
       return ref.watch(_showPagesNumber)
           ? Align(
-          alignment: Alignment.bottomCenter,
-          child: Text(
-            '${_indexLabel(currentIndex)} / ${_readerController.getPageLength(_chapterUrlModel.pageUrls)}',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 20.0,
-              shadows: [
-                Shadow(offset: Offset(-1, -1), blurRadius: 1),
-                Shadow(offset: Offset(1, -1), blurRadius: 1),
-                Shadow(offset: Offset(1, 1), blurRadius: 1),
-                Shadow(offset: Offset(-1, 1), blurRadius: 1)
-              ],
-            ),
-            textAlign: TextAlign.center,
-          ))
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                '${_indexLabel(currentIndex)} / ${_readerController.getPageLength(_chapterUrlModel.pageUrls)}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                  shadows: [
+                    Shadow(offset: Offset(-1, -1), blurRadius: 1),
+                    Shadow(offset: Offset(1, -1), blurRadius: 1),
+                    Shadow(offset: Offset(1, 1), blurRadius: 1),
+                    Shadow(offset: Offset(-1, 1), blurRadius: 1)
+                  ],
+                ),
+                textAlign: TextAlign.center,
+              ))
           : const SizedBox.shrink();
     });
   }
@@ -1139,14 +1149,14 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     return Consumer(
       builder: (context, ref, child) {
         final handleScale =
-        _isVerticalOrHorizontalContinuous() ? (details) => _toggleScale(details.globalPosition) : null;
+            _isVerticalOrHorizontalContinuous() ? (details) => _toggleScale(details.globalPosition) : null;
         void Function() handleGo(int amount) => usePageTapZones
             ? () {
-          _onBtnTapped(
-            _currentIndex! + (_isReverseHorizontal ? -1 : 1) * amount,
-            !_isReverseHorizontal,
-          );
-        }
+                _onBtnTapped(
+                  _currentIndex! + (_isReverseHorizontal ? -1 : 1) * amount,
+                  !_isReverseHorizontal,
+                );
+              }
             : _isViewFunction;
 
         return Row(
@@ -1167,15 +1177,15 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
               flex: 2,
               child: failedToLoadImage
                   ? SizedBox(
-                width: context.width(1),
-                height: context.height(0.7),
-              )
+                      width: context.width(1),
+                      height: context.height(0.7),
+                    )
                   : GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: _isViewFunction,
-                onDoubleTapDown: handleScale,
-                onSecondaryTapDown: handleScale,
-              ),
+                      behavior: HitTestBehavior.translucent,
+                      onTap: _isViewFunction,
+                      onDoubleTapDown: handleScale,
+                      onSecondaryTapDown: handleScale,
+                    ),
             ),
 
             /// right region
@@ -1198,7 +1208,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     return Consumer(
       builder: (context, ref, child) {
         final handleScale =
-        _isVerticalOrHorizontalContinuous() ? (details) => _toggleScale(details.globalPosition) : null;
+            _isVerticalOrHorizontalContinuous() ? (details) => _toggleScale(details.globalPosition) : null;
         void Function() handleGo(int amount) => (usePageTapZones && !failedToLoadImage)
             ? () => _onBtnTapped(_currentIndex! + amount, true)
             : _isViewFunction;

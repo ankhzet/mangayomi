@@ -16,6 +16,7 @@ import 'package:mangayomi/models/sync_preference.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/models/update.dart';
+import 'package:mangayomi/models/view_queue_item.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -195,6 +196,7 @@ class StorageProvider {
       SyncPreferenceSchema,
       SourcePreferenceSchema,
       SourcePreferenceStringValueSchema,
+      ViewQueueItemSchema,
     ];
 
     final isar = Isar.openSync(schemas, directory: directory, name: "mangayomiDb", inspector: inspector!);

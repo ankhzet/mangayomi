@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/modules/manga/detail/providers/isar_providers.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/genre_badges_widget.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_actions.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_chapters_counter.dart';

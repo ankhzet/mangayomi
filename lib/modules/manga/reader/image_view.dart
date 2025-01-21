@@ -40,7 +40,6 @@ class ImageView extends ConsumerWidget {
       filterQuality: FilterQuality.medium,
       handleLoadingProgress: true,
       fit: getBoxFit(ref.watch(scaleTypeStateProvider)),
-      enableMemoryCache: true,
       mode: ExtendedImageMode.gesture,
       initGestureConfigHandler: initGestureConfigHandler,
       onDoubleTap: onDoubleTap,

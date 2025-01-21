@@ -23,17 +23,11 @@ class Settings {
   LibraryFilter? libraryFilter;
 
   bool? libraryShowCategoryTabs;
-
   bool? libraryDownloadedChapters;
-
   bool? libraryUnreadChapters;
-
   bool? libraryShowLanguage;
-
   bool? libraryShowNumbersOfItems;
-
   bool? libraryShowContinueReadingButton;
-
   bool? libraryLocalSource;
 
   SortLibraryManga? sortLibraryManga;
@@ -101,17 +95,11 @@ class Settings {
   late DisplayType animeDisplayType;
 
   bool? animeLibraryShowCategoryTabs;
-
   bool? animeLibraryDownloadedChapters;
-
   bool? animeLibraryUnreadChapters;
-
   bool? animeLibraryShowLanguage;
-
   bool? animeLibraryShowNumbersOfItems;
-
   bool? animeLibraryShowContinueReadingButton;
-
   bool? animeLibraryLocalSource;
 
   late SortLibraryManga? sortLibraryAnime;
@@ -190,15 +178,11 @@ class Settings {
   bool? useLibass;
 
   bool? novelLibraryShowCategoryTabs;
-
   bool? novelLibraryDownloadedChapters;
-
+  bool? novelLibraryUnreadChapters;
   bool? novelLibraryShowLanguage;
-
   bool? novelLibraryShowNumbersOfItems;
-
   bool? novelLibraryShowContinueReadingButton;
-
   bool? novelLibraryLocalSource;
 
   late SortLibraryManga? sortLibraryNovel;
@@ -639,13 +623,17 @@ class LibraryFilter {
     return bitfields;
   }
 
+  static int itemTypeToIndex(ItemType type) {
+    return switch (type) {
+      ItemType.anime => 0,
+      ItemType.manga => 1,
+      ItemType.novel => 2,
+    };
+  }
+
   int getBitfieldOfType(ItemType type) {
     if (bitfields != null) {
-      final index = switch (type) {
-        ItemType.anime => 0,
-        ItemType.manga => 1,
-        ItemType.novel => 2,
-      };
+      final index = itemTypeToIndex(type);
 
       if (index >= 0 && index < bitfields!.length) {
         return bitfields![index];
@@ -671,8 +659,8 @@ class LibraryFilter {
     return 0;
   }
 
-  void setValue(bool type, int position, int value) {
-    (bitfields ??= [...typeDefaults])[type ? 1 : 0] = setBitfields(getBitfieldOfType(type), position, value);
+  void setValue(ItemType type, int position, int value) {
+    (bitfields ??= [...typeDefaults])[itemTypeToIndex(type)] = setBitfields(getBitfieldOfType(type), position, value);
   }
 }
 
@@ -789,10 +777,11 @@ class ChapterFilterBookmarked with FilterModel {
 class ChapterPageurls implements OfChapter {
   @override
   int? chapterId;
+  String? chapterUrl;
   List<String>? urls;
   List<String>? headers;
 
-  ChapterPageurls({this.chapterId, this.urls, this.headers});
+  ChapterPageurls({this.chapterId, this.urls, this.headers, this.chapterUrl});
 
   ChapterPageurls.fromJson(Map<String, dynamic> json) {
     chapterId = json['chapterId'];

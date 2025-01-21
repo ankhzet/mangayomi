@@ -5,6 +5,8 @@ import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
+import 'package:mangayomi/services/fetch_anime_sources.dart';
+import 'package:mangayomi/services/fetch_manga_sources.dart';
 import 'package:mangayomi/services/fetch_novel_sources.dart';
 import 'package:mangayomi/services/fetch_sources_list.dart';
 import 'package:mangayomi/utils/cached_network.dart';
@@ -29,7 +31,7 @@ class _ExtensionListTileWidgetState extends ConsumerState<ExtensionListTileWidge
     BuildContext context,
   ) {
     final l10n = l10nLocalizations(context)!;
-    final updateAivalable =
+    final updateAvailable =
         widget.isTestSource ? false : compareVersions(widget.source.version!, widget.source.versionLast!) < 0;
     final sourceNotEmpty = widget.source.sourceCode != null && widget.source.sourceCode!.isNotEmpty;
 
@@ -95,7 +97,7 @@ class _ExtensionListTileWidgetState extends ConsumerState<ExtensionListTileWidge
           ],
         ),
         trailing: TextButton(
-          onPressed: widget.isTestSource || !updateAivalable && sourceNotEmpty
+          onPressed: widget.isTestSource || !updateAvailable && sourceNotEmpty
               ? () {
                   context.push('/extension_detail', extra: widget.source);
                 }
@@ -125,7 +127,7 @@ class _ExtensionListTileWidgetState extends ConsumerState<ExtensionListTileWidge
                   ? l10n.settings
                   : !sourceNotEmpty
                       ? l10n.install
-                      : updateAivalable
+                      : updateAvailable
                           ? l10n.update
                           : l10n.settings),
         ));

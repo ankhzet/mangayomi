@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
-
 bool useLogger = false;
 
 class Logger {

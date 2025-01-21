@@ -78,10 +78,10 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                   borderRadius: const BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
                   onPressed: !widget.hide
                       ? () async {
-                          final trackSearch = await trackersSearchraggableMenu(
-                              context,
-                              itemType: widget.itemType,
-                              track: widget.trackRes,
+                          final trackSearch = await trackersSearchDraggableMenu(
+                            context,
+                            itemType: widget.itemType,
+                            track: widget.trackRes,
                           );
                           if (trackSearch != null) {
                             await ref

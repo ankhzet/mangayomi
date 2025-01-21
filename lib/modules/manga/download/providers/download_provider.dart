@@ -2,14 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:mangayomi/models/manga.dart';
-import 'package:mangayomi/models/page.dart';
-import 'package:mangayomi/services/background_downloader/background_downloader.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/models/dto/preload_task.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/page.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/manga/download/providers/convert_to_cbz.dart';
@@ -38,7 +37,7 @@ Future<List<PageUrl>> downloadChapter(
 }) async {
   final http = MClient.init(reqcopyWith: {'useDartHttpClient': true, 'followRedirects': false});
   final manga = chapter.manga.value!;
-  final isManga = chapter.manga.value!.isManga!;
+  final itemType = chapter.manga.value!.itemType;
   await StorageProvider.requestPermission();
   final tempDir = await getTemporaryDirectory();
   final mangaDir = await StorageProvider.getMangaMainDirectory(manga);
@@ -144,12 +143,9 @@ Future<List<PageUrl>> downloadChapter(
 
   final urls = filtered.map((e) => e.url).toList();
 
-  bool shouldLoad = (isManga
-      ?
-      : ;
-
   bool shouldLoad = switch (itemType) {
-    ItemType.manga => !(ref.watch(saveAsCBZArchiveStateProvider) && await File(path.join(mangaDir, "${chapter.name}.cbz")).exists()),
+    ItemType.manga =>
+      !(ref.watch(saveAsCBZArchiveStateProvider) && await File(path.join(mangaDir, "${chapter.name}.cbz")).exists()),
     ItemType.anime => !(await File(path.join(mangaDir, "$chapterName.mp4")).exists()),
     ItemType.novel => !await File(path.join(mangaDir, "$chapterName.html")).exists(),
   };
@@ -159,13 +155,12 @@ Future<List<PageUrl>> downloadChapter(
 
     for (final (index, page) in filtered.indexed) {
       final cookie = MClient.getCookiesPref(page.url);
-        final headers = switch (itemType) {
-          ItemType.manga => ref.watch(headersProvider(source: manga.source!, lang: manga.lang!))
-          ItemType.anime => videoHeader
-          ItemType.novel => htmlHeader
-        };
+      final headers = switch (itemType) {
+        ItemType.manga => ref.watch(headersProvider(source: manga.source!, lang: manga.lang!)),
+        ItemType.anime => videoHeader,
+        ItemType.novel => htmlHeader,
+      };
 
-        if (cookie.isNotEmpty) {
       if (cookie.isNotEmpty) {
         headers.addAll(cookie);
         headers[HttpHeaders.userAgentHeader] = isar.settings.first.userAgent!;
@@ -202,19 +197,22 @@ Future<List<PageUrl>> downloadChapter(
       }
 
       switch (itemType) {
-        case ItemType.manga: {
-          await scheduleLoad(PreloadTask.filename(index));
-        }
-        case ItemType.novel: {
-          await scheduleLoad('$chapterName.html');
-        }
-        case ItemType.anime: {
-          await scheduleLoad('$chapterName.mp4');
-
-          if (hasM3U8File) {
-            await scheduleLoad(path.join(chapterName, 'TS_${index + 1}.ts'));
+        case ItemType.manga:
+          {
+            await scheduleLoad(PreloadTask.filename(index));
           }
-        }
+        case ItemType.novel:
+          {
+            await scheduleLoad('$chapterName.html');
+          }
+        case ItemType.anime:
+          {
+            await scheduleLoad('$chapterName.mp4');
+
+            if (hasM3U8File) {
+              await scheduleLoad(path.join(chapterName, 'TS_${index + 1}.ts'));
+            }
+          }
       }
     }
   }

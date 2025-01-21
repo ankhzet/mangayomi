@@ -21,19 +21,22 @@ mixin _$RhttpError {
     required TResult Function() rhttpCancelError,
     required TResult Function() rhttpTimeoutError,
     required TResult Function() rhttpRedirectError,
-    required TResult Function(int field0, List<(String, String)> field1, HttpResponseBody field2) rhttpStatusCodeError,
+    required TResult Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)
+        rhttpStatusCodeError,
     required TResult Function(String field0) rhttpInvalidCertificateError,
     required TResult Function(String field0) rhttpConnectionError,
     required TResult Function(String field0) rhttpUnknownError,
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? rhttpCancelError,
     TResult? Function()? rhttpTimeoutError,
     TResult? Function()? rhttpRedirectError,
-    TResult? Function(int field0, List<(String, String)> field1, HttpResponseBody field2)? rhttpStatusCodeError,
+    TResult? Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)?
+        rhttpStatusCodeError,
     TResult? Function(String field0)? rhttpInvalidCertificateError,
     TResult? Function(String field0)? rhttpConnectionError,
     TResult? Function(String field0)? rhttpUnknownError,
@@ -44,34 +47,44 @@ mixin _$RhttpError {
     TResult Function()? rhttpCancelError,
     TResult Function()? rhttpTimeoutError,
     TResult Function()? rhttpRedirectError,
-    TResult Function(int field0, List<(String, String)> field1, HttpResponseBody field2)? rhttpStatusCodeError,
+    TResult Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)?
+        rhttpStatusCodeError,
     TResult Function(String field0)? rhttpInvalidCertificateError,
     TResult Function(String field0)? rhttpConnectionError,
     TResult Function(String field0)? rhttpUnknownError,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(RhttpError_RhttpCancelError value) rhttpCancelError,
-    required TResult Function(RhttpError_RhttpTimeoutError value) rhttpTimeoutError,
-    required TResult Function(RhttpError_RhttpRedirectError value) rhttpRedirectError,
-    required TResult Function(RhttpError_RhttpStatusCodeError value) rhttpStatusCodeError,
-    required TResult Function(RhttpError_RhttpInvalidCertificateError value) rhttpInvalidCertificateError,
-    required TResult Function(RhttpError_RhttpConnectionError value) rhttpConnectionError,
-    required TResult Function(RhttpError_RhttpUnknownError value) rhttpUnknownError,
+    required TResult Function(RhttpError_RhttpCancelError value)
+        rhttpCancelError,
+    required TResult Function(RhttpError_RhttpTimeoutError value)
+        rhttpTimeoutError,
+    required TResult Function(RhttpError_RhttpRedirectError value)
+        rhttpRedirectError,
+    required TResult Function(RhttpError_RhttpStatusCodeError value)
+        rhttpStatusCodeError,
+    required TResult Function(RhttpError_RhttpInvalidCertificateError value)
+        rhttpInvalidCertificateError,
+    required TResult Function(RhttpError_RhttpConnectionError value)
+        rhttpConnectionError,
+    required TResult Function(RhttpError_RhttpUnknownError value)
+        rhttpUnknownError,
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(RhttpError_RhttpCancelError value)? rhttpCancelError,
     TResult? Function(RhttpError_RhttpTimeoutError value)? rhttpTimeoutError,
     TResult? Function(RhttpError_RhttpRedirectError value)? rhttpRedirectError,
-    TResult? Function(RhttpError_RhttpStatusCodeError value)? rhttpStatusCodeError,
-    TResult? Function(RhttpError_RhttpInvalidCertificateError value)? rhttpInvalidCertificateError,
-    TResult? Function(RhttpError_RhttpConnectionError value)? rhttpConnectionError,
+    TResult? Function(RhttpError_RhttpStatusCodeError value)?
+        rhttpStatusCodeError,
+    TResult? Function(RhttpError_RhttpInvalidCertificateError value)?
+        rhttpInvalidCertificateError,
+    TResult? Function(RhttpError_RhttpConnectionError value)?
+        rhttpConnectionError,
     TResult? Function(RhttpError_RhttpUnknownError value)? rhttpUnknownError,
   }) =>
       throw _privateConstructorUsedError;
@@ -80,9 +93,12 @@ mixin _$RhttpError {
     TResult Function(RhttpError_RhttpCancelError value)? rhttpCancelError,
     TResult Function(RhttpError_RhttpTimeoutError value)? rhttpTimeoutError,
     TResult Function(RhttpError_RhttpRedirectError value)? rhttpRedirectError,
-    TResult Function(RhttpError_RhttpStatusCodeError value)? rhttpStatusCodeError,
-    TResult Function(RhttpError_RhttpInvalidCertificateError value)? rhttpInvalidCertificateError,
-    TResult Function(RhttpError_RhttpConnectionError value)? rhttpConnectionError,
+    TResult Function(RhttpError_RhttpStatusCodeError value)?
+        rhttpStatusCodeError,
+    TResult Function(RhttpError_RhttpInvalidCertificateError value)?
+        rhttpInvalidCertificateError,
+    TResult Function(RhttpError_RhttpConnectionError value)?
+        rhttpConnectionError,
     TResult Function(RhttpError_RhttpUnknownError value)? rhttpUnknownError,
     required TResult orElse(),
   }) =>
@@ -91,17 +107,19 @@ mixin _$RhttpError {
 
 /// @nodoc
 abstract class $RhttpErrorCopyWith<$Res> {
-  factory $RhttpErrorCopyWith(RhttpError value, $Res Function(RhttpError) then) =
+  factory $RhttpErrorCopyWith(
+          RhttpError value, $Res Function(RhttpError) then) =
       _$RhttpErrorCopyWithImpl<$Res, RhttpError>;
 }
 
 /// @nodoc
-class _$RhttpErrorCopyWithImpl<$Res, $Val extends RhttpError> implements $RhttpErrorCopyWith<$Res> {
+class _$RhttpErrorCopyWithImpl<$Res, $Val extends RhttpError>
+    implements $RhttpErrorCopyWith<$Res> {
   _$RhttpErrorCopyWithImpl(this._value, this._then);
 
-// ignore: unused_field
+  // ignore: unused_field
   final $Val _value;
-// ignore: unused_field
+  // ignore: unused_field
   final $Res Function($Val) _then;
 
   /// Create a copy of RhttpError
@@ -111,7 +129,8 @@ class _$RhttpErrorCopyWithImpl<$Res, $Val extends RhttpError> implements $RhttpE
 /// @nodoc
 abstract class _$$RhttpError_RhttpCancelErrorImplCopyWith<$Res> {
   factory _$$RhttpError_RhttpCancelErrorImplCopyWith(
-          _$RhttpError_RhttpCancelErrorImpl value, $Res Function(_$RhttpError_RhttpCancelErrorImpl) then) =
+          _$RhttpError_RhttpCancelErrorImpl value,
+          $Res Function(_$RhttpError_RhttpCancelErrorImpl) then) =
       __$$RhttpError_RhttpCancelErrorImplCopyWithImpl<$Res>;
 }
 
@@ -120,7 +139,8 @@ class __$$RhttpError_RhttpCancelErrorImplCopyWithImpl<$Res>
     extends _$RhttpErrorCopyWithImpl<$Res, _$RhttpError_RhttpCancelErrorImpl>
     implements _$$RhttpError_RhttpCancelErrorImplCopyWith<$Res> {
   __$$RhttpError_RhttpCancelErrorImplCopyWithImpl(
-      _$RhttpError_RhttpCancelErrorImpl _value, $Res Function(_$RhttpError_RhttpCancelErrorImpl) _then)
+      _$RhttpError_RhttpCancelErrorImpl _value,
+      $Res Function(_$RhttpError_RhttpCancelErrorImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of RhttpError
@@ -139,7 +159,9 @@ class _$RhttpError_RhttpCancelErrorImpl extends RhttpError_RhttpCancelError {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$RhttpError_RhttpCancelErrorImpl);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RhttpError_RhttpCancelErrorImpl);
   }
 
   @override
@@ -151,7 +173,9 @@ class _$RhttpError_RhttpCancelErrorImpl extends RhttpError_RhttpCancelError {
     required TResult Function() rhttpCancelError,
     required TResult Function() rhttpTimeoutError,
     required TResult Function() rhttpRedirectError,
-    required TResult Function(int field0, List<(String, String)> field1, HttpResponseBody field2) rhttpStatusCodeError,
+    required TResult Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)
+        rhttpStatusCodeError,
     required TResult Function(String field0) rhttpInvalidCertificateError,
     required TResult Function(String field0) rhttpConnectionError,
     required TResult Function(String field0) rhttpUnknownError,
@@ -165,7 +189,9 @@ class _$RhttpError_RhttpCancelErrorImpl extends RhttpError_RhttpCancelError {
     TResult? Function()? rhttpCancelError,
     TResult? Function()? rhttpTimeoutError,
     TResult? Function()? rhttpRedirectError,
-    TResult? Function(int field0, List<(String, String)> field1, HttpResponseBody field2)? rhttpStatusCodeError,
+    TResult? Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)?
+        rhttpStatusCodeError,
     TResult? Function(String field0)? rhttpInvalidCertificateError,
     TResult? Function(String field0)? rhttpConnectionError,
     TResult? Function(String field0)? rhttpUnknownError,
@@ -179,7 +205,9 @@ class _$RhttpError_RhttpCancelErrorImpl extends RhttpError_RhttpCancelError {
     TResult Function()? rhttpCancelError,
     TResult Function()? rhttpTimeoutError,
     TResult Function()? rhttpRedirectError,
-    TResult Function(int field0, List<(String, String)> field1, HttpResponseBody field2)? rhttpStatusCodeError,
+    TResult Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)?
+        rhttpStatusCodeError,
     TResult Function(String field0)? rhttpInvalidCertificateError,
     TResult Function(String field0)? rhttpConnectionError,
     TResult Function(String field0)? rhttpUnknownError,
@@ -194,13 +222,20 @@ class _$RhttpError_RhttpCancelErrorImpl extends RhttpError_RhttpCancelError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(RhttpError_RhttpCancelError value) rhttpCancelError,
-    required TResult Function(RhttpError_RhttpTimeoutError value) rhttpTimeoutError,
-    required TResult Function(RhttpError_RhttpRedirectError value) rhttpRedirectError,
-    required TResult Function(RhttpError_RhttpStatusCodeError value) rhttpStatusCodeError,
-    required TResult Function(RhttpError_RhttpInvalidCertificateError value) rhttpInvalidCertificateError,
-    required TResult Function(RhttpError_RhttpConnectionError value) rhttpConnectionError,
-    required TResult Function(RhttpError_RhttpUnknownError value) rhttpUnknownError,
+    required TResult Function(RhttpError_RhttpCancelError value)
+        rhttpCancelError,
+    required TResult Function(RhttpError_RhttpTimeoutError value)
+        rhttpTimeoutError,
+    required TResult Function(RhttpError_RhttpRedirectError value)
+        rhttpRedirectError,
+    required TResult Function(RhttpError_RhttpStatusCodeError value)
+        rhttpStatusCodeError,
+    required TResult Function(RhttpError_RhttpInvalidCertificateError value)
+        rhttpInvalidCertificateError,
+    required TResult Function(RhttpError_RhttpConnectionError value)
+        rhttpConnectionError,
+    required TResult Function(RhttpError_RhttpUnknownError value)
+        rhttpUnknownError,
   }) {
     return rhttpCancelError(this);
   }
@@ -211,9 +246,12 @@ class _$RhttpError_RhttpCancelErrorImpl extends RhttpError_RhttpCancelError {
     TResult? Function(RhttpError_RhttpCancelError value)? rhttpCancelError,
     TResult? Function(RhttpError_RhttpTimeoutError value)? rhttpTimeoutError,
     TResult? Function(RhttpError_RhttpRedirectError value)? rhttpRedirectError,
-    TResult? Function(RhttpError_RhttpStatusCodeError value)? rhttpStatusCodeError,
-    TResult? Function(RhttpError_RhttpInvalidCertificateError value)? rhttpInvalidCertificateError,
-    TResult? Function(RhttpError_RhttpConnectionError value)? rhttpConnectionError,
+    TResult? Function(RhttpError_RhttpStatusCodeError value)?
+        rhttpStatusCodeError,
+    TResult? Function(RhttpError_RhttpInvalidCertificateError value)?
+        rhttpInvalidCertificateError,
+    TResult? Function(RhttpError_RhttpConnectionError value)?
+        rhttpConnectionError,
     TResult? Function(RhttpError_RhttpUnknownError value)? rhttpUnknownError,
   }) {
     return rhttpCancelError?.call(this);
@@ -225,9 +263,12 @@ class _$RhttpError_RhttpCancelErrorImpl extends RhttpError_RhttpCancelError {
     TResult Function(RhttpError_RhttpCancelError value)? rhttpCancelError,
     TResult Function(RhttpError_RhttpTimeoutError value)? rhttpTimeoutError,
     TResult Function(RhttpError_RhttpRedirectError value)? rhttpRedirectError,
-    TResult Function(RhttpError_RhttpStatusCodeError value)? rhttpStatusCodeError,
-    TResult Function(RhttpError_RhttpInvalidCertificateError value)? rhttpInvalidCertificateError,
-    TResult Function(RhttpError_RhttpConnectionError value)? rhttpConnectionError,
+    TResult Function(RhttpError_RhttpStatusCodeError value)?
+        rhttpStatusCodeError,
+    TResult Function(RhttpError_RhttpInvalidCertificateError value)?
+        rhttpInvalidCertificateError,
+    TResult Function(RhttpError_RhttpConnectionError value)?
+        rhttpConnectionError,
     TResult Function(RhttpError_RhttpUnknownError value)? rhttpUnknownError,
     required TResult orElse(),
   }) {
@@ -239,14 +280,16 @@ class _$RhttpError_RhttpCancelErrorImpl extends RhttpError_RhttpCancelError {
 }
 
 abstract class RhttpError_RhttpCancelError extends RhttpError {
-  const factory RhttpError_RhttpCancelError() = _$RhttpError_RhttpCancelErrorImpl;
+  const factory RhttpError_RhttpCancelError() =
+      _$RhttpError_RhttpCancelErrorImpl;
   const RhttpError_RhttpCancelError._() : super._();
 }
 
 /// @nodoc
 abstract class _$$RhttpError_RhttpTimeoutErrorImplCopyWith<$Res> {
   factory _$$RhttpError_RhttpTimeoutErrorImplCopyWith(
-          _$RhttpError_RhttpTimeoutErrorImpl value, $Res Function(_$RhttpError_RhttpTimeoutErrorImpl) then) =
+          _$RhttpError_RhttpTimeoutErrorImpl value,
+          $Res Function(_$RhttpError_RhttpTimeoutErrorImpl) then) =
       __$$RhttpError_RhttpTimeoutErrorImplCopyWithImpl<$Res>;
 }
 
@@ -255,7 +298,8 @@ class __$$RhttpError_RhttpTimeoutErrorImplCopyWithImpl<$Res>
     extends _$RhttpErrorCopyWithImpl<$Res, _$RhttpError_RhttpTimeoutErrorImpl>
     implements _$$RhttpError_RhttpTimeoutErrorImplCopyWith<$Res> {
   __$$RhttpError_RhttpTimeoutErrorImplCopyWithImpl(
-      _$RhttpError_RhttpTimeoutErrorImpl _value, $Res Function(_$RhttpError_RhttpTimeoutErrorImpl) _then)
+      _$RhttpError_RhttpTimeoutErrorImpl _value,
+      $Res Function(_$RhttpError_RhttpTimeoutErrorImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of RhttpError
@@ -274,7 +318,9 @@ class _$RhttpError_RhttpTimeoutErrorImpl extends RhttpError_RhttpTimeoutError {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$RhttpError_RhttpTimeoutErrorImpl);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RhttpError_RhttpTimeoutErrorImpl);
   }
 
   @override
@@ -286,7 +332,9 @@ class _$RhttpError_RhttpTimeoutErrorImpl extends RhttpError_RhttpTimeoutError {
     required TResult Function() rhttpCancelError,
     required TResult Function() rhttpTimeoutError,
     required TResult Function() rhttpRedirectError,
-    required TResult Function(int field0, List<(String, String)> field1, HttpResponseBody field2) rhttpStatusCodeError,
+    required TResult Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)
+        rhttpStatusCodeError,
     required TResult Function(String field0) rhttpInvalidCertificateError,
     required TResult Function(String field0) rhttpConnectionError,
     required TResult Function(String field0) rhttpUnknownError,
@@ -300,7 +348,9 @@ class _$RhttpError_RhttpTimeoutErrorImpl extends RhttpError_RhttpTimeoutError {
     TResult? Function()? rhttpCancelError,
     TResult? Function()? rhttpTimeoutError,
     TResult? Function()? rhttpRedirectError,
-    TResult? Function(int field0, List<(String, String)> field1, HttpResponseBody field2)? rhttpStatusCodeError,
+    TResult? Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)?
+        rhttpStatusCodeError,
     TResult? Function(String field0)? rhttpInvalidCertificateError,
     TResult? Function(String field0)? rhttpConnectionError,
     TResult? Function(String field0)? rhttpUnknownError,
@@ -314,7 +364,9 @@ class _$RhttpError_RhttpTimeoutErrorImpl extends RhttpError_RhttpTimeoutError {
     TResult Function()? rhttpCancelError,
     TResult Function()? rhttpTimeoutError,
     TResult Function()? rhttpRedirectError,
-    TResult Function(int field0, List<(String, String)> field1, HttpResponseBody field2)? rhttpStatusCodeError,
+    TResult Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)?
+        rhttpStatusCodeError,
     TResult Function(String field0)? rhttpInvalidCertificateError,
     TResult Function(String field0)? rhttpConnectionError,
     TResult Function(String field0)? rhttpUnknownError,
@@ -329,13 +381,20 @@ class _$RhttpError_RhttpTimeoutErrorImpl extends RhttpError_RhttpTimeoutError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(RhttpError_RhttpCancelError value) rhttpCancelError,
-    required TResult Function(RhttpError_RhttpTimeoutError value) rhttpTimeoutError,
-    required TResult Function(RhttpError_RhttpRedirectError value) rhttpRedirectError,
-    required TResult Function(RhttpError_RhttpStatusCodeError value) rhttpStatusCodeError,
-    required TResult Function(RhttpError_RhttpInvalidCertificateError value) rhttpInvalidCertificateError,
-    required TResult Function(RhttpError_RhttpConnectionError value) rhttpConnectionError,
-    required TResult Function(RhttpError_RhttpUnknownError value) rhttpUnknownError,
+    required TResult Function(RhttpError_RhttpCancelError value)
+        rhttpCancelError,
+    required TResult Function(RhttpError_RhttpTimeoutError value)
+        rhttpTimeoutError,
+    required TResult Function(RhttpError_RhttpRedirectError value)
+        rhttpRedirectError,
+    required TResult Function(RhttpError_RhttpStatusCodeError value)
+        rhttpStatusCodeError,
+    required TResult Function(RhttpError_RhttpInvalidCertificateError value)
+        rhttpInvalidCertificateError,
+    required TResult Function(RhttpError_RhttpConnectionError value)
+        rhttpConnectionError,
+    required TResult Function(RhttpError_RhttpUnknownError value)
+        rhttpUnknownError,
   }) {
     return rhttpTimeoutError(this);
   }
@@ -346,9 +405,12 @@ class _$RhttpError_RhttpTimeoutErrorImpl extends RhttpError_RhttpTimeoutError {
     TResult? Function(RhttpError_RhttpCancelError value)? rhttpCancelError,
     TResult? Function(RhttpError_RhttpTimeoutError value)? rhttpTimeoutError,
     TResult? Function(RhttpError_RhttpRedirectError value)? rhttpRedirectError,
-    TResult? Function(RhttpError_RhttpStatusCodeError value)? rhttpStatusCodeError,
-    TResult? Function(RhttpError_RhttpInvalidCertificateError value)? rhttpInvalidCertificateError,
-    TResult? Function(RhttpError_RhttpConnectionError value)? rhttpConnectionError,
+    TResult? Function(RhttpError_RhttpStatusCodeError value)?
+        rhttpStatusCodeError,
+    TResult? Function(RhttpError_RhttpInvalidCertificateError value)?
+        rhttpInvalidCertificateError,
+    TResult? Function(RhttpError_RhttpConnectionError value)?
+        rhttpConnectionError,
     TResult? Function(RhttpError_RhttpUnknownError value)? rhttpUnknownError,
   }) {
     return rhttpTimeoutError?.call(this);
@@ -360,9 +422,12 @@ class _$RhttpError_RhttpTimeoutErrorImpl extends RhttpError_RhttpTimeoutError {
     TResult Function(RhttpError_RhttpCancelError value)? rhttpCancelError,
     TResult Function(RhttpError_RhttpTimeoutError value)? rhttpTimeoutError,
     TResult Function(RhttpError_RhttpRedirectError value)? rhttpRedirectError,
-    TResult Function(RhttpError_RhttpStatusCodeError value)? rhttpStatusCodeError,
-    TResult Function(RhttpError_RhttpInvalidCertificateError value)? rhttpInvalidCertificateError,
-    TResult Function(RhttpError_RhttpConnectionError value)? rhttpConnectionError,
+    TResult Function(RhttpError_RhttpStatusCodeError value)?
+        rhttpStatusCodeError,
+    TResult Function(RhttpError_RhttpInvalidCertificateError value)?
+        rhttpInvalidCertificateError,
+    TResult Function(RhttpError_RhttpConnectionError value)?
+        rhttpConnectionError,
     TResult Function(RhttpError_RhttpUnknownError value)? rhttpUnknownError,
     required TResult orElse(),
   }) {
@@ -374,14 +439,16 @@ class _$RhttpError_RhttpTimeoutErrorImpl extends RhttpError_RhttpTimeoutError {
 }
 
 abstract class RhttpError_RhttpTimeoutError extends RhttpError {
-  const factory RhttpError_RhttpTimeoutError() = _$RhttpError_RhttpTimeoutErrorImpl;
+  const factory RhttpError_RhttpTimeoutError() =
+      _$RhttpError_RhttpTimeoutErrorImpl;
   const RhttpError_RhttpTimeoutError._() : super._();
 }
 
 /// @nodoc
 abstract class _$$RhttpError_RhttpRedirectErrorImplCopyWith<$Res> {
   factory _$$RhttpError_RhttpRedirectErrorImplCopyWith(
-          _$RhttpError_RhttpRedirectErrorImpl value, $Res Function(_$RhttpError_RhttpRedirectErrorImpl) then) =
+          _$RhttpError_RhttpRedirectErrorImpl value,
+          $Res Function(_$RhttpError_RhttpRedirectErrorImpl) then) =
       __$$RhttpError_RhttpRedirectErrorImplCopyWithImpl<$Res>;
 }
 
@@ -390,7 +457,8 @@ class __$$RhttpError_RhttpRedirectErrorImplCopyWithImpl<$Res>
     extends _$RhttpErrorCopyWithImpl<$Res, _$RhttpError_RhttpRedirectErrorImpl>
     implements _$$RhttpError_RhttpRedirectErrorImplCopyWith<$Res> {
   __$$RhttpError_RhttpRedirectErrorImplCopyWithImpl(
-      _$RhttpError_RhttpRedirectErrorImpl _value, $Res Function(_$RhttpError_RhttpRedirectErrorImpl) _then)
+      _$RhttpError_RhttpRedirectErrorImpl _value,
+      $Res Function(_$RhttpError_RhttpRedirectErrorImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of RhttpError
@@ -399,7 +467,8 @@ class __$$RhttpError_RhttpRedirectErrorImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RhttpError_RhttpRedirectErrorImpl extends RhttpError_RhttpRedirectError {
+class _$RhttpError_RhttpRedirectErrorImpl
+    extends RhttpError_RhttpRedirectError {
   const _$RhttpError_RhttpRedirectErrorImpl() : super._();
 
   @override
@@ -409,7 +478,9 @@ class _$RhttpError_RhttpRedirectErrorImpl extends RhttpError_RhttpRedirectError 
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType && other is _$RhttpError_RhttpRedirectErrorImpl);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RhttpError_RhttpRedirectErrorImpl);
   }
 
   @override
@@ -421,7 +492,9 @@ class _$RhttpError_RhttpRedirectErrorImpl extends RhttpError_RhttpRedirectError 
     required TResult Function() rhttpCancelError,
     required TResult Function() rhttpTimeoutError,
     required TResult Function() rhttpRedirectError,
-    required TResult Function(int field0, List<(String, String)> field1, HttpResponseBody field2) rhttpStatusCodeError,
+    required TResult Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)
+        rhttpStatusCodeError,
     required TResult Function(String field0) rhttpInvalidCertificateError,
     required TResult Function(String field0) rhttpConnectionError,
     required TResult Function(String field0) rhttpUnknownError,
@@ -435,7 +508,9 @@ class _$RhttpError_RhttpRedirectErrorImpl extends RhttpError_RhttpRedirectError 
     TResult? Function()? rhttpCancelError,
     TResult? Function()? rhttpTimeoutError,
     TResult? Function()? rhttpRedirectError,
-    TResult? Function(int field0, List<(String, String)> field1, HttpResponseBody field2)? rhttpStatusCodeError,
+    TResult? Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)?
+        rhttpStatusCodeError,
     TResult? Function(String field0)? rhttpInvalidCertificateError,
     TResult? Function(String field0)? rhttpConnectionError,
     TResult? Function(String field0)? rhttpUnknownError,
@@ -449,7 +524,9 @@ class _$RhttpError_RhttpRedirectErrorImpl extends RhttpError_RhttpRedirectError 
     TResult Function()? rhttpCancelError,
     TResult Function()? rhttpTimeoutError,
     TResult Function()? rhttpRedirectError,
-    TResult Function(int field0, List<(String, String)> field1, HttpResponseBody field2)? rhttpStatusCodeError,
+    TResult Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)?
+        rhttpStatusCodeError,
     TResult Function(String field0)? rhttpInvalidCertificateError,
     TResult Function(String field0)? rhttpConnectionError,
     TResult Function(String field0)? rhttpUnknownError,
@@ -464,13 +541,20 @@ class _$RhttpError_RhttpRedirectErrorImpl extends RhttpError_RhttpRedirectError 
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(RhttpError_RhttpCancelError value) rhttpCancelError,
-    required TResult Function(RhttpError_RhttpTimeoutError value) rhttpTimeoutError,
-    required TResult Function(RhttpError_RhttpRedirectError value) rhttpRedirectError,
-    required TResult Function(RhttpError_RhttpStatusCodeError value) rhttpStatusCodeError,
-    required TResult Function(RhttpError_RhttpInvalidCertificateError value) rhttpInvalidCertificateError,
-    required TResult Function(RhttpError_RhttpConnectionError value) rhttpConnectionError,
-    required TResult Function(RhttpError_RhttpUnknownError value) rhttpUnknownError,
+    required TResult Function(RhttpError_RhttpCancelError value)
+        rhttpCancelError,
+    required TResult Function(RhttpError_RhttpTimeoutError value)
+        rhttpTimeoutError,
+    required TResult Function(RhttpError_RhttpRedirectError value)
+        rhttpRedirectError,
+    required TResult Function(RhttpError_RhttpStatusCodeError value)
+        rhttpStatusCodeError,
+    required TResult Function(RhttpError_RhttpInvalidCertificateError value)
+        rhttpInvalidCertificateError,
+    required TResult Function(RhttpError_RhttpConnectionError value)
+        rhttpConnectionError,
+    required TResult Function(RhttpError_RhttpUnknownError value)
+        rhttpUnknownError,
   }) {
     return rhttpRedirectError(this);
   }
@@ -481,9 +565,12 @@ class _$RhttpError_RhttpRedirectErrorImpl extends RhttpError_RhttpRedirectError 
     TResult? Function(RhttpError_RhttpCancelError value)? rhttpCancelError,
     TResult? Function(RhttpError_RhttpTimeoutError value)? rhttpTimeoutError,
     TResult? Function(RhttpError_RhttpRedirectError value)? rhttpRedirectError,
-    TResult? Function(RhttpError_RhttpStatusCodeError value)? rhttpStatusCodeError,
-    TResult? Function(RhttpError_RhttpInvalidCertificateError value)? rhttpInvalidCertificateError,
-    TResult? Function(RhttpError_RhttpConnectionError value)? rhttpConnectionError,
+    TResult? Function(RhttpError_RhttpStatusCodeError value)?
+        rhttpStatusCodeError,
+    TResult? Function(RhttpError_RhttpInvalidCertificateError value)?
+        rhttpInvalidCertificateError,
+    TResult? Function(RhttpError_RhttpConnectionError value)?
+        rhttpConnectionError,
     TResult? Function(RhttpError_RhttpUnknownError value)? rhttpUnknownError,
   }) {
     return rhttpRedirectError?.call(this);
@@ -495,9 +582,12 @@ class _$RhttpError_RhttpRedirectErrorImpl extends RhttpError_RhttpRedirectError 
     TResult Function(RhttpError_RhttpCancelError value)? rhttpCancelError,
     TResult Function(RhttpError_RhttpTimeoutError value)? rhttpTimeoutError,
     TResult Function(RhttpError_RhttpRedirectError value)? rhttpRedirectError,
-    TResult Function(RhttpError_RhttpStatusCodeError value)? rhttpStatusCodeError,
-    TResult Function(RhttpError_RhttpInvalidCertificateError value)? rhttpInvalidCertificateError,
-    TResult Function(RhttpError_RhttpConnectionError value)? rhttpConnectionError,
+    TResult Function(RhttpError_RhttpStatusCodeError value)?
+        rhttpStatusCodeError,
+    TResult Function(RhttpError_RhttpInvalidCertificateError value)?
+        rhttpInvalidCertificateError,
+    TResult Function(RhttpError_RhttpConnectionError value)?
+        rhttpConnectionError,
     TResult Function(RhttpError_RhttpUnknownError value)? rhttpUnknownError,
     required TResult orElse(),
   }) {
@@ -509,27 +599,32 @@ class _$RhttpError_RhttpRedirectErrorImpl extends RhttpError_RhttpRedirectError 
 }
 
 abstract class RhttpError_RhttpRedirectError extends RhttpError {
-  const factory RhttpError_RhttpRedirectError() = _$RhttpError_RhttpRedirectErrorImpl;
+  const factory RhttpError_RhttpRedirectError() =
+      _$RhttpError_RhttpRedirectErrorImpl;
   const RhttpError_RhttpRedirectError._() : super._();
 }
 
 /// @nodoc
 abstract class _$$RhttpError_RhttpStatusCodeErrorImplCopyWith<$Res> {
   factory _$$RhttpError_RhttpStatusCodeErrorImplCopyWith(
-          _$RhttpError_RhttpStatusCodeErrorImpl value, $Res Function(_$RhttpError_RhttpStatusCodeErrorImpl) then) =
+          _$RhttpError_RhttpStatusCodeErrorImpl value,
+          $Res Function(_$RhttpError_RhttpStatusCodeErrorImpl) then) =
       __$$RhttpError_RhttpStatusCodeErrorImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int field0, List<(String, String)> field1, HttpResponseBody field2});
+  $Res call(
+      {int field0, List<(String, String)> field1, HttpResponseBody field2});
 
   $HttpResponseBodyCopyWith<$Res> get field2;
 }
 
 /// @nodoc
 class __$$RhttpError_RhttpStatusCodeErrorImplCopyWithImpl<$Res>
-    extends _$RhttpErrorCopyWithImpl<$Res, _$RhttpError_RhttpStatusCodeErrorImpl>
+    extends _$RhttpErrorCopyWithImpl<$Res,
+        _$RhttpError_RhttpStatusCodeErrorImpl>
     implements _$$RhttpError_RhttpStatusCodeErrorImplCopyWith<$Res> {
   __$$RhttpError_RhttpStatusCodeErrorImplCopyWithImpl(
-      _$RhttpError_RhttpStatusCodeErrorImpl _value, $Res Function(_$RhttpError_RhttpStatusCodeErrorImpl) _then)
+      _$RhttpError_RhttpStatusCodeErrorImpl _value,
+      $Res Function(_$RhttpError_RhttpStatusCodeErrorImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of RhttpError
@@ -570,8 +665,10 @@ class __$$RhttpError_RhttpStatusCodeErrorImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RhttpError_RhttpStatusCodeErrorImpl extends RhttpError_RhttpStatusCodeError {
-  const _$RhttpError_RhttpStatusCodeErrorImpl(this.field0, final List<(String, String)> field1, this.field2)
+class _$RhttpError_RhttpStatusCodeErrorImpl
+    extends RhttpError_RhttpStatusCodeError {
+  const _$RhttpError_RhttpStatusCodeErrorImpl(
+      this.field0, final List<(String, String)> field1, this.field2)
       : _field1 = field1,
         super._();
 
@@ -581,7 +678,7 @@ class _$RhttpError_RhttpStatusCodeErrorImpl extends RhttpError_RhttpStatusCodeEr
   @override
   List<(String, String)> get field1 {
     if (_field1 is EqualUnmodifiableListView) return _field1;
-// ignore: implicit_dynamic_type
+    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_field1);
   }
 
@@ -604,15 +701,18 @@ class _$RhttpError_RhttpStatusCodeErrorImpl extends RhttpError_RhttpStatusCodeEr
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, field0, const DeepCollectionEquality().hash(_field1), field2);
+  int get hashCode => Object.hash(runtimeType, field0,
+      const DeepCollectionEquality().hash(_field1), field2);
 
   /// Create a copy of RhttpError
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RhttpError_RhttpStatusCodeErrorImplCopyWith<_$RhttpError_RhttpStatusCodeErrorImpl> get copyWith =>
-      __$$RhttpError_RhttpStatusCodeErrorImplCopyWithImpl<_$RhttpError_RhttpStatusCodeErrorImpl>(this, _$identity);
+  _$$RhttpError_RhttpStatusCodeErrorImplCopyWith<
+          _$RhttpError_RhttpStatusCodeErrorImpl>
+      get copyWith => __$$RhttpError_RhttpStatusCodeErrorImplCopyWithImpl<
+          _$RhttpError_RhttpStatusCodeErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -620,7 +720,9 @@ class _$RhttpError_RhttpStatusCodeErrorImpl extends RhttpError_RhttpStatusCodeEr
     required TResult Function() rhttpCancelError,
     required TResult Function() rhttpTimeoutError,
     required TResult Function() rhttpRedirectError,
-    required TResult Function(int field0, List<(String, String)> field1, HttpResponseBody field2) rhttpStatusCodeError,
+    required TResult Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)
+        rhttpStatusCodeError,
     required TResult Function(String field0) rhttpInvalidCertificateError,
     required TResult Function(String field0) rhttpConnectionError,
     required TResult Function(String field0) rhttpUnknownError,
@@ -634,7 +736,9 @@ class _$RhttpError_RhttpStatusCodeErrorImpl extends RhttpError_RhttpStatusCodeEr
     TResult? Function()? rhttpCancelError,
     TResult? Function()? rhttpTimeoutError,
     TResult? Function()? rhttpRedirectError,
-    TResult? Function(int field0, List<(String, String)> field1, HttpResponseBody field2)? rhttpStatusCodeError,
+    TResult? Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)?
+        rhttpStatusCodeError,
     TResult? Function(String field0)? rhttpInvalidCertificateError,
     TResult? Function(String field0)? rhttpConnectionError,
     TResult? Function(String field0)? rhttpUnknownError,
@@ -648,7 +752,9 @@ class _$RhttpError_RhttpStatusCodeErrorImpl extends RhttpError_RhttpStatusCodeEr
     TResult Function()? rhttpCancelError,
     TResult Function()? rhttpTimeoutError,
     TResult Function()? rhttpRedirectError,
-    TResult Function(int field0, List<(String, String)> field1, HttpResponseBody field2)? rhttpStatusCodeError,
+    TResult Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)?
+        rhttpStatusCodeError,
     TResult Function(String field0)? rhttpInvalidCertificateError,
     TResult Function(String field0)? rhttpConnectionError,
     TResult Function(String field0)? rhttpUnknownError,
@@ -663,13 +769,20 @@ class _$RhttpError_RhttpStatusCodeErrorImpl extends RhttpError_RhttpStatusCodeEr
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(RhttpError_RhttpCancelError value) rhttpCancelError,
-    required TResult Function(RhttpError_RhttpTimeoutError value) rhttpTimeoutError,
-    required TResult Function(RhttpError_RhttpRedirectError value) rhttpRedirectError,
-    required TResult Function(RhttpError_RhttpStatusCodeError value) rhttpStatusCodeError,
-    required TResult Function(RhttpError_RhttpInvalidCertificateError value) rhttpInvalidCertificateError,
-    required TResult Function(RhttpError_RhttpConnectionError value) rhttpConnectionError,
-    required TResult Function(RhttpError_RhttpUnknownError value) rhttpUnknownError,
+    required TResult Function(RhttpError_RhttpCancelError value)
+        rhttpCancelError,
+    required TResult Function(RhttpError_RhttpTimeoutError value)
+        rhttpTimeoutError,
+    required TResult Function(RhttpError_RhttpRedirectError value)
+        rhttpRedirectError,
+    required TResult Function(RhttpError_RhttpStatusCodeError value)
+        rhttpStatusCodeError,
+    required TResult Function(RhttpError_RhttpInvalidCertificateError value)
+        rhttpInvalidCertificateError,
+    required TResult Function(RhttpError_RhttpConnectionError value)
+        rhttpConnectionError,
+    required TResult Function(RhttpError_RhttpUnknownError value)
+        rhttpUnknownError,
   }) {
     return rhttpStatusCodeError(this);
   }
@@ -680,9 +793,12 @@ class _$RhttpError_RhttpStatusCodeErrorImpl extends RhttpError_RhttpStatusCodeEr
     TResult? Function(RhttpError_RhttpCancelError value)? rhttpCancelError,
     TResult? Function(RhttpError_RhttpTimeoutError value)? rhttpTimeoutError,
     TResult? Function(RhttpError_RhttpRedirectError value)? rhttpRedirectError,
-    TResult? Function(RhttpError_RhttpStatusCodeError value)? rhttpStatusCodeError,
-    TResult? Function(RhttpError_RhttpInvalidCertificateError value)? rhttpInvalidCertificateError,
-    TResult? Function(RhttpError_RhttpConnectionError value)? rhttpConnectionError,
+    TResult? Function(RhttpError_RhttpStatusCodeError value)?
+        rhttpStatusCodeError,
+    TResult? Function(RhttpError_RhttpInvalidCertificateError value)?
+        rhttpInvalidCertificateError,
+    TResult? Function(RhttpError_RhttpConnectionError value)?
+        rhttpConnectionError,
     TResult? Function(RhttpError_RhttpUnknownError value)? rhttpUnknownError,
   }) {
     return rhttpStatusCodeError?.call(this);
@@ -694,9 +810,12 @@ class _$RhttpError_RhttpStatusCodeErrorImpl extends RhttpError_RhttpStatusCodeEr
     TResult Function(RhttpError_RhttpCancelError value)? rhttpCancelError,
     TResult Function(RhttpError_RhttpTimeoutError value)? rhttpTimeoutError,
     TResult Function(RhttpError_RhttpRedirectError value)? rhttpRedirectError,
-    TResult Function(RhttpError_RhttpStatusCodeError value)? rhttpStatusCodeError,
-    TResult Function(RhttpError_RhttpInvalidCertificateError value)? rhttpInvalidCertificateError,
-    TResult Function(RhttpError_RhttpConnectionError value)? rhttpConnectionError,
+    TResult Function(RhttpError_RhttpStatusCodeError value)?
+        rhttpStatusCodeError,
+    TResult Function(RhttpError_RhttpInvalidCertificateError value)?
+        rhttpInvalidCertificateError,
+    TResult Function(RhttpError_RhttpConnectionError value)?
+        rhttpConnectionError,
     TResult Function(RhttpError_RhttpUnknownError value)? rhttpUnknownError,
     required TResult orElse(),
   }) {
@@ -709,8 +828,9 @@ class _$RhttpError_RhttpStatusCodeErrorImpl extends RhttpError_RhttpStatusCodeEr
 
 abstract class RhttpError_RhttpStatusCodeError extends RhttpError {
   const factory RhttpError_RhttpStatusCodeError(
-          final int field0, final List<(String, String)> field1, final HttpResponseBody field2) =
-      _$RhttpError_RhttpStatusCodeErrorImpl;
+      final int field0,
+      final List<(String, String)> field1,
+      final HttpResponseBody field2) = _$RhttpError_RhttpStatusCodeErrorImpl;
   const RhttpError_RhttpStatusCodeError._() : super._();
 
   int get field0;
@@ -720,13 +840,15 @@ abstract class RhttpError_RhttpStatusCodeError extends RhttpError {
   /// Create a copy of RhttpError
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RhttpError_RhttpStatusCodeErrorImplCopyWith<_$RhttpError_RhttpStatusCodeErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$RhttpError_RhttpStatusCodeErrorImplCopyWith<
+          _$RhttpError_RhttpStatusCodeErrorImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$RhttpError_RhttpInvalidCertificateErrorImplCopyWith<$Res> {
-  factory _$$RhttpError_RhttpInvalidCertificateErrorImplCopyWith(_$RhttpError_RhttpInvalidCertificateErrorImpl value,
+  factory _$$RhttpError_RhttpInvalidCertificateErrorImplCopyWith(
+          _$RhttpError_RhttpInvalidCertificateErrorImpl value,
           $Res Function(_$RhttpError_RhttpInvalidCertificateErrorImpl) then) =
       __$$RhttpError_RhttpInvalidCertificateErrorImplCopyWithImpl<$Res>;
   @useResult
@@ -735,9 +857,11 @@ abstract class _$$RhttpError_RhttpInvalidCertificateErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$RhttpError_RhttpInvalidCertificateErrorImplCopyWithImpl<$Res>
-    extends _$RhttpErrorCopyWithImpl<$Res, _$RhttpError_RhttpInvalidCertificateErrorImpl>
+    extends _$RhttpErrorCopyWithImpl<$Res,
+        _$RhttpError_RhttpInvalidCertificateErrorImpl>
     implements _$$RhttpError_RhttpInvalidCertificateErrorImplCopyWith<$Res> {
-  __$$RhttpError_RhttpInvalidCertificateErrorImplCopyWithImpl(_$RhttpError_RhttpInvalidCertificateErrorImpl _value,
+  __$$RhttpError_RhttpInvalidCertificateErrorImplCopyWithImpl(
+      _$RhttpError_RhttpInvalidCertificateErrorImpl _value,
       $Res Function(_$RhttpError_RhttpInvalidCertificateErrorImpl) _then)
       : super(_value, _then);
 
@@ -759,7 +883,8 @@ class __$$RhttpError_RhttpInvalidCertificateErrorImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RhttpError_RhttpInvalidCertificateErrorImpl extends RhttpError_RhttpInvalidCertificateError {
+class _$RhttpError_RhttpInvalidCertificateErrorImpl
+    extends RhttpError_RhttpInvalidCertificateError {
   const _$RhttpError_RhttpInvalidCertificateErrorImpl(this.field0) : super._();
 
   @override
@@ -786,9 +911,11 @@ class _$RhttpError_RhttpInvalidCertificateErrorImpl extends RhttpError_RhttpInva
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RhttpError_RhttpInvalidCertificateErrorImplCopyWith<_$RhttpError_RhttpInvalidCertificateErrorImpl> get copyWith =>
-      __$$RhttpError_RhttpInvalidCertificateErrorImplCopyWithImpl<_$RhttpError_RhttpInvalidCertificateErrorImpl>(
-          this, _$identity);
+  _$$RhttpError_RhttpInvalidCertificateErrorImplCopyWith<
+          _$RhttpError_RhttpInvalidCertificateErrorImpl>
+      get copyWith =>
+          __$$RhttpError_RhttpInvalidCertificateErrorImplCopyWithImpl<
+              _$RhttpError_RhttpInvalidCertificateErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -796,7 +923,9 @@ class _$RhttpError_RhttpInvalidCertificateErrorImpl extends RhttpError_RhttpInva
     required TResult Function() rhttpCancelError,
     required TResult Function() rhttpTimeoutError,
     required TResult Function() rhttpRedirectError,
-    required TResult Function(int field0, List<(String, String)> field1, HttpResponseBody field2) rhttpStatusCodeError,
+    required TResult Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)
+        rhttpStatusCodeError,
     required TResult Function(String field0) rhttpInvalidCertificateError,
     required TResult Function(String field0) rhttpConnectionError,
     required TResult Function(String field0) rhttpUnknownError,
@@ -810,7 +939,9 @@ class _$RhttpError_RhttpInvalidCertificateErrorImpl extends RhttpError_RhttpInva
     TResult? Function()? rhttpCancelError,
     TResult? Function()? rhttpTimeoutError,
     TResult? Function()? rhttpRedirectError,
-    TResult? Function(int field0, List<(String, String)> field1, HttpResponseBody field2)? rhttpStatusCodeError,
+    TResult? Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)?
+        rhttpStatusCodeError,
     TResult? Function(String field0)? rhttpInvalidCertificateError,
     TResult? Function(String field0)? rhttpConnectionError,
     TResult? Function(String field0)? rhttpUnknownError,
@@ -824,7 +955,9 @@ class _$RhttpError_RhttpInvalidCertificateErrorImpl extends RhttpError_RhttpInva
     TResult Function()? rhttpCancelError,
     TResult Function()? rhttpTimeoutError,
     TResult Function()? rhttpRedirectError,
-    TResult Function(int field0, List<(String, String)> field1, HttpResponseBody field2)? rhttpStatusCodeError,
+    TResult Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)?
+        rhttpStatusCodeError,
     TResult Function(String field0)? rhttpInvalidCertificateError,
     TResult Function(String field0)? rhttpConnectionError,
     TResult Function(String field0)? rhttpUnknownError,
@@ -839,13 +972,20 @@ class _$RhttpError_RhttpInvalidCertificateErrorImpl extends RhttpError_RhttpInva
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(RhttpError_RhttpCancelError value) rhttpCancelError,
-    required TResult Function(RhttpError_RhttpTimeoutError value) rhttpTimeoutError,
-    required TResult Function(RhttpError_RhttpRedirectError value) rhttpRedirectError,
-    required TResult Function(RhttpError_RhttpStatusCodeError value) rhttpStatusCodeError,
-    required TResult Function(RhttpError_RhttpInvalidCertificateError value) rhttpInvalidCertificateError,
-    required TResult Function(RhttpError_RhttpConnectionError value) rhttpConnectionError,
-    required TResult Function(RhttpError_RhttpUnknownError value) rhttpUnknownError,
+    required TResult Function(RhttpError_RhttpCancelError value)
+        rhttpCancelError,
+    required TResult Function(RhttpError_RhttpTimeoutError value)
+        rhttpTimeoutError,
+    required TResult Function(RhttpError_RhttpRedirectError value)
+        rhttpRedirectError,
+    required TResult Function(RhttpError_RhttpStatusCodeError value)
+        rhttpStatusCodeError,
+    required TResult Function(RhttpError_RhttpInvalidCertificateError value)
+        rhttpInvalidCertificateError,
+    required TResult Function(RhttpError_RhttpConnectionError value)
+        rhttpConnectionError,
+    required TResult Function(RhttpError_RhttpUnknownError value)
+        rhttpUnknownError,
   }) {
     return rhttpInvalidCertificateError(this);
   }
@@ -856,9 +996,12 @@ class _$RhttpError_RhttpInvalidCertificateErrorImpl extends RhttpError_RhttpInva
     TResult? Function(RhttpError_RhttpCancelError value)? rhttpCancelError,
     TResult? Function(RhttpError_RhttpTimeoutError value)? rhttpTimeoutError,
     TResult? Function(RhttpError_RhttpRedirectError value)? rhttpRedirectError,
-    TResult? Function(RhttpError_RhttpStatusCodeError value)? rhttpStatusCodeError,
-    TResult? Function(RhttpError_RhttpInvalidCertificateError value)? rhttpInvalidCertificateError,
-    TResult? Function(RhttpError_RhttpConnectionError value)? rhttpConnectionError,
+    TResult? Function(RhttpError_RhttpStatusCodeError value)?
+        rhttpStatusCodeError,
+    TResult? Function(RhttpError_RhttpInvalidCertificateError value)?
+        rhttpInvalidCertificateError,
+    TResult? Function(RhttpError_RhttpConnectionError value)?
+        rhttpConnectionError,
     TResult? Function(RhttpError_RhttpUnknownError value)? rhttpUnknownError,
   }) {
     return rhttpInvalidCertificateError?.call(this);
@@ -870,9 +1013,12 @@ class _$RhttpError_RhttpInvalidCertificateErrorImpl extends RhttpError_RhttpInva
     TResult Function(RhttpError_RhttpCancelError value)? rhttpCancelError,
     TResult Function(RhttpError_RhttpTimeoutError value)? rhttpTimeoutError,
     TResult Function(RhttpError_RhttpRedirectError value)? rhttpRedirectError,
-    TResult Function(RhttpError_RhttpStatusCodeError value)? rhttpStatusCodeError,
-    TResult Function(RhttpError_RhttpInvalidCertificateError value)? rhttpInvalidCertificateError,
-    TResult Function(RhttpError_RhttpConnectionError value)? rhttpConnectionError,
+    TResult Function(RhttpError_RhttpStatusCodeError value)?
+        rhttpStatusCodeError,
+    TResult Function(RhttpError_RhttpInvalidCertificateError value)?
+        rhttpInvalidCertificateError,
+    TResult Function(RhttpError_RhttpConnectionError value)?
+        rhttpConnectionError,
     TResult Function(RhttpError_RhttpUnknownError value)? rhttpUnknownError,
     required TResult orElse(),
   }) {
@@ -893,14 +1039,16 @@ abstract class RhttpError_RhttpInvalidCertificateError extends RhttpError {
   /// Create a copy of RhttpError
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RhttpError_RhttpInvalidCertificateErrorImplCopyWith<_$RhttpError_RhttpInvalidCertificateErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$RhttpError_RhttpInvalidCertificateErrorImplCopyWith<
+          _$RhttpError_RhttpInvalidCertificateErrorImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$RhttpError_RhttpConnectionErrorImplCopyWith<$Res> {
   factory _$$RhttpError_RhttpConnectionErrorImplCopyWith(
-          _$RhttpError_RhttpConnectionErrorImpl value, $Res Function(_$RhttpError_RhttpConnectionErrorImpl) then) =
+          _$RhttpError_RhttpConnectionErrorImpl value,
+          $Res Function(_$RhttpError_RhttpConnectionErrorImpl) then) =
       __$$RhttpError_RhttpConnectionErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String field0});
@@ -908,10 +1056,12 @@ abstract class _$$RhttpError_RhttpConnectionErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$RhttpError_RhttpConnectionErrorImplCopyWithImpl<$Res>
-    extends _$RhttpErrorCopyWithImpl<$Res, _$RhttpError_RhttpConnectionErrorImpl>
+    extends _$RhttpErrorCopyWithImpl<$Res,
+        _$RhttpError_RhttpConnectionErrorImpl>
     implements _$$RhttpError_RhttpConnectionErrorImplCopyWith<$Res> {
   __$$RhttpError_RhttpConnectionErrorImplCopyWithImpl(
-      _$RhttpError_RhttpConnectionErrorImpl _value, $Res Function(_$RhttpError_RhttpConnectionErrorImpl) _then)
+      _$RhttpError_RhttpConnectionErrorImpl _value,
+      $Res Function(_$RhttpError_RhttpConnectionErrorImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of RhttpError
@@ -932,7 +1082,8 @@ class __$$RhttpError_RhttpConnectionErrorImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RhttpError_RhttpConnectionErrorImpl extends RhttpError_RhttpConnectionError {
+class _$RhttpError_RhttpConnectionErrorImpl
+    extends RhttpError_RhttpConnectionError {
   const _$RhttpError_RhttpConnectionErrorImpl(this.field0) : super._();
 
   @override
@@ -959,8 +1110,10 @@ class _$RhttpError_RhttpConnectionErrorImpl extends RhttpError_RhttpConnectionEr
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RhttpError_RhttpConnectionErrorImplCopyWith<_$RhttpError_RhttpConnectionErrorImpl> get copyWith =>
-      __$$RhttpError_RhttpConnectionErrorImplCopyWithImpl<_$RhttpError_RhttpConnectionErrorImpl>(this, _$identity);
+  _$$RhttpError_RhttpConnectionErrorImplCopyWith<
+          _$RhttpError_RhttpConnectionErrorImpl>
+      get copyWith => __$$RhttpError_RhttpConnectionErrorImplCopyWithImpl<
+          _$RhttpError_RhttpConnectionErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -968,7 +1121,9 @@ class _$RhttpError_RhttpConnectionErrorImpl extends RhttpError_RhttpConnectionEr
     required TResult Function() rhttpCancelError,
     required TResult Function() rhttpTimeoutError,
     required TResult Function() rhttpRedirectError,
-    required TResult Function(int field0, List<(String, String)> field1, HttpResponseBody field2) rhttpStatusCodeError,
+    required TResult Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)
+        rhttpStatusCodeError,
     required TResult Function(String field0) rhttpInvalidCertificateError,
     required TResult Function(String field0) rhttpConnectionError,
     required TResult Function(String field0) rhttpUnknownError,
@@ -982,7 +1137,9 @@ class _$RhttpError_RhttpConnectionErrorImpl extends RhttpError_RhttpConnectionEr
     TResult? Function()? rhttpCancelError,
     TResult? Function()? rhttpTimeoutError,
     TResult? Function()? rhttpRedirectError,
-    TResult? Function(int field0, List<(String, String)> field1, HttpResponseBody field2)? rhttpStatusCodeError,
+    TResult? Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)?
+        rhttpStatusCodeError,
     TResult? Function(String field0)? rhttpInvalidCertificateError,
     TResult? Function(String field0)? rhttpConnectionError,
     TResult? Function(String field0)? rhttpUnknownError,
@@ -996,7 +1153,9 @@ class _$RhttpError_RhttpConnectionErrorImpl extends RhttpError_RhttpConnectionEr
     TResult Function()? rhttpCancelError,
     TResult Function()? rhttpTimeoutError,
     TResult Function()? rhttpRedirectError,
-    TResult Function(int field0, List<(String, String)> field1, HttpResponseBody field2)? rhttpStatusCodeError,
+    TResult Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)?
+        rhttpStatusCodeError,
     TResult Function(String field0)? rhttpInvalidCertificateError,
     TResult Function(String field0)? rhttpConnectionError,
     TResult Function(String field0)? rhttpUnknownError,
@@ -1011,13 +1170,20 @@ class _$RhttpError_RhttpConnectionErrorImpl extends RhttpError_RhttpConnectionEr
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(RhttpError_RhttpCancelError value) rhttpCancelError,
-    required TResult Function(RhttpError_RhttpTimeoutError value) rhttpTimeoutError,
-    required TResult Function(RhttpError_RhttpRedirectError value) rhttpRedirectError,
-    required TResult Function(RhttpError_RhttpStatusCodeError value) rhttpStatusCodeError,
-    required TResult Function(RhttpError_RhttpInvalidCertificateError value) rhttpInvalidCertificateError,
-    required TResult Function(RhttpError_RhttpConnectionError value) rhttpConnectionError,
-    required TResult Function(RhttpError_RhttpUnknownError value) rhttpUnknownError,
+    required TResult Function(RhttpError_RhttpCancelError value)
+        rhttpCancelError,
+    required TResult Function(RhttpError_RhttpTimeoutError value)
+        rhttpTimeoutError,
+    required TResult Function(RhttpError_RhttpRedirectError value)
+        rhttpRedirectError,
+    required TResult Function(RhttpError_RhttpStatusCodeError value)
+        rhttpStatusCodeError,
+    required TResult Function(RhttpError_RhttpInvalidCertificateError value)
+        rhttpInvalidCertificateError,
+    required TResult Function(RhttpError_RhttpConnectionError value)
+        rhttpConnectionError,
+    required TResult Function(RhttpError_RhttpUnknownError value)
+        rhttpUnknownError,
   }) {
     return rhttpConnectionError(this);
   }
@@ -1028,9 +1194,12 @@ class _$RhttpError_RhttpConnectionErrorImpl extends RhttpError_RhttpConnectionEr
     TResult? Function(RhttpError_RhttpCancelError value)? rhttpCancelError,
     TResult? Function(RhttpError_RhttpTimeoutError value)? rhttpTimeoutError,
     TResult? Function(RhttpError_RhttpRedirectError value)? rhttpRedirectError,
-    TResult? Function(RhttpError_RhttpStatusCodeError value)? rhttpStatusCodeError,
-    TResult? Function(RhttpError_RhttpInvalidCertificateError value)? rhttpInvalidCertificateError,
-    TResult? Function(RhttpError_RhttpConnectionError value)? rhttpConnectionError,
+    TResult? Function(RhttpError_RhttpStatusCodeError value)?
+        rhttpStatusCodeError,
+    TResult? Function(RhttpError_RhttpInvalidCertificateError value)?
+        rhttpInvalidCertificateError,
+    TResult? Function(RhttpError_RhttpConnectionError value)?
+        rhttpConnectionError,
     TResult? Function(RhttpError_RhttpUnknownError value)? rhttpUnknownError,
   }) {
     return rhttpConnectionError?.call(this);
@@ -1042,9 +1211,12 @@ class _$RhttpError_RhttpConnectionErrorImpl extends RhttpError_RhttpConnectionEr
     TResult Function(RhttpError_RhttpCancelError value)? rhttpCancelError,
     TResult Function(RhttpError_RhttpTimeoutError value)? rhttpTimeoutError,
     TResult Function(RhttpError_RhttpRedirectError value)? rhttpRedirectError,
-    TResult Function(RhttpError_RhttpStatusCodeError value)? rhttpStatusCodeError,
-    TResult Function(RhttpError_RhttpInvalidCertificateError value)? rhttpInvalidCertificateError,
-    TResult Function(RhttpError_RhttpConnectionError value)? rhttpConnectionError,
+    TResult Function(RhttpError_RhttpStatusCodeError value)?
+        rhttpStatusCodeError,
+    TResult Function(RhttpError_RhttpInvalidCertificateError value)?
+        rhttpInvalidCertificateError,
+    TResult Function(RhttpError_RhttpConnectionError value)?
+        rhttpConnectionError,
     TResult Function(RhttpError_RhttpUnknownError value)? rhttpUnknownError,
     required TResult orElse(),
   }) {
@@ -1056,7 +1228,8 @@ class _$RhttpError_RhttpConnectionErrorImpl extends RhttpError_RhttpConnectionEr
 }
 
 abstract class RhttpError_RhttpConnectionError extends RhttpError {
-  const factory RhttpError_RhttpConnectionError(final String field0) = _$RhttpError_RhttpConnectionErrorImpl;
+  const factory RhttpError_RhttpConnectionError(final String field0) =
+      _$RhttpError_RhttpConnectionErrorImpl;
   const RhttpError_RhttpConnectionError._() : super._();
 
   String get field0;
@@ -1064,14 +1237,16 @@ abstract class RhttpError_RhttpConnectionError extends RhttpError {
   /// Create a copy of RhttpError
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RhttpError_RhttpConnectionErrorImplCopyWith<_$RhttpError_RhttpConnectionErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$RhttpError_RhttpConnectionErrorImplCopyWith<
+          _$RhttpError_RhttpConnectionErrorImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$$RhttpError_RhttpUnknownErrorImplCopyWith<$Res> {
   factory _$$RhttpError_RhttpUnknownErrorImplCopyWith(
-          _$RhttpError_RhttpUnknownErrorImpl value, $Res Function(_$RhttpError_RhttpUnknownErrorImpl) then) =
+          _$RhttpError_RhttpUnknownErrorImpl value,
+          $Res Function(_$RhttpError_RhttpUnknownErrorImpl) then) =
       __$$RhttpError_RhttpUnknownErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String field0});
@@ -1082,7 +1257,8 @@ class __$$RhttpError_RhttpUnknownErrorImplCopyWithImpl<$Res>
     extends _$RhttpErrorCopyWithImpl<$Res, _$RhttpError_RhttpUnknownErrorImpl>
     implements _$$RhttpError_RhttpUnknownErrorImplCopyWith<$Res> {
   __$$RhttpError_RhttpUnknownErrorImplCopyWithImpl(
-      _$RhttpError_RhttpUnknownErrorImpl _value, $Res Function(_$RhttpError_RhttpUnknownErrorImpl) _then)
+      _$RhttpError_RhttpUnknownErrorImpl _value,
+      $Res Function(_$RhttpError_RhttpUnknownErrorImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of RhttpError
@@ -1130,8 +1306,10 @@ class _$RhttpError_RhttpUnknownErrorImpl extends RhttpError_RhttpUnknownError {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$RhttpError_RhttpUnknownErrorImplCopyWith<_$RhttpError_RhttpUnknownErrorImpl> get copyWith =>
-      __$$RhttpError_RhttpUnknownErrorImplCopyWithImpl<_$RhttpError_RhttpUnknownErrorImpl>(this, _$identity);
+  _$$RhttpError_RhttpUnknownErrorImplCopyWith<
+          _$RhttpError_RhttpUnknownErrorImpl>
+      get copyWith => __$$RhttpError_RhttpUnknownErrorImplCopyWithImpl<
+          _$RhttpError_RhttpUnknownErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1139,7 +1317,9 @@ class _$RhttpError_RhttpUnknownErrorImpl extends RhttpError_RhttpUnknownError {
     required TResult Function() rhttpCancelError,
     required TResult Function() rhttpTimeoutError,
     required TResult Function() rhttpRedirectError,
-    required TResult Function(int field0, List<(String, String)> field1, HttpResponseBody field2) rhttpStatusCodeError,
+    required TResult Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)
+        rhttpStatusCodeError,
     required TResult Function(String field0) rhttpInvalidCertificateError,
     required TResult Function(String field0) rhttpConnectionError,
     required TResult Function(String field0) rhttpUnknownError,
@@ -1153,7 +1333,9 @@ class _$RhttpError_RhttpUnknownErrorImpl extends RhttpError_RhttpUnknownError {
     TResult? Function()? rhttpCancelError,
     TResult? Function()? rhttpTimeoutError,
     TResult? Function()? rhttpRedirectError,
-    TResult? Function(int field0, List<(String, String)> field1, HttpResponseBody field2)? rhttpStatusCodeError,
+    TResult? Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)?
+        rhttpStatusCodeError,
     TResult? Function(String field0)? rhttpInvalidCertificateError,
     TResult? Function(String field0)? rhttpConnectionError,
     TResult? Function(String field0)? rhttpUnknownError,
@@ -1167,7 +1349,9 @@ class _$RhttpError_RhttpUnknownErrorImpl extends RhttpError_RhttpUnknownError {
     TResult Function()? rhttpCancelError,
     TResult Function()? rhttpTimeoutError,
     TResult Function()? rhttpRedirectError,
-    TResult Function(int field0, List<(String, String)> field1, HttpResponseBody field2)? rhttpStatusCodeError,
+    TResult Function(
+            int field0, List<(String, String)> field1, HttpResponseBody field2)?
+        rhttpStatusCodeError,
     TResult Function(String field0)? rhttpInvalidCertificateError,
     TResult Function(String field0)? rhttpConnectionError,
     TResult Function(String field0)? rhttpUnknownError,
@@ -1182,13 +1366,20 @@ class _$RhttpError_RhttpUnknownErrorImpl extends RhttpError_RhttpUnknownError {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(RhttpError_RhttpCancelError value) rhttpCancelError,
-    required TResult Function(RhttpError_RhttpTimeoutError value) rhttpTimeoutError,
-    required TResult Function(RhttpError_RhttpRedirectError value) rhttpRedirectError,
-    required TResult Function(RhttpError_RhttpStatusCodeError value) rhttpStatusCodeError,
-    required TResult Function(RhttpError_RhttpInvalidCertificateError value) rhttpInvalidCertificateError,
-    required TResult Function(RhttpError_RhttpConnectionError value) rhttpConnectionError,
-    required TResult Function(RhttpError_RhttpUnknownError value) rhttpUnknownError,
+    required TResult Function(RhttpError_RhttpCancelError value)
+        rhttpCancelError,
+    required TResult Function(RhttpError_RhttpTimeoutError value)
+        rhttpTimeoutError,
+    required TResult Function(RhttpError_RhttpRedirectError value)
+        rhttpRedirectError,
+    required TResult Function(RhttpError_RhttpStatusCodeError value)
+        rhttpStatusCodeError,
+    required TResult Function(RhttpError_RhttpInvalidCertificateError value)
+        rhttpInvalidCertificateError,
+    required TResult Function(RhttpError_RhttpConnectionError value)
+        rhttpConnectionError,
+    required TResult Function(RhttpError_RhttpUnknownError value)
+        rhttpUnknownError,
   }) {
     return rhttpUnknownError(this);
   }
@@ -1199,9 +1390,12 @@ class _$RhttpError_RhttpUnknownErrorImpl extends RhttpError_RhttpUnknownError {
     TResult? Function(RhttpError_RhttpCancelError value)? rhttpCancelError,
     TResult? Function(RhttpError_RhttpTimeoutError value)? rhttpTimeoutError,
     TResult? Function(RhttpError_RhttpRedirectError value)? rhttpRedirectError,
-    TResult? Function(RhttpError_RhttpStatusCodeError value)? rhttpStatusCodeError,
-    TResult? Function(RhttpError_RhttpInvalidCertificateError value)? rhttpInvalidCertificateError,
-    TResult? Function(RhttpError_RhttpConnectionError value)? rhttpConnectionError,
+    TResult? Function(RhttpError_RhttpStatusCodeError value)?
+        rhttpStatusCodeError,
+    TResult? Function(RhttpError_RhttpInvalidCertificateError value)?
+        rhttpInvalidCertificateError,
+    TResult? Function(RhttpError_RhttpConnectionError value)?
+        rhttpConnectionError,
     TResult? Function(RhttpError_RhttpUnknownError value)? rhttpUnknownError,
   }) {
     return rhttpUnknownError?.call(this);
@@ -1213,9 +1407,12 @@ class _$RhttpError_RhttpUnknownErrorImpl extends RhttpError_RhttpUnknownError {
     TResult Function(RhttpError_RhttpCancelError value)? rhttpCancelError,
     TResult Function(RhttpError_RhttpTimeoutError value)? rhttpTimeoutError,
     TResult Function(RhttpError_RhttpRedirectError value)? rhttpRedirectError,
-    TResult Function(RhttpError_RhttpStatusCodeError value)? rhttpStatusCodeError,
-    TResult Function(RhttpError_RhttpInvalidCertificateError value)? rhttpInvalidCertificateError,
-    TResult Function(RhttpError_RhttpConnectionError value)? rhttpConnectionError,
+    TResult Function(RhttpError_RhttpStatusCodeError value)?
+        rhttpStatusCodeError,
+    TResult Function(RhttpError_RhttpInvalidCertificateError value)?
+        rhttpInvalidCertificateError,
+    TResult Function(RhttpError_RhttpConnectionError value)?
+        rhttpConnectionError,
     TResult Function(RhttpError_RhttpUnknownError value)? rhttpUnknownError,
     required TResult orElse(),
   }) {
@@ -1227,7 +1424,8 @@ class _$RhttpError_RhttpUnknownErrorImpl extends RhttpError_RhttpUnknownError {
 }
 
 abstract class RhttpError_RhttpUnknownError extends RhttpError {
-  const factory RhttpError_RhttpUnknownError(final String field0) = _$RhttpError_RhttpUnknownErrorImpl;
+  const factory RhttpError_RhttpUnknownError(final String field0) =
+      _$RhttpError_RhttpUnknownErrorImpl;
   const RhttpError_RhttpUnknownError._() : super._();
 
   String get field0;
@@ -1235,6 +1433,7 @@ abstract class RhttpError_RhttpUnknownError extends RhttpError {
   /// Create a copy of RhttpError
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RhttpError_RhttpUnknownErrorImplCopyWith<_$RhttpError_RhttpUnknownErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$RhttpError_RhttpUnknownErrorImplCopyWith<
+          _$RhttpError_RhttpUnknownErrorImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

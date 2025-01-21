@@ -479,7 +479,7 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
                                         return buildProgressIndicator();
                                       }
                                       return MangaHomeImageCardListTile(
-                                        isManga: source.itemType,
+                                        itemType: source.itemType,
                                         manga: _mangaList[index],
                                         source: source,
                                       );

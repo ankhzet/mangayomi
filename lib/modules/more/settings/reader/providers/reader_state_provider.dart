@@ -134,13 +134,13 @@ class FullScreenReaderState extends _$FullScreenReaderState {
 class HideMangaState extends _$HideMangaState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.hideManga ?? false;
+    return isar.settings.first.hideManga ?? false;
   }
 
   void set(bool value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
-    isar.writeTxnSync(() => isar.settings.putSync(settings!..hideManga = value));
+    isar.settings.first = settings..hideManga = value;
   }
 }
 
@@ -148,13 +148,13 @@ class HideMangaState extends _$HideMangaState {
 class HideAnimeState extends _$HideAnimeState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.hideAnime ?? false;
+    return isar.settings.first.hideAnime ?? false;
   }
 
   void set(bool value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
-    isar.writeTxnSync(() => isar.settings.putSync(settings!..hideAnime = value));
+    isar.settings.first = settings..hideAnime = value;
   }
 }
 
@@ -162,13 +162,13 @@ class HideAnimeState extends _$HideAnimeState {
 class HideNovelState extends _$HideNovelState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.hideNovel ?? false;
+    return isar.settings.first.hideNovel ?? false;
   }
 
   void set(bool value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
-    isar.writeTxnSync(() => isar.settings.putSync(settings!..hideNovel = value));
+    isar.settings.first = settings..hideNovel = value;
   }
 }
 
@@ -176,13 +176,13 @@ class HideNovelState extends _$HideNovelState {
 class NovelFontSizeState extends _$NovelFontSizeState {
   @override
   int build() {
-    return isar.settings.getSync(227)!.novelFontSize ?? 14;
+    return isar.settings.first.novelFontSize ?? 14;
   }
 
   void set(int value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
-    isar.writeTxnSync(() => isar.settings.putSync(settings!..novelFontSize = value));
+    isar.settings.first = settings..novelFontSize = value;
   }
 }
 
@@ -190,12 +190,12 @@ class NovelFontSizeState extends _$NovelFontSizeState {
 class NovelTextAlignState extends _$NovelTextAlignState {
   @override
   NovelTextAlign build() {
-    return isar.settings.getSync(227)!.novelTextAlign;
+    return isar.settings.first.novelTextAlign;
   }
 
   void set(NovelTextAlign value) {
-    final settings = isar.settings.getSync(227);
+    final settings = isar.settings.first;
     state = value;
-    isar.writeTxnSync(() => isar.settings.putSync(settings!..novelTextAlign = value));
+    isar.settings.first = settings..novelTextAlign = value;
   }
 }

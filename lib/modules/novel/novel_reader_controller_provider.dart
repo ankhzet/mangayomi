@@ -22,10 +22,10 @@ class NovelReaderController extends _$NovelReaderController {
     return chapter;
   }
 
-  final incognitoMode = isar.settings.getSync(227)!.incognitoMode!;
+  final incognitoMode = isar.settings.first.incognitoMode!;
 
   Settings getIsarSetting() {
-    return isar.settings.getSync(227)!;
+    return isar.settings.first;
   }
 
   void setMangaHistoryUpdate() {
@@ -180,7 +180,7 @@ extension MangaExtensions on Manga {
   List<Chapter> getFilteredChapterList() {
     final data = this.chapters.toList().toList();
     final filterUnread = (isar.settings
-                .getSync(227)!
+                .first
                 .chapterFilterUnreadList!
                 .where((element) => element.mangaId == id)
                 .toList()
@@ -192,7 +192,7 @@ extension MangaExtensions on Manga {
         .type!;
 
     final filterBookmarked = (isar.settings
-                .getSync(227)!
+                .first
                 .chapterFilterBookmarkedList!
                 .where((element) => element.mangaId == id)
                 .toList()
@@ -203,7 +203,7 @@ extension MangaExtensions on Manga {
             ))
         .type!;
     final filterDownloaded = (isar.settings
-                .getSync(227)!
+                .first
                 .chapterFilterDownloadedList!
                 .where((element) => element.mangaId == id)
                 .toList()
@@ -215,7 +215,7 @@ extension MangaExtensions on Manga {
         .type!;
 
     final sortChapter =
-        (isar.settings.getSync(227)!.sortChapterList!.where((element) => element.mangaId == id).toList().firstOrNull ??
+        (isar.settings.first.sortChapterList!.where((element) => element.mangaId == id).toList().firstOrNull ??
                 SortChapter(
                   mangaId: id,
                   index: 1,
@@ -274,7 +274,7 @@ extension MangaExtensions on Manga {
 }
 
 List<String>? _getFilterScanlator(Manga manga) {
-  final scanlators = isar.settings.getSync(227)!.filterScanlatorList ?? [];
+  final scanlators = isar.settings.first.filterScanlatorList ?? [];
   final filter = scanlators.where((element) => element.mangaId == manga.id).toList();
   return filter.firstOrNull?.scanlators;
 }

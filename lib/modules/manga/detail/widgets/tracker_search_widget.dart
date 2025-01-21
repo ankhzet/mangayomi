@@ -230,7 +230,8 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
   }
 }
 
-Future<TrackSearch?> trackersSearchDraggableMenu(BuildContext context, {required Track track, required ItemType itemType}) async {
+Future<TrackSearch?> trackersSearchDraggableMenu(BuildContext context,
+    {required Track track, required ItemType itemType}) async {
   var padding = MediaQuery.of(context).padding;
   return await showDialog(
     context: context,

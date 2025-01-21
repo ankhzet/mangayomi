@@ -117,21 +117,14 @@ class TrackState extends _$TrackState {
     List<TrackStatus> statusList = [];
     List<TrackStatus> list = [];
     if (track!.syncId == 1) {
-      statusList = _isManga
-          ? ref
-              .read(myAnimeListProvider(syncId: track!.syncId!, itemType: itemType).notifier)
-              .myAnimeListStatusListManga
-          : ref
-              .read(myAnimeListProvider(syncId: track!.syncId!, itemType: itemType).notifier)
-              .myAnimeListStatusListAnime;
+      final list = ref.read(myAnimeListProvider(syncId: track!.syncId!, itemType: itemType).notifier);
+      statusList = _isManga ? list.myAnimeListStatusListManga : list.myAnimeListStatusListAnime;
     } else if (track!.syncId == 2) {
-      statusList = _isManga
-          ? ref.read(anilistProvider(syncId: track!.syncId!, itemType: itemType).notifier).aniListStatusListManga
-          : ref.read(anilistProvider(syncId: track!.syncId!, itemType: itemType).notifier).aniListStatusListAnime;
+      final list = ref.read(anilistProvider(syncId: track!.syncId!, itemType: itemType).notifier);
+      statusList = _isManga ? list.aniListStatusListManga : list.aniListStatusListAnime;
     } else if (track!.syncId == 3) {
-      statusList = _isManga
-          ? ref.read(kitsuProvider(syncId: track!.syncId!, itemType: itemType).notifier).kitsuStatusListManga
-          : ref.read(kitsuProvider(syncId: track!.syncId!, itemType: itemType).notifier).kitsuStatusListAnime;
+      final list = ref.read(kitsuProvider(syncId: track!.syncId!, itemType: itemType).notifier);
+      statusList = _isManga ? list.kitsuStatusListManga : list.kitsuStatusListAnime;
     }
     for (var element in TrackStatus.values) {
       if (statusList.contains(element)) {
@@ -147,13 +140,11 @@ class TrackState extends _$TrackState {
       findManga =
           await ref.read(myAnimeListProvider(syncId: track!.syncId!, itemType: itemType).notifier).findManga(track!);
     } else if (track!.syncId == 2) {
-      findManga = _isManga
-          ? await ref.read(anilistProvider(syncId: track!.syncId!, itemType: itemType).notifier).findLibManga(track!)
-          : await ref.read(anilistProvider(syncId: track!.syncId!, itemType: itemType).notifier).findLibAnime(track!);
+      final list = ref.read(anilistProvider(syncId: track!.syncId!, itemType: itemType).notifier);
+      findManga = _isManga ? await list.findLibManga(track!) : await list.findLibAnime(track!);
     } else if (track!.syncId == 3) {
-      findManga = _isManga
-          ? await ref.read(kitsuProvider(syncId: track!.syncId!, itemType: itemType).notifier).findLibManga(track!)
-          : await ref.read(kitsuProvider(syncId: track!.syncId!, itemType: itemType).notifier).findLibAnime(track!);
+      final list = ref.read(kitsuProvider(syncId: track!.syncId!, itemType: itemType).notifier);
+      findManga = _isManga ? await list.findLibManga(track!) : await list.findLibAnime(track!);
     }
     return findManga;
   }
@@ -163,13 +154,11 @@ class TrackState extends _$TrackState {
     if (track!.syncId == 1) {
       tracks = await ref.read(myAnimeListProvider(syncId: track!.syncId!, itemType: itemType).notifier).search(query);
     } else if (track!.syncId == 2) {
-      tracks = _isManga
-          ? await ref.read(anilistProvider(syncId: track!.syncId!, itemType: itemType).notifier).search(query)
-          : await ref.read(anilistProvider(syncId: track!.syncId!, itemType: itemType).notifier).searchAnime(query);
+      final list = ref.read(anilistProvider(syncId: track!.syncId!, itemType: itemType).notifier);
+      tracks = _isManga ? await list.search(query) : await list.searchAnime(query);
     } else if (track!.syncId == 3) {
-      tracks = _isManga
-          ? await ref.read(kitsuProvider(syncId: track!.syncId!, itemType: itemType).notifier).search(query)
-          : await ref.read(kitsuProvider(syncId: track!.syncId!, itemType: itemType).notifier).searchAnime(query);
+      final list = ref.read(kitsuProvider(syncId: track!.syncId!, itemType: itemType).notifier);
+      tracks = _isManga ? await list.search(query) : await list.searchAnime(query);
     }
     return tracks;
   }

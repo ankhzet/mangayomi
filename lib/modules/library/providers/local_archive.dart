@@ -16,7 +16,8 @@ Future importArchivesFromFile(Ref ref, Manga? mManga, {required ItemType itemTyp
   FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
       type: FileType.custom,
-      allowedExtensions: itemType == ItemType.manga ? ['cbz', 'zip'] : ['mp4', 'mov', 'avi', 'flv', 'wmv', 'mpeg', 'mkv']);
+      allowedExtensions:
+          itemType == ItemType.manga ? ['cbz', 'zip'] : ['mp4', 'mov', 'avi', 'flv', 'wmv', 'mpeg', 'mkv']);
   if (result != null) {
     final dateNow = DateTime.now().millisecondsSinceEpoch;
     final manga = mManga ??

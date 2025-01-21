@@ -1,13 +1,11 @@
 import 'dart:convert';
 
-import 'package:crypto/crypto.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/eval/model/source_preference.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/category.dart';
-import 'package:mangayomi/models/changed_items.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
@@ -16,13 +14,9 @@ import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/sync_preference.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/models/update.dart';
-import 'package:mangayomi/modules/more/settings/appearance/providers/blend_level_state_provider.dart';
-import 'package:mangayomi/modules/more/settings/appearance/providers/flex_scheme_color_state_provider.dart';
-import 'package:mangayomi/modules/more/settings/appearance/providers/pure_black_dark_mode_state_provider.dart';
-import 'package:mangayomi/modules/more/settings/appearance/providers/theme_mode_state_provider.dart';
+import 'package:mangayomi/modules/more/data_and_storage/providers/restore.dart';
 import 'package:mangayomi/modules/more/settings/sync/models/jwt.dart';
 import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
-import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

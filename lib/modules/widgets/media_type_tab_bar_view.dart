@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/widgets/type_tab_bar_view.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 
 class MediaTabs extends ConsumerStatefulWidget {
-  final Widget Function(bool isManga) content;
+  final Widget Function(ItemType type) content;
   final Widget Function(TabBar? tabBar, Widget view) wrap;
-  final Tab Function(bool isManga)? tab;
-  final List<bool>? types;
-  final List<bool>? defaultTypes;
-  final void Function(bool isManga)? onChange;
+  final Tab Function(ItemType type)? tab;
+  final List<ItemType>? types;
+  final List<ItemType>? defaultTypes;
+  final void Function(ItemType type)? onChange;
 
   const MediaTabs({
     super.key,
@@ -26,7 +27,7 @@ class MediaTabs extends ConsumerStatefulWidget {
 }
 
 class _MediaTabsState extends ConsumerState<MediaTabs> {
-  late List<bool> defaultTypes = widget.defaultTypes ?? [true, false];
+  late List<ItemType> defaultTypes = widget.defaultTypes ?? [ItemType.manga, ItemType.anime, ItemType.novel];
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +40,15 @@ class _MediaTabsState extends ConsumerState<MediaTabs> {
     };
   }
 
-  Widget _tabBar(BuildContext context, List<bool> types) {
+  Widget _tabBar(BuildContext context, List<ItemType> types) {
     final l10n = l10nLocalizations(context)!;
-    final tab = widget.tab ?? (bool type) => Tab(text: (type == true) ? l10n.manga : l10n.anime);
+    final tab = widget.tab ??
+        (ItemType type) => Tab(
+                text: switch (type) {
+              ItemType.manga => l10n.manga,
+              ItemType.anime => l10n.anime,
+              ItemType.novel => l10n.novel,
+            });
 
     return TypeTabBarView(
       tabs: types,

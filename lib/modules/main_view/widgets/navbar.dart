@@ -185,6 +185,12 @@ class Navbar extends StatelessWidget {
         route: '/AnimeLibrary',
       ),
       NavItem(
+        selectedIcon: const Icon(Icons.local_library),
+        icon: const Icon(Icons.local_library_outlined),
+        label: l10n.novel,
+        route: '/NovelLibrary',
+      ),
+      NavItem(
         selectedIcon: const Icon(Icons.new_releases),
         icon: const Icon(Icons.new_releases_outlined),
         label: context.isTablet ? getHyphenatedUpdatesLabel(lang, l10n.updates) : l10n.updates,

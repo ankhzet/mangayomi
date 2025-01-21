@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/view_queue_item.dart';
+import 'package:mangayomi/utils/extensions/view_queue_item.dart';
 
 class QueueChaptersWidget extends ConsumerStatefulWidget {
   final Chapter chapter;

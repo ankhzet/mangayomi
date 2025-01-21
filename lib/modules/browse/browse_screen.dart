@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
-import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
-import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/modules/browse/extension/extension_screen.dart';
 import 'package:mangayomi/modules/browse/sources/sources_screen.dart';
 import 'package:mangayomi/modules/library/widgets/search_text_form_field.dart';
+import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/services/fetch_sources_list.dart';

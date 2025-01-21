@@ -5,6 +5,8 @@ import 'package:archive/archive_io.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
+import 'package:mangayomi/eval/model/source_preference.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/category.dart';
 import 'package:mangayomi/models/chapter.dart';
@@ -62,7 +64,7 @@ Future<void> doBackUp(
   }
   if (list.contains(5)) {
     final res = isar.updates.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
-    datas.addAll({"updates": res});
+    data.addAll({"updates": res});
   }
   if (list.contains(6)) {
     final res = isar.settings.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
@@ -70,11 +72,11 @@ Future<void> doBackUp(
   }
   if (list.contains(7)) {
     final res = isar.sourcePreferences.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
-    datas.addAll({"extensions_preferences": res});
+    data.addAll({"extensions_preferences": res});
   }
   if (list.contains(8)) {
     final res_ = isar.trackPreferences.filter().syncIdIsNotNull().findAllSync().map((e) => e.toJson()).toList();
-    datas.addAll({"trackPreferences": res_});
+    data.addAll({"trackPreferences": res_});
   }
   if (list.contains(9)) {
     final res = isar.sources.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();

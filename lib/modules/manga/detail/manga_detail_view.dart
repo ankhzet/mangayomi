@@ -23,7 +23,6 @@ import 'package:mangayomi/modules/manga/detail/widgets/manga_chapters_menu.dart'
 import 'package:mangayomi/modules/manga/detail/widgets/manga_cover_backdrop.dart';
 import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
-import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/widgets/error_text.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
@@ -308,7 +307,6 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
 
                                 _unselect(ref);
 
-                                final changeLog = ref.read(changedItemsManagerProvider(managerId: 1).notifier);
                                 final List<Chapter> updated = [];
 
                                 for (var chapter in chapters.skip(index)) {
@@ -318,7 +316,6 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
 
                                   chapter.isRead = true;
                                   chapter.lastPageRead = "1";
-                                  changeLog.addUpdatedChapter(chapter, false, true);
                                   updated.add(chapter..manga.value = widget.manga);
                                 }
 

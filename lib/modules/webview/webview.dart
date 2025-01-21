@@ -56,7 +56,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
         } catch (_) {}
       });
 
-    final ctx = context;
+      final ctx = context;
 
       _desktopWebview!
         ..setBrightness(Brightness.dark)
@@ -64,9 +64,9 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
         ..onClose.whenComplete(() {
           timer.cancel();
 
-        if (ctx.mounted) {
-          Navigator.pop(ctx);
-        }
+          if (ctx.mounted) {
+            Navigator.pop(ctx);
+          }
         });
     } else {
       browser = MyInAppBrowser(

@@ -18,7 +18,9 @@ import 'package:mangayomi/modules/more/settings/appearance/providers/blend_level
 import 'package:mangayomi/modules/more/settings/appearance/providers/flex_scheme_color_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/pure_black_dark_mode_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/theme_mode_state_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mangayomi/providers/l10n_providers.dart';
+import 'package:mangayomi/providers/storage_provider.dart';
+import 'package:mangayomi/router/router.dart';
 import 'package:mangayomi/src/rust/frb_generated.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:path/path.dart' as p;
@@ -46,11 +48,13 @@ void main(List<String> args) async {
 
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
     final availableVersion = await WebViewEnvironment.getAvailableVersion();
+
     if (availableVersion != null) {
       final document = await getApplicationDocumentsDirectory();
       webViewEnvironment = await WebViewEnvironment.create(
           settings: WebViewEnvironmentSettings(userDataFolder: p.join(document.path, 'flutter_inappwebview')));
     }
+  }
 
   await StorageProvider.requestPermission();
   await StorageProvider.deleteBtDirectory();

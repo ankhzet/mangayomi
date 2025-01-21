@@ -10,6 +10,7 @@ import 'package:mangayomi/modules/manga/detail/chapters_list_model.dart';
 import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
 import 'package:mangayomi/utils/constant.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
+import 'package:mangayomi/utils/headers.dart';
 
 extension MangaExtension on Manga {
   bool isThisManga<T extends OfManga>(T element) => element.mangaId == id;

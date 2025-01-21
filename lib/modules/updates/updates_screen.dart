@@ -8,9 +8,6 @@ import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/models/view_queue_item.dart';
-import 'package:mangayomi/modules/manga/detail/providers/update_manga_detail_providers.dart';
-import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
-import 'package:mangayomi/modules/updates/widgets/update_chapter_list_tile_widget.dart';
 import 'package:mangayomi/modules/history/providers/isar_providers.dart';
 import 'package:mangayomi/modules/library/widgets/search_text_form_field.dart';
 import 'package:mangayomi/modules/manga/detail/providers/update_manga_detail_providers.dart';
@@ -40,8 +37,8 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
   final _textEditingController = TextEditingController();
   bool _isLoading = false;
   bool _isSearch = false;
-  bool _type = true;
   bool _initial = true;
+  ItemType _type = ItemType.manga;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +47,7 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
     return AsyncValueWidget(
       async: async,
       builder: (values) => async.build(values, (List<Manga> entities) {
-        final types = entities.map((entity) => entity.isManga == true).toUnique(growable: false);
+        final types = entities.map((entity) => entity.itemType).toUnique(growable: false);
 
         return MediaTabs(
           onChange: (type) {
@@ -89,9 +86,9 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
           }).toList();
   }
 
-  Widget _infoTypes(bool type) {
+  Widget _infoTypes(ItemType type) {
     final async =
-        ref.watch(updatePeriodicityProvider(type: type)).merge2(ref.watch(getAllUpdateStreamProvider(isManga: type)));
+        ref.watch(updatePeriodicityProvider(type: type)).merge2(ref.watch(getAllUpdateStreamProvider(itemType: type)));
 
     return AsyncValueWidget(
       async: async,
@@ -146,7 +143,7 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
     );
   }
 
-  AppBar _appBar(TabBar? tabBar, bool type) {
+  AppBar _appBar(TabBar? tabBar, ItemType type) {
     final l10n = l10nLocalizations(context)!;
 
     return AppBar(
@@ -230,7 +227,7 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
     return (filtered.mapToList((i) => i.$4), overdraft);
   }
 
-  Widget _updateAction(bool type) {
+  Widget _updateAction(ItemType type) {
     final async = ref.watch(updatePeriodicityProvider(type: type)).combiner();
 
     return AsyncValueWidget(

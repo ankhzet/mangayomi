@@ -10,7 +10,6 @@ import 'package:mangayomi/models/dto/preload_task.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
 import 'package:mangayomi/utils/headers.dart';
-import 'package:mangayomi/utils/reg_exp_matcher.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 

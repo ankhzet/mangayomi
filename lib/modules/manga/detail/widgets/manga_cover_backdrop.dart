@@ -6,6 +6,7 @@ import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/utils/cached_network.dart';
 import 'package:mangayomi/utils/constant.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/utils/headers.dart';
 
 class MangaCoverBackdrop extends StatelessWidget {
   final Manga manga;

@@ -34,6 +34,7 @@ import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/services/get_chapter_pages.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
+import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/global_style.dart';
 import 'package:mangayomi/utils/utils.dart';
 import 'package:path/path.dart' as path;
@@ -73,7 +74,6 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
   @override
   void dispose() {
     _readerController.setMangaHistoryUpdate();
-    _readerController.checkAndSyncProgress();
     _readerController.setPageIndex(_getSnappedIndex(), true);
     _rebuildDetail.close();
     _autoScroll.value = false;
@@ -844,7 +844,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                     onPressed: () async {
                       final manga = chapter.manga.value!;
                       final source = getSource(manga.lang!, manga.source!)!;
-                      String url = chapter.url!.startsWith('/') ? "${source.baseUrl}/${chapter.url!}" : chapter.url!;
+                      String url = "${source.baseUrl}/${chapter.url!.getUrlWithoutDomain}";
                       Map<String, dynamic> data = {
                         'url': url,
                         'sourceId': source.id.toString(),

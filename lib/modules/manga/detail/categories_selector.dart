@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/category.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/chapter_filter_list_tile_widget.dart';
 
 class CategoriesSelector extends ConsumerStatefulWidget {
-  final bool? isManga;
+  final ItemType? itemType;
   final dynamic Function(Category category, bool select) onSelect;
 
-  const CategoriesSelector({super.key, required this.isManga, required this.onSelect});
+  const CategoriesSelector({super.key, required this.itemType, required this.onSelect});
 
   @override
   ConsumerState<CategoriesSelector> createState() => _CategoriesSelectorState();
@@ -21,8 +23,8 @@ class _CategoriesSelectorState extends ConsumerState<CategoriesSelector> {
   Widget build(BuildContext context) {
     var query = isar.categorys.filter().idIsNotNull();
 
-    if (widget.isManga != null) {
-      query = query.and().forMangaEqualTo(widget.isManga);
+    if (widget.itemType != null) {
+      query = query.and().forItemTypeEqualTo(widget.itemType!);
     }
 
     return StreamBuilder(

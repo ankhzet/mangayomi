@@ -1,17 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'migration.g.dart';
 
 @riverpod
 Future<void> migration(Ref ref) async {
-  final mangas = isar.mangas.filter().idIsNotNull().isMangaIsNotNull().findAllSync();
+  final mangas = isar.mangas.filter().isMangaIsNotNull().findAllSync();
 
   final histories = isar.historys
       .filter()

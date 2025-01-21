@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/models/chapter.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/manga/reader/providers/push_router.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
@@ -8,7 +9,7 @@ import 'package:mangayomi/utils/extensions/string_extensions.dart';
 
 extension ChapterExtension on Chapter {
   @ignore
-  bool get isManga => manga.value!.isManga!;
+  ItemType get itemType => manga.value!.itemType;
 
   bool isThisChapter<T extends OfChapter>(T element) => element.chapterId == id;
 
@@ -43,11 +44,11 @@ extension ChapterExtension on Chapter {
       return '';
     }
 
-    if (manga.value!.isManga ?? false) {
-      return progress;
-    }
-
-    return Duration(milliseconds: int.parse(progress)).toString().substringBefore(".");
+    return switch (manga.value!.itemType) {
+      ItemType.manga => progress,
+      ItemType.anime => Duration(milliseconds: int.parse(progress)).toString().substringBefore("."),
+      ItemType.novel => "${((double.tryParse(progress) ?? 0) * 100).toStringAsFixed(0)} %",
+    };
   }
 
   DateTime? datetimeUpload() {

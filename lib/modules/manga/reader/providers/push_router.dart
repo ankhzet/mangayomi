@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
+import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/source.dart';
 
 Future<void> pushMangaReaderView({
   required BuildContext context,
@@ -21,17 +24,14 @@ Future<void> pushMangaReaderView({
       .findAllSync()
       .isNotEmpty;
   if (sourceExist || chapter.manga.value!.isLocalArchive!) {
-    switch (chapter.manga.value!.itemType) {
-      case ItemType.manga:
-        await context.push('/mangaReaderView', extra: chapter);
-        break;
-      case ItemType.anime:
-        await context.push('/animePlayerView', extra: chapter);
-        break;
-      case ItemType.novel:
-        await context.push('/novelReaderView', extra: chapter);
-        break;
-    }
+    await context.push(
+      switch (chapter.manga.value!.itemType) {
+        ItemType.manga => '/mangaReaderView',
+        ItemType.anime => '/animePlayerView',
+        ItemType.novel => '/novelReaderView',
+      },
+      extra: chapter,
+    );
   }
 }
 

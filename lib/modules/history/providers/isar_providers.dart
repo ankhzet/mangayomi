@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/update.dart';
@@ -18,12 +20,12 @@ Stream<List<History>> getAllHistoryStream(Ref ref, {required ItemType itemType})
 }
 
 @riverpod
-Stream<List<History>> getMangaHistoryStream(Ref ref, {required bool isManga, required int mangaId}) async* {
+Stream<List<History>> getMangaHistoryStream(Ref ref, {required ItemType itemType, required int mangaId}) async* {
   yield* isar.historys
       .filter()
       .idIsNotNull()
       .and()
-      .chapter((q) => q.manga((q) => q.isMangaEqualTo(isManga).and().idEqualTo(mangaId)))
+      .chapter((q) => q.manga((q) => q.itemTypeEqualTo(itemType).and().idEqualTo(mangaId)))
       .watch(fireImmediately: true);
 }
 
@@ -38,6 +40,6 @@ Stream<List<Update>> getAllUpdateStream(Ref ref, {required ItemType itemType}) a
 }
 
 @riverpod
-Stream<List<Manga>> getAllMangasStream(Ref ref, {required bool isManga}) async* {
-  yield* isar.mangas.filter().isMangaEqualTo(isManga).watch(fireImmediately: true);
+Stream<List<Manga>> getAllMangasStream(Ref ref, {required ItemType itemType}) async* {
+  yield* isar.mangas.filter().itemTypeEqualTo(itemType).watch(fireImmediately: true);
 }

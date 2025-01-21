@@ -35,8 +35,8 @@ interface class FileDownloader {
 
   factory FileDownloader({PersistentStorage? persistentStorage}) {
     assert(
-        _singleton == null || persistentStorage == null,
-        'You can only supply a persistentStorage on the very first call to '
+    _singleton == null || persistentStorage == null,
+    'You can only supply a persistentStorage on the very first call to '
         'FileDownloader()');
     _singleton ??= FileDownloader._internal(
       persistentStorage ?? LocalStorePersistentStorage(),
@@ -74,7 +74,7 @@ interface class FileDownloader {
   /// Please see [CONFIG.md](https://github.com/781flyingdutchman/background_downloader/blob/main/CONFIG.md)
   /// for more information
   Future<List<(String, String)>> configure(
-          {dynamic globalConfig, dynamic androidConfig, dynamic iOSConfig, dynamic desktopConfig}) =>
+      {dynamic globalConfig, dynamic androidConfig, dynamic iOSConfig, dynamic desktopConfig}) =>
       _downloader.configure(
           globalConfig: globalConfig, androidConfig: androidConfig, iOSConfig: iOSConfig, desktopConfig: desktopConfig);
 
@@ -101,13 +101,12 @@ interface class FileDownloader {
   /// is used when calling 'convenience' functions like `FileDownloader().download`
   ///
   /// The call returns the [FileDownloader] to make chaining easier
-  FileDownloader registerCallbacks(
-      {String group = defaultGroup,
-      TaskStatusCallback? taskStatusCallback,
-      TaskProgressCallback? taskProgressCallback,
-      TaskNotificationTapCallback? taskNotificationTapCallback}) {
+  FileDownloader registerCallbacks({String group = defaultGroup,
+    TaskStatusCallback? taskStatusCallback,
+    TaskProgressCallback? taskProgressCallback,
+    TaskNotificationTapCallback? taskNotificationTapCallback}) {
     assert(taskStatusCallback != null || taskProgressCallback != null || taskNotificationTapCallback != null,
-        'Must provide at least one callback');
+    'Must provide at least one callback');
     if (taskStatusCallback != null) {
       _downloader.groupStatusCallbacks[group] = taskStatusCallback;
     }
@@ -206,10 +205,10 @@ interface class FileDownloader {
   /// - you want more detailed progress information
   ///   (e.g. file size, network speed, time remaining)
   Future<TaskStatusUpdate> download(DownloadTask task,
-          {void Function(TaskStatus)? onStatus,
-          void Function(double)? onProgress,
-          void Function(Duration)? onElapsedTime,
-          Duration? elapsedTimeInterval}) =>
+      {void Function(TaskStatus)? onStatus,
+        void Function(double)? onProgress,
+        void Function(Duration)? onElapsedTime,
+        Duration? elapsedTimeInterval}) =>
       _downloader.enqueueAndAwait(task,
           onStatus: onStatus,
           onProgress: onProgress,
@@ -252,10 +251,10 @@ interface class FileDownloader {
   /// - you want more detailed progress information
   ///   (e.g. file size, network speed, time remaining)
   Future<TaskStatusUpdate> upload(UploadTask task,
-          {void Function(TaskStatus)? onStatus,
-          void Function(double)? onProgress,
-          void Function(Duration)? onElapsedTime,
-          Duration? elapsedTimeInterval}) =>
+      {void Function(TaskStatus)? onStatus,
+        void Function(double)? onProgress,
+        void Function(Duration)? onElapsedTime,
+        Duration? elapsedTimeInterval}) =>
       _downloader.enqueueAndAwait(task,
           onStatus: onStatus,
           onProgress: onProgress,
@@ -280,9 +279,9 @@ interface class FileDownloader {
   /// For performance reasons the [elapsedTimeInterval] should not be set to
   /// a value less than one second.
   Future<TaskStatusUpdate> transmit(DataTask task,
-          {void Function(TaskStatus)? onStatus,
-          void Function(Duration)? onElapsedTime,
-          Duration? elapsedTimeInterval}) =>
+      {void Function(TaskStatus)? onStatus,
+        void Function(Duration)? onElapsedTime,
+        Duration? elapsedTimeInterval}) =>
       _downloader.enqueueAndAwait(task,
           onStatus: onStatus, onElapsedTime: onElapsedTime, elapsedTimeInterval: elapsedTimeInterval);
 
@@ -316,11 +315,11 @@ interface class FileDownloader {
   /// those modified tasks are returned as part of the [Batch]
   /// object.
   Future<Batch> downloadBatch(final List<DownloadTask> tasks,
-          {BatchProgressCallback? batchProgressCallback,
-          TaskStatusCallback? taskStatusCallback,
-          TaskProgressCallback? taskProgressCallback,
-          void Function(Duration)? onElapsedTime,
-          Duration? elapsedTimeInterval}) =>
+      {BatchProgressCallback? batchProgressCallback,
+        TaskStatusCallback? taskStatusCallback,
+        TaskProgressCallback? taskProgressCallback,
+        void Function(Duration)? onElapsedTime,
+        Duration? elapsedTimeInterval}) =>
       _downloader.enqueueAndAwaitBatch(tasks,
           batchProgressCallback: batchProgressCallback,
           taskStatusCallback: taskStatusCallback,
@@ -358,11 +357,11 @@ interface class FileDownloader {
   /// those modified tasks are returned as part of the [Batch]
   /// object.
   Future<Batch> uploadBatch(final List<UploadTask> tasks,
-          {BatchProgressCallback? batchProgressCallback,
-          TaskStatusCallback? taskStatusCallback,
-          TaskProgressCallback? taskProgressCallback,
-          void Function(Duration)? onElapsedTime,
-          Duration? elapsedTimeInterval}) =>
+      {BatchProgressCallback? batchProgressCallback,
+        TaskStatusCallback? taskStatusCallback,
+        TaskProgressCallback? taskProgressCallback,
+        void Function(Duration)? onElapsedTime,
+        Duration? elapsedTimeInterval}) =>
       _downloader.enqueueAndAwaitBatch(tasks,
           batchProgressCallback: batchProgressCallback,
           taskStatusCallback: taskStatusCallback,
@@ -586,12 +585,12 @@ interface class FileDownloader {
   /// Returns the [FileDownloader] for easy chaining
   FileDownloader configureNotificationForTask(Task task,
       {TaskNotification? running,
-      TaskNotification? complete,
-      TaskNotification? error,
-      TaskNotification? paused,
-      bool progressBar = false,
-      bool tapOpensFile = false,
-      String groupNotificationId = ''}) {
+        TaskNotification? complete,
+        TaskNotification? error,
+        TaskNotification? paused,
+        bool progressBar = false,
+        bool tapOpensFile = false,
+        String groupNotificationId = ''}) {
     _downloader.notificationConfigs.add(TaskNotificationConfig(
         taskOrGroup: task,
         running: running,
@@ -648,12 +647,12 @@ interface class FileDownloader {
   /// Returns the [FileDownloader] for easy chaining
   FileDownloader configureNotificationForGroup(String group,
       {TaskNotification? running,
-      TaskNotification? complete,
-      TaskNotification? error,
-      TaskNotification? paused,
-      bool progressBar = false,
-      bool tapOpensFile = false,
-      String groupNotificationId = ''}) {
+        TaskNotification? complete,
+        TaskNotification? error,
+        TaskNotification? paused,
+        bool progressBar = false,
+        bool tapOpensFile = false,
+        String groupNotificationId = ''}) {
     _downloader.notificationConfigs.add(TaskNotificationConfig(
         taskOrGroup: group,
         running: running,
@@ -708,14 +707,13 @@ interface class FileDownloader {
   /// on iOS {progress} is not available and ignored (except for groupNotifications)
   ///
   /// Returns the [FileDownloader] for easy chaining
-  FileDownloader configureNotification(
-      {TaskNotification? running,
-      TaskNotification? complete,
-      TaskNotification? error,
-      TaskNotification? paused,
-      bool progressBar = false,
-      bool tapOpensFile = false,
-      String groupNotificationId = ''}) {
+  FileDownloader configureNotification({TaskNotification? running,
+    TaskNotification? complete,
+    TaskNotification? error,
+    TaskNotification? paused,
+    bool progressBar = false,
+    bool tapOpensFile = false,
+    String groupNotificationId = ''}) {
     _downloader.notificationConfigs.add(TaskNotificationConfig(
         taskOrGroup: null,
         running: running,
@@ -747,10 +745,10 @@ interface class FileDownloader {
   /// with the main Isolate
   Future<http.Response> request(Request request) {
     return compute(_doRequest, (
-      request,
-      DownloaderHttpClient.requestTimeout,
-      DownloaderHttpClient.proxy,
-      DownloaderHttpClient.bypassTLSCertificateValidation
+    request,
+    DownloaderHttpClient.requestTimeout,
+    DownloaderHttpClient.proxy,
+    DownloaderHttpClient.bypassTLSCertificateValidation
     ));
   }
 
@@ -774,12 +772,11 @@ interface class FileDownloader {
   /// of the photo or video in the Photos Library.
   ///
   /// Platform-dependent, not consistent across all platforms
-  Future<String?> moveToSharedStorage(
-    DownloadTask task,
-    SharedStorage destination, {
-    String directory = '',
-    String? mimeType,
-  }) async =>
+  Future<String?> moveToSharedStorage(DownloadTask task,
+      SharedStorage destination, {
+        String directory = '',
+        String? mimeType,
+      }) async =>
       moveFileToSharedStorage(await task.filePath(), destination, directory: directory, mimeType: mimeType);
 
   /// Move the file represented by [filePath] to a shared storage
@@ -801,12 +798,11 @@ interface class FileDownloader {
   /// of the photo or video in the Photos Library.
   ///
   /// Platform-dependent, not consistent across all platforms
-  Future<String?> moveFileToSharedStorage(
-    String filePath,
-    SharedStorage destination, {
-    String directory = '',
-    String? mimeType,
-  }) async =>
+  Future<String?> moveFileToSharedStorage(String filePath,
+      SharedStorage destination, {
+        String directory = '',
+        String? mimeType,
+      }) async =>
       _downloader.moveToSharedStorage(filePath, destination, directory, mimeType);
 
   /// Returns the filePath to the file represented by [filePath] in shared

@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
@@ -86,12 +87,11 @@ class TotalChapterCacheSizeState extends _$TotalChapterCacheSizeState {
 class ClearChapterCacheOnAppLaunchState extends _$ClearChapterCacheOnAppLaunchState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.clearChapterCacheOnAppLaunch ?? false;
+    return isar.settings.first.clearChapterCacheOnAppLaunch ?? false;
   }
 
   void set(bool value) {
-    final settings = isar.settings.getSync(227);
     state = value;
-    isar.writeTxnSync(() => isar.settings.putSync(settings!..clearChapterCacheOnAppLaunch = value));
+    isar.writeTxnSync(() => isar.settings.putSync(isar.settings.first..clearChapterCacheOnAppLaunch = value));
   }
 }

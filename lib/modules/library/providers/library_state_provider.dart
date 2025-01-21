@@ -171,10 +171,10 @@ class MangaFilter with Iterable<MangaFilterState> {
 @riverpod
 class MangaFiltersState extends _$MangaFiltersState {
   @override
-  MangaFilter build({required ItemType type, required Settings settings}) {
+  MangaFilter build({required ItemType itemType, required Settings settings}) {
     return state = MangaFilter(
       settings,
-      type,
+      itemType,
       update,
     );
   }
@@ -182,7 +182,7 @@ class MangaFiltersState extends _$MangaFiltersState {
   void update() {
     state = MangaFilter(
       settings,
-      type,
+      itemType,
       update,
     );
   }
@@ -242,7 +242,9 @@ class MangaFilterState {
 class MangasFilterResultState extends _$MangasFilterResultState {
   @override
   bool build({required ItemType itemType, required Settings settings}) {
-    return ref.watch(mangaFiltersStateProvider(type: itemType, settings: settings)).every((option) => option.value == 0);
+    return ref
+        .watch(mangaFiltersStateProvider(itemType: itemType, settings: settings))
+        .every((option) => option.value == 0);
   }
 }
 
@@ -251,10 +253,10 @@ class LibraryShowCategoryTabsState extends _$LibraryShowCategoryTabsState {
   @override
   bool build({required ItemType itemType, required Settings settings}) {
     return switch (itemType) {
-      ItemType.manga => settings.libraryShowCategoryTabs!,
-      ItemType.anime => settings.animeLibraryShowCategoryTabs!,
-      _ =>  settings.novelLibraryShowCategoryTabs ?? false,
-    }
+      ItemType.manga => settings.libraryShowCategoryTabs ?? false,
+      ItemType.anime => settings.animeLibraryShowCategoryTabs ?? false,
+      ItemType.novel => settings.novelLibraryShowCategoryTabs ?? false,
+    };
   }
 
   void set(bool value) {
@@ -279,9 +281,9 @@ class LibraryDownloadedChaptersState extends _$LibraryDownloadedChaptersState {
   @override
   bool build({required ItemType itemType, required Settings settings}) {
     return switch (itemType) {
-       ItemType.manga => settings.libraryDownloadedChapters!,
-       ItemType.anime => settings.animeLibraryDownloadedChapters!,
-      _  => settings.novelLibraryDownloadedChapters ?? false,
+      ItemType.manga => settings.libraryDownloadedChapters ?? false,
+      ItemType.anime => settings.animeLibraryDownloadedChapters ?? false,
+      ItemType.novel => settings.novelLibraryDownloadedChapters ?? false,
     };
   }
 
@@ -307,9 +309,9 @@ class LibraryUnreadChaptersState extends _$LibraryUnreadChaptersState {
   @override
   bool build({required ItemType itemType, required Settings settings}) {
     return switch (itemType) {
-      ItemType.manga => settings.libraryUnreadChapters!,
-      ItemType.anime => settings.animeLibraryUnreadChapters!,
-      _  => settings.novelLibraryUnreadChapters ?? false,
+      ItemType.manga => settings.libraryUnreadChapters ?? false,
+      ItemType.anime => settings.animeLibraryUnreadChapters ?? false,
+      ItemType.novel => settings.novelLibraryUnreadChapters ?? false,
     };
   }
 
@@ -335,9 +337,9 @@ class LibraryLanguageState extends _$LibraryLanguageState {
   @override
   bool build({required ItemType itemType, required Settings settings}) {
     return switch (itemType) {
-       ItemType.manga => settings.libraryShowLanguage!,
-       ItemType.anime => settings.animeLibraryShowLanguage!,
-      _ => settings.novelLibraryShowLanguage ?? false,
+      ItemType.manga => settings.libraryShowLanguage ?? false,
+      ItemType.anime => settings.animeLibraryShowLanguage ?? false,
+      ItemType.novel => settings.novelLibraryShowLanguage ?? false,
     };
   }
 
@@ -363,9 +365,9 @@ class LibraryLocalSourceState extends _$LibraryLocalSourceState {
   @override
   bool build({required ItemType itemType, required Settings settings}) {
     return switch (itemType) {
-       ItemType.manga => settings.libraryLocalSource ?? false,
-       ItemType.anime => settings.animeLibraryLocalSource ?? false,
-      _ => settings.novelLibraryLocalSource ?? false,
+      ItemType.manga => settings.libraryLocalSource ?? false,
+      ItemType.anime => settings.animeLibraryLocalSource ?? false,
+      ItemType.novel => settings.novelLibraryLocalSource ?? false,
     };
   }
 
@@ -391,9 +393,9 @@ class LibraryShowNumbersOfItemsState extends _$LibraryShowNumbersOfItemsState {
   @override
   bool build({required ItemType itemType, required Settings settings}) {
     return switch (itemType) {
-       ItemType.manga => settings.libraryShowNumbersOfItems!,
-       ItemType.anime => settings.animeLibraryShowNumbersOfItems!,
-      _ => settings.novelLibraryShowNumbersOfItems ?? false,
+      ItemType.manga => settings.libraryShowNumbersOfItems ?? false,
+      ItemType.anime => settings.animeLibraryShowNumbersOfItems ?? false,
+      ItemType.novel => settings.novelLibraryShowNumbersOfItems ?? false,
     };
   }
 
@@ -419,9 +421,9 @@ class LibraryShowContinueReadingButtonState extends _$LibraryShowContinueReading
   @override
   bool build({required ItemType itemType, required Settings settings}) {
     return switch (itemType) {
-      ItemType.manga => settings.libraryShowContinueReadingButton!,
-      ItemType.anime => settings.animeLibraryShowContinueReadingButton!,
-      _ => settings.novelLibraryShowContinueReadingButton ?? false,
+      ItemType.manga => settings.libraryShowContinueReadingButton ?? false,
+      ItemType.anime => settings.animeLibraryShowContinueReadingButton ?? false,
+      ItemType.novel => settings.novelLibraryShowContinueReadingButton ?? false,
     };
   }
 
@@ -449,7 +451,7 @@ class SortLibraryMangaState extends _$SortLibraryMangaState {
     return switch (itemType) {
       ItemType.manga => settings.sortLibraryManga ?? SortLibraryManga(),
       ItemType.anime => settings.sortLibraryAnime ?? SortLibraryManga(),
-      _ => settings.sortLibraryNovel ?? SortLibraryManga(),
+      ItemType.novel => settings.sortLibraryNovel ?? SortLibraryManga(),
     };
   }
 
@@ -545,8 +547,8 @@ class MangasSetIsReadState extends _$MangasSetIsReadState {
   void build({required List<int> mangaIds}) {}
 
   void set() {
-    for (var mangaid in mangaIds) {
-      final manga = isar.mangas.getSync(mangaid)!;
+    for (var id in mangaIds) {
+      final manga = isar.mangas.getSync(id)!;
       final chapters = manga.chapters;
       if (chapters.isNotEmpty) {
         chapters.last.updateTrackChapterRead(ref);
@@ -572,8 +574,8 @@ class MangasSetUnReadState extends _$MangasSetUnReadState {
   void build({required List<int> mangaIds}) {}
 
   void set() {
-    for (var mangaid in mangaIds) {
-      final manga = isar.mangas.getSync(mangaid)!;
+    for (var id in mangaIds) {
+      final manga = isar.mangas.getSync(id)!;
       final chapters = manga.chapters;
       isar.writeTxnSync(() {
         for (var chapter in chapters) {

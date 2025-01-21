@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
@@ -9,10 +10,9 @@ part 'isar_providers.g.dart';
 @riverpod
 Stream<List<Manga>> getAllMangaStream(Ref ref, {required int? categoryId, required ItemType itemType}) async* {
   yield* categoryId == null
-      ? isar.mangas.filter().idIsNotNull().favoriteEqualTo(true).and().itemTypeEqualTo(itemType).watch(fireImmediately: true)
+      ? isar.mangas.filter().favoriteEqualTo(true).and().itemTypeEqualTo(itemType).watch(fireImmediately: true)
       : isar.mangas
           .filter()
-          .idIsNotNull()
           .favoriteEqualTo(true)
           .and()
           .itemTypeEqualTo(itemType)

@@ -125,15 +125,13 @@ class StorageProvider {
 
   static String getChapterDirectoryRelativePath(Chapter chapter) {
     final manga = chapter.manga.value!;
-    final isManga = manga.isManga!;
-
     final mangaPath = getMangaMainDirectoryPath(manga, relative: true);
 
-    if (isManga) {
+    if (manga.itemType == ItemType.manga) {
       final scanlator = chapter.scanlator!;
-      final prefix = scanlator.isNotEmpty ? '${scanlator.replaceForbiddenCharacters('_')}_' : '';
+      final prefix = scanlator.isNotEmpty ? '${scanlator}_' : '';
 
-      return path.join(mangaPath, '$prefix${chapter.name!.replaceForbiddenCharacters('_')}');
+      return path.join(mangaPath, '$prefix${chapter.name!}'.replaceForbiddenCharacters('_'));
     }
 
     return mangaPath;

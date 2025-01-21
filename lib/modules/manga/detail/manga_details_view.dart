@@ -49,11 +49,11 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
           }
 
           final isExtended = ref.watch(isExtendedStateProvider);
-          final history = ref.watch(getMangaHistoryStreamProvider(isManga: manga.isManga!, mangaId: manga.id));
+          final history = ref.watch(getMangaHistoryStreamProvider(itemType: manga.itemType, mangaId: manga.id));
 
           return history.when(
             data: (data) {
-              String buttonLabel = manga.isManga! ? l10n.read : l10n.watch;
+              String buttonLabel = manga.itemType == ItemType.anime ? l10n.watch : l10n.read;
               Chapter? chap = manga.chapters.firstOrNull;
 
               if (data.isNotEmpty) {

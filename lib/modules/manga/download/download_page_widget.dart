@@ -3,8 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
+import 'package:mangayomi/models/download.dart';
+import 'package:mangayomi/models/settings.dart';
+import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/services/background_downloader/background_downloader.dart';
@@ -63,30 +67,10 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
     final mangaDir = await StorageProvider.getMangaMainDirectory(manga);
     final pathname = await StorageProvider.getMangaChapterDirectory(widget.chapter);
 
-    try {
-      try {
-        final cbzFile = File(path.join(mangaDir, "${widget.chapter.name}.cbz"));
-        if (cbzFile.existsSync()) {
-          cbzFile.deleteSync();
-        }
-      } catch (_) {}
-
-      try {
-        final mp4File = File(path.join(mangaDir, "${widget.chapter.name!.replaceForbiddenCharacters(' ')}.mp4"));
-        if (mp4File.existsSync()) {
-          mp4File.deleteSync();
-        }
-      } catch (_) {}
-
-      try {
-        final htmlFile = File(p.join(mangaDir, "${widget.chapter.name}.html"));
-        if (htmlFile.existsSync()) {
-          htmlFile.deleteSync();
-        }
-      } catch (_) {}
-
-      Directory(pathname).deleteSync(recursive: true);
-    } catch (_) {}
+    File(path.join(mangaDir, "${widget.chapter.name}.cbz")).safeRecursiveDeleteSync();
+    File(path.join(mangaDir, "${widget.chapter.name!.replaceForbiddenCharacters(' ')}.mp4")).safeRecursiveDeleteSync();
+    File(path.join(mangaDir, "${widget.chapter.name}.html")).safeRecursiveDeleteSync();
+    Directory(pathname).safeRecursiveDeleteSync();
 
     isar.writeTxnSync(() {
       int id = isar.downloads.filter().chapterIdEqualTo(widget.chapter.id!).findFirstSync()!.id!;

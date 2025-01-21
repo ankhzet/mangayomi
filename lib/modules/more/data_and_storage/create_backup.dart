@@ -60,7 +60,7 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                   itemCount: _libraryList.length,
                   itemBuilder: (context, index) {
                     final (label, idx) = _libraryList[index];
-                    return ListTileChapterFilter(
+                    return ListTileItemFilter(
                         label: label,
                         type: indexList.contains(idx) ? 1 : 0,
                         onTap: () {
@@ -86,7 +86,7 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                   itemCount: _settingsList.length,
                   itemBuilder: (context, index) {
                     final (label, idx) = _settingsList[index];
-                    return ListTileChapterFilter(
+                    return ListTileItemFilter(
                         label: label,
                         type: indexList.contains(idx) ? 1 : 0,
                         onTap: () {
@@ -112,7 +112,7 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                   itemCount: _extensionList.length,
                   itemBuilder: (context, index) {
                     final (label, idx) = _extensionList[index];
-                    return ListTileChapterFilter(
+                    return ListTileItemFilter(
                         label: label,
                         type: indexList.contains(idx) ? 1 : 0,
                         onTap: () {
@@ -135,13 +135,13 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                           onPressed: () async {
                             String? result;
                             if (Platform.isIOS) {
-                              result = (await StorageProvider().getIosBackupDirectory())!.path;
+                              result = await StorageProvider.getBackupDirectory();
                             } else {
                               result = await FilePicker.platform.getDirectoryPath();
                             }
 
                             if (result != null && context.mounted) {
-                              ref.watch(doBackUpProvider(list: indexList, path: result, context: context));
+                              ref.watch(doBackUpProvider(list: indexList, pathname: result, context: context));
                             }
                           },
                           child: Text(l10n.create, style: TextStyle(color: context.dynamicBlackWhiteColor))),

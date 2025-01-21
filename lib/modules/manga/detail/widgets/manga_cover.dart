@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
@@ -106,7 +107,7 @@ class MangaCover extends StatelessWidget {
                                       onPressed: () async {
                                         final trackSearch = await trackersSearchDraggableMenu(
                                           context,
-                                          isManga: manga.isManga!,
+                                          itemType: manga.itemType,
                                           track: Track(
                                             status: TrackStatus.planToRead,
                                             syncId: e.syncId!,

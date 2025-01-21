@@ -5,8 +5,6 @@ import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
 import 'package:mangayomi/modules/manga/download/download_page_widget.dart';
 import 'package:mangayomi/modules/widgets/separated_row.dart';
-import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/date.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
@@ -80,7 +78,7 @@ class ChapterListTileWidget extends ConsumerWidget {
               ),
             if (progress.isNotEmpty)
               Text(
-                chapter.isManga ? l10n.page(progress) : l10n.episode_progress(progress),
+                manga.itemType == ItemType.anime ? l10n.episode_progress(progress) : l10n.page(progress),
                 style: TextStyle(fontSize: 11, color: textColor),
               ),
             if (hasScanlators)

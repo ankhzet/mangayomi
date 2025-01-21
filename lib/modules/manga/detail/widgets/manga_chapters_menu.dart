@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/manga/detail/chapter_filters.dart';
 import 'package:mangayomi/modules/manga/detail/chapter_sort_type.dart';
+import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
 import 'package:mangayomi/modules/widgets/custom_draggable_tabbar.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 
@@ -65,7 +66,7 @@ class _MangaChaptersMenuState extends ConsumerState<MangaChaptersMenu> with Tick
               ),
               RadioListTile(
                 dense: true,
-                title: Text(l10n.chapter_number),
+                title: Text(manga.itemType != ItemType.anime ? l10n.chapter_number : l10n.episode_number),
                 value: "ej",
                 groupValue: "e",
                 selected: false,

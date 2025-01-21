@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/library/library_screen.dart';
+import 'package:mangayomi/modules/library/providers/local_archive.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 
@@ -25,7 +26,7 @@ class MangaImportWidget extends StatelessWidget {
         ),
         icon: Icon(Icons.add, color: context.secondaryColor),
         label: Text(
-          manga.isManga! ? l10n.add_chapters : l10n.add_episodes,
+          manga.itemType == ItemType.anime ? l10n.add_episodes : l10n.add_chapters,
           style: TextStyle(fontWeight: FontWeight.bold, color: context.secondaryColor),
         ),
         onPressed: () async {
@@ -33,7 +34,7 @@ class MangaImportWidget extends StatelessWidget {
             addTorrent(context, manga: manga);
           } else {
             await ref.watch(
-              importArchivesFromFileProvider(isManga: manga.isManga!, manga, init: false).future,
+              importArchivesFromFileProvider(itemType: manga.itemType, manga, init: false).future,
             );
           }
         },

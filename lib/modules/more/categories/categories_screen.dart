@@ -103,7 +103,7 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
-    final categories = ref.watch(getMangaCategorieStreamProvider(itemType: widget.itemType));
+    final categories = ref.watch(getMangaCategoryStreamProvider(itemType: widget.itemType));
     return Scaffold(
       body: categories.when(
         data: (data) {

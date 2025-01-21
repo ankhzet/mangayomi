@@ -17,6 +17,7 @@ import 'package:mangayomi/modules/more/settings/track/widgets/track_list_tile.da
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/services/get_source_baseurl.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/utils.dart';
 
 class MangaActions extends StatelessWidget {
@@ -51,7 +52,7 @@ class MangaActions extends StatelessWidget {
                     _favorite(false);
                   } else {
                     final checkCategoryList =
-                        isar.categorys.filter().idIsNotNull().and().forMangaEqualTo(manga.isManga).isNotEmptySync();
+                        isar.categorys.filter().idIsNotNull().and().forItemTypeEqualTo(manga.itemType).isNotEmptySync();
 
                     if (checkCategoryList) {
                       _openCategory(context);
@@ -84,56 +85,58 @@ class MangaActions extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: StreamBuilder(
-                  stream: isar.trackPreferences.filter().syncIdIsNotNull().watch(fireImmediately: true),
-                  builder: (context, snapshot) {
-                    List<TrackPreference>? entries = snapshot.hasData ? snapshot.data! : [];
-                    if (entries.isEmpty) {
-                      return Container();
-                    }
-                    return SizedBox(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(context).scaffoldBackgroundColor, elevation: 0),
-                        onPressed: () {
-                          _trackingDraggableMenu(context, entries);
-                        },
-                        child: StreamBuilder(
-                            stream: isar.tracks
-                                .filter()
-                                .idIsNotNull()
-                                .mangaIdEqualTo(manga.id)
-                                .watch(fireImmediately: true),
-                            builder: (context, snapshot) {
-                              final l10n = l10nLocalizations(context)!;
-                              List<Track>? trackRes = snapshot.hasData ? snapshot.data : [];
-                              bool isNotEmpty = trackRes!.isNotEmpty;
-                              Color color = isNotEmpty ? context.primaryColor : context.secondaryColor;
-                              return Column(
-                                children: [
-                                  Icon(
-                                    isNotEmpty ? Icons.done_rounded : Icons.sync_outlined,
-                                    size: 20,
-                                    color: color,
-                                  ),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  Text(
-                                    isNotEmpty
-                                        ? trackRes.length == 1
-                                            ? l10n.one_tracker
-                                            : l10n.n_tracker(trackRes.length)
-                                        : l10n.tracking,
-                                    style: TextStyle(fontSize: 11, color: color),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              );
-                            }),
-                      ),
-                    );
-                  }),
+              child: manga.itemType == ItemType.novel
+                  ? SizedBox.shrink()
+                  : StreamBuilder(
+                      stream: isar.trackPreferences.filter().syncIdIsNotNull().watch(fireImmediately: true),
+                      builder: (context, snapshot) {
+                        List<TrackPreference>? entries = snapshot.hasData ? snapshot.data! : [];
+                        if (entries.isEmpty) {
+                          return Container();
+                        }
+                        return SizedBox(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Theme.of(context).scaffoldBackgroundColor, elevation: 0),
+                            onPressed: () {
+                              _trackingDraggableMenu(context, entries);
+                            },
+                            child: StreamBuilder(
+                                stream: isar.tracks
+                                    .filter()
+                                    .idIsNotNull()
+                                    .mangaIdEqualTo(manga.id)
+                                    .watch(fireImmediately: true),
+                                builder: (context, snapshot) {
+                                  final l10n = l10nLocalizations(context)!;
+                                  List<Track>? trackRes = snapshot.hasData ? snapshot.data : [];
+                                  bool isNotEmpty = trackRes!.isNotEmpty;
+                                  Color color = isNotEmpty ? context.primaryColor : context.secondaryColor;
+                                  return Column(
+                                    children: [
+                                      Icon(
+                                        isNotEmpty ? Icons.done_rounded : Icons.sync_outlined,
+                                        size: 20,
+                                        color: color,
+                                      ),
+                                      const SizedBox(
+                                        height: 4,
+                                      ),
+                                      Text(
+                                        isNotEmpty
+                                            ? trackRes.length == 1
+                                                ? l10n.one_tracker
+                                                : l10n.n_tracker(trackRes.length)
+                                            : l10n.tracking,
+                                        style: TextStyle(fontSize: 11, color: color),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  );
+                                }),
+                          ),
+                        );
+                      }),
             ),
             Expanded(
               child: SizedBox(
@@ -143,7 +146,8 @@ class MangaActions extends StatelessWidget {
                   onPressed: () async {
                     final source = getSource(manga.lang!, manga.source!)!;
                     final baseUrl = ref.watch(sourceBaseUrlProvider(source: source));
-                    String url = manga.link!.startsWith('/') ? "$baseUrl${manga.link!}" : manga.link!;
+                    String url =
+                        manga.link!.startsWith('/') ? "$baseUrl${manga.link!.getUrlWithoutDomain}" : manga.link!;
 
                     Map<String, dynamic> data = {'url': url, 'sourceId': source.id.toString(), 'title': manga.name!};
                     context.push("/mangawebview", extra: data);
@@ -199,7 +203,14 @@ class MangaActions extends StatelessWidget {
             void handleAction(int index) {
               switch (index) {
                 case 1:
-                  context.push("/categories", extra: (true, manga.isManga! ? 0 : 1));
+                  context.push("/categories", extra: (
+                    true,
+                    switch (manga.itemType) {
+                      ItemType.manga => 0,
+                      ItemType.anime => 1,
+                      ItemType.novel => 2,
+                    }
+                  ));
                   break;
                 case 2:
                   _favorite(true, categoryIds: categoryIds);
@@ -216,7 +227,7 @@ class MangaActions extends StatelessWidget {
               content: SizedBox(
                 width: context.width(0.8),
                 child: CategoriesSelector(
-                  isManga: manga.isManga,
+                  itemType: manga.itemType,
                   onSelect: (category, select) => setState(() {
                     if (select) {
                       categoryIds.add(category.id!);
@@ -280,13 +291,13 @@ class MangaActions extends StatelessWidget {
                                 mangaId: manga.id,
                                 syncId: entries[index].syncId!,
                                 trackRes: trackRes.first,
-                                isManga: manga.isManga!)
+                                itemType: manga.itemType)
                             : TrackListTile(
                                 text: l10nLocalizations(context)!.add_tracker,
                                 onTap: () async {
                                   final trackSearch = await trackersSearchDraggableMenu(
                                     context,
-                                    isManga: manga.isManga!,
+                                    itemType: manga.itemType,
                                     track: Track(
                                       status: TrackStatus.planToRead,
                                       syncId: entries[index].syncId!,
@@ -296,7 +307,7 @@ class MangaActions extends StatelessWidget {
 
                                   if (trackSearch != null) {
                                     await ref
-                                        .read(trackStateProvider(track: null, isManga: manga.isManga!).notifier)
+                                        .read(trackStateProvider(track: null, itemType: manga.itemType).notifier)
                                         .setTrackSearch(trackSearch, manga.id, entries[index].syncId!);
                                   }
                                 },

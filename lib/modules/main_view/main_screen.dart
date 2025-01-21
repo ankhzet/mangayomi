@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mangayomi/modules/main_view/providers/migration.dart';
 import 'package:mangayomi/modules/main_view/widgets/navbar.dart';
 import 'package:mangayomi/modules/more/about/providers/check_for_update.dart';
-import 'package:mangayomi/modules/more/backup_and_restore/providers/auto_backup.dart';
+import 'package:mangayomi/modules/more/data_and_storage/providers/auto_backup.dart';
 import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
 import 'package:mangayomi/modules/widgets/loading_icon.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';

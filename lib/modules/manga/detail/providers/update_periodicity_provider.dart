@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/dto/chapter_group.dart';
@@ -16,10 +17,10 @@ typedef MangaPeriodicity = ({Manga manga, Duration period, DateTime last, int da
 @riverpod
 Stream<Iterable<MangaPeriodicity>> updatePeriodicity(
   Ref ref, {
-  required bool type,
+  required ItemType type,
   int granularity = defaultGranularity,
 }) async* {
-  makeQuery() => isar.mangas.where().favoriteEqualTo(true).filter().isMangaEqualTo(type).sourceIsNotNull();
+  makeQuery() => isar.mangas.where().favoriteEqualTo(true).filter().itemTypeEqualTo(type).sourceIsNotNull();
 
   final query = makeQuery().build();
   // fetch watchable entities

@@ -7,26 +7,27 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'isar_providers.g.dart';
 
 @riverpod
-Stream<List<Manga>> getAllMangaStream(Ref ref, {required int? categoryId, required bool? isManga}) async* {
+Stream<List<Manga>> getAllMangaStream(Ref ref, {required int? categoryId, required ItemType itemType}) async* {
   yield* categoryId == null
-      ? isar.mangas.filter().favoriteEqualTo(true).and().isMangaEqualTo(isManga).watch(fireImmediately: true)
+      ? isar.mangas.filter().idIsNotNull().favoriteEqualTo(true).and().itemTypeEqualTo(itemType).watch(fireImmediately: true)
       : isar.mangas
           .filter()
+          .idIsNotNull()
           .favoriteEqualTo(true)
           .and()
-          .isMangaEqualTo(isManga)
+          .itemTypeEqualTo(itemType)
           .and()
           .categoriesElementEqualTo(categoryId)
           .watch(fireImmediately: true);
 }
 
 @riverpod
-Stream<List<Manga>> getAllMangaWithoutCategoriesStream(Ref ref, {required bool? isManga}) async* {
+Stream<List<Manga>> getAllMangaWithoutCategoriesStream(Ref ref, {required ItemType itemType}) async* {
   yield* isar.mangas
       .filter()
       .favoriteEqualTo(true)
       .and()
-      .isMangaEqualTo(isManga)
+      .itemTypeEqualTo(itemType)
       .and()
       .group((q) => q.categoriesIsEmpty().or().categoriesIsNull())
       .watch(fireImmediately: true);

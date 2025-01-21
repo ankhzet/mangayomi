@@ -11,9 +11,7 @@ import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
 import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
-import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/more/settings/track/providers/track_providers.dart';
-import 'package:mangayomi/services/sync_server.dart';
 import 'package:mangayomi/utils/chapter_recognition.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
 import 'package:mangayomi/utils/extensions/manga.dart';
@@ -134,7 +132,7 @@ class ReaderController extends _$ReaderController with WithSettings {
         History(
           mangaId: mangaId,
           date: lastRead.toString(),
-          isManga: manga.isManga,
+          itemType: manga.itemType,
           chapterId: chapter.id,
         ))
       ..date = lastRead.toString()
@@ -147,14 +145,6 @@ class ReaderController extends _$ReaderController with WithSettings {
     });
   }
 
-  void checkAndSyncProgress() {
-    final syncAfterReading = ref.watch(syncAfterReadingStateProvider);
-
-    if (syncAfterReading) {
-      ref.read(syncServerProvider(syncId: 1).notifier).checkForSync(true);
-    }
-  }
-
   void setChapterBookmarked() {
     if (incognitoMode) return;
 
@@ -162,7 +152,6 @@ class ReaderController extends _$ReaderController with WithSettings {
 
     isar.writeTxnSync(() {
       chapter.isBookmarked = !isBookmarked;
-      ref.read(changedItemsManagerProvider(managerId: 1).notifier).addUpdatedChapter(chapter, false, false);
       isar.chapters.putSync(chapter);
     });
   }
@@ -324,7 +313,6 @@ class ReaderController extends _$ReaderController with WithSettings {
     isar.writeTxnSync(() {
       chap.isRead = isRead;
       chap.lastPageRead = isRead ? '1' : (newIndex + 1).toString();
-      ref.read(changedItemsManagerProvider(managerId: 1).notifier).addUpdatedChapter(chap, false, false);
       isar.chapters.putSync(chap);
     });
 
@@ -352,7 +340,7 @@ extension ChapterExtensions on Chapter {
     final chapterNumber = ChapterRecognition().parseChapterNumber(manga.name!, name!);
 
     final tracks =
-        isar.tracks.filter().idIsNotNull().isMangaEqualTo(manga.isManga).mangaIdEqualTo(mangaId).findAllSync();
+        isar.tracks.filter().idIsNotNull().itemTypeEqualTo(manga.itemType).mangaIdEqualTo(mangaId).findAllSync();
 
     if (tracks.isEmpty) return;
     for (var track in tracks) {
@@ -364,13 +352,13 @@ extension ChapterExtensions on Chapter {
             track.status = TrackStatus.completed;
             track.finishedReadingDate = DateTime.now().millisecondsSinceEpoch;
           } else {
-            track.status = manga.isManga! ? TrackStatus.reading : TrackStatus.watching;
+            track.status = manga.itemType == ItemType.manga ? TrackStatus.reading : TrackStatus.watching;
             if (track.lastChapterRead == 1) {
               track.startedReadingDate = DateTime.now().millisecondsSinceEpoch;
             }
           }
         }
-        ref.read(trackStateProvider(track: track, isManga: manga.isManga).notifier).updateManga();
+        ref.read(trackStateProvider(track: track, itemType: manga.itemType).notifier).updateManga();
       }
     }
   }

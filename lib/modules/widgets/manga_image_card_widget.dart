@@ -15,7 +15,7 @@ import 'package:mangayomi/utils/extensions/others.dart';
 
 class MangaImageCardWidget extends ConsumerWidget {
   final Source source;
-  final bool isManga;
+  final ItemType itemType;
   final bool isComfortableGrid;
   final MManga? getMangaDetail;
 
@@ -24,7 +24,7 @@ class MangaImageCardWidget extends ConsumerWidget {
       super.key,
       required this.getMangaDetail,
       required this.isComfortableGrid,
-      required this.isManga});
+      required this.itemType});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -59,7 +59,7 @@ class MangaImageCardWidget extends ConsumerWidget {
                     getManga: getMangaDetail!,
                     lang: source.lang!,
                     source: source.name!,
-                    isManga: isManga);
+                    itemType: itemType);
               },
               onLongPress: () {
                 pushToMangaReaderDetail(
@@ -67,7 +67,7 @@ class MangaImageCardWidget extends ConsumerWidget {
                     getManga: getMangaDetail!,
                     lang: source.lang!,
                     source: source.name!,
-                    isManga: isManga,
+                    itemType: itemType,
                     addToFavourite: true);
               },
               onSecondaryTap: () {
@@ -76,7 +76,7 @@ class MangaImageCardWidget extends ConsumerWidget {
                     getManga: getMangaDetail!,
                     lang: source.lang!,
                     source: source.name!,
-                    isManga: isManga,
+                    itemType: itemType,
                     addToFavourite: true);
               },
               children: [
@@ -105,13 +105,13 @@ class MangaImageCardWidget extends ConsumerWidget {
 
 class MangaImageCardListTileWidget extends ConsumerWidget {
   final Source source;
-  final bool isManga;
+  final ItemType itemType;
   final MManga? getMangaDetail;
 
   const MangaImageCardListTileWidget({
     super.key,
     required this.source,
-    required this.isManga,
+    required this.itemType,
     required this.getMangaDetail,
   });
 
@@ -147,14 +147,14 @@ class MangaImageCardListTileWidget extends ConsumerWidget {
                   getManga: getMangaDetail!,
                   lang: source.lang!,
                   source: source.name!,
-                  isManga: isManga,
+                  itemType: itemType,
                 ),
                 onLongPress: () => pushToMangaReaderDetail(
                   context: context,
                   getManga: getMangaDetail!,
                   lang: source.lang!,
                   source: source.name!,
-                  isManga: isManga,
+                  itemType: itemType,
                   addToFavourite: true,
                 ),
                 onSecondaryTap: () => pushToMangaReaderDetail(
@@ -162,7 +162,7 @@ class MangaImageCardListTileWidget extends ConsumerWidget {
                   getManga: getMangaDetail!,
                   lang: source.lang!,
                   source: source.name!,
-                  isManga: isManga,
+                  itemType: itemType,
                   addToFavourite: true,
                 ),
                 child: Row(
@@ -226,7 +226,7 @@ Future<void> pushToMangaReaderDetail({
   MManga? getManga,
   int? archiveId,
   Manga? mangaM,
-  bool? isManga,
+    ItemType? itemType,
   bool useMaterialRoute = false,
   bool addToFavourite = false,
 }) async {
@@ -245,7 +245,7 @@ Future<void> pushToMangaReaderDetail({
           source: source,
           lang: lang,
           lastUpdate: 0,
-          isManga: isManga ?? true,
+          itemType: itemType ?? ItemType.manga,
           artist: getManga.artist ?? '',
         );
 

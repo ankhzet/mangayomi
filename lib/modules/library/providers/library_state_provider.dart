@@ -6,7 +6,6 @@ import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
-import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -15,8 +14,15 @@ part 'library_state_provider.g.dart';
 @riverpod
 class LibraryDisplayTypeState extends _$LibraryDisplayTypeState {
   @override
-  DisplayType build({required bool isManga, required Settings settings}) {
-    return isManga ? settings.displayType : settings.animeDisplayType;
+  DisplayType build({required ItemType itemType, required Settings settings}) {
+    switch (itemType) {
+      case ItemType.manga:
+        return settings.displayType;
+      case ItemType.anime:
+        return settings.animeDisplayType;
+      default:
+        return settings.novelDisplayType;
+    }
   }
 
   String getLibraryDisplayTypeName(DisplayType displayType, BuildContext context) {
@@ -33,10 +39,16 @@ class LibraryDisplayTypeState extends _$LibraryDisplayTypeState {
     Settings appSettings = Settings();
 
     state = displayType;
-    if (isManga) {
-      appSettings = settings..displayType = displayType;
-    } else {
-      appSettings = settings..animeDisplayType = displayType;
+
+    switch (itemType) {
+      case ItemType.manga:
+        appSettings = settings..displayType = displayType;
+        break;
+      case ItemType.anime:
+        appSettings = settings..animeDisplayType = displayType;
+        break;
+      default:
+        appSettings = settings..novelDisplayType = displayType;
     }
 
     isar.settings.first = appSettings;
@@ -46,8 +58,15 @@ class LibraryDisplayTypeState extends _$LibraryDisplayTypeState {
 @riverpod
 class LibraryGridSizeState extends _$LibraryGridSizeState {
   @override
-  int? build({required bool isManga}) {
-    return isManga ? settings.mangaGridSize : settings.animeGridSize;
+  int? build({required ItemType itemType}) {
+    switch (itemType) {
+      case ItemType.manga:
+        return settings.mangaGridSize;
+      case ItemType.anime:
+        return settings.animeGridSize;
+      default:
+        return settings.novelGridSize;
+    }
   }
 
   Settings get settings {
@@ -59,10 +78,15 @@ class LibraryGridSizeState extends _$LibraryGridSizeState {
 
     state = value;
     if (end) {
-      if (isManga) {
-        appSettings = settings..mangaGridSize = value;
-      } else {
-        appSettings = settings..animeGridSize = value;
+      switch (itemType) {
+        case ItemType.manga:
+          appSettings = settings..mangaGridSize = value;
+          break;
+        case ItemType.anime:
+          appSettings = settings..animeGridSize = value;
+          break;
+        default:
+          appSettings = settings..novelGridSize = value;
       }
 
       isar.settings.first = appSettings;
@@ -85,7 +109,7 @@ class MangaFilter with Iterable<MangaFilterState> {
 
   Iterable<MangaFilterState> all;
 
-  MangaFilter(Settings settings, bool type, void Function() onUpdate)
+  MangaFilter(Settings settings, ItemType type, void Function() onUpdate)
       : all = bits.map((bit) => MangaFilterState(
               settings: settings,
               type: type,
@@ -147,7 +171,7 @@ class MangaFilter with Iterable<MangaFilterState> {
 @riverpod
 class MangaFiltersState extends _$MangaFiltersState {
   @override
-  MangaFilter build({required bool type, required Settings settings}) {
+  MangaFilter build({required ItemType type, required Settings settings}) {
     return state = MangaFilter(
       settings,
       type,
@@ -174,7 +198,7 @@ class MangaFiltersState extends _$MangaFiltersState {
 
 class MangaFilterState {
   Settings settings;
-  bool type;
+  ItemType type;
   int position;
   bool Function(Manga manga) filter;
   void Function() onUpdate;
@@ -217,24 +241,33 @@ class MangaFilterState {
 @riverpod
 class MangasFilterResultState extends _$MangasFilterResultState {
   @override
-  bool build({required bool isManga, required Settings settings}) {
-    return ref.watch(mangaFiltersStateProvider(type: isManga, settings: settings)).every((option) => option.value == 0);
+  bool build({required ItemType itemType, required Settings settings}) {
+    return ref.watch(mangaFiltersStateProvider(type: itemType, settings: settings)).every((option) => option.value == 0);
   }
 }
 
 @riverpod
 class LibraryShowCategoryTabsState extends _$LibraryShowCategoryTabsState {
   @override
-  bool build({required bool isManga, required Settings settings}) {
-    return (isManga ? settings.libraryShowCategoryTabs : settings.animeLibraryShowCategoryTabs) ?? false;
+  bool build({required ItemType itemType, required Settings settings}) {
+    return switch (itemType) {
+      ItemType.manga => settings.libraryShowCategoryTabs!,
+      ItemType.anime => settings.animeLibraryShowCategoryTabs!,
+      _ =>  settings.novelLibraryShowCategoryTabs ?? false,
+    }
   }
 
   void set(bool value) {
     Settings appSettings = Settings();
-    if (isManga) {
-      appSettings = settings..libraryShowCategoryTabs = value;
-    } else {
-      appSettings = settings..animeLibraryShowCategoryTabs = value;
+    switch (itemType) {
+      case ItemType.manga:
+        appSettings = settings..libraryShowCategoryTabs = value;
+        break;
+      case ItemType.anime:
+        appSettings = settings..animeLibraryShowCategoryTabs = value;
+        break;
+      default:
+        appSettings = settings..novelLibraryShowCategoryTabs = value;
     }
     state = value;
     isar.settings.first = appSettings;
@@ -244,16 +277,25 @@ class LibraryShowCategoryTabsState extends _$LibraryShowCategoryTabsState {
 @riverpod
 class LibraryDownloadedChaptersState extends _$LibraryDownloadedChaptersState {
   @override
-  bool build({required bool isManga, required Settings settings}) {
-    return (isManga ? settings.libraryDownloadedChapters : settings.animeLibraryDownloadedChapters) ?? false;
+  bool build({required ItemType itemType, required Settings settings}) {
+    return switch (itemType) {
+       ItemType.manga => settings.libraryDownloadedChapters!,
+       ItemType.anime => settings.animeLibraryDownloadedChapters!,
+      _  => settings.novelLibraryDownloadedChapters ?? false,
+    };
   }
 
   void set(bool value) {
     Settings appSettings = Settings();
-    if (isManga) {
-      appSettings = settings..libraryDownloadedChapters = value;
-    } else {
-      appSettings = settings..animeLibraryDownloadedChapters = value;
+    switch (itemType) {
+      case ItemType.manga:
+        appSettings = settings..libraryDownloadedChapters = value;
+        break;
+      case ItemType.anime:
+        appSettings = settings..animeLibraryDownloadedChapters = value;
+        break;
+      default:
+        appSettings = settings..novelLibraryDownloadedChapters = value;
     }
     state = value;
     isar.settings.first = appSettings;
@@ -263,16 +305,25 @@ class LibraryDownloadedChaptersState extends _$LibraryDownloadedChaptersState {
 @riverpod
 class LibraryUnreadChaptersState extends _$LibraryUnreadChaptersState {
   @override
-  bool build({required bool isManga, required Settings settings}) {
-    return (isManga ? settings.libraryUnreadChapters : settings.animeLibraryUnreadChapters) ?? false;
+  bool build({required ItemType itemType, required Settings settings}) {
+    return switch (itemType) {
+      ItemType.manga => settings.libraryUnreadChapters!,
+      ItemType.anime => settings.animeLibraryUnreadChapters!,
+      _  => settings.novelLibraryUnreadChapters ?? false,
+    };
   }
 
   void set(bool value) {
     Settings appSettings = Settings();
-    if (isManga) {
-      appSettings = settings..libraryUnreadChapters = value;
-    } else {
-      appSettings = settings..animeLibraryUnreadChapters = value;
+    switch (itemType) {
+      case ItemType.manga:
+        appSettings = settings..libraryUnreadChapters = value;
+        break;
+      case ItemType.anime:
+        appSettings = settings..animeLibraryUnreadChapters = value;
+        break;
+      default:
+        appSettings = settings..novelLibraryUnreadChapters = value;
     }
     state = value;
     isar.settings.first = appSettings;
@@ -282,16 +333,25 @@ class LibraryUnreadChaptersState extends _$LibraryUnreadChaptersState {
 @riverpod
 class LibraryLanguageState extends _$LibraryLanguageState {
   @override
-  bool build({required bool isManga, required Settings settings}) {
-    return (isManga ? settings.libraryShowLanguage : settings.animeLibraryShowLanguage) ?? false;
+  bool build({required ItemType itemType, required Settings settings}) {
+    return switch (itemType) {
+       ItemType.manga => settings.libraryShowLanguage!,
+       ItemType.anime => settings.animeLibraryShowLanguage!,
+      _ => settings.novelLibraryShowLanguage ?? false,
+    };
   }
 
   void set(bool value) {
     Settings appSettings = Settings();
-    if (isManga) {
-      appSettings = settings..libraryShowLanguage = value;
-    } else {
-      appSettings = settings..animeLibraryShowLanguage = value;
+    switch (itemType) {
+      case ItemType.manga:
+        appSettings = settings..libraryShowLanguage = value;
+        break;
+      case ItemType.anime:
+        appSettings = settings..animeLibraryShowLanguage = value;
+        break;
+      default:
+        appSettings = settings..novelLibraryShowLanguage = value;
     }
     state = value;
     isar.settings.first = appSettings;
@@ -301,16 +361,25 @@ class LibraryLanguageState extends _$LibraryLanguageState {
 @riverpod
 class LibraryLocalSourceState extends _$LibraryLocalSourceState {
   @override
-  bool build({required bool isManga, required Settings settings}) {
-    return (isManga ? settings.libraryLocalSource : settings.animeLibraryLocalSource) ?? false;
+  bool build({required ItemType itemType, required Settings settings}) {
+    return switch (itemType) {
+       ItemType.manga => settings.libraryLocalSource ?? false,
+       ItemType.anime => settings.animeLibraryLocalSource ?? false,
+      _ => settings.novelLibraryLocalSource ?? false,
+    };
   }
 
   void set(bool value) {
     Settings appSettings = Settings();
-    if (isManga) {
-      appSettings = settings..libraryLocalSource = value;
-    } else {
-      appSettings = settings..animeLibraryLocalSource = value;
+    switch (itemType) {
+      case ItemType.manga:
+        appSettings = settings..libraryLocalSource = value;
+        break;
+      case ItemType.anime:
+        appSettings = settings..animeLibraryLocalSource = value;
+        break;
+      default:
+        appSettings = settings..novelLibraryLocalSource = value;
     }
     state = value;
     isar.settings.first = appSettings;
@@ -320,16 +389,25 @@ class LibraryLocalSourceState extends _$LibraryLocalSourceState {
 @riverpod
 class LibraryShowNumbersOfItemsState extends _$LibraryShowNumbersOfItemsState {
   @override
-  bool build({required bool isManga, required Settings settings}) {
-    return (isManga ? settings.libraryShowNumbersOfItems : settings.animeLibraryShowNumbersOfItems) ?? false;
+  bool build({required ItemType itemType, required Settings settings}) {
+    return switch (itemType) {
+       ItemType.manga => settings.libraryShowNumbersOfItems!,
+       ItemType.anime => settings.animeLibraryShowNumbersOfItems!,
+      _ => settings.novelLibraryShowNumbersOfItems ?? false,
+    };
   }
 
   void set(bool value) {
     Settings appSettings = Settings();
-    if (isManga) {
-      appSettings = settings..libraryShowNumbersOfItems = value;
-    } else {
-      appSettings = settings..animeLibraryShowNumbersOfItems = value;
+    switch (itemType) {
+      case ItemType.manga:
+        appSettings = settings..libraryShowNumbersOfItems = value;
+        break;
+      case ItemType.anime:
+        appSettings = settings..animeLibraryShowNumbersOfItems = value;
+        break;
+      default:
+        appSettings = settings..novelLibraryShowNumbersOfItems = value;
     }
     state = value;
     isar.settings.first = appSettings;
@@ -339,17 +417,25 @@ class LibraryShowNumbersOfItemsState extends _$LibraryShowNumbersOfItemsState {
 @riverpod
 class LibraryShowContinueReadingButtonState extends _$LibraryShowContinueReadingButtonState {
   @override
-  bool build({required bool isManga, required Settings settings}) {
-    return (isManga ? settings.libraryShowContinueReadingButton : settings.animeLibraryShowContinueReadingButton) ??
-        false;
+  bool build({required ItemType itemType, required Settings settings}) {
+    return switch (itemType) {
+      ItemType.manga => settings.libraryShowContinueReadingButton!,
+      ItemType.anime => settings.animeLibraryShowContinueReadingButton!,
+      _ => settings.novelLibraryShowContinueReadingButton ?? false,
+    };
   }
 
   void set(bool value) {
     Settings appSettings = Settings();
-    if (isManga) {
-      appSettings = settings..libraryShowContinueReadingButton = value;
-    } else {
-      appSettings = settings..animeLibraryShowContinueReadingButton = value;
+    switch (itemType) {
+      case ItemType.manga:
+        appSettings = settings..libraryShowContinueReadingButton = value;
+        break;
+      case ItemType.anime:
+        appSettings = settings..animeLibraryShowContinueReadingButton = value;
+        break;
+      default:
+        appSettings = settings..novelLibraryShowContinueReadingButton = value;
     }
     state = value;
     isar.settings.first = appSettings;
@@ -359,8 +445,12 @@ class LibraryShowContinueReadingButtonState extends _$LibraryShowContinueReading
 @riverpod
 class SortLibraryMangaState extends _$SortLibraryMangaState {
   @override
-  SortLibraryManga build({required bool isManga, required Settings settings}) {
-    return (isManga ? settings.sortLibraryManga : settings.sortLibraryAnime) ?? SortLibraryManga();
+  SortLibraryManga build({required ItemType itemType, required Settings settings}) {
+    return switch (itemType) {
+      ItemType.manga => settings.sortLibraryManga ?? SortLibraryManga(),
+      ItemType.anime => settings.sortLibraryAnime ?? SortLibraryManga(),
+      _ => settings.sortLibraryNovel ?? SortLibraryManga(),
+    };
   }
 
   void update(bool reverse, int index) {
@@ -369,10 +459,15 @@ class SortLibraryMangaState extends _$SortLibraryMangaState {
       ..index = index
       ..reverse = state.index == index ? !reverse : reverse;
 
-    if (isManga) {
-      appSettings = settings..sortLibraryManga = value;
-    } else {
-      appSettings = settings..sortLibraryAnime = value;
+    switch (itemType) {
+      case ItemType.manga:
+        appSettings = settings..sortLibraryManga = value;
+        break;
+      case ItemType.anime:
+        appSettings = settings..sortLibraryAnime = value;
+        break;
+      default:
+        appSettings = settings..sortLibraryNovel = value;
     }
     isar.settings.first = appSettings;
     state = value;
@@ -459,7 +554,6 @@ class MangasSetIsReadState extends _$MangasSetIsReadState {
           for (var chapter in chapters) {
             chapter.isRead = true;
             chapter.lastPageRead = "1";
-            ref.read(changedItemsManagerProvider(managerId: 1).notifier).addUpdatedChapter(chapter, false, false);
             isar.chapters.putSync(chapter..manga.value = manga);
             chapter.manga.saveSync();
           }
@@ -484,7 +578,6 @@ class MangasSetUnReadState extends _$MangasSetUnReadState {
       isar.writeTxnSync(() {
         for (var chapter in chapters) {
           chapter.isRead = false;
-          ref.read(changedItemsManagerProvider(managerId: 1).notifier).addUpdatedChapter(chapter, false, false);
           isar.chapters.putSync(chapter..manga.value = manga);
           chapter.manga.saveSync();
         }

@@ -3,18 +3,16 @@
 
 // ignore_for_file: unused_import, unused_element, unnecessary_import, duplicate_ignore, invalid_use_of_internal_member, annotate_overrides, non_constant_identifier_names, curly_braces_in_flow_control_structures, prefer_const_literals_to_create_immutables, unused_field
 
-import 'dart:async';
-import 'dart:convert';
-import 'dart:ffi' as ffi;
-
-import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated_io.dart';
-
 import 'api/image.dart';
 import 'api/rhttp/client.dart';
 import 'api/rhttp/error.dart';
 import 'api/rhttp/http.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'dart:ffi' as ffi;
 import 'frb_generated.dart';
 import 'lib.dart';
+import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated_io.dart';
 
 abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RustLibApiImplPlatform({
@@ -26,6 +24,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_CancellationTokenPtr => wire
       ._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationTokenPtr;
+
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_DnsSettingsPtr => wire
+      ._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettingsPtr;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_RequestClientPtr => wire
       ._rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRequestClientPtr;
@@ -41,6 +42,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   CancellationToken
       dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
           dynamic raw);
+
+  @protected
+  DnsSettings dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings(
+      dynamic raw);
 
   @protected
   RequestClient dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRequestClient(
@@ -63,6 +68,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           dynamic raw);
 
   @protected
+  FutureOr<List<String>> Function(String) dco_decode_DartFn_Inputs_String_Output_list_String_AnyhowException(
+      dynamic raw);
+
+  @protected
   FutureOr<void> Function(HttpResponse) dco_decode_DartFn_Inputs_http_response_Output_unit_AnyhowException(dynamic raw);
 
   @protected
@@ -75,8 +84,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Map<String, String> dco_decode_Map_String_String(dynamic raw);
 
   @protected
+  Map<String, List<String>> dco_decode_Map_String_list_String(dynamic raw);
+
+  @protected
   CancellationToken dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
       dynamic raw);
+
+  @protected
+  DnsSettings dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings(dynamic raw);
 
   @protected
   RequestClient dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRequestClient(dynamic raw);
@@ -88,7 +103,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   String dco_decode_String(dynamic raw);
 
   @protected
+  SocketAddrDigester dco_decode_TraitDef_SocketAddrDigester(dynamic raw);
+
+  @protected
   bool dco_decode_bool(dynamic raw);
+
+  @protected
+  DnsSettings
+      dco_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings(
+          dynamic raw);
 
   @protected
   Duration dco_decode_box_autoadd_Chrono_Duration(dynamic raw);
@@ -112,6 +135,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RedirectSettings dco_decode_box_autoadd_redirect_settings(dynamic raw);
 
   @protected
+  StaticDnsSettings dco_decode_box_autoadd_static_dns_settings(dynamic raw);
+
+  @protected
+  TimeoutSettings dco_decode_box_autoadd_timeout_settings(dynamic raw);
+
+  @protected
   TlsSettings dco_decode_box_autoadd_tls_settings(dynamic raw);
 
   @protected
@@ -122,6 +151,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   ClientSettings dco_decode_client_settings(dynamic raw);
+
+  @protected
+  CustomProxy dco_decode_custom_proxy(dynamic raw);
 
   @protected
   HttpHeaders dco_decode_http_headers(dynamic raw);
@@ -148,6 +180,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   PlatformInt64 dco_decode_isize(dynamic raw);
 
   @protected
+  List<String> dco_decode_list_String(dynamic raw);
+
+  @protected
+  List<CustomProxy> dco_decode_list_custom_proxy(dynamic raw);
+
+  @protected
   List<Uint8List> dco_decode_list_list_prim_u_8_strict(dynamic raw);
 
   @protected
@@ -157,11 +195,22 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
 
   @protected
+  List<(String, List<String>)> dco_decode_list_record_string_list_string(dynamic raw);
+
+  @protected
   List<(String, String)> dco_decode_list_record_string_string(dynamic raw);
 
   @protected
   RequestClient?
       dco_decode_opt_AutoExplicit_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRequestClient(
+          dynamic raw);
+
+  @protected
+  String? dco_decode_opt_String(dynamic raw);
+
+  @protected
+  DnsSettings?
+      dco_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings(
           dynamic raw);
 
   @protected
@@ -183,6 +232,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RedirectSettings? dco_decode_opt_box_autoadd_redirect_settings(dynamic raw);
 
   @protected
+  TimeoutSettings? dco_decode_opt_box_autoadd_timeout_settings(dynamic raw);
+
+  @protected
   TlsSettings? dco_decode_opt_box_autoadd_tls_settings(dynamic raw);
 
   @protected
@@ -195,7 +247,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<(String, String)>? dco_decode_opt_list_record_string_string(dynamic raw);
 
   @protected
+  ProxyCondition dco_decode_proxy_condition(dynamic raw);
+
+  @protected
   ProxySettings dco_decode_proxy_settings(dynamic raw);
+
+  @protected
+  (String, List<String>) dco_decode_record_string_list_string(dynamic raw);
 
   @protected
   (String, String) dco_decode_record_string_string(dynamic raw);
@@ -205,6 +263,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   RhttpError dco_decode_rhttp_error(dynamic raw);
+
+  @protected
+  StaticDnsSettings dco_decode_static_dns_settings(dynamic raw);
+
+  @protected
+  TimeoutSettings dco_decode_timeout_settings(dynamic raw);
 
   @protected
   TlsSettings dco_decode_tls_settings(dynamic raw);
@@ -237,6 +301,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           SseDeserializer deserializer);
 
   @protected
+  DnsSettings sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings(
+      SseDeserializer deserializer);
+
+  @protected
   RequestClient sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRequestClient(
       SseDeserializer deserializer);
 
@@ -258,7 +326,14 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Map<String, String> sse_decode_Map_String_String(SseDeserializer deserializer);
 
   @protected
+  Map<String, List<String>> sse_decode_Map_String_list_String(SseDeserializer deserializer);
+
+  @protected
   CancellationToken sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
+      SseDeserializer deserializer);
+
+  @protected
+  DnsSettings sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings(
       SseDeserializer deserializer);
 
   @protected
@@ -273,6 +348,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   bool sse_decode_bool(SseDeserializer deserializer);
+
+  @protected
+  DnsSettings
+      sse_decode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings(
+          SseDeserializer deserializer);
 
   @protected
   Duration sse_decode_box_autoadd_Chrono_Duration(SseDeserializer deserializer);
@@ -296,6 +376,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RedirectSettings sse_decode_box_autoadd_redirect_settings(SseDeserializer deserializer);
 
   @protected
+  StaticDnsSettings sse_decode_box_autoadd_static_dns_settings(SseDeserializer deserializer);
+
+  @protected
+  TimeoutSettings sse_decode_box_autoadd_timeout_settings(SseDeserializer deserializer);
+
+  @protected
   TlsSettings sse_decode_box_autoadd_tls_settings(SseDeserializer deserializer);
 
   @protected
@@ -306,6 +392,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   ClientSettings sse_decode_client_settings(SseDeserializer deserializer);
+
+  @protected
+  CustomProxy sse_decode_custom_proxy(SseDeserializer deserializer);
 
   @protected
   HttpHeaders sse_decode_http_headers(SseDeserializer deserializer);
@@ -332,6 +421,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   PlatformInt64 sse_decode_isize(SseDeserializer deserializer);
 
   @protected
+  List<String> sse_decode_list_String(SseDeserializer deserializer);
+
+  @protected
+  List<CustomProxy> sse_decode_list_custom_proxy(SseDeserializer deserializer);
+
+  @protected
   List<Uint8List> sse_decode_list_list_prim_u_8_strict(SseDeserializer deserializer);
 
   @protected
@@ -341,11 +436,22 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
 
   @protected
+  List<(String, List<String>)> sse_decode_list_record_string_list_string(SseDeserializer deserializer);
+
+  @protected
   List<(String, String)> sse_decode_list_record_string_string(SseDeserializer deserializer);
 
   @protected
   RequestClient?
       sse_decode_opt_AutoExplicit_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRequestClient(
+          SseDeserializer deserializer);
+
+  @protected
+  String? sse_decode_opt_String(SseDeserializer deserializer);
+
+  @protected
+  DnsSettings?
+      sse_decode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings(
           SseDeserializer deserializer);
 
   @protected
@@ -367,6 +473,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RedirectSettings? sse_decode_opt_box_autoadd_redirect_settings(SseDeserializer deserializer);
 
   @protected
+  TimeoutSettings? sse_decode_opt_box_autoadd_timeout_settings(SseDeserializer deserializer);
+
+  @protected
   TlsSettings? sse_decode_opt_box_autoadd_tls_settings(SseDeserializer deserializer);
 
   @protected
@@ -379,7 +488,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<(String, String)>? sse_decode_opt_list_record_string_string(SseDeserializer deserializer);
 
   @protected
+  ProxyCondition sse_decode_proxy_condition(SseDeserializer deserializer);
+
+  @protected
   ProxySettings sse_decode_proxy_settings(SseDeserializer deserializer);
+
+  @protected
+  (String, List<String>) sse_decode_record_string_list_string(SseDeserializer deserializer);
 
   @protected
   (String, String) sse_decode_record_string_string(SseDeserializer deserializer);
@@ -389,6 +504,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   RhttpError sse_decode_rhttp_error(SseDeserializer deserializer);
+
+  @protected
+  StaticDnsSettings sse_decode_static_dns_settings(SseDeserializer deserializer);
+
+  @protected
+  TimeoutSettings sse_decode_timeout_settings(SseDeserializer deserializer);
 
   @protected
   TlsSettings sse_decode_tls_settings(SseDeserializer deserializer);
@@ -420,6 +541,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       CancellationToken self, SseSerializer serializer);
 
   @protected
+  void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings(
+      DnsSettings self, SseSerializer serializer);
+
+  @protected
   void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRequestClient(
       RequestClient self, SseSerializer serializer);
 
@@ -440,6 +565,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
           FutureOr<void> Function(CancellationToken) self, SseSerializer serializer);
 
   @protected
+  void sse_encode_DartFn_Inputs_String_Output_list_String_AnyhowException(
+      FutureOr<List<String>> Function(String) self, SseSerializer serializer);
+
+  @protected
   void sse_encode_DartFn_Inputs_http_response_Output_unit_AnyhowException(
       FutureOr<void> Function(HttpResponse) self, SseSerializer serializer);
 
@@ -454,8 +583,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_Map_String_String(Map<String, String> self, SseSerializer serializer);
 
   @protected
+  void sse_encode_Map_String_list_String(Map<String, List<String>> self, SseSerializer serializer);
+
+  @protected
   void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
       CancellationToken self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings(
+      DnsSettings self, SseSerializer serializer);
 
   @protected
   void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRequestClient(
@@ -469,6 +605,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_bool(bool self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings(
+      DnsSettings self, SseSerializer serializer);
 
   @protected
   void sse_encode_box_autoadd_Chrono_Duration(Duration self, SseSerializer serializer);
@@ -492,6 +632,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_box_autoadd_redirect_settings(RedirectSettings self, SseSerializer serializer);
 
   @protected
+  void sse_encode_box_autoadd_static_dns_settings(StaticDnsSettings self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_timeout_settings(TimeoutSettings self, SseSerializer serializer);
+
+  @protected
   void sse_encode_box_autoadd_tls_settings(TlsSettings self, SseSerializer serializer);
 
   @protected
@@ -502,6 +648,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_client_settings(ClientSettings self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_custom_proxy(CustomProxy self, SseSerializer serializer);
 
   @protected
   void sse_encode_http_headers(HttpHeaders self, SseSerializer serializer);
@@ -528,6 +677,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_isize(PlatformInt64 self, SseSerializer serializer);
 
   @protected
+  void sse_encode_list_String(List<String> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_custom_proxy(List<CustomProxy> self, SseSerializer serializer);
+
+  @protected
   void sse_encode_list_list_prim_u_8_strict(List<Uint8List> self, SseSerializer serializer);
 
   @protected
@@ -537,11 +692,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_list_prim_u_8_strict(Uint8List self, SseSerializer serializer);
 
   @protected
+  void sse_encode_list_record_string_list_string(List<(String, List<String>)> self, SseSerializer serializer);
+
+  @protected
   void sse_encode_list_record_string_string(List<(String, String)> self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_AutoExplicit_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRequestClient(
       RequestClient? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_String(String? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_box_autoadd_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings(
+      DnsSettings? self, SseSerializer serializer);
 
   @protected
   void sse_encode_opt_box_autoadd_Chrono_Duration(Duration? self, SseSerializer serializer);
@@ -562,6 +727,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_opt_box_autoadd_redirect_settings(RedirectSettings? self, SseSerializer serializer);
 
   @protected
+  void sse_encode_opt_box_autoadd_timeout_settings(TimeoutSettings? self, SseSerializer serializer);
+
+  @protected
   void sse_encode_opt_box_autoadd_tls_settings(TlsSettings? self, SseSerializer serializer);
 
   @protected
@@ -574,7 +742,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_opt_list_record_string_string(List<(String, String)>? self, SseSerializer serializer);
 
   @protected
+  void sse_encode_proxy_condition(ProxyCondition self, SseSerializer serializer);
+
+  @protected
   void sse_encode_proxy_settings(ProxySettings self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_record_string_list_string((String, List<String>) self, SseSerializer serializer);
 
   @protected
   void sse_encode_record_string_string((String, String) self, SseSerializer serializer);
@@ -584,6 +758,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_rhttp_error(RhttpError self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_static_dns_settings(StaticDnsSettings self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_timeout_settings(TimeoutSettings self, SseSerializer serializer);
 
   @protected
   void sse_encode_tls_settings(TlsSettings self, SseSerializer serializer);
@@ -643,6 +823,36 @@ class RustLibWire implements BaseWire {
           'frbgen_mangayomi_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken');
   late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken =
       _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationTokenPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettingsPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+          'frbgen_mangayomi_rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings');
+  late final _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings =
+      _rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettingsPtr
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+
+  void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings(
+    ffi.Pointer<ffi.Void> ptr,
+  ) {
+    return _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings(
+      ptr,
+    );
+  }
+
+  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettingsPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+          'frbgen_mangayomi_rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings');
+  late final _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettings =
+      _rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerDnsSettingsPtr
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
   void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRequestClient(

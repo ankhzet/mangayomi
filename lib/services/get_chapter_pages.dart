@@ -90,7 +90,7 @@ Future<GetChapterPagesModel> getChapterPages(
     final source = getSource(manga.lang!, manga.source!)!;
     final Iterable<PageUrl> loaded;
 
-    if (data?.urls?.isNotEmpty ?? false) {
+    if (((data?.chapterUrl ?? chapter.url) == chapter.url) && (data?.urls?.isNotEmpty ?? false)) {
       loaded = data!.urls!.indexed.map((i) => PageUrl(i.$2, headers: data.getUrlHeaders(i.$1))).toList();
     } else {
       loaded = await getExtensionService(source).getPageList(chapter.url!);
@@ -143,6 +143,7 @@ Future<GetChapterPagesModel> getChapterPages(
           ChapterPageurls()
             ..chapterId = chapter.id
             ..urls = urls
+            ..chapterUrl = chapter.url
             ..headers = headers,
         ];
     }

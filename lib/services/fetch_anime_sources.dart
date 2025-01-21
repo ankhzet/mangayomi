@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'fetch_anime_sources.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future fetchAnimeSourcesList(Ref ref, {int? id, required bool reFresh}) async {
   if (ref.watch(checkForExtensionsUpdateStateProvider) || reFresh) {
     await fetchSourcesList(
@@ -13,6 +13,6 @@ Future fetchAnimeSourcesList(Ref ref, {int? id, required bool reFresh}) async {
         refresh: reFresh,
         id: id,
         ref: ref,
-        isManga: false);
+        itemType: ItemType.anime);
   }
 }

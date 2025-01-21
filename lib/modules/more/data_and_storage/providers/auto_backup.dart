@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
-import 'package:mangayomi/modules/more/backup_and_restore/providers/backup.dart';
+import 'package:mangayomi/modules/more/data_and_storage/providers/backup.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -26,13 +26,13 @@ class BackupFrequencyState extends _$BackupFrequencyState {
 class BackupFrequencyOptionsState extends _$BackupFrequencyOptionsState {
   @override
   List<int> build() {
-    return isar.settings.first.backupFrequencyOptions ?? [0, 1, 2, 3];
+    return isar.settings.first.backupListOptions ?? [0, 1, 2, 3, 4, 5, 6, 7];
   }
 
   void set(List<int> values) {
     final settings = isar.settings.first;
     state = values;
-    isar.settings.first = settings..backupFrequencyOptions = values;
+    isar.settings.first = settings..backupListOptions = values;
   }
 }
 
@@ -42,6 +42,7 @@ class AutoBackupLocationState extends _$AutoBackupLocationState {
 
   @override
   (String, String) build() {
+    refresh();
     return ("", isar.settings.first.autoBackupLocation ?? "");
   }
 

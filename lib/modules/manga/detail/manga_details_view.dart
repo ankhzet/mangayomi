@@ -92,6 +92,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
         },
         sourceExist: widget.sourceExist,
         checkForUpdate: widget.checkForUpdate,
+        itemType: widget.manga.itemType,
       ),
     );
   }

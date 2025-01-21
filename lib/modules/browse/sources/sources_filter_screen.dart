@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/cached_network.dart';
 import 'package:mangayomi/utils/language.dart';
 
 class SourcesFilterScreen extends ConsumerWidget {
-  final bool isManga;
+  final ItemType itemType;
 
-  const SourcesFilterScreen({required this.isManga, super.key});
+  const SourcesFilterScreen({required this.itemType, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,7 +29,7 @@ class SourcesFilterScreen extends ConsumerWidget {
                 .and()
                 .sourceCodeIsNotEmpty()
                 .and()
-                .isMangaEqualTo(isManga)
+                .itemTypeEqualTo(itemType)
                 .watch(fireImmediately: true),
             builder: (context, snapshot) {
               if (snapshot.hasData && snapshot.data!.isNotEmpty) {
@@ -43,7 +44,7 @@ class SourcesFilterScreen extends ConsumerWidget {
                             .where((element) =>
                                 element.lang!.toLowerCase() == groupByValue &&
                                 element.isActive! &&
-                                element.isManga == isManga)
+                                element.itemType == itemType)
                             .isNotEmpty,
                         onChanged: (val) {
                           isar.writeTxnSync(() {
@@ -61,7 +62,8 @@ class SourcesFilterScreen extends ConsumerWidget {
                       ),
                       itemBuilder: (context, Source element) {
                         if (entries
-                            .where((s) => s.lang!.toLowerCase() == element.lang && s.isActive! && s.isManga == isManga)
+                            .where(
+                                (s) => s.lang!.toLowerCase() == element.lang && s.isActive! && s.itemType == itemType)
                             .isEmpty) {
                           return Container();
                         }

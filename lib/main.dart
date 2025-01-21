@@ -12,16 +12,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
+import 'package:mangayomi/modules/more/data_and_storage/providers/storage_usage.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/app_font_family.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/blend_level_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/flex_scheme_color_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/pure_black_dark_mode_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/theme_mode_state_provider.dart';
-import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
-import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/providers/storage_provider.dart';
-import 'package:mangayomi/router/router.dart';
-import 'package:mangayomi/services/sync_server.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mangayomi/src/rust/frb_generated.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:path/path.dart' as p;
@@ -49,12 +46,11 @@ void main(List<String> args) async {
 
   if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
     final availableVersion = await WebViewEnvironment.getAvailableVersion();
-    assert(availableVersion != null,
-        'Failed to find an installed WebView2 runtime or non-stable Microsoft Edge installation.');
-    final document = await getApplicationDocumentsDirectory();
-    webViewEnvironment = await WebViewEnvironment.create(
-        settings: WebViewEnvironmentSettings(userDataFolder: p.join(document.path, 'flutter_inappwebview')));
-  }
+    if (availableVersion != null) {
+      final document = await getApplicationDocumentsDirectory();
+      webViewEnvironment = await WebViewEnvironment.create(
+          settings: WebViewEnvironmentSettings(userDataFolder: p.join(document.path, 'flutter_inappwebview')));
+    }
 
   await StorageProvider.requestPermission();
   await StorageProvider.deleteBtDirectory();
@@ -83,11 +79,17 @@ class MyApp extends ConsumerStatefulWidget {
 
 class _MyAppState extends ConsumerState<MyApp> {
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (ref.read(clearChapterCacheOnAppLaunchStateProvider)) {
+        ref.read(totalChapterCacheSizeStateProvider.notifier).clearCache(showToast: false);
+      }
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final syncOnAppLaunch = ref.watch(syncOnAppLaunchStateProvider);
-    if (syncOnAppLaunch) {
-      ref.read(syncServerProvider(syncId: 1).notifier).checkForSync(true);
-    }
     final isDarkTheme = ref.watch(themeModeStateProvider);
     final blendLevel = ref.watch(blendLevelStateProvider);
     final appFontFamily = ref.watch(appFontFamilyProvider);
@@ -104,7 +106,6 @@ class _MyAppState extends ConsumerState<MyApp> {
         unselectedToggleIsColored: true,
         inputDecoratorRadius: 24.0,
         chipRadius: 24.0,
-        dialogBackgroundSchemeColor: SchemeColor.background,
       ),
       useMaterial3ErrorColors: true,
       visualDensity: FlexColorScheme.comfortablePlatformDensity,
@@ -123,7 +124,6 @@ class _MyAppState extends ConsumerState<MyApp> {
         unselectedToggleIsColored: true,
         inputDecoratorRadius: 24.0,
         chipRadius: 24.0,
-        dialogBackgroundSchemeColor: SchemeColor.background,
       ),
       useMaterial3ErrorColors: true,
       visualDensity: FlexColorScheme.comfortablePlatformDensity,

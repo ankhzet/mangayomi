@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:isar/isar.dart';
 import 'package:mangayomi/eval/javascript/http.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/options.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/utils/constant.dart';
@@ -131,11 +132,7 @@ class Settings {
 
   int? backupFrequency;
 
-  List<int>? backupFrequencyOptions;
-
-  bool? syncOnAppLaunch;
-
-  bool? syncAfterReading;
+  List<int>? backupListOptions;
 
   String? autoBackupLocation;
 
@@ -185,89 +182,134 @@ class Settings {
 
   int? animeGridSize;
 
+  int? novelGridSize;
+
   @enumerated
   late SectionType disableSectionType;
 
   bool? useLibass;
 
-  Settings(
-      {this.id = 227,
-      this.displayType = DisplayType.compactGrid,
-      this.libraryFilter,
-      this.libraryShowCategoryTabs = false,
-      this.libraryDownloadedChapters = false,
-      this.libraryShowLanguage = false,
-      this.libraryShowNumbersOfItems = false,
-      this.libraryShowContinueReadingButton = false,
-      this.sortLibraryManga,
-      this.sortChapterList,
-      this.chapterFilterDownloadedList,
-      this.flexColorSchemeBlendLevel = 10.0,
-      this.dateFormat = "M/d/y",
-      this.relativeTimesTamps = 2,
-      this.flexSchemeColorIndex = 2,
-      this.themeIsDark = false,
-      this.incognitoMode = false,
-      this.chapterPageUrlsList,
-      this.showPagesNumber = true,
-      this.chapterPageIndexList,
-      this.userAgent = defaultUserAgent,
-      this.cookiesList,
-      this.defaultReaderMode = ReaderMode.vertical,
-      this.personalReaderModeList,
-      this.animatePageTransitions = true,
-      this.doubleTapAnimationSpeed = 1,
-      this.onlyIncludePinnedSources = false,
-      this.pureBlackDarkMode = false,
-      this.downloadOnlyOnWifi = false,
-      this.saveAsCBZArchive = false,
-      this.downloadLocation = "",
-      this.cropBorders = false,
-      this.libraryLocalSource,
-      this.autoExtensionsUpdates = false,
-      this.animeDisplayType = DisplayType.compactGrid,
-      this.animeLibraryShowCategoryTabs = false,
-      this.animeLibraryDownloadedChapters = false,
-      this.animeLibraryShowLanguage = false,
-      this.animeLibraryShowNumbersOfItems = false,
-      this.animeLibraryShowContinueReadingButton = false,
-      this.animeLibraryLocalSource,
-      this.sortLibraryAnime,
-      this.pagePreloadAmount = 6,
-      this.scaleType = ScaleType.fitScreen,
-      this.checkForExtensionUpdates = true,
-      this.backgroundColor = BackgroundColor.black,
-      this.personalPageModeList,
-      this.backupFrequency,
-      this.backupFrequencyOptions,
-      this.syncOnAppLaunch,
-      this.syncAfterReading,
-      this.autoBackupLocation,
-      this.startDatebackup,
-      this.usePageTapZones = true,
-      this.autoScrollPages,
-      this.markEpisodeAsSeenType = 85,
-      this.defaultSkipIntroLength = 85,
-      this.defaultDoubleTapToSkipLength = 10,
-      this.defaultPlayBackSpeed = 1.0,
-      this.fullScreenPlayer = false,
-      this.updateProgressAfterReading = true,
-      this.enableAniSkip,
-      this.enableAutoSkip,
-      this.aniSkipTimeoutLength,
-      this.btServerAddress = "127.0.0.1",
-      this.btServerPort,
-      this.fullScreenReader = true,
-      this.enableCustomColorFilter = false,
-      this.customColorFilter,
-      this.colorFilterBlendMode = ColorFilterBlendMode.none,
-      this.playerSubtitleSettings,
-      this.mangaHomeDisplayType = DisplayType.comfortableGrid,
-      this.appFontFamily,
-      this.mangaGridSize,
-      this.animeGridSize,
-      this.disableSectionType = SectionType.all,
-      this.useLibass = true});
+  bool? novelLibraryShowCategoryTabs;
+
+  bool? novelLibraryDownloadedChapters;
+
+  bool? novelLibraryShowLanguage;
+
+  bool? novelLibraryShowNumbersOfItems;
+
+  bool? novelLibraryShowContinueReadingButton;
+
+  bool? novelLibraryLocalSource;
+
+  late SortLibraryManga? sortLibraryNovel;
+
+  @enumerated
+  late DisplayType novelDisplayType;
+
+  int? novelFontSize;
+
+  @enumerated
+  late NovelTextAlign novelTextAlign;
+
+  bool? hideManga;
+
+  bool? hideAnime;
+
+  bool? hideNovel;
+
+  bool? clearChapterCacheOnAppLaunch;
+
+  Settings({
+    this.id = 227,
+    this.displayType = DisplayType.compactGrid,
+    this.libraryFilter,
+    this.libraryShowCategoryTabs = false,
+    this.libraryDownloadedChapters = false,
+    this.libraryShowLanguage = false,
+    this.libraryShowNumbersOfItems = false,
+    this.libraryShowContinueReadingButton = false,
+    this.sortLibraryManga,
+    this.sortChapterList,
+    this.chapterFilterDownloadedList,
+    this.flexColorSchemeBlendLevel = 10.0,
+    this.dateFormat = "M/d/y",
+    this.relativeTimesTamps = 2,
+    this.flexSchemeColorIndex = 2,
+    this.themeIsDark = false,
+    this.incognitoMode = false,
+    this.chapterPageUrlsList,
+    this.showPagesNumber = true,
+    this.chapterPageIndexList,
+    this.userAgent = defaultUserAgent,
+    this.cookiesList,
+    this.defaultReaderMode = ReaderMode.vertical,
+    this.personalReaderModeList,
+    this.animatePageTransitions = true,
+    this.doubleTapAnimationSpeed = 1,
+    this.onlyIncludePinnedSources = false,
+    this.pureBlackDarkMode = false,
+    this.downloadOnlyOnWifi = false,
+    this.saveAsCBZArchive = false,
+    this.downloadLocation = "",
+    this.cropBorders = false,
+    this.libraryLocalSource,
+    this.autoExtensionsUpdates = false,
+    this.animeDisplayType = DisplayType.compactGrid,
+    this.animeLibraryShowCategoryTabs = false,
+    this.animeLibraryDownloadedChapters = false,
+    this.animeLibraryShowLanguage = false,
+    this.animeLibraryShowNumbersOfItems = false,
+    this.animeLibraryShowContinueReadingButton = false,
+    this.animeLibraryLocalSource,
+    this.sortLibraryAnime,
+    this.pagePreloadAmount = 6,
+    this.scaleType = ScaleType.fitScreen,
+    this.checkForExtensionUpdates = true,
+    this.backgroundColor = BackgroundColor.black,
+    this.personalPageModeList,
+    this.backupFrequency,
+    this.backupListOptions,
+    this.autoBackupLocation,
+    this.startDatebackup,
+    this.usePageTapZones = true,
+    this.autoScrollPages,
+    this.markEpisodeAsSeenType = 85,
+    this.defaultSkipIntroLength = 85,
+    this.defaultDoubleTapToSkipLength = 10,
+    this.defaultPlayBackSpeed = 1.0,
+    this.fullScreenPlayer = false,
+    this.updateProgressAfterReading = true,
+    this.enableAniSkip,
+    this.enableAutoSkip,
+    this.aniSkipTimeoutLength,
+    this.btServerAddress = "127.0.0.1",
+    this.btServerPort,
+    this.fullScreenReader = true,
+    this.enableCustomColorFilter = false,
+    this.customColorFilter,
+    this.colorFilterBlendMode = ColorFilterBlendMode.none,
+    this.playerSubtitleSettings,
+    this.mangaHomeDisplayType = DisplayType.comfortableGrid,
+    this.appFontFamily,
+    this.mangaGridSize,
+    this.animeGridSize,
+    this.disableSectionType = SectionType.all,
+    this.useLibass = true,
+    this.novelLibraryShowCategoryTabs = false,
+    this.novelLibraryDownloadedChapters = false,
+    this.novelLibraryShowLanguage = false,
+    this.novelLibraryShowNumbersOfItems = false,
+    this.novelLibraryShowContinueReadingButton = false,
+    this.novelLibraryLocalSource,
+    this.sortLibraryNovel,
+    this.novelDisplayType = DisplayType.comfortableGrid,
+    this.novelFontSize = 14,
+    this.novelTextAlign = NovelTextAlign.left,
+    this.hideManga = false,
+    this.hideAnime = false,
+    this.hideNovel = false,
+    this.clearChapterCacheOnAppLaunch = false,
+  });
 
   Settings.fromJson(Map<String, dynamic> json) {
     animatePageTransitions = json['animatePageTransitions'];
@@ -349,9 +391,7 @@ class Settings {
     themeIsDark = json['themeIsDark'];
     userAgent = json['userAgent'];
     backupFrequency = json['backupFrequency'];
-    backupFrequencyOptions = json['backupFrequencyOptions']?.cast<int>();
-    syncOnAppLaunch = json['syncOnAppLaunch'];
-    syncAfterReading = json['syncAfterReading'];
+    backupListOptions = json['backupListOptions']?.cast<int>();
     autoBackupLocation = json['autoBackupLocation'];
     startDatebackup = json['startDatebackup'];
     usePageTapZones = json['usePageTapZones'];
@@ -371,15 +411,31 @@ class Settings {
     customColorFilter =
         json['customColorFilter'] != null ? CustomColorFilter.fromJson(json['customColorFilter']) : null;
     enableCustomColorFilter = json['enableCustomColorFilter'];
-    colorFilterBlendMode = ColorFilterBlendMode.values[json['colorFilterBlendMode'] ?? ColorFilterBlendMode.none];
+    colorFilterBlendMode = ColorFilterBlendMode.values[json['colorFilterBlendMode'] ?? ColorFilterBlendMode.none.index];
     playerSubtitleSettings =
         json['playerSubtitleSettings'] != null ? PlayerSubtitleSettings.fromJson(json['playerSubtitleSettings']) : null;
     mangaHomeDisplayType = DisplayType.values[json['mangaHomeDisplayType'] ?? DisplayType.comfortableGrid.index];
     appFontFamily = json['appFontFamily'];
     mangaGridSize = json['mangaGridSize'];
     animeGridSize = json['animeGridSize'];
-    disableSectionType = SectionType.values[json['disableSectionType'] ?? SectionType.all];
+    disableSectionType = SectionType.values[json['disableSectionType'] ?? SectionType.all.index];
     useLibass = json['useLibass'];
+    novelLibraryShowCategoryTabs = json['novelLibraryShowCategoryTabs'];
+    novelLibraryDownloadedChapters = json['novelLibraryDownloadedChapters'];
+    novelLibraryShowLanguage = json['novelLibraryShowLanguage'];
+    novelLibraryShowNumbersOfItems = json['novelLibraryShowNumbersOfItems'];
+    novelLibraryShowContinueReadingButton = json['novelLibraryShowContinueReadingButton'];
+    novelLibraryLocalSource = json['novelLibraryLocalSource'];
+    sortLibraryNovel = json['sortLibraryNovel'] != null ? SortLibraryManga.fromJson(json['sortLibraryNovel']) : null;
+    novelDisplayType = DisplayType.values[json['novelDisplayType'] ?? DisplayType.comfortableGrid.index];
+    if (json['novelFontSize'] != null) {
+      novelFontSize = json['novelFontSize'];
+    }
+    novelTextAlign = NovelTextAlign.values[json['novelTextAlign'] ?? NovelTextAlign.left.index];
+    hideManga = json['hideManga'];
+    hideAnime = json['hideAnime'];
+    hideNovel = json['hideNovel'];
+    clearChapterCacheOnAppLaunch = json['clearChapterCacheOnAppLaunch'];
   }
 
   Map<String, dynamic> toJson() => {
@@ -436,9 +492,7 @@ class Settings {
         'themeIsDark': themeIsDark,
         'userAgent': userAgent,
         'backupFrequency': backupFrequency,
-        'backupFrequencyOptions': backupFrequencyOptions,
-        'syncOnAppLaunch': syncOnAppLaunch,
-        'syncAfterReading': syncAfterReading,
+        'backupListOptions': backupListOptions,
         'autoBackupLocation': autoBackupLocation,
         'startDatebackup': startDatebackup,
         'usePageTapZones': usePageTapZones,
@@ -463,7 +517,21 @@ class Settings {
         'mangaGridSize': mangaGridSize,
         'animeGridSize': animeGridSize,
         'disableSectionType': disableSectionType.index,
-        'useLibass': useLibass
+        'useLibass': useLibass,
+        'novelLibraryShowCategoryTabs': novelLibraryShowCategoryTabs,
+        'novelLibraryDownloadedChapters': novelLibraryDownloadedChapters,
+        'novelLibraryShowLanguage': novelLibraryShowLanguage,
+        'novelLibraryShowNumbersOfItems': novelLibraryShowNumbersOfItems,
+        'novelLibraryShowContinueReadingButton': novelLibraryShowContinueReadingButton,
+        'novelLibraryLocalSource': novelLibraryLocalSource,
+        'sortLibraryNovel': sortLibraryNovel?.toJson(),
+        'novelDisplayType': novelDisplayType.index,
+        'novelFontSize': novelFontSize,
+        'novelTextAlign': novelTextAlign.index,
+        'hideManga': hideManga,
+        'hideAnime': hideAnime,
+        'hideNovel': hideNovel,
+        'clearChapterCacheOnAppLaunch': clearChapterCacheOnAppLaunch
       };
 }
 
@@ -531,12 +599,18 @@ class LibraryFilter {
         json['libraryFilterMangasStartedType'],
         json['libraryFilterMangasBookMarkedType'],
       ]),
+      bits([
+        json['libraryFilterNovelDownloadType'],
+        json['libraryFilterNovelUnreadType'],
+        json['libraryFilterNovelStartedType'],
+        json['libraryFilterNovelBookMarkedType'],
+      ]),
     ];
   }
 
   Map<String, dynamic> toJson() => {'bitfields': bitfields};
 
-  static const List<int> typeDefaults = [0, 0];
+  static const List<int> typeDefaults = [0, 0, 0];
   static const int downloadedBit = 0;
   static const int unreadBit = 1;
   static const int startedBit = 2;
@@ -565,9 +639,13 @@ class LibraryFilter {
     return bitfields;
   }
 
-  int getBitfieldOfType(bool type) {
+  int getBitfieldOfType(ItemType type) {
     if (bitfields != null) {
-      final index = type ? 1 : 0;
+      final index = switch (type) {
+        ItemType.anime => 0,
+        ItemType.manga => 1,
+        ItemType.novel => 2,
+      };
 
       if (index >= 0 && index < bitfields!.length) {
         return bitfields![index];
@@ -577,7 +655,7 @@ class LibraryFilter {
     return 0;
   }
 
-  int getValue(bool type, int position) {
+  int getValue(ItemType type, int position) {
     final ofType = getBitfieldOfType(type);
 
     if (ofType != 0) {
@@ -814,6 +892,8 @@ class PersonalPageMode implements OfManga {
 }
 
 enum ReaderMode { vertical, ltr, rtl, verticalContinuous, webtoon, horizontalContinuous }
+
+enum NovelTextAlign { left, center, right, block }
 
 enum PageMode { onePage, doublePage }
 

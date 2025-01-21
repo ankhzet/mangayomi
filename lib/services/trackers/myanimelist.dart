@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:intl/intl.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/models/track_search.dart';
@@ -26,7 +27,7 @@ class MyAnimeList extends _$MyAnimeList {
       : '0c9100ccd443ddb441a319a881180f7f';
 
   @override
-  void build({required int syncId, required bool? isManga}) {}
+  void build({required int syncId, required ItemType? itemType}) {}
 
   Future<bool?> login() async {
     final callbackUrlScheme = (Platform.isWindows || Platform.isLinux) ? 'http://localhost:43824' : 'mangayomi';
@@ -73,7 +74,8 @@ class MyAnimeList extends _$MyAnimeList {
 
   Future<List<TrackSearch>> search(String query) async {
     final accessToken = await _getAccesToken();
-    final url = Uri.parse(isManga! ? '$baseApiUrl/manga' : '$baseApiUrl/anime').replace(queryParameters: {
+    final url =
+        Uri.parse(itemType == ItemType.manga ? '$baseApiUrl/manga' : '$baseApiUrl/anime').replace(queryParameters: {
       'q': query.trim(),
       'nsfw': 'true',
     });
@@ -83,8 +85,9 @@ class MyAnimeList extends _$MyAnimeList {
     List<int> mangaIds = res['data'] == null ? [] : (res['data'] as List).map((e) => e['node']["id"] as int).toList();
     List<TrackSearch> trackSearchResult = [];
     for (var mangaId in mangaIds) {
-      final trackSearch =
-          isManga! ? await getMangaDetails(mangaId, accessToken) : await getAnimeDetails(mangaId, accessToken);
+      final trackSearch = itemType == ItemType.manga
+          ? await getMangaDetails(mangaId, accessToken)
+          : await getAnimeDetails(mangaId, accessToken);
       trackSearchResult.add(trackSearch);
     }
 
@@ -228,20 +231,22 @@ class MyAnimeList extends _$MyAnimeList {
 
   Future<Track> findManga(Track track) async {
     final accessToken = await _getAccesToken();
-    final uri = Uri.parse(isManga! ? '$baseApiUrl/manga/${track.mediaId}' : '$baseApiUrl/anime/${track.mediaId}')
+    final uri = Uri.parse(
+            itemType == ItemType.manga ? '$baseApiUrl/manga/${track.mediaId}' : '$baseApiUrl/anime/${track.mediaId}')
         .replace(queryParameters: {
-      'fields': isManga!
+      'fields': itemType == ItemType.manga
           ? 'num_chapters,my_list_status{start_date,finish_date}'
           : 'num_episodes,my_list_status{start_date,finish_date}',
     });
     final response = await http.get(uri, headers: {'Authorization': 'Bearer $accessToken'});
     final mJson = jsonDecode(response.body);
-    track.totalChapter = isManga! ? mJson['num_chapters'] ?? 0 : mJson['num_episodes'] ?? 0;
+    track.totalChapter = itemType == ItemType.manga ? mJson['num_chapters'] ?? 0 : mJson['num_episodes'] ?? 0;
     if (mJson['my_list_status'] != null) {
-      track =
-          isManga! ? _parseMangaItem(mJson["my_list_status"], track) : _parseAnimeItem(mJson["my_list_status"], track);
+      track = itemType == ItemType.manga
+          ? _parseMangaItem(mJson["my_list_status"], track)
+          : _parseAnimeItem(mJson["my_list_status"], track);
     } else {
-      track = isManga! ? await updateManga(track) : await updateAnime(track);
+      track = itemType == ItemType.manga ? await updateManga(track) : await updateAnime(track);
     }
     return track;
   }

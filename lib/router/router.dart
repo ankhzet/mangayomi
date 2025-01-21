@@ -6,12 +6,28 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangayomi/models/chapter.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/modules/anime/anime_player_view.dart';
 import 'package:mangayomi/modules/browse/browse_screen.dart';
 import 'package:mangayomi/modules/browse/extension/edit_code.dart';
 import 'package:mangayomi/modules/browse/extension/extension_detail.dart';
+import 'package:mangayomi/modules/browse/extension/widgets/create_extension.dart';
+import 'package:mangayomi/modules/browse/sources/sources_filter_screen.dart';
+import 'package:mangayomi/modules/more/data_and_storage/create_backup.dart';
+import 'package:mangayomi/modules/more/data_and_storage/data_and_storage.dart';
+import 'package:mangayomi/modules/novel/novel_reader_view.dart';
+import 'package:mangayomi/modules/updates/updates_screen.dart';
+import 'package:mangayomi/modules/more/categories/categories_screen.dart';
+import 'package:mangayomi/modules/more/settings/downloads/downloads_screen.dart';
+import 'package:mangayomi/modules/more/settings/player/player_screen.dart';
+import 'package:mangayomi/modules/more/settings/sync/sync.dart';
+import 'package:mangayomi/modules/more/settings/track/track.dart';
+import 'package:mangayomi/modules/more/settings/track/manage_trackers/manage_trackers.dart';
+import 'package:mangayomi/modules/more/settings/track/manage_trackers/tracking_detail.dart';
+import 'package:mangayomi/modules/webview/webview.dart';
+import 'package:mangayomi/modules/browse/browse_screen.dart';
 import 'package:mangayomi/modules/browse/extension/extension_lang.dart';
 import 'package:mangayomi/modules/browse/extension/widgets/create_extension.dart';
 import 'package:mangayomi/modules/browse/global_search/global_search_screen.dart';
@@ -41,6 +57,8 @@ import 'package:mangayomi/modules/more/settings/track/track.dart';
 import 'package:mangayomi/modules/updates/updates_screen.dart';
 import 'package:mangayomi/modules/webview/webview.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/cupertino.dart';
 
 part 'router.g.dart';
 
@@ -85,12 +103,12 @@ class RouterNotifier extends ChangeNotifier {
             name: "MangaLibrary",
             path: '/MangaLibrary',
             builder: (context, state) => const LibraryScreen(
-              isManga: true,
+              itemType: ItemType.manga,
             ),
             pageBuilder: (context, state) => transitionPage(
               key: state.pageKey,
               child: const LibraryScreen(
-                isManga: true,
+                itemType: ItemType.manga,
               ),
             ),
           ),
@@ -98,12 +116,25 @@ class RouterNotifier extends ChangeNotifier {
             name: "AnimeLibrary",
             path: '/AnimeLibrary',
             builder: (context, state) => const LibraryScreen(
-              isManga: false,
+              itemType: ItemType.anime,
             ),
             pageBuilder: (context, state) => transitionPage(
               key: state.pageKey,
               child: const LibraryScreen(
-                isManga: false,
+                itemType: ItemType.anime,
+              ),
+            ),
+          ),
+          GoRoute(
+            name: "NovelLibrary",
+            path: '/NovelLibrary',
+            builder: (context, state) => const LibraryScreen(
+              itemType: ItemType.novel,
+            ),
+            pageBuilder: (context, state) => transitionPage(
+              key: state.pageKey,
+              child: const LibraryScreen(
+                itemType: ItemType.novel,
               ),
             ),
           ),
@@ -183,8 +214,8 @@ class RouterNotifier extends ChangeNotifier {
                   ));
             }),
         GoRoute(
-          path: "/mangareaderview",
-          name: "mangareaderview",
+          path: "/mangaReaderView",
+          name: "mangaReaderView",
           builder: (context, state) {
             final chapter = state.extra as Chapter;
             return MangaReaderView(
@@ -221,20 +252,39 @@ class RouterNotifier extends ChangeNotifier {
           },
         ),
         GoRoute(
-          path: "/ExtensionLang",
-          name: "ExtensionLang",
+          path: "/novelReaderView",
+          name: "novelReaderView",
           builder: (context, state) {
-            final isManga = state.extra as bool;
-            return ExtensionsLang(
-              isManga: isManga,
+            final chapter = state.extra as Chapter;
+            return NovelReaderView(
+              chapter: chapter,
             );
           },
           pageBuilder: (context, state) {
-            final isManga = state.extra as bool;
+            final chapter = state.extra as Chapter;
+            return transitionPage(
+              key: state.pageKey,
+              child: NovelReaderView(
+                chapter: chapter,
+              ),
+            );
+          },
+        ),
+        GoRoute(
+          path: "/ExtensionLang",
+          name: "ExtensionLang",
+          builder: (context, state) {
+            final itemType = state.extra as ItemType;
+            return ExtensionsLang(
+              itemType: itemType,
+            );
+          },
+          pageBuilder: (context, state) {
+            final itemType = state.extra as ItemType;
             return transitionPage(
               key: state.pageKey,
               child: ExtensionsLang(
-                isManga: isManga,
+                itemType: itemType,
               ),
             );
           },
@@ -288,17 +338,17 @@ class RouterNotifier extends ChangeNotifier {
           path: "/globalSearch",
           name: "globalSearch",
           builder: (context, state) {
-            final isManga = state.extra as bool;
+            final itemType = state.extra as ItemType;
             return GlobalSearchScreen(
-              isManga: isManga,
+              itemType: itemType,
             );
           },
           pageBuilder: (context, state) {
-            final isManga = state.extra as bool;
+            final itemType = state.extra as ItemType;
             return transitionPage(
               key: state.pageKey,
               child: GlobalSearchScreen(
-                isManga: isManga,
+                itemType: itemType,
               ),
             );
           },
@@ -346,17 +396,17 @@ class RouterNotifier extends ChangeNotifier {
           path: "/sourceFilter",
           name: "sourceFilter",
           builder: (context, state) {
-            final isManga = state.extra as bool;
+            final itemType = state.extra as ItemType;
             return SourcesFilterScreen(
-              isManga: isManga,
+              itemType: itemType,
             );
           },
           pageBuilder: (context, state) {
-            final isManga = state.extra as bool;
+            final itemType = state.extra as ItemType;
             return transitionPage(
               key: state.pageKey,
               child: SourcesFilterScreen(
-                isManga: isManga,
+                itemType: itemType,
               ),
             );
           },
@@ -465,15 +515,15 @@ class RouterNotifier extends ChangeNotifier {
           },
         ),
         GoRoute(
-          path: "/backupAndRestore",
-          name: "backupAndRestore",
+          path: "/dataAndStorage",
+          name: "dataAndStorage",
           builder: (context, state) {
-            return const BackupAndRestore();
+            return const DataAndStorage();
           },
           pageBuilder: (context, state) {
             return transitionPage(
               key: state.pageKey,
-              child: const BackupAndRestore(),
+              child: const DataAndStorage(),
             );
           },
         ),
@@ -523,13 +573,13 @@ class RouterNotifier extends ChangeNotifier {
           name: "codeEditor",
           builder: (context, state) {
             final sourceId = state.extra as int?;
-            return CodeEditor(sourceId: sourceId);
+            return CodeEditorPage(sourceId: sourceId);
           },
           pageBuilder: (context, state) {
             final sourceId = state.extra as int?;
             return transitionPage(
               key: state.pageKey,
-              child: CodeEditor(sourceId: sourceId),
+              child: CodeEditorPage(sourceId: sourceId),
             );
           },
         ),
@@ -543,6 +593,19 @@ class RouterNotifier extends ChangeNotifier {
             return transitionPage(
               key: state.pageKey,
               child: const CreateExtension(),
+            );
+          },
+        ),
+        GoRoute(
+          path: "/createBackup",
+          name: "createBackup",
+          builder: (context, state) {
+            return const CreateBackup();
+          },
+          pageBuilder: (context, state) {
+            return transitionPage(
+              key: state.pageKey,
+              child: const CreateBackup(),
             );
           },
         ),

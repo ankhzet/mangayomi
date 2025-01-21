@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
@@ -13,15 +14,16 @@ class CreateExtension extends StatefulWidget {
 }
 
 class _CreateExtensionState extends State<CreateExtension> {
-  bool _isManga = false;
   String _name = "";
   String _lang = "";
   String _baseUrl = "";
   String _apiUrl = "";
   String _iconUrl = "";
   int _sourceTypeIndex = 0;
+  int _itemTypeIndex = 0;
   int _languageIndex = 0;
   final List<String> _sourceTypes = ["single", "multi", "torrent"];
+  final List<String> _itemTypes = ["Manga", "Anime", "Novel"];
   final List<String> _languages = ["Dart", "JavaScript"];
   SourceCodeLanguage _sourceCodeLanguage = SourceCodeLanguage.dart;
 
@@ -122,12 +124,33 @@ class _CreateExtensionState extends State<CreateExtension> {
                     ],
                   ),
                 ),
-                SwitchListTile(
-                  title: const Text("isManga"),
-                  value: _isManga,
-                  onChanged: (value) => setState(() {
-                    _isManga = value;
-                  }),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 17),
+                  child: Row(
+                    children: [
+                      const Text("Target"),
+                      const SizedBox(width: 20),
+                      Flexible(
+                        child: DropdownButton(
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          isExpanded: true,
+                          value: _itemTypeIndex,
+                          hint: Text(_itemTypes[_itemTypeIndex], style: const TextStyle(fontSize: 13)),
+                          items: _itemTypes
+                              .map((e) => DropdownMenuItem(
+                                    value: _itemTypes.indexOf(e),
+                                    child: Text(e, style: const TextStyle(fontSize: 13)),
+                                  ))
+                              .toList(),
+                          onChanged: (v) {
+                            setState(() {
+                              _itemTypeIndex = v!;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -148,7 +171,7 @@ class _CreateExtensionState extends State<CreateExtension> {
                                   apiUrl: _apiUrl,
                                   iconUrl: _iconUrl,
                                   typeSource: _sourceTypes[_sourceTypeIndex],
-                                  isManga: _isManga,
+                                  itemType: ItemType.values.elementAt(_itemTypeIndex),
                                   isAdded: true,
                                   isActive: true,
                                   version: "0.0.1",
@@ -234,6 +257,18 @@ class TestSource extends MProvider {
     // TODO: implement
   }
   
+  // For novel html content
+  @override
+  Future<String> getHtmlContent(String url) async {
+    // TODO: implement
+  }
+  
+  // Clean html up for reader
+  @override
+  Future<String> cleanHtmlContent(String html) async {
+    // TODO: implement
+  }
+  
   // For anime episode video list
   @override
   Future<List<MVideo>> getVideoList(String url) async {
@@ -269,10 +304,8 @@ const mangayomiSources = [{
     "apiUrl": "${source.apiUrl}",
     "iconUrl": "${source.iconUrl}",
     "typeSource": "${source.typeSource}",
-    "isManga": ${source.isManga},
+    "itemType": ${source.itemType.index},
     "version": "${source.version}",
-    "dateFormat": "",
-    "dateFormatLocale": "",
     "pkgPath": ""
 }];
 
@@ -295,12 +328,20 @@ class DefaultExtension extends MProvider {
     async getDetail(url) {
         throw new Error("getDetail not implemented");
     }
+    // For novel html content
+    async getHtmlContent(url) {
+        throw new Error("getHtmlContent not implemented");
+    }
+    // Clean html up for reader
+    async cleanHtmlContent(html) {
+        throw new Error("cleanHtmlContent not implemented");
+    }
     // For anime episode video list
     async getVideoList(url) {
         throw new Error("getVideoList not implemented");
     }
     // For manga chapter pages
-    async getPageList() {
+    async getPageList(url) {
         throw new Error("getPageList not implemented");
     }
     getFilterList() {

@@ -63,8 +63,8 @@ class LibraryListViewWidget extends StatelessWidget {
                     mangaM: entry,
                     source: entry.source!,
                   );
-                  ref.invalidate(getAllMangaWithoutCategoriesStreamProvider(isManga: entry.isManga));
-                  ref.invalidate(getAllMangaStreamProvider(categoryId: null, isManga: entry.isManga));
+                  ref.invalidate(getAllMangaWithoutCategoriesStreamProvider(itemType: entry.itemType));
+                  ref.invalidate(getAllMangaStreamProvider(categoryId: null, itemType: entry.itemType));
                 }
               },
               onLongPress: () {
@@ -151,7 +151,7 @@ class LibraryListViewWidget extends StatelessWidget {
                                     .filter()
                                     .idIsNotNull()
                                     .and()
-                                    .chapter((q) => q.manga((q) => q.isMangaEqualTo(entry.isManga!)))
+                                    .chapter((q) => q.manga((q) => q.itemTypeEqualTo(entry.itemType)))
                                     .watch(fireImmediately: true),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData && snapshot.data!.isNotEmpty) {

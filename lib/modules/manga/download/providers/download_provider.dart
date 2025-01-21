@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/page.dart';
+import 'package:mangayomi/services/background_downloader/background_downloader.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
@@ -34,6 +36,7 @@ Future<List<PageUrl>> downloadChapter(
   required Chapter chapter,
   bool? useWifi,
 }) async {
+  final http = MClient.init(reqcopyWith: {'useDartHttpClient': true, 'followRedirects': false});
   final manga = chapter.manga.value!;
   final isManga = chapter.manga.value!.isManga!;
   await StorageProvider.requestPermission();
@@ -48,6 +51,11 @@ Future<List<PageUrl>> downloadChapter(
   List<DownloadTask> tasks = [];
   Directory directory = Directory("$path1$finalPath");
   Map<String, String> videoHeader = {};
+  Map<String, String> htmlHeader = {
+    "Priority": "u=0, i",
+    "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
+  };
   bool hasM3U8File = false;
   bool nonM3U8File = false;
   M3u8Downloader? m3u8Downloader;
@@ -56,6 +64,8 @@ Future<List<PageUrl>> downloadChapter(
   int? m3u8MediaSequence;
 
   Future<void> processConvert() async {
+    if (itemType == ItemType.novel) return;
+
     if (hasM3U8File) {
       await m3u8Downloader?.mergeTsToMp4(
           path.join(directory.path, "$chapterName.mp4"), path.join(directory.path, chapterName));
@@ -76,18 +86,19 @@ Future<List<PageUrl>> downloadChapter(
         ChapterPageurls()
           ..chapterId = chapter.id
           ..urls = pageUrls.map((e) => e.url).toList()
+          ..chapterUrl = chapter.url
           ..headers = chapterPageHeaders.first != null ? chapterPageHeaders.map((e) => e.toString()).toList() : null
       ];
   }
 
   await Duration(seconds: 1).waitFor(() async {
-    if (isManga) {
+    if (itemType == ItemType.manga) {
       final value = await ref.read(getChapterPagesProvider(chapter: chapter).future);
 
       if (value.pageUrls.isNotEmpty) {
         pageUrls = value.pageUrls;
       }
-    } else {
+    } else if (itemType == ItemType.anime) {
       final (videos, _, _) = await ref.read(getVideoListProvider(episode: chapter).future);
       final m3u8Urls = videos
           .where((element) => element.originalUrl.endsWith(".m3u8") || element.originalUrl.endsWith(".m3u"))
@@ -108,6 +119,20 @@ Future<List<PageUrl>> downloadChapter(
         pageUrls = hasM3U8File ? [...tsList.map((e) => PageUrl(e.url))] : [PageUrl(videosUrls.first.url)];
         videoHeader.addAll(videosUrls.first.headers ?? {});
       }
+    } else if (itemType == ItemType.novel && chapter.url != null) {
+      final cookie = MClient.getCookiesPref(chapter.url!);
+
+      if (cookie.isNotEmpty) {
+        final userAgent = isar.settings.first.userAgent!;
+        htmlHeader.addAll(cookie);
+        htmlHeader[HttpHeaders.userAgentHeader] = userAgent;
+      }
+      final res = await http.get(Uri.parse(chapter.url!), headers: htmlHeader);
+      if (res.headers.containsKey("Location")) {
+        pageUrls = [PageUrl(res.headers["Location"]!)];
+      } else {
+        pageUrls = [PageUrl(chapter.url!)];
+      }
     }
   });
 
@@ -120,16 +145,27 @@ Future<List<PageUrl>> downloadChapter(
   final urls = filtered.map((e) => e.url).toList();
 
   bool shouldLoad = (isManga
-      ? !(ref.watch(saveAsCBZArchiveStateProvider) && await File(path.join(mangaDir, "${chapter.name}.cbz")).exists())
-      : !(await File(path.join(mangaDir, "$chapterName.mp4")).exists()));
+      ?
+      : ;
+
+  bool shouldLoad = switch (itemType) {
+    ItemType.manga => !(ref.watch(saveAsCBZArchiveStateProvider) && await File(path.join(mangaDir, "${chapter.name}.cbz")).exists()),
+    ItemType.anime => !(await File(path.join(mangaDir, "$chapterName.mp4")).exists()),
+    ItemType.novel => !await File(path.join(mangaDir, "$chapterName.html")).exists(),
+  };
 
   if (shouldLoad) {
     await directory.create(recursive: true);
 
     for (final (index, page) in filtered.indexed) {
       final cookie = MClient.getCookiesPref(page.url);
-      final headers = isManga ? ref.watch(headersProvider(source: manga.source!, lang: manga.lang!)) : videoHeader;
+        final headers = switch (itemType) {
+          ItemType.manga => ref.watch(headersProvider(source: manga.source!, lang: manga.lang!))
+          ItemType.anime => videoHeader
+          ItemType.novel => htmlHeader
+        };
 
+        if (cookie.isNotEmpty) {
       if (cookie.isNotEmpty) {
         headers.addAll(cookie);
         headers[HttpHeaders.userAgentHeader] = isar.settings.first.userAgent!;
@@ -165,13 +201,19 @@ Future<List<PageUrl>> downloadChapter(
         }
       }
 
-      if (isManga) {
-        await scheduleLoad(PreloadTask.filename(index));
-      } else {
-        await scheduleLoad('$chapterName.mp4');
+      switch (itemType) {
+        case ItemType.manga: {
+          await scheduleLoad(PreloadTask.filename(index));
+        }
+        case ItemType.novel: {
+          await scheduleLoad('$chapterName.html');
+        }
+        case ItemType.anime: {
+          await scheduleLoad('$chapterName.mp4');
 
-        if (hasM3U8File) {
-          await scheduleLoad(path.join(chapterName, 'TS_${index + 1}.ts'));
+          if (hasM3U8File) {
+            await scheduleLoad(path.join(chapterName, 'TS_${index + 1}.ts'));
+          }
         }
       }
     }
@@ -201,7 +243,7 @@ Future<List<PageUrl>> downloadChapter(
 
     savePageUrls();
 
-    final isBatch = isManga || hasM3U8File;
+    final isBatch = itemType == ItemType.manga || itemType == ItemType.novel || hasM3U8File;
 
     await FileDownloader().downloadBatch(
       tasks,

@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'fetch_manga_sources.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future fetchMangaSourcesList(Ref ref, {int? id, required reFresh}) async {
   if (ref.watch(checkForExtensionsUpdateStateProvider) || reFresh) {
     await fetchSourcesList(
@@ -13,6 +13,6 @@ Future fetchMangaSourcesList(Ref ref, {int? id, required reFresh}) async {
         refresh: reFresh,
         id: id,
         ref: ref,
-        isManga: true);
+        itemType: ItemType.manga);
   }
 }

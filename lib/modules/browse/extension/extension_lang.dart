@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/modules/browse/extension/widgets/extension_lang_list_tile_widget.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/global_style.dart';
 
 class ExtensionsLang extends ConsumerWidget {
-  final bool isManga;
+  final ItemType itemType;
 
-  const ExtensionsLang({required this.isManga, super.key});
+  const ExtensionsLang({required this.itemType, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,7 +40,7 @@ class ExtensionsLang extends ConsumerWidget {
                   } else if (value == 1) {
                     enable = false;
                   }
-                  final sources = isar.sources.filter().idIsNotNull().and().isMangaEqualTo(isManga).findAllSync();
+                  final sources = isar.sources.filter().idIsNotNull().and().itemTypeEqualTo(itemType).findAllSync();
                   for (var source in sources) {
                     isar.sources.putSync(source..isActive = enable);
                   }
@@ -48,7 +49,7 @@ class ExtensionsLang extends ConsumerWidget {
         ],
       ),
       body: StreamBuilder(
-          stream: isar.sources.filter().idIsNotNull().and().isMangaEqualTo(isManga).watch(fireImmediately: true),
+          stream: isar.sources.filter().idIsNotNull().and().itemTypeEqualTo(itemType).watch(fireImmediately: true),
           builder: (context, snapshot) {
             List<Source>? entries = snapshot.hasData ? snapshot.data : [];
             final languages = entries!.map((e) => e.lang!).toSet().toList();

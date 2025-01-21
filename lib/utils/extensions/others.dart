@@ -10,6 +10,9 @@ import 'package:mangayomi/models/dto/preload_task.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
 import 'package:mangayomi/utils/headers.dart';
+import 'package:mangayomi/utils/reg_exp_matcher.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 extension LetExtension<T> on T {
   R let<R>(R Function(T) block) {
@@ -102,12 +105,12 @@ extension UChapDataPreloadExtensions on PreloadTask {
       File? cachedImage;
 
       if (pageUrl != null) {
-        cachedImage = await getCachedImageFile(pageUrl!.url);
+        cachedImage = await _getCachedImageFile(pageUrl!.url);
       }
 
       if (cachedImage == null) {
         await Future.delayed(const Duration(seconds: 3));
-        cachedImage = await getCachedImageFile(pageUrl!.url);
+        cachedImage = await _getCachedImageFile(pageUrl!.url);
       }
 
       imageBytes = cachedImage?.readAsBytesSync();
@@ -153,4 +156,22 @@ extension Waiting on Duration {
 
     return Future.doWhile(() => Future.delayed(this, () => !isReady)).then((void _) => value as T);
   }
+}
+
+Future<File?> _getCachedImageFile(String url, {String? cacheKey}) async {
+  try {
+    final String key = cacheKey ?? keyToMd5(url);
+    final Directory cacheImagesDirectory =
+        Directory(join((await getTemporaryDirectory()).path, 'Mangayomi', 'cacheimagemanga'));
+    if (cacheImagesDirectory.existsSync()) {
+      await for (final FileSystemEntity file in cacheImagesDirectory.list()) {
+        if (file.path.endsWith(key)) {
+          return File(file.path);
+        }
+      }
+    }
+  } catch (_) {
+    return null;
+  }
+  return null;
 }

@@ -23,10 +23,10 @@ import 'package:mangayomi/utils/headers.dart';
 import 'package:mangayomi/utils/language.dart';
 
 class GlobalSearchScreen extends ConsumerStatefulWidget {
-  final bool isManga;
+  final ItemType itemType;
 
   const GlobalSearchScreen({
-    required this.isManga,
+    required this.itemType,
     super.key,
   });
 
@@ -41,14 +41,14 @@ class _GlobalSearchScreenState extends ConsumerState<GlobalSearchScreen> {
   @override
   Widget build(BuildContext context) {
     List<Source> sourceList = ref.watch(onlyIncludePinnedSourceStateProvider)
-        ? isar.sources.filter().isPinnedEqualTo(true).and().isMangaEqualTo(widget.isManga).findAllSync()
+        ? isar.sources.filter().isPinnedEqualTo(true).and().itemTypeEqualTo(widget.itemType).findAllSync()
         : isar.sources
             .filter()
             .idIsNotNull()
             .and()
             .isAddedEqualTo(true)
             .and()
-            .isMangaEqualTo(widget.isManga)
+            .itemTypeEqualTo(widget.itemType)
             .findAllSync();
 
     return Scaffold(
@@ -234,7 +234,7 @@ class _MangaGlobalImageCardState extends ConsumerState<MangaGlobalImageCard>
             context: context,
             getManga: getMangaDetail,
             lang: widget.source.lang!,
-            isManga: widget.source.isManga ?? true,
+            itemType: widget.source.itemType,
             useMaterialRoute: true,
             source: widget.source.name!);
       },

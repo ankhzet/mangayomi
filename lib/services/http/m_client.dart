@@ -1,3 +1,6 @@
+import 'package:flutter/foundation.dart';
+import 'package:http_interceptor/http_interceptor.dart';
+import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -8,6 +11,8 @@ import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/eval/model/m_source.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
+import 'package:http/io_client.dart';
+import 'package:mangayomi/services/http/rhttp/src/model/settings.dart';
 import 'package:mangayomi/services/http/rhttp/rhttp.dart' as rhttp;
 import 'package:mangayomi/utils/log/log.dart';
 
@@ -21,8 +26,9 @@ class MClient {
             throwOnStatusCode: false,
             proxySettings: reqcopyWith?["noProxy"] ?? false ? const rhttp.ProxySettings.noProxy() : null,
             timeout: reqcopyWith?["timeout"] != null ? Duration(seconds: reqcopyWith?["timeout"]) : null,
-            connectTimeout:
-                reqcopyWith?["connectTimeout"] != null ? Duration(seconds: reqcopyWith?["connectTimeout"]) : null,
+            timeoutSettings: TimeoutSettings(
+                connectTimeout:
+                    reqcopyWith?["connectTimeout"] != null ? Duration(seconds: reqcopyWith?["connectTimeout"]) : null),
             tlsSettings: rhttp.TlsSettings(verifyCertificates: reqcopyWith?["verifyCertificates"] ?? false));
         return rhttp.RhttpCompatibleClient.createSync(settings: settings);
       } catch (_) {}
@@ -153,7 +159,14 @@ class LoggerInterceptor extends InterceptorContract {
   Future<BaseRequest> interceptRequest({
     required BaseRequest request,
   }) async {
-    Logger.add(LoggerLevel.info, '----- Request -----\n${request.toString()}\nheaders: ${request.headers.toString()}');
+    final content = "----- Request -----\n${request.toString()}\nheaders: ${request.headers.toString()}";
+    if (kDebugMode) {
+      print(content);
+    }
+    if (useLogger) {
+      Logger.add(LoggerLevel.info, content);
+    }
+
     return request;
   }
 
@@ -164,8 +177,14 @@ class LoggerInterceptor extends InterceptorContract {
     if (showCloudFlareError) {
       final cloudflare = [403, 503].contains(response.statusCode) &&
           ["cloudflare-nginx", "cloudflare"].contains(response.headers["server"]);
-      Logger.add(LoggerLevel.info,
-          "----- Response -----\n${response.request?.method}: ${response.request?.url}, statusCode: ${response.statusCode} ${cloudflare ? "Failed to bypass Cloudflare" : ""}");
+      final content =
+          "----- Response -----\n${response.request?.method}: ${response.request?.url}, statusCode: ${response.statusCode} ${cloudflare ? "Failed to bypass Cloudflare" : ""}";
+      if (kDebugMode) {
+        print(content);
+      }
+      if (useLogger) {
+        Logger.add(LoggerLevel.info, content);
+      }
       if (cloudflare) {
         botToast("${response.statusCode} Failed to bypass Cloudflare",
             hasCloudFlare: cloudflare, url: response.request!.url.toString());

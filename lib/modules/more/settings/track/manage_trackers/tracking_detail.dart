@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_widget.dart';
@@ -47,8 +48,8 @@ class _TrackingDetailState extends State<TrackingDetail> with TickerProviderStat
           ),
         ),
         body: TabBarView(controller: _tabBarController, children: [
-          TrackingTab(isManga: true, syncId: widget.trackerPref.syncId!),
-          TrackingTab(isManga: false, syncId: widget.trackerPref.syncId!)
+          TrackingTab(itemType: ItemType.manga, syncId: widget.trackerPref.syncId!),
+          TrackingTab(itemType: ItemType.anime, syncId: widget.trackerPref.syncId!)
         ]),
       ),
     );
@@ -56,10 +57,10 @@ class _TrackingDetailState extends State<TrackingDetail> with TickerProviderStat
 }
 
 class TrackingTab extends StatelessWidget {
-  final bool isManga;
+  final ItemType itemType;
   final int syncId;
 
-  const TrackingTab({super.key, required this.isManga, required this.syncId});
+  const TrackingTab({super.key, required this.itemType, required this.syncId});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +68,7 @@ class TrackingTab extends StatelessWidget {
         stream: isar.tracks
             .filter()
             .idIsNotNull()
-            .isMangaEqualTo(isManga)
+            .itemTypeEqualTo(itemType)
             .syncIdEqualTo(syncId)
             .watch(fireImmediately: true),
         builder: (context, snapshot) {
@@ -85,7 +86,7 @@ class TrackingTab extends StatelessWidget {
                 final track = trackRes.firstWhere((element) => element.mediaId == mediaId);
                 return ExpansionTile(
                   title: Text(track.title!),
-                  children: [TrackingWidget(isManga: isManga, syncId: syncId, mediaId: mediaId!)],
+                  children: [TrackingWidget(itemType: itemType, syncId: syncId, mediaId: mediaId!)],
                 );
               },
               separatorBuilder: (_, index) {
@@ -99,10 +100,10 @@ class TrackingTab extends StatelessWidget {
 
 class TrackingWidget extends StatelessWidget {
   final int syncId;
-  final bool isManga;
+  final ItemType itemType;
   final int mediaId;
 
-  const TrackingWidget({super.key, required this.mediaId, required this.isManga, required this.syncId});
+  const TrackingWidget({super.key, required this.mediaId, required this.itemType, required this.syncId});
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +112,7 @@ class TrackingWidget extends StatelessWidget {
             .filter()
             .idIsNotNull()
             .mediaIdEqualTo(mediaId)
-            .isMangaEqualTo(isManga)
+            .itemTypeEqualTo(itemType)
             .watch(fireImmediately: true),
         builder: (context, snapshot) {
           List<Track>? trackRes = [];
@@ -134,7 +135,7 @@ class TrackingWidget extends StatelessWidget {
                   mangaId: track.mangaId!,
                   syncId: track.syncId!,
                   trackRes: track,
-                  isManga: isManga,
+                  itemType: itemType,
                   hide: true,
                 );
               },

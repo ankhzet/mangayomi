@@ -129,3 +129,73 @@ class FullScreenReaderState extends _$FullScreenReaderState {
     isar.settings.first = settings..fullScreenReader = value;
   }
 }
+
+@riverpod
+class HideMangaState extends _$HideMangaState {
+  @override
+  bool build() {
+    return isar.settings.getSync(227)!.hideManga ?? false;
+  }
+
+  void set(bool value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..hideManga = value));
+  }
+}
+
+@riverpod
+class HideAnimeState extends _$HideAnimeState {
+  @override
+  bool build() {
+    return isar.settings.getSync(227)!.hideAnime ?? false;
+  }
+
+  void set(bool value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..hideAnime = value));
+  }
+}
+
+@riverpod
+class HideNovelState extends _$HideNovelState {
+  @override
+  bool build() {
+    return isar.settings.getSync(227)!.hideNovel ?? false;
+  }
+
+  void set(bool value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..hideNovel = value));
+  }
+}
+
+@riverpod
+class NovelFontSizeState extends _$NovelFontSizeState {
+  @override
+  int build() {
+    return isar.settings.getSync(227)!.novelFontSize ?? 14;
+  }
+
+  void set(int value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..novelFontSize = value));
+  }
+}
+
+@riverpod
+class NovelTextAlignState extends _$NovelTextAlignState {
+  @override
+  NovelTextAlign build() {
+    return isar.settings.getSync(227)!.novelTextAlign;
+  }
+
+  void set(NovelTextAlign value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(() => isar.settings.putSync(settings!..novelTextAlign = value));
+  }
+}

@@ -61,6 +61,12 @@ class MProvider {
     async getVideoList(url) {
         throw new Error("getVideoList not implemented");
     }
+    async getHtmlContent(url) {
+        throw new Error("getHtmlContent not implemented");
+    }
+    async cleanHtmlContent(html) {
+        throw new Error("cleanHtmlContent not implemented");
+    }
     getFilterList() {
         throw new Error("getFilterList not implemented");
     }
@@ -131,6 +137,24 @@ var extention = new DefaultExtension();
   }
 
   @override
+  Future<String> getHtmlContent(String url) async {
+    _init();
+    final res = (await runtime
+            .handlePromise(await runtime.evaluateAsync('jsonStringify(() => extention.getHtmlContent(`$url`))')))
+        .stringResult;
+    return res;
+  }
+
+  @override
+  Future<String> cleanHtmlContent(String html) async {
+    _init();
+    final res = (await runtime
+            .handlePromise(await runtime.evaluateAsync('jsonStringify(() => extention.cleanHtmlContent(`$html`))')))
+        .stringResult;
+    return res;
+  }
+
+  @override
   FilterList getFilterList() {
     List<dynamic> list;
 
@@ -154,7 +178,7 @@ var extention = new DefaultExtension();
     _init();
 
     try {
-      final res = runtime.evaluate('JSON.stringify(extention.`$call`)');
+      final res = runtime.evaluate('JSON.stringify(extention.$call)');
 
       return jsonDecode(res.stringResult) as T;
     } catch (_) {

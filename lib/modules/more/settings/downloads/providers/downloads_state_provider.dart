@@ -37,6 +37,7 @@ class SaveAsCBZArchiveState extends _$SaveAsCBZArchiveState {
 class DownloadLocationState extends _$DownloadLocationState {
   @override
   (String, String) build() {
+    refresh();
     return ('', isar.settings.first.downloadLocation ?? '');
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/modules/browse/sources/widgets/source_list_tile.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
@@ -9,9 +10,9 @@ import 'package:mangayomi/utils/language.dart';
 
 class SourcesScreen extends ConsumerStatefulWidget {
   final Function(int) tabIndex;
-  final bool isManga;
+  final ItemType itemType;
 
-  const SourcesScreen({required this.tabIndex, required this.isManga, super.key});
+  const SourcesScreen({required this.tabIndex, required this.itemType, super.key});
 
   @override
   ConsumerState<SourcesScreen> createState() => _SourcesScreenState();
@@ -33,7 +34,7 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
                 .and()
                 .isActiveEqualTo(true)
                 .and()
-                .isMangaEqualTo(widget.isManga)
+                .itemTypeEqualTo(widget.itemType)
                 .watch(fireImmediately: true),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
@@ -51,7 +52,11 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton.icon(
-                          onPressed: () => widget.tabIndex(widget.isManga ? 2 : 3),
+                          onPressed: () => widget.tabIndex(widget.itemType == ItemType.manga
+                              ? 3
+                              : widget.itemType == ItemType.anime
+                                  ? 4
+                                  : 5),
                           icon: const Icon(Icons.extension_rounded),
                           label: Text(context.l10n.show_extensions)),
                     )
@@ -86,7 +91,7 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
                       itemBuilder: (context, Source element) {
                         return SourceListTile(
                           source: element,
-                          isManga: widget.isManga,
+                          itemType: widget.itemType,
                         );
                       },
                       groupComparator: (group1, group2) => group1.compareTo(group2),
@@ -110,7 +115,7 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
                       itemBuilder: (context, Source element) {
                         return SourceListTile(
                           source: element,
-                          isManga: widget.isManga,
+                          itemType: widget.itemType,
                         );
                       },
                       groupComparator: (group1, group2) => group1.compareTo(group2),
@@ -134,7 +139,7 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
                       itemBuilder: (context, Source element) {
                         return SourceListTile(
                           source: element,
-                          isManga: widget.isManga,
+                          itemType: widget.itemType,
                         );
                       },
                       groupComparator: (group1, group2) => group1.compareTo(group2),

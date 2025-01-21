@@ -25,6 +25,9 @@ class Manga {
 
   bool? isManga;
 
+  @enumerated
+  late ItemType itemType;
+
   String? updateError;
 
   List<String>? genre;
@@ -62,13 +65,15 @@ class Manga {
     this.author,
     this.artist,
     this.favorite = false,
-    this.genre,
-    this.imageUrl,
-    this.lang,
-    this.link,
-    this.name,
-    this.description,
-    this.isManga = true,
+      required this.genre,
+      required this.imageUrl,
+      required this.lang,
+      required this.link,
+      required this.name,
+      required this.status,
+      required this.description,
+      this.isManga,
+      this.itemType = ItemType.manga,
     this.dateAdded,
     this.lastUpdate,
     this.categories,
@@ -91,6 +96,7 @@ class Manga {
     imageUrl = json['imageUrl'];
     isLocalArchive = json['isLocalArchive'];
     isManga = json['isManga'];
+    itemType = ItemType.values[json['itemType'] ?? 0];
     lang = json['lang'];
     lastRead = json['lastRead'];
     lastUpdate = json['lastUpdate'];
@@ -113,7 +119,7 @@ class Manga {
         'id': id,
         'imageUrl': imageUrl,
         'isLocalArchive': isLocalArchive,
-        'isManga': isManga,
+        'itemType': itemType.index,
         'lang': lang,
         'lastRead': lastRead,
         'lastUpdate': lastUpdate,
@@ -126,3 +132,5 @@ class Manga {
 }
 
 enum Status { ongoing, completed, canceled, unknown, onHiatus, publishingFinished }
+
+enum ItemType { manga, anime, novel }

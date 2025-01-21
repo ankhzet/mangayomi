@@ -92,7 +92,7 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
       ..link = details.link?.normalize() ?? manga.link
       ..source = manga.source
       ..lang = manga.lang
-      ..isManga = source.isManga
+      ..itemType = source.itemType
       ..updateError = null
       ..lastUpdate = timestamp;
 
@@ -143,12 +143,6 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
       if (chapters.isEmpty) {
         return;
       }
-
-      // final notifier = ref.read(changedItemsManagerProvider(managerId: 1).notifier);
-      //
-      // for (var chap in chapters.reversed.toList()) {
-      //   notifier.addUpdatedChapter(chap, deleted.contains(chap), false);
-      // }
 
       isar.chapters.putAllSync(chapters);
 

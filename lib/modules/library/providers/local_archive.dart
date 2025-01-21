@@ -12,11 +12,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'local_archive.g.dart';
 
 @riverpod
-Future importArchivesFromFile(Ref ref, Manga? mManga, {required bool isManga, required bool init}) async {
+Future importArchivesFromFile(Ref ref, Manga? mManga, {required ItemType itemType, required bool init}) async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
       type: FileType.custom,
-      allowedExtensions: isManga ? ['cbz', 'zip'] : ['mp4', 'mov', 'avi', 'flv', 'wmv', 'mpeg', 'mkv']);
+      allowedExtensions: itemType == ItemType.manga ? ['cbz', 'zip'] : ['mp4', 'mov', 'avi', 'flv', 'wmv', 'mpeg', 'mkv']);
   if (result != null) {
     final dateNow = DateTime.now().millisecondsSinceEpoch;
     final manga = mManga ??
@@ -24,7 +24,7 @@ Future importArchivesFromFile(Ref ref, Manga? mManga, {required bool isManga, re
           favorite: true,
           source: 'archive',
           author: '',
-          isManga: isManga,
+          itemType: itemType,
           genre: [],
           imageUrl: '',
           lang: '',
@@ -39,18 +39,20 @@ Future importArchivesFromFile(Ref ref, Manga? mManga, {required bool isManga, re
         );
     for (var file in result.files.reversed.toList()) {
       (String, LocalExtensionType, Uint8List, String)? data =
-          isManga ? await ref.watch(getArchivesDataFromFileProvider(file.path!).future) : null;
+          itemType == ItemType.manga ? await ref.watch(getArchivesDataFromFileProvider(file.path!).future) : null;
       String name = _getName(file.path!);
 
       if (init) {
-        manga.customCoverImage = isManga ? data!.$3 : null;
+        manga.customCoverImage = itemType == ItemType.manga ? data!.$3 : null;
       }
 
       isar.writeTxnSync(() {
         isar.mangas.putSync(manga);
-        final chapters =
-            Chapter(name: isManga ? data!.$1 : name, archivePath: isManga ? data!.$4 : file.path, mangaId: manga.id)
-              ..manga.value = manga;
+        final chapters = Chapter(
+            name: itemType == ItemType.manga ? data!.$1 : name,
+            archivePath: itemType == ItemType.manga ? data!.$4 : file.path,
+            mangaId: manga.id)
+          ..manga.value = manga;
         isar.chapters.putSync(chapters);
         chapters.manga.saveSync();
       });

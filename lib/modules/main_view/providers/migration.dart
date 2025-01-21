@@ -1,40 +1,47 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/history.dart';
+import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/source.dart';
+import 'package:mangayomi/models/track.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'migration.g.dart';
 
 @riverpod
 Future<void> migration(Ref ref) async {
-  final chapters = isar.chapters.filter().idIsNotNull().mangaIdIsNull().findAllSync();
-  final downloads = isar.downloads.filter().idIsNotNull().mangaIdIsNull().findAllSync();
-  final histories =
-      isar.historys.filter().idIsNotNull().chapterIdIsNull().or().idIsNotNull().isMangaIsNull().findAllSync();
-  final tracks = isar.tracks.filter().idIsNotNull().isMangaIsNull().findAllSync();
+  final mangas = isar.mangas.filter().idIsNotNull().isMangaIsNotNull().findAllSync();
+
+  final histories = isar.historys
+      .filter()
+      .idIsNotNull()
+      .chapterIdIsNull()
+      .isMangaIsNotNull()
+      .or()
+      .idIsNotNull()
+      .isMangaIsNotNull()
+      .findAllSync();
+
+  final sources = isar.sources.filter().idIsNotNull().isMangaIsNotNull().findAllSync();
+  final tracks = isar.tracks.filter().idIsNotNull().isMangaIsNotNull().findAllSync();
 
   isar.writeTxnSync(() {
-    //mangaId in chapter
-    for (var chapter in chapters) {
-      final mangaId = chapter.manga.value?.id;
-      isar.chapters.putSync(chapter..mangaId = mangaId);
-    }
-    //mangaId in Download
-    for (var download in downloads) {
-      final mangaId = download.chapter.value?.manga.value?.id;
-      isar.downloads.putSync(download..mangaId = mangaId);
-    }
-    //chapterId and isManga in History
     for (var history in histories) {
-      final chapterId = history.chapter.value?.id;
-      final isManga = history.chapter.value?.manga.value?.isManga;
-      isar.historys.putSync(history
-        ..chapterId = chapterId
-        ..isManga = isManga);
+      isar.historys.putSync(history..itemType = _convertToItemType(history.isManga!));
     }
-    // isManga in Track
+    for (var source in sources) {
+      isar.sources.putSync(source..itemType = _convertToItemType(source.isManga!));
+    }
     for (var track in tracks) {
-      final isManga = isar.mangas.getSync(track.mangaId!)?.isManga;
-      isar.tracks.putSync(track..isManga = isManga);
+      isar.tracks.putSync(track..itemType = _convertToItemType(track.isManga!));
+    }
+    for (var manga in mangas) {
+      isar.mangas.putSync(manga..itemType = _convertToItemType(manga.isManga!));
     }
   });
+}
+
+ItemType _convertToItemType(bool isManga) {
+  return isManga ? ItemType.manga : ItemType.anime;
 }

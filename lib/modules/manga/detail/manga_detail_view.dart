@@ -37,6 +37,7 @@ class MangaDetailView extends ConsumerStatefulWidget {
   final Manga? manga;
   final bool sourceExist;
   final Function(bool) checkForUpdate;
+  final ItemType itemType;
 
   const MangaDetailView({
     super.key,
@@ -44,6 +45,7 @@ class MangaDetailView extends ConsumerStatefulWidget {
     required this.sourceExist,
     required this.manga,
     required this.checkForUpdate,
+    required this.itemType,
     this.backButtonColors,
   });
 
@@ -247,9 +249,6 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                               isar.writeTxnSync(() {
                                 for (final chapter in selection) {
                                   chapter.isBookmarked = !chapter.isBookmarked!;
-                                  ref
-                                      .read(changedItemsManagerProvider(managerId: 1).notifier)
-                                      .addUpdatedChapter(chapter, false, false);
                                   isar.chapters.putSync(chapter..manga.value = widget.manga);
                                   chapter.manga.saveSync();
                                 }
@@ -278,9 +277,6 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                   if (!chapter.isRead!) {
                                     chapter.lastPageRead = "1";
                                   }
-                                  ref
-                                      .read(changedItemsManagerProvider(managerId: 1).notifier)
-                                      .addUpdatedChapter(chapter, false, false);
                                   isar.chapters.putSync(chapter..manga.value = widget.manga);
                                   chapter.manga.saveSync();
                                   if (chapter.isRead!) {

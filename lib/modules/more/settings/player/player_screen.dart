@@ -18,6 +18,7 @@ class PlayerScreen extends ConsumerWidget {
     final enableAutoSkip = ref.watch(enableAutoSkipStateProvider);
     final aniSkipTimeoutLength = ref.watch(aniSkipTimeoutLengthStateProvider);
     final useLibass = ref.watch(useLibassStateProvider);
+
     final fullScreenPlayer = ref.watch(fullScreenPlayerStateProvider);
     return Scaffold(
       appBar: AppBar(

@@ -4,13 +4,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/eval/lib.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/modules/more/settings/browse/providers/browse_state_provider.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 Future<void> fetchSourcesList(
-    {int? id, required bool refresh, required String sourcesIndexUrl, required Ref ref, required bool isManga}) async {
+    {int? id,
+    required bool refresh,
+    required String sourcesIndexUrl,
+    required Ref ref,
+    required ItemType itemType}) async {
   final http = MClient.init(reqcopyWith: {'useDartHttpClient': true});
   final req = await http.get(Uri.parse(sourcesIndexUrl));
 
@@ -21,7 +26,7 @@ Future<void> fetchSourcesList(
     for (var source in sourceList) {
       if (source.appMinVerReq != null) {
         if (compareVersions(info.version, source.appMinVerReq!) > -1) {
-          if ((source.isManga ?? true) == isManga) {
+          if (source.itemType == itemType) {
             if (id != null) {
               if (id == source.id) {
                 final sourc = isar.sources.getSync(id)!;
@@ -46,7 +51,7 @@ Future<void> fetchSourcesList(
                     ..name = source.name
                     ..version = source.version
                     ..versionLast = source.version
-                    ..isManga = source.isManga
+                    ..itemType = itemType
                     ..isFullData = source.isFullData ?? false
                     ..appMinVerReq = source.appMinVerReq
                     ..sourceCodeLanguage = source.sourceCodeLanguage
@@ -83,7 +88,7 @@ Future<void> fetchSourcesList(
                         ..name = source.name
                         ..version = source.version
                         ..versionLast = source.version
-                        ..isManga = source.isManga
+                        ..itemType = itemType
                         ..isFullData = source.isFullData ?? false
                         ..appMinVerReq = source.appMinVerReq
                         ..sourceCodeLanguage = source.sourceCodeLanguage
@@ -113,7 +118,7 @@ Future<void> fetchSourcesList(
                 ..name = source.name
                 ..version = source.version
                 ..versionLast = source.version
-                ..isManga = source.isManga
+                ..itemType = itemType
                 ..sourceCodeLanguage = source.sourceCodeLanguage
                 ..isFullData = source.isFullData ?? false
                 ..appMinVerReq = source.appMinVerReq
@@ -125,11 +130,11 @@ Future<void> fetchSourcesList(
       }
     }
   });
-  checkIfSourceIsObsolete(sourceList, isManga);
+  checkIfSourceIsObsolete(sourceList, itemType);
 }
 
-void checkIfSourceIsObsolete(List<Source> sourceList, bool isManga) {
-  for (var source in isar.sources.filter().idIsNotNull().isMangaEqualTo(isManga).findAllSync()) {
+void checkIfSourceIsObsolete(List<Source> sourceList, ItemType itemType) {
+  for (var source in isar.sources.filter().idIsNotNull().itemTypeEqualTo(itemType).findAllSync()) {
     if (sourceList.isNotEmpty && !(source.isLocal ?? false)) {
       final ids = sourceList.where((e) => e.id != null).map((e) => e.id).toList();
       if (ids.isNotEmpty) {

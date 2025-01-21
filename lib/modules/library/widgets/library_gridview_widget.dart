@@ -26,7 +26,7 @@ class LibraryGridViewWidget extends StatefulWidget {
   final bool downloadedChapter;
   final bool continueReaderBtn;
   final bool localSource;
-  final bool isManga;
+  final ItemType itemType;
 
   const LibraryGridViewWidget(
       {super.key,
@@ -38,7 +38,7 @@ class LibraryGridViewWidget extends StatefulWidget {
       required this.continueReaderBtn,
       required this.mangaIdsList,
       required this.localSource,
-      required this.isManga});
+      required this.itemType});
 
   @override
   State<LibraryGridViewWidget> createState() => _LibraryGridViewWidgetState();
@@ -49,9 +49,9 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
       final isLongPressed = ref.watch(isLongPressedMangaStateProvider);
-      final isManga = widget.isManga;
+      final itemType = widget.itemType;
 
-      final gridSize = ref.watch(libraryGridSizeStateProvider(isManga: isManga));
+      final gridSize = ref.watch(libraryGridSizeStateProvider(itemType: itemType));
       return GridViewWidget(
         gridSize: gridSize,
         childAspectRatio: widget.isComfortableGrid ? 0.642 : 0.69,
@@ -82,8 +82,8 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                         lang: entry.lang!,
                         mangaM: entry,
                         source: entry.source!);
-                    ref.invalidate(getAllMangaWithoutCategoriesStreamProvider(isManga: widget.isManga));
-                    ref.invalidate(getAllMangaStreamProvider(categoryId: null, isManga: widget.isManga));
+                    ref.invalidate(getAllMangaWithoutCategoriesStreamProvider(itemType: widget.itemType));
+                    ref.invalidate(getAllMangaStreamProvider(categoryId: null, itemType: widget.itemType));
                   }
                 },
                 onLongPress: () {
@@ -227,7 +227,7 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                                       .filter()
                                       .idIsNotNull()
                                       .and()
-                                      .chapter((q) => q.manga((q) => q.isMangaEqualTo(entry.isManga!)))
+                                      .chapter((q) => q.manga((q) => q.itemTypeEqualTo(entry.itemType)))
                                       .watch(fireImmediately: true),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData && snapshot.data!.isNotEmpty) {

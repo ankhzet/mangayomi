@@ -6,6 +6,16 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/category.dart';
+import 'package:mangayomi/models/chapter.dart';
+import 'package:mangayomi/models/download.dart';
+import 'package:mangayomi/models/history.dart';
+import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/settings.dart';
+import 'package:mangayomi/models/source.dart';
+import 'package:mangayomi/models/track.dart';
+import 'package:mangayomi/models/track_preference.dart';
+import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:path/path.dart' as path;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -14,12 +24,12 @@ import 'package:share_plus/share_plus.dart';
 part 'backup.g.dart';
 
 @riverpod
-void doBackUp(
+Future<void> doBackUp(
   Ref ref, {
   required List<int> list,
   required String pathname,
   required BuildContext? context,
-}) {
+}) async {
   Map<String, dynamic> data = {};
   data.addAll({"version": "1"});
   if (list.contains(0)) {
@@ -45,37 +55,44 @@ void doBackUp(
   if (list.contains(3)) {
     final res = isar.tracks.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
     data.addAll({"tracks": res});
-    final res_ = isar.trackPreferences.filter().syncIdIsNotNull().findAllSync().map((e) => e.toJson()).toList();
-    data.addAll({"trackPreferences": res_});
   }
   if (list.contains(4)) {
     final res = isar.historys.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
     data.addAll({"history": res});
   }
   if (list.contains(5)) {
+    final res = isar.updates.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
+    datas.addAll({"updates": res});
+  }
+  if (list.contains(6)) {
     final res = isar.settings.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
     data.addAll({"settings": res});
   }
-  if (list.contains(6)) {
+  if (list.contains(7)) {
+    final res = isar.sourcePreferences.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
+    datas.addAll({"extensions_preferences": res});
+  }
+  if (list.contains(8)) {
+    final res_ = isar.trackPreferences.filter().syncIdIsNotNull().findAllSync().map((e) => e.toJson()).toList();
+    datas.addAll({"trackPreferences": res_});
+  }
+  if (list.contains(9)) {
     final res = isar.sources.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
     data.addAll({"extensions": res});
-    final resSourcePref =
-        isar.sourcePreferences.filter().idIsNotNull().keyIsNotNull().findAllSync().map((e) => e.toJson()).toList();
-    data.addAll({"extensions_preferences": resSourcePref});
   }
   final regExp = RegExp(r'[^a-zA-Z0-9 .()\-\s]');
   final name = 'mangayomi_${DateTime.now().toString().replaceAll(regExp, '_').replaceAll(' ', '_')}';
   final backupFilePath = path.join(pathname, '$name.backup.db');
   final file = File(backupFilePath);
 
-  file.writeAsStringSync(jsonEncode(data));
+  await file.writeAsString(jsonEncode(data));
   var encoder = ZipFileEncoder();
   encoder.create(path.join(pathname, "$name.backup"));
-  encoder.addFile(File(backupFilePath));
-  encoder.close();
-  Directory(backupFilePath).deleteSync(recursive: true);
+  await encoder.addFile(File(backupFilePath));
+  await encoder.close();
+  await Directory(backupFilePath).delete(recursive: true);
   final assets = ['assets/app_icons/icon-black.png', 'assets/app_icons/icon-red.png'];
-  if (context != null) {
+  if (context != null && context.mounted) {
     Navigator.pop(context);
     BotToast.showNotification(
         animationDuration: const Duration(milliseconds: 200),

@@ -30,6 +30,10 @@ abstract interface class ExtensionService {
 
   Future<List<Video>> getVideoList(String url);
 
+  Future<String> getHtmlContent(String url);
+
+  Future<String> cleanHtmlContent(String html);
+
   FilterList getFilterList();
 
   List<SourcePreference> getSourcePreferences();

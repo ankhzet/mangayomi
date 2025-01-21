@@ -39,6 +39,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
     final mangaDir = await StorageProvider.getMangaMainDirectory(manga);
     final cbzFile = File(path.join(mangaDir, "${widget.chapter.name}.cbz"));
     final mp4File = File(path.join(mangaDir, "${widget.chapter.name!.replaceForbiddenCharacters(' ')}.mp4"));
+    final htmlFile = File(path.join(mangaDir, "${widget.chapter.name}.html"));
 
     List<XFile> files;
 
@@ -46,6 +47,8 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
       files = [XFile(cbzFile.path)];
     } else if (mp4File.existsSync()) {
       files = [XFile(mp4File.path)];
+    } else if (htmlFile.existsSync()) {
+      files = [XFile(htmlFile.path)];
     } else {
       final path = await StorageProvider.getMangaChapterDirectory(widget.chapter);
       files = Directory(path).listSync().map((e) => XFile(e.path)).toList();
@@ -67,6 +70,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
           cbzFile.deleteSync();
         }
       } catch (_) {}
+
       try {
         final mp4File = File(path.join(mangaDir, "${widget.chapter.name!.replaceForbiddenCharacters(' ')}.mp4"));
         if (mp4File.existsSync()) {
@@ -74,8 +78,16 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
         }
       } catch (_) {}
 
+      try {
+        final htmlFile = File(p.join(mangaDir, "${widget.chapter.name}.html"));
+        if (htmlFile.existsSync()) {
+          htmlFile.deleteSync();
+        }
+      } catch (_) {}
+
       Directory(pathname).deleteSync(recursive: true);
     } catch (_) {}
+
     isar.writeTxnSync(() {
       int id = isar.downloads.filter().chapterIdEqualTo(widget.chapter.id!).findFirstSync()!.id!;
       isar.downloads.deleteSync(id);

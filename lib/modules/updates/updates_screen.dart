@@ -8,6 +8,9 @@ import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/models/view_queue_item.dart';
+import 'package:mangayomi/modules/manga/detail/providers/update_manga_detail_providers.dart';
+import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
+import 'package:mangayomi/modules/updates/widgets/update_chapter_list_tile_widget.dart';
 import 'package:mangayomi/modules/history/providers/isar_providers.dart';
 import 'package:mangayomi/modules/library/widgets/search_text_form_field.dart';
 import 'package:mangayomi/modules/manga/detail/providers/update_manga_detail_providers.dart';
@@ -373,7 +376,7 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
                       .filter()
                       .idIsNotNull()
                       .chapter(
-                        (q) => q.manga((q) => q.isMangaEqualTo(_type)),
+                        (q) => q.manga((q) => q.itemTypeEqualTo(_type)),
                       )
                       .findAllSync()
                       .map((i) => i.id!)

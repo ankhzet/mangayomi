@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/sync_preference.dart';
-import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/more/settings/sync/widgets/sync_listile.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/services/sync_server.dart';
@@ -15,8 +14,6 @@ class SyncScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final syncAfterReading = ref.watch(syncAfterReadingStateProvider);
-    final syncOnAppLaunch = ref.watch(syncOnAppLaunchStateProvider);
     final l10n = l10nLocalizations(context)!;
     return Scaffold(
       appBar: AppBar(
@@ -31,22 +28,6 @@ class SyncScreen extends ConsumerWidget {
               final bool isLogged = syncPreference.authToken?.isNotEmpty ?? false;
               return Column(
                 children: [
-                  SwitchListTile(
-                      value: syncAfterReading,
-                      title: Text(context.l10n.syncAfterReading),
-                      onChanged: !isLogged
-                          ? null
-                          : (value) {
-                              ref.read(syncAfterReadingStateProvider.notifier).set(value);
-                            }),
-                  SwitchListTile(
-                      value: syncOnAppLaunch,
-                      title: Text(context.l10n.syncOnAppLaunch),
-                      onChanged: !isLogged
-                          ? null
-                          : (value) {
-                              ref.read(syncOnAppLaunchStateProvider.notifier).set(value);
-                            }),
                   Padding(
                     padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10, top: 5),
                     child: Row(
@@ -90,10 +71,6 @@ class SyncScreen extends ConsumerWidget {
                           Column(children: [
                             const SizedBox(width: 20),
                             Text(
-                                "${l10n.last_sync}: ${dateFormat((syncPreference.lastSync ?? 0).toString(), ref: ref, context: context)} ${dateFormatHour((syncPreference.lastSync ?? 0).toString(), context)}",
-                                style: TextStyle(fontSize: 11, color: context.secondaryColor)),
-                            const SizedBox(width: 20),
-                            Text(
                                 "${l10n.last_upload}: ${dateFormat((syncPreference.lastUpload ?? 0).toString(), ref: ref, context: context)} ${dateFormatHour((syncPreference.lastUpload ?? 0).toString(), context)}",
                                 style: TextStyle(fontSize: 11, color: context.secondaryColor)),
                             const SizedBox(width: 20),
@@ -107,22 +84,6 @@ class SyncScreen extends ConsumerWidget {
                   ),
                   Row(
                     children: [
-                      const SizedBox(width: 20),
-                      Column(
-                        children: [
-                          IconButton(
-                              onPressed: !isLogged
-                                  ? null
-                                  : () {
-                                      ref.read(syncServerProvider(syncId: 1).notifier).checkForSync(false);
-                                    },
-                              icon: Icon(
-                                Icons.sync,
-                                color: !isLogged ? context.secondaryColor : context.primaryColor,
-                              )),
-                          Text(l10n.sync_button_sync),
-                        ],
-                      ),
                       const SizedBox(width: 20),
                       Column(
                         children: [

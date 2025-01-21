@@ -18,6 +18,7 @@ class ReaderScreen extends ConsumerWidget {
     final backgroundColor = ref.watch(backgroundColorStateProvider);
     final usePageTapZones = ref.watch(usePageTapZonesStateProvider);
     final fullScreenReader = ref.watch(fullScreenReaderStateProvider);
+
     final cropBorders = ref.watch(cropBordersStateProvider);
     return Scaffold(
       appBar: AppBar(

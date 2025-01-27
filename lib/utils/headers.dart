@@ -15,7 +15,7 @@ Map<String, String> headers(Ref ref, {required String source, required String la
 
   Map<String, String> headers = {};
 
-  if (mSource != null) {
+  if (mSource != null && mSource.isValid) {
     final fromSource = mSource.headers;
 
     if (fromSource != null && fromSource.isNotEmpty) {

@@ -158,6 +158,9 @@ class Source {
 
   bool get isTorrent => (typeSource?.toLowerCase() ?? "") == "torrent";
 
+  @ignore
+  bool get isValid => isActive == true && sourceCode?.isNotEmpty == true;
+
   MSource toMSource() {
     return MSource(
         id: id,

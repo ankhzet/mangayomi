@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
 import 'package:mangayomi/eval/lib.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/eval/model/m_manga.dart';
@@ -42,15 +43,18 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
 
   final source = getSource(manga.lang!, manga.source!);
 
-  if (source == null || !(source.isActive ?? false)) {
+  if (source == null || !source.isValid) {
+    setError(
+      mangaId,
+      '${manga.source!} (${manga.lang!}) extension is inactive',
+    );
     return;
   }
 
   try {
-    Future<MManga> fetch = ref.watch(getDetailProvider(url: manga.link!, source: source).future);
     final MManga? details = await Duration(milliseconds: 100).waitFor(() async {
       try {
-        return await fetch;
+        return await ref.watch(getDetailProvider(url: manga.link!, source: source).future);
       } catch (_) {
         final others = await getExtensionService(source).search(manga.name!, 1, []);
         final duplicate = others.list.firstWhereOrNull((dto) => dto.name == manga.name);
@@ -73,7 +77,9 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
 
     if (!details.isValid) {
       setError(
-          mangaId, '${source.name!} extension details update returns invalid data (${details.toJson().toString()})');
+        mangaId,
+        '${source.name!} extension details update returns invalid data (${details.toJson().toString()})',
+      );
 
       return;
     }
@@ -131,7 +137,6 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
 
       for (var old in oldChapters) {
         if (null == mapped.firstWhereOrNull((item) => old.isSame(item))) {
-          // old.isDeleted = true;
           deleted.add(old);
         }
       }
@@ -139,6 +144,11 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
 
     isar.writeTxnSync(() {
       isar.mangas.putSync(manga);
+
+      if (deleted.isNotEmpty) {
+        isar.updates.filter().chapter((q) => q.anyOf(deleted, (q, c) => q.idEqualTo(c.id!))).deleteAllSync();
+        isar.chapters.deleteAllSync(deleted.mapToList((c) => c.id!));
+      }
 
       if (chapters.isEmpty) {
         return;

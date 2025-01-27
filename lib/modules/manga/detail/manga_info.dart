@@ -107,9 +107,14 @@ class MangaInfoView extends StatelessWidget {
                       onPressed: () => _editLocalArchiveInfos(context),
                       icon: const CircleAvatar(child: Icon(Icons.edit_outlined)),
                     ),
-                  )
+                  ),
               ],
             ),
+            if (manga.updateError != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Text(manga.updateError!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
+              ),
             if (!isLocalArchive)
               MangaActions(
                 manga: manga,

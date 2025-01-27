@@ -327,7 +327,7 @@ class ReaderController extends _$ReaderController with WithSettings {
   }
 
   String getChapterTitle() {
-    return chapter.name!;
+    return Chapter.fullTitle([chapter]);
   }
 }
 

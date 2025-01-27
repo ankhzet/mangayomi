@@ -18,17 +18,13 @@ class MangaReaderView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final chapterData = ref.watch(getChapterPagesProvider(chapter: chapter));
-    final isLocalArchive = (chapter.manga.value!.isLocalArchive ?? false) == false;
+    final isExternalSource = (chapter.manga.value!.isLocalArchive ?? false) == false;
 
     try {
       return chapterData.when(
         data: (data) {
-          if (isLocalArchive) {
-            if (data.pageUrls.isEmpty) {
-              throw AssertionError('Failed to load');
-            }
-          } else {
-            if (data.pageUrls.every((task) => task.isValid)) {}
+          if (isExternalSource && data.pageUrls.isEmpty) {
+            throw AssertionError('Failed to load');
           }
 
           return MangaChapterPageGallery(chapter: chapter, chapterUrlModel: data);

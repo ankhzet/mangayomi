@@ -91,9 +91,9 @@ class UpdateQueueListTileWidget extends ConsumerWidget {
                           child: Align(
                               alignment: Alignment.center,
                               child: Icon(
-                                size: 12,
-                                Icons.medical_services_outlined,
-                                color: Theme.of(context).focusColor,
+                                size: 16,
+                                Icons.error_outline,
+                                color: Theme.of(context).colorScheme.error,
                               )),
                         ),
                     ],

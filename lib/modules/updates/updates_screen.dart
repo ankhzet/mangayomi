@@ -95,49 +95,56 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
       builder: (values) => async.build(values, (Iterable<MangaPeriodicity> periodicity, List<Update> updates) {
         final (queue, overdraft) = _getQueue(periodicity);
         final entries = _filterUpdates(updates);
-        final viewQueue =
-            entries.where((update) => isar.viewQueueItems.isQueuedSync(update.chapter.value!.id!)).toList();
-        final List<UpdateInfoType> types = [];
+        final viewQueueAsync = ref.watch(getViewQueueMapProvider).combiner();
 
-        if (updates.isNotEmpty) {
-          types.add(UpdateInfoType.updates);
-        }
+        return AsyncValueWidget(
+          async: viewQueueAsync,
+          builder: (values) => viewQueueAsync.build(values, (Iterable<ViewQueueItem> items) {
+            final map = items.mapQueueItems(entries.map((e) => e.manga.id));
+            final viewQueue = entries.where((update) => map[update.manga.id] == true).toList();
+            final List<UpdateInfoType> types = [];
 
-        if (viewQueue.isNotEmpty) {
-          types.add(UpdateInfoType.viewQueue);
-        }
+            if (updates.isNotEmpty) {
+              types.add(UpdateInfoType.updates);
+            }
 
-        if (queue.isNotEmpty) {
-          types.add(UpdateInfoType.updateQueue);
-        }
+            if (viewQueue.isNotEmpty) {
+              types.add(UpdateInfoType.viewQueue);
+            }
 
-        return UpdateInfoTabs(
-          types: types,
-          content: (tab) => switch (tab) {
-            UpdateInfoType.updates => UpdatesTab(
-                entries: entries,
-                isOverdraft: overdraft,
-                queue: queue,
-                periodicity: periodicity,
+            if (queue.isNotEmpty) {
+              types.add(UpdateInfoType.updateQueue);
+            }
+
+            return UpdateInfoTabs(
+              types: types,
+              content: (tab) => switch (tab) {
+                UpdateInfoType.updates => UpdatesTab(
+                  entries: entries,
+                  isOverdraft: overdraft,
+                  queue: queue,
+                  periodicity: periodicity,
+                ),
+                UpdateInfoType.updateQueue => UpdateQueueTab(
+                  isOverdraft: overdraft,
+                  queue: queue,
+                  lastUpdated: entries.fold(null, (result, update) {
+                    final timestamp = update.lastMangaUpdate;
+
+                    return (((result == null) || (timestamp > result)) ? timestamp : result);
+                  }),
+                ),
+                UpdateInfoType.viewQueue => ViewQueueTab(
+                  entries: viewQueue,
+                  periodicity: periodicity,
+                ),
+              },
+              wrap: (tabBar, view) => Scaffold(
+                body: view,
+                bottomNavigationBar: tabBar,
               ),
-            UpdateInfoType.updateQueue => UpdateQueueTab(
-                isOverdraft: overdraft,
-                queue: queue,
-                lastUpdated: entries.fold(null, (result, update) {
-                  final timestamp = update.lastMangaUpdate;
-
-                  return (((result == null) || (timestamp > result)) ? timestamp : result);
-                }),
-              ),
-            UpdateInfoType.viewQueue => ViewQueueTab(
-                entries: viewQueue,
-                periodicity: periodicity,
-              ),
-          },
-          wrap: (tabBar, view) => Scaffold(
-            body: view,
-            bottomNavigationBar: tabBar,
-          ),
+            );
+          }),
         );
       }),
     );

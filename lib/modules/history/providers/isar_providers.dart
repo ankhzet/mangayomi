@@ -5,6 +5,7 @@ import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/update.dart';
+import 'package:mangayomi/models/view_queue_item.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'isar_providers.g.dart';
@@ -42,4 +43,11 @@ Stream<List<Update>> getAllUpdateStream(Ref ref, {required ItemType itemType}) a
 @riverpod
 Stream<List<Manga>> getAllMangasStream(Ref ref, {required ItemType itemType}) async* {
   yield* isar.mangas.filter().itemTypeEqualTo(itemType).watch(fireImmediately: true);
+}
+
+@riverpod
+Stream<Iterable<ViewQueueItem>> getViewQueueMap(Ref ref) async* {
+  yield* isar.viewQueueItems
+      .where()
+      .watch(fireImmediately: true);
 }

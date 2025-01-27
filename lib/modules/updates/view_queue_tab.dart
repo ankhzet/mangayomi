@@ -42,6 +42,9 @@ class _ViewQueueTabState extends ConsumerState<ViewQueueTab> {
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
+
+    if (entries.isEmpty) return Center(child: Text(l10n.no_recent_updates));
+
     final groups = UpdateChaptersGroup.groupChapters(
       entries.map((update) => update.chapter.value).whereType<Chapter>(),
       _getPeriodicity,
@@ -49,7 +52,6 @@ class _ViewQueueTabState extends ConsumerState<ViewQueueTab> {
 
     return CustomScrollView(
       slivers: [
-        if (entries.isEmpty) Center(child: Text(l10n.no_recent_updates)),
         SliverGroupedListView(
           elements: groups,
           groupBy: ChapterGroup.groupBy,

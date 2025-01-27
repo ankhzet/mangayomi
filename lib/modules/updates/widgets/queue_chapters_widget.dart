@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/view_queue_item.dart';
+import 'package:mangayomi/modules/updates/widgets/update_chapter_list_tile_widget.dart';
 import 'package:mangayomi/utils/extensions/view_queue_item.dart';
 
 class QueueChaptersWidget extends ConsumerStatefulWidget {
-  final Chapter chapter;
+  final UpdateChaptersGroup update;
 
   const QueueChaptersWidget({
     super.key,
-    required this.chapter,
+    required this.update,
   });
 
   @override
@@ -18,13 +18,14 @@ class QueueChaptersWidget extends ConsumerStatefulWidget {
 }
 
 class _QueueChaptersWidgetState extends ConsumerState<QueueChaptersWidget> {
-  late final chapter = widget.chapter;
-  late final manga = chapter.manga.value!;
+  late final update = widget.update;
+  late final unread = update.firstOrUnread;
+  late final mangaId = update.mangaId;
   bool _isQueued = false;
 
   @override
   void initState() {
-    _isQueued = isar.viewQueueItems.isQueuedSync(chapter.id!);
+    _isQueued = isar.viewQueueItems.isQueuedSync(mangaId);
     super.initState();
   }
 
@@ -35,8 +36,8 @@ class _QueueChaptersWidgetState extends ConsumerState<QueueChaptersWidget> {
 
     await isar.writeTxn(() async {
       await isar.viewQueueItems.put(ViewQueueItem(
-        mangaId: manga.id,
-        chapterId: chapter.id!,
+        mangaId: mangaId,
+        chapterId: unread.id!,
         timestamp: DateTime.now().millisecondsSinceEpoch,
       ));
     });

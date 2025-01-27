@@ -6,6 +6,7 @@ import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/dto/chapter_group.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/update.dart';
+import 'package:mangayomi/models/view_queue_item.dart';
 import 'package:mangayomi/utils/extensions/manga.dart';
 
 class ChaptersFix extends ConsumerStatefulWidget {
@@ -36,7 +37,8 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> {
 
       await isar.writeTxn(() async {
         await isar.updates.where().filter().chapter((q) => q.oneOf(ids, (q, id) => q.idEqualTo(id))).deleteAll();
-        await isar.historys.where().filter().oneOf(ids, (q, id) => q.chapterIdEqualTo(id)).deleteAll();
+        await isar.historys.where().filter().anyOf(ids, (q, id) => q.chapterIdEqualTo(id)).deleteAll();
+        await isar.viewQueueItems.where().anyOf(ids, (q, id) => q.chapterIdEqualTo(id)).deleteAll();
         await isar.chapters.deleteAll(ids);
       });
     } finally {
@@ -67,7 +69,7 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: manga.chapters.filter().watch(fireImmediately: true),
+      stream: isar.chapters.where().mangaIdEqualTo(manga.id).watch(fireImmediately: true),
       builder: (context, snapshot) {
         final List<Chapter> chapters = snapshot.hasData ? snapshot.data! : [];
         final List<Chapter> duplicates = manga.getDuplicateChapters(all: chapters);
@@ -105,10 +107,17 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> {
                   _deleteChapters(update.items.where((chapter) => !unread.any((item) => item.id == chapter.id)));
                 }
               },
-              icon: _fixWidget(
-                context,
-                duplicates.length + ghosts.length + readUpdates,
-                _isStarted,
+              icon: Tooltip(
+                message: [
+                  duplicates.isNotEmpty ? '${duplicates.length} duplicate chapters' : '',
+                  ghosts.isNotEmpty ? '${ghosts.length} chapters with no name' : '',
+                  readUpdates > 0 ? '$readUpdates updates not removed after reading' : '',
+                ].where((s) => s.isNotEmpty).join('\n'),
+                child: _fixWidget(
+                  context,
+                  duplicates.length + ghosts.length + readUpdates,
+                  _isStarted,
+                ),
               ),
             ),
           ),

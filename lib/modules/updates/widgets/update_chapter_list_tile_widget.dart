@@ -17,12 +17,12 @@ class UpdateChaptersGroup<T> extends ChapterGroup<T> {
   final bool isQueued;
 
   static List<UpdateChaptersGroup<T>> groupChapters<T>(Iterable<Chapter> items, T Function(Chapter item) groupBy) {
-    final queued = isar.viewQueueItems.getQueuedSync(items.map((item) => item.id!));
+    final queued = isar.viewQueueItems.getQueuedSync(items.map((item) => item.mangaId!));
 
     return Group.groupItems(
       items,
       groupBy,
-      (items, group) => UpdateChaptersGroup(items, group, queued[items.first.id]!),
+      (items, group) => UpdateChaptersGroup(items, group, queued[items.first.mangaId!]!),
       belongsTo: (chapter, group) => group.mangaId == chapter.mangaId,
     );
   }
@@ -108,7 +108,7 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
                   ),
                 ),
                 ChaptersFix(update: update),
-                QueueChaptersWidget(chapter: update.firstOrUnread),
+                QueueChaptersWidget(update: update),
                 if (sourceExist) ChapterPageDownload(chapter: update.firstOrUnread),
               ],
             ),

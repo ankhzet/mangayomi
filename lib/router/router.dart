@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
@@ -54,30 +56,34 @@ GoRouter router(Ref ref) {
   final router = RouterNotifier();
 
   return GoRouter(
-      observers: [BotToastNavigatorObserver()],
-      initialLocation: '/MangaLibrary',
-      debugLogDiagnostics: kDebugMode,
-      refreshListenable: router,
-      routes: router._routes,
-      navigatorKey: navigatorKey);
+    observers: [BotToastNavigatorObserver()],
+    initialLocation: '/MangaLibrary',
+    debugLogDiagnostics: kDebugMode,
+    refreshListenable: router,
+    routes: router._routes,
+    navigatorKey: navigatorKey,
+    extraCodec: const ExtraCodec(),
+  );
 }
 
 @riverpod
 class RouterCurrentLocationState extends _$RouterCurrentLocationState {
   @override
   String? build(BuildContext context) {
-    _listener();
-    return null;
+    final delegate = GoRouter.of(context).routerDelegate;
+
+    delegate.addListener(() {
+      state = _getLocation(delegate.currentConfiguration);
+    });
+
+    return _getLocation(delegate.currentConfiguration);
   }
 
-  _listener() {
-    final router = GoRouter.of(context);
-    router.routerDelegate.addListener(() {
-      final RouteMatch lastMatch = router.routerDelegate.currentConfiguration.last;
-      final RouteMatchList matchList =
-          lastMatch is ImperativeRouteMatch ? lastMatch.matches : router.routerDelegate.currentConfiguration;
-      state = matchList.uri.toString();
-    });
+  String? _getLocation(RouteMatchList matches) {
+    final RouteMatch lastMatch = matches.last;
+    final RouteMatchList matchList = lastMatch is ImperativeRouteMatch ? lastMatch.matches : matches;
+
+    return matchList.uri.toString();
   }
 }
 
@@ -619,4 +625,83 @@ Route createRoute({required Widget page}) {
             return FadeTransition(opacity: animation, child: child);
           },
         );
+}
+
+/// A codec that can serialize both [ComplexData1] and [ComplexData2].
+class ExtraCodec extends Codec<Object?, Object?> {
+  /// Create a codec.
+  const ExtraCodec();
+
+  @override
+  Converter<Object?, Object?> get decoder => const _ExtraDecoder();
+
+  @override
+  Converter<Object?, Object?> get encoder => const _ExtraEncoder();
+}
+
+class _ExtraDecoder extends Converter<Object?, Object?> {
+  const _ExtraDecoder();
+
+  @override
+  Object? convert(Object? input) {
+    if (input == null) {
+      return null;
+    }
+
+    return switch (input) {
+      ['ItemType', var value] => switch (value) {
+          'manga' => ItemType.manga,
+          'anime' => ItemType.anime,
+          'novel' => ItemType.novel,
+          _ => throw FormatException('"$value" is not a valid item type'),
+        },
+
+      ['SourceTuple', int? id, bool value] => (id != null ? isar.sources.getSync(id) : Source(), value),
+
+      String str => (() {
+          try {
+            return jsonDecode(str);
+          } catch (e) {
+            throw FormatException('Unable to parse input: $str');
+          }
+        })(),
+      _ => throw FormatException('Unable to parse input: $input'),
+    };
+  }
+}
+
+class _ExtraEncoder extends Converter<Object?, Object?> {
+  const _ExtraEncoder();
+
+  @override
+  Object? convert(Object? input) {
+    if (input == null) {
+      return null;
+    }
+
+    switch (input) {
+      case ItemType _:
+        return <Object?>[
+          'ItemType',
+          switch (input) {
+            ItemType.manga => 'manga',
+            ItemType.anime => 'anime',
+            ItemType.novel => 'novel',
+          }
+        ];
+      case (Source, bool) _: {
+        return <Object?>[
+          'SourceTuple',
+          input.$1.id,
+          input.$2,
+        ];
+      }
+      default:
+        try {
+          return jsonEncode(input);
+        } catch (e) {
+          throw FormatException('Cannot encode type ${input.runtimeType}');
+        }
+    }
+  }
 }

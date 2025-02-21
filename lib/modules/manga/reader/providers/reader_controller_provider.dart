@@ -55,6 +55,7 @@ class ReaderController extends _$ReaderController with WithSettings {
 
   late final manga = chapter.manga.value!;
   late final mangaId = manga.id;
+  late final chapterId = chapter.id!;
   late final mangaFilteredChapters = manga.getFilteredChapterList(settings: settings);
   late final mangaChapters = manga.chapters.toList(growable: false);
   late final incognitoMode = settings.incognitoMode!;
@@ -279,7 +280,6 @@ class ReaderController extends _$ReaderController with WithSettings {
     return (getPageMode() == PageMode.doublePage && !(getReaderMode() == ReaderMode.horizontalContinuous));
   }
 
-  /// {int} [index] Index to snap to slides grid. Uses `_uChapDataPreload.length` if `null`
   int snapIndex(int index, {int grid = 0, int list = 0}) {
     if (isGridMode()) {
       return (index / 2).ceil() + grid;
@@ -289,7 +289,7 @@ class ReaderController extends _$ReaderController with WithSettings {
   }
 
   void setPageIndex(int newIndex, bool save) {
-    if (chapter.isRead! || incognitoMode) return;
+    if (incognitoMode) return;
 
     final mode = getReaderMode();
     final continuous = mode == ReaderMode.verticalContinuous || mode == ReaderMode.webtoon;
@@ -300,13 +300,19 @@ class ReaderController extends _$ReaderController with WithSettings {
       return;
     }
 
-    settings = settings
-      ..chapterPageIndexList = [
-        ...chapter.getOtherOptions(settings.chapterPageIndexList),
-        ChapterPageIndex()
-          ..chapterId = chapter.id
-          ..index = isRead ? 0 : newIndex,
-      ];
+    final indexes = chapter.getOtherOptions(settings.chapterPageIndexList);
+
+    if (isRead) {
+      settings = settings..chapterPageIndexList = indexes;
+    } else {
+      settings = settings
+        ..chapterPageIndexList = [
+          ...indexes,
+          ChapterPageIndex()
+            ..chapterId = chapterId
+            ..index = newIndex,
+        ];
+    }
 
     final chap = chapter;
 
@@ -317,7 +323,11 @@ class ReaderController extends _$ReaderController with WithSettings {
     });
 
     if (isRead) {
-      isar.updates.deleteForChaptersSync(mangaId, [chapter.id!]);
+      final order = chapter.compositeOrder;
+      final updated = mangaChapters
+          .where((chapter) => 0 == compareComposite(order, chapter.compositeOrder))
+          .map((chapter) => chapter.id!);
+      isar.updates.deleteForChaptersSync(mangaId, updated);
       chapter.updateTrackChapterRead(ref);
     }
   }

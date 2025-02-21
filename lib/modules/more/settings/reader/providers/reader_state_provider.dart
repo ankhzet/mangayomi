@@ -68,9 +68,8 @@ class ScaleTypeState extends _$ScaleTypeState {
   }
 
   void set(ScaleType value) {
-    final settings = isar.settings.first;
     state = value;
-    isar.settings.first = settings..scaleType = value;
+    isar.settings.first = isar.settings.first..scaleType = value;
   }
 }
 

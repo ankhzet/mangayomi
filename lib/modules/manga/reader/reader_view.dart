@@ -6,6 +6,7 @@ import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/modules/manga/reader/manga_chapter_page_gallery.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/services/get_chapter_pages.dart';
+import 'package:mangayomi/utils/date.dart';
 
 class MangaReaderView extends ConsumerWidget {
   final Chapter chapter;
@@ -33,11 +34,34 @@ class MangaReaderView extends ConsumerWidget {
         loading: () => _scaffold(context: context, body: const ProgressCenter()),
       );
     } catch (error) {
-      if (kDebugMode) {
+      var errorText = error.toString();
+      final match = RegExp(r'Chapter would be published ([^\n]+)', caseSensitive: false).firstMatch(errorText);
+
+      if (match != null) {
+        final date = DateTime.fromMillisecondsSinceEpoch(int.parse(match[1]!));
+        final dateStr = dateFormat(
+          null,
+          datetimeDate: date,
+          ref: ref,
+          context: context,
+          showHourOrMinute: true,
+          useRelativeTimesTamps: false,
+          // dateFormat: 'yyyy/MM/dd HH:mm',
+        );
+        final relative = dateFormat(
+          null,
+          datetimeDate: date,
+          ref: ref,
+          context: context,
+          showHourOrMinute: true,
+          useRelativeTimesTamps: true,
+        );
+        errorText = 'Chapter is scheduled to release:\n$dateStr ($relative)';
+      } else if (kDebugMode) {
         print(error);
       }
 
-      return _scaffold(context: context, body: Center(child: Text(error.toString())));
+      return _scaffold(context: context, body: Center(child: Text(errorText)));
     }
   }
 

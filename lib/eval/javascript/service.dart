@@ -212,8 +212,8 @@ class JsExtensionService implements ExtensionService {
 
   @override
   Future<List<PageUrl>> getPageList(String url) async {
-    return (await _extensionCallAsync<List>('getPageList(`$url`)', []))
-        .map((e) => e is String ? PageUrl(e.trim()) : PageUrl.fromJson((e as Map).toMapStringDynamic!))
+    return (await _extensionCallAsync<List?>('getPageList(`$url`)', null))
+        !.map((e) => e is String ? PageUrl(e.trim()) : PageUrl.fromJson((e as Map).toMapStringDynamic!))
         .toList();
   }
 

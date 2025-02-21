@@ -15,13 +15,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'update_manga_detail_providers.g.dart';
 
-void setError(int mangaId, String? error) {
+String throwUpdateError(int mangaId, String error) {
   final instance = isar.mangas.getSync(mangaId)!;
 
-  if (error != null) {
-    if (kDebugMode) {
-      print('Manga ${instance.name} ($mangaId) update error: $error');
-    }
+  if (kDebugMode) {
+    print('Manga ${instance.name} ($mangaId) update error: $error');
   }
 
   isar.writeTxnSync(() {
@@ -29,6 +27,8 @@ void setError(int mangaId, String? error) {
       ..lastUpdate = (instance.lastUpdate ?? 0) + 1
       ..updateError = error);
   });
+
+  return error;
 }
 
 @riverpod
@@ -44,11 +44,10 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
   final source = getSource(manga.lang!, manga.source!);
 
   if (source == null || !source.isValid) {
-    setError(
+    throw throwUpdateError(
       mangaId,
       '${manga.source!} (${manga.lang!}) extension is inactive',
     );
-    return;
   }
 
   try {
@@ -65,8 +64,7 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
 
           return other..link = link;
         } catch (e) {
-          setError(mangaId, '${source.name!} extension details update returns error (${e.toString()})');
-          return null;
+          throw throwUpdateError(mangaId, '${source.name!} extension details update returns error (${e.toString()})');
         }
       }
     });
@@ -76,12 +74,10 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
     }
 
     if (!details.isValid) {
-      setError(
+      throw throwUpdateError(
         mangaId,
         '${source.name!} extension details update returns invalid data (${details.toJson().toString()})',
       );
-
-      return;
     }
 
     final genre = details.genre?.map((e) => e.normalize()).toUnique() ?? [];

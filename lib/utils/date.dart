@@ -23,19 +23,20 @@ String dateFormat(
 
   final date = DateTime(dateTime.year, dateTime.month, dateTime.day);
   final now = DateTime.now();
-  final today = DateTime(now.year, now.month, now.day);
 
   if (useRelativeTimesTamps) {
-    if (date == today && relativeTimestamps != 0) {
-      if (showHourOrMinute) {
-        final delta = now.difference(dateTime);
-        final difference = delta.abs();
+    final delta = now.difference(dateTime);
+    final difference = delta.abs();
+    final inDays = delta.inDays;
+    final ago = delta.inMilliseconds > 0;
 
+    if (inDays == 0 && relativeTimestamps != 0) {
+      if (showHourOrMinute) {
         if (difference.inMinutes == 0) {
           return l10n.now;
         }
 
-        if (delta.inMilliseconds > 0) {
+        if (ago) {
           if (difference.inMinutes < 60) {
             return switch (difference.inMinutes) {
               1 => l10n.a_minute_ago,
@@ -67,11 +68,9 @@ String dateFormat(
       }
 
       return l10n.today;
-    } else if (date == today.subtract(const Duration(days: 1)) && relativeTimestamps != 0) {
+    } else if (delta.inDays == 1 && relativeTimestamps != 0) {
       return l10n.yesterday;
     } else if (relativeTimestamps == 2) {
-      final inDays = today.difference(date).inDays;
-      final ago = inDays >= 0;
       final days = inDays.abs();
 
       if (days <= 7) {
@@ -96,12 +95,18 @@ String dateFormat(
   }
 
   if (forHistoryValue) {
-    return DateTime(dateTime.year, dateTime.month, dateTime.day).toString();
+    return date.toString();
   }
 
   final format = dateFormat.isEmpty ? ref.watch(dateFormatStateProvider) : dateFormat;
+  final dateStr = DateFormat(format, locale.toLanguageTag()).format(date);
 
-  return DateFormat(format, locale.toLanguageTag()).format(date);
+  if (showHourOrMinute) {
+    final timeStr = DateFormat('HH:mm', locale.toLanguageTag()).format(dateTime);
+    return '$dateStr $timeStr';
+  }
+
+  return dateStr;
 }
 
 String dateFormatHour(String timestamp, BuildContext context) {
@@ -111,7 +116,7 @@ String dateFormatHour(String timestamp, BuildContext context) {
   return DateFormat.Hm(locale.toLanguageTag()).format(dateTime);
 }
 
-List<String> dateFormatsList = ["M/d/y", "MM/dd/yy", "dd/MM/yy", "yyyy-MM-dd", "dd MMM yyyy", "MMM dd, yyyy"];
+List<String> dateFormatsList = ["M/d/y", "MM/dd/yy", "dd/MM/yy", "yyyy-MM-dd", "dd MMM yyyy", "MMM dd, yyyy", "dd.MM.yyyy"];
 
 List<String> relativeTimestampsList(BuildContext context) {
   final l10n = l10nLocalizations(context)!;

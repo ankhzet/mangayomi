@@ -323,12 +323,14 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
       return;
     }
 
+    final double alignY = context.isTablet ? 0.85 : 0.70;
     final cancel = botToast(
       context.l10n.updating_library,
       fontSize: 13,
       second: 1600,
-      alignY: !context.isTablet ? 0.85 : 1,
+      alignY: alignY,
     );
+    final Set<String> errors = {};
 
     try {
       final interval = const Duration(milliseconds: 100);
@@ -340,7 +342,11 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
 
         await interval.waitFor(() async {
           if (mounted) {
-            return ref.read(updateMangaDetailProvider(mangaId: manga.id, isInit: false).future);
+            try {
+              return await ref.read(updateMangaDetailProvider(mangaId: manga.id, isInit: false).future);
+            } catch (e) {
+              errors.add(e.toString());
+            }
           }
         });
       }
@@ -352,6 +358,16 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
       }
 
       cancel();
+
+      if (errors.isNotEmpty) {
+        botToast(
+          errors.join('\n'),
+          fontSize: 13,
+          second: 5,
+          alignY: alignY,
+          isError: true,
+        );
+      }
     }
   }
 

@@ -3,7 +3,6 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -56,22 +55,29 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
   int _tabIndex = 0;
 
   Future<void> _updateLibrary(List<Manga> mangaList) async {
-    botToast(context.l10n.updating_library, fontSize: 13, second: 1600, alignY: !context.isTablet ? 0.85 : 1);
-    int numbers = 0;
+    final cancel = botToast(context.l10n.updating_library, fontSize: 13, second: 1600, alignY: !context.isTablet ? 0.85 : 1);
+    final interval = const Duration(milliseconds: 100);
+    final Set<String> errors = {};
+
     for (var manga in mangaList) {
-      try {
-        await ref.read(updateMangaDetailProvider(mangaId: manga.id, isInit: false).future);
-      } catch (_) {}
-      numbers++;
+      await interval.waitFor(() async {
+        if (!mounted) {
+          return;
+        }
+
+        try {
+          return await ref.read(updateMangaDetailProvider(mangaId: manga.id, isInit: false).future);
+        } catch (e) {
+          errors.add(e.toString());
+        }
+      });
     }
-    await Future.doWhile(() async {
-      await Future.delayed(const Duration(seconds: 1));
-      if (mangaList.length == numbers) {
-        return false;
-      }
-      return true;
-    });
-    BotToast.cleanAll();
+
+    cancel();
+
+    if (errors.isNotEmpty) {
+      botToast(errors.join('\n'), isError: true);
+    }
   }
 
   @override

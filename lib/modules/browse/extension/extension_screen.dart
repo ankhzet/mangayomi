@@ -12,6 +12,7 @@ import 'package:mangayomi/services/fetch_manga_sources.dart';
 import 'package:mangayomi/services/fetch_novel_sources.dart';
 import 'package:mangayomi/services/fetch_sources_list.dart';
 import 'package:mangayomi/utils/language.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class ExtensionScreen extends ConsumerStatefulWidget {
   final ItemType itemType;
@@ -25,6 +26,20 @@ class ExtensionScreen extends ConsumerStatefulWidget {
 
 class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
   final controller = ScrollController();
+  String version = '0.0.0';
+
+  @override
+  void initState() {
+    super.initState();
+
+    PackageInfo.fromPlatform().then((info) {
+      if (mounted) {
+        setState(() {
+          version = info.version;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +116,7 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
                     itemBuilder: (context, Source element) {
                       return ExtensionListTileWidget(
                         source: element,
+                        appVersion: version,
                       );
                     },
                     groupComparator: (group1, group2) => group1.compareTo(group2),
@@ -118,7 +134,7 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
                       ),
                     ),
                     itemBuilder: (context, Source element) {
-                      return ExtensionListTileWidget(source: element);
+                      return ExtensionListTileWidget(source: element, appVersion: version);
                     },
                     groupComparator: (group1, group2) => group1.compareTo(group2),
                     itemComparator: (item1, item2) => item1.name!.compareTo(item2.name!),
@@ -141,6 +157,7 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
                     itemBuilder: (context, Source element) {
                       return ExtensionListTileWidget(
                         source: element,
+                        appVersion: version,
                       );
                     },
                     groupComparator: (group1, group2) => group1.compareTo(group2),

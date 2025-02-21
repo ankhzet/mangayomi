@@ -147,13 +147,23 @@ extension Waiting on Duration {
   Future<T> waitFor<T>(Future<T> Function() callback) {
     bool isReady = false;
     T? value;
+    dynamic error;
 
     callback().then((v) {
       isReady = true;
       value = v;
+    }, onError: (e) {
+      isReady = true;
+      error = e;
     });
 
-    return Future.doWhile(() => Future.delayed(this, () => !isReady)).then((void _) => value as T);
+    return Future.doWhile(() => Future.delayed(this, () => !isReady)).then((void _) {
+      if (error != null) {
+        throw error;
+      }
+
+      return value as T;
+    });
   }
 }
 

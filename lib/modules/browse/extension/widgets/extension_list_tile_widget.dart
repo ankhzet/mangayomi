@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
@@ -16,8 +17,9 @@ import 'package:mangayomi/utils/language.dart';
 class ExtensionListTileWidget extends ConsumerStatefulWidget {
   final Source source;
   final bool isTestSource;
+  final String appVersion;
 
-  const ExtensionListTileWidget({super.key, required this.source, this.isTestSource = false});
+  const ExtensionListTileWidget({super.key, required this.source, required this.appVersion, this.isTestSource = false});
 
   @override
   ConsumerState<ExtensionListTileWidget> createState() => _ExtensionListTileWidgetState();
@@ -27,109 +29,117 @@ class _ExtensionListTileWidgetState extends ConsumerState<ExtensionListTileWidge
   bool _isLoading = false;
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
     final updateAvailable =
-        widget.isTestSource ? false : compareVersions(widget.source.version!, widget.source.versionLast!) < 0;
-    final sourceNotEmpty = widget.source.sourceCode != null && widget.source.sourceCode!.isNotEmpty;
+        (!widget.isTestSource) && compareVersions(widget.source.version!, widget.source.versionLast!) < 0;
+    final sourceNotEmpty = widget.source.sourceCode?.isNotEmpty ?? false;
+    final isObsolete = widget.source.isObsolete ?? false;
+    final version = (widget.source.appMinVerReqLast?.isNotEmpty ?? false)
+        ? widget.source.appMinVerReqLast!
+        : widget.source.appMinVerReq ?? '';
+    final isSupported = version.isNotEmpty ? compareVersions(widget.appVersion, version) > -1 : true;
+    final shouldFetch = !(widget.isTestSource || (!updateAvailable && sourceNotEmpty));
 
     return ListTile(
-        onTap: () async {
-          if (sourceNotEmpty || widget.isTestSource) {
-            if (widget.isTestSource) {
-              isar.writeTxnSync(() => isar.sources.putSync(widget.source));
-            }
-            context.push('/extension_detail', extra: widget.source);
-          } else {
-            setState(() {
-              _isLoading = true;
-            });
-            widget.source.itemType == ItemType.manga
-                ? await ref.watch(fetchMangaSourcesListProvider(id: widget.source.id, reFresh: true).future)
-                : widget.source.itemType == ItemType.anime
-                    ? await ref.watch(fetchAnimeSourcesListProvider(id: widget.source.id, reFresh: true).future)
-                    : await ref.watch(fetchNovelSourcesListProvider(id: widget.source.id, reFresh: true).future);
-            if (mounted) {
-              setState(() {
-                _isLoading = false;
-              });
-            }
-          }
-        },
-        leading: Container(
-          height: 37,
-          width: 37,
-          decoration: BoxDecoration(
-              color: Theme.of(context).secondaryHeaderColor.withValues(alpha: 0.5),
-              borderRadius: BorderRadius.circular(5)),
-          child: widget.source.iconUrl!.isEmpty
-              ? const Icon(Icons.extension_rounded)
-              : cachedNetworkImage(
-                  imageUrl: widget.source.iconUrl!,
-                  fit: BoxFit.contain,
+      onTap: () async {
+        if (widget.isTestSource) {
+          isar.writeTxnSync(() => isar.sources.putSync(widget.source));
+        }
+
+        if (sourceNotEmpty || widget.isTestSource) {
+          _open(context);
+        } else {
+          await _fetch();
+        }
+      },
+      leading: Container(
+        height: 37,
+        width: 37,
+        decoration: BoxDecoration(
+          color: Theme.of(context).secondaryHeaderColor.withValues(alpha: 0.5),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: widget.source.iconUrl!.isEmpty
+            ? const Icon(Icons.extension_rounded)
+            : cachedNetworkImage(
+                imageUrl: widget.source.iconUrl!,
+                fit: BoxFit.contain,
+                width: 37,
+                height: 37,
+                errorWidget: const SizedBox(
                   width: 37,
                   height: 37,
-                  errorWidget: const SizedBox(
-                    width: 37,
-                    height: 37,
-                    child: Center(
-                      child: Icon(Icons.extension_rounded),
-                    ),
-                  ),
-                  useCustomNetworkImage: false),
-        ),
-        title: Text(widget.source.name!),
-        subtitle: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(completeLanguageName(widget.source.lang!.toLowerCase()),
-                style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 12)),
-            const SizedBox(width: 4),
-            Text(widget.source.version!, style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 12)),
-            if (widget.source.isObsolete ?? false)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: Text("OBSOLETE",
-                    style: TextStyle(color: context.primaryColor, fontWeight: FontWeight.bold, fontSize: 12)),
-              )
-          ],
-        ),
-        trailing: TextButton(
-          onPressed: widget.isTestSource || !updateAvailable && sourceNotEmpty
-              ? () {
-                  context.push('/extension_detail', extra: widget.source);
-                }
-              : () async {
-                  setState(() {
-                    _isLoading = true;
-                  });
-                  widget.source.itemType == ItemType.manga
-                      ? await ref.watch(fetchMangaSourcesListProvider(id: widget.source.id, reFresh: true).future)
-                      : widget.source.itemType == ItemType.anime
-                          ? await ref.watch(fetchAnimeSourcesListProvider(id: widget.source.id, reFresh: true).future)
-                          : await ref.watch(fetchNovelSourcesListProvider(id: widget.source.id, reFresh: true).future);
-                  if (mounted) {
-                    setState(() {
-                      _isLoading = false;
-                    });
-                  }
-                },
-          child: _isLoading
-              ? const SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.0,
-                  ))
-              : Text(widget.isTestSource
-                  ? l10n.settings
-                  : !sourceNotEmpty
-                      ? l10n.install
-                      : updateAvailable
-                          ? l10n.update
-                          : l10n.settings),
-        ));
+                  child: Center(child: Icon(Icons.extension_rounded)),
+                ),
+                useCustomNetworkImage: false),
+      ),
+      title: Text(widget.source.name!),
+      subtitle: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            completeLanguageName(widget.source.lang!.toLowerCase()),
+            style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 12),
+          ),
+          const SizedBox(width: 4),
+          Text(widget.source.version!, style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 12)),
+          if (isObsolete)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Text("OBSOLETE",
+                  style: TextStyle(color: context.primaryColor, fontWeight: FontWeight.bold, fontSize: 12)),
+            ),
+          if (!isSupported)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Text(
+                "UNSUPPORTED ($version > ${widget.appVersion})",
+                style: TextStyle(color: context.errorColor, fontWeight: FontWeight.bold, fontSize: 12),
+              ),
+            ),
+        ],
+      ),
+      trailing: (isSupported || !shouldFetch)
+          ? TextButton(
+              onPressed: shouldFetch ? _fetch : () => _open(context),
+              child: _isLoading
+                  ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2.0))
+                  : Text(widget.isTestSource
+                      ? l10n.settings
+                      : !sourceNotEmpty
+                          ? l10n.install
+                          : updateAvailable
+                              ? l10n.update
+                              : l10n.settings),
+            )
+          : null,
+    );
+  }
+
+  _open(BuildContext context) {
+    context.push('/extension_detail', extra: widget.source);
+  }
+
+  _fetch() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await ref.watch(switch (widget.source.itemType) {
+        ItemType.manga => fetchMangaSourcesListProvider(id: widget.source.id, reFresh: true).future,
+        ItemType.anime => fetchAnimeSourcesListProvider(id: widget.source.id, reFresh: true).future,
+        ItemType.novel => fetchNovelSourcesListProvider(id: widget.source.id, reFresh: true).future,
+      });
+    } catch (e) {
+      botToast(e.toString(), isError: true);
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 }

@@ -646,15 +646,17 @@ final List<String> _dateFormats = [
   "MMM dd,yyyy"
 ];
 
-CancelFunc botToast(String title,
-    {int second = 10,
-    double? fontSize,
-    double alignX = 0,
-    double alignY = 0.99,
-    bool hasCloudFlare = false,
-    String? url}) {
+CancelFunc botToast(
+  String title, {
+  int second = 10,
+  double? fontSize,
+  double alignX = 0,
+  double alignY = 0.99,
+  bool hasCloudFlare = false,
+  bool isError = false,
+  String? url,
+}) {
   final context = navigatorKey.currentState?.context;
-  final assets = ['assets/app_icons/icon-black.png', 'assets/app_icons/icon-red.png'];
 
   return BotToast.showNotification(
     onlyOne: true,
@@ -663,8 +665,9 @@ CancelFunc botToast(String title,
     duration: Duration(seconds: second),
     animationDuration: const Duration(milliseconds: 200),
     animationReverseDuration: const Duration(milliseconds: 200),
-    leading: (_) => Image.asset((assets..shuffle()).first, height: 25),
-    title: (_) => Text(title, style: TextStyle(fontSize: fontSize)),
+    leading: (_) =>
+        Image.asset(isError ? 'assets/app_icons/icon-red.png' : 'assets/app_icons/icon-black.png', height: 25),
+    title: (_) => Text(title, style: TextStyle(fontSize: fontSize, color: isError ? context?.errorColor : context?.textColor)),
     trailing: hasCloudFlare
         ? (_) => OutlinedButton.icon(
               style: OutlinedButton.styleFrom(elevation: 10),

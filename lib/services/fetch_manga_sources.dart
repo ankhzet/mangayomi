@@ -8,7 +8,7 @@ part 'fetch_manga_sources.g.dart';
 
 @Riverpod(keepAlive: true)
 Future fetchMangaSourcesList(Ref ref, {int? id, required reFresh}) async {
-  if (ref.watch(checkForExtensionsUpdateStateProvider) || reFresh) {
+  if (reFresh || ref.watch(checkForExtensionsUpdateStateProvider)) {
     await fetchSourcesList(
         sourcesIndexUrl: "https://kodjodevf.github.io/mangayomi-extensions/index.json",
         refresh: reFresh,

@@ -56,6 +56,8 @@ class Source {
 
   String? appMinVerReq;
 
+  String? appMinVerReqLast;
+
   String? additionalParams;
 
   bool? isLocal;
@@ -90,6 +92,7 @@ class Source {
       this.isManga,
       this.itemType = ItemType.manga,
       this.appMinVerReq = "",
+      this.appMinVerReqLast = "",
       this.additionalParams = "",
       this.isLocal = false,
       this.isObsolete = false});
@@ -97,6 +100,7 @@ class Source {
   Source.fromJson(Map<String, dynamic> json) {
     apiUrl = json['apiUrl'];
     appMinVerReq = json['appMinVerReq'];
+    appMinVerReqLast = json['appMinVerReqLast'];
     baseUrl = json['baseUrl'];
     dateFormat = json['dateFormat'];
     dateFormatLocale = json['dateFormatLocale'];
@@ -128,6 +132,7 @@ class Source {
   Map<String, dynamic> toJson() => {
         'apiUrl': apiUrl,
         'appMinVerReq': appMinVerReq,
+        'appMinVerReqLast': appMinVerReqLast,
         'baseUrl': baseUrl,
         'dateFormat': dateFormat,
         'dateFormatLocale': dateFormatLocale,

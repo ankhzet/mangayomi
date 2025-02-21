@@ -11,6 +11,10 @@ extension BuildContextExtensions on BuildContext {
     return Theme.of(this).primaryColor;
   }
 
+  Color get errorColor {
+    return Theme.of(this).colorScheme.error;
+  }
+
   Color get dynamicThemeColor {
     return isLight ? secondaryColor : primaryColor;
   }

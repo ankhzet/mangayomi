@@ -47,6 +47,8 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> with TickerProvid
             : _tabBarController.index == 1
                 ? ItemType.anime
                 : ItemType.novel)
+        .and()
+        .isLocalArchiveEqualTo(false)
         .findAllSync();
     int numbers = 0;
 
@@ -91,12 +93,10 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> with TickerProvid
   @override
   Widget build(BuildContext context) {
     int newTabs = 0;
-    final hideManga = ref.watch(hideMangaStateProvider);
-    final hideAnime = ref.watch(hideAnimeStateProvider);
-    final hideNovel = ref.watch(hideNovelStateProvider);
-    if (!hideManga) newTabs++;
-    if (!hideAnime) newTabs++;
-    if (!hideNovel) newTabs++;
+    final hideItems = ref.watch(hideItemsStateProvider);
+    if (!hideItems.contains("/MangaLibrary")) newTabs++;
+    if (!hideItems.contains("/AnimeLibrary")) newTabs++;
+    if (!hideItems.contains("/NovelLibrary")) newTabs++;
     if (newTabs == 0) {
       return SizedBox.shrink();
     }
@@ -184,10 +184,12 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> with TickerProvid
                                       List<Update> updates = isar.updates
                                           .filter()
                                           .idIsNotNull()
-                                          .chapter((q) => q
-                                              .manga((q) => q.itemTypeEqualTo(_tabBarController.index == 0 && !hideManga
+                                          .chapter((q) => q.manga((q) => q.itemTypeEqualTo(
+                                              _tabBarController.index == 0 && !hideItems.contains("/MangaLibrary")
                                                   ? ItemType.manga
-                                                  : _tabBarController.index == 1 - (hideManga ? 1 : 0) && !hideAnime
+                                                  : _tabBarController.index ==
+                                                              1 - (hideItems.contains("/MangaLibrary") ? 1 : 0) &&
+                                                          !hideItems.contains("/AnimeLibrary")
                                                       ? ItemType.anime
                                                       : ItemType.novel)))
                                           .findAllSync()
@@ -214,17 +216,17 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> with TickerProvid
             indicatorSize: TabBarIndicatorSize.tab,
             controller: _tabBarController,
             tabs: [
-              if (!hideManga)
+              if (!hideItems.contains("/MangaLibrary"))
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [Tab(text: l10n.manga), const SizedBox(width: 8), _updateNumbers(ref, ItemType.manga)],
                 ),
-              if (!hideAnime)
+              if (!hideItems.contains("/AnimeLibrary"))
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [Tab(text: l10n.anime), const SizedBox(width: 8), _updateNumbers(ref, ItemType.anime)],
                 ),
-              if (!hideNovel)
+              if (!hideItems.contains("/NovelLibrary"))
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [Tab(text: l10n.novel), const SizedBox(width: 8), _updateNumbers(ref, ItemType.novel)],
@@ -235,11 +237,11 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> with TickerProvid
         body: Padding(
           padding: const EdgeInsets.only(top: 10),
           child: TabBarView(controller: _tabBarController, children: [
-            if (!hideManga)
+            if (!hideItems.contains("/MangaLibrary"))
               UpdateTab(itemType: ItemType.manga, query: _textEditingController.text, isLoading: _isLoading),
-            if (!hideAnime)
+            if (!hideItems.contains("/AnimeLibrary"))
               UpdateTab(itemType: ItemType.anime, query: _textEditingController.text, isLoading: _isLoading),
-            if (!hideNovel)
+            if (!hideItems.contains("/NovelLibrary"))
               UpdateTab(itemType: ItemType.novel, query: _textEditingController.text, isLoading: _isLoading)
           ]),
         ),

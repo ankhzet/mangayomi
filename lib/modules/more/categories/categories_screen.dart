@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/category.dart';
+import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/more/categories/providers/isar_providers.dart';
 import 'package:mangayomi/modules/more/categories/widgets/custom_textfield.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 
@@ -33,12 +35,10 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> with Ticker
   @override
   Widget build(BuildContext context) {
     int newTabs = 0;
-    final hideManga = ref.watch(hideMangaStateProvider);
-    final hideAnime = ref.watch(hideAnimeStateProvider);
-    final hideNovel = ref.watch(hideNovelStateProvider);
-    if (!hideManga) newTabs++;
-    if (!hideAnime) newTabs++;
-    if (!hideNovel) newTabs++;
+    final hideItems = ref.watch(hideItemsStateProvider);
+    if (!hideItems.contains("/MangaLibrary")) newTabs++;
+    if (!hideItems.contains("/AnimeLibrary")) newTabs++;
+    if (!hideItems.contains("/NovelLibrary")) newTabs++;
     if (tabs != newTabs) {
       _tabBarController.dispose();
       _tabBarController = TabController(length: newTabs, vsync: this);
@@ -63,22 +63,22 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> with Ticker
             indicatorSize: TabBarIndicatorSize.tab,
             controller: _tabBarController,
             tabs: [
-              if (!hideManga) Tab(text: l10n.manga),
-              if (!hideAnime) Tab(text: l10n.anime),
-              if (!hideNovel) Tab(text: l10n.novel),
+              if (!hideItems.contains("/MangaLibrary")) Tab(text: l10n.manga),
+              if (!hideItems.contains("/AnimeLibrary")) Tab(text: l10n.anime),
+              if (!hideItems.contains("/NovelLibrary")) Tab(text: l10n.novel),
             ],
           ),
         ),
         body: TabBarView(controller: _tabBarController, children: [
-          if (!hideManga)
+          if (!hideItems.contains("/MangaLibrary"))
             CategoriesTab(
               itemType: ItemType.manga,
             ),
-          if (!hideAnime)
+          if (!hideItems.contains("/AnimeLibrary"))
             CategoriesTab(
               itemType: ItemType.anime,
             ),
-          if (!hideNovel)
+          if (!hideItems.contains("/NovelLibrary"))
             CategoriesTab(
               itemType: ItemType.novel,
             )
@@ -199,6 +199,10 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
                                                             await isar.writeTxn(() async {
                                                               await isar.categorys.delete(_entries[index].id!);
                                                             });
+                                                            await ref
+                                                                .read(synchingProvider(syncId: 1).notifier)
+                                                                .addChangedPartAsync(ActionType.removeCategory,
+                                                                    _entries[index].id, "{}", true);
                                                             if (context.mounted) {
                                                               Navigator.pop(context);
                                                             }
@@ -281,12 +285,15 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
                                     onPressed: controller.text.isEmpty || isExist
                                         ? null
                                         : () async {
+                                            final category = Category(
+                                              forItemType: widget.itemType,
+                                              name: controller.text,
+                                            );
                                             await isar.writeTxn(() async {
-                                              await isar.categorys.put(Category(
-                                                forItemType: widget.itemType,
-                                                name: controller.text,
-                                              ));
+                                              await isar.categorys.put(category);
                                             });
+                                            await ref.read(synchingProvider(syncId: 1).notifier).addChangedPartAsync(
+                                                ActionType.addCategory, category.id, category.toJson(), true);
                                             if (context.mounted) {
                                               Navigator.pop(context);
                                             }
@@ -369,6 +376,8 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
                                     category.name = controller.text;
                                     await isar.categorys.put(category);
                                   });
+                                  await ref.read(synchingProvider(syncId: 1).notifier).addChangedPartAsync(
+                                      ActionType.renameCategory, category.id, category.toJson(), true);
                                   if (context.mounted) {
                                     Navigator.pop(context);
                                   }

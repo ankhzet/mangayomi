@@ -55,6 +55,7 @@ class LibraryListViewWidget extends StatelessWidget {
                   ref.read(mangasListStateProvider.notifier).update(entry);
                 } else {
                   await pushToMangaReaderDetail(
+                      ref: ref,
                       archiveId: isLocalArchive ? entry.id : null,
                       context: context,
                       lang: entry.lang!,
@@ -162,8 +163,7 @@ class LibraryListViewWidget extends StatelessWidget {
                                             for (var i = 0; i < entry.chapters.length; i++) {
                                               final entries = isar.downloads
                                                   .filter()
-                                                  .idIsNotNull()
-                                                  .chapterIdEqualTo(entry.chapters.toList()[i].id)
+                                                  .idEqualTo(entry.chapters.toList()[i].id)
                                                   .findAllSync();
 
                                               if (entries.isNotEmpty && entries.first.isDownload!) {

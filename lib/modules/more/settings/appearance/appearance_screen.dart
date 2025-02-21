@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/app_font_family.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/date_format_state_provider.dart';
@@ -9,12 +10,21 @@ import 'package:mangayomi/modules/more/settings/appearance/providers/theme_mode_
 import 'package:mangayomi/modules/more/settings/appearance/widgets/blend_level_slider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/widgets/dark_mode_button.dart';
 import 'package:mangayomi/modules/more/settings/appearance/widgets/theme_selector.dart';
-import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/date.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/language.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
+
+final navigationItems = {
+  "/MangaLibrary": "Manga",
+  "/AnimeLibrary": "Anime",
+  "/NovelLibrary": "Novel",
+  "/updates": "Updates",
+  "/history": "History",
+  "/browse": "Browse",
+  "/more": "More",
+};
 
 class AppearanceScreen extends ConsumerWidget {
   const AppearanceScreen({super.key});
@@ -28,9 +38,6 @@ class AppearanceScreen extends ConsumerWidget {
     final isDarkTheme = ref.watch(themeModeStateProvider);
     final l10nLocale = ref.watch(l10nLocaleStateProvider);
     final appFontFamily = ref.watch(appFontFamilyProvider);
-    final hideAnime = ref.watch(hideAnimeStateProvider);
-    final hideManga = ref.watch(hideMangaStateProvider);
-    final hideNovel = ref.watch(hideNovelStateProvider);
     final appFontFamilySub = appFontFamily == null
         ? context.l10n.default0
         : GoogleFonts.asMap()
@@ -248,24 +255,15 @@ class AppearanceScreen extends ConsumerWidget {
                       style: TextStyle(fontSize: 11, color: context.secondaryColor),
                     ),
                   ),
-                  SwitchListTile(
-                      value: hideAnime,
-                      title: Text(context.l10n.hide_anime),
-                      onChanged: (value) {
-                        ref.read(hideAnimeStateProvider.notifier).set(value);
-                      }),
-                  SwitchListTile(
-                      value: hideManga,
-                      title: Text(context.l10n.hide_manga),
-                      onChanged: (value) {
-                        ref.read(hideMangaStateProvider.notifier).set(value);
-                      }),
-                  SwitchListTile(
-                      value: hideNovel,
-                      title: Text(context.l10n.hide_novel),
-                      onChanged: (value) {
-                        ref.read(hideNovelStateProvider.notifier).set(value);
-                      }),
+                  ListTile(
+                      onTap: () {
+                        context.push("/customNavigationSettings");
+                      },
+                      title: Text(l10n.reorder_navigation),
+                      subtitle: Text(
+                        l10n.reorder_navigation_description,
+                        style: TextStyle(fontSize: 11, color: context.secondaryColor),
+                      )),
                 ],
               ),
             ),

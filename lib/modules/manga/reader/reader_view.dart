@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/changed.dart' as changed;
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/page.dart';
@@ -29,6 +30,7 @@ import 'package:mangayomi/modules/manga/reader/widgets/circular_progress_indicat
 import 'package:mangayomi/modules/manga/reader/widgets/color_filter_widget.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/reader/reader_screen.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/widgets/custom_draggable_tabbar.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
@@ -49,12 +51,14 @@ import 'package:window_manager/window_manager.dart';
 typedef DoubleClickAnimationListener = void Function();
 
 class MangaReaderView extends ConsumerWidget {
-  final Chapter chapter;
+  final int chapterId;
 
-  const MangaReaderView({
+  MangaReaderView({
     super.key,
-    required this.chapter,
+    required this.chapterId,
   });
+
+  late final Chapter chapter = isar.chapters.getSync(chapterId)!;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -309,6 +313,8 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                                               final manga = widget.chapter.manga.value!;
                                               isar.writeTxnSync(() {
                                                 isar.mangas.putSync(manga..customCoverImage = imageBytes);
+                                                ref.read(synchingProvider(syncId: 1).notifier).addChangedPart(
+                                                    changed.ActionType.updateItem, manga.id, manga.toJson(), false);
                                               });
                                               if (mounted) {
                                                 Navigator.pop(context, "ok");
@@ -1053,9 +1059,6 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
   }
 
   Widget _appBar() {
-    if (!_isView && Platform.isIOS) {
-      return const SizedBox.shrink();
-    }
     final fullScreenReader = ref.watch(fullScreenReaderStateProvider);
     double height = _isView
         ? Platform.isIOS
@@ -1070,7 +1073,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
         width: context.width(1),
         height: height,
         curve: Curves.ease,
-        duration: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 300),
         child: PreferredSize(
           preferredSize: Size.fromHeight(height),
           child: AppBar(
@@ -1161,9 +1164,6 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
   }
 
   Widget _bottomBar() {
-    if (!_isView && Platform.isIOS) {
-      return const SizedBox.shrink();
-    }
     bool hasPrevChapter = _readerController.getChapterIndex().$1 + 1 !=
         _readerController.getChaptersLength(_readerController.getChapterIndex().$2);
     bool hasNextChapter = _readerController.getChapterIndex().$1 != 0;
@@ -1239,6 +1239,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
                                     final currentIndex = ref.watch(currentIndexProvider(chapter));
                                     return SliderTheme(
                                       data: SliderTheme.of(context).copyWith(
+                                        valueIndicatorShape: _CustomValueIndicatorShape(tranform: _isReverseHorizontal),
                                         overlayShape: const RoundSliderOverlayShape(overlayRadius: 5.0),
                                       ),
                                       child: Slider(
@@ -2012,5 +2013,65 @@ class CustomPopupMenuButton<T> extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _CustomValueIndicatorShape extends SliderComponentShape {
+  final _indicatorShape = const PaddleSliderValueIndicatorShape();
+  final bool tranform;
+
+  const _CustomValueIndicatorShape({this.tranform = false});
+
+  @override
+  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
+    return const Size(40, 40);
+  }
+
+  @override
+  void paint(PaintingContext context, Offset center,
+      {required Animation<double> activationAnimation,
+      required Animation<double> enableAnimation,
+      required bool isDiscrete,
+      required TextPainter labelPainter,
+      required RenderBox parentBox,
+      required SliderThemeData sliderTheme,
+      required TextDirection textDirection,
+      required double value,
+      required double textScaleFactor,
+      required Size sizeWithOverflow}) {
+    final textSpan = TextSpan(
+      text: labelPainter.text?.toPlainText(),
+      style: sliderTheme.valueIndicatorTextStyle,
+    );
+
+    final textPainter = TextPainter(
+      text: textSpan,
+      textAlign: labelPainter.textAlign,
+      textDirection: textDirection,
+    );
+
+    textPainter.layout();
+
+    context.canvas.save();
+    context.canvas.translate(center.dx, center.dy);
+    context.canvas.scale(tranform ? -1.0 : 1.0, 1.0);
+    context.canvas.translate(-center.dx, -center.dy);
+
+    _indicatorShape.paint(
+      context,
+      center,
+      activationAnimation: activationAnimation,
+      enableAnimation: enableAnimation,
+      labelPainter: textPainter,
+      parentBox: parentBox,
+      sliderTheme: sliderTheme,
+      value: value,
+      textScaleFactor: textScaleFactor,
+      sizeWithOverflow: sizeWithOverflow,
+      isDiscrete: isDiscrete,
+      textDirection: textDirection,
+    );
+
+    context.canvas.restore();
   }
 }

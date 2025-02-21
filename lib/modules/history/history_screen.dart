@@ -6,12 +6,14 @@ import 'package:go_router/go_router.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/history/providers/isar_providers.dart';
 import 'package:mangayomi/modules/library/widgets/search_text_form_field.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/widgets/error_text.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
@@ -54,13 +56,11 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> with TickerProvid
   @override
   Widget build(BuildContext context) {
     int newTabs = 0;
-    final hideManga = ref.watch(hideMangaStateProvider);
-    final hideAnime = ref.watch(hideAnimeStateProvider);
-    final hideNovel = ref.watch(hideNovelStateProvider);
+    final hideItems = ref.watch(hideItemsStateProvider);
 
-    if (!hideManga) newTabs++;
-    if (!hideAnime) newTabs++;
-    if (!hideNovel) newTabs++;
+    if (!hideItems.contains("/MangaLibrary")) newTabs++;
+    if (!hideItems.contains("/AnimeLibrary")) newTabs++;
+    if (!hideItems.contains("/NovelLibrary")) newTabs++;
     if (newTabs == 0) {
       return SizedBox.shrink();
     }
@@ -142,10 +142,12 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> with TickerProvid
                                       List<History> histories = isar.historys
                                           .filter()
                                           .idIsNotNull()
-                                          .chapter((q) => q
-                                              .manga((q) => q.itemTypeEqualTo(_tabBarController.index == 0 && !hideManga
+                                          .chapter((q) => q.manga((q) => q.itemTypeEqualTo(
+                                              _tabBarController.index == 0 && !hideItems.contains("/MangaLibrary")
                                                   ? ItemType.manga
-                                                  : _tabBarController.index == 1 - (hideManga ? 1 : 0) && !hideAnime
+                                                  : _tabBarController.index ==
+                                                              1 - (hideItems.contains("/MangaLibrary") ? 1 : 0) &&
+                                                          !hideItems.contains("/AnimeLibrary")
                                                       ? ItemType.anime
                                                       : ItemType.novel)))
                                           .findAllSync()
@@ -172,26 +174,26 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> with TickerProvid
             indicatorSize: TabBarIndicatorSize.tab,
             controller: _tabBarController,
             tabs: [
-              if (!hideManga) Tab(text: l10n.manga),
-              if (!hideAnime) Tab(text: l10n.anime),
-              if (!hideNovel) Tab(text: l10n.novel),
+              if (!hideItems.contains("/MangaLibrary")) Tab(text: l10n.manga),
+              if (!hideItems.contains("/AnimeLibrary")) Tab(text: l10n.anime),
+              if (!hideItems.contains("/NovelLibrary")) Tab(text: l10n.novel),
             ],
           ),
         ),
         body: Padding(
           padding: const EdgeInsets.only(top: 10),
           child: TabBarView(controller: _tabBarController, children: [
-            if (!hideManga)
+            if (!hideItems.contains("/MangaLibrary"))
               HistoryTab(
                 itemType: ItemType.manga,
                 query: _textEditingController.text,
               ),
-            if (!hideAnime)
+            if (!hideItems.contains("/AnimeLibrary"))
               HistoryTab(
                 itemType: ItemType.anime,
                 query: _textEditingController.text,
               ),
-            if (!hideNovel)
+            if (!hideItems.contains("/NovelLibrary"))
               HistoryTab(
                 itemType: ItemType.novel,
                 query: _textEditingController.text,
@@ -368,6 +370,10 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
                                                               }
                                                               await isar.mangas.delete(manga.id!);
                                                             });
+                                                            await ref
+                                                                .read(synchingProvider(syncId: 1).notifier)
+                                                                .addChangedPartAsync(
+                                                                    ActionType.removeItem, manga.id, "{}", true);
                                                             if (context.mounted) {
                                                               Navigator.pop(context);
                                                             }

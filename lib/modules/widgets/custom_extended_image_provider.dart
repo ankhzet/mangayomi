@@ -4,7 +4,8 @@ import 'dart:io';
 import 'dart:ui' as ui show Codec;
 
 import 'package:extended_image_library/src/extended_image_provider.dart';
-import 'package:extended_image_library/src/network/extended_network_image_provider.dart' as image_provider;
+import 'package:extended_image_library/src/network/extended_network_image_provider.dart'
+as image_provider;
 import 'package:extended_image_library/src/platform.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';

@@ -1,5 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/category.dart';
+import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -8,6 +11,7 @@ part 'migration.g.dart';
 @riverpod
 Future<void> migration(Ref ref) async {
   final mangas = isar.mangas.filter().idIsNotNull().isMangaIsNotNull().findAllSync();
+  final categories = isar.categorys.filter().idIsNotNull().forMangaIsNotNull().findAllSync();
 
   final histories = isar.historys
       .filter()
@@ -34,6 +38,9 @@ Future<void> migration(Ref ref) async {
     }
     for (var manga in mangas) {
       isar.mangas.putSync(manga..itemType = _convertToItemType(manga.isManga!));
+    }
+    for (var category in categories) {
+      isar.categorys.putSync(category..forItemType = _convertToItemType(category.forManga!));
     }
   });
 }

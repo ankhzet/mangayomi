@@ -21,18 +21,16 @@ class BrowseScreen extends ConsumerStatefulWidget {
 }
 
 class _BrowseScreenState extends ConsumerState<BrowseScreen> with TickerProviderStateMixin {
-  late final hideManga = ref.watch(hideMangaStateProvider);
-  late final hideAnime = ref.watch(hideAnimeStateProvider);
-  late final hideNovel = ref.watch(hideNovelStateProvider);
+  late final hideItems = ref.watch(hideItemsStateProvider);
   late TabController _tabBarController;
 
   late final _tabList = [
-    if (!hideManga) 'manga',
-    if (!hideAnime) 'anime',
-    if (!hideNovel) 'novel',
-    if (!hideManga) 'mangaExtension',
-    if (!hideAnime) 'animeExtension',
-    if (!hideNovel) 'novelExtension',
+    if (!hideItems.contains("/MangaLibrary")) 'manga',
+    if (!hideItems.contains("/AnimeLibrary")) 'anime',
+    if (!hideItems.contains("/NovelLibrary")) 'novel',
+    if (!hideItems.contains("/MangaLibrary")) 'mangaExtension',
+    if (!hideItems.contains("/AnimeLibrary")) 'animeExtension',
+    if (!hideItems.contains("/NovelLibrary")) 'novelExtension',
   ];
 
   @override
@@ -136,10 +134,10 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> with TickerProvider
               isScrollable: true,
               controller: _tabBarController,
               tabs: [
-                if (!hideManga) Tab(text: l10n.manga_sources),
-                if (!hideAnime) Tab(text: l10n.anime_sources),
-                if (!hideNovel) Tab(text: l10n.novel_sources),
-                if (!hideManga)
+                if (!hideItems.contains("/MangaLibrary")) Tab(text: l10n.manga_sources),
+                if (!hideItems.contains("/AnimeLibrary")) Tab(text: l10n.anime_sources),
+                if (!hideItems.contains("/NovelLibrary")) Tab(text: l10n.novel_sources),
+                if (!hideItems.contains("/MangaLibrary"))
                   Tab(
                     child: Row(
                       children: [
@@ -149,7 +147,7 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> with TickerProvider
                       ],
                     ),
                   ),
-                if (!hideAnime)
+                if (!hideItems.contains("/AnimeLibrary"))
                   Tab(
                     child: Row(
                       children: [
@@ -159,7 +157,7 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> with TickerProvider
                       ],
                     ),
                   ),
-                if (!hideNovel)
+                if (!hideItems.contains("/NovelLibrary"))
                   Tab(
                     child: Row(
                       children: [
@@ -172,30 +170,33 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> with TickerProvider
               ]),
         ),
         body: TabBarView(controller: _tabBarController, children: [
-          if (!hideManga)
+          if (!hideItems.contains("/MangaLibrary"))
             SourcesScreen(
               itemType: ItemType.manga,
               tabIndex: (index) {
                 _tabBarController.animateTo(index);
               },
             ),
-          if (!hideAnime)
+          if (!hideItems.contains("/AnimeLibrary"))
             SourcesScreen(
               itemType: ItemType.anime,
               tabIndex: (index) {
                 _tabBarController.animateTo(index);
               },
             ),
-          if (!hideNovel)
+          if (!hideItems.contains("/NovelLibrary"))
             SourcesScreen(
               itemType: ItemType.novel,
               tabIndex: (index) {
                 _tabBarController.animateTo(index);
               },
             ),
-          if (!hideManga) ExtensionScreen(query: _textEditingController.text, itemType: ItemType.manga),
-          if (!hideAnime) ExtensionScreen(query: _textEditingController.text, itemType: ItemType.anime),
-          if (!hideNovel) ExtensionScreen(query: _textEditingController.text, itemType: ItemType.novel),
+          if (!hideItems.contains("/MangaLibrary"))
+            ExtensionScreen(query: _textEditingController.text, itemType: ItemType.manga),
+          if (!hideItems.contains("/AnimeLibrary"))
+            ExtensionScreen(query: _textEditingController.text, itemType: ItemType.anime),
+          if (!hideItems.contains("/NovelLibrary"))
+            ExtensionScreen(query: _textEditingController.text, itemType: ItemType.novel),
         ]),
       ),
     );

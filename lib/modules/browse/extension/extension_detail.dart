@@ -4,15 +4,18 @@ import 'package:go_router/go_router.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/eval/model/source_preference.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/modules/browse/extension/providers/extension_preferences_providers.dart';
 import 'package:mangayomi/modules/browse/extension/widgets/source_preference_widget.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/services/get_source_preference.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/utils/cached_network.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/language.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ExtensionDetail extends ConsumerStatefulWidget {
   final Source source;
@@ -24,16 +27,35 @@ class ExtensionDetail extends ConsumerStatefulWidget {
 }
 
 class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
-  late Source source = widget.source;
+  late Source source = isar.sources.getSync(widget.source.id!)!;
   late List<SourcePreference> sourcePreference =
       getSourcePreference(source: source).map((e) => getSourcePreferenceEntry(e.key!, source.id!)).toList();
+
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
     return Scaffold(
       appBar: AppBar(
-          title: Text(l10n.extension_detail), leading: BackButton(onPressed: () => Navigator.pop(context, source))),
+        title: Text(l10n.extension_detail),
+        leading: BackButton(onPressed: () => Navigator.pop(context, source)),
+        actions: [
+          if (source.repo?.website != null)
+            IconButton(
+                onPressed: () {
+                  _launchInBrowser(Uri.parse(source.repo!.website!));
+                },
+                icon: Icon(Icons.open_in_new_outlined))
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -219,11 +241,16 @@ class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
                                           isar.writeTxnSync(() {
                                             if (source.isObsolete ?? false) {
                                               isar.sources.deleteSync(widget.source.id!);
+                                              ref
+                                                  .read(synchingProvider(syncId: 1).notifier)
+                                                  .addChangedPart(ActionType.removeExtension, source.id, "{}", false);
                                             } else {
                                               isar.sources.putSync(widget.source
                                                 ..sourceCode = ""
                                                 ..isAdded = false
                                                 ..isPinned = false);
+                                              ref.read(synchingProvider(syncId: 1).notifier).addChangedPart(
+                                                  ActionType.updateExtension, source.id, source.toJson(), false);
                                             }
                                             isar.sourcePreferences.deleteAllSync(sourcePrefsIds);
                                             isar.sourcePreferenceStringValues.deleteAllSync(sourcePrefsStringIds);

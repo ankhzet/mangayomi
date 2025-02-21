@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/models/manga.dart';
@@ -30,6 +31,7 @@ import 'package:mangayomi/modules/manga/detail/widgets/tracker_widget.dart';
 import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/pure_black_dark_mode_state_provider.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/more/settings/track/widgets/track_listile.dart';
 import 'package:mangayomi/modules/widgets/custom_draggable_tabbar.dart';
 import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
@@ -159,7 +161,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                 ? element.isBookmarked == false
                 : true)
         .where((element) {
-          final modelChapDownload = isar.downloads.filter().idIsNotNull().chapterIdEqualTo(element.id).findAllSync();
+          final modelChapDownload = isar.downloads.filter().idEqualTo(element.id).findAllSync();
           return filterDownloaded == 1
               ? modelChapDownload.isNotEmpty && modelChapDownload.first.isDownload == true
               : filterDownloaded == 2
@@ -360,11 +362,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                             chapters.lastIndexWhere((element) => element.isRead == true);
                                         if (lastChapterReadIndex == -1 || chapters.length == 1) {
                                           final chapter = chapters.first;
-                                          final entry = isar.downloads
-                                              .filter()
-                                              .idIsNotNull()
-                                              .chapterIdEqualTo(chapter.id)
-                                              .findFirstSync();
+                                          final entry = isar.downloads.filter().idEqualTo(chapter.id).findFirstSync();
                                           if (entry == null || !entry.isDownload!) {
                                             ref.watch(downloadChapterProvider(chapter: chapter));
                                           }
@@ -379,11 +377,8 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                             if (chapters.length > 1 &&
                                                 chapters.elementAtOrNull(lastChapterReadIndex + i) != null) {
                                               final chapter = chapters[lastChapterReadIndex + i];
-                                              final entry = isar.downloads
-                                                  .filter()
-                                                  .idIsNotNull()
-                                                  .chapterIdEqualTo(chapter.id)
-                                                  .findFirstSync();
+                                              final entry =
+                                                  isar.downloads.filter().idEqualTo(chapter.id).findFirstSync();
                                               if (entry == null || !entry.isDownload!) {
                                                 ref.watch(downloadChapterProvider(chapter: chapter));
                                               }
@@ -398,11 +393,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                             .isReadEqualTo(false)
                                             .findAllSync();
                                         for (var chapter in unreadChapters) {
-                                          final entry = isar.downloads
-                                              .filter()
-                                              .idIsNotNull()
-                                              .chapterIdEqualTo(chapter.id)
-                                              .findFirstSync();
+                                          final entry = isar.downloads.filter().idEqualTo(chapter.id).findFirstSync();
                                           if (entry == null || !entry.isDownload!) {
                                             ref.watch(downloadChapterProvider(chapter: chapter));
                                           }
@@ -584,6 +575,9 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                   chapter.isBookmarked = !chapter.isBookmarked!;
                                   isar.chapters.putSync(chapter..manga.value = widget.manga);
                                   chapter.manga.saveSync();
+                                  ref
+                                      .read(synchingProvider(syncId: 1).notifier)
+                                      .addChangedPart(ActionType.updateChapter, chapter.id, chapter.toJson(), false);
                                 }
                               });
                               ref.read(isLongPressedStateProvider.notifier).update(false);
@@ -616,6 +610,9 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                   if (chapter.isRead!) {
                                     chapter.updateTrackChapterRead(ref);
                                   }
+                                  ref
+                                      .read(synchingProvider(syncId: 1).notifier)
+                                      .addChangedPart(ActionType.updateChapter, chapter.id, chapter.toJson(), false);
                                 }
                               });
                               ref.read(isLongPressedStateProvider.notifier).update(false);
@@ -645,6 +642,8 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                       chapters[i].lastPageRead = "1";
                                       isar.chapters.putSync(chapters[i]..manga.value = widget.manga);
                                       chapters[i].manga.saveSync();
+                                      ref.read(synchingProvider(syncId: 1).notifier).addChangedPart(
+                                          ActionType.updateChapter, chapters[i].id, chapters[i].toJson(), false);
                                     }
                                   }
                                   ref.read(isLongPressedStateProvider.notifier).update(false);
@@ -676,11 +675,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                               onPressed: () {
                                 isar.txnSync(() {
                                   for (var chapter in ref.watch(chaptersListStateProvider)) {
-                                    final entries = isar.downloads
-                                        .filter()
-                                        .idIsNotNull()
-                                        .chapterIdEqualTo(chapter.id)
-                                        .findAllSync();
+                                    final entries = isar.downloads.filter().idEqualTo(chapter.id).findAllSync();
                                     if (entries.isEmpty || !entries.first.isDownload!) {
                                       ref.watch(downloadChapterProvider(chapter: chapter));
                                     }
@@ -1331,6 +1326,11 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                                 isar.mangas.putSync(widget.manga!
                                                   ..customCoverImage = null
                                                   ..customCoverFromTracker = trackSearch.coverUrl);
+                                                ref.read(synchingProvider(syncId: 1).notifier).addChangedPart(
+                                                    ActionType.updateItem,
+                                                    widget.manga!.id,
+                                                    widget.manga!.toJson(),
+                                                    false);
                                               });
                                               if (context.mounted) {
                                                 Navigator.pop(context);
@@ -1431,6 +1431,9 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                             isar.mangas.putSync(manga
                                               ..customCoverImage = null
                                               ..customCoverFromTracker = null);
+                                            ref
+                                                .read(synchingProvider(syncId: 1).notifier)
+                                                .addChangedPart(ActionType.updateItem, manga.id, manga.toJson(), false);
                                           });
                                           Navigator.pop(context);
                                         } else if (value == 1) {
@@ -1441,6 +1444,8 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                               final customCoverImage = File(result.files.first.path!).readAsBytesSync();
                                               isar.writeTxnSync(() {
                                                 isar.mangas.putSync(manga..customCoverImage = customCoverImage);
+                                                ref.read(synchingProvider(syncId: 1).notifier).addChangedPart(
+                                                    ActionType.updateItem, manga.id, manga.toJson(), false);
                                               });
                                               botToast(context.l10n.cover_updated, second: 3);
                                             }
@@ -1541,6 +1546,9 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                           manga.description = description.text;
                           manga.name = name.text;
                           isar.mangas.putSync(manga);
+                          ref
+                              .read(synchingProvider(syncId: 1).notifier)
+                              .addChangedPart(ActionType.updateItem, manga.id, manga.toJson(), false);
                         });
                         Navigator.pop(context);
                       },

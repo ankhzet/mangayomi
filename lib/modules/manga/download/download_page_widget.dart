@@ -3,17 +3,20 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
+import 'package:mangayomi/models/download.dart';
+import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
-import 'package:mangayomi/services/background_downloader/background_downloader.dart';
+import 'package:mangayomi/utils/extensions/chapter.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/global_style.dart';
 import 'package:path/path.dart' as p;
 import 'package:share_plus/share_plus.dart';
 
-class ChapterPageDownload extends ConsumerStatefulWidget {
+class ChapterPageDownload extends ConsumerWidget {
   final Chapter chapter;
 
   const ChapterPageDownload({
@@ -21,31 +24,21 @@ class ChapterPageDownload extends ConsumerStatefulWidget {
     required this.chapter,
   });
 
-  @override
-  ConsumerState createState() => _ChapterPageDownloadState();
-}
-
-class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
-    with AutomaticKeepAliveClientMixin<ChapterPageDownload> {
-  List<String> _pageUrls = [];
-
-  final StorageProvider _storageProvider = StorageProvider();
-
-  void _startDownload(bool? useWifi) async {
-    await ref.watch(downloadChapterProvider(chapter: widget.chapter, useWifi: useWifi).future);
+  void _startDownload(bool? useWifi, int? downloadId, WidgetRef ref) async {
+    _cancelTasks(downloadId: downloadId);
+    ref.read(downloadChapterProvider(chapter: chapter, useWifi: useWifi));
   }
 
-  late final manga = widget.chapter.manga.value!;
-
   void _sendFile() async {
-    final mangaDir = await _storageProvider.getMangaMainDirectory(widget.chapter);
-    final path = await _storageProvider.getMangaChapterDirectory(widget.chapter);
+    final storageProvider = StorageProvider();
+    final mangaDir = await storageProvider.getMangaMainDirectory(chapter);
+    final path = await storageProvider.getMangaChapterDirectory(chapter);
 
     List<XFile> files = [];
 
-    final cbzFile = File(p.join(mangaDir!.path, "${widget.chapter.name}.cbz"));
-    final mp4File = File(p.join(mangaDir.path, "${widget.chapter.name!.replaceForbiddenCharacters(' ')}.mp4"));
-    final htmlFile = File(p.join(mangaDir.path, "${widget.chapter.name}.html"));
+    final cbzFile = File(p.join(mangaDir!.path, "${chapter.name}.cbz"));
+    final mp4File = File(p.join(mangaDir.path, "${chapter.name!.replaceForbiddenCharacters(' ')}.mp4"));
+    final htmlFile = File(p.join(mangaDir.path, "${chapter.name}.html"));
     if (cbzFile.existsSync()) {
       files = [XFile(cbzFile.path)];
     } else if (mp4File.existsSync()) {
@@ -56,63 +49,54 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
       files = path!.listSync().map((e) => XFile(e.path)).toList();
     }
     if (files.isNotEmpty) {
-      Share.shareXFiles(files, text: widget.chapter.name);
+      Share.shareXFiles(files, text: chapter.name);
     }
   }
 
-  void _deleteFile() async {
-    final mangaDir = await _storageProvider.getMangaMainDirectory(widget.chapter);
-    final path = await _storageProvider.getMangaChapterDirectory(widget.chapter);
+  void _deleteFile(int downloadId) async {
+    final storageProvider = StorageProvider();
+    final mangaDir = await storageProvider.getMangaMainDirectory(chapter);
+    final path = await storageProvider.getMangaChapterDirectory(chapter);
 
     try {
       try {
-        final cbzFile = File(p.join(mangaDir!.path, "${widget.chapter.name}.cbz"));
+        final cbzFile = File(p.join(mangaDir!.path, "${chapter.name}.cbz"));
         if (cbzFile.existsSync()) {
           cbzFile.deleteSync();
         }
       } catch (_) {}
       try {
-        final mp4File = File(p.join(mangaDir!.path, "${widget.chapter.name!.replaceForbiddenCharacters(' ')}.mp4"));
+        final mp4File = File(p.join(mangaDir!.path, "${chapter.name!.replaceForbiddenCharacters(' ')}.mp4"));
         if (mp4File.existsSync()) {
           mp4File.deleteSync();
         }
       } catch (_) {}
       try {
-        final htmlFile = File(p.join(mangaDir!.path, "${widget.chapter.name}.html"));
+        final htmlFile = File(p.join(mangaDir!.path, "${chapter.name}.html"));
         if (htmlFile.existsSync()) {
           htmlFile.deleteSync();
         }
       } catch (_) {}
       path!.deleteSync(recursive: true);
     } catch (_) {}
-    isar.writeTxnSync(() {
-      int id = isar.downloads.filter().chapterIdEqualTo(widget.chapter.id!).findFirstSync()!.id!;
-      isar.downloads.deleteSync(id);
-    });
+    chapter.cancelDownloads(downloadId);
   }
 
-  bool _isStarted = false;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = l10nLocalizations(context)!;
-    super.build(context);
     return SizedBox(
       height: 41,
       width: 35,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 3),
         child: StreamBuilder(
-          stream: isar.downloads
-              .filter()
-              .idIsNotNull()
-              .and()
-              .chapterIdEqualTo(widget.chapter.id)
-              .watch(fireImmediately: true),
+          stream: isar.downloads.filter().idEqualTo(chapter.id).watch(fireImmediately: true),
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data!.isNotEmpty) {
               final entries = snapshot.data!;
-              return entries.first.isDownload!
+              final download = entries.first;
+              return download.isDownload!
                   ? PopupMenuButton(
                       popUpAnimationStyle: popupAnimationStyle,
                       child: Icon(
@@ -124,7 +108,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                         if (value == 0) {
                           _sendFile();
                         } else if (value == 1) {
-                          _deleteFile();
+                          _deleteFile(download.id!);
                         }
                       },
                       itemBuilder: (context) => [
@@ -132,7 +116,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                         PopupMenuItem(value: 1, child: Text(l10n.delete)),
                       ],
                     )
-                  : entries.first.isStartDownload! && entries.first.succeeded == 0
+                  : download.isStartDownload! && download.succeeded == 0
                       ? SizedBox(
                           height: 41,
                           width: 35,
@@ -141,13 +125,9 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                             child: _downloadWidget(context, true),
                             onSelected: (value) {
                               if (value == 0) {
-                                _cancelTasks();
-                              }
-                              if (value == 0) {
-                                _cancelTasks();
+                                _cancelTasks(downloadId: download.id!);
                               } else if (value == 1) {
-                                _cancelTasks();
-                                _startDownload(false);
+                                _startDownload(false, download.id, ref);
                               }
                             },
                             itemBuilder: (context) => [
@@ -155,7 +135,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                               PopupMenuItem(value: 0, child: Text(l10n.cancel)),
                             ],
                           ))
-                      : entries.first.succeeded != 0
+                      : download.succeeded != 0
                           ? SizedBox(
                               height: 41,
                               width: 35,
@@ -170,7 +150,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                                         curve: Curves.easeInOut,
                                         tween: Tween<double>(
                                           begin: 0,
-                                          end: (entries.first.succeeded! / entries.first.total!),
+                                          end: (download.succeeded! / download.total!),
                                         ),
                                         builder: (context, value, _) => SizedBox(
                                           height: 2,
@@ -187,7 +167,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                                         alignment: Alignment.center,
                                         child: Icon(
                                           Icons.arrow_downward_sharp,
-                                          color: (entries.first.succeeded! / entries.first.total!) > 0.5
+                                          color: (download.succeeded! / download.total!) > 0.5
                                               ? Theme.of(context).scaffoldBackgroundColor
                                               : Theme.of(context).iconTheme.color!.withValues(alpha: 0.7),
                                         )),
@@ -195,13 +175,9 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                                 ),
                                 onSelected: (value) {
                                   if (value == 0) {
-                                    _cancelTasks();
-                                  }
-                                  if (value == 0) {
-                                    _cancelTasks();
+                                    _cancelTasks(downloadId: download.id!);
                                   } else if (value == 1) {
-                                    _cancelTasks();
-                                    _startDownload(false);
+                                    _startDownload(false, download.id, ref);
                                   }
                                 },
                                 itemBuilder: (context) => [
@@ -209,13 +185,10 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                                   PopupMenuItem(value: 0, child: Text(l10n.cancel)),
                                 ],
                               ))
-                          : entries.first.succeeded == 0
+                          : download.succeeded == 0
                               ? IconButton(
                                   onPressed: () {
-                                    // _startDownload();
-                                    setState(() {
-                                      _isStarted = true;
-                                    });
+                                    _startDownload(null, download.id, ref);
                                   },
                                   icon: Icon(
                                     FontAwesomeIcons.circleDown,
@@ -234,11 +207,7 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                                     ),
                                     onSelected: (value) {
                                       if (value == 0) {
-                                        _cancelTasks();
-                                        _startDownload(null);
-                                        setState(() {
-                                          _isStarted = true;
-                                        });
+                                        _startDownload(null, download.id, ref);
                                       }
                                     },
                                     itemBuilder: (context) => [
@@ -246,67 +215,23 @@ class _ChapterPageDownloadState extends ConsumerState<ChapterPageDownload>
                                     ],
                                   ));
             }
-            return _isStarted
-                ? SizedBox(
-                    height: 50,
-                    width: 50,
-                    child: PopupMenuButton(
-                      popUpAnimationStyle: popupAnimationStyle,
-                      child: _downloadWidget(context, true),
-                      onSelected: (value) {
-                        if (value == 0) {
-                          _cancelTasks();
-                        } else if (value == 1) {
-                          _cancelTasks();
-                          _startDownload(false);
-                        }
-                      },
-                      itemBuilder: (context) => [
-                        PopupMenuItem(value: 1, child: Text(l10n.start_downloading)),
-                        PopupMenuItem(value: 0, child: Text(l10n.cancel)),
-                      ],
-                    ))
-                : IconButton(
-                    splashRadius: 5,
-                    iconSize: 17,
-                    onPressed: () {
-                      _startDownload(null);
-                      setState(() {
-                        _isStarted = true;
-                      });
-                    },
-                    icon: _downloadWidget(context, false),
-                  );
+            return IconButton(
+              splashRadius: 5,
+              iconSize: 17,
+              onPressed: () {
+                _startDownload(null, null, ref);
+              },
+              icon: _downloadWidget(context, false),
+            );
           },
         ),
       ),
     );
   }
 
-  void _cancelTasks() async {
-    setState(() {
-      _isStarted = false;
-    });
-    _pageUrls = (isar.settings.getSync(227)!.chapterPageUrlsList ?? [])
-            .where((element) => element.chapterId == widget.chapter.id)
-            .map((e) => e.urls)
-            .firstOrNull ??
-        [];
-    await FileDownloader().cancelTasksWithIds(_pageUrls);
-    await Future.delayed(const Duration(seconds: 2));
-    final chapterD = isar.downloads.filter().chapterIdEqualTo(widget.chapter.id!).findFirstSync();
-    if (chapterD != null) {
-      final verifyId = isar.downloads.getSync(chapterD.id!);
-      isar.writeTxnSync(() {
-        if (verifyId != null) {
-          isar.downloads.deleteSync(chapterD.id!);
-        }
-      });
-    }
+  void _cancelTasks({int? downloadId}) async {
+    chapter.cancelDownloads(downloadId);
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 Widget _downloadWidget(BuildContext context, bool isLoading) {

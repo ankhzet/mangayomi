@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/category.dart';
+import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
@@ -12,6 +13,7 @@ import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/chapter_filter_list_tile_widget.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/custom_floating_action_btn.dart';
 import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/constant.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
@@ -163,6 +165,9 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                       model.favorite = false;
                       model.dateAdded = 0;
                       isar.mangas.putSync(model);
+                      ref
+                          .read(synchingProvider(syncId: 1).notifier)
+                          .addChangedPart(ActionType.updateItem, model.id, model.toJson(), false);
                     });
                   },
                   child: Column(
@@ -201,6 +206,12 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                       model.favorite = true;
                       model.dateAdded = DateTime.now().millisecondsSinceEpoch;
                       isar.mangas.putSync(model);
+                      ref
+                          .read(synchingProvider(syncId: 1).notifier)
+                          .addChangedPart(ActionType.addItem, null, model.toJson(), false);
+                      ref
+                          .read(synchingProvider(syncId: 1).notifier)
+                          .addChangedPart(ActionType.updateItem, model.id, model.toJson(), false);
                     });
                   }
                 },
@@ -315,6 +326,12 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                                   model.categories = categoryIds;
                                   model.dateAdded = DateTime.now().millisecondsSinceEpoch;
                                   isar.mangas.putSync(model);
+                                  ref
+                                      .read(synchingProvider(syncId: 1).notifier)
+                                      .addChangedPart(ActionType.addItem, model.id, model.toJson(), false);
+                                  ref
+                                      .read(synchingProvider(syncId: 1).notifier)
+                                      .addChangedPart(ActionType.updateItem, model.id, model.toJson(), false);
                                 });
                                 if (mounted) {
                                   Navigator.pop(context);

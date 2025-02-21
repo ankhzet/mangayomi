@@ -186,6 +186,12 @@ class Settings {
 
   int? novelGridSize;
 
+  List<Repo>? mangaExtensionsRepo;
+
+  List<Repo>? animeExtensionsRepo;
+
+  List<Repo>? novelExtensionsRepo;
+
   @enumerated
   late SectionType disableSectionType;
 
@@ -221,11 +227,9 @@ class Settings {
   @enumerated
   late NovelTextAlign novelTextAlign;
 
-  bool? hideManga;
+  List<String>? navigationOrder;
 
-  bool? hideAnime;
-
-  bool? hideNovel;
+  List<String>? hideItems;
 
   bool? clearChapterCacheOnAppLaunch;
 
@@ -326,10 +330,12 @@ class Settings {
       this.novelDisplayType = DisplayType.comfortableGrid,
       this.novelFontSize = 14,
       this.novelTextAlign = NovelTextAlign.left,
-      this.hideManga = false,
-      this.hideAnime = false,
-      this.hideNovel = false,
-      this.clearChapterCacheOnAppLaunch = false});
+      this.navigationOrder,
+      this.hideItems,
+      this.clearChapterCacheOnAppLaunch = false,
+      this.mangaExtensionsRepo,
+      this.animeExtensionsRepo,
+      this.novelExtensionsRepo});
 
   Settings.fromJson(Map<String, dynamic> json) {
     animatePageTransitions = json['animatePageTransitions'];
@@ -463,10 +469,28 @@ class Settings {
       novelFontSize = json['novelFontSize'];
     }
     novelTextAlign = NovelTextAlign.values[json['novelTextAlign'] ?? NovelTextAlign.left.index];
-    hideManga = json['hideManga'];
-    hideAnime = json['hideAnime'];
-    hideNovel = json['hideNovel'];
+    if (json['navigationOrder'] != null) {
+      navigationOrder = (json['navigationOrder'] as List).cast<String>();
+    }
+    if (json['hideItems'] != null) {
+      hideItems = (json['hideItems'] as List).cast<String>();
+    }
     clearChapterCacheOnAppLaunch = json['clearChapterCacheOnAppLaunch'];
+    if (json['mangaExtensionsRepo'] != null) {
+      mangaExtensionsRepo = json['mangaExtensionsRepo'] is String
+          ? [Repo(jsonUrl: json['mangaExtensionsRepo'])]
+          : (json['mangaExtensionsRepo'] as List).map((e) => Repo.fromJson(e)).toList();
+    }
+    if (json['animeExtensionsRepo'] != null) {
+      animeExtensionsRepo = json['animeExtensionsRepo'] is String
+          ? [Repo(jsonUrl: json['animeExtensionsRepo'])]
+          : (json['animeExtensionsRepo'] as List).map((e) => Repo.fromJson(e)).toList();
+    }
+    if (json['novelExtensionsRepo'] != null) {
+      novelExtensionsRepo = json['novelExtensionsRepo'] is String
+          ? [Repo(jsonUrl: json['novelExtensionsRepo'])]
+          : (json['novelExtensionsRepo'] as List).map((e) => Repo.fromJson(e)).toList();
+    }
   }
 
   Map<String, dynamic> toJson() => {
@@ -570,10 +594,12 @@ class Settings {
         'novelDisplayType': novelDisplayType.index,
         'novelFontSize': novelFontSize,
         'novelTextAlign': novelTextAlign.index,
-        'hideManga': hideManga,
-        'hideAnime': hideAnime,
-        'hideNovel': hideNovel,
-        'clearChapterCacheOnAppLaunch': clearChapterCacheOnAppLaunch
+        'navigationOrder': navigationOrder,
+        'hideItems': hideItems,
+        'clearChapterCacheOnAppLaunch': clearChapterCacheOnAppLaunch,
+        'mangaExtensionsRepo': mangaExtensionsRepo?.map((e) => e.toJson()).toList(),
+        'animeExtensionsRepo': animeExtensionsRepo?.map((e) => e.toJson()).toList(),
+        'novelExtensionsRepo': novelExtensionsRepo?.map((e) => e.toJson()).toList()
       };
 }
 
@@ -754,6 +780,23 @@ class AutoScrollPages {
   }
 
   Map<String, dynamic> toJson() => {'mangaId': mangaId, 'pageOffset': pageOffset, 'autoScroll': autoScroll};
+}
+
+@embedded
+class Repo {
+  String? name;
+  String? website;
+  String? jsonUrl;
+
+  Repo({this.name, this.website, this.jsonUrl});
+
+  Repo.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    website = json['website'];
+    jsonUrl = json['jsonUrl'];
+  }
+
+  Map<String, dynamic> toJson() => {'name': name, 'website': website, 'jsonUrl': jsonUrl};
 }
 
 @embedded

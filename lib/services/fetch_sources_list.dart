@@ -4,20 +4,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/eval/lib.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/modules/more/settings/browse/providers/browse_state_provider.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 Future<void> fetchSourcesList(
-    {int? id,
-    required bool refresh,
-    required String sourcesIndexUrl,
-    required Ref ref,
-    required ItemType itemType}) async {
+    {int? id, required bool refresh, required Ref ref, required ItemType itemType, required Repo? repo}) async {
   final http = MClient.init(reqcopyWith: {'useDartHttpClient': true});
-  final req = await http.get(Uri.parse(sourcesIndexUrl));
+  final url = repo?.jsonUrl;
+  if (url == null) return;
+
+  final req = await http.get(Uri.parse(url));
 
   final sourceList = (jsonDecode(req.body) as List).map((e) => Source.fromJson(e)).toList();
 
@@ -33,30 +35,36 @@ Future<void> fetchSourcesList(
                 final req = await http.get(Uri.parse(source.sourceCodeUrl!));
                 final headers = getExtensionService(source..sourceCode = req.body).getHeaders();
                 isar.writeTxnSync(() {
-                  isar.sources.putSync(sourc
-                    ..headers = jsonEncode(headers)
-                    ..isAdded = true
-                    ..sourceCode = req.body
-                    ..sourceCodeUrl = source.sourceCodeUrl
-                    ..id = id
-                    ..apiUrl = source.apiUrl
-                    ..baseUrl = source.baseUrl
-                    ..dateFormat = source.dateFormat
-                    ..dateFormatLocale = source.dateFormatLocale
-                    ..hasCloudflare = source.hasCloudflare
-                    ..iconUrl = source.iconUrl
-                    ..typeSource = source.typeSource
-                    ..lang = source.lang
-                    ..isNsfw = source.isNsfw
-                    ..name = source.name
-                    ..version = source.version
-                    ..versionLast = source.version
-                    ..itemType = itemType
-                    ..isFullData = source.isFullData ?? false
-                    ..appMinVerReq = source.appMinVerReq
-                    ..sourceCodeLanguage = source.sourceCodeLanguage
-                    ..additionalParams = source.additionalParams ?? ""
-                    ..isObsolete = false);
+                  isar.sources.putSync(
+                    sourc
+                      ..headers = jsonEncode(headers)
+                      ..isAdded = true
+                      ..sourceCode = req.body
+                      ..sourceCodeUrl = source.sourceCodeUrl
+                      ..id = id
+                      ..apiUrl = source.apiUrl
+                      ..baseUrl = source.baseUrl
+                      ..dateFormat = source.dateFormat
+                      ..dateFormatLocale = source.dateFormatLocale
+                      ..hasCloudflare = source.hasCloudflare
+                      ..iconUrl = source.iconUrl
+                      ..typeSource = source.typeSource
+                      ..lang = source.lang
+                      ..isNsfw = source.isNsfw
+                      ..name = source.name
+                      ..version = source.version
+                      ..versionLast = source.version
+                      ..itemType = itemType
+                      ..isFullData = source.isFullData ?? false
+                      ..appMinVerReq = source.appMinVerReq
+                      ..sourceCodeLanguage = source.sourceCodeLanguage
+                      ..additionalParams = source.additionalParams ?? ""
+                      ..isObsolete = false
+                      ..repo = repo,
+                  );
+                  ref
+                      .read(synchingProvider(syncId: 1).notifier)
+                      .addChangedPart(ActionType.updateExtension, sourc.id, sourc.toJson(), false);
                 });
                 // log("successfully installed or updated");
               }
@@ -93,7 +101,11 @@ Future<void> fetchSourcesList(
                         ..appMinVerReq = source.appMinVerReq
                         ..sourceCodeLanguage = source.sourceCodeLanguage
                         ..additionalParams = source.additionalParams ?? ""
-                        ..isObsolete = false);
+                        ..isObsolete = false
+                        ..repo = repo);
+                      ref
+                          .read(synchingProvider(syncId: 1).notifier)
+                          .addChangedPart(ActionType.updateExtension, sourc.id, sourc.toJson(), false);
                     });
                   } else {
                     // log("update aivalable");
@@ -102,7 +114,7 @@ Future<void> fetchSourcesList(
                 }
               }
             } else {
-              isar.sources.putSync(Source()
+              final newSource = Source()
                 ..sourceCodeUrl = source.sourceCodeUrl
                 ..id = source.id
                 ..sourceCode = source.sourceCode
@@ -122,7 +134,12 @@ Future<void> fetchSourcesList(
                 ..sourceCodeLanguage = source.sourceCodeLanguage
                 ..isFullData = source.isFullData ?? false
                 ..appMinVerReq = source.appMinVerReq
-                ..isObsolete = false);
+                ..isObsolete = false
+                ..repo = repo;
+              isar.sources.putSync(newSource);
+              ref
+                  .read(synchingProvider(syncId: 1).notifier)
+                  .addChangedPart(ActionType.addExtension, null, newSource.toJson(), false);
               // log("new source");
             }
           }
@@ -130,33 +147,25 @@ Future<void> fetchSourcesList(
       }
     }
   });
-  checkIfSourceIsObsolete(sourceList, itemType);
+  checkIfSourceIsObsolete(sourceList, repo!, itemType, ref);
 }
 
-void checkIfSourceIsObsolete(List<Source> sourceList, ItemType itemType) {
+void checkIfSourceIsObsolete(List<Source> sourceList, Repo repo, ItemType itemType, Ref ref) {
   for (var source in isar.sources.filter().idIsNotNull().itemTypeEqualTo(itemType).findAllSync()) {
     if (sourceList.isNotEmpty && !(source.isLocal ?? false)) {
       final ids = sourceList.where((e) => e.id != null).map((e) => e.id).toList();
       if (ids.isNotEmpty) {
-        isar.writeTxnSync(() => isar.sources.putSync(source..isObsolete = !ids.contains(source.id)));
+        isar.writeTxnSync(() {
+          if (source.isObsolete != (!ids.contains(source.id) && source.repo?.jsonUrl == repo.jsonUrl)) {
+            ref
+                .read(synchingProvider(syncId: 1).notifier)
+                .addChangedPart(ActionType.updateExtension, source.id, source.toJson(), false);
+          }
+          isar.sources.putSync(source..isObsolete = !ids.contains(source.id) && source.repo?.jsonUrl == repo.jsonUrl);
+        });
       }
     }
   }
-  removeNsfwObsoleteSources();
-}
-
-void removeNsfwObsoleteSources() {
-  final ids = isar.sources
-      .filter()
-      .idIsNotNull()
-      .isNsfwEqualTo(true)
-      .isObsoleteEqualTo(true)
-      .findAllSync()
-      .map((e) => e.id!)
-      .toList();
-  isar.writeTxnSync(() {
-    isar.sources.deleteAllSync(ids);
-  });
 }
 
 int compareVersions(String version1, String version2) {

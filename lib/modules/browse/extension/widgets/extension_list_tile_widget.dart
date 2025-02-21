@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/services/fetch_sources_list.dart';
 import 'package:mangayomi/utils/cached_network.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/language.dart';
@@ -36,7 +36,12 @@ class _ExtensionListTileWidgetState extends ConsumerState<ExtensionListTileWidge
         onTap: () async {
           if (sourceNotEmpty || widget.isTestSource) {
             if (widget.isTestSource) {
-              isar.writeTxnSync(() => isar.sources.putSync(widget.source));
+              isar.writeTxnSync(() {
+                isar.sources.putSync(widget.source);
+                ref
+                    .read(synchingProvider(syncId: 1).notifier)
+                    .addChangedPart(ActionType.updateExtension, widget.source.id, widget.source.toJson(), false);
+              });
             }
             context.push('/extension_detail', extra: widget.source);
           } else {

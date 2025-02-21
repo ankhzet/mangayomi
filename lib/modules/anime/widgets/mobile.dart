@@ -1,5 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/modules/anime/anime_player_view.dart';
@@ -9,11 +11,10 @@ import 'package:mangayomi/modules/anime/widgets/indicator_builder.dart';
 import 'package:mangayomi/modules/anime/widgets/subtitle_view.dart';
 import 'package:mangayomi/modules/manga/reader/providers/push_router.dart';
 import 'package:mangayomi/modules/more/settings/player/providers/player_state_provider.dart';
-import 'package:volume_controller/volume_controller.dart';
-import 'package:screen_brightness/screen_brightness.dart';
-import 'package:flutter/material.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:media_kit_video/media_kit_video_controls/src/controls/extensions/duration.dart';
+import 'package:screen_brightness/screen_brightness.dart';
+import 'package:volume_controller/volume_controller.dart';
 
 class MobileControllerWidget extends ConsumerStatefulWidget {
   final AnimeStreamController streamController;

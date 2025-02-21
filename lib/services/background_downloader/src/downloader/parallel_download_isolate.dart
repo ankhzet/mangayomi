@@ -8,6 +8,7 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:mangayomi/services/background_downloader/src/downloader/downloader_http_client.dart';
+
 import '../chunk.dart';
 import '../exceptions.dart';
 import '../models.dart';

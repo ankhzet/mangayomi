@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'package:mangayomi/services/background_downloader/background_downloader.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:mangayomi/services/background_downloader/background_downloader.dart';
+import 'package:mangayomi/services/background_downloader/src/downloader/downloader_http_client.dart';
+
 import 'base_downloader.dart';
 import 'localstore/localstore.dart';
-import 'package:mangayomi/services/background_downloader/src/downloader/downloader_http_client.dart';
 
 /// Provides access to all functions of the plugin in a single place.
 interface class FileDownloader {

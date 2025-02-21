@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:draggable_menu/draggable_menu.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -17,38 +18,39 @@ import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/models/track_search.dart';
 import 'package:mangayomi/modules/library/library_screen.dart';
 import 'package:mangayomi/modules/library/providers/local_archive.dart';
+import 'package:mangayomi/modules/manga/detail/providers/isar_providers.dart';
+import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
+import 'package:mangayomi/modules/manga/detail/widgets/chapter_filter_list_tile_widget.dart';
+import 'package:mangayomi/modules/manga/detail/widgets/chapter_list_tile_widget.dart';
+import 'package:mangayomi/modules/manga/detail/widgets/chapter_sort_list_tile_widget.dart';
+import 'package:mangayomi/modules/manga/detail/widgets/readmore.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_search_widget.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_widget.dart';
+import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/pure_black_dark_mode_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/track/widgets/track_listile.dart';
 import 'package:mangayomi/modules/widgets/custom_draggable_tabbar.dart';
 import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
+import 'package:mangayomi/modules/widgets/error_text.dart';
+import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
-import 'package:mangayomi/utils/extensions/string_extensions.dart';
-import 'package:mangayomi/utils/utils.dart';
 import 'package:mangayomi/utils/cached_network.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
+import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/global_style.dart';
 import 'package:mangayomi/utils/headers.dart';
-import 'package:mangayomi/modules/manga/detail/providers/isar_providers.dart';
-import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
-import 'package:mangayomi/modules/manga/detail/widgets/readmore.dart';
-import 'package:mangayomi/modules/manga/detail/widgets/chapter_filter_list_tile_widget.dart';
-import 'package:mangayomi/modules/manga/detail/widgets/chapter_list_tile_widget.dart';
-import 'package:mangayomi/modules/manga/detail/widgets/chapter_sort_list_tile_widget.dart';
-import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
-import 'package:mangayomi/modules/widgets/error_text.dart';
-import 'package:mangayomi/modules/widgets/progress_center.dart';
+import 'package:mangayomi/utils/utils.dart';
+import 'package:path/path.dart' as p;
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
+
 import '../../../utils/constant.dart';
-import 'package:path/path.dart' as p;
 
 class MangaDetailView extends ConsumerStatefulWidget {
   final Function(bool) isExtended;

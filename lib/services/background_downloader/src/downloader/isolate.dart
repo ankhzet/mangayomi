@@ -7,12 +7,12 @@ import 'dart:isolate';
 import 'dart:math';
 
 import 'package:async/async.dart';
-import 'package:mangayomi/services/background_downloader/src/downloader/downloader_http_client.dart';
-import 'package:mangayomi/services/background_downloader/src/exceptions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
+import 'package:mangayomi/services/background_downloader/src/downloader/downloader_http_client.dart';
+import 'package:mangayomi/services/background_downloader/src/exceptions.dart';
 
 import '../models.dart';
 import '../task.dart';

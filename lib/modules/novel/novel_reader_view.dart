@@ -1,29 +1,30 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+
 import 'package:extended_image/extended_image.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/page.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/anime/widgets/desktop.dart';
+import 'package:mangayomi/modules/manga/reader/providers/push_router.dart';
 import 'package:mangayomi/modules/manga/reader/widgets/btn_chapter_list_dialog.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/modules/novel/novel_reader_controller_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/services/get_html_content.dart';
-import 'package:mangayomi/utils/utils.dart';
-import 'package:mangayomi/modules/manga/reader/providers/push_router.dart';
 import 'package:mangayomi/services/get_chapter_pages.dart';
+import 'package:mangayomi/services/get_html_content.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/global_style.dart';
+import 'package:mangayomi/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 typedef DoubleClickAnimationListener = void Function();
 

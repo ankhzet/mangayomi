@@ -1,12 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:html/parser.dart';
 import 'package:mangayomi/eval/lib.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'get_html_content.g.dart';
 

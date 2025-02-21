@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:json_view/json_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:json_view/json_view.dart';
 import 'package:mangayomi/eval/lib.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';

@@ -1,14 +1,15 @@
 // ignore_for_file: depend_on_referenced_packages
 
-import 'dart:io';
 import 'dart:async';
+import 'dart:io';
 import 'dart:isolate';
+
+import 'package:convert/convert.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/foundation.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:path/path.dart' as path;
-import 'package:encrypt/encrypt.dart' as encrypt;
-import 'package:convert/convert.dart';
 
 class TsInfo {
   final String name;

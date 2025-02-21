@@ -7,9 +7,9 @@ import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.d
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_search_widget.dart';
 import 'package:mangayomi/modules/more/settings/track/providers/track_providers.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/constant.dart';
 import 'package:mangayomi/utils/date.dart';
+import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class TrackerWidget extends ConsumerStatefulWidget {

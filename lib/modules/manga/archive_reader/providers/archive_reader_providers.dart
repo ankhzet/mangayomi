@@ -1,10 +1,11 @@
 import 'dart:io';
+
 import 'package:archive/archive_io.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mangayomi/modules/manga/archive_reader/models/models.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mangayomi/modules/manga/archive_reader/models/models.dart';
 import 'package:path/path.dart' as p;
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'archive_reader_providers.g.dart';
 

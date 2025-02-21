@@ -1,5 +1,4 @@
 import 'package:dart_eval/dart_eval_bridge.dart';
-
 import 'package:dart_eval/stdlib/core.dart';
 import 'package:html/dom.dart';
 import 'package:mangayomi/eval/dart/bridge/element.dart';

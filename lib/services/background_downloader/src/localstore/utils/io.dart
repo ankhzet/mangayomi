@@ -5,9 +5,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:logging/logging.dart';
+
 import '../localstore.dart';
 import 'utils_impl.dart';
-import 'package:logging/logging.dart';
 
 final _log = Logger('Localstore');
 

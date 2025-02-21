@@ -2,7 +2,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui show Codec;
+
 import 'package:extended_image_library/src/extended_image_provider.dart';
+import 'package:extended_image_library/src/network/extended_network_image_provider.dart' as image_provider;
 import 'package:extended_image_library/src/platform.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -10,7 +12,6 @@ import 'package:http_client_helper/http_client_helper.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:extended_image_library/src/network/extended_network_image_provider.dart' as image_provider;
 
 class CustomExtendedNetworkImageProvider extends ImageProvider<image_provider.ExtendedNetworkImageProvider>
     with ExtendedImageProvider<image_provider.ExtendedNetworkImageProvider>

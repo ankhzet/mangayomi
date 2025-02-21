@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/app_font_family.dart';
-import 'package:mangayomi/modules/more/settings/appearance/providers/theme_mode_state_provider.dart';
-import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
-import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
-import 'package:mangayomi/utils/date.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/date_format_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/pure_black_dark_mode_state_provider.dart';
+import 'package:mangayomi/modules/more/settings/appearance/providers/theme_mode_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/widgets/blend_level_slider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/widgets/dark_mode_button.dart';
 import 'package:mangayomi/modules/more/settings/appearance/widgets/theme_selector.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
+import 'package:mangayomi/providers/l10n_providers.dart';
+import 'package:mangayomi/utils/date.dart';
+import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/language.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 

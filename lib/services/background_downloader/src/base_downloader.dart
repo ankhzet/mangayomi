@@ -3,10 +3,12 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 import 'package:mangayomi/services/background_downloader/src/downloader/downloader_http_client.dart';
+
 import 'database.dart';
 import 'exceptions.dart';
 import 'models.dart';

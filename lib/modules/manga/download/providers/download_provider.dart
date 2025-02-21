@@ -1,28 +1,29 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:mangayomi/models/manga.dart';
-import 'package:mangayomi/models/page.dart';
-import 'package:mangayomi/services/background_downloader/background_downloader.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
+import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/page.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/manga/download/providers/convert_to_cbz.dart';
 import 'package:mangayomi/modules/more/settings/downloads/providers/downloads_state_provider.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
-import 'package:mangayomi/services/get_video_list.dart';
+import 'package:mangayomi/services/background_downloader/background_downloader.dart';
 import 'package:mangayomi/services/get_chapter_pages.dart';
+import 'package:mangayomi/services/get_video_list.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/services/m3u8/m3u8_downloader.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/headers.dart';
 import 'package:mangayomi/utils/reg_exp_matcher.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'download_provider.g.dart';
 

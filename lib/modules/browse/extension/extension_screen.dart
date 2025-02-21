@@ -3,15 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
-import 'package:mangayomi/modules/browse/extension/providers/extensions_provider.dart';
-import 'package:mangayomi/services/fetch_anime_sources.dart';
-import 'package:mangayomi/services/fetch_manga_sources.dart';
+import 'package:mangayomi/modules/browse/extension/widgets/extension_list_tile_widget.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/services/fetch_novel_sources.dart';
 import 'package:mangayomi/services/fetch_sources_list.dart';
 import 'package:mangayomi/utils/language.dart';
-import 'package:mangayomi/modules/browse/extension/widgets/extension_list_tile_widget.dart';
 
 class ExtensionScreen extends ConsumerStatefulWidget {
   final ItemType itemType;

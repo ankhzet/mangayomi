@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mangayomi/modules/more/settings/browse/providers/browse_state_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
-import 'package:mangayomi/modules/more/settings/browse/providers/browse_state_provider.dart';
 
 class BrowseSScreen extends ConsumerWidget {
   const BrowseSScreen({super.key});

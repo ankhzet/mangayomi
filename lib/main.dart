@@ -1,9 +1,11 @@
 import 'dart:io';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,19 +14,18 @@ import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/modules/more/data_and_storage/providers/storage_usage.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/app_font_family.dart';
-import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/providers/storage_provider.dart';
-import 'package:mangayomi/router/router.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/blend_level_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/flex_scheme_color_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/pure_black_dark_mode_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/theme_mode_state_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mangayomi/providers/l10n_providers.dart';
+import 'package:mangayomi/providers/storage_provider.dart';
+import 'package:mangayomi/router/router.dart';
 import 'package:mangayomi/src/rust/frb_generated.dart';
 import 'package:media_kit/media_kit.dart';
+import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:path/path.dart' as p;
 
 late Isar isar;
 WebViewEnvironment? webViewEnvironment;

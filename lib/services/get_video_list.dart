@@ -1,14 +1,15 @@
 import 'dart:async';
 import 'dart:io';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/eval/lib.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/video.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/services/torrent_server.dart';
-import 'package:mangayomi/utils/utils.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
+import 'package:mangayomi/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'get_video_list.g.dart';
 

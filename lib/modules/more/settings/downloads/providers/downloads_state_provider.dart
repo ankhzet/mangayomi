@@ -1,9 +1,10 @@
 import 'dart:io';
+
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:path/path.dart' as path;
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'downloads_state_provider.g.dart';
 

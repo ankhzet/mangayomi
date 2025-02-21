@@ -2,23 +2,22 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
-
 import 'package:isar/isar.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/update.dart';
+import 'package:mangayomi/modules/history/providers/isar_providers.dart';
+import 'package:mangayomi/modules/library/widgets/search_text_form_field.dart';
 import 'package:mangayomi/modules/manga/detail/providers/update_manga_detail_providers.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/modules/updates/widgets/update_chapter_list_tile_widget.dart';
-import 'package:mangayomi/modules/history/providers/isar_providers.dart';
-import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/utils/date.dart';
-import 'package:mangayomi/modules/library/widgets/search_text_form_field.dart';
 import 'package:mangayomi/modules/widgets/error_text.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
+import 'package:mangayomi/providers/l10n_providers.dart';
+import 'package:mangayomi/utils/date.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 
 class UpdatesScreen extends ConsumerStatefulWidget {

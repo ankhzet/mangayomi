@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
@@ -6,20 +7,20 @@ import 'package:mangayomi/eval/model/m_manga.dart';
 import 'package:mangayomi/eval/model/m_pages.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
-import 'package:mangayomi/modules/manga/home/manga_home_screen.dart';
-import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/router/router.dart';
 import 'package:mangayomi/models/source.dart';
-import 'package:mangayomi/services/search_.dart';
-import 'package:mangayomi/utils/cached_network.dart';
-import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
-import 'package:mangayomi/utils/constant.dart';
-import 'package:mangayomi/utils/headers.dart';
-import 'package:mangayomi/utils/language.dart';
 import 'package:mangayomi/modules/library/widgets/search_text_form_field.dart';
+import 'package:mangayomi/modules/manga/home/manga_home_screen.dart';
 import 'package:mangayomi/modules/more/settings/browse/providers/browse_state_provider.dart';
 import 'package:mangayomi/modules/widgets/bottom_text_widget.dart';
 import 'package:mangayomi/modules/widgets/manga_image_card_widget.dart';
+import 'package:mangayomi/providers/l10n_providers.dart';
+import 'package:mangayomi/router/router.dart';
+import 'package:mangayomi/services/search_.dart';
+import 'package:mangayomi/utils/cached_network.dart';
+import 'package:mangayomi/utils/constant.dart';
+import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/utils/headers.dart';
+import 'package:mangayomi/utils/language.dart';
 
 class GlobalSearchScreen extends ConsumerStatefulWidget {
   final ItemType itemType;

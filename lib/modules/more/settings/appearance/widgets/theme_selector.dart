@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
-import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/flex_scheme_color_state_provider.dart';
+import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 
 class ThemeSelector extends ConsumerStatefulWidget {
   const ThemeSelector({

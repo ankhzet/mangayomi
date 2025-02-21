@@ -5,13 +5,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:mangayomi/services/background_downloader/src/exceptions.dart';
 import 'package:http/http.dart' as http;
+import 'package:mangayomi/services/background_downloader/src/downloader/downloader_http_client.dart';
+import 'package:mangayomi/services/background_downloader/src/exceptions.dart';
 import 'package:path/path.dart' as p;
 
 import '../models.dart';
 import '../task.dart';
-import 'package:mangayomi/services/background_downloader/src/downloader/downloader_http_client.dart';
 import 'isolate.dart';
 
 const boundary = '-----background_downloader-akjhfw281onqciyhnIk';

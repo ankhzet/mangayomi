@@ -1,20 +1,21 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riv;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/video.dart' as vid;
 import 'package:mangayomi/modules/anime/providers/anime_player_controller_provider.dart';
 import 'package:mangayomi/modules/anime/widgets/aniskip_countdown_btn.dart';
 import 'package:mangayomi/modules/anime/widgets/desktop.dart';
-import 'package:mangayomi/modules/manga/reader/widgets/btn_chapter_list_dialog.dart';
 import 'package:mangayomi/modules/anime/widgets/mobile.dart';
-import 'package:mangayomi/modules/anime/widgets/subtitle_view.dart';
 import 'package:mangayomi/modules/anime/widgets/subtitle_setting_widget.dart';
+import 'package:mangayomi/modules/anime/widgets/subtitle_view.dart';
 import 'package:mangayomi/modules/manga/reader/providers/push_router.dart';
+import 'package:mangayomi/modules/manga/reader/widgets/btn_chapter_list_dialog.dart';
 import 'package:mangayomi/modules/more/settings/player/providers/player_state_provider.dart';
 import 'package:mangayomi/modules/widgets/custom_draggable_tabbar.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
@@ -26,8 +27,8 @@ import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:media_kit_video/media_kit_video_controls/src/controls/extensions/duration.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 bool _isDesktop = Platform.isMacOS || Platform.isLinux || Platform.isWindows;
 

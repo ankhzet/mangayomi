@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:mangayomi/ffi/torrent_server_ffi.dart' as libmtorrentserver_ffi;
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/video.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/services/http/m_client.dart';

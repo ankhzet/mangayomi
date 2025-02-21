@@ -8,6 +8,7 @@ import 'package:mangayomi/modules/manga/download/download_page_widget.dart';
 import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
 import 'package:mangayomi/utils/constant.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
+import 'package:mangayomi/utils/headers.dart';
 
 class UpdateChapterListTileWidget extends ConsumerWidget {
   final Chapter chapter;

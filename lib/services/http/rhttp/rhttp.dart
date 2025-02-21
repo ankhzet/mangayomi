@@ -25,5 +25,4 @@ export 'src/model/settings.dart'
     ClientSettings,
     ProxySettings,
     RedirectSettings,
-    TlsSettings,
-    ClientCertificatepVersion;
+    TlsSettings;

@@ -4,6 +4,8 @@ import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/category.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/source.dart';
+import 'package:mangayomi/models/track.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'migration.g.dart';

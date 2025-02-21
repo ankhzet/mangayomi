@@ -9,7 +9,6 @@ import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/dto/preload_task.dart';
 import 'package:mangayomi/models/page.dart';
 import 'package:mangayomi/models/settings.dart';
-import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/modules/manga/archive_reader/providers/archive_reader_providers.dart';
 import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
@@ -47,30 +46,6 @@ class GetChapterPagesModel {
   }
 }
 
-// fixme: remove this when extension is patched https://github.com/kodjodevf/mangayomi/issues/228
-int patchPages(Source source, List<PageUrl> pages) {
-  if (source.typeSource == 'comick') {
-    final List<int> delete = [];
-
-    for (var (index, item) in pages.indexed) {
-      if (item.url.isNotEmpty && item.url.length <= 4) {
-        pages[index - 1].url += '_.${item.url}';
-        delete.add(index);
-      }
-    }
-
-    if (delete.isNotEmpty) {
-      for (var idx in delete.reversed) {
-        pages.removeAt(idx);
-      }
-
-      return delete.length;
-    }
-  }
-
-  return 0;
-}
-
 @riverpod
 Future<GetChapterPagesModel> getChapterPages(
   Ref ref, {
@@ -97,8 +72,6 @@ Future<GetChapterPagesModel> getChapterPages(
     }
 
     pageUrls.addAll(loaded);
-
-    patchPages(source, pageUrls);
   }
 
   final model = GetChapterPagesModel(

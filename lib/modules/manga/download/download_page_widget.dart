@@ -7,12 +7,9 @@ import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
-import 'package:mangayomi/models/settings.dart';
-import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
 import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
-import 'package:mangayomi/services/background_downloader/background_downloader.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/global_style.dart';
@@ -21,9 +18,9 @@ import 'package:share_plus/share_plus.dart';
 
 class ChapterPageDownload extends ConsumerWidget {
   final Chapter chapter;
-  late final manga = widget.chapter.manga.value!;
+  late final manga = chapter.manga.value!;
 
-  const ChapterPageDownload({
+  ChapterPageDownload({
     super.key,
     required this.chapter,
   });
@@ -57,13 +54,13 @@ class ChapterPageDownload extends ConsumerWidget {
     }
   }
 
-  void _deleteFile() async {
+  void _deleteFile(int downloadId) async {
     final mangaDir = await StorageProvider.getMangaMainDirectory(manga);
-    final pathname = await StorageProvider.getMangaChapterDirectory(widget.chapter);
+    final pathname = await StorageProvider.getMangaChapterDirectory(chapter);
 
-    File(path.join(mangaDir, "${widget.chapter.name}.cbz")).safeRecursiveDeleteSync();
-    File(path.join(mangaDir, "${widget.chapter.name!.replaceForbiddenCharacters(' ')}.mp4")).safeRecursiveDeleteSync();
-    File(path.join(mangaDir, "${widget.chapter.name}.html")).safeRecursiveDeleteSync();
+    File(path.join(mangaDir, "${chapter.name}.cbz")).safeRecursiveDeleteSync();
+    File(path.join(mangaDir, "${chapter.name!.replaceForbiddenCharacters(' ')}.mp4")).safeRecursiveDeleteSync();
+    File(path.join(mangaDir, "${chapter.name}.html")).safeRecursiveDeleteSync();
     Directory(pathname).safeRecursiveDeleteSync();
 
     chapter.cancelDownloads(downloadId);

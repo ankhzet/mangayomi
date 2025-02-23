@@ -149,10 +149,9 @@ class MangaFilter with Iterable<MangaFilterState> {
   static bool isMatchingDownloaded(Manga manga) {
     return isar.downloads
         .filter()
-        .mangaIdEqualTo(manga.id)
         .idIsNotNull()
         .isDownloadEqualTo(true)
-        .anyOf(manga.chapters.map((chapter) => chapter.id), (q, id) => q.chapterIdEqualTo(id))
+        .anyOf(manga.chapters, (q, chapter) => q.idEqualTo(chapter.id!))
         .limit(1)
         .isNotEmptySync();
   }

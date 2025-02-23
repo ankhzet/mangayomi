@@ -9,12 +9,12 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'convert_to_cbz.g.dart';
 
 @riverpod
-Future<List<String>> convertToCBZ(Ref ref, String sourceDir, String targetDir, String name, int files) async {
-  return compute(_convertToCBZ, (sourceDir, targetDir, name, files));
+Future<List<String>> convertToCBZ(Ref ref, String sourceDir, String targetDir, String archiveName, int files) async {
+  return compute(_convertToCBZ, (sourceDir, targetDir, archiveName, files));
 }
 
 List<String> _convertToCBZ((String, String, String, int) datas) {
-  final (sourceDir, targetDir, name, files) = datas;
+  final (sourceDir, targetDir, archiveName, files) = datas;
   final source = Directory(sourceDir);
 
   if (source.existsSync()) {
@@ -24,7 +24,7 @@ List<String> _convertToCBZ((String, String, String, int) datas) {
       final sorted = images.toList()..sort((a, b) => a.path.compareTo(b.path));
       final encoder = ZipFileEncoder();
 
-      encoder.create(path.join(targetDir, "$name.cbz"));
+      encoder.create(path.join(targetDir, "$archiveName.cbz"));
 
       for (var image in sorted) {
         encoder.addFile(image);

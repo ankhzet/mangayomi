@@ -7,7 +7,6 @@ import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
-import 'package:mangayomi/services/background_downloader/background_downloader.dart';
 import 'package:mangayomi/utils/global_style.dart';
 
 class DownloadQueueScreen extends ConsumerWidget {

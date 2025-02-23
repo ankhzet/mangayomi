@@ -33,6 +33,7 @@ enum ActionType {
   addChapter(name: "ADD_CHAPTER"),
   removeChapter(name: "REMOVE_CHAPTER"),
   updateChapter(name: "UPDATE_CHAPTER"),
+  removeUpdate(name: "REMOVE_UPDATE"),
   clearHistory(name: "CLEAR_HISTORY"),
   addHistory(name: "ADD_HISTORY"),
   removeHistory(name: "REMOVE_HISTORY"),

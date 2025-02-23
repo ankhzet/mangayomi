@@ -35,8 +35,12 @@ class ImageView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final (colorBlendMode, color) = chapterColorFilterValues(context, ref);
+
     final imageWidget = ExtendedImage(
       image: data.getImageProvider(ref, true),
+      colorBlendMode: colorBlendMode,
+      color: color,
       filterQuality: FilterQuality.medium,
       handleLoadingProgress: true,
       fit: getBoxFit(ref.watch(scaleTypeStateProvider)),
@@ -48,20 +52,13 @@ class ImageView extends ConsumerWidget {
 
     return GestureDetector(
       onLongPress: _onLongPress,
-      child: ColorFilterWidget(
-        child: horizontal
-            ? imageWidget
-            : Column(
+      child:
+          horizontal
+              ? imageWidget
+              : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (data.index == 0)
-                    SizedBox(
-                      height: MediaQuery.of(context).padding.top,
-                    ),
-                  imageWidget,
-                ],
+                children: [if (data.index == 0) SizedBox(height: MediaQuery.of(context).padding.top), imageWidget],
               ),
-      ),
     );
   }
 

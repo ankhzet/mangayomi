@@ -5,79 +5,82 @@ import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/dto/chapter_group.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/modules/library/providers/library_state_provider.dart';
+import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/modules/widgets/count_badge.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/router/router.dart';
 import 'package:mangayomi/services/fetch_sources_list.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/utils/extensions/others.dart';
 
 const double minVerticalWidth = 100;
+
+String getHyphenatedUpdatesLabel(String languageCode, String defaultLabel) {
+  switch (languageCode) {
+    case 'de':
+      return "Aktuali-\nsierungen";
+    case 'es':
+    case 'es_419':
+      return "Actuali-\nzaciones";
+    case 'it':
+      return "Aggiorna-\nmenti";
+    case 'tr':
+      return "Güncel-\nlemeler";
+    default:
+      return defaultLabel;
+  }
+}
 
 class Navbar extends StatelessWidget {
   final bool horizontal;
 
-  const Navbar({
-    super.key,
-    required this.horizontal,
-  });
-
-  static String getHyphenatedUpdatesLabel(String languageCode, String defaultLabel) {
-    switch (languageCode) {
-      case 'de':
-        return "Aktuali-\nsierungen";
-      case 'es':
-      case 'es_419':
-        return "Actuali-\nzaciones";
-      case 'it':
-        return "Aggiorna-\nmenti";
-      case 'tr':
-        return "Güncel-\nlemeler";
-      default:
-        return defaultLabel;
-    }
-  }
+  const Navbar({super.key, required this.horizontal});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(builder: (context, ref, _) {
-      final isLongPressed = ref.watch(isLongPressedMangaStateProvider);
+    return Consumer(
+      builder: (context, ref, _) {
+        final isLongPressed = ref.watch(isLongPressedMangaStateProvider);
 
-      if (isLongPressed || (context.isTablet && horizontal)) {
-        return Container();
-      }
-
-      final items = _buildItems(context, ref);
-
-      int? locationIndex = _getLocation(context, ref, items);
-      int currentIndex = locationIndex ?? 0;
-
-      double? sized(bool horizontal, double value) {
-        if (locationIndex == null) {
-          return 0;
+        if (isLongPressed || (context.isTablet && horizontal)) {
+          return Container();
         }
 
-        if (context.isTablet) {
-          return horizontal ? value : null;
+        final items = _buildItems(context, ref);
+
+        int? locationIndex = _getLocation(context, ref, items);
+        int currentIndex = locationIndex ?? 0;
+
+        double? sized(bool horizontal, double value) {
+          if (locationIndex == null) {
+            return 0;
+          }
+
+          if (context.isTablet) {
+            return horizontal ? value : null;
+          }
+
+          return horizontal ? null : value;
         }
 
-        return horizontal ? null : value;
-      }
+        double? width = sized(true, minVerticalWidth);
+        double? height = sized(false, 64);
 
-      double? width = sized(true, minVerticalWidth);
-      double? height = sized(false, 64);
-
-      return AnimatedContainer(
-        duration: const Duration(milliseconds: 0),
-        width: width,
-        height: height,
-        child: horizontal
-            ? _buildHorizontal(ref: ref, context: context, items: items, index: currentIndex)
-            : _buildVertical(ref: ref, context: context, items: items, index: currentIndex),
-      );
-    });
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 0),
+          width: width,
+          height: height,
+          child:
+              horizontal
+                  ? _buildHorizontal(ref: ref, context: context, items: items, index: currentIndex)
+                  : _buildVertical(ref: ref, context: context, items: items, index: currentIndex),
+        );
+      },
+    );
   }
 
   Widget _buildHorizontal({
@@ -88,30 +91,24 @@ class Navbar extends StatelessWidget {
   }) {
     return NavigationBarTheme(
       data: NavigationBarThemeData(
+        labelTextStyle: WidgetStatePropertyAll(TextStyle(overflow: TextOverflow.ellipsis)),
         indicatorShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
       child: NavigationBar(
         animationDuration: const Duration(milliseconds: 500),
         selectedIndex: index,
         onDestinationSelected: _navigate(context, items),
-        destinations: items.map((NavItem item) {
-          final widget = NavigationDestination(
-            icon: item.icon,
-            selectedIcon: item.selectedIcon,
-            label: item.label,
-          );
+        destinations: items
+            .map((NavItem item) {
+              final widget = NavigationDestination(icon: item.icon, selectedIcon: item.selectedIcon, label: item.label);
 
-          if (item.badge != null) {
-            return Stack(
-              children: [
-                widget,
-                Positioned(right: 14, top: 3, child: item.badge!),
-              ],
-            );
-          }
+              if (item.badge != null) {
+                return Stack(children: [widget, Positioned(right: 14, top: 3, child: item.badge!)]);
+              }
 
-          return widget;
-        }).toList(growable: false),
+              return widget;
+            })
+            .toList(growable: false),
       ),
     );
   }
@@ -122,33 +119,41 @@ class Navbar extends StatelessWidget {
     required List<NavItem> items,
     required int index,
   }) {
-    final badges = items.indexed
-        .map((entry) => entry.$2.badge != null
-            ? Positioned(left: minVerticalWidth / 2, top: 4 + entry.$1 * 70, child: entry.$2.badge!)
-            : null)
-        .whereType<Widget>();
+    final badges =
+        items.indexed
+            .map(
+              (entry) =>
+                  entry.$2.badge != null
+                      ? Positioned(left: minVerticalWidth / 2, top: 4 + entry.$1 * 70, child: entry.$2.badge!)
+                      : null,
+            )
+            .whereType<Widget>();
 
-    return Stack(children: [
-      NavigationRailTheme(
-        data: NavigationRailThemeData(
-          indicatorShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        ),
-        child: NavigationRail(
-          labelType: NavigationRailLabelType.all,
-          useIndicator: true,
-          selectedIndex: index,
-          onDestinationSelected: _navigate(context, items),
-          destinations: items
-              .map((NavItem item) => NavigationRailDestination(
+    return Stack(
+      children: [
+        NavigationRailTheme(
+          data: NavigationRailThemeData(
+            indicatorShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          ),
+          child: NavigationRail(
+            labelType: NavigationRailLabelType.all,
+            useIndicator: true,
+            selectedIndex: index,
+            onDestinationSelected: _navigate(context, items),
+            destinations: items
+                .map(
+                  (NavItem item) => NavigationRailDestination(
                     icon: item.icon,
                     selectedIcon: item.selectedIcon,
                     label: Padding(padding: const EdgeInsets.only(top: 5), child: Text(item.label)),
-                  ))
-              .toList(growable: false),
+                  ),
+                )
+                .toList(growable: false),
+          ),
         ),
-      ),
-      ...badges,
-    ]);
+        ...badges,
+      ],
+    );
   }
 
   int? _getLocation(BuildContext context, WidgetRef ref, List<NavItem> items) {
@@ -169,75 +174,112 @@ class Navbar extends StatelessWidget {
 
   List<NavItem> _buildItems<T>(BuildContext context, WidgetRef ref) {
     final l10n = l10nLocalizations(context)!;
-    final lang = ref.watch(l10nLocaleStateProvider).languageCode;
+    final hideItems = ref.watch(hideItemsStateProvider);
+    final paths = ref.watch(navigationOrderStateProvider).where((path) => !hideItems.contains(path));
 
-    return [
-      NavItem(
-        selectedIcon: const Icon(Icons.collections_bookmark),
-        icon: const Icon(Icons.collections_bookmark_outlined),
-        label: l10n.manga,
-        route: '/MangaLibrary',
-      ),
-      NavItem(
-        selectedIcon: const Icon(Icons.video_collection),
-        icon: const Icon(Icons.video_collection_outlined),
-        label: l10n.anime,
-        route: '/AnimeLibrary',
-      ),
-      NavItem(
-        selectedIcon: const Icon(Icons.local_library),
-        icon: const Icon(Icons.local_library_outlined),
-        label: l10n.novel,
-        route: '/NovelLibrary',
-      ),
-      NavItem(
-        selectedIcon: const Icon(Icons.new_releases),
-        icon: const Icon(Icons.new_releases_outlined),
-        label: context.isTablet ? getHyphenatedUpdatesLabel(lang, l10n.updates) : l10n.updates,
-        route: '/updates',
-        badge: _updatesTotalNumbers(ref),
-      ),
-      NavItem(
-        selectedIcon: const Icon(Icons.history),
-        icon: const Icon(Icons.history_outlined),
-        label: l10n.history,
-        route: '/history',
-      ),
-      NavItem(
-        selectedIcon: const Icon(Icons.explore),
-        icon: const Icon(Icons.explore_outlined),
-        label: l10n.browse,
-        route: '/browse',
-        badge: _extensionUpdateTotalNumbers(ref),
-      ),
-      NavItem(
-        selectedIcon: const Icon(Icons.more_horiz),
-        icon: const Icon(Icons.more_horiz_outlined),
-        label: l10n.more,
-        route: '/more',
-      ),
-    ];
+    return paths.mapToList(
+      (route) => (switch (route) {
+        '/MangaLibrary' => NavItem(
+          route,
+          selectedIcon: const Icon(Icons.collections_bookmark),
+          icon: const Icon(Icons.collections_bookmark_outlined),
+          label: l10n.manga,
+        ),
+        '/AnimeLibrary' => NavItem(
+          route,
+          selectedIcon: const Icon(Icons.video_collection),
+          icon: const Icon(Icons.video_collection_outlined),
+          label: l10n.anime,
+        ),
+        '/NovelLibrary' => NavItem(
+          route,
+          selectedIcon: const Icon(Icons.local_library),
+          icon: const Icon(Icons.local_library_outlined),
+          label: l10n.novel,
+        ),
+        '/updates' => NavItem(
+          route,
+          selectedIcon: const Icon(Icons.new_releases),
+          icon: const Icon(Icons.new_releases_outlined),
+          label:
+              context.isTablet
+                  ? getHyphenatedUpdatesLabel(ref.watch(l10nLocaleStateProvider).languageCode, l10n.updates)
+                  : l10n.updates,
+          badge: _updatesTotalNumbers(ref),
+        ),
+        '/history' => NavItem(
+          route,
+          selectedIcon: const Icon(Icons.history),
+          icon: const Icon(Icons.history_outlined),
+          label: l10n.history,
+        ),
+        '/browse' => NavItem(
+          route,
+          selectedIcon: const Icon(Icons.explore),
+          icon: const Icon(Icons.explore_outlined),
+          label: l10n.browse,
+          badge: _extensionUpdateTotalNumbers(ref),
+        ),
+        '/more' => NavItem(
+          route,
+          selectedIcon: const Icon(Icons.more_horiz),
+          icon: const Icon(Icons.more_horiz_outlined),
+          label: l10n.more,
+        ),
+        _ => throw AssertionError('Unknown route "$route"'),
+      }),
+    );
   }
 }
 
 Widget _extensionUpdateTotalNumbers(WidgetRef ref) {
+  final hideItems = ref.watch(hideItemsStateProvider);
+  final stream = isar.sources
+      .filter()
+      .idIsNotNull()
+      .optional(hideItems.contains("/MangaLibrary"), (q) => q.not().itemTypeEqualTo(ItemType.manga))
+      .optional(hideItems.contains("/AnimeLibrary"), (q) => q.not().itemTypeEqualTo(ItemType.anime))
+      .optional(hideItems.contains("/NovelLibrary"), (q) => q.not().itemTypeEqualTo(ItemType.novel))
+      .and()
+      .isActiveEqualTo(true)
+      .watch(fireImmediately: true);
+
   return StreamBuilder(
-    stream: isar.sources.filter().idIsNotNull().and().isActiveEqualTo(true).watch(fireImmediately: true),
-    builder: (context, snapshot) => CountBadge(
-      count: ((snapshot.hasData && snapshot.data!.isNotEmpty)
-          ? snapshot.data!.where((element) => compareVersions(element.version!, element.versionLast!) < 0).length
-          : 0),
-    ),
+    stream: stream,
+    builder:
+        (context, snapshot) => CountBadge(
+          count:
+              ((snapshot.hasData && snapshot.data!.isNotEmpty)
+                  ? snapshot.data!
+                      .where((element) => compareVersions(element.version!, element.versionLast!) < 0)
+                      .length
+                  : 0),
+        ),
   );
 }
 
 Widget _updatesTotalNumbers(WidgetRef ref) {
+  final hideItems = ref.watch(hideItemsStateProvider);
+  final stream = isar.updates
+      .filter()
+      .idIsNotNull()
+      .chapter((q) => q.not().group((q) => q.isReadEqualTo(true).and().idIsNotNull()))
+      .optional(
+        hideItems.contains("/MangaLibrary"),
+        (q) => q.chapter((c) => c.manga((m) => m.not().itemTypeEqualTo(ItemType.manga))),
+      )
+      .optional(
+        hideItems.contains("/AnimeLibrary"),
+        (q) => q.chapter((c) => c.manga((m) => m.not().itemTypeEqualTo(ItemType.anime))),
+      )
+      .optional(
+        hideItems.contains("/NovelLibrary"),
+        (q) => q.chapter((c) => c.manga((m) => m.not().itemTypeEqualTo(ItemType.novel))),
+      )
+      .watch(fireImmediately: true);
+
   return StreamBuilder(
-    stream: isar.updates
-        .filter()
-        .idIsNotNull()
-        .chapter((q) => q.not().group((q) => q.isReadEqualTo(true).and().idIsNotNull()))
-        .watch(fireImmediately: true),
+    stream: stream,
     builder: (context, snapshot) {
       int count = 0;
 
@@ -250,9 +292,7 @@ Widget _updatesTotalNumbers(WidgetRef ref) {
         count = groups.length;
       }
 
-      return CountBadge(
-        count: count,
-      );
+      return CountBadge(count: count);
     },
 
     // builder: (context, snapshot) => UpdateBadge(
@@ -273,11 +313,5 @@ class NavItem {
   final Widget selectedIcon;
   final Widget? badge;
 
-  const NavItem({
-    required this.route,
-    required this.label,
-    required this.icon,
-    required this.selectedIcon,
-    this.badge,
-  });
+  const NavItem(this.route, {required this.label, required this.icon, required this.selectedIcon, this.badge});
 }

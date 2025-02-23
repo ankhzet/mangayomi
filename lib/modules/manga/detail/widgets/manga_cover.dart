@@ -6,10 +6,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_search_widget.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
@@ -40,7 +42,7 @@ class MangaCover extends StatelessWidget {
       final imageProvider = manga.imageProvider(ref);
 
       return GestureDetector(
-        onTap: () => _openImage(context, imageProvider),
+        onTap: () => _openImage(context, ref, imageProvider),
         child: SizedBox(
           width: width,
           height: height,
@@ -58,7 +60,7 @@ class MangaCover extends StatelessWidget {
     });
   }
 
-  void _openImage(BuildContext context, ImageProvider imageProvider) {
+  void _openImage(BuildContext context, WidgetRef ref, ImageProvider imageProvider) {
     showDialog(
       context: context,
       builder: (context) => Scaffold(
@@ -120,6 +122,8 @@ class MangaCover extends StatelessWidget {
                                             isar.mangas.putSync(manga
                                               ..customCoverImage = null
                                               ..customCoverFromTracker = trackSearch.coverUrl);
+
+                                            _updated(ref);
                                           });
 
                                           if (context.mounted) {
@@ -218,6 +222,8 @@ class MangaCover extends StatelessWidget {
                                         isar.mangas.putSync(manga
                                           ..customCoverImage = null
                                           ..customCoverFromTracker = null);
+
+                                        _updated(ref);
                                       });
                                       Navigator.pop(context);
                                     } else if (value == 1) {
@@ -228,6 +234,7 @@ class MangaCover extends StatelessWidget {
                                           final customCoverImage = File(result.files.first.path!).readAsBytesSync();
                                           isar.writeTxnSync(() {
                                             isar.mangas.putSync(manga..customCoverImage = customCoverImage);
+                                            _updated(ref);
                                           });
                                           botToast(context.l10n.cover_updated, second: 3);
                                         }
@@ -257,6 +264,15 @@ class MangaCover extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  _updated(WidgetRef ref) {
+    ref.read(synchingProvider(syncId: 1).notifier).addChangedPart(
+        ActionType.updateItem,
+        manga.id,
+        manga.toJson(),
+        false
     );
   }
 }

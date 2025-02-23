@@ -9,42 +9,33 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'convert_to_cbz.g.dart';
 
 @riverpod
-Future<List<String>> convertToCBZ(
-    Ref ref, String chapterDir, String mangaDir, String chapterName, List<String> pageList) async {
-  return compute(_convertToCBZ, (chapterDir, mangaDir, chapterName, pageList));
+Future<List<String>> convertToCBZ(Ref ref, String sourceDir, String targetDir, String name, int files) async {
+  return compute(_convertToCBZ, (sourceDir, targetDir, name, files));
 }
 
-List<String> _convertToCBZ((String, String, String, List<String>) datas) {
-  List<String> imagesPaths = [];
-  final (chapterDir, mangaDir, chapterName, pageList) = datas;
-  final source = Directory(chapterDir);
+List<String> _convertToCBZ((String, String, String, int) datas) {
+  final (sourceDir, targetDir, name, files) = datas;
+  final source = Directory(sourceDir);
 
   if (source.existsSync()) {
-    List<FileSystemEntity> entities = source.listSync();
+    final images = source.listSync().whereType<File>().where((file) => file.path.endsWith('.jpg'));
 
-    for (FileSystemEntity entity in entities) {
-      if (entity is File) {
-        if (entity.path.endsWith('.jpg')) {
-          imagesPaths.add(entity.path);
-        }
+    if (images.isNotEmpty && files == images.length) {
+      final sorted = images.toList()..sort((a, b) => a.path.compareTo(b.path));
+      final encoder = ZipFileEncoder();
+
+      encoder.create(path.join(targetDir, "$name.cbz"));
+
+      for (var image in sorted) {
+        encoder.addFile(image);
       }
+
+      encoder.close();
+      source.deleteSync(recursive: true);
     }
-    imagesPaths.sort(
-      (a, b) {
-        return a.toString().compareTo(b.toString());
-      },
-    );
+
+    return images.map((file) => file.path).toList();
   }
 
-  if (imagesPaths.isNotEmpty && pageList.length == imagesPaths.length) {
-    var encoder = ZipFileEncoder();
-    encoder.create(path.join(mangaDir, "$chapterName.cbz"));
-    for (var pathname in imagesPaths) {
-      encoder.addFile(File(pathname));
-    }
-    encoder.close();
-    source.deleteSync(recursive: true);
-  }
-
-  return imagesPaths;
+  return [];
 }

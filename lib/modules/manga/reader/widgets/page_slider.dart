@@ -65,6 +65,7 @@ class PageSlider extends StatelessWidget {
               flex: 14,
               child: SliderTheme(
                 data: SliderTheme.of(context).copyWith(
+                  valueIndicatorShape: _CustomValueIndicatorShape(mirror: mirror),
                   overlayShape: const RoundSliderOverlayShape(overlayRadius: 5.0),
                 ),
                 child: Slider(
@@ -82,5 +83,61 @@ class PageSlider extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _CustomValueIndicatorShape extends SliderComponentShape {
+  final _indicatorShape = const PaddleSliderValueIndicatorShape();
+  final bool mirror;
+
+  const _CustomValueIndicatorShape({this.mirror = false});
+
+  @override
+  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
+    return const Size(40, 40);
+  }
+
+  @override
+  void paint(
+      PaintingContext context,
+      Offset center, {
+        required Animation<double> activationAnimation,
+        required Animation<double> enableAnimation,
+        required bool isDiscrete,
+        required TextPainter labelPainter,
+        required RenderBox parentBox,
+        required SliderThemeData sliderTheme,
+        required TextDirection textDirection,
+        required double value,
+        required double textScaleFactor,
+        required Size sizeWithOverflow,
+      }) {
+    final textSpan = TextSpan(text: labelPainter.text?.toPlainText(), style: sliderTheme.valueIndicatorTextStyle);
+
+    final textPainter = TextPainter(text: textSpan, textAlign: labelPainter.textAlign, textDirection: textDirection);
+
+    textPainter.layout();
+
+    context.canvas.save();
+    context.canvas.translate(center.dx, center.dy);
+    context.canvas.scale(mirror ? -1.0 : 1.0, 1.0);
+    context.canvas.translate(-center.dx, -center.dy);
+
+    _indicatorShape.paint(
+      context,
+      center,
+      activationAnimation: activationAnimation,
+      enableAnimation: enableAnimation,
+      labelPainter: textPainter,
+      parentBox: parentBox,
+      sliderTheme: sliderTheme,
+      value: value,
+      textScaleFactor: textScaleFactor,
+      sizeWithOverflow: sizeWithOverflow,
+      isDiscrete: isDiscrete,
+      textDirection: textDirection,
+    );
+
+    context.canvas.restore();
   }
 }

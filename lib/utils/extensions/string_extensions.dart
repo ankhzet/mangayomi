@@ -53,7 +53,22 @@ extension StringExtensions on String {
   }
 
   bool isMediaVideo() {
-    return ["3gp", "avi", "mpg", "mpeg", "webm", "ogg", "flv", "m4v", "mvp", "mp4", "wmv", "mkv", "mov"]
-        .any((extension) => toLowerCase().endsWith(extension));
+    return mediaExtensions.any(toLowerCase().endsWith);
   }
 }
+
+const mediaExtensions = [
+  ".3gp",
+  ".avi",
+  ".mpg",
+  ".mpeg",
+  ".webm",
+  ".ogg",
+  ".flv",
+  ".m4v",
+  ".mvp",
+  ".mp4",
+  ".wmv",
+  ".mkv",
+  ".mov",
+];

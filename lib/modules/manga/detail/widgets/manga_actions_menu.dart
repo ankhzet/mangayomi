@@ -90,7 +90,7 @@ class _MangaActionsMenuState extends ConsumerState<MangaActionsMenu> {
 
     if (lastChapterReadIndex == -1 || chapters.length == 1) {
       final chapter = chapters.first;
-      final entry = isar.downloads.filter().idIsNotNull().chapterIdEqualTo(chapter.id).findFirstSync();
+      final entry = isar.downloads.filter().idEqualTo(chapter.id).findFirstSync();
 
       if (entry == null || !entry.isDownload!) {
         ref.watch(downloadChapterProvider(chapter: chapter));
@@ -99,7 +99,7 @@ class _MangaActionsMenuState extends ConsumerState<MangaActionsMenu> {
       for (var i = 1; i < value + 1; i++) {
         if (chapters.length > 1 && chapters.elementAtOrNull(lastChapterReadIndex + i) != null) {
           final chapter = chapters[lastChapterReadIndex + i];
-          final entry = isar.downloads.filter().idIsNotNull().chapterIdEqualTo(chapter.id).findFirstSync();
+          final entry = isar.downloads.filter().idEqualTo(chapter.id).findFirstSync();
 
           if (entry == null || !entry.isDownload!) {
             ref.watch(downloadChapterProvider(chapter: chapter));
@@ -114,7 +114,7 @@ class _MangaActionsMenuState extends ConsumerState<MangaActionsMenu> {
         isar.chapters.filter().idIsNotNull().mangaIdEqualTo(mangaId).isReadEqualTo(false).findAllSync();
 
     for (var chapter in unreadChapters) {
-      final entry = isar.downloads.filter().idIsNotNull().chapterIdEqualTo(chapter.id).findFirstSync();
+      final entry = isar.downloads.filter().idEqualTo(chapter.id).findFirstSync();
 
       if (entry == null || !entry.isDownload!) {
         ref.watch(downloadChapterProvider(chapter: chapter));

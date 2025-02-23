@@ -6,7 +6,7 @@ import 'package:mangayomi/modules/manga/reader/providers/color_filter_provider.d
 import 'package:mangayomi/modules/more/settings/reader/reader_screen.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 
-(BlendMode?, Color?) chapterColorFIlterValues(BuildContext context, WidgetRef ref) {
+(BlendMode?, Color?) chapterColorFilterValues(BuildContext context, WidgetRef ref) {
   final customColorFilter = ref.watch(customColorFilterStateProvider);
   final colorFilterBlendMode = ref.watch(colorFilterBlendModeStateProvider);
   return (

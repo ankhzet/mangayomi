@@ -395,9 +395,7 @@ class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
                   List<int> updates = isar.updates
                       .filter()
                       .idIsNotNull()
-                      .chapter(
-                        (q) => q.manga((q) => q.itemTypeEqualTo(_type)),
-                      )
+                      .chapter((q) => q.manga((q) => q.itemTypeEqualTo(_type)))
                       .findAllSync()
                       .map((i) => i.id!)
                       .toList(growable: false);

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/manga/detail/providers/isar_providers.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/genre_badges_widget.dart';
@@ -11,6 +12,7 @@ import 'package:mangayomi/modules/manga/detail/widgets/manga_actions.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_chapters_counter.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/manga_cover.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/readmore.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/constant.dart';
@@ -284,16 +286,24 @@ class MangaInfoView extends StatelessWidget {
                   const SizedBox(
                     width: 15,
                   ),
-                  TextButton(
+                  Consumer(builder: (ctx, ref, _) => TextButton(
                       onPressed: () {
                         isar.writeTxnSync(() {
                           manga.description = description.text;
                           manga.name = name.text;
                           isar.mangas.putSync(manga);
+
+                          ref.read(synchingProvider(syncId: 1).notifier).addChangedPart(
+                              ActionType.updateItem,
+                              manga.id,
+                              manga.toJson(),
+                              false
+                          );
                         });
                         Navigator.pop(context);
                       },
-                      child: Text(l10n.edit)),
+                      child: Text(l10n.edit),
+                  )),
                 ],
               )
             ],

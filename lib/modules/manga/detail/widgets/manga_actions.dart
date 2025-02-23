@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/category.dart';
+import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/models/track_preference.dart';
@@ -13,6 +14,7 @@ import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.d
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_search_widget.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_widget.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/pure_black_dark_mode_state_provider.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/more/settings/track/widgets/track_list_tile.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/services/get_source_baseurl.dart';
@@ -49,7 +51,7 @@ class MangaActions extends StatelessWidget {
                 ),
                 onPressed: () {
                   if (manga.favorite!) {
-                    _favorite(false);
+                    _favorite(false, ref: ref);
                   } else {
                     final checkCategoryList =
                         isar.categorys.filter().idIsNotNull().and().forItemTypeEqualTo(manga.itemType).isNotEmptySync();
@@ -57,7 +59,7 @@ class MangaActions extends StatelessWidget {
                     if (checkCategoryList) {
                       _openCategory(context);
                     } else {
-                      _favorite(true);
+                      _favorite(true, ref: ref);
                     }
                   }
                 },
@@ -177,7 +179,7 @@ class MangaActions extends StatelessWidget {
     });
   }
 
-  void _favorite(bool favorite, {List<int>? categoryIds}) {
+  void _favorite(bool favorite, {List<int>? categoryIds, required WidgetRef ref}) {
     isar.writeTxnSync(() {
       manga.favorite = favorite;
       manga.dateAdded = favorite ? DateTime.now().millisecondsSinceEpoch : 0;
@@ -187,6 +189,14 @@ class MangaActions extends StatelessWidget {
       }
 
       isar.mangas.putSync(manga);
+
+      final notifier = ref.read(synchingProvider(syncId: 1).notifier);
+
+      if (favorite) {
+        notifier.addChangedPart(ActionType.addItem, null, manga.toJson(), false);
+      }
+
+      notifier.addChangedPart(ActionType.updateItem, manga.id, manga.toJson(), false);
     });
   }
 
@@ -196,7 +206,7 @@ class MangaActions extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) {
-        return StatefulBuilder(
+        return Consumer(builder: (ctx, ref, _) => StatefulBuilder(
           builder: (context, setState) {
             final l10n = l10nLocalizations(context)!;
 
@@ -204,16 +214,16 @@ class MangaActions extends StatelessWidget {
               switch (index) {
                 case 1:
                   context.push("/categories", extra: (
-                    true,
-                    switch (manga.itemType) {
-                      ItemType.manga => 0,
-                      ItemType.anime => 1,
-                      ItemType.novel => 2,
-                    }
+                  true,
+                  switch (manga.itemType) {
+                    ItemType.manga => 0,
+                    ItemType.anime => 1,
+                    ItemType.novel => 2,
+                  }
                   ));
                   break;
                 case 2:
-                  _favorite(true, categoryIds: categoryIds);
+                  _favorite(true, ref: ref, categoryIds: categoryIds);
                   break;
               }
 
@@ -249,7 +259,7 @@ class MangaActions extends StatelessWidget {
               ],
             );
           },
-        );
+        ));
       },
     );
   }

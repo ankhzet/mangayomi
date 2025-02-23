@@ -290,21 +290,20 @@ class M3u8Downloader {
   }
 
   Future<void> _mergeTsToMp4(String fileName, String directory) async {
+    int parseIndex(String name) => int.parse(name.substringAfter("TS_").substringBefore("."));
+
     try {
-      final dir = Directory(directory);
-      final files = await dir.list().where((entity) => entity.path.endsWith('.ts')).toList();
-
-      files.sort((a, b) {
-        final aIndex = int.parse(a.path.substringAfter("TS_").substringBefore("."));
-        final bIndex = int.parse(b.path.substringAfter("TS_").substringBefore("."));
-        return aIndex.compareTo(bIndex);
-      });
-
       final outFile = File(fileName).openWrite();
-      for (var file in files) {
-        final bytes = await File(file.path).readAsBytes();
-        outFile.add(bytes);
+      final dir = Directory(directory);
+      final tsPathList = await dir.list().where((entity) => entity.path.endsWith('.ts')).map((entity) => entity.path).toList();
+
+      tsPathList.sort((a, b) => parseIndex(a).compareTo(parseIndex(b)));
+
+      for (var path in tsPathList) {
+        await outFile.addStream(File(path).openRead());
       }
+
+      await outFile.flush();
       await outFile.close();
     } catch (e) {
       throw M3u8DownloaderException('Failed to merge TS files', e);

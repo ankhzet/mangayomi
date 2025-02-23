@@ -74,68 +74,71 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final navigationOrder = ref.watch(navigationOrderStateProvider);
     final hideItems = ref.watch(hideItemsStateProvider);
 
-    return ref.watch(migrationProvider).when(data: (_) {
-      return Consumer(builder: (context, ref, _) {
-        final location = ref.watch(routerCurrentLocationStateProvider(context));
-        bool isReadingScreen = location == '/mangareaderview' || location == '/animePlayerView' || location == '/novelReaderView';
+    return ref
+        .watch(migrationProvider)
+        .when(
+          data: (_) {
+            return Consumer(
+              builder: (context, ref, _) {
+                final location = ref.watch(routerCurrentLocationStateProvider(context));
+                bool isReadingScreen =
+                    location == '/mangaReaderView' || location == '/animePlayerView' || location == '/novelReaderView';
 
-        final dest = navigationOrder.where((nav) => !hideItems.contains(nav)).toList();
+                final dest = navigationOrder.where((nav) => !hideItems.contains(nav)).toList();
 
-        int currentIndex = dest.indexOf(location ?? defaultLocation);
-        if (currentIndex == -1) {
-          currentIndex = dest.length - 1;
-        }
+                int currentIndex = dest.indexOf(location ?? defaultLocation);
 
-        final incognitoMode = ref.watch(incognitoModeStateProvider);
+                if (currentIndex == -1) {
+                  currentIndex = dest.length - 1;
+                }
 
-        return Column(
-          children: [
-            if (!isReadingScreen)
-              Material(
-                child: AnimatedContainer(
-                  height: incognitoMode
-                      ? Platform.isAndroid || Platform.isIOS
-                          ? MediaQuery.of(context).padding.top * 2
-                          : 50
-                      : 0,
-                  curve: Curves.easeIn,
-                  duration: const Duration(milliseconds: 150),
-                  color: context.primaryColor,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          l10n.incognito_mode,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: GoogleFonts.aBeeZee().fontFamily,
+                final incognitoMode = ref.watch(incognitoModeStateProvider);
+
+                return Column(
+                  children: [
+                    if (!isReadingScreen)
+                      Material(
+                        child: AnimatedContainer(
+                          height:
+                              incognitoMode
+                                  ? Platform.isAndroid || Platform.isIOS
+                                      ? MediaQuery.of(context).padding.top * 2
+                                      : 50
+                                  : 0,
+                          curve: Curves.easeIn,
+                          duration: const Duration(milliseconds: 150),
+                          color: context.primaryColor,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  l10n.incognito_mode,
+                                  style: TextStyle(color: Colors.white, fontFamily: GoogleFonts.aBeeZee().fontFamily),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            Flexible(
-              child: Scaffold(
-                body: context.isTablet
-                    ? Row(
-                        children: [const Navbar(horizontal: false), Expanded(child: content)],
-                      )
-                    : content,
-                bottomNavigationBar: context.isTablet ? null : const Navbar(horizontal: true),
-              ),
-            ),
-          ],
+                      ),
+                    Flexible(
+                      child: Scaffold(
+                        body:
+                            context.isTablet
+                                ? Row(children: [const Navbar(horizontal: false), Expanded(child: widget.content)])
+                                : widget.content,
+                        bottomNavigationBar: context.isTablet ? null : const Navbar(horizontal: true),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          error: (error, _) => const LoadingIcon(),
+          loading: () => const LoadingIcon(),
         );
-      });
-    }, error: (error, _) {
-      return const LoadingIcon();
-    }, loading: () {
-      return const LoadingIcon();
-    });
   }
 }

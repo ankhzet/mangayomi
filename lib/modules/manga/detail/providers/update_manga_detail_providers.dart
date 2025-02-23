@@ -181,7 +181,8 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
               mangaId: mangaId,
               chapterName: chap.name,
               date: timeString,
-            )..chapter.value = chap;
+            )
+              ..chapter.value = chap;
             updateBacklog.add(update);
           } else {
             notifier.addChangedPart(ActionType.updateChapter, chap.id, chap.toJson(), false);

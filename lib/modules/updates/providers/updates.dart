@@ -8,5 +8,12 @@ part 'updates.g.dart';
 
 @riverpod
 Stream<List<Manga>> getWatchedEntries(Ref ref) async* {
-  yield* isar.mangas.filter().favoriteEqualTo(true).and().sourceIsNotNull().watch(fireImmediately: true);
+  yield* isar.mangas
+      .filter()
+      .favoriteEqualTo(true)
+      .and()
+      .sourceIsNotNull()
+      .and()
+      .isLocalArchiveEqualTo(false)
+      .watch(fireImmediately: true);
 }

@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/models/dto/chapter_group.dart';
@@ -284,6 +285,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                   }
                                   isar.chapters.putSync(chapter..manga.value = widget.manga);
                                   chapter.manga.saveSync();
+
                                   if (chapter.isRead!) {
                                     chapter.updateTrackChapterRead(ref);
                                   }

@@ -69,7 +69,7 @@ class ChapterFilterModel {
       }
 
       if (downloaded != null) {
-        final modelChapDownload = isar.downloads.filter().idIsNotNull().chapterIdEqualTo(chapter.id).findAllSync();
+        final modelChapDownload = isar.downloads.filter().idEqualTo(chapter.id).findAllSync();
 
         if (!downloaded(modelChapDownload.firstOrNull?.isDownload ?? false)) {
           return false;

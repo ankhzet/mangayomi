@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
@@ -11,6 +12,7 @@ import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
 import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/more/settings/track/providers/track_providers.dart';
 import 'package:mangayomi/utils/chapter_recognition.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
@@ -122,14 +124,18 @@ class ReaderController extends _$ReaderController with WithSettings {
     if (incognitoMode) return;
 
     final lastRead = DateTime.now().millisecondsSinceEpoch;
+    final notifier = ref.read(synchingProvider(syncId: 1).notifier);
 
     isar.writeTxnSync(() {
       isar.mangas.putSync(
         manga..lastRead = lastRead,
       );
+
+      notifier.addChangedPart(ActionType.updateItem, manga.id, manga.toJson(), false);
     });
 
-    History history = (isar.historys.filter().mangaIdEqualTo(mangaId).findFirstSync() ??
+    final found = isar.historys.filter().mangaIdEqualTo(mangaId).findFirstSync();
+    final history = (found ??
         History(
           mangaId: mangaId,
           date: lastRead.toString(),
@@ -143,6 +149,12 @@ class ReaderController extends _$ReaderController with WithSettings {
     isar.writeTxnSync(() {
       isar.historys.putSync(history);
       history.chapter.saveSync();
+
+      if (found == null) {
+        notifier.addChangedPart(ActionType.addHistory, null, history.toJson(), false);
+      } else {
+        notifier.addChangedPart(ActionType.updateHistory, history.id, history.toJson(), false);
+      }
     });
   }
 
@@ -154,6 +166,9 @@ class ReaderController extends _$ReaderController with WithSettings {
     isar.writeTxnSync(() {
       chapter.isBookmarked = !isBookmarked;
       isar.chapters.putSync(chapter);
+      ref
+          .read(synchingProvider(syncId: 1).notifier)
+          .addChangedPart(ActionType.updateChapter, chapter.id, chapter.toJson(), false);
     });
   }
 
@@ -314,12 +329,13 @@ class ReaderController extends _$ReaderController with WithSettings {
         ];
     }
 
-    final chap = chapter;
-
     isar.writeTxnSync(() {
-      chap.isRead = isRead;
-      chap.lastPageRead = isRead ? '1' : (newIndex + 1).toString();
-      isar.chapters.putSync(chap);
+      chapter.isRead = isRead;
+      chapter.lastPageRead = isRead ? '1' : (newIndex + 1).toString();
+      isar.chapters.putSync(chapter);
+      ref
+          .read(synchingProvider(syncId: 1).notifier)
+          .addChangedPart(ActionType.updateChapter, chapter.id, chapter.toJson(), false);
     });
 
     if (isRead) {

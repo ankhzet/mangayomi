@@ -9,12 +9,14 @@ import 'package:mangayomi/services/get_chapter_pages.dart';
 import 'package:mangayomi/utils/date.dart';
 
 class MangaReaderView extends ConsumerWidget {
-  final Chapter chapter;
+  final int chapterId;
 
   const MangaReaderView({
     super.key,
-    required this.chapter,
+    required this.chapterId,
   });
+
+  late final Chapter chapter = isar.chapters.getSync(chapterId)!;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -82,5 +84,65 @@ class MangaReaderView extends ConsumerWidget {
       ),
       body: body,
     );
+  }
+}
+
+class _CustomValueIndicatorShape extends SliderComponentShape {
+  final _indicatorShape = const PaddleSliderValueIndicatorShape();
+  final bool tranform;
+
+  const _CustomValueIndicatorShape({this.tranform = false});
+
+  @override
+  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
+    return const Size(40, 40);
+  }
+
+  @override
+  void paint(PaintingContext context, Offset center,
+      {required Animation<double> activationAnimation,
+      required Animation<double> enableAnimation,
+      required bool isDiscrete,
+      required TextPainter labelPainter,
+      required RenderBox parentBox,
+      required SliderThemeData sliderTheme,
+      required TextDirection textDirection,
+      required double value,
+      required double textScaleFactor,
+      required Size sizeWithOverflow}) {
+    final textSpan = TextSpan(
+      text: labelPainter.text?.toPlainText(),
+      style: sliderTheme.valueIndicatorTextStyle,
+    );
+
+    final textPainter = TextPainter(
+      text: textSpan,
+      textAlign: labelPainter.textAlign,
+      textDirection: textDirection,
+    );
+
+    textPainter.layout();
+
+    context.canvas.save();
+    context.canvas.translate(center.dx, center.dy);
+    context.canvas.scale(tranform ? -1.0 : 1.0, 1.0);
+    context.canvas.translate(-center.dx, -center.dy);
+
+    _indicatorShape.paint(
+      context,
+      center,
+      activationAnimation: activationAnimation,
+      enableAnimation: enableAnimation,
+      labelPainter: textPainter,
+      parentBox: parentBox,
+      sliderTheme: sliderTheme,
+      value: value,
+      textScaleFactor: textScaleFactor,
+      sizeWithOverflow: sizeWithOverflow,
+      isDiscrete: isDiscrete,
+      textDirection: textDirection,
+    );
+
+    context.canvas.restore();
   }
 }

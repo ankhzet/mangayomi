@@ -22,6 +22,9 @@ import 'package:mangayomi/modules/more/settings/appearance/providers/blend_level
 import 'package:mangayomi/modules/more/settings/appearance/providers/flex_scheme_color_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/pure_black_dark_mode_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/theme_mode_state_provider.dart';
+import 'package:mangayomi/modules/more/settings/browse/providers/browse_state_provider.dart';
+import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -53,14 +56,16 @@ void doRestore(Ref ref, {required String path, required BuildContext context}) {
 }
 
 @riverpod
-void restoreBackup(Ref ref, Map<String, dynamic> backup) {
+void restoreBackup(Ref ref, Map<String, dynamic> backup, {bool full = true}) {
   final version = backup['version'];
   if (["1", "2"].any((e) => e == version)) {
     try {
       final manga =
           (backup["manga"] as List?)?.map((e) => Manga.fromJson(e)..itemType = _convertToItemType(e)).toList();
       final chapters = (backup["chapters"] as List?)?.map((e) => Chapter.fromJson(e)).toList();
-      final categories = (backup["categories"] as List?)?.map((e) => Category.fromJson(e)).toList();
+      final categories = (backup["categories"] as List?)
+          ?.map((e) => Category.fromJson(e)..forItemType = _convertToItemTypeCategory(e))
+          .toList();
       final track =
           (backup["tracks"] as List?)?.map((e) => Track.fromJson(e)..itemType = _convertToItemType(e)).toList();
       final trackPreferences = (backup["trackPreferences"] as List?)?.map((e) => TrackPreference.fromJson(e)).toList();
@@ -88,13 +93,15 @@ void restoreBackup(Ref ref, Map<String, dynamic> backup) {
               }
             }
 
-            isar.downloads.clearSync();
-            if (downloads != null) {
-              for (var download in downloads) {
-                final chapter = isar.chapters.getSync(download.chapterId!);
-                if (chapter != null) {
-                  isar.downloads.putSync(download..chapter.value = chapter);
-                  download.chapter.saveSync();
+            if (full) {
+              isar.downloads.clearSync();
+              if (downloads != null) {
+                for (var download in downloads) {
+                  final chapter = isar.chapters.getSync(download.id!);
+                  if (chapter != null) {
+                    isar.downloads.putSync(download..chapter.value = chapter);
+                    download.chapter.saveSync();
+                  }
                 }
               }
             }
@@ -136,29 +143,43 @@ void restoreBackup(Ref ref, Map<String, dynamic> backup) {
           isar.tracks.putAllSync(track);
         }
 
-        isar.trackPreferences.clearSync();
-        if (trackPreferences != null) {
-          isar.trackPreferences.putAllSync(trackPreferences);
+        if (full) {
+          isar.trackPreferences.clearSync();
+          if (trackPreferences != null) {
+            isar.trackPreferences.putAllSync(trackPreferences);
+          }
         }
 
-        isar.sources.clearSync();
-        if (extensions != null) {
-          isar.sources.putAllSync(extensions);
+        if (full) {
+          isar.sources.clearSync();
+          if (extensions != null) {
+            isar.sources.putAllSync(extensions);
+          }
         }
 
-        isar.sourcePreferences.clearSync();
-        if (sourcesPrefs != null) {
-          isar.sourcePreferences.putAllSync(sourcesPrefs);
+        if (full) {
+          isar.sourcePreferences.clearSync();
+          if (sourcesPrefs != null) {
+            isar.sourcePreferences.putAllSync(sourcesPrefs);
+          }
+          isar.settings.clearSync();
+          if (settings != null) {
+            isar.settings.putAllSync(settings);
+          }
         }
-        isar.settings.clearSync();
-        if (settings != null) {
-          isar.settings.putAllSync(settings);
+        if (full) {
+          ref.read(synchingProvider(syncId: 1).notifier).clearAllChangedParts(false);
+          ref.invalidate(themeModeStateProvider);
+          ref.invalidate(blendLevelStateProvider);
+          ref.invalidate(flexSchemeColorStateProvider);
+          ref.invalidate(pureBlackDarkModeStateProvider);
+          ref.invalidate(l10nLocaleStateProvider);
+          ref.invalidate(navigationOrderStateProvider);
+          ref.invalidate(hideItemsStateProvider);
+          ref.invalidate(extensionsRepoStateProvider(ItemType.manga));
+          ref.invalidate(extensionsRepoStateProvider(ItemType.anime));
+          ref.invalidate(extensionsRepoStateProvider(ItemType.novel));
         }
-        ref.invalidate(themeModeStateProvider);
-        ref.invalidate(blendLevelStateProvider);
-        ref.invalidate(flexSchemeColorStateProvider);
-        ref.invalidate(pureBlackDarkModeStateProvider);
-        ref.invalidate(l10nLocaleStateProvider);
       });
     } catch (e) {
       rethrow;
@@ -173,6 +194,15 @@ ItemType _convertToItemType(Map<String, dynamic> backup) {
   return isManga == null
       ? ItemType.values[backup['itemType'] ?? 0]
       : isManga
+          ? ItemType.manga
+          : ItemType.anime;
+}
+
+ItemType _convertToItemTypeCategory(Map<String, dynamic> backup) {
+  final forManga = backup['forManga'];
+  return forManga == null
+      ? ItemType.values[backup['forItemType'] ?? 0]
+      : forManga
           ? ItemType.manga
           : ItemType.anime;
 }

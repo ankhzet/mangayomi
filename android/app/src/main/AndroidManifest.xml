@@ -29,6 +29,12 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <intent-filter android:label="Add source repository">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="mangayomi" android:host="add-repo" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.linusu.flutter_web_auth_2.CallbackActivity"
@@ -45,8 +51,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <meta-data
-              android:name="io.flutter.embedding.android.EnableImpeller"
-              android:value="false" />
+        <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
     </application>
 </manifest>

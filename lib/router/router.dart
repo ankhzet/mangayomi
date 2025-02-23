@@ -32,9 +32,14 @@ import 'package:mangayomi/modules/more/data_and_storage/data_and_storage.dart';
 import 'package:mangayomi/modules/more/download_queue/download_queue_screen.dart';
 import 'package:mangayomi/modules/more/more_screen.dart';
 import 'package:mangayomi/modules/more/settings/appearance/appearance_screen.dart';
+import 'package:mangayomi/modules/more/settings/appearance/custom_navigation_settings.dart';
 import 'package:mangayomi/modules/more/settings/browse/browse_screen.dart';
+import 'package:mangayomi/modules/more/settings/browse/source_repositories.dart';
+import 'package:mangayomi/modules/more/settings/downloads/downloads_screen.dart';
 import 'package:mangayomi/modules/more/settings/downloads/downloads_screen.dart';
 import 'package:mangayomi/modules/more/settings/general/general_screen.dart';
+import 'package:mangayomi/modules/more/settings/player/player_screen.dart';
+import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/player/player_screen.dart';
 import 'package:mangayomi/modules/more/settings/reader/reader_screen.dart';
 import 'package:mangayomi/modules/more/settings/settings_screen.dart';
@@ -54,15 +59,17 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 @riverpod
 GoRouter router(Ref ref) {
   final router = RouterNotifier();
+  final initLocation = ref.watch(navigationOrderStateProvider).first;
 
   return GoRouter(
     observers: [BotToastNavigatorObserver()],
-    initialLocation: '/MangaLibrary',
+    initialLocation: initLocation,
     debugLogDiagnostics: kDebugMode,
     refreshListenable: router,
     routes: router._routes,
     navigatorKey: navigatorKey,
     extraCodec: const ExtraCodec(),
+    onException: (context, state, router) => router.go(initLocation),
   );
 }
 
@@ -208,17 +215,17 @@ class RouterNotifier extends ChangeNotifier {
           path: "/mangaReaderView",
           name: "mangaReaderView",
           builder: (context, state) {
-            final chapter = state.extra as Chapter;
+            final chapterId = state.extra as int;
             return MangaReaderView(
-              chapter: chapter,
+              chapterId: chapterId,
             );
           },
           pageBuilder: (context, state) {
-            final chapter = state.extra as Chapter;
+            final chapterId = state.extra as int;
             return transitionPage(
               key: state.pageKey,
               child: MangaReaderView(
-                chapter: chapter,
+                chapterId: chapterId,
               ),
             );
           },
@@ -227,17 +234,17 @@ class RouterNotifier extends ChangeNotifier {
           path: "/animePlayerView",
           name: "animePlayerView",
           builder: (context, state) {
-            final episode = state.extra as Chapter;
+            final episodeId = state.extra as int;
             return AnimePlayerView(
-              episode: episode,
+              episodeId: episodeId,
             );
           },
           pageBuilder: (context, state) {
-            final episode = state.extra as Chapter;
+            final episodeId = state.extra as int;
             return transitionPage(
               key: state.pageKey,
               child: AnimePlayerView(
-                episode: episode,
+                episodeId: episodeId,
               ),
             );
           },
@@ -246,17 +253,17 @@ class RouterNotifier extends ChangeNotifier {
           path: "/novelReaderView",
           name: "novelReaderView",
           builder: (context, state) {
-            final chapter = state.extra as Chapter;
+            final chapterId = state.extra as int;
             return NovelReaderView(
-              chapter: chapter,
+              chapterId: chapterId,
             );
           },
           pageBuilder: (context, state) {
-            final chapter = state.extra as Chapter;
+            final chapterId = state.extra as int;
             return transitionPage(
               key: state.pageKey,
               child: NovelReaderView(
-                chapter: chapter,
+                chapterId: chapterId,
               ),
             );
           },
@@ -493,6 +500,25 @@ class RouterNotifier extends ChangeNotifier {
           },
         ),
         GoRoute(
+          path: "/SourceRepositories",
+          name: "SourceRepositories",
+          builder: (context, state) {
+            final itemType = state.extra as ItemType;
+            return SourceRepositories(
+              itemType: itemType,
+            );
+          },
+          pageBuilder: (context, state) {
+            final itemType = state.extra as ItemType;
+            return transitionPage(
+              key: state.pageKey,
+              child: SourceRepositories(
+                itemType: itemType,
+              ),
+            );
+          },
+        ),
+        GoRoute(
           path: "/downloads",
           name: "downloads",
           builder: (context, state) {
@@ -597,6 +623,19 @@ class RouterNotifier extends ChangeNotifier {
             return transitionPage(
               key: state.pageKey,
               child: const CreateBackup(),
+            );
+          },
+        ),
+        GoRoute(
+          path: "/customNavigationSettings",
+          name: "customNavigationSettings",
+          builder: (context, state) {
+            return const CustomNavigationSettings();
+          },
+          pageBuilder: (context, state) {
+            return transitionPage(
+              key: state.pageKey,
+              child: const CustomNavigationSettings(),
             );
           },
         ),

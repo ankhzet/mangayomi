@@ -1,6 +1,7 @@
 import 'package:isar/isar.dart';
 import 'package:mangayomi/eval/model/m_source.dart';
 import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/settings.dart';
 
 part 'source.g.dart';
 
@@ -67,6 +68,8 @@ class Source {
   @enumerated
   SourceCodeLanguage sourceCodeLanguage = SourceCodeLanguage.dart;
 
+  Repo? repo;
+
   Source(
       {this.id = 0,
       this.name = '',
@@ -95,7 +98,8 @@ class Source {
       this.appMinVerReqLast = "",
       this.additionalParams = "",
       this.isLocal = false,
-      this.isObsolete = false});
+      this.isObsolete = false,
+      this.repo});
 
   Source.fromJson(Map<String, dynamic> json) {
     apiUrl = json['apiUrl'];
@@ -127,6 +131,7 @@ class Source {
     isObsolete = json['isObsolete'];
     isLocal = json['isLocal'];
     sourceCodeLanguage = SourceCodeLanguage.values[json['sourceCodeLanguage'] ?? 0];
+    repo = json['repo'] != null ? Repo.fromJson(json['repo']) : null;
   }
 
   Map<String, dynamic> toJson() => {
@@ -158,7 +163,8 @@ class Source {
         'additionalParams': additionalParams,
         'sourceCodeLanguage': sourceCodeLanguage.index,
         'isObsolete': isObsolete,
-        'isLocal': isLocal
+        'isLocal': isLocal,
+        'repo': repo?.toJson()
       };
 
   bool get isTorrent => (typeSource?.toLowerCase() ?? "") == "torrent";

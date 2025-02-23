@@ -23,6 +23,7 @@ import 'package:mangayomi/modules/manga/detail/widgets/manga_chapters_menu.dart'
 import 'package:mangayomi/modules/manga/detail/widgets/manga_cover_backdrop.dart';
 import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/widgets/error_text.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
@@ -245,11 +246,14 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                               shadowColor: Colors.transparent,
                             ),
                             onPressed: () {
+                              final notifier = ref.read(synchingProvider(syncId: 1).notifier);
+
                               isar.writeTxnSync(() {
                                 for (final chapter in selection) {
                                   chapter.isBookmarked = !chapter.isBookmarked!;
                                   isar.chapters.putSync(chapter..manga.value = widget.manga);
                                   chapter.manga.saveSync();
+                                  notifier.addChangedPart(ActionType.updateChapter, chapter.id, chapter.toJson(), false);
                                 }
                               });
                               _unselect(ref);
@@ -270,6 +274,8 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                             ),
                             onPressed: () {
                               final chapters = ref.watch(chaptersListStateProvider);
+                              final notifier = ref.read(synchingProvider(syncId: 1).notifier);
+
                               isar.writeTxnSync(() {
                                 for (var chapter in chapters) {
                                   chapter.isRead = !chapter.isRead!;
@@ -281,6 +287,8 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                   if (chapter.isRead!) {
                                     chapter.updateTrackChapterRead(ref);
                                   }
+
+                                  notifier.addChangedPart(ActionType.updateChapter, chapter.id, chapter.toJson(), false);
                                 }
                               });
                               _unselect(ref);
@@ -324,6 +332,17 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
 
                                   isar.writeTxnSync(() {
                                     isar.chapters.putAllSync(updated);
+
+                                    final notifier = ref.read(synchingProvider(syncId: 1).notifier);
+
+                                    for (final chapter in updated) {
+                                      notifier.addChangedPart(
+                                          ActionType.updateChapter,
+                                          chapter.id,
+                                          chapter.toJson(),
+                                          false
+                                      );
+                                    }
                                   });
                                 }
                               },
@@ -359,11 +378,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                               onPressed: () {
                                 isar.txnSync(() {
                                   for (var chapter in ref.watch(chaptersListStateProvider)) {
-                                    final entries = isar.downloads
-                                        .filter()
-                                        .idIsNotNull()
-                                        .chapterIdEqualTo(chapter.id)
-                                        .findAllSync();
+                                    final entries = isar.downloads.filter().idEqualTo(chapter.id).findAllSync();
                                     if (entries.isEmpty || !entries.first.isDownload!) {
                                       ref.watch(downloadChapterProvider(chapter: chapter));
                                     }

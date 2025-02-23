@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -558,6 +560,9 @@ class MangasSetIsReadState extends _$MangasSetIsReadState {
             chapter.lastPageRead = "1";
             isar.chapters.putSync(chapter..manga.value = manga);
             chapter.manga.saveSync();
+            ref
+                .read(synchingProvider(syncId: 1).notifier)
+                .addChangedPart(ActionType.updateChapter, chapter.id, chapter.toJson(), false);
           }
         });
       }
@@ -582,6 +587,9 @@ class MangasSetUnReadState extends _$MangasSetUnReadState {
           chapter.isRead = false;
           isar.chapters.putSync(chapter..manga.value = manga);
           chapter.manga.saveSync();
+          ref
+              .read(synchingProvider(syncId: 1).notifier)
+              .addChangedPart(ActionType.updateChapter, chapter.id, chapter.toJson(), false);
         }
       });
     }

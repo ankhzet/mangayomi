@@ -5,9 +5,11 @@ import 'package:mangayomi/eval/lib.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/eval/model/m_manga.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/update.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/services/get_detail.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:mangayomi/utils/utils.dart';
@@ -134,16 +136,29 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
       for (var old in oldChapters) {
         if (null == mapped.firstWhereOrNull((item) => old.isSame(item))) {
           deleted.add(old);
+          chapters.remove(old);
         }
       }
     }
 
+    final notifier = ref.read(synchingProvider(syncId: 1).notifier);
+
     isar.writeTxnSync(() {
       isar.mangas.putSync(manga);
+      notifier.addChangedPart(ActionType.updateItem, manga.id, manga.toJson(), false);
 
       if (deleted.isNotEmpty) {
-        isar.updates.filter().chapter((q) => q.anyOf(deleted, (q, c) => q.idEqualTo(c.id!))).deleteAllSync();
+        final updatesToDelete = isar.updates.filter().chapter((q) => q.anyOf(deleted, (q, c) => q.idEqualTo(c.id!))).findAllSync();
+        isar.updates.deleteAllSync(updatesToDelete.map((update) => update.id!).toList());
         isar.chapters.deleteAllSync(deleted.mapToList((c) => c.id!));
+
+        for (final chapter in deleted) {
+          notifier.addChangedPart(ActionType.removeChapter, chapter.id, chapter.toJson(), false);
+        }
+
+        for (final update in updatesToDelete) {
+          notifier.addChangedPart(ActionType.removeUpdate, update.id, update.toJson(), false);
+        }
       }
 
       if (chapters.isEmpty) {
@@ -157,19 +172,28 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
         final List<Update> updateBacklog = [];
 
         for (var chap in chapters.toList()) {
-          if (deleted.contains(chap) || !added.contains(chap) || (chap.isRead ?? false)) {
+          if (deleted.contains(chap) || (chap.isRead ?? false)) {
             continue;
           }
 
-          final update = Update(
-            mangaId: mangaId,
-            chapterName: chap.name,
-            date: timeString,
-          )..chapter.value = chap;
-          updateBacklog.add(update);
+          if (added.contains(chap)) {
+            final update = Update(
+              mangaId: mangaId,
+              chapterName: chap.name,
+              date: timeString,
+            )..chapter.value = chap;
+            updateBacklog.add(update);
+          } else {
+            notifier.addChangedPart(ActionType.updateChapter, chap.id, chap.toJson(), false);
+          }
         }
 
         isar.updates.putAllSync(updateBacklog);
+
+        for (final update in updateBacklog) {
+          notifier.addChangedPart(ActionType.addChapter, update.chapter.value!.id!, update.chapter.value!.toJson(), false);
+          notifier.addChangedPart(ActionType.addUpdate, update.id, update.toJson(), false);
+        }
       }
     });
   } catch (e, trace) {

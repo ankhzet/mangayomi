@@ -5,9 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/eval/lib.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/modules/more/settings/browse/providers/browse_state_provider.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -15,17 +18,20 @@ import 'package:package_info_plus/package_info_plus.dart';
 Future<void> fetchSourcesList({
   int? id,
   required bool refresh,
-  required String sourcesIndexUrl,
   required Ref ref,
   required ItemType itemType,
+  required Repo? repo,
 }) async {
   final http = MClient.init(reqcopyWith: {'useDartHttpClient': true});
-  final req = await http.get(Uri.parse(sourcesIndexUrl));
+  final url = repo?.jsonUrl;
+  if (url == null) return;
+
+  final req = await http.get(Uri.parse(url));
 
   final version = (await PackageInfo.fromPlatform()).version;
   final sourceList =
       (jsonDecode(req.body) as List).map((e) => Source.fromJson(e)).where((source) => source.itemType == itemType);
-  
+
   bool isSupported(Source source) {
     return (source.appMinVerReq != null) && (compareVersions(version, source.appMinVerReq!) > -1);
   }
@@ -34,7 +40,7 @@ Future<void> fetchSourcesList({
   //   throw AssertionError('No extensions that support current app version ($version)');
   // }
 
-  final copy = copyTo(itemType);
+  final copy = copyTo(itemType, repo);
   final updated = <Source>[];
 
   if (id != null) {
@@ -94,11 +100,63 @@ Future<void> fetchSourcesList({
       isar.sources.putAllSync(updated);
     });
 
-    checkIfSourceIsObsolete(sourceList, itemType);
+    final notifier = ref.read(synchingProvider(syncId: 1).notifier);
+
+    for (final source in updated) {
+      notifier.addChangedPart(ActionType.updateExtension, source.id, source.toJson(), false);
+    }
+
+    checkIfSourceIsObsolete(sourceList, itemType, url, ref);
   }
 }
 
-Source Function(Source to, Source from) copyTo(ItemType itemType) {
+void checkIfSourceIsObsolete(
+    Iterable<Source> sourceList,
+    ItemType itemType,
+    String repoUrl,
+    Ref ref,
+) {
+  final ids = sourceList.map((e) => e.id).whereType<int>();
+
+  if (ids.isEmpty) {
+    return;
+  }
+
+  final sources = isar.sources
+  //
+      .filter()
+      .idIsNotNull()
+      .itemTypeEqualTo(itemType)
+      .and()
+      .not()
+      .isLocalEqualTo(true)
+      .findAllSync();
+  final updated = <Source>[];
+
+  for (var source in sources) {
+    final isSameRepo = source.repo?.jsonUrl == repoUrl;
+    final isObsolete = isSameRepo && (!ids.contains(source.id));
+    final isUpdated = source.isObsolete != isObsolete;
+
+    if (isUpdated) {
+      updated.add(source..isObsolete = isObsolete);
+    }
+  }
+
+  if (updated.isNotEmpty) {
+    isar.writeTxnSync(() {
+      isar.sources.putAllSync(updated, saveLinks: true);
+    });
+
+    final notifier = ref.read(synchingProvider(syncId: 1).notifier);
+
+    for (final source in updated) {
+      notifier.addChangedPart(ActionType.updateExtension, source.id, source.toJson(), false);
+    }
+  }
+}
+
+Source Function(Source to, Source from) copyTo(ItemType itemType, Repo? repo) {
   return (Source to, Source from) => to
     ..isAdded = true
     ..itemType = itemType
@@ -121,54 +179,8 @@ Source Function(Source to, Source from) copyTo(ItemType itemType) {
     ..appMinVerReq = from.appMinVerReq
     ..sourceCodeLanguage = from.sourceCodeLanguage
     ..additionalParams = from.additionalParams ?? ""
-    ..isObsolete = false;
-}
-
-void checkIfSourceIsObsolete(Iterable<Source> sourceList, ItemType itemType) {
-  final ids = sourceList.map((e) => e.id).whereType<int>();
-  bool check = false;
-
-  if (ids.isNotEmpty) {
-    final sources = isar.sources
-        //
-        .filter()
-        .idIsNotNull()
-        .itemTypeEqualTo(itemType)
-        .and()
-        .not()
-        .isLocalEqualTo(true)
-        .findAllSync();
-    final updated = <Source>[];
-
-    for (var source in sources) {
-      final isObsolete = !ids.contains(source.id);
-      final isUpdated = source.isObsolete != isObsolete;
-
-      if (isUpdated) {
-        updated.add(source..isObsolete = isObsolete);
-
-        if (isObsolete) {
-          check = true;
-        }
-      }
-    }
-
-    if (updated.isNotEmpty) {
-      isar.writeTxnSync(() {
-        isar.sources.putAllSync(updated, saveLinks: true);
-      });
-    }
-  }
-
-  if (check) {
-    removeNsfwObsoleteSources();
-  }
-}
-
-void removeNsfwObsoleteSources() {
-  isar.writeTxnSync(() {
-    isar.sources.filter().idIsNotNull().isNsfwEqualTo(true).isObsoleteEqualTo(true).deleteAllSync();
-  });
+    ..isObsolete = false
+    ..repo = repo;
 }
 
 int compareVersions(String version1, String version2) {

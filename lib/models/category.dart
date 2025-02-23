@@ -15,7 +15,6 @@ class Category {
   Category({
     this.id = Isar.autoIncrement,
     required this.name,
-    this.forManga = true,
     required this.forItemType,
   });
 
@@ -35,5 +34,9 @@ class Category {
         : ItemType.manga;
   }
 
-  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'forItemType': forItemType.index};
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'forItemType': forItemType.index,
+      };
 }

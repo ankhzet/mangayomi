@@ -1,5 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -372,7 +373,11 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
                       Padding(
                         padding: (
                             // Add padding in fullscreen!
-                            isFullscreen(context) ? MediaQuery.of(context).padding : EdgeInsets.zero),
+                            isFullscreen(context)
+                                ? MediaQuery.of(context).padding
+                                : Platform.isIOS
+                                    ? EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom)
+                                    : EdgeInsets.zero),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.start,

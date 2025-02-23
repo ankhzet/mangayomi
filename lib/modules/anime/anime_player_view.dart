@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riv;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/video.dart' as vid;
 import 'package:mangayomi/modules/anime/providers/anime_player_controller_provider.dart';
@@ -33,15 +34,16 @@ import 'package:path_provider/path_provider.dart';
 bool _isDesktop = Platform.isMacOS || Platform.isLinux || Platform.isWindows;
 
 class AnimePlayerView extends riv.ConsumerStatefulWidget {
-  final Chapter episode;
+  final int episodeId;
 
-  const AnimePlayerView({super.key, required this.episode});
+  const AnimePlayerView({super.key, required this.episodeId});
 
   @override
   riv.ConsumerState<AnimePlayerView> createState() => _AnimePlayerViewState();
 }
 
 class _AnimePlayerViewState extends riv.ConsumerState<AnimePlayerView> {
+  late final Chapter episode = isar.chapters.getSync(widget.episodeId)!;
   List<String> _infoHashList = [];
   bool desktopFullScreenPlayer = false;
 
@@ -67,13 +69,13 @@ class _AnimePlayerViewState extends riv.ConsumerState<AnimePlayerView> {
 
   @override
   Widget build(BuildContext context) {
-    final serversData = ref.watch(getVideoListProvider(episode: widget.episode));
+    final serversData = ref.watch(getVideoListProvider(episode: episode));
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     return serversData.when(
       data: (data) {
         final (videos, isLocal, infoHashList) = data;
         _infoHashList = infoHashList;
-        if (videos.isEmpty && !(widget.episode.manga.value!.isLocalArchive ?? false)) {
+        if (videos.isEmpty && !(episode.manga.value!.isLocalArchive ?? false)) {
           return Scaffold(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             appBar: AppBar(
@@ -91,7 +93,7 @@ class _AnimePlayerViewState extends riv.ConsumerState<AnimePlayerView> {
         }
 
         return AnimeStreamPage(
-            episode: widget.episode,
+            episode: episode,
             videos: videos,
             isLocal: isLocal,
             isTorrent: infoHashList.isNotEmpty,

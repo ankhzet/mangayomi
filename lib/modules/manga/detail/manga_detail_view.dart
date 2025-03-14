@@ -207,7 +207,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                       return ChapterListTileWidget(
                                         manga: manga,
                                         group: group,
-                                        isSelected: chaptersSelection.contains(group.items.firstOrNull),
+                                        isSelected: chaptersSelection.contains(group.state.firstOrNull),
                                         sourceExist: widget.sourceExist,
                                       );
                                     });

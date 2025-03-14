@@ -11,10 +11,9 @@ import 'package:mangayomi/utils/date.dart';
 
 class MangaReaderView extends ConsumerWidget {
   final int chapterId;
+  late final Chapter chapter = isar.chapters.getSync(chapterId)!;
 
   MangaReaderView({super.key, required this.chapterId});
-
-  late final Chapter chapter = isar.chapters.getSync(chapterId)!;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,7 +24,7 @@ class MangaReaderView extends ConsumerWidget {
       return chapterData.when(
         data: (data) {
           if (isExternalSource && data.pageUrls.isEmpty) {
-            throw AssertionError('Failed to load');
+            throw AssertionError('Failed to load chapter pages');
           }
 
           return MangaChapterPageGallery(chapter: chapter, chapterUrlModel: data);
@@ -69,7 +68,7 @@ class MangaReaderView extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: Text(chapter.manga.value!.name ?? 'Loading error'),
+        title: Text(chapter.manga.value!.name ?? '-'),
         leading: BackButton(
           onPressed: () {
             if (systemUI) {

@@ -75,6 +75,7 @@ Stream<Iterable<MangaPeriodicity>> updatePeriodicity(
         periodicity.where((item) => !ids.contains(item.manga.id)).followedBy(updated).sorted(comparePeriodicity);
     periodicity = spliced;
 
+    print('emit periodicity');
     return periodicity;
   });
 }

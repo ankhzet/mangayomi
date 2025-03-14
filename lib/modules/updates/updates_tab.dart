@@ -47,6 +47,8 @@ class _UpdatesTabState extends ConsumerState<UpdatesTab> {
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
 
+    print('updates redraw');
+
     return CustomScrollView(
       slivers: [
         entries.isEmpty ? Center(child: Text(l10n.no_recent_updates)) : _updates(),

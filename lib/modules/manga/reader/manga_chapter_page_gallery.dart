@@ -123,12 +123,13 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
   late bool _isBookmarked = _readerController.getChapterBookmarked();
 
   final _currentReaderMode = StateProvider<ReaderMode?>((ref) => null);
-  PageMode? _pageMode;
-  bool _isView = false;
-  Alignment _scalePosition = Alignment.center;
   final PhotoViewController _photoViewController = PhotoViewController();
   final PhotoViewScaleStateController _photoViewScaleStateController = PhotoViewScaleStateController();
   final List<int> _cropBorderCheckList = [];
+
+  PageMode? _pageMode;
+  bool _isView = false;
+  Alignment _scalePosition = Alignment.center;
 
   void _onScaleEnd(BuildContext context, ScaleEndDetails details, PhotoViewControllerValue controllerValue) {
     if (controllerValue.scale! < 1) {
@@ -471,14 +472,6 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     return null;
   }
 
-  Future<void> _precacheImages(int index) async {
-    final task = _getPreloadTask(index);
-
-    if (task != null) {
-      await precacheImage(task.getImageProvider(ref, false), context);
-    }
-  }
-
   Duration? _doubleTapAnimationDuration() {
     int doubleTapAnimationValue = isar.settings.first.doubleTapAnimationSpeed!;
     if (doubleTapAnimationValue == 0) {
@@ -557,8 +550,15 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     }
   }
 
+  Future<void> _precacheImages(int index) async {
+    final task = _getPreloadTask(index);
+
+    if (task != null) {
+      await precacheImage(task.getImageProvider(ref, false), context);
+    }
+  }
+
   void _initCurrentIndex() async {
-    final readerMode = _readerController.getReaderMode();
     _uChapDataPreload.addAll(_chapterUrlModel.preloadTasks);
     _readerController.setMangaHistoryUpdate();
     await Future.delayed(const Duration(milliseconds: 1));
@@ -570,6 +570,8 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
         SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
       }
     }
+
+    final readerMode = _readerController.getReaderMode();
     ref.read(_currentReaderMode.notifier).state = readerMode;
     if (mounted) {
       setState(() {
@@ -702,11 +704,9 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
   void _setReaderMode(ReaderMode value, WidgetRef ref) async {
     if (value != ReaderMode.verticalContinuous && value != ReaderMode.webtoon) {
       _autoScroll.value = false;
-    } else {
-      if (_autoScrollPage.value) {
-        _autoPageScroll();
-        _autoScroll.value = true;
-      }
+    } else if (_autoScrollPage.value) {
+      _autoPageScroll();
+      _autoScroll.value = true;
     }
 
     _failedToLoadImage.value = false;
@@ -731,12 +731,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
     } else if (value == ReaderMode.ltr || value == ReaderMode.rtl) {
       if (mounted) {
         setState(() {
-          if (value == ReaderMode.rtl) {
-            _isReverseHorizontal = true;
-          } else {
-            _isReverseHorizontal = false;
-          }
-
+          _isReverseHorizontal = value == ReaderMode.rtl;
           _scrollDirection = Axis.horizontal;
         });
       }
@@ -767,6 +762,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
       ref.watch(cropBordersProvider(data: _uChapDataPreload[index], cropBorder: true).future).then((value) {
         _uChapDataPreload[index] = _uChapDataPreload[index]..cropImage = value;
       });
+
       if (mounted) {
         setState(() {});
       }
@@ -1268,7 +1264,7 @@ class _MangaChapterPageGalleryState extends ConsumerState<MangaChapterPageGaller
       tabs: [Tab(text: l10n.reading_mode), Tab(text: l10n.general), Tab(text: l10n.custom_filter)],
       children: [
         Consumer(
-          builder: (context, ref, chil) {
+          builder: (context, ref, _) {
             final readerMode = ref.watch(_currentReaderMode);
             final usePageTapZones = ref.watch(usePageTapZonesStateProvider);
             final cropBorders = ref.watch(cropBordersStateProvider);

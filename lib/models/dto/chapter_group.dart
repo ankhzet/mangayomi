@@ -6,9 +6,7 @@ import 'package:mangayomi/utils/extensions/others.dart';
 bool isRead(Chapter chapter) => chapter.isRead ?? false;
 
 class ChapterGroup<T> extends Group<Chapter, T> {
-  Manga manga;
-
-  ChapterGroup(super.items, super.group) : manga = items.first.manga.value!;
+  ChapterGroup(super.state, super.group);
 
   static T groupBy<T>(ChapterGroup<T> element) => element.group;
 
@@ -21,11 +19,12 @@ class ChapterGroup<T> extends Group<Chapter, T> {
     );
   }
 
+  late Manga manga = state.first.manga.value!;
   int get mangaId => manga.id;
 
   @override
   String get label {
-    final List<ChapterCompositeNumber> indexes = items.mapToList((chapter) => chapter.compositeOrder);
+    final List<ChapterCompositeNumber> indexes = state.mapToList((chapter) => chapter.compositeOrder);
     final volumes = indexes.map((index) => index.$1).toUnique(growable: false)..sort((a, b) => a - b);
 
     if (volumes.length > 1) {
@@ -47,22 +46,26 @@ class ChapterGroup<T> extends Group<Chapter, T> {
     return 'Ch. ${indexesToStr(indexes.map((index) => index.toDouble()))}';
   }
 
-  late bool isRead = items.every(Chapter.isChapterRead);
-  late bool isAnyRead = items.any(Chapter.isChapterRead);
-  late bool isAnyBookmarked = items.any(Chapter.isChapterBookmarked);
-  late bool hasAnyScanlators = items.any(Chapter.hasChapterScanlators);
-  late DateTime? dateUpload = Chapter.firstUpload(items);
-  late String fullTitle = Chapter.fullTitle(items);
+  bool get isRead => state.every(Chapter.isChapterRead);
+  bool get isAnyRead => state.any(Chapter.isChapterRead);
+  bool get isAnyBookmarked => state.any(Chapter.isChapterBookmarked);
+  bool get hasAnyScanlators => state.any(Chapter.hasChapterScanlators);
+  DateTime? get dateUpload => Chapter.firstUpload(state);
+  String get fullTitle => Chapter.fullTitle(state);
 
-  late Chapter firstOrRead = items.firstWhere(Chapter.isChapterRead, orElse: () => items.first);
-  late Chapter firstOrUnread = items.firstWhere(Chapter.isChapterUnread, orElse: () => items.first);
+  Chapter get firstOrRead => state.firstWhere(Chapter.isChapterRead, orElse: () => state.first);
+  Chapter get firstOrUnread => state.firstWhere(Chapter.isChapterUnread, orElse: () => state.first);
 
   late String scanlators =
-      items.map((chapter) => (chapter.scanlator?.isEmpty ?? true) ? '?' : chapter.scanlator).join(', ');
+      state.map((chapter) => (chapter.scanlator?.isEmpty ?? true) ? '?' : chapter.scanlator).join(', ');
 
   int get lastUpdate => manga.lastUpdate ?? DateTime.fromMicrosecondsSinceEpoch(0).millisecondsSinceEpoch;
 
   int compareTo(ChapterGroup other) => lastUpdate.compareTo(other.lastUpdate);
+
+  void removeByIds(Iterable<int> ids) {
+    state = state.where((item) => !ids.contains(item.id)).toList(growable: false);
+  }
 }
 
 List<(double, double)> groupRanges(List<double> indexes) {

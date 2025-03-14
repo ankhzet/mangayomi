@@ -41,6 +41,8 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> {
         await isar.viewQueueItems.where().anyOf(ids, (q, id) => q.chapterIdEqualTo(id)).deleteAll();
         await isar.chapters.deleteAll(ids);
       });
+
+      update.removeByIds(ids);
     } finally {
       setState(() {
         _isStarted = false;
@@ -59,6 +61,8 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> {
         await isar.historys.where().filter().mangaIdEqualTo(manga.id).deleteAll();
         await isar.chapters.where().filter().mangaIdEqualTo(manga.id).deleteAll();
       });
+
+      update.clear();
     } finally {
       setState(() {
         _isStarted = false;
@@ -68,15 +72,19 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> {
 
   @override
   Widget build(BuildContext context) {
+    if (update.isEmpty) {
+      return Container();
+    }
+
     return StreamBuilder(
       stream: isar.chapters.where().mangaIdEqualTo(manga.id).watch(fireImmediately: true),
       builder: (context, snapshot) {
         final List<Chapter> chapters = snapshot.hasData ? snapshot.data! : [];
         final List<Chapter> duplicates = manga.getDuplicateChapters(all: chapters);
-        final List<Chapter> unread = manga.getUnreadChapters(update.items, all: chapters);
+        final List<Chapter> unread = manga.getUnreadChapters(update.state, all: chapters);
         final List<Chapter> ghosts =
             chapters.where((chapter) => chapter.name == null || chapter.name!.isEmpty).toList();
-        final int readUpdates = update.items.length - unread.length;
+        final int readUpdates = update.state.length - unread.length;
 
         if (duplicates.isEmpty && ghosts.isEmpty && (readUpdates <= 0) && favorite) {
           return Container();
@@ -104,7 +112,7 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> {
                 }
 
                 if (readUpdates > 0) {
-                  _deleteChapters(update.items.where((chapter) => !unread.any((item) => item.id == chapter.id)));
+                  _deleteChapters(update.state.where((chapter) => !unread.any((item) => item.id == chapter.id)));
                 }
               },
               icon: Tooltip(

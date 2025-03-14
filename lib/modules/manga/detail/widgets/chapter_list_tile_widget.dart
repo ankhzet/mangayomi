@@ -43,7 +43,7 @@ class ChapterListTileWidget extends ConsumerWidget {
         textColor: isRead ? textColor : null,
         selectedColor: isRead ? Colors.white.withValues(alpha: 0.3) : Colors.white,
         onLongPress: () {
-          ref.read(chaptersListStateProvider.notifier).updateAll(group.items);
+          ref.read(chaptersListStateProvider.notifier).updateAll(group.state);
 
           if (!isLongPressed) {
             ref.read(isLongPressedStateProvider.notifier).update(true);
@@ -51,7 +51,7 @@ class ChapterListTileWidget extends ConsumerWidget {
         },
         onTap: () async {
           if (isLongPressed) {
-            ref.read(chaptersListStateProvider.notifier).updateAll(group.items);
+            ref.read(chaptersListStateProvider.notifier).updateAll(group.state);
           } else {
             chapter.pushToReaderView(context, ignoreIsRead: true);
           }

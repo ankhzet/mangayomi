@@ -114,7 +114,6 @@ class _MangaActionsMenuState extends ConsumerState<MangaActionsMenu> {
   void _downloadChapters(int value) {
     final chapters = isar.chapters
         .filter()
-        .idIsNotNull()
         .mangaIdEqualTo(mangaId)
         .findAllSync();
     final lastChapterReadIndex = chapters.lastIndexWhere(
@@ -152,7 +151,6 @@ class _MangaActionsMenuState extends ConsumerState<MangaActionsMenu> {
   void _unreadChapters() {
     final unreadChapters = isar.chapters
         .filter()
-        .idIsNotNull()
         .mangaIdEqualTo(mangaId)
         .isReadEqualTo(false)
         .findAllSync();

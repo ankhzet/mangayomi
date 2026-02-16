@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/eval/javascript/http.dart';
 import 'package:mangayomi/eval/lib.dart';
 import 'package:mangayomi/services/http/m_client.dart';
@@ -14,19 +12,25 @@ Map<String, String> headers(
   Ref ref, {
   required String source,
   required String lang,
+  required int? sourceId,
+  String androidProxyServer = "",
 }) {
-  final mSource = getSource(lang, source);
+  final mSource = getSource(lang, source, sourceId);
 
   Map<String, String> headers = {};
 
-  if (mSource != null && mSource.isValid) {
+  if (mSource != null) {
     final fromSource = mSource.headers;
 
     if (fromSource != null && fromSource.isNotEmpty) {
       headers.addAll((jsonDecode(fromSource) as Map).toMapStringString!);
     }
-
-    headers.addAll(getExtensionService(mSource).getHeaders());
+    final service = getExtensionService(mSource, androidProxyServer);
+    try {
+      headers.addAll(service.getHeaders());
+    } finally {
+      service.dispose();
+    }
     headers.addAll(MClient.getCookiesPref(mSource.baseUrl!));
   }
 

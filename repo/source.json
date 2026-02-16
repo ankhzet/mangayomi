@@ -1,0 +1,381 @@
+{
+  "name": "Mangayomi",
+  "identifier": "com.kodjodevf.mangayomi",
+  "headerURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/headers/source_header_default.webp",
+  "website": "https://github.com/kodjodevf/mangayomi",
+  "iconURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/icons/icon_default.webp",
+  "subtitle": "An experience like no other.",
+  "description": "This is the official source for Mangayomi.\n\nFor full details, check the GitHub repository:\nhttps://github.com/kodjodevf/mangayomi",
+  "tintColor": "EF4444",
+  "apps": [
+    {
+      "beta": false,
+      "name": "Mangayomi",
+      "bundleIdentifier": "com.kodjodevf.mangayomi",
+      "developerName": "Moustapha Kodjo Amadou",
+      "subtitle": "Read manga, novels, and watch anime",
+      "version": "0.7.1",
+      "versionDate": "2026-02-02T11:49:10Z",
+      "versionDescription": "",
+      "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.7.1/Mangayomi-v0.7.1-ios.ipa",
+      "localizedDescription": "Mangayomi is an open-source Flutter app for reading manga, novels, and watching anime across multiple platforms.",
+      "iconURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/icons/icon_default.webp",
+      "tintColor": "EF4444",
+      "category": "entertainment",
+      "size": 45081197,
+      "screenshotURLs": [
+        "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/screenshots/image_0_default.webp",
+        "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/screenshots/image_1_default.webp",
+        "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/screenshots/image_2_default.webp"
+      ],
+      "versions": [
+        {
+          "version": "0.7.1",
+          "date": "2026-02-02T11:49:10Z",
+          "localizedDescription": "",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.7.1/Mangayomi-v0.7.1-ios.ipa",
+          "size": 45081197
+        },
+        {
+          "version": "0.7.0",
+          "date": "2026-01-09T10:56:42Z",
+          "localizedDescription": "* Increase isolate pool size to enhance concurrent download capabilities\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.6.95...v0.7.0",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.7.0/Mangayomi-v0.7.0-ios.ipa",
+          "size": 45269466
+        },
+        {
+          "version": "0.6.95",
+          "date": "2026-01-08T13:43:16Z",
+          "localizedDescription": "What's Changed\r\n* Fix \"Show extensions\" Button AND Fix category rearrange bug AND hide ItemType from calendar by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/636\r\n* Add a force landscape mode on mobile by @686udjie in https://github.com/kodjodevf/mangayomi/pull/638\r\n* Fix 637: Importing .epub doesn\u2019t work\r\n* Enhance category management with animation\r\n* Refactor download management with shared isolate pool and optimize concurrent downloads\r\n\r\nNew Contributors\r\n* @686udjie made their first contribution in https://github.com/kodjodevf/mangayomi/pull/638\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.6.90...v0.6.95",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.6.95/Mangayomi-v0.6.95-ios.ipa",
+          "size": 45267048
+        },
+        {
+          "version": "0.6.90",
+          "date": "2025-12-23T18:21:22Z",
+          "localizedDescription": "What's Changed\r\n* Add log switch to about\u2022menu by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/629\r\n* Path optimizations by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/632\r\n* fix: show chanded source preference for mihon source\r\n* Chapter jump fix in vertical continuous mode\r\n* some fixes\r\n\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.6.85...v0.6.90",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.6.90/Mangayomi-v0.6.90-ios.ipa",
+          "size": 45074046
+        },
+        {
+          "version": "0.6.85",
+          "date": "2025-12-10T13:16:58Z",
+          "localizedDescription": "What's Changed\r\n* Integrate MExtensionServer for Android\r\n* Android no longer needs the APKBridge server.\r\n* fix: updated statistics to use async fetch from db by @Whiskas101 in https://github.com/kodjodevf/mangayomi/pull/618\r\n* Add new feature: Always On Top on the anime player view. by @hndrbrm in https://github.com/kodjodevf/mangayomi/pull/614\r\n* AppImage Fix by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/624\r\n* Add default user agent setting\r\n* Refactor reader page view and logic\r\n\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.6.80...v0.6.85",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.6.85/Mangayomi-v0.6.85-ios.ipa",
+          "size": 44541949
+        },
+        {
+          "version": "0.6.80",
+          "date": "2025-11-29T17:29:34Z",
+          "localizedDescription": "\u2022 fix video showing blue blank screen\r\n\r\nWhat's Changed\r\n* Fix: Reverse icon for toggling the Extension. by @hndrbrm in https://github.com/kodjodevf/mangayomi/pull/610\r\n* Various fixes by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/612\r\n* Fix 613 video player showing blue blank screen\r\n* Fix app crash when watching anime\r\n\r\nNew Contributors\r\n* @hndrbrm made their first contribution in https://github.com/kodjodevf/mangayomi/pull/610\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.6.75...v0.6.80",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.6.80/Mangayomi-v0.6.80-ios.ipa",
+          "size": 44514252
+        },
+        {
+          "version": "0.6.75",
+          "date": "2025-11-28T15:29:16Z",
+          "localizedDescription": "What's Changed\r\n* Fix memory leaks in manga reader_view.dart by @Whiskas101 in https://github.com/kodjodevf/mangayomi/pull/605\r\n* Refactor: remove old layout migration code\r\n* Fix 604 can't restore backup on macos \r\n* Refactor: replace await for loop with listen for message handling in isolate\r\n* Fix CF auto resolution not working\r\n\r\nNew Contributors\r\n* @Whiskas101 made their first contribution in https://github.com/kodjodevf/mangayomi/pull/605\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.6.70...v0.6.75",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.6.75/Mangayomi-v0.6.75-ios.ipa",
+          "size": 44506005
+        },
+        {
+          "version": "0.6.70",
+          "date": "2025-11-12T16:11:51Z",
+          "localizedDescription": "* fix: update directory handling for macOS\r\n* fix: enable the use of the logger in the isolated service so that logs are printed in the code editor\r\n* fix: improve layout and styling in entry detail \r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.6.65...v0.6.70",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.6.70/Mangayomi-v0.6.70-ios.ipa",
+          "size": 44362177
+        },
+        {
+          "version": "0.6.65",
+          "date": "2025-11-11T18:59:07Z",
+          "localizedDescription": "* Fix 601 Format Exception: Missing extension byte (at offset 14740452)\r\n* Fix auto backup not working\r\n* Some optimisations\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.6.60...v0.6.65",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.6.65/Mangayomi-v0.6.65-ios.ipa",
+          "size": 44359145
+        },
+        {
+          "version": "0.6.60",
+          "date": "2025-11-09T00:27:00Z",
+          "localizedDescription": "What's Changed\r\n* iOS Workflow fix by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/573\r\n* fixed trakt episode numbers by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/575\r\n* reworked local source by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/574\r\n* added support for LNReader plugins by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/587\r\n* fixed migration sourceId issue by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/594\r\n* Refactor and update dependencies for Isar and Riverpod by @kodjodevf in https://github.com/kodjodevf/mangayomi/pull/596\r\n* Standardize Folder Structure on Windows, Linux, iOS & macOS by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/517\r\n* Some optimisations\r\n\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.6.5...v0.6.60",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.6.60/Mangayomi-v0.6.60-ios.ipa",
+          "size": 44339219
+        },
+        {
+          "version": "0.6.5",
+          "date": "2025-08-29T15:38:32Z",
+          "localizedDescription": "What's Changed\r\n* Show correct version number on Windows by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/542\r\n* re\u2022added full upload and download by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/544\r\n* Fix MAL & Kitsu \"No Cover\" Exception by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/555\r\n* allow to swipe pages even if zoomed in by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/553\r\n* added Anibrain recommendations by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/552\r\n* move history to more screen if hidden by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/549\r\n* added downloaded only mode by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/551\r\n* added quick access to source settings by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/550\r\n* added missing arb entry by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/556\r\n* Refactor select bar widget and unify manga read state logic by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/536\r\n* enhanced mpv player by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/540\r\n* added support for Mihon extensions via ApkBridge by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/559\r\n* fixed local subtitles by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/565\r\n* enhanced calendar by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/564\r\n* added subtitles search by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/560\r\n* added watch order by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/562\r\n* changed from labels to icons by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/566\r\n* added Simkl tracker by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/561\r\n* add option to download online subtitles by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/567\r\n* fixed Trakt refresh token by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/569\r\n* added button link to the apk by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/570\r\n* added option to turn on/off mpv hardware acceleration by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/571\r\n\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.6.35...v0.6.5",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.6.5/Mangayomi-v0.6.5-ios.ipa",
+          "size": 44527742
+        },
+        {
+          "version": "0.6.35",
+          "date": "2025-08-05T14:52:24Z",
+          "localizedDescription": "What's Changed\r\n* Fix versioning and packaging issues for Windows and Linux builds; improve packaging consistency by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/515\r\n* Save lastPageRead before system kills app by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/521\r\n* Fix Exception by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/516\r\n* Use icons from macOS folder for linux builds by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/524\r\n* Properly dispose by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/519\r\n* Enhance Performance of Updates and History Screen by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/525\r\n* Improved UX for Migration, Anime Playback & Navigation by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/520\r\n* added support for local epubs and displaying its images by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/527\r\n* added discord rpc by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/526\r\n* added sync for settings by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/528\r\n* No discordRPC for iOS and Android by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/533\r\n* Reduce file size of AppImage by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/532\r\n* Fix regression: restore fullscreen exit logic on desktop by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/531\r\n* Fix MyAnimeList Token Refresh by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/534\r\n* Update manga to display correct number of unread chapters after marking chapters as read/unread by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/535\r\n* Fix AnyhowException (DiscordRPC) when restoring a backup by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/537\r\n* Added Hindi & Assamese Translations by @itsmechinmoy in https://github.com/kodjodevf/mangayomi/pull/538\r\n\r\nNew Contributors\r\n* @itsmechinmoy made their first contribution in https://github.com/kodjodevf/mangayomi/pull/538\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.6.3...v0.6.35",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.6.35/Mangayomi-v0.6.35-ios.ipa",
+          "size": 59596142
+        },
+        {
+          "version": "0.6.3",
+          "date": "2025-07-09T14:01:54Z",
+          "localizedDescription": "What's Changed\r\n* added option to change hwdec by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/483\r\n* Fixes, Refactors, and Async Improvements by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/484\r\n* Fix Async Transaction Bug and Category Management Issues by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/489\r\n* Create PKGBUILD for Arch linux by @saberr26 in https://github.com/kodjodevf/mangayomi/pull/485\r\n* added two\u2022way\u2022tracking by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/490\r\n* Refactor: Consolidate _openCategory() Methods into Unified Dialog by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/491\r\n* Release file lock by closing InputStream by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/493\r\n* increased protobuf limit to 250 MB by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/494\r\n* Make buttons white for consistency in light mode by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/496\r\n* improved two\u2022way track screen by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/497\r\n* Don't allow zooming by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/502\r\n* adjusted tracker library + bug fixes by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/501\r\n* iOS CBZ import fix by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/503\r\n* \ud83c\udfac Improve Fullscreen Stability & Simplify AniSkip Logic by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/499\r\n* added option to disable merged library navigation by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/504\r\n* reworked sync server by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/506\r\n* Fix \"Read\" and \"Unread\" button [based on PR 506] by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/507\r\n* Fix labels on navigation bar [based on PR 506] by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/508\r\n* Refactor code  by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/509\r\n* Fix menu colors on theme change by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/511\r\n* Fix delete \"Downloaded episodes/chapters\" by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/512\r\n* Add tracker button to localArchive by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/513\r\n* Changed the \"Page preload amount\" Setting to be a Slider by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/510\r\n\r\nNew Contributors\r\n* @saberr26 made their first contribution in https://github.com/kodjodevf/mangayomi/pull/485\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.6.25...v0.6.3",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.6.3/Mangayomi-v0.6.3-ios.ipa",
+          "size": 58376897
+        },
+        {
+          "version": "0.6.25",
+          "date": "2025-06-05T14:39:03Z",
+          "localizedDescription": "What's Changed\r\n* Improve Detail View Categories, Add Update Switch, Fix Navigation Exception by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/477\r\n* fix file path handling\r\n* Fix indexing and path for downloaded chapter images and update padding logic\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.6.2...v0.6.25",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.6.25/Mangayomi-v0.6.25-ios.ipa",
+          "size": 58152040
+        },
+        {
+          "version": "0.6.2",
+          "date": "2025-06-02T11:47:44Z",
+          "localizedDescription": "What's Changed\r\n\u2022 Fix inspector/crash issues & improve UX in extension, player, and UI by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/469\r\n\u2022 Apply System Theme After Backup Restore by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/471\r\n\u2022 Fix [Chapters not marked as finished with vertical continuous](https://github.com/kodjodevf/mangayomi/issues/474)\r\n\u2022 Fix [Leaving an extension in Browse resets to 1st tab](https://github.com/kodjodevf/mangayomi/issues/468)\r\n\u2022 Fix [Grey screen when accessing settings of dart extensions](https://github.com/kodjodevf/mangayomi/issues/467)\r\n\u2022 Fix [\"Cancel\" Button on Update Window Does Nothing](https://github.com/kodjodevf/mangayomi/issues/466)\r\n\u2022 Some optimisations\r\n\r\n\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.6.1...v0.6.2",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.6.2/Mangayomi-v0.6.2-ios.ipa",
+          "size": 58152938
+        },
+        {
+          "version": "0.6.1",
+          "date": "2025-05-30T16:44:51Z",
+          "localizedDescription": "What's Changed\r\n* image path fix by @tanakrit\u2022d in https://github.com/kodjodevf/mangayomi/pull/431\r\n* Apply Correct System Theme After Restart + Localized messages are generated into source by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/432\r\n* Clean up code + Add keyboard shortcut + Fix CBZ Archive by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/436\r\n* Fix 444 + Kitsu detail change + episode/chapter name marquee effect by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/445\r\n* Refactor code, fix AniList/MAL bugs, add local scan (148, 349) by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/446\r\n* added support for epubs by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/449\r\n* migrate to d4rt package by @kodjodevf in https://github.com/kodjodevf/mangayomi/pull/450\r\n* refactor: update AndroidManifest and MainActivity for APK installatio\u2026 by @kodjodevf in https://github.com/kodjodevf/mangayomi/pull/451\r\n* added JSON structure check for repos by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/455\r\n* Improve Video Playback UI & Maintainability by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/457\r\n* Update storage_provider.dart by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/462\r\n* Fix Kitsu by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/463\r\n* Refactor reader view by @kodjodevf in https://github.com/kodjodevf/mangayomi/pull/465\r\n\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.6.0...v0.6.1",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.6.1/Mangayomi-v0.6.1-ios.ipa",
+          "size": 58146501
+        },
+        {
+          "version": "0.6.0",
+          "date": "2025-04-02T13:40:06Z",
+          "localizedDescription": "What's Changed\r\n* added options to migrate sources and clean the database by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/400\r\n* added default subtitle lang + statistics screen by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/409\r\n* Only on wifi (+ ethernet) by @NBA2K1 in https://github.com/kodjodevf/mangayomi/pull/416\r\n* added support for Kotatsu and Mihon backups by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/413\r\n* added option to load own subtitles by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/421\r\n* added follow system theme + screenshot in player view by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/423\r\n* fixed restore archive bug by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/426\r\n* android users now can directly install new updates by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/427\r\n* add ipa signing; integrate repo; add entitlements by @tanakrit\u2022d in https://github.com/kodjodevf/mangayomi/pull/418\r\n* feat: add new localization strings for multiple languages\r\n* improve category\r\n* fix lag when installing extension\r\n* minor fixes\r\n\r\nNew Contributors\r\n* @tanakrit\u2022d made their first contribution in https://github.com/kodjodevf/mangayomi/pull/418\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.5.2...v0.6.0",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.6.0/Mangayomi-v0.6.0-ios.ipa",
+          "size": 58303131
+        },
+        {
+          "version": "0.5.2",
+          "date": "2025-02-23T16:08:37Z",
+          "localizedDescription": "What's Changed\r\n* Update quarkuc extractor  by @yxxyun in https://github.com/kodjodevf/mangayomi/pull/393\r\n* added long press for 2x playback speed by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/396\r\n* fix broken category \r\n* add confirmation dialog for adding repositories\r\n\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.5.1...v0.5.2",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.5.2/Mangayomi-v0.5.2-ios.ipa",
+          "size": 56680831
+        },
+        {
+          "version": "0.5.1",
+          "date": "2025-02-20T14:29:54Z",
+          "localizedDescription": "What's Changed\r\n* added deep links for repo urls by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/379\r\n* enhanced sync feature by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/380\r\n* optimized sync and bug fixes by @Schnitzel5 in https://github.com/kodjodevf/mangayomi/pull/381\r\n\r\n\r\n**Full Changelog**: https://github.com/kodjodevf/mangayomi/compare/v0.5.0...v0.5.1",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.5.1/Mangayomi-v0.5.1-ios.ipa",
+          "size": 56754892
+        },
+        {
+          "version": "0.5.0",
+          "date": "2025-02-12T11:16:16Z",
+          "localizedDescription": "\u2022 improve chapter download\r\n\u2022 improve custom navigation settings\r\n\u2022 remove embedded URLs from extensions\r\n\u2022 co\u2022written with @Schnitzel5 : update source fetching methods to utilize the given repositories",
+          "downloadURL": "https://github.com/kodjodevf/mangayomi/releases/download/v0.5.0/Mangayomi-v0.5.0-ios.ipa",
+          "size": 56707308
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [
+          {
+            "name": "com.apple.security.application-groups"
+          },
+          {
+            "name": "com.apple.developer.associated-domains"
+          },
+          {
+            "name": "keychain-access-groups"
+          },
+          {
+            "name": "aps-environment"
+          }
+        ],
+        "privacy": []
+      }
+    }
+  ],
+  "news": [
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.5.2 - 23 Feb",
+      "identifier": "release-0.5.2",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2025-02-23T16:08:37Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.5.2"
+    },
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.6.0 - 02 Apr",
+      "identifier": "release-0.6.0",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2025-04-02T13:40:06Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.6.0"
+    },
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.6.1 - 30 May",
+      "identifier": "release-0.6.1",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2025-05-30T16:44:51Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.6.1"
+    },
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.6.2 - 02 Jun",
+      "identifier": "release-0.6.2",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2025-06-02T11:47:44Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.6.2"
+    },
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.6.25 - 05 Jun",
+      "identifier": "release-0.6.25",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2025-06-05T14:39:03Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.6.25"
+    },
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.6.3 - 09 Jul",
+      "identifier": "release-0.6.3",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2025-07-09T14:01:54Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.6.3"
+    },
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.6.35 - 05 Aug",
+      "identifier": "release-0.6.35",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2025-08-05T14:52:24Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.6.35"
+    },
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.6.5 - 29 Aug",
+      "identifier": "release-0.6.5",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2025-08-29T15:38:32Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.6.5"
+    },
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.6.60 - 09 Nov",
+      "identifier": "release-0.6.60",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2025-11-09T01:02:44Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.6.60"
+    },
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.6.65 - 11 Nov",
+      "identifier": "release-0.6.65",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2025-11-11T14:39:53Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.6.65"
+    },
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.6.70 - 12 Nov",
+      "identifier": "release-0.6.70",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2025-11-12T16:11:51Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.6.70"
+    },
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.6.75 - 28 Nov",
+      "identifier": "release-0.6.75",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2025-11-28T15:29:16Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.6.75"
+    },
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.6.80 - 29 Nov",
+      "identifier": "release-0.6.80",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2025-11-29T17:29:34Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.6.80"
+    },
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.6.85 - 10 Dec",
+      "identifier": "release-0.6.85",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2025-12-10T13:16:58Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.6.85"
+    },
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.6.90 - 23 Dec",
+      "identifier": "release-0.6.90",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2025-12-23T18:21:22Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.6.90"
+    },
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.7.0 - 09 Jan",
+      "identifier": "release-0.7.0",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2026-01-09T10:56:42Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.7.0"
+    },
+    {
+      "appID": "com.kodjodevf.mangayomi",
+      "title": "0.7.1 - 02 Feb",
+      "identifier": "release-0.7.1",
+      "caption": "Update for Mangayomi now available!",
+      "date": "2026-02-02T11:49:10Z",
+      "tintColor": "EF4444",
+      "imageURL": "https://raw.githubusercontent.com/kodjodevf/mangayomi/refs/heads/main/repo/images/news/update_default.webp",
+      "notify": true,
+      "url": "https://github.com/kodjodevf/mangayomi/releases/tag/v0.7.1"
+    }
+  ]
+}

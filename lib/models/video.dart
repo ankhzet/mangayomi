@@ -16,7 +16,6 @@ class Video {
     this.subtitles,
     this.audios,
   });
-
   factory Video.fromJson(Map<String, dynamic> json) {
     return Video(
       json['url'].toString().trim(),
@@ -35,10 +34,6 @@ class Video {
               : [],
     );
   }
-
-  static bool isJson(Map<String, dynamic> json) =>
-      json['url'] != null && json['originalUrl'] != null;
-
   Map<String, dynamic> toJson() => {
     'url': url,
     'quality': quality,
@@ -54,11 +49,9 @@ class Track {
   String? label;
 
   Track({this.file, this.label});
-
   Track.fromJson(Map<String, dynamic> json) {
     file = json['file']?.toString().trim();
     label = json['label']?.toString().trim();
   }
-
   Map<String, dynamic> toJson() => {'file': file, 'label': label};
 }

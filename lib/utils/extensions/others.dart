@@ -1,17 +1,35 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
-
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mangayomi/models/dto/preload_task.dart';
+import 'package:intl/intl.dart';
+import 'package:mangayomi/modules/manga/reader/u_chap_data_preload.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
+import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/utils/headers.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:mangayomi/utils/reg_exp_matcher.dart';
+import 'package:path/path.dart' as p;
+
+extension FileFormatter on num {
+  String formattedFileSize({bool base1024 = true}) {
+    if (this <= 0) return "0.00 B";
+    final base = base1024 ? 1024 : 1000;
+    final units =
+        base1024
+            ? ["B", "KiB", "MiB", "GiB", "TiB"]
+            : ["B", "kB", "MB", "GB", "TB"];
+    int digitGroups = (log(this) / log(base)).floor().clamp(
+      0,
+      units.length - 1,
+    );
+    return "${NumberFormat("#,##0.#").format(this / pow(base, digitGroups))} ${units[digitGroups]}";
+  }
+}
 
 extension LetExtension<T> on T {
   R let<R>(R Function(T) block) {
@@ -19,62 +37,19 @@ extension LetExtension<T> on T {
   }
 }
 
-extension IterableUtils<T> on Iterable<T> {
-  List<T> toUnique({bool growable = true}) =>
-      toSet().toList(growable: growable);
-
-  List<R> mapToList<R>(R Function(T element) mapper, {bool growable = false}) {
-    return map(mapper).toList(growable: growable);
-  }
-
-  Map<K, List<T>> groupBy<K>(K Function(T) keyFunction) {
-    return fold(
-      <K, List<T>>{},
-      (Map<K, List<T>> map, T element) =>
-          map..putIfAbsent(keyFunction(element), () => <T>[]).add(element),
-    );
-  }
-
-  Iterable<T> takeLast(int count) {
-    final offset = length - count;
-
-    if (offset > 0) {
-      return skip(offset);
-    }
-
-    return <T>[];
-  }
-
-  List<T> sorted(Comparator<T> comparator) {
-    final result = [...this];
-    result.sort(comparator);
-
-    return result;
-  }
-
-  T? firstWhereOrNull(bool Function(T) test) {
-    try {
-      return firstWhere(test);
-    } on StateError {
-      return null;
+extension MedianExtension on List<int> {
+  int median() {
+    var middle = length ~/ 2;
+    if (length % 2 == 1) {
+      return this[middle];
+    } else {
+      return ((this[middle - 1] + this[middle]) / 2).round();
     }
   }
 
-  T? lastWhereOrNull(bool Function(T) test) {
-    try {
-      return lastWhere(test);
-    } on StateError {
-      return null;
-    }
+  int arithmeticMean() {
+    return isNotEmpty ? (reduce((e1, e2) => e1 + e2) / length).round() : 0;
   }
-}
-
-extension Trimmable on String {
-  String normalize() =>
-      toString()
-          .trim()
-          .trimLeft()
-          .trimRight(); // why .trimLeft().trimRight()???
 }
 
 extension ImageProviderExtension on ImageProvider {
@@ -82,6 +57,7 @@ extension ImageProviderExtension on ImageProvider {
     BuildContext context, {
     ImageByteFormat format = ImageByteFormat.png,
   }) async {
+    final imageStream = resolve(createLocalImageConfiguration(context));
     final Completer<Uint8List?> completer = Completer<Uint8List?>();
     final ImageStreamListener listener = ImageStreamListener((
       imageInfo,
@@ -92,41 +68,34 @@ extension ImageProviderExtension on ImageProvider {
         completer.complete(bytes?.buffer.asUint8List());
       }
     });
-    final imageStream = resolve(createLocalImageConfiguration(context));
-
     imageStream.addListener(listener);
-
-    try {
-      return await completer.future;
-    } finally {
-      imageStream.removeListener(listener);
-    }
+    final imageBytes = await completer.future;
+    imageStream.removeListener(listener);
+    return imageBytes;
   }
 }
 
-extension UChapDataPreloadExtensions on PreloadTask {
+extension UChapDataPreloadExtensions on UChapDataPreload {
   Future<Uint8List?> get getImageBytes async {
     Uint8List? imageBytes;
-
     if (archiveImage != null) {
       imageBytes = archiveImage;
-    } else if (isLocal) {
-      imageBytes = preloadFile.readAsBytesSync();
+    } else if (isLocale == true && directory != null && index != null) {
+      imageBytes =
+          File(
+            p.join(directory!.path, "${padIndex(index!)}.jpg"),
+          ).readAsBytesSync();
     } else {
       File? cachedImage;
-
       if (pageUrl != null) {
         cachedImage = await _getCachedImageFile(pageUrl!.url);
+        if (cachedImage == null) {
+          await Future.delayed(const Duration(seconds: 3));
+          cachedImage = await _getCachedImageFile(pageUrl!.url);
+        }
       }
-
-      if (cachedImage == null) {
-        await Future.delayed(const Duration(seconds: 3));
-        cachedImage = await _getCachedImageFile(pageUrl!.url);
-      }
-
       imageBytes = cachedImage?.readAsBytesSync();
     }
-
     return imageBytes;
   }
 
@@ -134,76 +103,55 @@ extension UChapDataPreloadExtensions on PreloadTask {
     WidgetRef ref,
     bool showCloudFlareError,
   ) {
+    final data = this;
+
+    if (data.isTransitionPage) {
+      return const AssetImage('assets/transparent.png')
+          as ImageProvider<Object>;
+    }
+
+    final isLocale = data.isLocale!;
+    final archiveImage = data.archiveImage;
     final cropBorders = ref.watch(cropBordersStateProvider);
-
-    if (cropBorders && cropImage != null) {
-      return ExtendedMemoryImageProvider(cropImage!);
-    }
-
-    if (isLocal) {
-      return archiveImage != null
-          ? ExtendedMemoryImageProvider(archiveImage!)
-          : ExtendedFileImageProvider(preloadFile);
-    }
-
-    return CustomExtendedNetworkImageProvider(
-      pageUrl!.url.normalize(),
-      cache: true,
-      cacheMaxAge: const Duration(days: 7),
-      showCloudFlareError: showCloudFlareError,
-      imageCacheFolderName: "cacheimagemanga",
-      headers: {
-        ...pageUrl!.headers ?? {},
-        ...ref.watch(
-          headersProvider(
-            source: chapter.manga.value!.source!,
-            lang: chapter.manga.value!.lang!,
-          ),
-        ),
-      },
-    );
-  }
-}
-
-extension Waiting on Duration {
-  Future<T> waitFor<T>(Future<T> Function() callback) {
-    bool isReady = false;
-    T? value;
-    dynamic error;
-
-    callback().then(
-      (v) {
-        isReady = true;
-        value = v;
-      },
-      onError: (e) {
-        isReady = true;
-        error = e;
-      },
-    );
-
-    return Future.doWhile(() => Future.delayed(this, () => !isReady)).then((
-      void _,
-    ) {
-      if (error != null) {
-        throw error;
-      }
-
-      return value as T;
-    });
+    return cropBorders && data.cropImage != null
+        ? ExtendedMemoryImageProvider(data.cropImage!)
+        : (isLocale
+                ? archiveImage != null
+                    ? ExtendedMemoryImageProvider(archiveImage)
+                    : ExtendedFileImageProvider(
+                      File(
+                        p.join(
+                          data.directory!.path,
+                          "${padIndex(data.index!)}.jpg",
+                        ),
+                      ),
+                    )
+                : CustomExtendedNetworkImageProvider(
+                  data.pageUrl!.url.trim(),
+                  cache: true,
+                  cacheMaxAge: const Duration(days: 7),
+                  showCloudFlareError: showCloudFlareError,
+                  imageCacheFolderName: "cacheimagemanga",
+                  headers: {
+                    ...data.pageUrl!.headers ?? {},
+                    ...ref.watch(
+                      headersProvider(
+                        source: data.chapter!.manga.value!.source!,
+                        lang: data.chapter!.manga.value!.lang!,
+                        sourceId: data.chapter!.manga.value!.sourceId,
+                      ),
+                    ),
+                  },
+                ))
+            as ImageProvider<Object>;
   }
 }
 
 Future<File?> _getCachedImageFile(String url, {String? cacheKey}) async {
   try {
     final String key = cacheKey ?? keyToMd5(url);
-    final Directory cacheImagesDirectory = Directory(
-      join(
-        (await getTemporaryDirectory()).path,
-        'Mangayomi',
-        'cacheimagemanga',
-      ),
-    );
+    final Directory cacheImagesDirectory = await StorageProvider()
+        .getCacheDirectory('cacheimagemanga');
     if (cacheImagesDirectory.existsSync()) {
       await for (final FileSystemEntity file in cacheImagesDirectory.list()) {
         if (file.path.endsWith(key)) {

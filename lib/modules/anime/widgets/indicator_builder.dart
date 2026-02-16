@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class MediaIndicatorBuilder extends StatelessWidget {
   final bool isVolumeIndicator;
   final ValueNotifier<double> value;
-
   const MediaIndicatorBuilder({
     super.key,
     required this.value,

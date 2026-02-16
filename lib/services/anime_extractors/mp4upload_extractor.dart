@@ -11,7 +11,6 @@ class Mp4uploadExtractor {
   final InterceptedClient client = MClient.init(
     reqcopyWith: {'useDartHttpClient': true},
   );
-
   Future<List<Video>> videosFromUrl(
     String url,
     Map<String, String> headers, {

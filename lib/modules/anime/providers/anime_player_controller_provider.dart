@@ -1,6 +1,6 @@
-import 'package:isar/isar.dart';
+import 'package:flutter_riverpod/misc.dart';
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
@@ -8,26 +8,33 @@ import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
 import 'package:mangayomi/modules/more/settings/player/providers/player_state_provider.dart';
-import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/services/aniskip.dart';
 import 'package:mangayomi/utils/chapter_recognition.dart';
+import 'package:mangayomi/utils/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 part 'anime_player_controller_provider.g.dart';
+
+final fullscreenProvider = StateProvider<bool>(() => false);
 
 @riverpod
 class AnimeStreamController extends _$AnimeStreamController {
   @override
-  void build({required Chapter episode}) {}
+  KeepAliveLink build({required Chapter episode}) {
+    _keepAliveLink = ref.keepAlive();
+    return _keepAliveLink!;
+  }
 
+  KeepAliveLink? _keepAliveLink;
+
+  KeepAliveLink? get keepAliveLink => _keepAliveLink;
   Manga getAnime() {
     return episode.manga.value!;
   }
 
-  final incognitoMode = isar.settings.first.incognitoMode!;
+  final incognitoMode = isar.settings.getSync(227)!.incognitoMode!;
 
   Settings getIsarSetting() {
-    return isar.settings.first;
+    return isar.settings.getSync(227)!;
   }
 
   (int, bool) getEpisodeIndex() {
@@ -124,15 +131,8 @@ class AnimeStreamController extends _$AnimeStreamController {
     isar.writeTxnSync(() {
       Manga? anime = episode.manga.value;
       anime!.lastRead = DateTime.now().millisecondsSinceEpoch;
+      anime.updatedAt = DateTime.now().millisecondsSinceEpoch;
       isar.mangas.putSync(anime);
-      ref
-          .read(synchingProvider(syncId: 1).notifier)
-          .addChangedPart(
-            ActionType.updateItem,
-            anime.id,
-            anime.toJson(),
-            false,
-          );
     });
     History? history;
 
@@ -145,6 +145,7 @@ class AnimeStreamController extends _$AnimeStreamController {
         date: DateTime.now().millisecondsSinceEpoch.toString(),
         itemType: getAnime().itemType,
         chapterId: episode.id,
+        updatedAt: DateTime.now().millisecondsSinceEpoch,
       )..chapter.value = episode;
     } else {
       history =
@@ -154,30 +155,12 @@ class AnimeStreamController extends _$AnimeStreamController {
                 .findFirstSync())!
             ..chapterId = episode.id
             ..chapter.value = episode
-            ..date = DateTime.now().millisecondsSinceEpoch.toString();
+            ..date = DateTime.now().millisecondsSinceEpoch.toString()
+            ..updatedAt = DateTime.now().millisecondsSinceEpoch;
     }
     isar.writeTxnSync(() {
       isar.historys.putSync(history!);
       history.chapter.saveSync();
-      if (empty) {
-        ref
-            .read(synchingProvider(syncId: 1).notifier)
-            .addChangedPart(
-              ActionType.addHistory,
-              null,
-              history.toJson(),
-              false,
-            );
-      } else {
-        ref
-            .read(synchingProvider(syncId: 1).notifier)
-            .addChangedPart(
-              ActionType.updateHistory,
-              history.id,
-              history.toJson(),
-              false,
-            );
-      }
     });
   }
 
@@ -188,7 +171,7 @@ class AnimeStreamController extends _$AnimeStreamController {
   }) {
     if (episode.isRead!) return;
     if (incognitoMode) return;
-    final markEpisodeAsSeenType = ref.watch(markEpisodeAsSeenTypeStateProvider);
+    final markEpisodeAsSeenType = ref.read(markEpisodeAsSeenTypeStateProvider);
     final isWatch =
         totalDuration != null &&
                 totalDuration != Duration.zero &&
@@ -201,15 +184,8 @@ class AnimeStreamController extends _$AnimeStreamController {
       isar.writeTxnSync(() {
         ep.isRead = isWatch;
         ep.lastPageRead = (duration.inMilliseconds).toString();
+        ep.updatedAt = DateTime.now().millisecondsSinceEpoch;
         isar.chapters.putSync(ep);
-        ref
-            .read(synchingProvider(syncId: 1).notifier)
-            .addChangedPart(
-              ActionType.updateChapter,
-              ep.id,
-              ep.toJson(),
-              false,
-            );
       });
       if (isWatch) {
         episode.updateTrackChapterRead(ref);
@@ -222,14 +198,14 @@ class AnimeStreamController extends _$AnimeStreamController {
         isar.tracks
             .filter()
             .syncIdEqualTo(1)
-            .mangaIdEqualTo(episode.manga.value!.id)
+            .mangaIdEqualTo(episode.manga.value!.id!)
             .findFirstSync()
             ?.mediaId;
     final aniId =
         isar.tracks
             .filter()
             .syncIdEqualTo(2)
-            .mangaIdEqualTo(episode.manga.value!.id)
+            .mangaIdEqualTo(episode.manga.value!.id!)
             .findFirstSync()
             ?.mediaId;
     return switch (malId) {
@@ -246,22 +222,20 @@ class AnimeStreamController extends _$AnimeStreamController {
     Function(List<Results>) result,
   ) async {
     await Future.delayed(const Duration(milliseconds: 300));
-    if (ref.watch(enableAniSkipStateProvider)) {
-      final id = _getTrackId();
-      if (id != null) {
-        final res = await ref
-            .read(aniSkipProvider.notifier)
-            .getResult(
-              id,
-              ChapterRecognition().parseChapterNumber(
-                episode.manga.value!.name!,
-                episode.name!,
-              ),
-              0,
-            );
-        result.call(res ?? []);
-        return res;
-      }
+    final id = _getTrackId();
+    if (id != null) {
+      final res = await ref
+          .read(aniSkipProvider.notifier)
+          .getResult(
+            id,
+            ChapterRecognition().parseChapterNumber(
+              episode.manga.value!.name!,
+              episode.name!,
+            ),
+            0,
+          );
+      result.call(res ?? []);
+      return res;
     }
     return null;
   }

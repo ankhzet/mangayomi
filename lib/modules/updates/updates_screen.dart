@@ -1,30 +1,23 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:isar/isar.dart';
-import 'package:mangayomi/eval/model/m_bridge.dart';
+import 'package:mangayomi/models/category.dart';
+import 'package:mangayomi/models/changed.dart';
+import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
+import 'package:mangayomi/modules/widgets/base_library_tab_screen.dart';
+import 'package:mangayomi/modules/widgets/custom_sliver_grouped_list_view.dart';
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/update.dart';
-import 'package:mangayomi/models/view_queue_item.dart';
+import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/modules/updates/widgets/update_chapter_list_tile_widget.dart';
 import 'package:mangayomi/modules/history/providers/isar_providers.dart';
-import 'package:mangayomi/modules/library/widgets/search_text_form_field.dart';
-import 'package:mangayomi/modules/manga/detail/providers/update_manga_detail_providers.dart';
-import 'package:mangayomi/modules/manga/detail/providers/update_periodicity_provider.dart';
-import 'package:mangayomi/modules/updates/providers/updates.dart';
-import 'package:mangayomi/modules/updates/update_info_tabs.dart';
-import 'package:mangayomi/modules/updates/update_queue_tab.dart';
-import 'package:mangayomi/modules/updates/updates_tab.dart';
-import 'package:mangayomi/modules/updates/view_queue_tab.dart';
-import 'package:mangayomi/modules/widgets/async_value_widget.dart';
-import 'package:mangayomi/modules/widgets/count_badge.dart';
-import 'package:mangayomi/modules/widgets/media_type_tab_bar_view.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/utils/extensions/async_value.dart';
+import 'package:mangayomi/services/library_updater.dart';
+import 'package:mangayomi/utils/date.dart';
+import 'package:mangayomi/modules/widgets/error_text.dart';
+import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
-import 'package:mangayomi/utils/extensions/others.dart';
-import 'package:mangayomi/utils/extensions/view_queue_item.dart';
 
 class UpdatesScreen extends ConsumerStatefulWidget {
   const UpdatesScreen({super.key});
@@ -33,451 +26,296 @@ class UpdatesScreen extends ConsumerStatefulWidget {
   ConsumerState<UpdatesScreen> createState() => _UpdatesScreenState();
 }
 
-class _UpdatesScreenState extends ConsumerState<UpdatesScreen> {
-  final _textEditingController = TextEditingController();
+class _UpdatesScreenState extends BaseLibraryTabScreenState<UpdatesScreen> {
   bool _isLoading = false;
-  bool _isSearch = false;
-  bool _initial = true;
-  ItemType _type = ItemType.manga;
+
+  @override
+  String get title => l10nLocalizations(context)!.updates;
+
+  @override
+  Widget buildTab(ItemType type) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: UpdateTab(
+        itemType: type,
+        query: textEditingController.text,
+        isLoading: _isLoading,
+      ),
+    );
+  }
+
+  @override
+  Widget buildTabLabel(ItemType type, String label) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Tab(text: label),
+        const SizedBox(width: 8),
+        _updateNumbers(ref, type),
+      ],
+    );
+  }
+
+  @override
+  List<Widget> buildExtraActions(BuildContext context) {
+    final l10n = l10nLocalizations(context)!;
+
+    return [
+      IconButton(
+        splashRadius: 20,
+        icon: Icon(Icons.refresh_outlined, color: Theme.of(context).hintColor),
+        onPressed: _updateLibrary,
+      ),
+      IconButton(
+        splashRadius: 20,
+        icon: Icon(
+          Icons.delete_sweep_outlined,
+          color: Theme.of(context).hintColor,
+        ),
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder:
+                (dialogContext) => AlertDialog(
+                  title: Text(l10n.remove_everything),
+                  content: Text(l10n.remove_all_update_msg),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(dialogContext).pop(),
+                      child: Text(l10n.cancel),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        Navigator.of(dialogContext).pop();
+                        await _clearUpdates();
+                      },
+                      child: Text(l10n.ok),
+                    ),
+                  ],
+                ),
+          );
+        },
+      ),
+    ];
+  }
+
+  Future<void> _updateLibrary() async {
+    setState(() => _isLoading = true);
+    final itemType = getCurrentItemType();
+    final allowedCategories = isar.categorys
+        .filter()
+        .idIsNotNull()
+        .group((q) => q.shouldUpdateIsNull().or().shouldUpdateEqualTo(true))
+        .findAllSync()
+        .map((e) => e.id);
+    final mangaList =
+        isar.mangas
+            .filter()
+            .idIsNotNull()
+            .favoriteEqualTo(true)
+            .and()
+            .itemTypeEqualTo(itemType)
+            .and()
+            .isLocalArchiveEqualTo(false)
+            .findAllSync()
+            .where((e) {
+              for (final category in allowedCategories) {
+                if (e.categories?.contains(category) ?? false) {
+                  return true;
+                }
+              }
+              return false;
+            })
+            .toList();
+    await updateLibrary(
+      ref: ref,
+      context: context,
+      mangaList: mangaList,
+      itemType: itemType,
+    );
+    setState(() => _isLoading = false);
+  }
+
+  Future<void> _clearUpdates() async {
+    List<Update> updates =
+        await isar.updates
+            .filter()
+            .idIsNotNull()
+            .chapter(
+              (q) => q.manga((q) => q.itemTypeEqualTo(getCurrentItemType())),
+            )
+            .findAll();
+    final idsToDelete = <Id>[];
+    isar.writeTxnSync(() {
+      for (var update in updates) {
+        idsToDelete.add(update.id!);
+        ref
+            .read(synchingProvider(syncId: 1).notifier)
+            .addChangedPart(ActionType.removeUpdate, update.id, "{}", false);
+      }
+    });
+    await isar.writeTxn(() => isar.updates.deleteAll(idsToDelete));
+  }
+}
+
+class UpdateTab extends ConsumerStatefulWidget {
+  final String query;
+  final ItemType itemType;
+  final bool isLoading;
+  const UpdateTab({
+    required this.itemType,
+    required this.query,
+    required this.isLoading,
+    super.key,
+  });
+
+  @override
+  ConsumerState<UpdateTab> createState() => _UpdateTabState();
+}
+
+class _UpdateTabState extends ConsumerState<UpdateTab>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
-    final async = ref.watch(getWatchedEntriesProvider).combiner();
-
-    return AsyncValueWidget(
-      async: async,
-      builder:
-          (values) => async.build(values, (List<Manga> entities) {
-            final types = entities
-                .map((entity) => entity.itemType)
-                .toUnique(growable: false);
-
-            return MediaTabs(
-              onChange: (type) {
-                setState(() {
-                  _type = type;
-                  _textEditingController.clear();
-                  _isSearch = false;
-                });
-              },
-              types: types,
-              content: (type) => _infoTypes(type),
-              wrap:
-                  (tabBar, view) =>
-                      Scaffold(appBar: _appBar(tabBar, _type), body: view),
-            );
-          }),
-    );
-  }
-
-  List<Update> _filterUpdates(List<Update> updates) {
-    final query = _textEditingController.text.toLowerCase();
-    final Map<int?, bool> map = {};
-
-    return query.isEmpty
-        ? updates
-        : updates.where((element) {
-          final mangaId = element.mangaId;
-          final value = map[mangaId];
-
-          if (value != null) {
-            return value;
-          }
-
-          return map[mangaId] = element.chapter.value!.manga.value!.name!
-              .toLowerCase()
-              .contains(query);
-        }).toList();
-  }
-
-  Widget _infoTypes(ItemType type) {
-    final async = ref
-        .watch(updatePeriodicityProvider(type: type))
-        .merge2(ref.watch(getAllUpdateStreamProvider(itemType: type)));
-
-    return AsyncValueWidget(
-      async: async,
-      builder:
-          (values) => async.build(values, (
-            Iterable<MangaPeriodicity> periodicity,
-            List<Update> updates,
-          ) {
-            final (queue, overdraft) = _getQueue(periodicity);
-            final entries = _filterUpdates(updates);
-            final viewQueueAsync =
-                ref.watch(getViewQueueMapProvider).combiner();
-
-            return AsyncValueWidget(
-              async: viewQueueAsync,
-              builder:
-                  (values) => viewQueueAsync.build(values, (
-                    Iterable<ViewQueueItem> items,
-                  ) {
-                    final map = items.mapQueueItems(
-                      entries.map((e) => e.manga.id),
-                    );
-                    final viewQueue =
-                        entries
-                            .where((update) => map[update.manga.id] == true)
-                            .toList();
-                    final List<UpdateInfoType> types = [];
-
-                    if (updates.isNotEmpty) {
-                      types.add(UpdateInfoType.updates);
-                    }
-
-                    if (viewQueue.isNotEmpty) {
-                      types.add(UpdateInfoType.viewQueue);
-                    }
-
-                    if (queue.isNotEmpty) {
-                      types.add(UpdateInfoType.updateQueue);
-                    }
-
-                    return UpdateInfoTabs(
-                      types: types,
-                      content:
-                          (tab) => switch (tab) {
-                            UpdateInfoType.updates => UpdatesTab(
-                              entries: entries,
-                              isOverdraft: overdraft,
-                              queue: queue,
-                              periodicity: periodicity,
-                            ),
-                            UpdateInfoType.updateQueue => UpdateQueueTab(
-                              isOverdraft: overdraft,
-                              queue: queue,
-                              lastUpdated: entries.fold(null, (result, update) {
-                                final timestamp = update.lastMangaUpdate;
-
-                                return (((result == null) ||
-                                        (timestamp > result))
-                                    ? timestamp
-                                    : result);
-                              }),
-                            ),
-                            UpdateInfoType.viewQueue => ViewQueueTab(
-                              entries: viewQueue,
-                              periodicity: periodicity,
-                            ),
-                          },
-                      wrap:
-                          (tabBar, view) =>
-                              Scaffold(body: view, bottomNavigationBar: tabBar),
-                    );
-                  }),
-            );
-          }),
-    );
-  }
-
-  AppBar _appBar(TabBar? tabBar, ItemType type) {
+    super.build(context);
     final l10n = l10nLocalizations(context)!;
-
-    return AppBar(
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      title:
-          _isSearch
-              ? null
-              : Text(
-                l10n.updates,
-                style: TextStyle(color: Theme.of(context).hintColor),
-              ),
-      actions: [
-        _isSearch
-            ? SeachFormTextField(
-              onChanged: (value) {
-                setState(() {});
-              },
-              onSuffixPressed: () {
-                _textEditingController.clear();
-                setState(() {});
-              },
-              onPressed: () {
-                setState(() {
-                  _isSearch = false;
-                });
-                _textEditingController.clear();
-              },
-              controller: _textEditingController,
-            )
-            : _actionIconButton(
-              Icons.search_outlined,
-              onPressed: () {
-                setState(() {
-                  _isSearch = true;
-                });
-              },
-            ),
-        _updateAction(type),
-        _actionIconButton(
-          Icons.delete_sweep_outlined,
-          onPressed: () => _removeAllUpdates(context),
-        ),
-      ],
-      bottom: tabBar,
+    final update = ref.watch(
+      getAllUpdateStreamProvider(
+        itemType: widget.itemType,
+        search: widget.query,
+      ),
     );
-  }
-
-  (List<MangaPeriodicity>, bool) _getQueue(
-    Iterable<MangaPeriodicity> periodicity,
-  ) {
-    final now = DateTime.now().millisecondsSinceEpoch;
-    final deltas = periodicity.map((i) {
-      final (:manga, :last, :period, :days) = i;
-      final delta = now - last.millisecondsSinceEpoch;
-
-      return (manga, delta, period.inMilliseconds ~/ 10, i);
-    });
-    Iterable<(Manga, int, int, MangaPeriodicity)> filtered = deltas.where(
-      (i) => i.$2 >= i.$3,
-    );
-    final overdraft = filtered.isEmpty;
-
-    if (overdraft) {
-      filtered = deltas.sorted((a, b) => a.$2 - b.$2).takeLast(50);
-    } else {
-      filtered = filtered.sorted((a, b) => -((a.$2 - a.$3) - (b.$2 - b.$3)));
-    }
-
-    if (_initial) {
-      _initial = false;
-
-      if (kDebugMode) {
-        String h(int milliseconds, int width) =>
-            '${Duration(milliseconds: milliseconds).inHours}h'.padLeft(width);
-        print('\n\n================================\nScheduled for update:\n');
-        for (final (idx, (manga, delta, period, _)) in filtered.indexed) {
-          print(
-            '${idx.toString().padLeft(4)} | ${h(delta - period, 5)} overdue | ${manga.name}',
-          );
-        }
-
-        Iterable<(Manga, int, int, MangaPeriodicity)> rest = deltas
-            .where((i) => i.$2 < i.$3)
-            .sorted((a, b) => -((a.$2 - a.$3) - (b.$2 - b.$3)));
-        print('\n\n================================\nToo early for update:\n');
-        print(
-          '     | next in | last check | period | updates roughly every | Title',
-        );
-        for (final (idx, (manga, delta, period, periodicity)) in rest.indexed) {
-          print(
-            '${idx.toString().padLeft(4)} | ${h(-(delta - period), 7)} | ${h(delta, 6)} ago | ${h(period, 6)} | ${periodicity.days.toString().padLeft(16)} days | ${manga.name}',
-          );
-        }
-      }
-    }
-
-    return (filtered.mapToList((i) => i.$4), overdraft);
-  }
-
-  Widget _updateAction(ItemType type) {
-    final async = ref.watch(updatePeriodicityProvider(type: type)).combiner();
-
-    return AsyncValueWidget(
-      async: async,
-      builder:
-          (values) => async.build(values, (
-            Iterable<MangaPeriodicity> periodicity,
-          ) {
-            final (queue, overdraft) = _getQueue(periodicity);
-
-            final badge = CountBadge(
-              count: queue.length,
-              color:
-                  overdraft
-                      ? const Color.fromARGB(255, 176, 46, 37)
-                      : const Color.fromARGB(255, 46, 176, 37),
-            );
-
-            return _actionButton(
-              icon:
-                  _isLoading
-                      ? RefreshProgressIndicator(
-                        indicatorMargin: EdgeInsets.zero,
-                        indicatorPadding: EdgeInsets.zero,
-                        strokeAlign: 0,
-                      )
-                      : _actionIcon(Icons.refresh_outlined, queue.isNotEmpty),
-              constraints:
-                  _isLoading
-                      ? BoxConstraints(
-                        maxWidth: kMinInteractiveDimension - 8,
-                        maxHeight: kMinInteractiveDimension - 8,
-                      )
-                      : null,
-              onPressed:
-                  queue.isNotEmpty
-                      ? () => _updateLibrary(queue.map((i) => i.manga))
-                      : null,
-              badge:
-                  _isLoading
-                      ? Positioned.fill(child: Center(child: badge))
-                      : badge,
-            );
-          }),
-    );
-  }
-
-  Widget _actionIcon(IconData iconData, bool enabled) {
-    return Icon(
-      iconData,
-      color:
-          enabled
-              ? Theme.of(context).hintColor
-              : Theme.of(context).disabledColor,
-    );
-  }
-
-  Widget _actionIconButton(
-    IconData iconData, {
-    Widget? badge,
-    VoidCallback? onPressed,
-  }) {
-    return _actionButton(
-      badge: badge,
-      icon: _actionIcon(iconData, onPressed != null),
-      onPressed: onPressed,
-    );
-  }
-
-  Widget _actionButton({
-    required Widget icon,
-    Widget? badge,
-    BoxConstraints? constraints,
-    VoidCallback? onPressed,
-  }) {
-    final children =
-        badge != null
-            ? Stack(
-              clipBehavior: Clip.none,
-              children: [
-                icon,
-                badge is Positioned
-                    ? badge
-                    : Positioned(right: -5, bottom: -5, child: badge),
-              ],
-            )
-            : icon;
-
-    return IconButton(
-      onPressed: onPressed,
-      splashRadius: 20,
-      constraints: constraints,
-      disabledColor: Theme.of(context).disabledColor,
-      icon: children,
-    );
-  }
-
-  Future<void> _updateLibrary(Iterable<Manga> next) async {
-    setState(() {
-      _isLoading = !_isLoading;
-    });
-
-    if (!_isLoading) {
-      return;
-    }
-
-    final double alignY = context.isTablet ? 0.85 : 0.70;
-    final cancel = botToast(
-      context.l10n.updating_library,
-      fontSize: 13,
-      second: 1600,
-      alignY: alignY,
-    );
-    final Set<String> errors = {};
-
-    try {
-      final interval = const Duration(milliseconds: 100);
-
-      for (var manga in next) {
-        if (!_isLoading) {
-          break;
-        }
-
-        await interval.waitFor(() async {
-          if (mounted) {
-            try {
-              return await ref.read(
-                updateMangaDetailProvider(
-                  mangaId: manga.id,
-                  isInit: false,
-                ).future,
-              );
-            } catch (e) {
-              errors.add(e.toString());
-            }
-          }
-        });
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-
-      cancel();
-
-      if (errors.isNotEmpty) {
-        botToast(
-          errors.join('\n'),
-          fontSize: 13,
-          second: 5,
-          alignY: alignY,
-          isError: true,
-        );
-      }
-    }
-  }
-
-  _removeAllUpdates(BuildContext context) {
-    final l10n = l10nLocalizations(context)!;
-
-    showDialog(
-      context: context,
-      builder:
-          (context) => AlertDialog(
-            title: Text(l10n.remove_everything),
-            content: Text(l10n.remove_all_update_msg),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
+    return Stack(
+      children: [
+        update.when(
+          data: (entries) {
+            final lastUpdatedList =
+                entries
+                    .map((e) => e.chapter.value!.manga.value!.lastUpdate!)
+                    .toList();
+            lastUpdatedList.sort((a, b) => b.compareTo(a));
+            final lastUpdated = lastUpdatedList.firstOrNull;
+            if (entries.isNotEmpty) {
+              return CustomScrollView(
+                slivers: [
+                  if (lastUpdated != null)
+                    SliverPadding(
+                      padding: const EdgeInsets.only(
+                        left: 10,
+                        right: 10,
+                        top: 10,
+                        bottom: 20,
+                      ),
+                      sliver: SliverList(
+                        delegate: SliverChildListDelegate.fixed([
+                          Text(
+                            l10n.library_last_updated(
+                              dateFormat(
+                                lastUpdated.toString(),
+                                ref: ref,
+                                context: context,
+                                showHOURorMINUTE: true,
+                              ),
+                            ),
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: context.secondaryColor,
+                            ),
+                          ),
+                        ]),
+                      ),
+                    ),
+                  CustomSliverGroupedListView<Update, String>(
+                    elements: entries,
+                    groupBy:
+                        (element) => dateFormat(
+                          element.date!,
+                          context: context,
+                          ref: ref,
+                          forHistoryValue: true,
+                          useRelativeTimesTamps: false,
+                        ),
+                    groupSeparatorBuilder:
+                        (String groupByValue) => Padding(
+                          padding: const EdgeInsets.only(bottom: 8, left: 12),
+                          child: Row(
+                            children: [
+                              Text(
+                                dateFormat(
+                                  null,
+                                  context: context,
+                                  stringDate: groupByValue,
+                                  ref: ref,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    itemBuilder: (context, element) {
+                      final chapter = element.chapter.value!;
+                      return UpdateChapterListTileWidget(
+                        chapter: chapter,
+                        sourceExist: true,
+                      );
                     },
-                    child: Text(l10n.cancel),
-                  ),
-                  const SizedBox(width: 15),
-                  TextButton(
-                    onPressed: () {
-                      List<int> updates = isar.updates
-                          .filter()
-                          .idIsNotNull()
-                          .chapter(
-                            (q) => q.manga((q) => q.itemTypeEqualTo(_type)),
-                          )
-                          .findAllSync()
-                          .map((i) => i.id!)
-                          .toList(growable: false);
-
-                      isar.writeTxnSync(() {
-                        isar.updates.deleteAll(updates);
-                      });
-
-                      if (mounted) {
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: Text(l10n.ok),
+                    itemComparator:
+                        (item1, item2) => item1.date!.compareTo(item2.date!),
+                    order: GroupedListOrder.DESC,
                   ),
                 ],
-              ),
-            ],
+              );
+            }
+            return Center(child: Text(l10n.no_recent_updates));
+          },
+          error: (Object error, StackTrace stackTrace) {
+            return ErrorText(error);
+          },
+          loading: () {
+            return const ProgressCenter();
+          },
+        ),
+        if (widget.isLoading)
+          const Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Padding(
+              padding: EdgeInsets.only(top: 40),
+              child: Center(child: RefreshProgressIndicator()),
+            ),
           ),
+      ],
     );
   }
+}
+
+Widget _updateNumbers(WidgetRef ref, ItemType itemType) {
+  return StreamBuilder(
+    stream: isar.updates
+        .filter()
+        .idIsNotNull()
+        .and()
+        .chapter((q) => q.manga((q) => q.itemTypeEqualTo(itemType)))
+        .watch(fireImmediately: true),
+    builder: (context, snapshot) {
+      if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+        final entries = snapshot.data!.toList();
+        return entries.isEmpty
+            ? SizedBox.shrink()
+            : Badge(
+              backgroundColor: Theme.of(context).focusColor,
+              label: Text(
+                entries.length.toString(),
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodySmall!.color,
+                ),
+              ),
+            );
+      }
+      return Container();
+    },
+  );
 }

@@ -1,8 +1,10 @@
-import 'package:isar/isar.dart';
+import 'dart:convert';
+
+import 'package:isar_community/isar.dart';
+import 'package:mangayomi/eval/model/filter.dart';
 import 'package:mangayomi/eval/model/m_source.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
-
 part 'source.g.dart';
 
 @collection
@@ -50,14 +52,21 @@ class Source {
 
   String? headers;
 
+  /// For Mihon ext
+  bool? supportLatest;
+
+  /// For Mihon ext
+  String? filterList;
+
+  /// For Mihon ext
+  String? preferenceList;
+
   bool? isManga;
 
   @enumerated
   late ItemType itemType;
 
   String? appMinVerReq;
-
-  String? appMinVerReqLast;
 
   String? additionalParams;
 
@@ -68,7 +77,11 @@ class Source {
   @enumerated
   SourceCodeLanguage sourceCodeLanguage = SourceCodeLanguage.dart;
 
+  String? notes;
+
   Repo? repo;
+
+  int? updatedAt;
 
   Source({
     this.id = 0,
@@ -92,27 +105,38 @@ class Source {
     this.versionLast = "0.0.1",
     this.sourceCode = '',
     this.headers = '',
+    this.supportLatest,
+    this.filterList,
+    this.preferenceList,
     this.isManga,
     this.itemType = ItemType.manga,
     this.appMinVerReq = "",
-    this.appMinVerReqLast = "",
     this.additionalParams = "",
     this.isLocal = false,
     this.isObsolete = false,
+    this.notes = '',
     this.repo,
+    this.updatedAt = 0,
   });
+
+  FilterList? getFilterList() =>
+      filterList != null
+          ? FilterList.fromJson(jsonDecode(filterList!) as Map<String, dynamic>)
+          : null;
 
   Source.fromJson(Map<String, dynamic> json) {
     apiUrl = json['apiUrl'];
     appMinVerReq = json['appMinVerReq'];
-    appMinVerReqLast = json['appMinVerReqLast'];
     baseUrl = json['baseUrl'];
     dateFormat = json['dateFormat'];
     dateFormatLocale = json['dateFormatLocale'];
     hasCloudflare = json['hasCloudflare'];
     headers = json['headers'];
+    supportLatest = json['supportLatest'];
+    filterList = json['filterList'];
+    preferenceList = json['preferenceList'];
     iconUrl = json['iconUrl'];
-    id = json['id'];
+    id = json['id'] is int ? json['id'] : null;
     isActive = json['isActive'];
     isAdded = json['isAdded'];
     isFullData = json['isFullData'];
@@ -133,18 +157,22 @@ class Source {
     isLocal = json['isLocal'];
     sourceCodeLanguage =
         SourceCodeLanguage.values[json['sourceCodeLanguage'] ?? 0];
+    notes = json['notes'] ?? "";
     repo = json['repo'] != null ? Repo.fromJson(json['repo']) : null;
+    updatedAt = json['updatedAt'];
   }
 
   Map<String, dynamic> toJson() => {
     'apiUrl': apiUrl,
     'appMinVerReq': appMinVerReq,
-    'appMinVerReqLast': appMinVerReqLast,
     'baseUrl': baseUrl,
     'dateFormat': dateFormat,
     'dateFormatLocale': dateFormatLocale,
     'hasCloudflare': hasCloudflare,
     'headers': headers,
+    'supportLatest': supportLatest,
+    'filterList': filterList,
+    'preferenceList': preferenceList,
     'iconUrl': iconUrl,
     'id': id,
     'isActive': isActive,
@@ -166,13 +194,12 @@ class Source {
     'sourceCodeLanguage': sourceCodeLanguage.index,
     'isObsolete': isObsolete,
     'isLocal': isLocal,
+    'notes': notes,
     'repo': repo?.toJson(),
+    'updatedAt': updatedAt ?? 0,
   };
 
   bool get isTorrent => (typeSource?.toLowerCase() ?? "") == "torrent";
-
-  @ignore
-  bool get isValid => isActive == true && sourceCode?.isNotEmpty == true;
 
   MSource toMSource() {
     return MSource(
@@ -190,4 +217,4 @@ class Source {
   }
 }
 
-enum SourceCodeLanguage { dart, javascript }
+enum SourceCodeLanguage { dart, javascript, mihon, lnreader }

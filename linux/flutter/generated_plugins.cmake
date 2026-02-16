@@ -4,18 +4,22 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_webview_window
+  flutter_inappwebview_linux
   flutter_qjs
   gtk
-  isar_flutter_libs
+  isar_community_flutter_libs
+  m_extension_server
   media_kit_libs_linux
   media_kit_video
   screen_retriever_linux
   url_launcher_linux
+  volume_controller
   window_manager
   window_to_front
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
+  flutter_discord_rpc_fork
   rust_lib_mangayomi
 )
 

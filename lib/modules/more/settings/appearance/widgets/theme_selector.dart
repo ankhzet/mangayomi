@@ -4,12 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
-import 'package:mangayomi/modules/more/settings/appearance/providers/flex_scheme_color_state_provider.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/modules/more/settings/appearance/providers/flex_scheme_color_state_provider.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 
 class ThemeSelector extends ConsumerStatefulWidget {
   const ThemeSelector({super.key, this.contentPadding});
-
   final EdgeInsetsGeometry? contentPadding;
 
   @override
@@ -19,7 +19,7 @@ class ThemeSelector extends ConsumerStatefulWidget {
 class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
   @override
   Widget build(BuildContext context) {
-    int selected = isar.settings.first.flexSchemeColorIndex!;
+    int selected = isar.settings.getSync(227)!.flexSchemeColorIndex!;
     const double height = 45;
     const double width = height * 1.5;
     final ThemeData theme = Theme.of(context);
@@ -30,7 +30,7 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
       child: Row(
         children: [
           Expanded(
-            child: ListView.builder(
+            child: SuperListView.builder(
               padding: const EdgeInsetsDirectional.only(start: 8, end: 16),
               physics: const ClampingScrollPhysics(),
               scrollDirection: Axis.horizontal,

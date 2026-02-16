@@ -2,5 +2,10 @@ import 'package:mangayomi/eval/lib.dart';
 import 'package:mangayomi/models/source.dart';
 
 List<dynamic> getFilterList({required Source source}) {
-  return getExtensionService(source).getFilterList().filters;
+  final service = getExtensionService(source, "");
+  try {
+    return service.getFilterList().filters;
+  } finally {
+    service.dispose();
+  }
 }

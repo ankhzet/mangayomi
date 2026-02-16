@@ -13,8 +13,9 @@ abstract interface class ExtensionService {
   ExtensionService(this.source);
 
   String get sourceBaseUrl;
-
   bool get supportsLatest;
+
+  void dispose();
 
   Map<String, String> getHeaders();
 
@@ -30,7 +31,7 @@ abstract interface class ExtensionService {
 
   Future<List<Video>> getVideoList(String url);
 
-  Future<String> getHtmlContent(String url);
+  Future<String> getHtmlContent(String name, String url);
 
   Future<String> cleanHtmlContent(String html);
 

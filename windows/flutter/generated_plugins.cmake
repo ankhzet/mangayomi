@@ -7,7 +7,12 @@ list(APPEND FLUTTER_PLUGIN_LIST
   connectivity_plus
   flutter_inappwebview_windows
   flutter_qjs
+<<<<<<< HEAD
   isar_flutter_libs
+=======
+  isar_community_flutter_libs
+  m_extension_server
+>>>>>>> main
   media_kit_libs_windows_video
   media_kit_video
   permission_handler_windows
@@ -15,11 +20,19 @@ list(APPEND FLUTTER_PLUGIN_LIST
   screen_retriever_windows
   share_plus
   url_launcher_windows
+<<<<<<< HEAD
+=======
+  volume_controller
+>>>>>>> main
   window_manager
   window_to_front
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
+<<<<<<< HEAD
+=======
+  flutter_discord_rpc_fork
+>>>>>>> main
   rust_lib_mangayomi
 )
 

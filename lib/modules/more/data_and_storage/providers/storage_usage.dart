@@ -1,43 +1,38 @@
 import 'dart:io';
-
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
+import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/router/router.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 part 'storage_usage.g.dart';
 
 @riverpod
 class TotalChapterCacheSizeState extends _$TotalChapterCacheSizeState {
   @override
   String build() {
-    _getTotalDiskSpace().then((value) => state = _formatBytes(value));
+    _getTotalDiskSpace().then((value) {
+      if (!ref.mounted) return;
+      state = value.formattedFileSize();
+    });
     return "0.00 B";
   }
 
-  final String _cacheImageMangaPath = join('Mangayomi', 'cacheimagemanga');
-  final String _cacheDownloadPath = join('Mangayomi', 'downloads');
+  final _storage = StorageProvider();
 
   Future<void> clearCache({bool showToast = true}) async {
-    final tempPath = (await getTemporaryDirectory()).path;
     String? msg;
     try {
-      final dir = Directory(join(tempPath, _cacheImageMangaPath));
+      final dir = await _storage.getCacheDirectory('cacheimagemanga');
       if (dir.existsSync()) {
         await dir.delete(recursive: true);
       }
       msg = "0.00 B";
     } catch (_) {}
     try {
-      final dir = Directory(join(tempPath, _cacheDownloadPath));
-      if (dir.existsSync()) {
-        await dir.delete(recursive: true);
-      }
-      msg = "0.00 B";
+      await _storage.deleteTmpDirectory();
     } catch (_) {}
     if (msg != null && showToast) {
       state = msg;
@@ -48,14 +43,10 @@ class TotalChapterCacheSizeState extends _$TotalChapterCacheSizeState {
   }
 
   Future<int> _getTotalDiskSpace() async {
-    final tempPath = (await getTemporaryDirectory()).path;
     try {
       return await _getdirectorySize(
-            Directory(join(tempPath, _cacheImageMangaPath)),
-          ) +
-          await _getdirectorySize(
-            Directory(join(tempPath, _cacheDownloadPath)),
-          );
+        await _storage.getCacheDirectory('cacheimagemanga'),
+      );
     } catch (_) {}
     return 0;
   }
@@ -74,19 +65,6 @@ class TotalChapterCacheSizeState extends _$TotalChapterCacheSizeState {
     } catch (_) {}
     return 0;
   }
-
-  String _formatBytes(int bytes) {
-    const units = ['B', 'KB', 'MB', 'GB'];
-    int unitIndex = 0;
-    double size = bytes.toDouble();
-
-    while (size >= 1024 && unitIndex < units.length - 1) {
-      size /= 1024;
-      unitIndex++;
-    }
-
-    return '${size.toStringAsFixed(2)} ${units[unitIndex]}';
-  }
 }
 
 @riverpod
@@ -94,14 +72,17 @@ class ClearChapterCacheOnAppLaunchState
     extends _$ClearChapterCacheOnAppLaunchState {
   @override
   bool build() {
-    return isar.settings.first.clearChapterCacheOnAppLaunch ?? false;
+    return isar.settings.getSync(227)!.clearChapterCacheOnAppLaunch ?? false;
   }
 
   void set(bool value) {
+    final settings = isar.settings.getSync(227);
     state = value;
     isar.writeTxnSync(
       () => isar.settings.putSync(
-        isar.settings.first..clearChapterCacheOnAppLaunch = value,
+        settings!
+          ..clearChapterCacheOnAppLaunch = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
       ),
     );
   }

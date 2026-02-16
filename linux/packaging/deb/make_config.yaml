@@ -10,7 +10,11 @@ priority: optional
 
 section: x11
 
-installed_size: 30600
+installed_size: 109400
+
+depencencies:
+  - libwebkit2gtk-4.1-0
+  - libmpv2
 
 essential: false
 
@@ -18,7 +22,7 @@ postinstall_scripts:
   - echo "Installed Mangayomi successfully"
   
 postuninstall_scripts:
-  - echo "Unistalled Mangayomi successfully"
+  - echo "Uninstalled Mangayomi successfully"
 icon: assets/app_icons/icon-red.png
 
 keywords:
@@ -29,6 +33,6 @@ keywords:
 generic_name: Free and open source application that allows users to read manga and stream anime from a variety of sources including BitTorrent.
 
 categories:
-  - Utility
+  - AudioVideo
 
 startup_notify: true

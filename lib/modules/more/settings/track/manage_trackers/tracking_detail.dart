@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_widget.dart';
+import 'package:mangayomi/modules/tracker_library/tracker_library_screen.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/constant.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 
 class TrackingDetail extends StatefulWidget {
   final TrackPreference trackerPref;
-
   const TrackingDetail({super.key, required this.trackerPref});
 
   @override
@@ -20,21 +21,29 @@ class TrackingDetail extends StatefulWidget {
 class _TrackingDetailState extends State<TrackingDetail>
     with TickerProviderStateMixin {
   late TabController _tabBarController;
+  bool get isMovies =>
+      widget.trackerPref.syncId == TrackerProviders.simkl.syncId ||
+      widget.trackerPref.syncId == TrackerProviders.trakt.syncId;
 
   @override
   void initState() {
-    _tabBarController = TabController(length: 2, vsync: this);
-    _tabBarController.animateTo(0);
-
     super.initState();
+    _tabBarController = TabController(length: isMovies ? 1 : 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabBarController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
+
     return DefaultTabController(
       animationDuration: Duration.zero,
-      length: 2,
+      length: isMovies ? 1 : 2,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -47,16 +56,17 @@ class _TrackingDetailState extends State<TrackingDetail>
           bottom: TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
             controller: _tabBarController,
-            tabs: [Tab(text: l10n.manga), Tab(text: l10n.anime)],
+            tabs: [if (!isMovies) Tab(text: l10n.manga), Tab(text: l10n.anime)],
           ),
         ),
         body: TabBarView(
           controller: _tabBarController,
           children: [
-            TrackingTab(
-              itemType: ItemType.manga,
-              syncId: widget.trackerPref.syncId!,
-            ),
+            if (!isMovies)
+              TrackingTab(
+                itemType: ItemType.manga,
+                syncId: widget.trackerPref.syncId!,
+              ),
             TrackingTab(
               itemType: ItemType.anime,
               syncId: widget.trackerPref.syncId!,
@@ -71,7 +81,6 @@ class _TrackingDetailState extends State<TrackingDetail>
 class TrackingTab extends StatelessWidget {
   final ItemType itemType;
   final int syncId;
-
   const TrackingTab({super.key, required this.itemType, required this.syncId});
 
   @override
@@ -88,7 +97,7 @@ class TrackingTab extends StatelessWidget {
         final mediaIds = trackRes!.map((e) => e.mediaId).toSet().toList();
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ListView.separated(
+          child: SuperListView.separated(
             padding: const EdgeInsets.all(0),
             itemCount: mediaIds.length,
             primary: false,
@@ -123,7 +132,6 @@ class TrackingWidget extends StatelessWidget {
   final int syncId;
   final ItemType itemType;
   final int mediaId;
-
   const TrackingWidget({
     super.key,
     required this.mediaId,
@@ -153,7 +161,7 @@ class TrackingWidget extends StatelessWidget {
         }
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ListView.separated(
+          child: SuperListView.separated(
             padding: const EdgeInsets.all(0),
             itemCount: trackRes.length,
             primary: false,

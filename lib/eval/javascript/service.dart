@@ -1,6 +1,5 @@
+import 'dart:collection';
 import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter_qjs/flutter_qjs.dart';
 import 'package:mangayomi/eval/javascript/dom_selector.dart';
 import 'package:mangayomi/eval/javascript/extractors.dart';
@@ -17,10 +16,28 @@ import 'package:mangayomi/models/video.dart';
 
 import '../interface.dart';
 
-final template = '''
+class JsExtensionService implements ExtensionService {
+  late JavascriptRuntime runtime;
+  @override
+  late Source source;
+  bool _isInitialized = false;
+  late JsDomSelector _jsDomSelector;
+
+  JsExtensionService(this.source);
+
+  void _init() {
+    if (_isInitialized) return;
+    runtime = getJavascriptRuntime();
+    JsHttpClient(runtime).init();
+    _jsDomSelector = JsDomSelector(runtime)..init();
+    JsUtils(runtime).init();
+    JsVideosExtractors(runtime).init();
+    JsPreferences(runtime, source).init();
+
+    runtime.evaluate('''
 class MProvider {
     get source() {
-        return JSON.parse('__SOURCE__');
+        return JSON.parse('${jsonEncode(source.toMSource().toJson())}');
     }
     get supportsLatest() {
         throw new Error("supportsLatest not implemented");
@@ -46,7 +63,7 @@ class MProvider {
     async getVideoList(url) {
         throw new Error("getVideoList not implemented");
     }
-    async getHtmlContent(url) {
+    async getHtmlContent(name, url) {
         throw new Error("getHtmlContent not implemented");
     }
     async cleanHtmlContent(html) {
@@ -62,124 +79,18 @@ class MProvider {
 async function jsonStringify(fn) {
     return JSON.stringify(await fn());
 }
-''';
-final instantiation = '__CODE__\nlet extension = new DefaultExtension();';
+''');
+    runtime.evaluate('''${source.sourceCode}
+var extention = new DefaultExtension();
+''');
+    _isInitialized = true;
+  }
 
-final templateRegexp = RegExp(r'__(\w+)__');
-
-String replaceMap(String template, Map<String, dynamic> map) =>
-    template.replaceAllMapped(templateRegexp, (match) {
-      final key = match[1] ?? '';
-      final value = map[key] ?? key;
-
-      return value.toString();
-    });
-
-class JsExtensionService implements ExtensionService {
   @override
-  late Source source;
-  late Map<String, dynamic> values = {
-    'SOURCE': jsonEncode(source.toMSource().toJson()),
-    'CODE': source.sourceCode!,
-  };
-
-  JavascriptRuntime? _runtime;
-
-  JsExtensionService(this.source);
-
-  JavascriptRuntime get runtime {
-    if (_runtime != null) {
-      return _runtime!;
-    }
-
-    _runtime = getJavascriptRuntime(xhr: false);
-    JsHttpClient(_runtime!).init();
-    JsDomSelector(_runtime!).init();
-    JsVideosExtractors(_runtime!).init();
-    JsUtils(_runtime!).init();
-    JsPreferences(_runtime!, source).init();
-
-    _evaluate(replaceMap(template, values));
-    _evaluate(replaceMap(instantiation, values));
-
-    return _runtime!;
-  }
-
-  JsEvalResult _evaluate(String code) {
-    try {
-      final result = runtime.evaluate(code);
-
-      if (result.isError) {
-        throw AssertionError(result.stringResult);
-      }
-
-      return result;
-    } catch (e, trace) {
-      if (kDebugMode) {
-        final m =
-            RegExp(
-              r'(\w+) not implemented',
-            ).allMatches(e.toString()).firstOrNull;
-
-        if (m != null) {
-          print(
-            'Warn: Source "${source.name!} (${source.lang!})" does not support "${m[1]}" method',
-          );
-        } else {
-          print('Evaluating $code');
-          print(e);
-          print(trace);
-        }
-      }
-
-      rethrow;
-    }
-  }
-
-  T _extensionCall<T>(String call, T def) {
-    try {
-      final res = _evaluate('/*sync*/ JSON.stringify(extension.$call)');
-
-      return jsonDecode(res.stringResult) as T;
-    } catch (_) {
-      if (def != null) {
-        return def;
-      }
-
-      rethrow;
-    }
-  }
-
-  Future<T> _extensionCallAsync<T>(String call, T def) async {
-    try {
-      final promised = await runtime.handlePromise(
-        _evaluate('/*async*/ jsonStringify(() => extension.$call)'),
-      );
-
-      return jsonDecode(promised.stringResult) as T;
-    } catch (e, trace) {
-      if (kDebugMode) {
-        final m =
-            RegExp(
-              r'(\w+) not implemented',
-            ).allMatches(e.toString()).firstOrNull;
-
-        if (m != null) {
-          print(
-            'Warn: Source "${source.name!} (${source.lang!})" does not support "${m[1]}" method',
-          );
-        } else {
-          print(e);
-          print(trace);
-        }
-      }
-
-      if (def != null) {
-        return def;
-      }
-
-      rethrow;
-    }
+  void dispose() {
+    if (!_isInitialized) return;
+    _jsDomSelector.dispose();
+    _isInitialized = false;
   }
 
   @override
@@ -202,13 +113,13 @@ class JsExtensionService implements ExtensionService {
 
   @override
   Future<MPages> getPopular(int page) async {
-    return MPages.fromJson(await _extensionCallAsync('getPopular($page)', {}));
+    return MPages.fromJson(await _extensionCallAsync('getPopular($page)'));
   }
 
   @override
   Future<MPages> getLatestUpdates(int page) async {
     return MPages.fromJson(
-      await _extensionCallAsync('getLatestUpdates($page)', {}),
+      await _extensionCallAsync('getLatestUpdates($page)'),
     );
   }
 
@@ -217,46 +128,74 @@ class JsExtensionService implements ExtensionService {
     return MPages.fromJson(
       await _extensionCallAsync(
         'search("$query",$page,${jsonEncode(filterValuesListToJson(filters))})',
-        {},
       ),
     );
   }
 
   @override
   Future<MManga> getDetail(String url) async {
-    return MManga.fromJson(await _extensionCallAsync('getDetail(`$url`)', {}));
+    return MManga.fromJson(await _extensionCallAsync('getDetail(`$url`)'));
   }
 
   @override
   Future<List<PageUrl>> getPageList(String url) async {
-    return (await _extensionCallAsync<List?>('getPageList(`$url`)', null))!
-        .map(
-          (e) =>
-              e is String
-                  ? PageUrl(e.trim())
-                  : PageUrl.fromJson((e as Map).toMapStringDynamic!),
-        )
-        .toList();
+    final pages = LinkedHashSet<PageUrl>(
+      equals: (a, b) => a.url == b.url,
+      hashCode: (p) => p.url.hashCode,
+    );
+
+    for (final e in await _extensionCallAsync<List>('getPageList(`$url`)')) {
+      if (e != null) {
+        final page =
+            e is String
+                ? PageUrl(e.trim())
+                : PageUrl.fromJson((e as Map).toMapStringDynamic!);
+        pages.add(page);
+      }
+    }
+
+    return pages.toList();
   }
 
   @override
   Future<List<Video>> getVideoList(String url) async {
-    return (await _extensionCallAsync<List>('getVideoList(`$url`)', []))
-        .where((element) => Video.isJson(element))
-        .map((e) => Video.fromJson(e))
-        .toList()
-        .toSet()
-        .toList();
+    final videos = LinkedHashSet<Video>(
+      equals: (a, b) => a.url == b.url && a.originalUrl == b.originalUrl,
+      hashCode: (v) => Object.hash(v.url, v.originalUrl),
+    );
+
+    for (final element in await _extensionCallAsync<List>(
+      'getVideoList(`$url`)',
+    )) {
+      if (element['url'] != null && element['originalUrl'] != null) {
+        videos.add(Video.fromJson(element));
+      }
+    }
+    return videos.toList();
   }
 
   @override
-  Future<String> getHtmlContent(String url) async {
-    return _extensionCallAsync('getHtmlContent(`$url`)', '');
+  Future<String> getHtmlContent(String name, String url) async {
+    _init();
+    final res =
+        (await runtime.handlePromise(
+          await runtime.evaluateAsync(
+            'jsonStringify(() => extention.getHtmlContent(`$name`, `$url`))',
+          ),
+        )).stringResult;
+    return res;
   }
 
   @override
   Future<String> cleanHtmlContent(String html) async {
-    return _extensionCallAsync('cleanHtmlContent(`$html`)', '');
+    _init();
+    final res =
+        (await runtime.handlePromise(
+          await runtime.evaluateAsync(
+            'jsonStringify(() => extention.cleanHtmlContent(`$html`))',
+          ),
+        )).stringResult;
+    return res;
   }
 
   @override
@@ -278,5 +217,35 @@ class JsExtensionService implements ExtensionService {
       'getSourcePreferences()',
       [],
     ).map((e) => SourcePreference.fromJson(e)..sourceId = source.id).toList();
+  }
+
+  T _extensionCall<T>(String call, T def) {
+    _init();
+
+    try {
+      final res = runtime.evaluate('JSON.stringify(extention.$call)');
+
+      return jsonDecode(res.stringResult) as T;
+    } catch (_) {
+      if (def != null) {
+        return def;
+      }
+
+      rethrow;
+    }
+  }
+
+  Future<T> _extensionCallAsync<T>(String call) async {
+    _init();
+
+    try {
+      final promised = await runtime.handlePromise(
+        await runtime.evaluateAsync('jsonStringify(() => extention.$call)'),
+      );
+
+      return jsonDecode(promised.stringResult) as T;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

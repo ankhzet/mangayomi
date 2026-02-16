@@ -1,7 +1,6 @@
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 part 'color_filter_provider.g.dart';
 
 @riverpod
@@ -9,11 +8,11 @@ class CustomColorFilterState extends _$CustomColorFilterState {
   @override
   CustomColorFilter? build() {
     if (!ref.watch(enableCustomColorFilterStateProvider)) return null;
-    return isar.settings.first.customColorFilter;
+    return isar.settings.getSync(227)!.customColorFilter;
   }
 
   void set(int a, int r, int g, int b, bool end) {
-    final settings = isar.settings.first;
+    final settings = isar.settings.getSync(227);
     var value =
         CustomColorFilter()
           ..a = a
@@ -21,7 +20,13 @@ class CustomColorFilterState extends _$CustomColorFilterState {
           ..g = g
           ..b = b;
     if (end) {
-      isar.settings.first = settings..customColorFilter = value;
+      isar.writeTxnSync(
+        () => isar.settings.putSync(
+          settings!
+            ..customColorFilter = value
+            ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+        ),
+      );
     }
     state = value;
   }
@@ -31,13 +36,19 @@ class CustomColorFilterState extends _$CustomColorFilterState {
 class EnableCustomColorFilterState extends _$EnableCustomColorFilterState {
   @override
   bool build() {
-    return isar.settings.first.enableCustomColorFilter ?? false;
+    return isar.settings.getSync(227)!.enableCustomColorFilter ?? false;
   }
 
   void set(bool value) {
-    final settings = isar.settings.first;
+    final settings = isar.settings.getSync(227);
 
-    isar.settings.first = settings..enableCustomColorFilter = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..enableCustomColorFilter = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
     state = value;
   }
 }
@@ -46,13 +57,19 @@ class EnableCustomColorFilterState extends _$EnableCustomColorFilterState {
 class ColorFilterBlendModeState extends _$ColorFilterBlendModeState {
   @override
   ColorFilterBlendMode build() {
-    return isar.settings.first.colorFilterBlendMode;
+    return isar.settings.getSync(227)!.colorFilterBlendMode;
   }
 
   void set(ColorFilterBlendMode value) {
-    final settings = isar.settings.first;
+    final settings = isar.settings.getSync(227);
 
-    isar.settings.first = settings..colorFilterBlendMode = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..colorFilterBlendMode = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
     state = value;
   }
 }

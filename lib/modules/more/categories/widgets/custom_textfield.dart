@@ -10,7 +10,6 @@ class CustomTextFormField extends StatelessWidget {
   final bool isExist;
   final String name;
   final Function(String) val;
-
   const CustomTextFormField({
     super.key,
     required this.controller,

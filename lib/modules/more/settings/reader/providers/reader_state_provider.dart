@@ -1,20 +1,25 @@
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 part 'reader_state_provider.g.dart';
 
 @riverpod
 class DefaultReadingModeState extends _$DefaultReadingModeState {
   @override
   ReaderMode build() {
-    return isar.settings.first.defaultReaderMode;
+    return isar.settings.getSync(227)!.defaultReaderMode;
   }
 
   void set(ReaderMode value) {
-    final settings = isar.settings.first;
+    final settings = isar.settings.getSync(227);
     state = value;
-    isar.settings.first = settings..defaultReaderMode = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..defaultReaderMode = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }
 
@@ -22,13 +27,19 @@ class DefaultReadingModeState extends _$DefaultReadingModeState {
 class AnimatePageTransitionsState extends _$AnimatePageTransitionsState {
   @override
   bool build() {
-    return isar.settings.first.animatePageTransitions!;
+    return isar.settings.getSync(227)!.animatePageTransitions!;
   }
 
   void set(bool value) {
-    final settings = isar.settings.first;
+    final settings = isar.settings.getSync(227);
     state = value;
-    isar.settings.first = settings..animatePageTransitions = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..animatePageTransitions = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }
 
@@ -36,13 +47,19 @@ class AnimatePageTransitionsState extends _$AnimatePageTransitionsState {
 class DoubleTapAnimationSpeedState extends _$DoubleTapAnimationSpeedState {
   @override
   int build() {
-    return isar.settings.first.doubleTapAnimationSpeed!;
+    return isar.settings.getSync(227)!.doubleTapAnimationSpeed!;
   }
 
   void set(int value) {
-    final settings = isar.settings.first;
+    final settings = isar.settings.getSync(227);
     state = value;
-    isar.settings.first = settings..doubleTapAnimationSpeed = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..doubleTapAnimationSpeed = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }
 
@@ -50,13 +67,19 @@ class DoubleTapAnimationSpeedState extends _$DoubleTapAnimationSpeedState {
 class CropBordersState extends _$CropBordersState {
   @override
   bool build() {
-    return isar.settings.first.cropBorders ?? false;
+    return isar.settings.getSync(227)!.cropBorders ?? false;
   }
 
   void set(bool value) {
-    final settings = isar.settings.first;
+    final settings = isar.settings.getSync(227);
     state = value;
-    isar.settings.first = settings..cropBorders = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..cropBorders = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }
 
@@ -64,12 +87,19 @@ class CropBordersState extends _$CropBordersState {
 class ScaleTypeState extends _$ScaleTypeState {
   @override
   ScaleType build() {
-    return isar.settings.first.scaleType;
+    return isar.settings.getSync(227)!.scaleType;
   }
 
   void set(ScaleType value) {
+    final settings = isar.settings.getSync(227);
     state = value;
-    isar.settings.first = isar.settings.first..scaleType = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..scaleType = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }
 
@@ -77,13 +107,19 @@ class ScaleTypeState extends _$ScaleTypeState {
 class PagePreloadAmountState extends _$PagePreloadAmountState {
   @override
   int build() {
-    return isar.settings.first.pagePreloadAmount ?? 6;
+    return isar.settings.getSync(227)!.pagePreloadAmount ?? 6;
   }
 
   void set(int value) {
-    final settings = isar.settings.first;
+    final settings = isar.settings.getSync(227);
     state = value;
-    isar.settings.first = settings..pagePreloadAmount = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..pagePreloadAmount = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }
 
@@ -91,13 +127,19 @@ class PagePreloadAmountState extends _$PagePreloadAmountState {
 class BackgroundColorState extends _$BackgroundColorState {
   @override
   BackgroundColor build() {
-    return isar.settings.first.backgroundColor;
+    return isar.settings.getSync(227)!.backgroundColor;
   }
 
   void set(BackgroundColor value) {
-    final settings = isar.settings.first;
+    final settings = isar.settings.getSync(227);
     state = value;
-    isar.settings.first = settings..backgroundColor = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..backgroundColor = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }
 
@@ -105,13 +147,19 @@ class BackgroundColorState extends _$BackgroundColorState {
 class UsePageTapZonesState extends _$UsePageTapZonesState {
   @override
   bool build() {
-    return isar.settings.first.usePageTapZones ?? true;
+    return isar.settings.getSync(227)!.usePageTapZones ?? true;
   }
 
   void set(bool value) {
-    final settings = isar.settings.first;
+    final settings = isar.settings.getSync(227);
     state = value;
-    isar.settings.first = settings..usePageTapZones = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..usePageTapZones = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }
 
@@ -119,35 +167,59 @@ class UsePageTapZonesState extends _$UsePageTapZonesState {
 class FullScreenReaderState extends _$FullScreenReaderState {
   @override
   bool build() {
-    return isar.settings.first.fullScreenReader ?? true;
+    return isar.settings.getSync(227)!.fullScreenReader ?? true;
   }
 
   void set(bool value) {
-    final settings = isar.settings.first;
+    final settings = isar.settings.getSync(227);
     state = value;
-    isar.settings.first = settings..fullScreenReader = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..fullScreenReader = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }
 
 @riverpod
 class NavigationOrderState extends _$NavigationOrderState {
+  final items = [
+    '/MangaLibrary',
+    '/AnimeLibrary',
+    '/NovelLibrary',
+    '/updates',
+    '/history',
+    '/browse',
+    '/more',
+    '/trackerLibrary',
+  ];
+
   @override
   List<String> build() {
-    return isar.settings.first.navigationOrder ??
-        [
-          '/MangaLibrary',
-          '/AnimeLibrary',
-          '/NovelLibrary',
-          '/updates',
-          '/history',
-          '/browse',
-          '/more',
-        ];
+    return _checkMissingItems(
+      isar.settings.getSync(227)!.navigationOrder?.toList() ?? [],
+    );
+  }
+
+  List<String> _checkMissingItems(List<String> navigationOrder) {
+    navigationOrder.addAll(
+      items.where((e) => !navigationOrder.contains(e)).toList(),
+    );
+    return navigationOrder;
   }
 
   void set(List<String> values) {
+    final settings = isar.settings.getSync(227);
     state = values;
-    isar.settings.first = isar.settings.first..navigationOrder = values;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..navigationOrder = values
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }
 
@@ -155,12 +227,39 @@ class NavigationOrderState extends _$NavigationOrderState {
 class HideItemsState extends _$HideItemsState {
   @override
   List<String> build() {
-    return isar.settings.first.hideItems ?? [];
+    return isar.settings.getSync(227)!.hideItems ?? ['/trackerLibrary'];
   }
 
   void set(List<String> values) {
+    final settings = isar.settings.getSync(227);
     state = values;
-    isar.settings.first = isar.settings.first..hideItems = values;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..hideItems = values
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
+  }
+}
+
+@riverpod
+class MergeLibraryNavMobileState extends _$MergeLibraryNavMobileState {
+  @override
+  bool build() {
+    return isar.settings.getSync(227)!.mergeLibraryNavMobile ?? false;
+  }
+
+  void set(bool value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..mergeLibraryNavMobile = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }
 
@@ -168,13 +267,19 @@ class HideItemsState extends _$HideItemsState {
 class NovelFontSizeState extends _$NovelFontSizeState {
   @override
   int build() {
-    return isar.settings.first.novelFontSize ?? 14;
+    return isar.settings.getSync(227)!.novelFontSize ?? 14;
   }
 
   void set(int value) {
-    final settings = isar.settings.first;
+    final settings = isar.settings.getSync(227);
     state = value;
-    isar.settings.first = settings..novelFontSize = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..novelFontSize = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }
 
@@ -182,12 +287,181 @@ class NovelFontSizeState extends _$NovelFontSizeState {
 class NovelTextAlignState extends _$NovelTextAlignState {
   @override
   NovelTextAlign build() {
-    return isar.settings.first.novelTextAlign;
+    return isar.settings.getSync(227)!.novelTextAlign;
   }
 
   void set(NovelTextAlign value) {
-    final settings = isar.settings.first;
+    final settings = isar.settings.getSync(227);
     state = value;
-    isar.settings.first = settings..novelTextAlign = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..novelTextAlign = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
+  }
+}
+
+@riverpod
+class NovelReaderThemeState extends _$NovelReaderThemeState {
+  @override
+  String build() {
+    return isar.settings.getSync(227)!.novelReaderTheme ?? '#292832';
+  }
+
+  void set(String value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..novelReaderTheme = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
+  }
+}
+
+@riverpod
+class NovelReaderTextColorState extends _$NovelReaderTextColorState {
+  @override
+  String build() {
+    return isar.settings.getSync(227)!.novelReaderTextColor ?? '#CCCCCC';
+  }
+
+  void set(String value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..novelReaderTextColor = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
+  }
+}
+
+@riverpod
+class NovelReaderPaddingState extends _$NovelReaderPaddingState {
+  @override
+  int build() {
+    return isar.settings.getSync(227)!.novelReaderPadding ?? 16;
+  }
+
+  void set(int value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..novelReaderPadding = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
+  }
+}
+
+@riverpod
+class NovelReaderLineHeightState extends _$NovelReaderLineHeightState {
+  @override
+  double build() {
+    return isar.settings.getSync(227)!.novelReaderLineHeight ?? 1.5;
+  }
+
+  void set(double value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..novelReaderLineHeight = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
+  }
+}
+
+@riverpod
+class NovelShowScrollPercentageState extends _$NovelShowScrollPercentageState {
+  @override
+  bool build() {
+    return isar.settings.getSync(227)!.novelShowScrollPercentage ?? true;
+  }
+
+  void set(bool value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..novelShowScrollPercentage = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
+  }
+}
+
+@riverpod
+class NovelRemoveExtraParagraphSpacingState
+    extends _$NovelRemoveExtraParagraphSpacingState {
+  @override
+  bool build() {
+    return isar.settings.getSync(227)!.novelRemoveExtraParagraphSpacing ??
+        false;
+  }
+
+  void set(bool value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..novelRemoveExtraParagraphSpacing = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
+  }
+}
+
+@riverpod
+class NovelTapToScrollState extends _$NovelTapToScrollState {
+  @override
+  bool build() {
+    return isar.settings.getSync(227)!.novelTapToScroll ?? false;
+  }
+
+  void set(bool value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..novelTapToScroll = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
+  }
+}
+
+@riverpod
+class ShowPagesNumberState extends _$ShowPagesNumberState {
+  @override
+  build() {
+    return isar.settings.getSync(227)!.showPagesNumber ?? true;
+  }
+
+  void set(bool value) {
+    final settings = isar.settings.getSync(227);
+
+    state = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..showPagesNumber = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }

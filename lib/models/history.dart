@@ -1,7 +1,6 @@
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/manga.dart';
-
 part 'history.g.dart';
 
 @collection
@@ -22,6 +21,8 @@ class History {
 
   String? date;
 
+  int? updatedAt;
+
   History({
     this.id = Isar.autoIncrement,
     this.isManga,
@@ -29,6 +30,7 @@ class History {
     required this.chapterId,
     required this.mangaId,
     required this.date,
+    this.updatedAt = 0,
   });
 
   History.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,7 @@ class History {
     isManga = json['isManga'];
     itemType = ItemType.values[json['itemType'] ?? 0];
     mangaId = json['mangaId'];
+    updatedAt = json['updatedAt'];
   }
 
   Map<String, dynamic> toJson() => {
@@ -46,5 +49,6 @@ class History {
     'id': id,
     'itemType': itemType.index,
     'mangaId': mangaId,
+    'updatedAt': updatedAt ?? 0,
   };
 }

@@ -1,12 +1,11 @@
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/models/chapter.dart';
-
 part 'manga.g.dart';
 
 @collection
 @Name("Manga")
 class Manga {
-  late Id id;
+  Id? id;
 
   String? name;
 
@@ -28,14 +27,10 @@ class Manga {
   @enumerated
   late ItemType itemType;
 
-  String? updateError;
-
   List<String>? genre;
 
-  @Index(name: "favorite")
   bool? favorite;
 
-  @Index(name: "source")
   String? source;
 
   String? lang;
@@ -48,29 +43,36 @@ class Manga {
 
   List<int>? categories;
 
-  @Index(name: "isLocalArchive")
   bool? isLocalArchive;
 
   List<byte>? customCoverImage;
 
   String? customCoverFromTracker;
 
+  /// only update X days after `lastUpdate`
+  int? smartUpdateDays;
+
+  int? updatedAt;
+
+  int? sourceId;
+
   @Backlink(to: "manga")
   final chapters = IsarLinks<Chapter>();
 
   Manga({
     this.id = Isar.autoIncrement,
-    this.source,
-    this.status = Status.unknown,
-    this.author,
-    this.artist,
+    required this.source,
+    required this.author,
+    required this.artist,
     this.favorite = false,
-    this.genre,
-    this.imageUrl,
-    this.lang,
-    this.link,
-    this.name,
-    this.description,
+    required this.genre,
+    required this.imageUrl,
+    required this.lang,
+    required this.link,
+    required this.name,
+    required this.status,
+    required this.description,
+    required this.sourceId,
     this.isManga,
     this.itemType = ItemType.manga,
     this.dateAdded,
@@ -80,6 +82,8 @@ class Manga {
     this.isLocalArchive = false,
     this.customCoverImage,
     this.customCoverFromTracker,
+    this.smartUpdateDays,
+    this.updatedAt = 0,
   });
 
   Manga.fromJson(Map<String, dynamic> json) {
@@ -104,6 +108,9 @@ class Manga {
     source = json['source'];
     status = Status.values[json['status']];
     customCoverFromTracker = json['customCoverFromTracker'];
+    smartUpdateDays = json['smartUpdateDays'];
+    updatedAt = json['updatedAt'];
+    sourceId = json['sourceId'];
   }
 
   Map<String, dynamic> toJson() => {
@@ -127,6 +134,9 @@ class Manga {
     'source': source,
     'status': status.index,
     'customCoverFromTracker': customCoverFromTracker,
+    'smartUpdateDays': smartUpdateDays,
+    'updatedAt': updatedAt ?? 0,
+    'sourceId': sourceId,
   };
 }
 

@@ -5,7 +5,6 @@ import 'package:mangayomi/modules/browse/extension/providers/extension_preferenc
 class JsPreferences {
   late JavascriptRuntime runtime;
   late Source? source;
-
   JsPreferences(this.runtime, this.source);
 
   void init() {

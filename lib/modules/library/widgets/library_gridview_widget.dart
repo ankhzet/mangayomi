@@ -1,21 +1,25 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/models/history.dart';
-import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/library/providers/isar_providers.dart';
 import 'package:mangayomi/modules/library/providers/library_state_provider.dart';
+import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
+import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
+import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/utils/constant.dart';
+import 'package:mangayomi/utils/extensions/chapter.dart';
+import 'package:mangayomi/utils/headers.dart';
 import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
 import 'package:mangayomi/modules/widgets/bottom_text_widget.dart';
 import 'package:mangayomi/modules/widgets/cover_view_widget.dart';
 import 'package:mangayomi/modules/widgets/gridview_widget.dart';
 import 'package:mangayomi/modules/widgets/manga_image_card_widget.dart';
-import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
-import 'package:mangayomi/utils/extensions/chapter.dart';
-import 'package:mangayomi/utils/extensions/manga.dart';
 
 class LibraryGridViewWidget extends StatefulWidget {
   final bool isCoverOnlyGrid;
@@ -27,7 +31,6 @@ class LibraryGridViewWidget extends StatefulWidget {
   final bool continueReaderBtn;
   final bool localSource;
   final ItemType itemType;
-
   const LibraryGridViewWidget({
     super.key,
     required this.entriesManga,
@@ -50,7 +53,7 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        final isLongPressed = ref.watch(isLongPressedMangaStateProvider);
+        final isLongPressed = ref.watch(isLongPressedStateProvider);
         final itemType = widget.itemType;
 
         final gridSize = ref.watch(
@@ -76,7 +79,27 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                       isComfortableGrid: widget.isComfortableGrid,
                     ),
                     isComfortableGrid: widget.isComfortableGrid,
-                    image: entry.imageProvider(ref),
+                    image:
+                        entry.customCoverImage != null
+                            ? MemoryImage(entry.customCoverImage as Uint8List)
+                                as ImageProvider
+                            : CustomExtendedNetworkImageProvider(
+                              toImgUrl(
+                                entry.customCoverFromTracker ??
+                                    entry.imageUrl ??
+                                    "",
+                              ),
+                              headers:
+                                  entry.isLocalArchive!
+                                      ? null
+                                      : ref.watch(
+                                        headersProvider(
+                                          source: entry.source!,
+                                          lang: entry.lang!,
+                                          sourceId: entry.sourceId,
+                                        ),
+                                      ),
+                            ),
                     onTap: () async {
                       if (isLongPressed) {
                         ref
@@ -90,49 +113,28 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                           lang: entry.lang!,
                           mangaM: entry,
                           source: entry.source!,
+                          sourceId: entry.sourceId,
                         );
-                        ref.invalidate(
-                          getAllMangaWithoutCategoriesStreamProvider(
-                            itemType: widget.itemType,
-                          ),
-                        );
-                        ref.invalidate(
-                          getAllMangaStreamProvider(
-                            categoryId: null,
-                            itemType: widget.itemType,
-                          ),
-                        );
+                        if (context.mounted) {
+                          ref.invalidate(
+                            getAllMangaWithoutCategoriesStreamProvider(
+                              itemType: widget.itemType,
+                            ),
+                          );
+                          ref.invalidate(
+                            getAllMangaStreamProvider(
+                              categoryId: null,
+                              itemType: widget.itemType,
+                            ),
+                          );
+                        }
                       }
                     },
                     onLongPress: () {
-                      if (!isLongPressed) {
-                        ref
-                            .read(mangasListStateProvider.notifier)
-                            .update(entry);
-
-                        ref
-                            .read(isLongPressedMangaStateProvider.notifier)
-                            .update(!isLongPressed);
-                      } else {
-                        ref
-                            .read(mangasListStateProvider.notifier)
-                            .update(entry);
-                      }
+                      _handleLongOrSecondaryTap(isLongPressed, ref, entry);
                     },
                     onSecondaryTap: () {
-                      if (!isLongPressed) {
-                        ref
-                            .read(mangasListStateProvider.notifier)
-                            .update(entry);
-
-                        ref
-                            .read(isLongPressedMangaStateProvider.notifier)
-                            .update(!isLongPressed);
-                      } else {
-                        ref
-                            .read(mangasListStateProvider.notifier)
-                            .update(entry);
-                      }
+                      _handleLongOrSecondaryTap(isLongPressed, ref, entry);
                     },
                     children: [
                       Stack(
@@ -429,5 +431,18 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
         );
       },
     );
+  }
+
+  void _handleLongOrSecondaryTap(
+    bool isLongPressed,
+    WidgetRef ref,
+    Manga entry,
+  ) {
+    if (!isLongPressed) {
+      ref.read(mangasListStateProvider.notifier).update(entry);
+      ref.read(isLongPressedStateProvider.notifier).update(!isLongPressed);
+    } else {
+      ref.read(mangasListStateProvider.notifier).update(entry);
+    }
   }
 }

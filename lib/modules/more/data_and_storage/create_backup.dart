@@ -9,6 +9,7 @@ import 'package:mangayomi/modules/more/data_and_storage/providers/backup.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 
 class CreateBackup extends ConsumerStatefulWidget {
   const CreateBackup({super.key});
@@ -64,14 +65,14 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25),
                 ),
-                child: ListView.builder(
+                child: SuperListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
                   shrinkWrap: true,
                   primary: false,
                   itemCount: _libraryList.length,
                   itemBuilder: (context, index) {
                     final (label, idx) = _libraryList[index];
-                    return ListTileItemFilter(
+                    return ListTileChapterFilter(
                       label: label,
                       type: indexList.contains(idx) ? 1 : 0,
                       onTap: () {
@@ -99,14 +100,14 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25),
                 ),
-                child: ListView.builder(
+                child: SuperListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
                   shrinkWrap: true,
                   primary: false,
                   itemCount: _settingsList.length,
                   itemBuilder: (context, index) {
                     final (label, idx) = _settingsList[index];
-                    return ListTileItemFilter(
+                    return ListTileChapterFilter(
                       label: label,
                       type: indexList.contains(idx) ? 1 : 0,
                       onTap: () {
@@ -134,14 +135,14 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25),
                 ),
-                child: ListView.builder(
+                child: SuperListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
                   shrinkWrap: true,
                   primary: false,
                   itemCount: _extensionList.length,
                   itemBuilder: (context, index) {
                     final (label, idx) = _extensionList[index];
-                    return ListTileItemFilter(
+                    return ListTileChapterFilter(
                       label: label,
                       type: indexList.contains(idx) ? 1 : 0,
                       onTap: () {
@@ -167,17 +168,19 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                         onPressed: () async {
                           String? result;
                           if (Platform.isIOS) {
-                            result = await StorageProvider.getBackupDirectory();
+                            result =
+                                (await StorageProvider()
+                                        .getIosBackupDirectory())!
+                                    .path;
                           } else {
                             result =
                                 await FilePicker.platform.getDirectoryPath();
                           }
-
                           if (result != null && context.mounted) {
-                            ref.watch(
+                            ref.read(
                               doBackUpProvider(
                                 list: indexList,
-                                pathname: result,
+                                path: result,
                                 context: context,
                               ),
                             );
@@ -218,6 +221,7 @@ List<(String, int)> _getSettingsList(BuildContext context) {
   final l10n = context.l10n;
   return [
     (l10n.app_settings, 6),
+    (l10n.custom_buttons, 10),
     (l10n.sources_settings, 7),
     (l10n.include_sensitive_settings, 8),
   ];

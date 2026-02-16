@@ -3,13 +3,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/modules/more/settings/player/providers/player_state_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/utils/language.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
+import 'package:mangayomi/l10n/generated/app_localizations.dart';
 
-class PlayerScreen extends ConsumerWidget {
+class PlayerScreen extends ConsumerStatefulWidget {
   const PlayerScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PlayerScreen> createState() => _PlayerScreenState();
+}
+
+class _PlayerScreenState extends ConsumerState<PlayerScreen> {
+  @override
+  Widget build(BuildContext context) {
+    final defaultSubtitleLang = ref.watch(defaultSubtitleLangStateProvider);
     final markEpisodeAsSeenType = ref.watch(markEpisodeAsSeenTypeStateProvider);
     final defaultSkipIntroLength = ref.watch(
       defaultSkipIntroLengthStateProvider,
@@ -24,11 +33,73 @@ class PlayerScreen extends ConsumerWidget {
     final useLibass = ref.watch(useLibassStateProvider);
 
     final fullScreenPlayer = ref.watch(fullScreenPlayerStateProvider);
+    final forceLandscapePlayer = ref.watch(forceLandscapePlayerStateProvider);
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.player)),
+      appBar: AppBar(title: Text(context.l10n.internal_player)),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ListTile(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text(context.l10n.default_subtitle_language),
+                      content: SizedBox(
+                        width: context.width(0.8),
+                        child: RadioGroup(
+                          groupValue: defaultSubtitleLang,
+                          onChanged: (value) {
+                            ref
+                                .read(defaultSubtitleLangStateProvider.notifier)
+                                .setLocale(value!);
+                            Navigator.pop(context);
+                          },
+                          child: SuperListView.builder(
+                            shrinkWrap: true,
+                            itemCount: AppLocalizations.supportedLocales.length,
+                            itemBuilder: (context, index) {
+                              final locale =
+                                  AppLocalizations.supportedLocales[index];
+                              return RadioListTile(
+                                dense: true,
+                                contentPadding: const EdgeInsets.all(0),
+                                value: locale,
+                                title: Text(
+                                  completeLanguageName(locale.toLanguageTag()),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      actions: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                              onPressed: () async {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                context.l10n.cancel,
+                                style: TextStyle(color: context.primaryColor),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              title: Text(context.l10n.default_subtitle_language),
+              subtitle: Text(
+                completeLanguageName(defaultSubtitleLang.toLanguageTag()),
+                style: TextStyle(fontSize: 11, color: context.secondaryColor),
+              ),
+            ),
             ListTile(
               onTap: () {
                 final values = [100, 95, 90, 85, 80, 75, 70];
@@ -39,27 +110,30 @@ class PlayerScreen extends ConsumerWidget {
                       title: Text(context.l10n.markEpisodeAsSeenSetting),
                       content: SizedBox(
                         width: context.width(0.8),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: values.length,
-                          itemBuilder: (context, index) {
-                            return RadioListTile(
-                              dense: true,
-                              contentPadding: const EdgeInsets.all(0),
-                              value: values[index],
-                              groupValue: markEpisodeAsSeenType,
-                              onChanged: (value) {
-                                ref
-                                    .read(
-                                      markEpisodeAsSeenTypeStateProvider
-                                          .notifier,
-                                    )
-                                    .set(value!);
-                                Navigator.pop(context);
-                              },
-                              title: Row(children: [Text("${values[index]}%")]),
-                            );
+                        child: RadioGroup(
+                          groupValue: markEpisodeAsSeenType,
+                          onChanged: (value) {
+                            ref
+                                .read(
+                                  markEpisodeAsSeenTypeStateProvider.notifier,
+                                )
+                                .set(value!);
+                            Navigator.pop(context);
                           },
+                          child: SuperListView.builder(
+                            shrinkWrap: true,
+                            itemCount: values.length,
+                            itemBuilder: (context, index) {
+                              return RadioListTile(
+                                dense: true,
+                                contentPadding: const EdgeInsets.all(0),
+                                value: values[index],
+                                title: Row(
+                                  children: [Text("${values[index]}%")],
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                       actions: [
@@ -173,27 +247,31 @@ class PlayerScreen extends ConsumerWidget {
                       ),
                       content: SizedBox(
                         width: context.width(0.8),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: values.length,
-                          itemBuilder: (context, index) {
-                            return RadioListTile(
-                              dense: true,
-                              contentPadding: const EdgeInsets.all(0),
-                              value: values[index],
-                              groupValue: defaultDoubleTapToSkipLength,
-                              onChanged: (value) {
-                                ref
-                                    .read(
-                                      defaultDoubleTapToSkipLengthStateProvider
-                                          .notifier,
-                                    )
-                                    .set(value!);
-                                Navigator.pop(context);
-                              },
-                              title: Row(children: [Text("${values[index]}s")]),
-                            );
+                        child: RadioGroup(
+                          groupValue: defaultDoubleTapToSkipLength,
+                          onChanged: (value) {
+                            ref
+                                .read(
+                                  defaultDoubleTapToSkipLengthStateProvider
+                                      .notifier,
+                                )
+                                .set(value!);
+                            Navigator.pop(context);
                           },
+                          child: SuperListView.builder(
+                            shrinkWrap: true,
+                            itemCount: values.length,
+                            itemBuilder: (context, index) {
+                              return RadioListTile(
+                                dense: true,
+                                contentPadding: const EdgeInsets.all(0),
+                                value: values[index],
+                                title: Row(
+                                  children: [Text("${values[index]}s")],
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                       actions: [
@@ -232,27 +310,30 @@ class PlayerScreen extends ConsumerWidget {
                       title: Text(context.l10n.default_playback_speed_length),
                       content: SizedBox(
                         width: context.width(0.8),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: values.length,
-                          itemBuilder: (context, index) {
-                            return RadioListTile(
-                              dense: true,
-                              contentPadding: const EdgeInsets.all(0),
-                              value: values[index],
-                              groupValue: defaultPlayBackSpeed,
-                              onChanged: (value) {
-                                ref
-                                    .read(
-                                      defaultPlayBackSpeedStateProvider
-                                          .notifier,
-                                    )
-                                    .set(value!);
-                                Navigator.pop(context);
-                              },
-                              title: Row(children: [Text("x${values[index]}")]),
-                            );
+                        child: RadioGroup(
+                          groupValue: defaultPlayBackSpeed,
+                          onChanged: (value) {
+                            ref
+                                .read(
+                                  defaultPlayBackSpeedStateProvider.notifier,
+                                )
+                                .set(value!);
+                            Navigator.pop(context);
                           },
+                          child: SuperListView.builder(
+                            shrinkWrap: true,
+                            itemCount: values.length,
+                            itemBuilder: (context, index) {
+                              return RadioListTile(
+                                dense: true,
+                                contentPadding: const EdgeInsets.all(0),
+                                value: values[index],
+                                title: Row(
+                                  children: [Text("x${values[index]}")],
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                       actions: [
@@ -281,23 +362,6 @@ class PlayerScreen extends ConsumerWidget {
                 style: TextStyle(fontSize: 11, color: context.secondaryColor),
               ),
             ),
-            ListTile(
-              title: Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.info_outline_rounded,
-                      color: context.secondaryColor,
-                    ),
-                  ],
-                ),
-              ),
-              subtitle: Text(
-                context.l10n.aniskip_requires_info,
-                style: TextStyle(fontSize: 11, color: context.secondaryColor),
-              ),
-            ),
             SwitchListTile(
               value: useLibass,
               title: Text(context.l10n.use_libass),
@@ -319,6 +383,26 @@ class PlayerScreen extends ConsumerWidget {
                   (value) =>
                       ref.read(enableAniSkipStateProvider.notifier).set(value),
               children: [
+                ListTile(
+                  title: Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.info_outline_rounded,
+                          color: context.secondaryColor,
+                        ),
+                      ],
+                    ),
+                  ),
+                  subtitle: Text(
+                    context.l10n.aniskip_requires_info,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: context.secondaryColor,
+                    ),
+                  ),
+                ),
                 SwitchListTile(
                   value: enableAutoSkip,
                   title: Text(context.l10n.enable_auto_skip),
@@ -338,29 +422,31 @@ class PlayerScreen extends ConsumerWidget {
                           ),
                           content: SizedBox(
                             width: context.width(0.8),
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: values.length,
-                              itemBuilder: (context, index) {
-                                return RadioListTile(
-                                  dense: true,
-                                  contentPadding: const EdgeInsets.all(0),
-                                  value: values[index],
-                                  groupValue: aniSkipTimeoutLength,
-                                  onChanged: (value) {
-                                    ref
-                                        .read(
-                                          aniSkipTimeoutLengthStateProvider
-                                              .notifier,
-                                        )
-                                        .set(value!);
-                                    Navigator.pop(context);
-                                  },
-                                  title: Row(
-                                    children: [Text("${values[index]}s")],
-                                  ),
-                                );
+                            child: RadioGroup(
+                              groupValue: aniSkipTimeoutLength,
+                              onChanged: (value) {
+                                ref
+                                    .read(
+                                      aniSkipTimeoutLengthStateProvider
+                                          .notifier,
+                                    )
+                                    .set(value!);
+                                Navigator.pop(context);
                               },
+                              child: SuperListView.builder(
+                                shrinkWrap: true,
+                                itemCount: values.length,
+                                itemBuilder: (context, index) {
+                                  return RadioListTile(
+                                    dense: true,
+                                    contentPadding: const EdgeInsets.all(0),
+                                    value: values[index],
+                                    title: Row(
+                                      children: [Text("${values[index]}s")],
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           ),
                           actions: [
@@ -405,6 +491,17 @@ class PlayerScreen extends ConsumerWidget {
               ),
               onChanged: (value) {
                 ref.read(fullScreenPlayerStateProvider.notifier).set(value);
+              },
+            ),
+            SwitchListTile(
+              value: forceLandscapePlayer,
+              title: Text(context.l10n.forceLandscapeMode),
+              subtitle: Text(
+                context.l10n.forceLandscapeModeSubtitle,
+                style: TextStyle(fontSize: 11, color: context.secondaryColor),
+              ),
+              onChanged: (value) {
+                ref.read(forceLandscapePlayerStateProvider.notifier).set(value);
               },
             ),
           ],

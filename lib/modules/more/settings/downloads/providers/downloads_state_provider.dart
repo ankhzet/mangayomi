@@ -1,21 +1,28 @@
+import 'dart:io';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
+import 'package:path/path.dart' as path;
 part 'downloads_state_provider.g.dart';
 
 @riverpod
 class OnlyOnWifiState extends _$OnlyOnWifiState {
   @override
   bool build() {
-    return isar.settings.first.downloadOnlyOnWifi ?? false;
+    return isar.settings.getSync(227)!.downloadOnlyOnWifi ?? false;
   }
 
   void set(bool value) {
-    final settings = isar.settings.first;
+    final settings = isar.settings.getSync(227);
     state = value;
-    isar.settings.first = settings..downloadOnlyOnWifi = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..downloadOnlyOnWifi = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }
 
@@ -23,13 +30,19 @@ class OnlyOnWifiState extends _$OnlyOnWifiState {
 class SaveAsCBZArchiveState extends _$SaveAsCBZArchiveState {
   @override
   bool build() {
-    return isar.settings.first.saveAsCBZArchive ?? false;
+    return isar.settings.getSync(227)!.saveAsCBZArchive ?? false;
   }
 
   void set(bool value) {
-    final settings = isar.settings.first;
+    final settings = isar.settings.getSync(227);
     state = value;
-    isar.settings.first = settings..saveAsCBZArchive = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..saveAsCBZArchive = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }
 
@@ -37,26 +50,50 @@ class SaveAsCBZArchiveState extends _$SaveAsCBZArchiveState {
 class DownloadLocationState extends _$DownloadLocationState {
   @override
   (String, String) build() {
-    refresh();
-    return ('', isar.settings.first.downloadLocation ?? '');
+    _refresh();
+    return ("", isar.settings.getSync(227)!.downloadLocation ?? "");
   }
-
-  String get currentLocation => state.$2.isEmpty ? state.$1 : state.$2;
-
-  String get defaultLocation =>
-      StorageProvider.getDownloadsDirectoryPath(useDefault: true);
-
-  String get customLocation => state.$2;
 
   void set(String location) {
-    final settings = isar.settings.first;
-    state = (defaultLocation, location);
-    isar.settings.first = settings..downloadLocation = location;
+    final settings = isar.settings.getSync(227);
+    state = (path.join(_storageProvider!.path, 'downloads'), location);
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..downloadLocation = location
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 
-  Future refresh() async {
-    await Future.delayed(const Duration(milliseconds: 50), () async {
-      state = (defaultLocation, isar.settings.first.downloadLocation ?? '');
-    });
+  Directory? _storageProvider;
+
+  Future _refresh() async {
+    _storageProvider = await StorageProvider().getDefaultDirectory();
+    final settings = isar.settings.getSync(227);
+    state = (
+      path.join(_storageProvider!.path, 'downloads'),
+      settings!.downloadLocation ?? "",
+    );
+  }
+}
+
+@riverpod
+class ConcurrentDownloadsState extends _$ConcurrentDownloadsState {
+  @override
+  int build() {
+    return isar.settings.getSync(227)!.concurrentDownloads ?? 1;
+  }
+
+  void set(int value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..concurrentDownloads = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }

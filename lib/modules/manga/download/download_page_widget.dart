@@ -1,45 +1,48 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
-import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
+import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/global_style.dart';
-import 'package:path/path.dart' as path;
 import 'package:share_plus/share_plus.dart';
+import 'package:path/path.dart' as p;
 
 class ChapterPageDownload extends ConsumerWidget {
   final Chapter chapter;
-  late final manga = chapter.manga.value!;
 
-  ChapterPageDownload({super.key, required this.chapter});
+  const ChapterPageDownload({super.key, required this.chapter});
 
   void _startDownload(bool? useWifi, int? downloadId, WidgetRef ref) async {
     _cancelTasks(downloadId: downloadId);
     ref.read(downloadChapterProvider(chapter: chapter, useWifi: useWifi));
   }
 
-  void _sendFile() async {
-    final mangaDir = await StorageProvider.getMangaMainDirectory(manga);
-    final cbzFile = File(path.join(mangaDir, "${chapter.name}.cbz"));
+  void _sendFile(BuildContext context) async {
+    final storageProvider = StorageProvider();
+    final mangaDir = await storageProvider.getMangaMainDirectory(chapter);
+    final path = await storageProvider.getMangaChapterDirectory(
+      chapter,
+      mangaMainDirectory: mangaDir,
+    );
+
+    List<XFile> files = [];
+
+    final cbzFile = File(p.join(mangaDir!.path, "${chapter.name}.cbz"));
     final mp4File = File(
-      path.join(
-        mangaDir,
+      p.join(
+        mangaDir.path,
         "${chapter.name!.replaceForbiddenCharacters(' ')}.mp4",
       ),
     );
-    final htmlFile = File(path.join(mangaDir, "${chapter.name}.html"));
-
-    List<XFile> files;
-
+    final htmlFile = File(p.join(mangaDir.path, "${chapter.name}.html"));
     if (cbzFile.existsSync()) {
       files = [XFile(cbzFile.path)];
     } else if (mp4File.existsSync()) {
@@ -47,29 +50,54 @@ class ChapterPageDownload extends ConsumerWidget {
     } else if (htmlFile.existsSync()) {
       files = [XFile(htmlFile.path)];
     } else {
-      final path = await StorageProvider.getMangaChapterDirectory(chapter);
-      files = Directory(path).listSync().map((e) => XFile(e.path)).toList();
+      files = path!.listSync().map((e) => XFile(e.path)).toList();
     }
-
-    if (files.isNotEmpty) {
-      Share.shareXFiles(files, text: chapter.name);
+    if (files.isNotEmpty && context.mounted) {
+      final box = context.findRenderObject() as RenderBox?;
+      SharePlus.instance.share(
+        ShareParams(
+          files: files,
+          text: chapter.name,
+          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+        ),
+      );
     }
   }
 
   void _deleteFile(int downloadId) async {
-    final mangaDir = await StorageProvider.getMangaMainDirectory(manga);
-    final pathname = await StorageProvider.getMangaChapterDirectory(chapter);
+    final storageProvider = StorageProvider();
+    final mangaDir = await storageProvider.getMangaMainDirectory(chapter);
+    final path = await storageProvider.getMangaChapterDirectory(
+      chapter,
+      mangaMainDirectory: mangaDir,
+    );
 
-    File(path.join(mangaDir, "${chapter.name}.cbz")).safeRecursiveDeleteSync();
-    File(
-      path.join(
-        mangaDir,
-        "${chapter.name!.replaceForbiddenCharacters(' ')}.mp4",
-      ),
-    ).safeRecursiveDeleteSync();
-    File(path.join(mangaDir, "${chapter.name}.html")).safeRecursiveDeleteSync();
-    Directory(pathname).safeRecursiveDeleteSync();
-
+    try {
+      try {
+        final cbzFile = File(p.join(mangaDir!.path, "${chapter.name}.cbz"));
+        if (cbzFile.existsSync()) {
+          cbzFile.deleteSync();
+        }
+      } catch (_) {}
+      try {
+        final mp4File = File(
+          p.join(
+            mangaDir!.path,
+            "${chapter.name!.replaceForbiddenCharacters(' ')}.mp4",
+          ),
+        );
+        if (mp4File.existsSync()) {
+          mp4File.deleteSync();
+        }
+      } catch (_) {}
+      try {
+        final htmlFile = File(p.join(mangaDir!.path, "${chapter.name}.html"));
+        if (htmlFile.existsSync()) {
+          htmlFile.deleteSync();
+        }
+      } catch (_) {}
+      path!.deleteSync(recursive: true);
+    } catch (_) {}
     chapter.cancelDownloads(downloadId);
   }
 
@@ -102,7 +130,7 @@ class ChapterPageDownload extends ConsumerWidget {
                     ),
                     onSelected: (value) {
                       if (value == 0) {
-                        _sendFile();
+                        _sendFile(context);
                       } else if (value == 1) {
                         _deleteFile(download.id!);
                       }

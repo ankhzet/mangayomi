@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/settings.dart';
-import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 
 class ReaderScreen extends ConsumerWidget {
   const ReaderScreen({super.key});
@@ -38,35 +41,35 @@ class ReaderScreen extends ConsumerWidget {
                       title: Text(context.l10n.default_reading_mode),
                       content: SizedBox(
                         width: context.width(0.8),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: ReaderMode.values.length,
-                          itemBuilder: (context, index) {
-                            return RadioListTile(
-                              dense: true,
-                              contentPadding: const EdgeInsets.all(0),
-                              value: ReaderMode.values[index],
-                              groupValue: defaultReadingMode,
-                              onChanged: (value) {
-                                ref
-                                    .read(
-                                      defaultReadingModeStateProvider.notifier,
-                                    )
-                                    .set(value!);
-                                Navigator.pop(context);
-                              },
-                              title: Row(
-                                children: [
-                                  Text(
-                                    getReaderModeName(
-                                      ReaderMode.values[index],
-                                      context,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
+                        child: RadioGroup(
+                          groupValue: defaultReadingMode,
+                          onChanged: (value) {
+                            ref
+                                .read(defaultReadingModeStateProvider.notifier)
+                                .set(value!);
+                            Navigator.pop(context);
                           },
+                          child: SuperListView.builder(
+                            shrinkWrap: true,
+                            itemCount: ReaderMode.values.length,
+                            itemBuilder: (context, index) {
+                              return RadioListTile(
+                                dense: true,
+                                contentPadding: const EdgeInsets.all(0),
+                                value: ReaderMode.values[index],
+                                title: Row(
+                                  children: [
+                                    Text(
+                                      getReaderModeName(
+                                        ReaderMode.values[index],
+                                        context,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                       actions: [
@@ -104,31 +107,32 @@ class ReaderScreen extends ConsumerWidget {
                       title: Text(context.l10n.double_tap_animation_speed),
                       content: SizedBox(
                         width: context.width(0.8),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: 3,
-                          itemBuilder: (context, index) {
-                            return RadioListTile(
-                              dense: true,
-                              contentPadding: const EdgeInsets.all(0),
-                              value: index,
-                              groupValue: doubleTapAnimationSpeed,
-                              onChanged: (value) {
-                                ref
-                                    .read(
-                                      doubleTapAnimationSpeedStateProvider
-                                          .notifier,
-                                    )
-                                    .set(value!);
-                                Navigator.pop(context);
-                              },
-                              title: Row(
-                                children: [
-                                  Text(getAnimationSpeedName(index, context)),
-                                ],
-                              ),
-                            );
+                        child: RadioGroup(
+                          groupValue: doubleTapAnimationSpeed,
+                          onChanged: (value) {
+                            ref
+                                .read(
+                                  doubleTapAnimationSpeedStateProvider.notifier,
+                                )
+                                .set(value!);
+                            Navigator.pop(context);
                           },
+                          child: SuperListView.builder(
+                            shrinkWrap: true,
+                            itemCount: 3,
+                            itemBuilder: (context, index) {
+                              return RadioListTile(
+                                dense: true,
+                                contentPadding: const EdgeInsets.all(0),
+                                value: index,
+                                title: Row(
+                                  children: [
+                                    Text(getAnimationSpeedName(index, context)),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                       actions: [
@@ -166,33 +170,35 @@ class ReaderScreen extends ConsumerWidget {
                       title: Text(context.l10n.background_color),
                       content: SizedBox(
                         width: context.width(0.8),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: BackgroundColor.values.length,
-                          itemBuilder: (context, index) {
-                            return RadioListTile(
-                              dense: true,
-                              contentPadding: const EdgeInsets.all(0),
-                              value: BackgroundColor.values[index],
-                              groupValue: backgroundColor,
-                              onChanged: (value) {
-                                ref
-                                    .read(backgroundColorStateProvider.notifier)
-                                    .set(value!);
-                                Navigator.pop(context);
-                              },
-                              title: Row(
-                                children: [
-                                  Text(
-                                    getBackgroundColorName(
-                                      BackgroundColor.values[index],
-                                      context,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
+                        child: RadioGroup(
+                          groupValue: backgroundColor,
+                          onChanged: (value) {
+                            ref
+                                .read(backgroundColorStateProvider.notifier)
+                                .set(value!);
+                            Navigator.pop(context);
                           },
+                          child: SuperListView.builder(
+                            shrinkWrap: true,
+                            itemCount: BackgroundColor.values.length,
+                            itemBuilder: (context, index) {
+                              return RadioListTile(
+                                dense: true,
+                                contentPadding: const EdgeInsets.all(0),
+                                value: BackgroundColor.values[index],
+                                title: Row(
+                                  children: [
+                                    Text(
+                                      getBackgroundColorName(
+                                        BackgroundColor.values[index],
+                                        context,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                       actions: [
@@ -223,52 +229,62 @@ class ReaderScreen extends ConsumerWidget {
             ),
             ListTile(
               onTap: () {
-                List<int> numbers = [4, 6, 8, 10, 12, 14, 16, 18, 20];
                 showDialog(
                   context: context,
                   builder: (context) {
+                    int tempAmount = pagePreloadAmount;
                     return AlertDialog(
                       title: Text(context.l10n.page_preload_amount),
                       content: SizedBox(
                         width: context.width(0.8),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: numbers.length,
-                          itemBuilder: (context, index) {
-                            return RadioListTile(
-                              dense: true,
-                              contentPadding: const EdgeInsets.all(0),
-                              value: numbers[index],
-                              groupValue: pagePreloadAmount,
-                              onChanged: (value) {
-                                ref
-                                    .read(
-                                      pagePreloadAmountStateProvider.notifier,
-                                    )
-                                    .set(value!);
-                                Navigator.pop(context);
-                              },
-                              title: Row(
-                                children: [Text(numbers[index].toString())],
-                              ),
+                        child: StatefulBuilder(
+                          builder: (context, setState) {
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  tempAmount.toString(),
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Slider(
+                                  value: tempAmount.toDouble(),
+                                  min: 1,
+                                  max: 20,
+                                  // divisions: 19, // makes the slider a bit sluggish
+                                  // label: tempAmount.toString(), // value indicator balloon. Redundant because of the Text widget above
+                                  onChanged: (double newVal) {
+                                    setState(() {
+                                      tempAmount = newVal.round();
+                                    });
+                                  },
+                                ),
+                              ],
                             );
                           },
                         ),
                       ),
                       actions: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                              onPressed: () async {
-                                Navigator.pop(context);
-                              },
-                              child: Text(
-                                context.l10n.cancel,
-                                style: TextStyle(color: context.primaryColor),
-                              ),
-                            ),
-                          ],
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text(
+                            context.l10n.cancel,
+                            style: TextStyle(color: context.primaryColor),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            ref
+                                .read(pagePreloadAmountStateProvider.notifier)
+                                .set(tempAmount);
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            context.l10n.ok,
+                            style: TextStyle(color: context.primaryColor),
+                          ),
                         ),
                       ],
                     );
@@ -290,32 +306,34 @@ class ReaderScreen extends ConsumerWidget {
                       title: Text(context.l10n.scale_type),
                       content: SizedBox(
                         width: context.width(0.8),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: getScaleTypeNames(context).length,
-                          itemBuilder: (context, index) {
-                            return RadioListTile(
-                              // dense: true,
-                              contentPadding: const EdgeInsets.all(0),
-                              value: index,
-                              groupValue: scaleType.index,
-                              onChanged: (value) {
-                                ref
-                                    .read(scaleTypeStateProvider.notifier)
-                                    .set(ScaleType.values[value!]);
-                                Navigator.pop(context);
-                              },
-                              title: Row(
-                                children: [
-                                  Text(
-                                    getScaleTypeNames(
-                                      context,
-                                    )[index].toString(),
-                                  ),
-                                ],
-                              ),
-                            );
+                        child: RadioGroup(
+                          groupValue: scaleType.index,
+                          onChanged: (value) {
+                            ref
+                                .read(scaleTypeStateProvider.notifier)
+                                .set(ScaleType.values[value!]);
+                            Navigator.pop(context);
                           },
+                          child: SuperListView.builder(
+                            shrinkWrap: true,
+                            itemCount: getScaleTypeNames(context).length,
+                            itemBuilder: (context, index) {
+                              return RadioListTile(
+                                // dense: true,
+                                contentPadding: const EdgeInsets.all(0),
+                                value: index,
+                                title: Row(
+                                  children: [
+                                    Text(
+                                      getScaleTypeNames(
+                                        context,
+                                      )[index].toString(),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                       actions: [
@@ -344,13 +362,14 @@ class ReaderScreen extends ConsumerWidget {
                 style: TextStyle(fontSize: 11, color: context.secondaryColor),
               ),
             ),
-            SwitchListTile(
-              value: fullScreenReader,
-              title: Text(context.l10n.fullscreen),
-              onChanged: (value) {
-                ref.read(fullScreenReaderStateProvider.notifier).set(value);
-              },
-            ),
+            if (!(Platform.isAndroid || Platform.isIOS))
+              SwitchListTile(
+                value: fullScreenReader,
+                title: Text(context.l10n.fullscreen),
+                onChanged: (value) {
+                  ref.read(fullScreenReaderStateProvider.notifier).set(value);
+                },
+              ),
             SwitchListTile(
               value: animatePageTransitions,
               title: Text(context.l10n.animate_page_transitions),

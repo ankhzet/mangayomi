@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,16 +7,17 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangayomi/main.dart';
+import 'package:mangayomi/modules/more/settings/general/providers/general_state_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/services/http/m_client.dart';
+import 'package:mangayomi/utils/constant.dart';
 import 'package:mangayomi/utils/global_style.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 class MangaWebView extends ConsumerStatefulWidget {
   final String url;
   final String title;
-
   const MangaWebView({super.key, required this.url, required this.title});
 
   @override
@@ -25,12 +25,15 @@ class MangaWebView extends ConsumerStatefulWidget {
 }
 
 class _MangaWebViewState extends ConsumerState<MangaWebView> {
-  late final MyInAppBrowser browser;
+  MyInAppBrowser? browser;
   double _progress = 0;
   bool isNotWebviewWindow = false;
-
+  bool _initialized = false;
   @override
-  void initState() {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_initialized) return;
+    _initialized = true;
     if (Platform.isLinux || Platform.isWindows) {
       _runWebViewDesktop();
     } else {
@@ -38,12 +41,27 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
         isNotWebviewWindow = true;
       });
     }
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (Platform.isLinux) {
+      _desktopWebview?.close();
+    } else {
+      if (browser != null) {
+        if (browser!.isOpened()) browser!.close();
+        browser!.dispose();
+      }
+    }
+    super.dispose();
   }
 
   Webview? _desktopWebview;
-
-  _runWebViewDesktop() async {
+  Future<void> _runWebViewDesktop() async {
+    String? ua = ref.watch(userAgentStateProvider);
+    if (ua == defaultUserAgent) {
+      ua = null;
+    }
     if (Platform.isLinux) {
       _desktopWebview = await WebviewWindow.create();
 
@@ -61,17 +79,13 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
           await MClient.setCookie(_url, ua, null, cookie: cookie);
         } catch (_) {}
       });
-
-      final ctx = context;
-
       _desktopWebview!
         ..setBrightness(Brightness.dark)
         ..launch(widget.url)
         ..onClose.whenComplete(() {
           timer.cancel();
-
-          if (ctx.mounted) {
-            Navigator.pop(ctx);
+          if (mounted) {
+            Navigator.pop(context);
           }
         });
     } else {
@@ -96,7 +110,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
           }
         },
       );
-      await browser.openUrlRequest(
+      await browser!.openUrlRequest(
         urlRequest: URLRequest(url: WebUri(widget.url)),
         settings: InAppBrowserClassSettings(
           browserSettings: InAppBrowserSettings(
@@ -105,6 +119,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
           webViewSettings: InAppWebViewSettings(
             isInspectable: kDebugMode,
             useShouldOverrideUrlLoading: true,
+            userAgent: ua,
           ),
         ),
       );
@@ -116,7 +131,6 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
   late String _title = widget.title;
   bool _canGoback = false;
   bool _canGoForward = false;
-
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context);
@@ -132,7 +146,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
             ),
             leading: IconButton(
               onPressed: () {
-                _desktopWebview!.close();
+                if (_desktopWebview != null) _desktopWebview!.close();
 
                 Navigator.pop(context);
               },
@@ -142,15 +156,15 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
         )
         : Material(
           child: SafeArea(
-            child: PopScope(
-              canPop: false,
-              onPopInvokedWithResult: (didPop, _) async {
+            child: WillPopScope(
+              onWillPop: () async {
                 final canGoback = await _webViewController?.canGoBack();
                 if (canGoback ?? false) {
                   _webViewController?.goBack();
                 } else if (context.mounted) {
                   context.pop();
                 }
+                return false;
               },
               child: Column(
                 children: [
@@ -178,9 +192,9 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                             leading: IconButton(
                               onPressed: () {
                                 if (Platform.isWindows) {
-                                  if (browser.isOpened()) {
-                                    browser.close();
-                                    browser.dispose();
+                                  if (browser!.isOpened()) {
+                                    browser!.close();
+                                    browser!.dispose();
                                   }
                                 }
                                 Navigator.pop(context);
@@ -239,7 +253,16 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                             if (value == 0) {
                               _webViewController?.reload();
                             } else if (value == 1) {
-                              Share.share(_url);
+                              final box =
+                                  context.findRenderObject() as RenderBox?;
+                              SharePlus.instance.share(
+                                ShareParams(
+                                  text: _url,
+                                  sharePositionOrigin:
+                                      box!.localToGlobal(Offset.zero) &
+                                      box.size,
+                                ),
+                              );
                             } else if (value == 2) {
                               await InAppBrowser.openWithSystemBrowser(
                                 url: WebUri(_url),
@@ -345,7 +368,6 @@ class MyInAppBrowser extends InAppBrowser {
   BuildContext context;
   void Function(InAppWebViewController) controller;
   void Function(int) onProgress;
-
   MyInAppBrowser({
     required this.context,
     required this.controller,

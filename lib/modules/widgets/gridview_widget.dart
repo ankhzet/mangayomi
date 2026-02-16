@@ -7,7 +7,6 @@ class GridViewWidget extends StatelessWidget {
   final double? childAspectRatio;
   final Widget? Function(BuildContext, int) itemBuilder;
   final int? gridSize;
-
   const GridViewWidget({
     super.key,
     this.controller,

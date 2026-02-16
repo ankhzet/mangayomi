@@ -1,5 +1,4 @@
-import 'package:isar/isar.dart';
-
+import 'package:isar_community/isar.dart';
 part 'track_preference.g.dart';
 
 @collection
@@ -13,7 +12,15 @@ class TrackPreference {
 
   String? prefs;
 
-  TrackPreference({this.syncId, this.username, this.oAuth, this.prefs});
+  bool? refreshing;
+
+  TrackPreference({
+    this.syncId,
+    this.username,
+    this.oAuth,
+    this.prefs,
+    this.refreshing,
+  });
 
   TrackPreference.fromJson(Map<String, dynamic> json) {
     syncId = json['syncId'];

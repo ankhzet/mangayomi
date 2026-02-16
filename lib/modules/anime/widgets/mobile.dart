@@ -1,8 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'dart:async';
 import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/modules/anime/anime_player_view.dart';
@@ -12,18 +10,21 @@ import 'package:mangayomi/modules/anime/widgets/indicator_builder.dart';
 import 'package:mangayomi/modules/anime/widgets/subtitle_view.dart';
 import 'package:mangayomi/modules/manga/reader/providers/push_router.dart';
 import 'package:mangayomi/modules/more/settings/player/providers/player_state_provider.dart';
+import 'package:mangayomi/modules/anime/widgets/play_or_pause_button.dart';
+import 'package:volume_controller/volume_controller.dart';
+import 'package:screen_brightness/screen_brightness.dart';
+import 'package:flutter/material.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:media_kit_video/media_kit_video_controls/src/controls/extensions/duration.dart';
-import 'package:screen_brightness/screen_brightness.dart';
-import 'package:volume_controller/volume_controller.dart';
 
 class MobileControllerWidget extends ConsumerStatefulWidget {
+  final Function(bool?) doubleSpeed;
   final AnimeStreamController streamController;
   final VideoController videoController;
   final Widget topButtonBarWidget;
   final GlobalKey<VideoState> videoStatekey;
   final Widget bottomButtonBarWidget;
-
+  final ValueNotifier<List<(String, int)>> chapterMarks;
   const MobileControllerWidget({
     super.key,
     required this.videoController,
@@ -31,6 +32,8 @@ class MobileControllerWidget extends ConsumerStatefulWidget {
     required this.bottomButtonBarWidget,
     required this.streamController,
     required this.videoStatekey,
+    required this.doubleSpeed,
+    required this.chapterMarks,
   });
 
   @override
@@ -50,12 +53,12 @@ class _MobileControllerWidgetState
   );
   final ValueNotifier<double> _brightnessValue = ValueNotifier(0.0);
   final ValueNotifier<bool> _brightnessIndicator = ValueNotifier(false);
+  StreamSubscription<double>? _brightnessSubscription;
   Timer? _brightnessTimer;
 
   final ValueNotifier<double> _volumeValue = ValueNotifier(0.0);
   final ValueNotifier<bool> _volumeIndicator = ValueNotifier(false);
   Timer? _volumeTimer;
-
   // The default event stream in package:volume_controller is buggy.
   bool _volumeInterceptEventStream = false;
 
@@ -63,6 +66,7 @@ class _MobileControllerWidgetState
       Offset.zero; // Initial position for horizontal drag
   int swipeDuration = 0; // Duration to seek in video
   bool showSwipeDuration = false; // Whether to show the seek duration overlay
+  double previousPlaybackSpeed = -1;
 
   late bool buffering = widget.videoController.player.state.buffering;
   final controlsHoverDuration = const Duration(seconds: 3);
@@ -93,7 +97,6 @@ class _MobileControllerWidgetState
 
   final horizontalGestureSensitivity = 7500;
   final verticalGestureSensitivity = 500;
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -127,14 +130,22 @@ class _MobileControllerWidgetState
     for (final subscription in subscriptions) {
       subscription.cancel();
     }
-    // --------------------------------------------------
+    _timer?.cancel();
+    _volumeTimer?.cancel();
+    _brightnessTimer?.cancel();
+    _volumeValue.dispose();
+    _volumeIndicator.dispose();
+    _brightnessValue.dispose();
+    _brightnessIndicator.dispose();
+    _brightnessSubscription?.cancel();
+    _volumeController.removeListener();
+
     // package:screen_brightness
     Future.microtask(() async {
       try {
         await ScreenBrightness.instance.resetApplicationScreenBrightness();
       } catch (_) {}
     });
-    // --------------------------------------------------
     super.dispose();
   }
 
@@ -219,45 +230,42 @@ class _MobileControllerWidgetState
     });
   }
 
+  late final VolumeController _volumeController;
   @override
   void initState() {
     super.initState();
-    // --------------------------------------------------
-    // package:volume_controller
+    _volumeController = VolumeController.instance;
+
     Future.microtask(() async {
       try {
-        VolumeController().showSystemUI = false;
-        _volumeValue.value = await VolumeController().getVolume();
-        VolumeController().listener((value) {
+        _volumeController.showSystemUI = false;
+        _volumeValue.value = await _volumeController.getVolume();
+        _volumeController.addListener((value) {
           if (mounted && !_volumeInterceptEventStream) {
             _volumeValue.value = value;
           }
         });
       } catch (_) {}
     });
-    // --------------------------------------------------
-    // --------------------------------------------------
-    // package:screen_brightness
+
     Future.microtask(() async {
       try {
         _brightnessValue.value = await ScreenBrightness.instance.application;
-        ScreenBrightness.instance.onApplicationScreenBrightnessChanged.listen((
-          value,
-        ) {
-          if (mounted) {
-            _brightnessValue.value = value;
-          }
-        });
+        _brightnessSubscription = ScreenBrightness
+            .instance
+            .onApplicationScreenBrightnessChanged
+            .listen((value) {
+              if (mounted) {
+                _brightnessValue.value = value;
+              }
+            });
       } catch (_) {}
     });
-    // --------------------------------------------------
   }
 
   Future<void> setVolume(double value) async {
-    // --------------------------------------------------
-    // package:volume_controller
     try {
-      VolumeController().setVolume(value);
+      _volumeController.setVolume(value);
     } catch (_) {}
     _volumeValue.value = value;
     _volumeIndicator.value = true;
@@ -269,11 +277,9 @@ class _MobileControllerWidgetState
         _volumeInterceptEventStream = false;
       }
     });
-    // --------------------------------------------------
   }
 
   Future<void> setBrightness(double value) async {
-    // --------------------------------------------------
     // package:screen_brightness
     try {
       await ScreenBrightness.instance.setApplicationScreenBrightness(value);
@@ -285,7 +291,6 @@ class _MobileControllerWidgetState
         _brightnessIndicator.value = false;
       }
     });
-    // --------------------------------------------------
   }
 
   @override
@@ -346,6 +351,23 @@ class _MobileControllerWidgetState
                             onDoubleTapSeekForward();
                           } else {
                             onDoubleTapSeekBackward();
+                          }
+                        },
+                        onLongPressStart: (e) {
+                          previousPlaybackSpeed =
+                              widget.videoController.player.state.rate;
+                          widget.videoController.player.setRate(
+                            previousPlaybackSpeed * 2,
+                          );
+                          widget.doubleSpeed(true);
+                        },
+                        onLongPressEnd: (e) {
+                          if (previousPlaybackSpeed != -1) {
+                            widget.videoController.player.setRate(
+                              previousPlaybackSpeed,
+                            );
+                            previousPlaybackSpeed = -1;
+                            widget.doubleSpeed(false);
                           }
                         },
                         onHorizontalDragUpdate: (details) {
@@ -447,6 +469,7 @@ class _MobileControllerWidgetState
                                       });
                                     },
                                     player: widget.videoController.player,
+                                    chapterMarks: widget.chapterMarks,
                                   ),
                                 ),
                                 widget.bottomButtonBarWidget,
@@ -474,6 +497,7 @@ class _MobileControllerWidgetState
                             child: CustomSeekBar(
                               delta: _seekBarDeltaValueNotifier,
                               player: widget.videoController.player,
+                              chapterMarks: widget.chapterMarks,
                             ),
                           ),
                         ],
@@ -709,7 +733,6 @@ class _BackwardSeekIndicator extends StatefulWidget {
   final void Function(Duration) onChanged;
   final void Function(Duration) onSubmitted;
   final int skipDuration;
-
   const _BackwardSeekIndicator({
     required this.onChanged,
     required this.onSubmitted,
@@ -795,7 +818,6 @@ class _ForwardSeekIndicator extends StatefulWidget {
   final void Function(Duration) onChanged;
   final void Function(Duration) onSubmitted;
   final int skipDuration;
-
   const _ForwardSeekIndicator({
     required this.onChanged,
     required this.onSubmitted,
@@ -877,74 +899,6 @@ class _ForwardSeekIndicatorState extends State<_ForwardSeekIndicator> {
   }
 }
 
-// BUTTON: PLAY/PAUSE
-
-/// A material design play/pause button.
-class CustomMaterialPlayOrPauseButton extends StatefulWidget {
-  final VideoController controller;
-
-  const CustomMaterialPlayOrPauseButton({super.key, required this.controller});
-
-  @override
-  CustomMaterialPlayOrPauseButtonState createState() =>
-      CustomMaterialPlayOrPauseButtonState();
-}
-
-class CustomMaterialPlayOrPauseButtonState
-    extends State<CustomMaterialPlayOrPauseButton>
-    with SingleTickerProviderStateMixin {
-  late final animation = AnimationController(
-    vsync: this,
-    value: widget.controller.player.state.playing ? 1 : 0,
-    duration: const Duration(milliseconds: 200),
-  );
-
-  StreamSubscription<bool>? subscription;
-
-  @override
-  void setState(VoidCallback fn) {
-    if (mounted) {
-      super.setState(fn);
-    }
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    subscription ??= widget.controller.player.stream.playing.listen((event) {
-      if (event) {
-        animation.forward();
-      } else {
-        animation.reverse();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    animation.dispose();
-    subscription?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: widget.controller.player.playOrPause,
-      iconSize: 65,
-      color: Colors.white,
-      icon: IgnorePointer(
-        child: AnimatedIcon(
-          progress: animation,
-          icon: AnimatedIcons.play_pause,
-          size: 65,
-          color: Colors.white,
-        ),
-      ),
-    );
-  }
-}
-
 List<Widget> mobilePrimaryButtonBar(
   BuildContext context,
   GlobalKey<VideoState> key,
@@ -978,7 +932,7 @@ List<Widget> mobilePrimaryButtonBar(
       ),
     ),
     const Spacer(),
-    CustomMaterialPlayOrPauseButton(controller: controller),
+    CustomPlayOrPauseButton(controller: controller, isDesktop: false),
     const Spacer(),
     IconButton(
       onPressed:

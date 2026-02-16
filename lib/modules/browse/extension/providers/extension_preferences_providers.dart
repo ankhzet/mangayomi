@@ -1,4 +1,6 @@
-import 'package:isar/isar.dart';
+import 'dart:convert';
+
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/eval/model/source_preference.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/source.dart';
@@ -12,6 +14,23 @@ void setPreferenceSetting(SourcePreference sourcePreference, Source source) {
           .keyEqualTo(sourcePreference.key)
           .findFirstSync();
   isar.writeTxnSync(() {
+    if (source.sourceCodeLanguage == SourceCodeLanguage.mihon &&
+        source.preferenceList != null) {
+      final prefs =
+          (jsonDecode(source.preferenceList!) as List)
+              .map((e) => SourcePreference.fromJson(e))
+              .toList();
+      final idx = prefs.indexWhere((e) => e.key == sourcePreference.key);
+      if (idx != -1) {
+        prefs[idx] = sourcePreference..id = null;
+        isar.sources.putSync(
+          source
+            ..preferenceList = jsonEncode(
+              prefs.map((e) => e.toJson()).toList(),
+            ),
+        );
+      }
+    }
     if (sourcePref != null) {
       isar.sourcePreferences.putSync(sourcePreference);
     } else {
@@ -20,7 +39,7 @@ void setPreferenceSetting(SourcePreference sourcePreference, Source source) {
   });
 }
 
-getPreferenceValue(int sourceId, String key) {
+dynamic getPreferenceValue(int sourceId, String key) {
   final sourcePreference = getSourcePreferenceEntry(key, sourceId);
 
   if (sourcePreference.listPreference != null) {

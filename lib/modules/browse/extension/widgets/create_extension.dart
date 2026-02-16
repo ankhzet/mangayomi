@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
-import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 
@@ -22,14 +20,18 @@ class _CreateExtensionState extends State<CreateExtension> {
   String _baseUrl = "";
   String _apiUrl = "";
   String _iconUrl = "";
+  String _notes = "";
   int _sourceTypeIndex = 0;
   int _itemTypeIndex = 0;
   int _languageIndex = 0;
   final List<String> _sourceTypes = ["single", "multi", "torrent"];
   final List<String> _itemTypes = ["Manga", "Anime", "Novel"];
-  final List<String> _languages = ["Dart", "JavaScript"];
+  final List<String> _languages = [
+    "Dart",
+    "JavaScript",
+    "LNReader compiled JS",
+  ];
   SourceCodeLanguage _sourceCodeLanguage = SourceCodeLanguage.dart;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,9 +72,11 @@ class _CreateExtensionState extends State<CreateExtension> {
                           setState(() {
                             if (v == 0) {
                               _sourceCodeLanguage = SourceCodeLanguage.dart;
-                            } else {
+                            } else if (v == 1) {
                               _sourceCodeLanguage =
                                   SourceCodeLanguage.javascript;
+                            } else {
+                              _sourceCodeLanguage = SourceCodeLanguage.lnreader;
                             }
                             _languageIndex = v!;
                           });
@@ -112,6 +116,16 @@ class _CreateExtensionState extends State<CreateExtension> {
                   _iconUrl = v;
                 });
               }),
+              _textEditing(
+                "notes",
+                context,
+                "ex: this extension requires login",
+                (v) {
+                  setState(() {
+                    _notes = v;
+                  });
+                },
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 17),
                 child: Row(
@@ -218,6 +232,7 @@ class _CreateExtensionState extends State<CreateExtension> {
                                   isActive: true,
                                   version: "0.0.1",
                                   isNsfw: false,
+                                  notes: _notes,
                                 )..sourceCodeLanguage = _sourceCodeLanguage;
                                 source =
                                     source
@@ -228,17 +243,11 @@ class _CreateExtensionState extends State<CreateExtension> {
                                               ? _dartTemplate
                                               : _jsSample(source);
                                 isar.writeTxnSync(() {
-                                  isar.sources.putSync(source);
-                                  ref
-                                      .read(
-                                        synchingProvider(syncId: 1).notifier,
-                                      )
-                                      .addChangedPart(
-                                        ActionType.addExtension,
-                                        source.id,
-                                        source.toJson(),
-                                        false,
-                                      );
+                                  isar.sources.putSync(
+                                    source
+                                      ..updatedAt =
+                                          DateTime.now().millisecondsSinceEpoch,
+                                  );
                                 });
                                 Navigator.pop(context);
                                 botToast("Source created successfully");
@@ -302,7 +311,7 @@ class TestSource extends MProvider {
 
   MSource source;
 
-  final Client client = Client(source);
+  final Client client = Client();
 
   @override
   bool get supportsLatest => true;
@@ -332,7 +341,7 @@ class TestSource extends MProvider {
   
   // For novel html content
   @override
-  Future<String> getHtmlContent(String url) async {
+  Future<String> getHtmlContent(String name, String url) async {
     // TODO: implement
   }
   
@@ -379,7 +388,8 @@ const mangayomiSources = [{
     "typeSource": "${source.typeSource}",
     "itemType": ${source.itemType.index},
     "version": "${source.version}",
-    "pkgPath": ""
+    "pkgPath": "",
+    "notes": ""
 }];
 
 class DefaultExtension extends MProvider {
@@ -402,7 +412,7 @@ class DefaultExtension extends MProvider {
         throw new Error("getDetail not implemented");
     }
     // For novel html content
-    async getHtmlContent(url) {
+    async getHtmlContent(name, url) {
         throw new Error("getHtmlContent not implemented");
     }
     // Clean html up for reader

@@ -1,13 +1,9 @@
-import 'package:dart_eval/dart_eval_bridge.dart';
-import 'package:dart_eval/stdlib/core.dart';
-import 'package:mangayomi/eval/dart/bridge/m_source.dart';
-import 'package:mangayomi/eval/dart/compiler/compiler.dart';
-import 'package:mangayomi/eval/dart/runtime/runtime.dart';
-import 'package:mangayomi/eval/javascript/http.dart';
+import 'package:d4rt/d4rt.dart';
+import 'package:mangayomi/eval/dart/bridge/registrer.dart';
 import 'package:mangayomi/eval/model/filter.dart';
+import 'package:mangayomi/eval/javascript/http.dart';
 import 'package:mangayomi/eval/model/m_manga.dart';
 import 'package:mangayomi/eval/model/m_pages.dart';
-import 'package:mangayomi/eval/model/m_provider.dart';
 import 'package:mangayomi/eval/model/source_preference.dart';
 import 'package:mangayomi/models/page.dart';
 import 'package:mangayomi/models/source.dart';
@@ -18,141 +14,144 @@ import '../interface.dart';
 class DartExtensionService implements ExtensionService {
   @override
   late Source source;
+  D4rt? _interpreter;
 
-  DartExtensionService(this.source);
+  DartExtensionService(this.source) {
+    _interpreter = D4rt();
+    RegistrerBridge.registerBridge(_interpreter!);
 
-  MProvider _executeLib() {
-    final bytecode = compilerEval(source.sourceCode!);
+    _interpreter!.execute(
+      source: source.sourceCode!.replaceAll('Client(source)', 'Client()'),
+      positionalArgs: [source.toMSource()],
+    );
+  }
 
-    final runtime = runtimeEval(bytecode);
-
-    return runtime.executeLib('package:mangayomi/main.dart', 'main', [
-          $MSource.wrap(source.toMSource()),
-        ])
-        as MProvider;
+  @override
+  void dispose() {
+    _interpreter = null;
   }
 
   @override
   Map<String, String> getHeaders() {
-    Map<String, String> headers = {};
     try {
-      final bytecode = compilerEval(source.sourceCode!);
-      final runtime = runtimeEval(bytecode);
-      runtime.args = [$String(source.baseUrl!)];
-      var res = runtime.executeLib('package:mangayomi/main.dart', 'getHeader');
-      if (res is $Map) {
-        headers = (res.$reified).toMapStringString!;
-      } else if (res is Map) {
-        headers = res.toMapStringString!;
-      } else {
-        throw "";
-      }
+      return _interpreter!.invoke('headers', []) as Map<String, String>;
     } catch (_) {
       try {
-        headers = _executeLib().headers;
+        return _interpreter!.invoke('getHeader', [source.baseUrl!])
+            as Map<String, String>;
       } catch (_) {
         return {};
       }
     }
-    return headers;
   }
 
   @override
   String get sourceBaseUrl {
-    String? baseUrl;
     try {
-      baseUrl = _executeLib().baseUrl;
+      final baseUrl = _interpreter!.invoke('baseUrl', []) as String?;
+      return (baseUrl == null || baseUrl.isEmpty) ? source.baseUrl! : baseUrl;
     } catch (_) {
-      //
+      return source.baseUrl!;
     }
-
-    return baseUrl == null || baseUrl.isEmpty ? source.baseUrl! : baseUrl;
   }
 
   @override
   bool get supportsLatest {
-    bool? supportsLatest;
     try {
-      supportsLatest = _executeLib().supportsLatest;
-    } catch (e) {
-      supportsLatest = true;
+      return _interpreter!.invoke('supportsLatest', []) as bool? ?? true;
+    } catch (_) {
+      return true;
     }
-    return supportsLatest;
   }
 
   @override
-  Future<MPages> getPopular(int page) async {
-    return await _executeLib().getPopular(page);
-  }
+  Future<MPages> getPopular(int page) async =>
+      await _interpreter!.invoke('getPopular', [page]) as MPages;
 
   @override
-  Future<MPages> getLatestUpdates(int page) async {
-    return await _executeLib().getLatestUpdates(page);
-  }
+  Future<MPages> getLatestUpdates(int page) async =>
+      await _interpreter!.invoke('getLatestUpdates', [page]) as MPages;
 
   @override
   Future<MPages> search(String query, int page, List<dynamic> filters) async {
-    return await _executeLib().search(query, page, FilterList(filters));
+    return await _interpreter!.invoke('search', [
+          query,
+          page,
+          FilterList(filters),
+        ])
+        as MPages;
   }
 
   @override
-  Future<MManga> getDetail(String url) async {
-    return await _executeLib().getDetail(url);
-  }
+  Future<MManga> getDetail(String url) async =>
+      await _interpreter!.invoke('getDetail', [url]) as MManga;
 
   @override
   Future<List<PageUrl>> getPageList(String url) async {
-    return (await _executeLib().getPageList(url))
-        .map(
-          (e) =>
-              e is String
-                  ? PageUrl(e.toString().trim())
-                  : PageUrl.fromJson((e as Map).toMapStringDynamic!),
-        )
-        .toList();
+    final result = await _interpreter!.invoke('getPageList', [url]) as List;
+    return result.map((e) {
+      if (e is String) return PageUrl(e.trim());
+      return PageUrl.fromJson((e as Map).toMapStringDynamic!);
+    }).toList();
   }
 
   @override
-  Future<List<Video>> getVideoList(String url) async {
-    return await _executeLib().getVideoList(url);
-  }
+  Future<List<Video>> getVideoList(String url) async =>
+      (await _interpreter!.invoke('getVideoList', [url]) as List).cast<Video>();
 
   @override
-  Future<String> getHtmlContent(String url) async {
-    return await _executeLib().getHtmlContent(url);
-  }
+  Future<String> getHtmlContent(String url, String? referer) async =>
+      await _interpreter!.invoke('getHtmlContent', [url, referer]) as String;
 
   @override
-  Future<String> cleanHtmlContent(String html) async {
-    return await _executeLib().cleanHtmlContent(html);
-  }
+  Future<String> cleanHtmlContent(String html) async =>
+      await _interpreter!.invoke('cleanHtmlContent', [html]) as String;
 
   @override
   FilterList getFilterList() {
-    List<dynamic> list;
-
+    List<dynamic> list = [];
     try {
-      list =
-          _executeLib()
-              .getFilterList()
-              .map((e) => e is $Value ? e.$reified : e)
-              .toList();
-    } catch (_) {
-      list = [];
-    }
+      list = _interpreter!.invoke('getFilterList', []) as List;
+    } catch (_) {}
 
-    return FilterList(list);
+    return FilterList(_toValueList(list));
+  }
+
+  List _toValueList(List filters) {
+    return (filters).map((e) {
+      if (e is BridgedInstance) {
+        e = e.nativeObject;
+      }
+      if (e is SelectFilter) {
+        return SelectFilter(
+          e.type,
+          e.name,
+          e.state,
+          _toValueList(e.values),
+          e.typeName,
+        );
+      } else if (e is SortFilter) {
+        return SortFilter(
+          e.type,
+          e.name,
+          e.state,
+          _toValueList(e.values),
+          e.typeName,
+        );
+      } else if (e is GroupFilter) {
+        return GroupFilter(e.type, e.name, _toValueList(e.state), e.typeName);
+      }
+      return e;
+    }).toList();
   }
 
   @override
   List<SourcePreference> getSourcePreferences() {
     try {
-      return _executeLib()
-          .getSourcePreferences()
-          .map((e) => (e is $Value ? e.$reified : e) as SourcePreference)
-          .toList();
+      final result = _interpreter!.invoke('getSourcePreferences', []);
+      return (result as List).cast();
     } catch (_) {
-      return [];
+      return const [];
     }
   }
 }

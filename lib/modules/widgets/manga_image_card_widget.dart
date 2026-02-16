@@ -1,21 +1,21 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/eval/model/m_manga.dart';
 import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/modules/manga/detail/manga_detail_main.dart';
-import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
-import 'package:mangayomi/modules/widgets/bottom_text_widget.dart';
-import 'package:mangayomi/modules/widgets/cover_view_widget.dart';
+import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
 import 'package:mangayomi/router/router.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
-import 'package:mangayomi/utils/extensions/manga.dart';
-import 'package:mangayomi/utils/extensions/others.dart';
+import 'package:mangayomi/utils/constant.dart';
+import 'package:mangayomi/utils/headers.dart';
+import 'package:mangayomi/modules/widgets/bottom_text_widget.dart';
+import 'package:mangayomi/modules/widgets/cover_view_widget.dart';
 
 class MangaImageCardWidget extends ConsumerWidget {
   final Source source;
@@ -41,16 +41,19 @@ class MangaImageCardWidget extends ConsumerWidget {
           .sourceEqualTo(source.name)
           .watch(fireImmediately: true),
       builder: (context, snapshot) {
-        final hasData = snapshot.hasData && snapshot.data!.isNotEmpty;
-        final manga =
+        bool hasData = snapshot.hasData;
+        final mangaList =
             hasData
-                ? snapshot.data!.first
-                : Manga(
-                  imageUrl: getMangaDetail!.imageUrl ?? "",
-                  source: source.name,
-                  lang: source.lang,
-                );
-
+                ? snapshot.data!
+                    .where(
+                      (element) =>
+                          element.sourceId == null
+                              ? true
+                              : element.sourceId == source.id,
+                    )
+                    .toList()
+                : [];
+        hasData = hasData && mangaList.isNotEmpty;
         return CoverViewWidget(
           bottomTextWidget: BottomTextWidget(
             maxLines: 1,
@@ -58,7 +61,28 @@ class MangaImageCardWidget extends ConsumerWidget {
             isComfortableGrid: isComfortableGrid,
           ),
           isComfortableGrid: isComfortableGrid,
-          image: manga.imageProvider(ref, cacheMaxAge: const Duration(days: 7)),
+          image:
+              hasData && mangaList.first.customCoverImage != null
+                  ? MemoryImage(mangaList.first.customCoverImage as Uint8List)
+                      as ImageProvider
+                  : CustomExtendedNetworkImageProvider(
+                    toImgUrl(
+                      hasData
+                          ? mangaList.first.customCoverFromTracker ??
+                              mangaList.first.imageUrl ??
+                              ""
+                          : getMangaDetail!.imageUrl ?? "",
+                    ),
+                    headers: ref.watch(
+                      headersProvider(
+                        source: source.name!,
+                        lang: source.lang!,
+                        sourceId: source.id,
+                      ),
+                    ),
+                    cache: true,
+                    cacheMaxAge: const Duration(days: 7),
+                  ),
           onTap: () {
             pushToMangaReaderDetail(
               ref: ref,
@@ -67,6 +91,7 @@ class MangaImageCardWidget extends ConsumerWidget {
               lang: source.lang!,
               source: source.name!,
               itemType: itemType,
+              sourceId: source.id,
             );
           },
           onLongPress: () {
@@ -78,6 +103,7 @@ class MangaImageCardWidget extends ConsumerWidget {
               source: source.name!,
               itemType: itemType,
               addToFavourite: true,
+              sourceId: source.id,
             );
           },
           onSecondaryTap: () {
@@ -89,14 +115,17 @@ class MangaImageCardWidget extends ConsumerWidget {
               source: source.name!,
               itemType: itemType,
               addToFavourite: true,
+              sourceId: source.id,
             );
           },
           children: [
             Container(
               color:
-                  manga.favorite! ? Colors.black.withValues(alpha: 0.5) : null,
+                  hasData && mangaList.first.favorite!
+                      ? Colors.black.withValues(alpha: 0.5)
+                      : null,
             ),
-            if (manga.favorite!)
+            if (hasData && mangaList.first.favorite!)
               Positioned(
                 top: 0,
                 left: 0,
@@ -136,8 +165,8 @@ class MangaImageCardListTileWidget extends ConsumerWidget {
   final MManga? getMangaDetail;
 
   const MangaImageCardListTileWidget({
-    super.key,
     required this.source,
+    super.key,
     required this.itemType,
     required this.getMangaDetail,
   });
@@ -150,19 +179,41 @@ class MangaImageCardListTileWidget extends ConsumerWidget {
           .langEqualTo(source.lang)
           .nameEqualTo(getMangaDetail!.name)
           .sourceEqualTo(source.name)
-          .linkEqualTo(getMangaDetail!.link)
           .watch(fireImmediately: true),
       builder: (context, snapshot) {
-        final manga =
-            (snapshot.hasData && snapshot.data!.isNotEmpty)
-                ? snapshot.data!.first
-                : Manga(
-                  imageUrl: getMangaDetail!.imageUrl ?? "",
-                  source: source.name,
-                  lang: source.lang,
+        bool hasData = snapshot.hasData;
+        final mangaList =
+            hasData
+                ? snapshot.data!
+                    .where(
+                      (element) =>
+                          element.sourceId == null
+                              ? true
+                              : element.sourceId == source.id,
+                    )
+                    .toList()
+                : [];
+        hasData = hasData && mangaList.isNotEmpty;
+        final image =
+            hasData && mangaList.first.customCoverImage != null
+                ? MemoryImage(mangaList.first.customCoverImage as Uint8List)
+                    as ImageProvider
+                : CustomExtendedNetworkImageProvider(
+                  toImgUrl(
+                    hasData
+                        ? mangaList.first.customCoverFromTracker ??
+                            mangaList.first.imageUrl ??
+                            ""
+                        : getMangaDetail!.imageUrl ?? "",
+                  ),
+                  headers: ref.watch(
+                    headersProvider(
+                      source: source.name!,
+                      lang: source.lang!,
+                      sourceId: source.id,
+                    ),
+                  ),
                 );
-        final image = manga.imageProvider(ref);
-
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Material(
@@ -170,35 +221,41 @@ class MangaImageCardListTileWidget extends ConsumerWidget {
             color: Colors.transparent,
             clipBehavior: Clip.antiAliasWithSaveLayer,
             child: InkWell(
-              onTap:
-                  () => pushToMangaReaderDetail(
-                    ref: ref,
-                    context: context,
-                    getManga: getMangaDetail!,
-                    lang: source.lang!,
-                    source: source.name!,
-                    itemType: itemType,
-                  ),
-              onLongPress:
-                  () => pushToMangaReaderDetail(
-                    ref: ref,
-                    context: context,
-                    getManga: getMangaDetail!,
-                    lang: source.lang!,
-                    source: source.name!,
-                    itemType: itemType,
-                    addToFavourite: true,
-                  ),
-              onSecondaryTap:
-                  () => pushToMangaReaderDetail(
-                    ref: ref,
-                    context: context,
-                    getManga: getMangaDetail!,
-                    lang: source.lang!,
-                    source: source.name!,
-                    itemType: itemType,
-                    addToFavourite: true,
-                  ),
+              onTap: () {
+                pushToMangaReaderDetail(
+                  ref: ref,
+                  context: context,
+                  getManga: getMangaDetail!,
+                  lang: source.lang!,
+                  source: source.name!,
+                  itemType: itemType,
+                  sourceId: source.id,
+                );
+              },
+              onLongPress: () {
+                pushToMangaReaderDetail(
+                  ref: ref,
+                  context: context,
+                  getManga: getMangaDetail!,
+                  lang: source.lang!,
+                  source: source.name!,
+                  itemType: itemType,
+                  addToFavourite: true,
+                  sourceId: source.id,
+                );
+              },
+              onSecondaryTap: () {
+                pushToMangaReaderDetail(
+                  ref: ref,
+                  context: context,
+                  getManga: getMangaDetail!,
+                  lang: source.lang!,
+                  source: source.name!,
+                  itemType: itemType,
+                  addToFavourite: true,
+                  sourceId: source.id,
+                );
+              },
               child: Row(
                 children: [
                   Padding(
@@ -220,7 +277,7 @@ class MangaImageCardListTileWidget extends ConsumerWidget {
                           height: 55,
                           width: 40,
                           color:
-                              manga.favorite!
+                              hasData && mangaList.first.favorite!
                                   ? Colors.black.withValues(alpha: 0.5)
                                   : null,
                         ),
@@ -237,7 +294,7 @@ class MangaImageCardListTileWidget extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  if (manga.favorite!)
+                  if (hasData && mangaList.first.favorite!)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
@@ -266,100 +323,148 @@ class MangaImageCardListTileWidget extends ConsumerWidget {
 }
 
 Future<void> pushToMangaReaderDetail({
+  MManga? getManga,
   required WidgetRef ref,
   required String lang,
   required BuildContext context,
   required String source,
-  MManga? getManga,
+  required int? sourceId,
   int? archiveId,
   Manga? mangaM,
   ItemType? itemType,
   bool useMaterialRoute = false,
   bool addToFavourite = false,
 }) async {
-  int mangaId = 0;
+  int? mangaId;
+  mangaId =
+      isar.mangas
+          .filter()
+          .isLocalArchiveEqualTo(true)
+          .sourceEqualTo("local")
+          .nameEqualTo(getManga?.name)
+          .findFirstSync()
+          ?.id;
 
-  if (archiveId == null) {
-    final manga =
-        mangaM ??
-        Manga(
-          imageUrl: getManga!.imageUrl,
-          name: getManga.name!.normalize(),
-          genre: getManga.genre?.map((e) => e.toString()).toList() ?? [],
-          author: getManga.author ?? "",
-          status: getManga.status ?? Status.unknown,
-          description: getManga.description ?? "",
-          link: getManga.link,
-          source: source,
-          lang: lang,
-          lastUpdate: 0,
-          itemType: itemType ?? ItemType.manga,
-          artist: getManga.artist ?? '',
-        );
+  if (mangaId == null) {
+    if (archiveId == null) {
+      final manga =
+          mangaM ??
+          Manga(
+            imageUrl: getManga!.imageUrl,
+            name: getManga.name!.trim(),
+            genre: getManga.genre?.map((e) => e.toString()).toList() ?? [],
+            author: getManga.author ?? "",
+            status: getManga.status ?? Status.unknown,
+            description: getManga.description ?? "",
+            link: getManga.link,
+            source: source,
+            lang: lang,
+            lastUpdate: 0,
+            itemType: itemType ?? ItemType.manga,
+            artist: getManga.artist ?? '',
+            sourceId: sourceId,
+          );
+      final empty =
+          isar.mangas
+              .filter()
+              .langEqualTo(lang)
+              .nameEqualTo(manga.name)
+              .sourceEqualTo(manga.source)
+              .isEmptySync();
+      if (empty) {
+        isar.writeTxnSync(() {
+          isar.mangas.putSync(
+            manga..updatedAt = DateTime.now().millisecondsSinceEpoch,
+          );
+        });
+      } else {
+        isar.writeTxnSync(() {
+          isar.mangas.putSync(manga);
+        });
+      }
 
-    final existing =
-        isar.mangas
-            .filter()
-            .langEqualTo(lang)
-            .nameEqualTo(manga.name)
-            .sourceEqualTo(manga.source)
-            .findFirstSync();
-
-    if (existing == null) {
-      isar.writeTxnSync(() {
-        mangaId = isar.mangas.putSync(manga);
-        ref
-            .read(synchingProvider(syncId: 1).notifier)
-            .addChangedPart(ActionType.addItem, null, manga.toJson(), false);
-      });
+      mangaId =
+          isar.mangas
+              .filter()
+              .langEqualTo(lang)
+              .nameEqualTo(manga.name)
+              .sourceEqualTo(manga.source)
+              .findAllSync()
+              .firstWhere(
+                (element) =>
+                    element.sourceId == null
+                        ? true
+                        : element.sourceId == sourceId,
+              )
+              .id!;
     } else {
-      mangaId = existing.id;
+      mangaId = archiveId;
+    }
+  }
+
+  final mang = isar.mangas.getSync(mangaId);
+  if (mang!.sourceId == null && !(mang.isLocalArchive ?? false)) {
+    isar.writeTxnSync(() {
+      isar.mangas.putSync(mang..sourceId = sourceId);
+    });
+  }
+  final settings = isar.settings.getSync(227)!;
+  final sortList = settings.sortChapterList ?? [];
+  final checkIfExist =
+      sortList.where((element) => element.mangaId == mangaId).toList();
+  if (checkIfExist.isEmpty) {
+    isar.writeTxnSync(() {
+      List<SortChapter>? sortChapterList = [];
+      for (var sortChapter in settings.sortChapterList ?? []) {
+        sortChapterList.add(sortChapter);
+      }
+      List<ChapterFilterBookmarked>? chapterFilterBookmarkedList = [];
+      for (var sortChapter in settings.chapterFilterBookmarkedList ?? []) {
+        chapterFilterBookmarkedList.add(sortChapter);
+      }
+      List<ChapterFilterDownloaded>? chapterFilterDownloadedList = [];
+      for (var sortChapter in settings.chapterFilterDownloadedList ?? []) {
+        chapterFilterDownloadedList.add(sortChapter);
+      }
+      List<ChapterFilterUnread>? chapterFilterUnreadList = [];
+      for (var sortChapter in settings.chapterFilterUnreadList ?? []) {
+        chapterFilterUnreadList.add(sortChapter);
+      }
+      sortChapterList.add(SortChapter()..mangaId = mangaId);
+      chapterFilterBookmarkedList.add(
+        ChapterFilterBookmarked()..mangaId = mangaId,
+      );
+      chapterFilterDownloadedList.add(
+        ChapterFilterDownloaded()..mangaId = mangaId,
+      );
+      chapterFilterUnreadList.add(ChapterFilterUnread()..mangaId = mangaId);
+      isar.settings.putSync(
+        settings
+          ..sortChapterList = sortChapterList
+          ..chapterFilterBookmarkedList = chapterFilterBookmarkedList
+          ..chapterFilterDownloadedList = chapterFilterDownloadedList
+          ..chapterFilterUnreadList = chapterFilterUnreadList
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      );
+    });
+  }
+  if (!addToFavourite) {
+    if (useMaterialRoute) {
+      await Navigator.push(
+        context,
+        createRoute(page: MangaReaderDetail(mangaId: mangaId)),
+      );
+    } else {
+      await context.push('/manga-reader/detail', extra: mangaId);
     }
   } else {
-    mangaId = archiveId;
-  }
-
-  final settings = isar.settings.first;
-  final sortList = settings.sortChapterList ?? [];
-  final existing = sortList.firstWhereOrNull(OfManga.isManga(mangaId));
-
-  if (existing == null) {
-    isar.settings.first =
-        settings
-          ..sortChapterList = [...sortList, SortChapter()..mangaId = mangaId]
-          ..chapterFilterBookmarkedList = [
-            ...settings.chapterFilterBookmarkedList ?? [],
-            ChapterFilterBookmarked()..mangaId = mangaId,
-          ]
-          ..chapterFilterDownloadedList = [
-            ...settings.chapterFilterDownloadedList ?? [],
-            ChapterFilterDownloaded()..mangaId = mangaId,
-          ]
-          ..chapterFilterUnreadList = [
-            ...settings.chapterFilterUnreadList ?? [],
-            ChapterFilterUnread()..mangaId = mangaId,
-          ];
-  }
-  if (addToFavourite) {
     final getManga = isar.mangas.filter().idEqualTo(mangaId).findFirstSync()!;
-
     isar.writeTxnSync(() {
-      isar.mangas.putSync(getManga..favorite = !getManga.favorite!);
-      ref
-          .read(synchingProvider(syncId: 1).notifier)
-          .addChangedPart(
-            ActionType.updateItem,
-            getManga.id,
-            getManga.toJson(),
-            false,
-          );
+      isar.mangas.putSync(
+        getManga
+          ..favorite = !getManga.favorite!
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      );
     });
-  } else if (useMaterialRoute) {
-    await Navigator.push(
-      context,
-      createRoute(page: MangaReaderDetail(mangaId: mangaId)),
-    );
-  } else {
-    await context.push('/manga-reader/detail', extra: mangaId);
   }
 }

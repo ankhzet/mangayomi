@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_qjs/quickjs/ffi.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:grouped_list/sliver_grouped_list.dart';
+import 'package:mangayomi/modules/more/settings/browse/providers/browse_state_provider.dart';
+import 'package:mangayomi/modules/widgets/custom_sliver_grouped_list_view.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/modules/browse/extension/providers/extensions_provider.dart';
-import 'package:mangayomi/modules/browse/extension/widgets/extension_list_tile_widget.dart';
+import 'package:mangayomi/services/fetch_item_sources.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/services/fetch_anime_sources.dart';
-import 'package:mangayomi/services/fetch_manga_sources.dart';
-import 'package:mangayomi/services/fetch_novel_sources.dart';
 import 'package:mangayomi/services/fetch_sources_list.dart';
 import 'package:mangayomi/utils/language.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:mangayomi/modules/browse/extension/widgets/extension_list_tile_widget.dart';
 
 class ExtensionScreen extends ConsumerStatefulWidget {
   final ItemType itemType;
   final String query;
-
   const ExtensionScreen({
     required this.query,
     required this.itemType,
@@ -29,94 +27,100 @@ class ExtensionScreen extends ConsumerStatefulWidget {
 }
 
 class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
-  final controller = ScrollController();
-  String version = '0.0.0';
+  final ScrollController controller = ScrollController();
+  bool isUpdating = false;
+  Future<void> _refreshSources() {
+    return ref.refresh(
+      fetchItemSourcesListProvider(
+        id: null,
+        reFresh: true,
+        itemType: widget.itemType,
+      ).future,
+    );
+  }
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
-    PackageInfo.fromPlatform().then((info) {
-      if (mounted) {
-        setState(() {
-          version = info.version;
-        });
-      }
-    });
+  Future<void> _updateSource(Source source) {
+    return ref.read(
+      fetchItemSourcesListProvider(
+        id: source.id,
+        reFresh: true,
+        itemType: source.itemType,
+      ).future,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.read(
+      fetchItemSourcesListProvider(
+        id: null,
+        reFresh: false,
+        itemType: widget.itemType,
+      ),
+    );
+
     final streamExtensions = ref.watch(
       getExtensionsStreamProvider(widget.itemType),
     );
-    if (widget.itemType == ItemType.manga) {
-      ref.watch(fetchMangaSourcesListProvider(id: null, reFresh: false));
-    } else if (widget.itemType == ItemType.anime) {
-      ref.watch(fetchAnimeSourcesListProvider(id: null, reFresh: false));
-    } else {
-      ref.watch(fetchNovelSourcesListProvider(id: null, reFresh: false));
-    }
+    final repositories = ref.watch(
+      extensionsRepoStateProvider(widget.itemType),
+    );
+
     final l10n = l10nLocalizations(context)!;
+
     return RefreshIndicator(
-      onRefresh:
-          () =>
-              widget.itemType == ItemType.manga
-                  ? ref.refresh(
-                    fetchMangaSourcesListProvider(
-                      id: null,
-                      reFresh: true,
-                    ).future,
-                  )
-                  : widget.itemType == ItemType.anime
-                  ? ref.refresh(
-                    fetchAnimeSourcesListProvider(
-                      id: null,
-                      reFresh: true,
-                    ).future,
-                  )
-                  : ref.refresh(
-                    fetchNovelSourcesListProvider(
-                      id: null,
-                      reFresh: true,
-                    ).future,
-                  ),
+      onRefresh: _refreshSources,
       child: Padding(
         padding: const EdgeInsets.only(top: 10),
         child: streamExtensions.when(
           data: (data) {
-            data =
+            final filteredData =
                 widget.query.isEmpty
                     ? data
                     : data
                         .where(
-                          (element) => element.name!.toLowerCase().contains(
-                            widget.query.toLowerCase(),
-                          ),
+                          (element) =>
+                              element.name?.toLowerCase().contains(
+                                widget.query.toLowerCase(),
+                              ) ??
+                              false,
                         )
                         .toList();
 
-            final notInstalledEntries =
-                data
-                    .where((element) => element.version == element.versionLast!)
-                    .where((element) => !element.isAdded!)
-                    .toList();
-            final installedEntries =
-                data
-                    .where((element) => element.version == element.versionLast!)
-                    .where((element) => element.isAdded!)
-                    .toList();
-            final updateEntries =
-                data
-                    .where(
-                      (element) =>
-                          compareVersions(
-                            element.version!,
-                            element.versionLast!,
-                          ) <
-                          0,
-                    )
-                    .toList();
+            final updateEntries = <Source>[];
+            final installedEntries = <Source>[];
+            final notInstalledEntries = <Source>[];
+
+            for (var element in filteredData) {
+              if (repositories
+                      .firstWhereOrNull((e) => e == element.repo)
+                      ?.hidden ??
+                  false) {
+                continue;
+              }
+              final isLatestVersion = element.version == element.versionLast;
+
+              if (compareVersions(
+                    element.version ?? '',
+                    element.versionLast ?? '',
+                  ) <
+                  0) {
+                updateEntries.add(element);
+              } else if (isLatestVersion) {
+                if (element.isAdded ?? false) {
+                  installedEntries.add(element);
+                } else {
+                  notInstalledEntries.add(element);
+                }
+              }
+            }
+
             return Scrollbar(
               interactive: true,
               controller: controller,
@@ -125,122 +129,12 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
               child: CustomScrollView(
                 controller: controller,
                 slivers: [
-                  SliverGroupedListView<Source, String>(
-                    elements: updateEntries,
-                    groupBy: (element) => "",
-                    groupSeparatorBuilder:
-                        (_) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                l10n.update_pending,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13,
-                                ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () async {
-                                  for (var source in updateEntries) {
-                                    source.itemType == ItemType.manga
-                                        ? await ref.watch(
-                                          fetchMangaSourcesListProvider(
-                                            id: source.id,
-                                            reFresh: true,
-                                          ).future,
-                                        )
-                                        : source.itemType == ItemType.anime
-                                        ? await ref.watch(
-                                          fetchAnimeSourcesListProvider(
-                                            id: source.id,
-                                            reFresh: true,
-                                          ).future,
-                                        )
-                                        : await ref.watch(
-                                          fetchNovelSourcesListProvider(
-                                            id: source.id,
-                                            reFresh: true,
-                                          ).future,
-                                        );
-                                  }
-                                },
-                                child: Text(l10n.update_all),
-                              ),
-                            ],
-                          ),
-                        ),
-                    itemBuilder: (context, Source element) {
-                      return ExtensionListTileWidget(
-                        source: element,
-                        appVersion: version,
-                      );
-                    },
-                    groupComparator:
-                        (group1, group2) => group1.compareTo(group2),
-                    itemComparator:
-                        (item1, item2) => item1.name!.compareTo(item2.name!),
-                    order: GroupedListOrder.ASC,
-                  ),
-                  SliverGroupedListView<Source, String>(
-                    elements: installedEntries,
-                    groupBy: (element) => "",
-                    groupSeparatorBuilder:
-                        (_) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          child: Text(
-                            l10n.installed,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ),
-                    itemBuilder: (context, Source element) {
-                      return ExtensionListTileWidget(
-                        source: element,
-                        appVersion: version,
-                      );
-                    },
-                    groupComparator:
-                        (group1, group2) => group1.compareTo(group2),
-                    itemComparator:
-                        (item1, item2) => item1.name!.compareTo(item2.name!),
-                    order: GroupedListOrder.ASC,
-                  ),
-                  SliverGroupedListView<Source, String>(
-                    elements: notInstalledEntries,
-                    groupBy:
-                        (element) =>
-                            completeLanguageName(element.lang!.toLowerCase()),
-                    groupSeparatorBuilder:
-                        (String groupByValue) => Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: Row(
-                            children: [
-                              Text(
-                                groupByValue,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                    itemBuilder: (context, Source element) {
-                      return ExtensionListTileWidget(
-                        source: element,
-                        appVersion: version,
-                      );
-                    },
-                    groupComparator:
-                        (group1, group2) => group1.compareTo(group2),
-                    itemComparator:
-                        (item1, item2) => item1.name!.compareTo(item2.name!),
-                    order: GroupedListOrder.ASC,
-                  ),
+                  if (updateEntries.isNotEmpty)
+                    _buildUpdateSection(updateEntries, l10n),
+                  if (installedEntries.isNotEmpty)
+                    _buildInstalledSection(installedEntries, l10n),
+                  if (notInstalledEntries.isNotEmpty)
+                    _buildNotInstalledSection(notInstalledEntries),
                 ],
               ),
             );
@@ -248,27 +142,117 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
           error:
               (error, _) => Center(
                 child: ElevatedButton(
-                  onPressed: () {
-                    if (widget.itemType == ItemType.manga) {
-                      ref.invalidate(
-                        fetchMangaSourcesListProvider(id: null, reFresh: true),
-                      );
-                    } else if (widget.itemType == ItemType.anime) {
-                      ref.invalidate(
-                        fetchAnimeSourcesListProvider(id: null, reFresh: true),
-                      );
-                    } else {
-                      ref.invalidate(
-                        fetchNovelSourcesListProvider(id: null, reFresh: true),
-                      );
-                    }
-                  },
+                  onPressed: _refreshSources,
                   child: Text(context.l10n.refresh),
                 ),
               ),
           loading: () => const ProgressCenter(),
         ),
       ),
+    );
+  }
+
+  Widget _buildUpdateSection(List<Source> updateEntries, dynamic l10n) {
+    return CustomSliverGroupedListView<Source, String>(
+      elements: updateEntries,
+      groupBy: (_) => "",
+      groupSeparatorBuilder:
+          (_) => StatefulBuilder(
+            builder: (context, setState) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      l10n.update_pending,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed:
+                          isUpdating
+                              ? null
+                              : () async {
+                                setState(() => isUpdating = true);
+                                try {
+                                  for (var source in updateEntries) {
+                                    await _updateSource(source);
+                                  }
+                                } finally {
+                                  setState(() => isUpdating = false);
+                                }
+                              },
+                      child:
+                          isUpdating
+                              ? const SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
+                              : Text(l10n.update_all),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+      itemBuilder:
+          (context, Source element) =>
+              ref.watch(extensionListTileWidget(element)),
+      groupComparator: (group1, group2) => group1.compareTo(group2),
+      itemComparator:
+          (item1, item2) => item1.name?.compareTo(item2.name ?? '') ?? 0,
+      order: GroupedListOrder.ASC,
+    );
+  }
+
+  Widget _buildInstalledSection(List<Source> installedEntries, dynamic l10n) {
+    return CustomSliverGroupedListView<Source, String>(
+      elements: installedEntries,
+      groupBy: (_) => "",
+      groupSeparatorBuilder:
+          (_) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Text(
+              l10n.installed,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            ),
+          ),
+      itemBuilder:
+          (context, Source element) =>
+              ref.watch(extensionListTileWidget(element)),
+      groupComparator: (group1, group2) => group1.compareTo(group2),
+      itemComparator:
+          (item1, item2) => item1.name?.compareTo(item2.name ?? '') ?? 0,
+      order: GroupedListOrder.ASC,
+    );
+  }
+
+  Widget _buildNotInstalledSection(List<Source> notInstalledEntries) {
+    return CustomSliverGroupedListView<Source, String>(
+      elements: notInstalledEntries,
+      groupBy:
+          (element) => completeLanguageName(element.lang?.toLowerCase() ?? ''),
+      groupSeparatorBuilder:
+          (String groupByValue) => Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: Text(
+              groupByValue,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            ),
+          ),
+      itemBuilder:
+          (context, Source element) =>
+              ref.watch(extensionListTileWidget(element)),
+      groupComparator: (group1, group2) => group1.compareTo(group2),
+      itemComparator:
+          (item1, item2) => item1.name?.compareTo(item2.name ?? '') ?? 0,
+      order: GroupedListOrder.ASC,
     );
   }
 }

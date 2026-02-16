@@ -5,7 +5,6 @@ class ExtensionLangListTileWidget extends StatelessWidget {
   final String lang;
   final bool value;
   final Function(bool) onChanged;
-
   const ExtensionLangListTileWidget({
     super.key,
     required this.lang,

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http_interceptor/http_interceptor.dart';

@@ -7,7 +7,6 @@
 
 import 'dart:async';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/modules/anime/providers/state_provider.dart';
@@ -41,12 +40,12 @@ class _CustomSubtitleViewState extends ConsumerState<CustomSubtitleView> {
 
   @override
   void initState() {
+    super.initState();
     subscription = widget.controller.player.stream.subtitle.listen((value) {
       setState(() {
         subtitle = value;
       });
     });
-    super.initState();
   }
 
   @override

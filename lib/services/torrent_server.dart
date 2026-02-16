@@ -1,25 +1,23 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
-
 import 'package:flutter/services.dart';
 import 'package:http_interceptor/http_interceptor.dart';
-import 'package:mangayomi/ffi/torrent_server_ffi.dart' as libmtorrentserver_ffi;
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/video.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
+import 'package:mangayomi/ffi/torrent_server_ffi.dart' as libmtorrentserver_ffi;
 
 class MTorrentServer {
   final http = MClient.init();
-
-  Future<bool> removeTorrent(String? infohash) async {
-    if (infohash == null || infohash.isEmpty) return false;
+  Future<bool> removeTorrent(String? inforHash) async {
+    if (inforHash == null || inforHash.isEmpty) return false;
     try {
       final res = await http.delete(
-        Uri.parse("$_baseUrl/torrent/remove?infohash=$infohash"),
+        Uri.parse("$_baseUrl/torrent/remove?infohash=$inforHash"),
       );
       if (res.statusCode == 200) {
         return true;
@@ -72,7 +70,7 @@ class MTorrentServer {
       final isFilePath = archivePath?.isNotEmpty ?? false;
       final isRunning = await check();
       if (!isRunning) {
-        final path = await StorageProvider.getBtDirectory();
+        final path = (await StorageProvider().getBtDirectory())!.path;
         final config = jsonEncode({"path": path, "address": "127.0.0.1:0"});
         int port = 0;
         if (Platform.isAndroid || Platform.isIOS) {
@@ -117,14 +115,18 @@ class MTorrentServer {
 }
 
 String get _baseUrl {
-  final settings = isar.settings.first;
-  final port = settings.btServerPort ?? 0;
+  final settings = isar.settings.getSync(227);
+  final port = settings!.btServerPort ?? 0;
   final address = settings.btServerAddress ?? "127.0.0.1";
   return "http://$address:$port";
 }
 
 void _setBtServerPort(int newPort) {
   isar.writeTxnSync(
-    () => isar.settings.putSync(isar.settings.first..btServerPort = newPort),
+    () => isar.settings.putSync(
+      isar.settings.getSync(227)!
+        ..btServerPort = newPort
+        ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+    ),
   );
 }

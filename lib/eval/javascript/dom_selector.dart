@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_qjs/flutter_qjs.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
@@ -7,12 +6,9 @@ import 'package:mangayomi/utils/extensions/dom_extensions.dart';
 
 class JsDomSelector {
   late JavascriptRuntime runtime;
-
   JsDomSelector(this.runtime);
-
   final Map<int, Element?> _elements = {};
   int _elementKey = 0;
-
   void init() {
     runtime.onMessage('get_doc_element', (dynamic args) {
       final input = args[0];
@@ -410,5 +406,11 @@ class Element {
     }
 }
 ''');
+  }
+
+  void dispose() {
+    if (_elements.isEmpty) return;
+    _elements.clear();
+    _elementKey = 0;
   }
 }

@@ -1,26 +1,26 @@
-import 'dart:async';
-import 'dart:collection';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:isolate';
-
+import 'dart:async';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart';
 import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/page.dart';
-import 'package:mangayomi/services/download_manager/m3u8/m3u8_downloader.dart';
-import 'package:mangayomi/services/download_manager/m3u8/models/download.dart';
+import 'package:mangayomi/models/video.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/services/http/rhttp/src/model/settings.dart';
-import 'package:mangayomi/src/rust/frb_generated.dart';
+import 'package:mangayomi/services/download_manager/download_isolate_pool.dart';
+import 'package:mangayomi/services/download_manager/m3u8/models/download.dart';
+import 'package:path/path.dart' as path;
+
+/// Map to allow cancellation of downloads
+final isolateChapsSendPorts = <String?, dynamic>{};
 
 class MDownloader {
   List<PageUrl> pageUrls;
   final int concurrentDownloads;
   final Chapter chapter;
-  Isolate? _isolate;
-  ReceivePort? _receivePort;
+  final List<Track>? subtitles;
+  final String? subDownloadDir;
+
   static var httpClient = MClient.httpClient(
     settings: const ClientSettings(
       throwOnStatusCode: false,
@@ -31,7 +31,9 @@ class MDownloader {
   MDownloader({
     required this.chapter,
     required this.pageUrls,
-    this.concurrentDownloads = 5,
+    required this.subtitles,
+    required this.subDownloadDir,
+    this.concurrentDownloads = 1,
   });
 
   void _log(String message) {
@@ -40,19 +42,17 @@ class MDownloader {
     }
   }
 
-  void close() {
-    _isolate?.kill();
-    _receivePort?.close();
+  /// Initialize the Isolate pool (call once at app startup)
+  /// poolSize = 6 workers allows 6 chapters to download in parallel
+  static Future<void> initializeIsolatePool({int poolSize = 6}) async {
+    DownloadIsolatePool.configure(poolSize: poolSize);
+    await DownloadIsolatePool.instance.initialize();
   }
 
-  static _recreateClient() async {
-    await RustLib.init();
-    httpClient = MClient.httpClient(
-      settings: const ClientSettings(
-        throwOnStatusCode: false,
-        tlsSettings: TlsSettings(verifyCertificates: false),
-      ),
-    );
+  void close() {
+    // Cancel the task in the pool
+    DownloadIsolatePool.instance.cancelTask('${chapter.id}');
+    isolateChapsSendPorts.remove('${chapter.id}');
   }
 
   static Future<T> _withRetryStatic<T>(
@@ -66,7 +66,7 @@ class MDownloader {
         return await operation();
       } catch (e) {
         if (attempts >= maxRetries) {
-          throw M3u8DownloaderException(
+          throw MDownloaderException(
             'Operation failed after $maxRetries attempts',
             e,
           );
@@ -78,6 +78,29 @@ class MDownloader {
   Future<void> download(void Function(DownloadProgress) onProgress) async {
     try {
       await _downloadFilesWithProgress(pageUrls, onProgress);
+
+      // Download subtitles (on the main isolate, no need for pool)
+      for (var element in subtitles ?? <Track>[]) {
+        final subtitleFile = File(
+          path.join('${subDownloadDir}_subtitles', '${element.label}.srt'),
+        );
+        if (subtitleFile.existsSync()) {
+          _log('Subtitle file already exists: ${element.label}');
+          continue;
+        }
+        _log('Downloading subtitle file: ${element.label}');
+        subtitleFile.createSync(recursive: true);
+        final response = await _withRetryStatic(
+          () => httpClient.get(Uri.parse(element.file ?? '')),
+          3,
+        );
+        if (response.statusCode != 200) {
+          _log('Warning: Failed to download subtitle file: ${element.label}');
+          continue;
+        }
+        _log('Subtitle file downloaded: ${element.label}');
+        await subtitleFile.writeAsBytes(response.bodyBytes);
+      }
     } catch (e) {
       throw MDownloaderException('Download failed', e);
     } finally {
@@ -89,30 +112,22 @@ class MDownloader {
     List<PageUrl> pageUrls,
     void Function(DownloadProgress) onProgress,
   ) async {
-    _receivePort = ReceivePort();
+    final completer = Completer<void>();
+    final taskId = '${chapter.id}';
 
-    final errorPort = ReceivePort();
-    _isolate = await Isolate.spawn(
-      _downloadWorker,
-      DownloadParams(
-        pageUrls: pageUrls,
-        sendPort: _receivePort!.sendPort,
-        concurrentDownloads: concurrentDownloads,
-        itemType: chapter.manga.value!.itemType,
-      ),
-      onError: errorPort.sendPort,
-    );
-    isolateChapsSendPorts['${chapter.id}'] = (_receivePort, _isolate);
-    errorPort.listen((message) {
-      final stackTrace = message.last;
-      _log('Stack trace: $stackTrace');
-      _receivePort!.close();
-    });
-    await for (final message in _receivePort!) {
-      if (message is DownloadProgress) {
-        onProgress.call(message);
-      } else if (message is DownloadComplete) {
-        onProgress.call(
+    // Mark as active for compatibility with cancelDownloads()
+    isolateChapsSendPorts[taskId] = true;
+
+    await DownloadIsolatePool.instance.submitFileDownload(
+      taskId: taskId,
+      pageUrls: pageUrls,
+      concurrentDownloads: concurrentDownloads,
+      itemType: chapter.manga.value!.itemType,
+      onProgress: (progress) {
+        onProgress(progress);
+      },
+      onComplete: () {
+        onProgress(
           DownloadProgress(
             1,
             1,
@@ -120,127 +135,18 @@ class MDownloader {
             isCompleted: true,
           ),
         );
-        errorPort.close();
-        break;
-      } else if (message is Exception) {
-        errorPort.close();
-        throw message;
-      }
-    }
-  }
-
-  static void _downloadWorker(DownloadParams params) async {
-    await _recreateClient();
-    int completed = 0;
-    final total = params.pageUrls!.length;
-    final queue = Queue<PageUrl>.from(params.pageUrls!);
-    final List<Future<void>> activeTasks = [];
-
-    try {
-      while (queue.isNotEmpty || activeTasks.isNotEmpty) {
-        while (queue.isNotEmpty &&
-            activeTasks.length < params.concurrentDownloads!) {
-          final pageUrl = queue.removeFirst();
-          final task = _processFile(pageUrl, httpClient, params)
-              .then((_) {
-                if (params.itemType! != ItemType.anime) {
-                  completed++;
-                  params.sendPort!.send(
-                    DownloadProgress(
-                      pageUrl: pageUrl,
-                      completed,
-                      total,
-                      params.itemType!,
-                    ),
-                  );
-                }
-              })
-              .catchError((error) {
-                params.sendPort!.send(
-                  MDownloaderException(
-                    'Error downloading ${pageUrl.fileName}',
-                    error,
-                  ),
-                );
-                throw error;
-              });
-
-          activeTasks.add(task);
+        if (!completer.isCompleted) {
+          completer.complete();
         }
-
-        if (activeTasks.isNotEmpty) {
-          await Future.wait(activeTasks.toList(), eagerError: true);
-          activeTasks.clear();
+      },
+      onError: (error) {
+        if (!completer.isCompleted) {
+          completer.completeError(error);
         }
-      }
+      },
+    );
 
-      params.sendPort!.send(DownloadComplete());
-    } catch (e) {
-      params.sendPort!.send(MDownloaderException('Download failed', e));
-    } finally {
-      httpClient.close();
-    }
-  }
-
-  static Future<void> _processFile(
-    PageUrl pageUrl,
-    Client client,
-    DownloadParams params,
-  ) async {
-    try {
-      if (params.itemType! != ItemType.anime) {
-        final response = await _withRetryStatic(
-          () => client.get(Uri.parse(pageUrl.url), headers: pageUrl.headers),
-          3,
-        );
-        if (response.statusCode != 200) {
-          throw MDownloaderException(
-            'Failed to download file: ${pageUrl.fileName!}',
-          );
-        }
-
-        final file = File(pageUrl.fileName!);
-        await file.writeAsBytes(response.bodyBytes);
-      } else {
-        final bytes = await _withRetryStatic(() async {
-          List<int> bytes = [];
-          var request = Request('GET', Uri.parse(pageUrl.url));
-          request.headers.addAll(pageUrl.headers ?? {});
-          StreamedResponse response = await client.send(request);
-          if (response.statusCode != 200) {
-            throw MDownloaderException(
-              'Failed to download file: ${pageUrl.fileName!}',
-            );
-          }
-          int total = response.contentLength ?? 0;
-          int recieved = 0;
-
-          await for (var value in response.stream) {
-            bytes.addAll(value);
-            try {
-              recieved += value.length;
-              params.sendPort!.send(
-                DownloadProgress(
-                  (recieved / total * 100).toInt(),
-                  100,
-                  pageUrl: pageUrl,
-                  params.itemType!,
-                ),
-              );
-            } catch (_) {}
-          }
-          return bytes;
-        }, 3);
-
-        final file = File(pageUrl.fileName!);
-        await file.writeAsBytes(bytes);
-      }
-    } catch (e) {
-      throw MDownloaderException(
-        'Failed to process file: ${pageUrl.fileName!}',
-        e,
-      );
-    }
+    return completer.future;
   }
 }
 

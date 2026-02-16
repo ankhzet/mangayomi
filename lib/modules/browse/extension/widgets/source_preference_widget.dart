@@ -5,11 +5,11 @@ import 'package:mangayomi/modules/browse/extension/providers/extension_preferenc
 import 'package:mangayomi/modules/manga/detail/widgets/chapter_filter_list_tile_widget.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 
 class SourcePreferenceWidget extends StatefulWidget {
   final List<SourcePreference> sourcePreference;
   final Source source;
-
   const SourcePreferenceWidget({
     super.key,
     required this.sourcePreference,
@@ -46,15 +46,15 @@ class _SourcePreferenceWidgetState extends State<SourcePreferenceWidget> {
                       context: context,
                       builder:
                           (context) => EditTextDialogWidget(
-                            text: pref.value!,
+                            text: pref.value ?? "",
                             onChanged: (value) {
                               setState(() {
                                 pref.value = value;
                               });
                               setPreferenceSetting(preference, widget.source);
                             },
-                            dialogTitle: pref.dialogTitle!,
-                            dialogMessage: pref.dialogMessage!,
+                            dialogTitle: pref.dialogTitle ?? "",
+                            dialogMessage: pref.dialogMessage ?? "",
                           ),
                     );
                   },
@@ -129,23 +129,25 @@ class _SourcePreferenceWidgetState extends State<SourcePreferenceWidget> {
                             ),
                             content: SizedBox(
                               width: context.width(0.8),
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: pref.entries!.length,
-                                itemBuilder: (context, index) {
-                                  return RadioListTile(
-                                    dense: true,
-                                    contentPadding: const EdgeInsets.all(0),
-                                    value: index,
-                                    groupValue: pref.valueIndex,
-                                    onChanged: (value) {
-                                      Navigator.pop(context, index);
-                                    },
-                                    title: Row(
-                                      children: [Text(pref.entries![index])],
-                                    ),
-                                  );
+                              child: RadioGroup(
+                                groupValue: pref.valueIndex,
+                                onChanged: (value) {
+                                  Navigator.pop(context, value);
                                 },
+                                child: SuperListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: pref.entries!.length,
+                                  itemBuilder: (context, index) {
+                                    return RadioListTile(
+                                      dense: true,
+                                      contentPadding: const EdgeInsets.all(0),
+                                      value: index,
+                                      title: Row(
+                                        children: [Text(pref.entries![index])],
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                             actions: [
@@ -199,11 +201,11 @@ class _SourcePreferenceWidgetState extends State<SourcePreferenceWidget> {
                               title: Text(pref.title!),
                               content: SizedBox(
                                 width: context.width(0.8),
-                                child: ListView.builder(
+                                child: SuperListView.builder(
                                   shrinkWrap: true,
                                   itemCount: pref.entries!.length,
                                   itemBuilder: (context, index) {
-                                    return ListTileItemFilter(
+                                    return ListTileChapterFilter(
                                       label: pref.entries![index],
                                       type:
                                           indexList.contains(
@@ -288,7 +290,6 @@ class EditTextDialogWidget extends StatefulWidget {
   final String dialogTitle;
   final String dialogMessage;
   final Function(String) onChanged;
-
   const EditTextDialogWidget({
     super.key,
     required this.text,
@@ -303,6 +304,12 @@ class EditTextDialogWidget extends StatefulWidget {
 
 class _EditTextDialogWidgetState extends State<EditTextDialogWidget> {
   late final _controller = TextEditingController(text: widget.text);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

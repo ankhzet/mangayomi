@@ -1,14 +1,11 @@
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
-import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
+import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 part 'novel_reader_controller_provider.g.dart';
 
 @riverpod
@@ -24,10 +21,46 @@ class NovelReaderController extends _$NovelReaderController {
     return chapter;
   }
 
-  final incognitoMode = isar.settings.first.incognitoMode!;
+  final incognitoMode = isar.settings.getSync(227)!.incognitoMode!;
 
   Settings getIsarSetting() {
-    return isar.settings.first;
+    return isar.settings.getSync(227)!;
+  }
+
+  (bool, double) autoScrollValues() {
+    final autoScrollPagesList = getIsarSetting().autoScrollPages ?? [];
+    final autoScrollPages = autoScrollPagesList.where(
+      (element) => element.mangaId == getManga().id,
+    );
+    if (autoScrollPages.isNotEmpty) {
+      return (
+        autoScrollPages.first.autoScroll ?? false,
+        autoScrollPages.first.pageOffset ?? 10,
+      );
+    }
+    return (false, 10);
+  }
+
+  void setAutoScroll(bool value, double offset) {
+    List<AutoScrollPages>? autoScrollPagesList = [];
+    for (var autoScrollPages in getIsarSetting().autoScrollPages ?? []) {
+      if (autoScrollPages.mangaId != getManga().id) {
+        autoScrollPagesList.add(autoScrollPages);
+      }
+    }
+    autoScrollPagesList.add(
+      AutoScrollPages()
+        ..mangaId = getManga().id
+        ..pageOffset = offset
+        ..autoScroll = value,
+    );
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        getIsarSetting()
+          ..autoScrollPages = autoScrollPagesList
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 
   void setMangaHistoryUpdate() {
@@ -35,15 +68,8 @@ class NovelReaderController extends _$NovelReaderController {
     isar.writeTxnSync(() {
       Manga? manga = chapter.manga.value;
       manga!.lastRead = DateTime.now().millisecondsSinceEpoch;
+      manga.updatedAt = DateTime.now().millisecondsSinceEpoch;
       isar.mangas.putSync(manga);
-      ref
-          .read(synchingProvider(syncId: 1).notifier)
-          .addChangedPart(
-            ActionType.updateItem,
-            manga.id,
-            manga.toJson(),
-            false,
-          );
     });
     History? history;
 
@@ -68,27 +94,9 @@ class NovelReaderController extends _$NovelReaderController {
             ..date = DateTime.now().millisecondsSinceEpoch.toString();
     }
     isar.writeTxnSync(() {
-      isar.historys.putSync(history!);
+      history!.updatedAt = DateTime.now().millisecondsSinceEpoch;
+      isar.historys.putSync(history);
       history.chapter.saveSync();
-      if (empty) {
-        ref
-            .read(synchingProvider(syncId: 1).notifier)
-            .addChangedPart(
-              ActionType.addHistory,
-              null,
-              history.toJson(),
-              false,
-            );
-      } else {
-        ref
-            .read(synchingProvider(syncId: 1).notifier)
-            .addChangedPart(
-              ActionType.updateHistory,
-              history.id,
-              history.toJson(),
-              false,
-            );
-      }
     });
   }
 
@@ -101,15 +109,8 @@ class NovelReaderController extends _$NovelReaderController {
         ch.isRead = isRead;
         ch.lastPageRead =
             (maxOffset != 0 ? newOffset / maxOffset : 0).toString();
+        ch.updatedAt = DateTime.now().millisecondsSinceEpoch;
         isar.chapters.putSync(ch);
-        ref
-            .read(synchingProvider(syncId: 1).notifier)
-            .addChangedPart(
-              ActionType.updateChapter,
-              chapter.id,
-              chapter.toJson(),
-              false,
-            );
       });
     }
   }
@@ -120,15 +121,8 @@ class NovelReaderController extends _$NovelReaderController {
     final chap = chapter;
     isar.writeTxnSync(() {
       chap.isBookmarked = !isBookmarked;
+      chap.updatedAt = DateTime.now().millisecondsSinceEpoch;
       isar.chapters.putSync(chap);
-      ref
-          .read(synchingProvider(syncId: 1).notifier)
-          .addChangedPart(
-            ActionType.updateChapter,
-            chapter.id,
-            chapter.toJson(),
-            false,
-          );
     });
   }
 
@@ -227,110 +221,4 @@ class NovelReaderController extends _$NovelReaderController {
   String getChapterTitle() {
     return chapter.name!;
   }
-}
-
-extension MangaExtensions on Manga {
-  List<Chapter> getFilteredChapterList() {
-    final data = this.chapters.toList().toList();
-    final filterUnread =
-        (isar.settings.first.chapterFilterUnreadList!
-                    .where((element) => element.mangaId == id)
-                    .toList()
-                    .firstOrNull ??
-                ChapterFilterUnread(mangaId: id, type: 0))
-            .type!;
-
-    final filterBookmarked =
-        (isar.settings.first.chapterFilterBookmarkedList!
-                    .where((element) => element.mangaId == id)
-                    .toList()
-                    .firstOrNull ??
-                ChapterFilterBookmarked(mangaId: id, type: 0))
-            .type!;
-    final filterDownloaded =
-        (isar.settings.first.chapterFilterDownloadedList!
-                    .where((element) => element.mangaId == id)
-                    .toList()
-                    .firstOrNull ??
-                ChapterFilterDownloaded(mangaId: id, type: 0))
-            .type!;
-
-    final sortChapter =
-        (isar.settings.first.sortChapterList!
-                    .where((element) => element.mangaId == id)
-                    .toList()
-                    .firstOrNull ??
-                SortChapter(mangaId: id, index: 1, reverse: false))
-            .index;
-    final filterScanlator = _getFilterScanlator(this) ?? [];
-    List<Chapter>? chapterList;
-    chapterList =
-        data
-            .where(
-              (element) =>
-                  filterUnread == 1
-                      ? element.isRead == false
-                      : filterUnread == 2
-                      ? element.isRead == true
-                      : true,
-            )
-            .where(
-              (element) =>
-                  filterBookmarked == 1
-                      ? element.isBookmarked == true
-                      : filterBookmarked == 2
-                      ? element.isBookmarked == false
-                      : true,
-            )
-            .where((element) {
-              final modelChapDownload =
-                  isar.downloads
-                      .filter()
-                      .idIsNotNull()
-                      .idEqualTo(element.id)
-                      .findAllSync();
-              return filterDownloaded == 1
-                  ? modelChapDownload.isNotEmpty &&
-                      modelChapDownload.first.isDownload == true
-                  : filterDownloaded == 2
-                  ? !(modelChapDownload.isNotEmpty &&
-                      modelChapDownload.first.isDownload == true)
-                  : true;
-            })
-            .where((element) => !filterScanlator.contains(element.scanlator))
-            .toList();
-    List<Chapter> chapters =
-        sortChapter == 1 ? chapterList.reversed.toList() : chapterList;
-    if (sortChapter == 0) {
-      chapters.sort((a, b) {
-        return (a.scanlator == null ||
-                b.scanlator == null ||
-                a.dateUpload == null ||
-                b.dateUpload == null)
-            ? 0
-            : a.scanlator!.compareTo(b.scanlator!) |
-                a.dateUpload!.compareTo(b.dateUpload!);
-      });
-    } else if (sortChapter == 2) {
-      chapters.sort((a, b) {
-        return (a.dateUpload == null || b.dateUpload == null)
-            ? 0
-            : int.parse(a.dateUpload!).compareTo(int.parse(b.dateUpload!));
-      });
-    } else if (sortChapter == 3) {
-      chapters.sort((a, b) {
-        return (a.name == null || b.name == null)
-            ? 0
-            : a.name!.compareTo(b.name!);
-      });
-    }
-    return chapterList;
-  }
-}
-
-List<String>? _getFilterScanlator(Manga manga) {
-  final scanlators = isar.settings.first.filterScanlatorList ?? [];
-  final filter =
-      scanlators.where((element) => element.mangaId == manga.id).toList();
-  return filter.firstOrNull?.scanlators;
 }

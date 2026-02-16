@@ -5,7 +5,6 @@ class ListTileChapterSort extends StatelessWidget {
   final bool reverse;
   final VoidCallback onTap;
   final bool showLeading;
-
   const ListTileChapterSort({
     super.key,
     required this.label,
@@ -20,7 +19,7 @@ class ListTileChapterSort extends StatelessWidget {
       iconColor: Theme.of(context).primaryColor,
       dense: true,
       leading: Icon(
-        reverse ? Icons.arrow_downward_sharp : Icons.arrow_upward_sharp,
+        !reverse ? Icons.arrow_downward_sharp : Icons.arrow_upward_sharp,
         color:
             showLeading ? Theme.of(context).primaryColor : Colors.transparent,
       ),

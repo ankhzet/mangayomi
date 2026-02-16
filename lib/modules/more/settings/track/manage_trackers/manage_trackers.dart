@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/modules/widgets/gridview_widget.dart';
@@ -17,13 +17,12 @@ class ManageTrackersScreen extends StatefulWidget {
 
 class _ManageTrackersScreenState extends State<ManageTrackersScreen> {
   late List<TrackPreference> trackPreferences = [];
-
   @override
   void initState() {
+    super.initState();
     trackPreferences =
         isar.trackPreferences.filter().syncIdIsNotNull().findAllSync();
     // trackPreferences.insert(0, TrackPreference(syncId: -1));
-    super.initState();
   }
 
   @override

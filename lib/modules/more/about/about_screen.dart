@@ -1,10 +1,21 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mangayomi/eval/model/m_bridge.dart';
+import 'package:mangayomi/main.dart';
+import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/more/about/providers/check_for_update.dart';
 import 'package:mangayomi/modules/more/about/providers/get_package_info.dart';
+import 'package:mangayomi/modules/more/about/providers/logs_state.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
+import 'package:mangayomi/providers/storage_provider.dart';
+import 'package:mangayomi/utils/log/logger.dart';
+import 'package:path/path.dart' as path;
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutScreen extends ConsumerWidget {
@@ -13,6 +24,8 @@ class AboutScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = l10nLocalizations(context);
+    final checkForUpdates = ref.watch(checkForAppUpdatesProvider);
+    final enableLogs = ref.watch(logsStateProvider);
     return Scaffold(
       appBar: AppBar(title: Text(l10n!.about)),
       body: ref
@@ -45,6 +58,22 @@ class AboutScreen extends ConsumerWidget {
                               style: const TextStyle(fontSize: 12),
                             ),
                           ),
+                          SwitchListTile(
+                            title: Text(l10n.check_for_app_updates),
+                            value: checkForUpdates,
+                            onChanged: (value) {
+                              isar.writeTxnSync(() {
+                                final settings = isar.settings.getSync(227);
+                                isar.settings.putSync(
+                                  settings!
+                                    ..checkForAppUpdates = value
+                                    ..updatedAt =
+                                        DateTime.now().millisecondsSinceEpoch,
+                                );
+                              });
+                              ref.invalidate(checkForAppUpdatesProvider);
+                            },
+                          ),
                           ListTile(
                             onTap: () {
                               ref.read(
@@ -56,6 +85,59 @@ class AboutScreen extends ConsumerWidget {
                             },
                             title: Text(l10n.check_for_update),
                           ),
+                          SwitchListTile(
+                            title: Text(l10n.logs_on),
+                            value: enableLogs,
+                            onChanged: (value) {
+                              isar.writeTxnSync(() {
+                                final settings = isar.settings.getSync(227);
+                                isar.settings.putSync(
+                                  settings!..enableLogs = value,
+                                );
+                              });
+                              ref.invalidate(logsStateProvider);
+                              if (value) {
+                                AppLogger.init();
+                              } else {
+                                AppLogger.dispose();
+                              }
+                            },
+                          ),
+                          if (enableLogs)
+                            ListTile(
+                              onTap: () async {
+                                final storage = StorageProvider();
+                                final directory =
+                                    await storage.getDefaultDirectory();
+                                final file = File(
+                                  path.join(directory!.path, 'logs.txt'),
+                                );
+                                if (await file.exists()) {
+                                  if (Platform.isLinux) {
+                                    await Clipboard.setData(
+                                      ClipboardData(text: file.path),
+                                    );
+                                  }
+                                  if (context.mounted) {
+                                    final box =
+                                        context.findRenderObject()
+                                            as RenderBox?;
+                                    SharePlus.instance.share(
+                                      ShareParams(
+                                        files: [XFile(file.path)],
+                                        text: "log.txt",
+                                        sharePositionOrigin:
+                                            box!.localToGlobal(Offset.zero) &
+                                            box.size,
+                                      ),
+                                    );
+                                  }
+                                } else {
+                                  botToast(l10n.no_app_logs);
+                                }
+                              },
+                              title: Text(l10n.share_app_logs),
+                            ),
                           // ListTile(
                           //   onTap: () {},
                           //   title: const Text("What's news"),
@@ -79,7 +161,13 @@ class AboutScreen extends ConsumerWidget {
                                     ),
                                   );
                                 },
-                                icon: const Icon(FontAwesomeIcons.github),
+                                icon: const Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 2.5,
+                                    right: 2.5,
+                                  ),
+                                  child: Icon(FontAwesomeIcons.github),
+                                ),
                               ),
                               IconButton(
                                 onPressed: () {
@@ -89,7 +177,10 @@ class AboutScreen extends ConsumerWidget {
                                     ),
                                   );
                                 },
-                                icon: const Icon(FontAwesomeIcons.discord),
+                                icon: const Padding(
+                                  padding: EdgeInsets.only(right: 5),
+                                  child: Icon(FontAwesomeIcons.discord),
+                                ),
                               ),
                             ],
                           ),

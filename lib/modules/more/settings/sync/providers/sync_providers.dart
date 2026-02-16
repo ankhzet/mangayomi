@@ -1,24 +1,29 @@
 import 'dart:convert';
 
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/sync_preference.dart';
 import 'package:mangayomi/services/sync_server.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 part 'sync_providers.g.dart';
 
 @riverpod
 class Synching extends _$Synching {
   @override
   SyncPreference build({required int? syncId}) {
+    ref.keepAlive();
     return isar.syncPreferences.getSync(syncId!) ?? SyncPreference(syncId: 1);
   }
 
-  void login(SyncPreference syncPreference) {
+  void login(String server, String email, String authToken) {
     isar.writeTxnSync(() {
-      isar.syncPreferences.putSync(syncPreference);
+      isar.syncPreferences.putSync(
+        state
+          ..server = server
+          ..email = email
+          ..authToken = authToken,
+      );
     });
     ref.invalidateSelf();
     ref.invalidate(syncServerProvider(syncId: syncId!));
@@ -32,21 +37,21 @@ class Synching extends _$Synching {
     ref.invalidate(syncServerProvider(syncId: syncId!));
   }
 
-  void setLastUpload(int timestamp) {
+  void setLastSyncManga(int timestamp) {
     isar.writeTxnSync(() {
-      isar.syncPreferences.putSync(state..lastUpload = timestamp);
+      isar.syncPreferences.putSync(state..lastSyncManga = timestamp);
     });
   }
 
-  void setLastDownload(int timestamp) {
+  void setLastSyncHistory(int timestamp) {
     isar.writeTxnSync(() {
-      isar.syncPreferences.putSync(state..lastDownload = timestamp);
+      isar.syncPreferences.putSync(state..lastSyncHistory = timestamp);
     });
   }
 
-  void setLastSync(int timestamp) {
+  void setLastSyncUpdate(int timestamp) {
     isar.writeTxnSync(() {
-      isar.syncPreferences.putSync(state..lastSync = timestamp);
+      isar.syncPreferences.putSync(state..lastSyncUpdate = timestamp);
     });
   }
 
@@ -65,6 +70,27 @@ class Synching extends _$Synching {
   void setAutoSyncFrequency(int value) {
     isar.writeTxnSync(() {
       isar.syncPreferences.putSync(state..autoSyncFrequency = value);
+    });
+    ref.invalidateSelf();
+  }
+
+  void setSyncHistories(bool value) {
+    isar.writeTxnSync(() {
+      isar.syncPreferences.putSync(state..syncHistories = value);
+    });
+    ref.invalidateSelf();
+  }
+
+  void setSyncUpdates(bool value) {
+    isar.writeTxnSync(() {
+      isar.syncPreferences.putSync(state..syncUpdates = value);
+    });
+    ref.invalidateSelf();
+  }
+
+  void setSyncSettings(bool value) {
+    isar.writeTxnSync(() {
+      isar.syncPreferences.putSync(state..syncSettings = value);
     });
     ref.invalidateSelf();
   }
@@ -100,26 +126,7 @@ class Synching extends _$Synching {
             .actionTypeEqualTo(action)
             .isarIdEqualTo(isarId)
             .findFirstSync();
-    if (writeTxn) {
-      isar.writeTxnSync(() {
-        if (changedPart != null) {
-          isar.changedParts.putSync(
-            changedPart
-              ..data = jsonEncode(data)
-              ..clientDate = DateTime.now().millisecondsSinceEpoch,
-          );
-        } else {
-          isar.changedParts.putSync(
-            ChangedPart(
-              actionType: action,
-              isarId: isarId,
-              data: jsonEncode(data),
-              clientDate: DateTime.now().millisecondsSinceEpoch,
-            ),
-          );
-        }
-      });
-    } else {
+    void putChangedPart() {
       if (changedPart != null) {
         isar.changedParts.putSync(
           changedPart
@@ -136,6 +143,12 @@ class Synching extends _$Synching {
           ),
         );
       }
+    }
+
+    if (writeTxn) {
+      isar.writeTxnSync(putChangedPart);
+    } else {
+      putChangedPart();
     }
   }
 
@@ -154,26 +167,7 @@ class Synching extends _$Synching {
             .actionTypeEqualTo(action)
             .isarIdEqualTo(isarId)
             .findFirstSync();
-    if (writeTxn) {
-      await isar.writeTxn(() async {
-        if (changedPart != null) {
-          await isar.changedParts.put(
-            changedPart
-              ..data = jsonEncode(data)
-              ..clientDate = DateTime.now().millisecondsSinceEpoch,
-          );
-        } else {
-          await isar.changedParts.put(
-            ChangedPart(
-              actionType: action,
-              isarId: isarId,
-              data: jsonEncode(data),
-              clientDate: DateTime.now().millisecondsSinceEpoch,
-            ),
-          );
-        }
-      });
-    } else {
+    Future<void> putChangedPart() async {
       if (changedPart != null) {
         await isar.changedParts.put(
           changedPart
@@ -191,26 +185,35 @@ class Synching extends _$Synching {
         );
       }
     }
+
+    if (writeTxn) {
+      await isar.writeTxn(putChangedPart);
+    } else {
+      await putChangedPart();
+    }
   }
 
-  void clearChangedParts(List<ActionType> actions) {
+  Future<void> clearChangedParts(List<ActionType> actions, bool txn) async {
     var temp = isar.changedParts.filter().idIsNotNull().and().actionTypeEqualTo(
       actions.first,
     );
     for (ActionType action in actions.skip(1)) {
       temp = temp.or().actionTypeEqualTo(action);
     }
-    final changedParts = temp.findAllSync().map((cp) => cp.id as Id).toList();
-    isar.writeTxnSync(() {
-      isar.changedParts.deleteAllSync(changedParts);
-    });
+    final changedParts =
+        (await temp.findAll()).map((cp) => cp.id as Id).toList();
+    if (txn) {
+      await isar.writeTxn(() async {
+        await isar.changedParts.deleteAll(changedParts);
+      });
+    } else {
+      await isar.changedParts.deleteAll(changedParts);
+    }
   }
 
   void clearAllChangedParts(bool txn) {
     if (txn) {
-      isar.writeTxnSync(() {
-        isar.changedParts.clearSync();
-      });
+      isar.writeTxnSync(() => isar.changedParts.clearSync());
     } else {
       isar.changedParts.clearSync();
     }

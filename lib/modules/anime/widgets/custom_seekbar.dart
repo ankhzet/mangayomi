@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:mangayomi/modules/anime/widgets/custom_track_shape.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video_controls/src/controls/extensions/duration.dart';
 
@@ -10,6 +10,7 @@ class CustomSeekBar extends StatefulWidget {
   final Duration? delta;
   final Function(Duration)? onSeekStart;
   final Function(Duration)? onSeekEnd;
+  final ValueNotifier<List<(String, int)>> chapterMarks;
 
   const CustomSeekBar({
     super.key,
@@ -17,6 +18,7 @@ class CustomSeekBar extends StatefulWidget {
     this.onSeekEnd,
     required this.player,
     this.delta,
+    required this.chapterMarks,
   });
 
   @override
@@ -32,6 +34,7 @@ class CustomSeekBarState extends State<CustomSeekBar> {
 
   @override
   void initState() {
+    super.initState();
     player.stream.position.listen((event) {
       if (mounted) {
         setState(() {
@@ -56,13 +59,15 @@ class CustomSeekBarState extends State<CustomSeekBar> {
     position = player.state.position;
     duration = player.state.duration;
     buffer = player.state.buffer;
-    super.initState();
   }
 
   final isDesktop = Platform.isMacOS || Platform.isWindows || Platform.isLinux;
-
   @override
   Widget build(BuildContext context) {
+    final maxValue = max(duration.inMilliseconds.toDouble(), 0).toDouble();
+    final rawValue =
+        (widget.delta ?? tempPosition ?? position).inMilliseconds.toDouble();
+    final clampedValue = rawValue.clamp(0, maxValue).toDouble();
     return SizedBox(
       height: 20,
       child: Row(
@@ -88,14 +93,18 @@ class CustomSeekBarState extends State<CustomSeekBar> {
               data: SliderTheme.of(context).copyWith(
                 trackHeight: isDesktop ? null : 3,
                 overlayShape: const RoundSliderOverlayShape(overlayRadius: 5.0),
+                trackShape: CustomTrackShape(
+                  currentPosition: clampedValue,
+                  bufferPosition: max(buffer.inMilliseconds.toDouble(), 0),
+                  maxValue: maxValue < 1 ? 1 : maxValue,
+                  minValue: 0,
+                  chapterMarks: widget.chapterMarks.value,
+                  chapterMarkWidth: 10,
+                ),
               ),
               child: Slider(
-                max: max(duration.inMilliseconds.toDouble(), 0),
-                value: max(
-                  (widget.delta ?? tempPosition ?? position).inMilliseconds
-                      .toDouble(),
-                  0,
-                ),
+                max: maxValue,
+                value: clampedValue,
                 secondaryTrackValue: max(buffer.inMilliseconds.toDouble(), 0),
                 onChanged: (value) {
                   widget.onSeekStart?.call(
@@ -103,6 +112,7 @@ class CustomSeekBarState extends State<CustomSeekBar> {
                       milliseconds: value.toInt() - position.inMilliseconds,
                     ),
                   );
+                  widget.player.seek(Duration(milliseconds: value.toInt()));
                   if (mounted) {
                     setState(() {
                       tempPosition = Duration(milliseconds: value.toInt());

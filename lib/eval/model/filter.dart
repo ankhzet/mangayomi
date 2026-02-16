@@ -2,13 +2,10 @@ import 'package:mangayomi/eval/javascript/http.dart';
 
 class FilterList {
   List<dynamic> filters;
-
   FilterList(this.filters);
-
   factory FilterList.fromJson(Map<String, dynamic> json) {
     return FilterList(fromJsonFilterValuesToList(json['filters']));
   }
-
   Map<String, dynamic> toJson() => {'filters': filterValuesListToJson(filters)};
 }
 
@@ -20,7 +17,6 @@ class SelectFilter {
   String? typeName;
 
   SelectFilter(this.type, this.name, this.state, this.values, this.typeName);
-
   factory SelectFilter.fromJson(Map<String, dynamic> json) {
     return SelectFilter(
       json['type'],
@@ -30,7 +26,6 @@ class SelectFilter {
       json['type_name'],
     );
   }
-
   Map<String, dynamic> toJson() => {
     'type': type,
     'name': name,
@@ -46,11 +41,9 @@ class SelectFilterOption {
   String? typeName;
 
   SelectFilterOption(this.name, this.value, this.typeName);
-
   factory SelectFilterOption.fromJson(Map<String, dynamic> json) {
     return SelectFilterOption(json['name'], json['value'], json['type_name']);
   }
-
   Map<String, dynamic> toJson() => {
     'value': value,
     'name': name,
@@ -61,13 +54,10 @@ class SelectFilterOption {
 class SeparatorFilter {
   String? type;
   String? typeName;
-
   SeparatorFilter(this.typeName, {this.type = ''});
-
   factory SeparatorFilter.fromJson(Map<String, dynamic> json) {
     return SeparatorFilter(type: json['type'], json['type_name']);
   }
-
   Map<String, dynamic> toJson() => {
     'type': type,
     'type_name': "SeparatorFilter",
@@ -78,13 +68,10 @@ class HeaderFilter {
   String? type;
   String name;
   String? typeName;
-
   HeaderFilter(this.name, this.typeName, {this.type = ''});
-
   factory HeaderFilter.fromJson(Map<String, dynamic> json) {
     return HeaderFilter(json['name'], json['type_name'], type: json['value']);
   }
-
   Map<String, dynamic> toJson() => {
     'type': type,
     'name': name,
@@ -99,7 +86,6 @@ class TextFilter {
   String? typeName;
 
   TextFilter(this.type, this.name, this.typeName, {this.state = ""});
-
   factory TextFilter.fromJson(Map<String, dynamic> json) {
     return TextFilter(
       json['type'],
@@ -108,7 +94,6 @@ class TextFilter {
       state: json['state'] ?? "",
     );
   }
-
   Map<String, dynamic> toJson() => {
     'type': type,
     'name': name,
@@ -125,7 +110,6 @@ class SortFilter {
   String? typeName;
 
   SortFilter(this.type, this.name, this.state, this.values, this.typeName);
-
   factory SortFilter.fromJson(Map<String, dynamic> json) {
     return SortFilter(
       json['type'],
@@ -137,7 +121,6 @@ class SortFilter {
       json['type_name'],
     );
   }
-
   Map<String, dynamic> toJson() => {
     'type': type,
     'name': name,
@@ -153,11 +136,9 @@ class SortState {
   String? typeName;
 
   SortState(this.index, this.ascending, this.typeName);
-
   factory SortState.fromJson(Map<String, dynamic> json) {
     return SortState(json['index'], json['ascending'], json['type_name']);
   }
-
   Map<String, dynamic> toJson() => {
     'index': index,
     'ascending': ascending,
@@ -181,7 +162,6 @@ class TriStateFilter {
       state: json['state'] ?? 0,
     );
   }
-
   TriStateFilter(
     this.type,
     this.name,
@@ -189,7 +169,6 @@ class TriStateFilter {
     this.typeName, {
     this.state = 0,
   });
-
   Map<String, dynamic> toJson() => {
     'type': type,
     'name': name,
@@ -206,7 +185,6 @@ class GroupFilter {
   String? typeName;
 
   GroupFilter(this.type, this.name, this.state, this.typeName);
-
   factory GroupFilter.fromJson(Map<String, dynamic> json) {
     return GroupFilter(
       json['type'],
@@ -215,7 +193,6 @@ class GroupFilter {
       json['type_name'],
     );
   }
-
   Map<String, dynamic> toJson() => {
     'type': type,
     'name': name,
@@ -238,7 +215,6 @@ class CheckBoxFilter {
     this.typeName, {
     this.state = false,
   });
-
   factory CheckBoxFilter.fromJson(Map<String, dynamic> json) {
     return CheckBoxFilter(
       json['type'],
@@ -248,7 +224,6 @@ class CheckBoxFilter {
       state: json['state'] ?? false,
     );
   }
-
   Map<String, dynamic> toJson() => {
     'type': type,
     'name': name,

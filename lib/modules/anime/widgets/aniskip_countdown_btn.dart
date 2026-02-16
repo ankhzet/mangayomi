@@ -10,7 +10,6 @@ class AniSkipCountDownButton extends ConsumerStatefulWidget {
   final String skipTypeText;
   final Results? aniSkipResult;
   final Player player;
-
   const AniSkipCountDownButton({
     super.key,
     required this.skipTypeText,
@@ -29,7 +28,6 @@ class AniSkipCountDownButton extends ConsumerStatefulWidget {
 class _AniSkipCountDownButtonState extends ConsumerState<AniSkipCountDownButton>
     with TickerProviderStateMixin {
   late AnimationController _controller;
-
   @override
   void initState() {
     _controller = AnimationController(
@@ -64,7 +62,6 @@ class _AniSkipCountDownButtonState extends ConsumerState<AniSkipCountDownButton>
   }
 
   bool _isCompleted = false;
-
   @override
   void dispose() {
     _controller.dispose();

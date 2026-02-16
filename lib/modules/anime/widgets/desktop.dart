@@ -9,19 +9,23 @@ import 'package:mangayomi/modules/anime/providers/anime_player_controller_provid
 import 'package:mangayomi/modules/anime/widgets/custom_seekbar.dart';
 import 'package:mangayomi/modules/anime/widgets/subtitle_view.dart';
 import 'package:mangayomi/modules/more/settings/player/providers/player_state_provider.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:media_kit_video/media_kit_video_controls/src/controls/extensions/duration.dart';
 import 'package:window_manager/window_manager.dart';
 
-class DesktopControllerWidget extends StatefulWidget {
+class DesktopControllerWidget extends ConsumerStatefulWidget {
   final Function(Duration?) tempDuration;
+  final Function(bool?) doubleSpeed;
   final AnimeStreamController streamController;
   final VideoController videoController;
   final Widget topButtonBarWidget;
   final GlobalKey<VideoState> videoStatekey;
   final Widget bottomButtonBarWidget;
   final Widget seekToWidget;
-
+  final int defaultSkipIntroLength;
+  final void Function(bool) desktopFullScreenPlayer;
+  final ValueNotifier<List<(String, int)>> chapterMarks;
   const DesktopControllerWidget({
     super.key,
     required this.videoController,
@@ -31,23 +35,29 @@ class DesktopControllerWidget extends StatefulWidget {
     required this.videoStatekey,
     required this.seekToWidget,
     required this.tempDuration,
+    required this.doubleSpeed,
+    required this.defaultSkipIntroLength,
+    required this.desktopFullScreenPlayer,
+    required this.chapterMarks,
   });
 
   @override
-  State<DesktopControllerWidget> createState() =>
+  ConsumerState<DesktopControllerWidget> createState() =>
       _DesktopControllerWidgetState();
 }
 
-class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
+class _DesktopControllerWidgetState
+    extends ConsumerState<DesktopControllerWidget> {
   bool mount = true;
   bool visible = true;
   bool cursorVisible = true;
   Duration controlsTransitionDuration = const Duration(milliseconds: 300);
-  Color backdropColor = const Color(0x66000000);
+  // Color backdropColor = const Color(0x66000000);
   Timer? _timer;
 
   int swipeDuration = 0; // Duration to seek in video
   bool showSwipeDuration = false; // Whether to show the seek duration overlay
+  double previousPlaybackSpeed = -1;
 
   late bool buffering = widget.videoController.player.state.buffering;
   final controlsHoverDuration = const Duration(seconds: 3);
@@ -56,6 +66,7 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
 
   final List<StreamSubscription> subscriptions = [];
   DateTime last = DateTime.now();
+  Timer? _tapTimer;
 
   @override
   void setState(VoidCallback fn) {
@@ -91,6 +102,9 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
     for (final subscription in subscriptions) {
       subscription.cancel();
     }
+    subscriptions.clear();
+    _timer?.cancel();
+    _tapTimer?.cancel();
     super.dispose();
   }
 
@@ -139,9 +153,8 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
     _timer?.cancel();
   }
 
-  final bool modifyVolumeOnScroll = true;
-  final bool toggleFullscreenOnDoublePress = true;
-
+  final bool modifyVolumeOnScroll = true; // TODO. The variable is never changed
+  final bool toggleFullscreenOnDoublePress = true; // TODO. variable not changed
   @override
   Widget build(BuildContext context) {
     return CallbackShortcuts(
@@ -172,6 +185,12 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
               const Duration(seconds: 10);
           widget.videoController.player.seek(rate);
         },
+        const SingleActivator(LogicalKeyboardKey.enter): () {
+          final rate =
+              widget.videoController.player.state.position +
+              Duration(seconds: widget.defaultSkipIntroLength);
+          widget.videoController.player.seek(rate);
+        },
         const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
           final rate =
               widget.videoController.player.state.position -
@@ -192,9 +211,55 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
           final volume = widget.videoController.player.state.volume - 5.0;
           widget.videoController.player.setVolume(volume.clamp(0.0, 100.0));
         },
-        const SingleActivator(LogicalKeyboardKey.keyF): () => setFullScreen(),
-        const SingleActivator(LogicalKeyboardKey.escape):
-            () => setFullScreen(value: false),
+        const SingleActivator(LogicalKeyboardKey.keyF): () async {
+          await _changeFullScreen(ref, widget.desktopFullScreenPlayer);
+        },
+        const SingleActivator(LogicalKeyboardKey.escape): () async {
+          final desktopFullScreenPlayer = widget.desktopFullScreenPlayer;
+          await _changeFullScreen(ref, desktopFullScreenPlayer, value: false);
+        },
+        const SingleActivator(LogicalKeyboardKey.digit0, control: true): () {
+          (widget.videoController.player.platform as NativePlayer).command([
+            "script-message",
+            "clear_anime",
+          ]);
+        },
+        const SingleActivator(LogicalKeyboardKey.digit1, control: true): () {
+          (widget.videoController.player.platform as NativePlayer).command([
+            "script-message",
+            "set_anime_a",
+          ]);
+        },
+        const SingleActivator(LogicalKeyboardKey.digit2, control: true): () {
+          (widget.videoController.player.platform as NativePlayer).command([
+            "script-message",
+            "set_anime_b",
+          ]);
+        },
+        const SingleActivator(LogicalKeyboardKey.digit3, control: true): () {
+          (widget.videoController.player.platform as NativePlayer).command([
+            "script-message",
+            "set_anime_c",
+          ]);
+        },
+        const SingleActivator(LogicalKeyboardKey.digit4, control: true): () {
+          (widget.videoController.player.platform as NativePlayer).command([
+            "script-message",
+            "set_anime_aa",
+          ]);
+        },
+        const SingleActivator(LogicalKeyboardKey.digit5, control: true): () {
+          (widget.videoController.player.platform as NativePlayer).command([
+            "script-message",
+            "set_anime_bb",
+          ]);
+        },
+        const SingleActivator(LogicalKeyboardKey.digit6, control: true): () {
+          (widget.videoController.player.platform as NativePlayer).command([
+            "script-message",
+            "set_anime_ca",
+          ]);
+        },
       },
       child: Stack(
         children: [
@@ -239,15 +304,43 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
                       }
                       : null,
               child: GestureDetector(
+                onTap: () {
+                  // use own timer with onTapUp instead of onDoubleTap.
+                  // onDoubleTap uses 300ms which feels laggy when pausing
+                  // https://github.com/flutter/flutter/blob/master/packages/flutter/lib/src/gestures/constants.dart#L35
+                  _tapTimer = Timer(const Duration(milliseconds: 100), () {
+                    widget.videoController.player.playOrPause();
+                  });
+                },
+                onLongPressStart: (e) {
+                  previousPlaybackSpeed =
+                      widget.videoController.player.state.rate;
+                  widget.videoController.player.setRate(
+                    previousPlaybackSpeed * 2,
+                  );
+                  widget.doubleSpeed(true);
+                },
+                onLongPressEnd: (e) {
+                  if (previousPlaybackSpeed != -1) {
+                    widget.videoController.player.setRate(
+                      previousPlaybackSpeed,
+                    );
+                    previousPlaybackSpeed = -1;
+                    widget.doubleSpeed(false);
+                  }
+                },
                 onTapUp:
                     !toggleFullscreenOnDoublePress
                         ? null
-                        : (e) {
+                        : (e) async {
                           final now = DateTime.now();
                           final difference = now.difference(last);
                           last = now;
                           if (difference < const Duration(milliseconds: 400)) {
-                            setFullScreen();
+                            _tapTimer?.cancel();
+                            _tapTimer = null;
+                            final fullScreen = widget.desktopFullScreenPlayer;
+                            await _changeFullScreen(ref, fullScreen);
                           }
                         },
                 onPanUpdate:
@@ -402,6 +495,7 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
                                             widget.tempDuration(null);
                                           },
                                           player: widget.videoController.player,
+                                          chapterMarks: widget.chapterMarks,
                                         ),
                                       ),
                                     ),
@@ -474,73 +568,14 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
   }
 }
 
-// BUTTON: PLAY/PAUSE
-
-/// A material design play/pause button.
-class CustomeMaterialDesktopPlayOrPauseButton extends StatefulWidget {
-  final VideoController controller;
-
-  const CustomeMaterialDesktopPlayOrPauseButton({
-    super.key,
-    required this.controller,
-  });
-
-  @override
-  CustomeMaterialDesktopPlayOrPauseButtonState createState() =>
-      CustomeMaterialDesktopPlayOrPauseButtonState();
-}
-
-class CustomeMaterialDesktopPlayOrPauseButtonState
-    extends State<CustomeMaterialDesktopPlayOrPauseButton>
-    with SingleTickerProviderStateMixin {
-  late final animation = AnimationController(
-    vsync: this,
-    value: widget.controller.player.state.playing ? 1 : 0,
-    duration: const Duration(milliseconds: 200),
-  );
-
-  StreamSubscription<bool>? subscription;
-
-  @override
-  void setState(VoidCallback fn) {
-    if (mounted) {
-      super.setState(fn);
-    }
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    subscription ??= widget.controller.player.stream.playing.listen((event) {
-      if (event) {
-        animation.forward();
-      } else {
-        animation.reverse();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    animation.dispose();
-    subscription?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: widget.controller.player.playOrPause,
-      iconSize: 25,
-      color: Colors.white,
-      icon: AnimatedIcon(
-        progress: animation,
-        icon: AnimatedIcons.play_pause,
-        size: 25,
-        color: Colors.white,
-      ),
-    );
-  }
+Future<void> _changeFullScreen(
+  WidgetRef ref,
+  void Function(bool) setFullScreenCallback, {
+  bool? value,
+}) async {
+  final isFullScreen = await setFullScreen(value: value);
+  ref.read(fullscreenProvider.notifier).state = isFullScreen;
+  setFullScreenCallback(isFullScreen);
 }
 
 // BUTTON: VOLUME
@@ -778,8 +813,12 @@ class CustomMaterialDesktopPositionIndicatorState
 
   @override
   Widget build(BuildContext context) {
+    final clampedPosition = (widget.delta ?? position).clamp(
+      Duration.zero,
+      duration,
+    );
     return Text(
-      '${(widget.delta ?? position).label(reference: duration)} / ${duration.label(reference: duration)}',
+      '${clampedPosition.label(reference: duration)} / ${duration.label(reference: duration)}',
       style: const TextStyle(height: 1.0, fontSize: 12.0, color: Colors.white),
     );
   }
@@ -802,38 +841,36 @@ class _CustomTrackShape extends RoundedRectSliderTrackShape {
   }
 }
 
-class CustomMaterialDesktopFullscreenButton extends StatefulWidget {
+class CustomMaterialDesktopFullscreenButton extends ConsumerStatefulWidget {
   final VideoController controller;
+  final void Function(bool) desktopFullScreenPlayer;
 
   const CustomMaterialDesktopFullscreenButton({
     super.key,
     required this.controller,
+    required this.desktopFullScreenPlayer,
   });
 
   @override
-  State<CustomMaterialDesktopFullscreenButton> createState() =>
+  ConsumerState<CustomMaterialDesktopFullscreenButton> createState() =>
       _CustomMaterialDesktopFullscreenButtonState();
 }
 
 class _CustomMaterialDesktopFullscreenButtonState
-    extends State<CustomMaterialDesktopFullscreenButton> {
-  bool _isFullscreen = false;
-
+    extends ConsumerState<CustomMaterialDesktopFullscreenButton> {
   @override
   Widget build(BuildContext context) {
+    final isFullScreen = ref.watch(fullscreenProvider);
     return IconButton(
-      onPressed: () async {
-        final isFullScreen = await setFullScreen();
-        setState(() {
-          _isFullscreen = isFullScreen;
-        });
-      },
       icon:
-          _isFullscreen
+          isFullScreen
               ? const Icon(Icons.fullscreen_exit)
               : const Icon(Icons.fullscreen),
       iconSize: 25,
       color: Colors.white,
+      onPressed: () async {
+        await _changeFullScreen(ref, widget.desktopFullScreenPlayer);
+      },
     );
   }
 }
@@ -852,5 +889,5 @@ Future<bool> setFullScreen({bool? value}) async {
   } else {
     await windowManager.setFullScreen(false);
   }
-  return isFullScreen;
+  return !isFullScreen;
 }

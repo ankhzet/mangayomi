@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:mangayomi/src/rust/api/rhttp/client.dart' as rust_client;
 
 export 'package:mangayomi/src/rust/api/rhttp/client.dart' show TlsVersion;

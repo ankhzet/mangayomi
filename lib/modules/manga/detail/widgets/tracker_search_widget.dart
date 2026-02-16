@@ -10,11 +10,11 @@ import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
 import 'package:mangayomi/modules/widgets/error_text.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 
 class TrackerWidgetSearch extends ConsumerStatefulWidget {
   final ItemType itemType;
   final Track track;
-
   const TrackerWidgetSearch({
     required this.itemType,
     required this.track,
@@ -29,16 +29,15 @@ class TrackerWidgetSearch extends ConsumerStatefulWidget {
 class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
   @override
   initState() {
-    _init();
     super.initState();
+    _init();
   }
 
   late String query = widget.track.title!.trim();
   bool hide = false;
   late List<TrackSearch>? tracks = [];
   String? _errorMsg;
-
-  _init() async {
+  Future<void> _init() async {
     await Future.delayed(const Duration(microseconds: 100));
     try {
       tracks = await ref
@@ -46,6 +45,7 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
             trackStateProvider(
               track: widget.track,
               itemType: widget.itemType,
+              widgetRef: ref,
             ).notifier,
           )
           .search(query);
@@ -60,8 +60,14 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
   }
 
   late final _controller = TextEditingController(text: query);
-  bool _isLoading = true;
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  bool _isLoading = true;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -97,7 +103,7 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                         ),
                       if (_errorMsg == null && !hide)
                         Flexible(
-                          child: ListView.separated(
+                          child: SuperListView.separated(
                             padding: const EdgeInsets.only(top: 20),
                             itemCount: tracks!.length,
                             itemBuilder: (context, index) {
@@ -235,6 +241,7 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                                     trackStateProvider(
                                       track: widget.track,
                                       itemType: widget.itemType,
+                                      widgetRef: ref,
                                     ).notifier,
                                   )
                                   .search(d.trim());
@@ -289,7 +296,7 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
   }
 }
 
-Future<TrackSearch?> trackersSearchDraggableMenu(
+Future<dynamic> trackersSearchDraggableMenu(
   BuildContext context, {
   required Track track,
   required ItemType itemType,

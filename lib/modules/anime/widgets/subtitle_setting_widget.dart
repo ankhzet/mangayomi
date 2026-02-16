@@ -9,7 +9,6 @@ import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 
 class FontSettingWidget extends ConsumerStatefulWidget {
   final bool hasSubtitleTrack;
-
   const FontSettingWidget({super.key, required this.hasSubtitleTrack});
 
   @override
@@ -173,7 +172,6 @@ class _FontSettingWidgetState extends ConsumerState<FontSettingWidget> {
 
 class ColorSettingWidget extends ConsumerStatefulWidget {
   final bool hasSubtitleTrack;
-
   const ColorSettingWidget({super.key, required this.hasSubtitleTrack});
 
   @override

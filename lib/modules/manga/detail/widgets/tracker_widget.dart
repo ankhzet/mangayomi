@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/track.dart';
+import 'package:mangayomi/models/track_search.dart';
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/tracker_search_widget.dart';
 import 'package:mangayomi/modules/more/settings/track/providers/track_providers.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
+import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/constant.dart';
 import 'package:mangayomi/utils/date.dart';
-import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 
 class TrackerWidget extends ConsumerStatefulWidget {
   final ItemType itemType;
@@ -17,7 +19,6 @@ class TrackerWidget extends ConsumerStatefulWidget {
   final int mangaId;
   final int syncId;
   final bool hide;
-
   const TrackerWidget({
     super.key,
     required this.itemType,
@@ -34,11 +35,11 @@ class TrackerWidget extends ConsumerStatefulWidget {
 class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
   @override
   initState() {
-    _init();
     super.initState();
+    _init();
   }
 
-  _init() async {
+  Future<void> _init() async {
     await Future.delayed(const Duration(microseconds: 100));
     final findManga =
         await ref
@@ -46,6 +47,7 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
               trackStateProvider(
                 track: widget.trackRes,
                 itemType: widget.itemType,
+                widgetRef: ref,
               ).notifier,
             )
             .findManga();
@@ -103,16 +105,18 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                           ? () async {
                             final trackSearch =
                                 await trackersSearchDraggableMenu(
-                                  context,
-                                  itemType: widget.itemType,
-                                  track: widget.trackRes,
-                                );
+                                      context,
+                                      itemType: widget.itemType,
+                                      track: widget.trackRes,
+                                    )
+                                    as TrackSearch?;
                             if (trackSearch != null) {
                               await ref
                                   .read(
                                     trackStateProvider(
                                       track: null,
                                       itemType: widget.itemType,
+                                      widgetRef: ref,
                                     ).notifier,
                                   )
                                   .setTrackSearch(
@@ -170,53 +174,64 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                           title: Text(l10n!.status),
                           content: SizedBox(
                             width: context.width(0.8),
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount:
-                                  ref
-                                      .read(
-                                        trackStateProvider(
-                                          track: widget.trackRes,
-                                          itemType: widget.itemType,
-                                        ).notifier,
-                                      )
-                                      .getStatusList()
-                                      .length,
-                              itemBuilder: (context, index) {
-                                final status =
+                            child: RadioGroup(
+                              groupValue: toTrackStatus(
+                                widget.trackRes.status,
+                                widget.itemType,
+                                widget.trackRes.syncId!,
+                              ),
+                              onChanged: (value) {
+                                // Individual RadioListTile will handle the change
+                              },
+                              child: SuperListView.builder(
+                                shrinkWrap: true,
+                                itemCount:
                                     ref
                                         .read(
                                           trackStateProvider(
                                             track: widget.trackRes,
                                             itemType: widget.itemType,
+                                            widgetRef: ref,
                                           ).notifier,
                                         )
-                                        .getStatusList()[index];
-                                return RadioListTile(
-                                  dense: true,
-                                  contentPadding: const EdgeInsets.all(0),
-                                  value: status,
-                                  groupValue: toTrackStatus(
-                                    widget.trackRes.status,
-                                    widget.itemType,
-                                    widget.trackRes.syncId!,
-                                  ),
-                                  onChanged: (value) {
-                                    ref
-                                        .read(
-                                          trackStateProvider(
-                                            track:
-                                                widget.trackRes
-                                                  ..status = status,
-                                            itemType: widget.itemType,
-                                          ).notifier,
-                                        )
-                                        .updateManga();
-                                    Navigator.pop(context);
-                                  },
-                                  title: Text(getTrackStatus(status, context)),
-                                );
-                              },
+                                        .getStatusList()
+                                        .length,
+                                itemBuilder: (context, index) {
+                                  final status =
+                                      ref
+                                          .read(
+                                            trackStateProvider(
+                                              track: widget.trackRes,
+                                              itemType: widget.itemType,
+                                              widgetRef: ref,
+                                            ).notifier,
+                                          )
+                                          .getStatusList()[index];
+                                  return RadioListTile(
+                                    dense: true,
+                                    contentPadding: const EdgeInsets.all(0),
+                                    value: status,
+                                    // ignore: deprecated_member_use
+                                    onChanged: (value) {
+                                      ref
+                                          .read(
+                                            trackStateProvider(
+                                              track:
+                                                  widget.trackRes
+                                                    ..status = status,
+                                              itemType: widget.itemType,
+                                              widgetRef: ref,
+                                            ).notifier,
+                                          )
+                                          .updateManga();
+                                      Navigator.pop(context);
+                                    },
+                                    title: Text(
+                                      getTrackStatus(status, context),
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           ),
                           actions: [
@@ -315,6 +330,7 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                                                   ..lastChapterRead =
                                                       currentIntValue,
                                             itemType: widget.itemType,
+                                            widgetRef: ref,
                                           ).notifier,
                                         )
                                         .updateManga();
@@ -366,6 +382,7 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                                                   trackStateProvider(
                                                     track: widget.trackRes,
                                                     itemType: widget.itemType,
+                                                    widgetRef: ref,
                                                   ).notifier,
                                                 )
                                                 .getScoreMaxValue(),
@@ -375,6 +392,7 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                                                 trackStateProvider(
                                                   track: widget.trackRes,
                                                   itemType: widget.itemType,
+                                                  widgetRef: ref,
                                                 ).notifier,
                                               )
                                               .getTextMapper(numberText);
@@ -385,6 +403,7 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                                                   trackStateProvider(
                                                     track: widget.trackRes,
                                                     itemType: widget.itemType,
+                                                    widgetRef: ref,
                                                   ).notifier,
                                                 )
                                                 .getScoreStep(),
@@ -422,6 +441,7 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                                                 widget.trackRes
                                                   ..score = currentIntValue,
                                             itemType: widget.itemType,
+                                            widgetRef: ref,
                                           ).notifier,
                                         )
                                         .updateManga();
@@ -448,6 +468,7 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                                 trackStateProvider(
                                   track: widget.trackRes,
                                   itemType: widget.itemType,
+                                  widgetRef: ref,
                                 ).notifier,
                               )
                               .displayScore(widget.trackRes.score!)
@@ -482,6 +503,7 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                                   ..startedReadingDate =
                                       newDate.millisecondsSinceEpoch,
                             itemType: widget.itemType,
+                            widgetRef: ref,
                           ).notifier,
                         )
                         .updateManga();
@@ -489,7 +511,7 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                   text:
                       widget.trackRes.startedReadingDate != null &&
                               widget.trackRes.startedReadingDate! >
-                                  DateTime(1970).millisecondsSinceEpoch
+                                  DateTime.utc(1970).millisecondsSinceEpoch
                           ? dateFormat(
                             widget.trackRes.startedReadingDate.toString(),
                             ref: ref,
@@ -523,6 +545,7 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                                   ..finishedReadingDate =
                                       newDate.millisecondsSinceEpoch,
                             itemType: widget.itemType,
+                            widgetRef: ref,
                           ).notifier,
                         )
                         .updateManga();
@@ -530,7 +553,7 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                   text:
                       widget.trackRes.finishedReadingDate != null &&
                               widget.trackRes.finishedReadingDate! >
-                                  DateTime(1970).millisecondsSinceEpoch
+                                  DateTime.utc(1970).millisecondsSinceEpoch
                           ? dateFormat(
                             widget.trackRes.finishedReadingDate.toString(),
                             ref: ref,

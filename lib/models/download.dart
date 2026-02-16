@@ -1,4 +1,4 @@
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/models/chapter.dart';
 
 part 'download.g.dart';
@@ -22,13 +22,12 @@ class Download {
 
   Download({
     this.id = 0,
-    this.succeeded,
-    this.failed,
-    this.total,
-    this.isDownload,
-    this.isStartDownload,
+    required this.succeeded,
+    required this.failed,
+    required this.total,
+    required this.isDownload,
+    required this.isStartDownload,
   });
-
   Download.fromJson(Map<String, dynamic> json) {
     failed = json['failed'];
     id = json['id'];

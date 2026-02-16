@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
-import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/cached_network.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/utils/item_type_localization.dart';
 import 'package:mangayomi/utils/language.dart';
 
 class SourceListTile extends StatelessWidget {
   final ItemType itemType;
   final Source source;
+
+  bool get isLocal => source.name == "local" && source.lang == "";
 
   const SourceListTile({
     super.key,
@@ -28,28 +29,24 @@ class SourceListTile extends StatelessWidget {
       builder:
           (context, ref, child) => ListTile(
             onTap: () {
-              final sources =
-                  isar.sources
-                      .filter()
-                      .idIsNotNull()
-                      .and()
-                      .itemTypeEqualTo(itemType)
-                      .findAllSync();
-              isar.writeTxnSync(() {
-                for (var src in sources) {
-                  isar.sources.putSync(
-                    src..lastUsed = src.id == source.id ? true : false,
-                  );
-                  ref
-                      .read(synchingProvider(syncId: 1).notifier)
-                      .addChangedPart(
-                        ActionType.updateExtension,
-                        src.id,
-                        src.toJson(),
-                        false,
-                      );
-                }
-              });
+              if (!isLocal) {
+                final sources =
+                    isar.sources
+                        .filter()
+                        .idIsNotNull()
+                        .and()
+                        .itemTypeEqualTo(itemType)
+                        .findAllSync();
+                isar.writeTxnSync(() {
+                  for (var src in sources) {
+                    isar.sources.putSync(
+                      src
+                        ..lastUsed = src.id == source.id ? true : false
+                        ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+                    );
+                  }
+                });
+              }
               context.push('/mangaHome', extra: (source, false));
             },
             leading: Container(
@@ -88,7 +85,11 @@ class SourceListTile extends StatelessWidget {
                 ),
               ],
             ),
-            title: Text(source.name!),
+            title: Text(
+              !isLocal
+                  ? source.name!
+                  : "${context.l10n.local_source} ${source.itemType.localized(context.l10n)}",
+            ),
             trailing: SizedBox(
               width: 150,
               child: Row(
@@ -114,28 +115,24 @@ class SourceListTile extends StatelessWidget {
                     },
                   ),
                   const SizedBox(width: 10),
-                  IconButton(
-                    padding: const EdgeInsets.all(0),
-                    onPressed: () {
-                      isar.writeTxnSync(
-                        () => isar.sources.putSync(
-                          source..isPinned = !source.isPinned!,
-                        ),
-                      );
-                      ref
-                          .read(synchingProvider(syncId: 1).notifier)
-                          .addChangedPart(
-                            ActionType.updateExtension,
-                            source.id,
-                            source.toJson(),
-                            false,
-                          );
-                    },
-                    icon: Icon(
-                      Icons.push_pin_outlined,
-                      color: source.isPinned! ? context.primaryColor : null,
+                  if (!isLocal)
+                    IconButton(
+                      padding: const EdgeInsets.all(0),
+                      onPressed: () {
+                        isar.writeTxnSync(
+                          () => isar.sources.putSync(
+                            source
+                              ..isPinned = !source.isPinned!
+                              ..updatedAt =
+                                  DateTime.now().millisecondsSinceEpoch,
+                          ),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.push_pin_outlined,
+                        color: source.isPinned! ? context.primaryColor : null,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),

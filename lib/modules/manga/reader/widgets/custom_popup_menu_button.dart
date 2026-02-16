@@ -8,7 +8,6 @@ class CustomPopupMenuButton<T> extends StatelessWidget {
   final T value;
   final List<T> list;
   final String Function(T) itemText;
-
   const CustomPopupMenuButton({
     super.key,
     required this.label,

@@ -9,7 +9,6 @@ class BottomTextWidget extends StatelessWidget {
   final int? maxLines;
   final Color? textColor;
   final bool? isTorrent;
-
   const BottomTextWidget({
     super.key,
     required this.text,

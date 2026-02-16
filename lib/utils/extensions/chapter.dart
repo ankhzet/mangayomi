@@ -1,30 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mangayomi/main.dart';
-import 'package:isar/isar.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
-import 'package:mangayomi/models/manga.dart';
-import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/manga/reader/providers/push_router.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
-import 'package:mangayomi/services/download_manager/m3u8/m3u8_downloader.dart';
-import 'package:mangayomi/utils/extensions/string_extensions.dart';
+import 'package:mangayomi/services/download_manager/download_isolate_pool.dart';
+import 'package:mangayomi/services/download_manager/m_downloader.dart';
 
 extension ChapterExtension on Chapter {
-  @ignore
-  ItemType get itemType => manga.value!.itemType;
-
-  bool isThisChapter<T extends OfChapter>(T element) => element.chapterId == id;
-
-  bool isNotThisChapter<T extends OfChapter>(T element) =>
-      element.chapterId != id;
-
-  T? getOption<T extends OfChapter>(List<T>? list) =>
-      list?.where(isThisChapter).firstOrNull;
-
-  List<T> getOtherOptions<T extends OfChapter>(List<T>? list) =>
-      list?.where(isNotThisChapter).toList() ?? [];
-
   Future<void> pushToReaderView(
     BuildContext context, {
     bool ignoreIsRead = false,
@@ -46,35 +29,14 @@ extension ChapterExtension on Chapter {
     }
   }
 
-  String progress() {
-    final progress = lastPageRead!;
-
-    if (progress.isEmpty || progress == '1') {
-      return '';
-    }
-
-    return switch (manga.value!.itemType) {
-      ItemType.manga => progress,
-      ItemType.anime => Duration(
-        milliseconds: int.parse(progress),
-      ).toString().substringBefore("."),
-      ItemType.novel =>
-        "${((double.tryParse(progress) ?? 0) * 100).toStringAsFixed(0)} %",
-    };
-  }
-
-  DateTime? datetimeUpload() {
-    if (dateUpload?.isNotEmpty == true) {
-      return DateTime.fromMillisecondsSinceEpoch(int.parse(dateUpload!));
-    }
-
-    return null;
-  }
-
   void cancelDownloads(int? downloadId) {
-    final (receivePort, isolate) = isolateChapsSendPorts['$id'] ?? (null, null);
-    isolate?.kill();
-    receivePort?.close();
+    // Cancel via the Isolate pool (new system)
+    DownloadIsolatePool.instance.cancelTask('$id');
+    DownloadIsolatePool.instance.cancelTask('m3u8_$id');
+
+    // Clean the map for compatibility
+    isolateChapsSendPorts.remove('$id');
+
     isar.writeTxnSync(() {
       isar.downloads.deleteSync(id!);
       if (downloadId != null) {

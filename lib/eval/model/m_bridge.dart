@@ -1,9 +1,5 @@
 import 'dart:convert';
-
 import 'package:bot_toast/bot_toast.dart';
-import 'package:dart_eval/dart_eval_bridge.dart';
-import 'package:dart_eval/stdlib/core.dart';
-import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
@@ -11,12 +7,10 @@ import 'package:html/dom.dart' hide Text;
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:js_packer/js_packer.dart';
-import 'package:json_path/json_path.dart';
-import 'package:mangayomi/eval/javascript/http.dart';
 import 'package:mangayomi/eval/model/document.dart';
+import 'package:mangayomi/eval/javascript/http.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
-import 'package:mangayomi/models/video.dart';
 import 'package:mangayomi/router/router.dart';
 import 'package:mangayomi/services/anime_extractors/dood_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/filemoon.dart';
@@ -24,11 +18,11 @@ import 'package:mangayomi/services/anime_extractors/gogocdn_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/mp4upload_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/mytv_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/okru_extractor.dart';
-import 'package:mangayomi/services/anime_extractors/quarkuc_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/sendvid_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/sibnet_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/streamlare_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/streamtape_extractor.dart';
+import 'package:mangayomi/models/video.dart';
 import 'package:mangayomi/services/anime_extractors/streamwish_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/vidbom_extractor.dart';
 import 'package:mangayomi/services/anime_extractors/voe_extractor.dart';
@@ -37,10 +31,11 @@ import 'package:mangayomi/utils/cryptoaes/crypto_aes.dart';
 import 'package:mangayomi/utils/cryptoaes/deobfuscator.dart';
 import 'package:mangayomi/utils/cryptoaes/js_unpacker.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
-import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/reg_exp_matcher.dart';
 import 'package:xpath_selector_html_parser/xpath_selector_html_parser.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
+import 'package:mangayomi/services/anime_extractors/quarkuc_extractor.dart';
 
 class WordSet {
   final List<String> words;
@@ -72,30 +67,27 @@ class MBridge {
   }
 
   ///Create query by html string
-  static const $Function xpath = $Function(_xpath);
 
-  static $Value? _xpath(_, __, List<$Value?> args) {
-    String html = args[0]!.$reified;
-    String xpath = args[1]!.$reified;
+  static List<String>? xpath(String html, String xpath) {
     List<String> attrs = [];
     try {
       var htmlXPath = HtmlXPath.html(html);
       var query = htmlXPath.query(xpath);
       if (query.nodes.length > 1) {
         for (var element in query.attrs) {
-          attrs.add(element!.normalize());
+          attrs.add(element!.trim());
         }
       }
       //Return one attr
       else if (query.nodes.length == 1) {
-        String attr = query.attr != null ? query.attr!.normalize() : "";
+        String attr = query.attr != null ? query.attr!.trim() : "";
         if (attr.isNotEmpty) {
           attrs = [attr];
         }
       }
-      return $List.wrap(attrs.map((e) => $String(e)).toList());
+      return attrs;
     } catch (_) {
-      return $List.wrap([]);
+      return [];
     }
   }
 
@@ -104,12 +96,12 @@ class MBridge {
   ///[statusList] contains a list of map of many static status
   static Status parseStatus(String status, List statusList) {
     for (var element in statusList) {
-      final Map statusMap =
-          element is $Map<$Value, $Value> ? element.$reified : element;
-      final search = status.toLowerCase().normalize();
-
+      Map statusMap = {};
+      statusMap = element;
       for (var element in statusMap.entries) {
-        if (element.key.toString().toLowerCase().contains(search)) {
+        if (element.key.toString().toLowerCase().contains(
+          status.toLowerCase().trim(),
+        )) {
           return switch (element.value as int) {
             0 => Status.ongoing,
             1 => Status.completed,
@@ -125,79 +117,22 @@ class MBridge {
   }
 
   ///Unpack a JS code
-  static const $Function unpackJs = $Function(_unpackJs);
 
-  static $Value? _unpackJs(_, __, List<$Value?> args) {
-    String code = args[0]!.$reified;
+  static String? unpackJs(String code) {
     try {
       final jsPacker = JSPacker(code);
-      return $String(jsPacker.unpack() ?? "");
+      return jsPacker.unpack() ?? "";
     } catch (_) {
-      return $String("");
+      return "";
     }
   }
 
   ///Unpack a JS code
-  static const $Function unpackJsAndCombine = $Function(_unpackJsAndCombine);
-
-  static $Value? _unpackJsAndCombine(_, __, List<$Value?> args) {
-    String code = args[0]!.$reified;
+  static String? unpackJsAndCombine(String code) {
     try {
-      return $String(JsUnpacker.unpackAndCombine(code) ?? "");
+      return JsUnpacker.unpackAndCombine(code) ?? "";
     } catch (_) {
-      return $String("");
-    }
-  }
-
-  ///Read values in parsed JSON object and return resut to List<String>
-  static const $Function jsonPathToList = $Function(_jsonPathToList);
-
-  static $Value? _jsonPathToList(_, __, List<$Value?> args) {
-    String source = args[0]!.$reified;
-    String expression = args[1]!.$reified;
-    int type = args[2]!.$reified;
-    try {
-      //Check jsonDecode(source) is list value
-      if (jsonDecode(source) is List) {
-        List<dynamic> values = [];
-        final val = jsonDecode(source) as List;
-        for (var element in val) {
-          final mMap = element as Map?;
-          Map<String, dynamic> map = {};
-          if (mMap != null) {
-            map = mMap.map((key, value) => MapEntry(key.toString(), value));
-          }
-          values.add(map);
-        }
-        List<String> list = [];
-        for (var data in values) {
-          final jsonRes = JsonPath(expression).read(data);
-          String val = "";
-
-          //Get jsonRes first string value
-          if (type == 0) {
-            val = jsonRes.first.value.toString();
-          }
-          //Decode jsonRes first map value
-          else {
-            val = jsonEncode(jsonRes.first.value);
-          }
-          list.add(val);
-        }
-        return $List.wrap(list.map((e) => $String(e)).toList());
-      }
-      // else jsonDecode(source) is Map value
-      else {
-        var map = json.decode(source);
-        var values = JsonPath(expression).readValues(map);
-        return $List.wrap(
-          values.map((e) {
-            return $String(e == null ? "{}" : json.encode(e));
-          }).toList(),
-        );
-      }
-    } catch (_) {
-      return $List.wrap([]);
+      return "";
     }
   }
 
@@ -214,56 +149,6 @@ class MBridge {
     }
   }
 
-  ///Read values in parsed JSON object and return resut to String
-  static const $Function jsonPathToString = $Function(_jsonPathToString);
-
-  static $Value? _jsonPathToString(_, __, List<$Value?> args) {
-    String source = args[0]!.$reified;
-    String expression = args[1]!.$reified;
-    String join = args[2]!.$reified;
-    try {
-      List<dynamic> values = [];
-
-      //Check jsonDecode(source) is list value
-      if (jsonDecode(source) is List) {
-        final val = jsonDecode(source) as List;
-        for (var element in val) {
-          final mMap = element as Map?;
-          Map<String, dynamic> map = {};
-          if (mMap != null) {
-            map = mMap.map((key, value) => MapEntry(key.toString(), value));
-          }
-          values.add(map);
-        }
-      }
-      // else jsonDecode(source) is Map value
-      else {
-        final mMap = jsonDecode(source) as Map?;
-        Map<String, dynamic> map = {};
-        if (mMap != null) {
-          map = mMap.map((key, value) => MapEntry(key.toString(), value));
-        }
-        values.add(map);
-      }
-
-      List<String> listRg = [];
-
-      for (var data in values) {
-        final jsonRes = JsonPath(expression).readValues(data);
-        List list = [];
-
-        for (var element in jsonRes) {
-          list.add(element);
-        }
-        //join the list into listRg
-        listRg.add(list.join(join));
-      }
-      return $String(listRg.first);
-    } catch (_) {
-      return $String("");
-    }
-  }
-
   //Parse a list of dates to millisecondsSinceEpoch
   static List parseDates(
     List value,
@@ -272,31 +157,25 @@ class MBridge {
   ) {
     List<dynamic> val = [];
     for (var element in value) {
-      if (element is $Value) {
-        val.add(element.$reified.toString());
-      } else {
+      element = element.toString().trim();
+      if (element.isNotEmpty) {
         val.add(element);
       }
     }
     bool error = false;
     List<dynamic> valD = [];
     for (var date in val) {
-      if (date.toString().isNotEmpty) {
-        String dateStr = "";
-        if (error) {
-          dateStr = DateTime.now().millisecondsSinceEpoch.toString();
-        } else {
-          dateStr =
-              parseChapterDate(date, dateFormat, dateFormatLocale, (val) {
-                dateFormat = val.$1;
-                dateFormatLocale = val.$2;
-                error = val.$3;
-              }).toString();
-        }
-        valD.add(dateStr);
+      String dateStr = "";
+      if (error) {
+        dateStr = DateTime.now().millisecondsSinceEpoch.toString();
       } else {
-        valD.add(date.toString());
+        dateStr = parseChapterDate(date, dateFormat, dateFormatLocale, (val) {
+          dateFormat = val.$1;
+          dateFormatLocale = val.$2;
+          error = val.$3;
+        });
       }
+      valD.add(dateStr);
     }
     return valD;
   }
@@ -348,57 +227,64 @@ class MBridge {
     return await FilemoonExtractor().videosFromUrl(url, prefix, suffix);
   }
 
+  static Map<String, String> decodeHeaders(String? headers) =>
+      headers == null ? {} : (jsonDecode(headers) as Map).toMapStringString!;
+
   static Future<List<Video>> mp4UploadExtractor(
     String url,
     String? headers,
     String prefix,
     String suffix,
   ) async {
-    Map<String, String> newHeaders = {};
-    if (headers != null) {
-      newHeaders = (jsonDecode(headers) as Map).toMapStringString!;
-    }
     return await Mp4uploadExtractor().videosFromUrl(
       url,
-      newHeaders,
+      decodeHeaders(headers),
       prefix: prefix,
       suffix: suffix,
     );
+  }
+
+  static final Map<CloudDriveType, QuarkUcExtractor> _extractorCache = {};
+  static final Set<String> _initializedLocales = {};
+
+  static QuarkUcExtractor _getExtractor(String cookie, CloudDriveType type) {
+    if (!_extractorCache.containsKey(type)) {
+      QuarkUcExtractor extractor = QuarkUcExtractor();
+      extractor.initCloudDrive(cookie, type);
+      _extractorCache[type] = extractor;
+    }
+    return _extractorCache[type]!;
   }
 
   static Future<List<Map<String, String>>> quarkFilesExtractor(
     List<String> url,
     String cookie,
   ) async {
-    QuarkUcExtractor quark = QuarkUcExtractor();
-    await quark.initCloudDrive(cookie, CloudDriveType.quark);
+    var quark = _getExtractor(cookie, CloudDriveType.quark);
     return await quark.videoFilesFromUrl(url);
-  }
-
-  static Future<List<Map<String, String>>> ucFilesExtractor(
-    List<String> url,
-    String cookie,
-  ) async {
-    QuarkUcExtractor uc = QuarkUcExtractor();
-    await uc.initCloudDrive(cookie, CloudDriveType.uc);
-    return await uc.videoFilesFromUrl(url);
   }
 
   static Future<List<Video>> quarkVideosExtractor(
     String url,
     String cookie,
   ) async {
-    QuarkUcExtractor quark = QuarkUcExtractor();
-    await quark.initCloudDrive(cookie, CloudDriveType.quark);
+    var quark = _getExtractor(cookie, CloudDriveType.quark);
     return await quark.videosFromUrl(url);
+  }
+
+  static Future<List<Map<String, String>>> ucFilesExtractor(
+    List<String> url,
+    String cookie,
+  ) async {
+    var uc = _getExtractor(cookie, CloudDriveType.uc);
+    return await uc.videoFilesFromUrl(url);
   }
 
   static Future<List<Video>> ucVideosExtractor(
     String url,
     String cookie,
   ) async {
-    QuarkUcExtractor uc = QuarkUcExtractor();
-    await uc.initCloudDrive(cookie, CloudDriveType.uc);
+    var uc = _getExtractor(cookie, CloudDriveType.uc);
     return await uc.videosFromUrl(url);
   }
 
@@ -431,53 +317,113 @@ class MBridge {
     return text.split(pattern).last;
   }
 
-  static final isoRegexp = RegExp(r"\d+-\d+-\d+T\d+:\d+:\d+");
-
-  static int parseDate(DateTime now, String date, DateFormat defaultFormat) {
-    final today = DateTime(now.year, now.month, now.day);
-
-    if (_todayWords.startsWith(date)) {
-      return today.millisecondsSinceEpoch;
-    } else if (_yesterdayWords.startsWith(date)) {
-      return today.subtract(const Duration(days: 1)).millisecondsSinceEpoch;
-    } else if (_twoDaysAgoWords.startsWith(date)) {
-      return today.subtract(const Duration(days: 2)).millisecondsSinceEpoch;
-    } else if (_agoWords.endsWith(date) || _atWords.startsWith(date)) {
-      return parseRelativeDate(date);
-    }
-
-    final cleaned =
-        date.contains(RegExp(r"\d(st|nd|rd|th)"))
-            ? date
-                .split(" ")
-                .map(
-                  (it) =>
-                      it.contains(RegExp(r"\d\D\D"))
-                          ? it.replaceAll(RegExp(r"\D"), "")
-                          : it,
-                )
-                .join(" ")
-            : date;
-
-    return defaultFormat.parse(cleaned).millisecondsSinceEpoch;
-  }
-
   //Parse a chapter date to millisecondsSinceEpoch
-  static int parseChapterDate(
+  static String parseChapterDate(
     String date,
     String dateFormat,
     String dateFormatLocale,
     Function((String, String, bool)) newLocale,
   ) {
-    // try ISO first
-    if (isoRegexp.hasMatch(date)) {
-      return DateTime.parse(date).millisecondsSinceEpoch;
+    int parseRelativeDate(String date) {
+      final number = int.tryParse(RegExp(r"(\d+)").firstMatch(date)!.group(0)!);
+      if (number == null) return 0;
+      final cal = DateTime.now();
+
+      if (WordSet([
+        "hari",
+        "gün",
+        "jour",
+        "día",
+        "dia",
+        "day",
+        "วัน",
+        "ngày",
+        "giorni",
+        "أيام",
+        "天",
+      ]).anyWordIn(date)) {
+        return cal.subtract(Duration(days: number)).millisecondsSinceEpoch;
+      } else if (WordSet([
+        "jam",
+        "saat",
+        "heure",
+        "hora",
+        "hour",
+        "ชั่วโมง",
+        "giờ",
+        "ore",
+        "ساعة",
+        "小时",
+      ]).anyWordIn(date)) {
+        return cal.subtract(Duration(hours: number)).millisecondsSinceEpoch;
+      } else if (WordSet([
+        "menit",
+        "dakika",
+        "min",
+        "minute",
+        "minuto",
+        "นาที",
+        "دقائق",
+      ]).anyWordIn(date)) {
+        return cal.subtract(Duration(minutes: number)).millisecondsSinceEpoch;
+      } else if (WordSet([
+        "detik",
+        "segundo",
+        "second",
+        "วินาที",
+        "sec",
+      ]).anyWordIn(date)) {
+        return cal.subtract(Duration(seconds: number)).millisecondsSinceEpoch;
+      } else if (WordSet(["week", "semana"]).anyWordIn(date)) {
+        return cal.subtract(Duration(days: number * 7)).millisecondsSinceEpoch;
+      } else if (WordSet(["month", "mes"]).anyWordIn(date)) {
+        return cal.subtract(Duration(days: number * 30)).millisecondsSinceEpoch;
+      } else if (WordSet(["year", "año"]).anyWordIn(date)) {
+        return cal
+            .subtract(Duration(days: number * 365))
+            .millisecondsSinceEpoch;
+      } else {
+        return 0;
+      }
     }
 
-    final now = DateTime.now();
-
     try {
-      return parseDate(now, date, DateFormat(dateFormat, dateFormatLocale));
+      if (WordSet(["yesterday", "يوم واحد"]).startsWith(date)) {
+        DateTime cal = DateTime.now().subtract(const Duration(days: 1));
+        cal = DateTime(cal.year, cal.month, cal.day);
+        return cal.millisecondsSinceEpoch.toString();
+      } else if (WordSet(["today"]).startsWith(date)) {
+        DateTime cal = DateTime.now();
+        cal = DateTime(cal.year, cal.month, cal.day);
+        return cal.millisecondsSinceEpoch.toString();
+      } else if (WordSet(["يومين"]).startsWith(date)) {
+        DateTime cal = DateTime.now().subtract(const Duration(days: 2));
+        cal = DateTime(cal.year, cal.month, cal.day);
+        return cal.millisecondsSinceEpoch.toString();
+      } else if (WordSet(["ago", "atrás", "önce", "قبل"]).endsWith(date)) {
+        return parseRelativeDate(date).toString();
+      } else if (WordSet(["hace"]).startsWith(date)) {
+        return parseRelativeDate(date).toString();
+      } else if (date.contains(RegExp(r"\d(st|nd|rd|th)"))) {
+        final cleanedDate = date
+            .split(" ")
+            .map(
+              (it) =>
+                  it.contains(RegExp(r"\d\D\D"))
+                      ? it.replaceAll(RegExp(r"\D"), "")
+                      : it,
+            )
+            .join(" ");
+        return DateFormat(
+          dateFormat,
+          dateFormatLocale,
+        ).parse(cleanedDate).millisecondsSinceEpoch.toString();
+      } else {
+        return DateFormat(
+          dateFormat,
+          dateFormatLocale,
+        ).parse(date).millisecondsSinceEpoch.toString();
+      }
     } catch (e) {
       final supportedLocales = DateFormat.allLocalesWithSymbols();
 
@@ -485,16 +431,56 @@ class MBridge {
         for (var dateFormat in _dateFormats) {
           newLocale((dateFormat, locale, false));
           try {
-            initializeDateFormatting(locale);
-
-            return parseDate(now, date, DateFormat(dateFormat, locale));
+            if (!_initializedLocales.contains(locale)) {
+              initializeDateFormatting(locale);
+              _initializedLocales.add(locale);
+            }
+            if (WordSet(["yesterday", "يوم واحد"]).startsWith(date)) {
+              DateTime cal = DateTime.now().subtract(const Duration(days: 1));
+              cal = DateTime(cal.year, cal.month, cal.day);
+              return cal.millisecondsSinceEpoch.toString();
+            } else if (WordSet(["today"]).startsWith(date)) {
+              DateTime cal = DateTime.now();
+              cal = DateTime(cal.year, cal.month, cal.day);
+              return cal.millisecondsSinceEpoch.toString();
+            } else if (WordSet(["يومين"]).startsWith(date)) {
+              DateTime cal = DateTime.now().subtract(const Duration(days: 2));
+              cal = DateTime(cal.year, cal.month, cal.day);
+              return cal.millisecondsSinceEpoch.toString();
+            } else if (WordSet([
+              "ago",
+              "atrás",
+              "önce",
+              "قبل",
+            ]).endsWith(date)) {
+              return parseRelativeDate(date).toString();
+            } else if (WordSet(["hace"]).startsWith(date)) {
+              return parseRelativeDate(date).toString();
+            } else if (date.contains(RegExp(r"\d(st|nd|rd|th)"))) {
+              final cleanedDate = date
+                  .split(" ")
+                  .map(
+                    (it) =>
+                        it.contains(RegExp(r"\d\D\D"))
+                            ? it.replaceAll(RegExp(r"\D"), "")
+                            : it,
+                  )
+                  .join(" ");
+              return DateFormat(
+                dateFormat,
+                locale,
+              ).parse(cleanedDate).millisecondsSinceEpoch.toString();
+            } else {
+              return DateFormat(
+                dateFormat,
+                locale,
+              ).parse(date).millisecondsSinceEpoch.toString();
+            }
           } catch (_) {}
         }
       }
-
       newLocale((dateFormat, dateFormatLocale, true));
-
-      return now.millisecondsSinceEpoch;
+      return DateTime.now().millisecondsSinceEpoch.toString();
     }
   }
 
@@ -511,13 +497,8 @@ class MBridge {
     String? headers,
     String prefix,
   ) async {
-    Map<String, String> newHeaders = {};
-    if (headers != null) {
-      newHeaders = (jsonDecode(headers) as Map).toMapStringString!;
-    }
-
     return await SendvidExtractor(
-      newHeaders,
+      decodeHeaders(headers),
     ).videosFromUrl(url, prefix: prefix);
   }
 
@@ -535,13 +516,9 @@ class MBridge {
     String? name,
     String prefix,
   ) async {
-    Map<String, String> newHeaders = {};
-    if (headers != null) {
-      newHeaders = (jsonDecode(headers) as Map).toMapStringString!;
-    }
     return await YourUploadExtractor().videosFromUrl(
       url,
-      newHeaders,
+      decodeHeaders(headers),
       prefix: prefix,
       name: name ?? "YourUpload",
     );
@@ -583,15 +560,11 @@ class MBridge {
     List<Track>? subtitles,
     List<Track>? audios,
   ) {
-    Map<String, String> newHeaders = {};
-    if (headers != null) {
-      newHeaders = (jsonDecode(headers) as Map).toMapStringString!;
-    }
     return Video(
       url,
       quality,
       originalUrl,
-      headers: newHeaders,
+      headers: decodeHeaders(headers),
       subtitles: subtitles ?? [],
       audios: audios ?? [],
     );
@@ -629,115 +602,45 @@ class MBridge {
     bool isOk = false;
     String response = "";
     HeadlessInAppWebView? headlessWebView;
-    headlessWebView = HeadlessInAppWebView(
-      webViewEnvironment: webViewEnvironment,
-      onWebViewCreated: (controller) {
-        controller.addJavaScriptHandler(
-          handlerName: 'setResponse',
-          callback: (args) {
-            response = args[0] as String;
-            isOk = true;
-          },
-        );
-      },
-      initialUrlRequest: URLRequest(url: WebUri(url), headers: headers),
-      onLoadStop: (controller, url) async {
-        for (var script in scripts) {
-          await controller.platform.evaluateJavascript(source: script);
-        }
-      },
-    );
-
-    headlessWebView.run();
-
-    await Future.doWhile(() async {
-      timeOut = time == t;
-      if (timeOut || isOk) {
-        return false;
-      }
-      await Future.delayed(const Duration(seconds: 1));
-      t++;
-      return true;
-    });
     try {
-      headlessWebView.dispose();
-    } catch (_) {}
+      headlessWebView = HeadlessInAppWebView(
+        webViewEnvironment: webViewEnvironment,
+        onWebViewCreated: (controller) {
+          controller.addJavaScriptHandler(
+            handlerName: 'setResponse',
+            callback: (args) {
+              response = args[0] as String;
+              isOk = true;
+            },
+          );
+        },
+        initialUrlRequest: URLRequest(url: WebUri(url), headers: headers),
+        onLoadStop: (controller, url) async {
+          for (var script in scripts) {
+            await controller.platform.evaluateJavascript(source: script);
+          }
+        },
+      );
 
+      await headlessWebView.run();
+
+      await Future.doWhile(() async {
+        timeOut = time == t;
+        if (timeOut || isOk) {
+          return false;
+        }
+        await Future.delayed(const Duration(seconds: 1));
+        t++;
+        return true;
+      });
+    } finally {
+      try {
+        await headlessWebView?.dispose();
+      } catch (_) {}
+    }
     return response;
   }
 }
-
-int parseRelativeDate(String date) {
-  final number = int.tryParse(RegExp(r"(\d+)").firstMatch(date)!.group(0)!);
-  if (number == null) return 0;
-  final cal = DateTime.now();
-
-  final Duration duration;
-
-  if (_dayWords.anyWordIn(date)) {
-    duration = Duration(days: number);
-  } else if (_hourWords.anyWordIn(date)) {
-    duration = Duration(hours: number);
-  } else if (_minuteWords.anyWordIn(date)) {
-    duration = Duration(minutes: number);
-  } else if (_secondsWords.anyWordIn(date)) {
-    duration = Duration(seconds: number);
-  } else if (_weekWords.anyWordIn(date)) {
-    duration = Duration(days: number * 7);
-  } else if (_monthWords.anyWordIn(date)) {
-    duration = Duration(days: number * 30);
-  } else if (_yearWords.anyWordIn(date)) {
-    duration = Duration(days: number * 365);
-  } else {
-    return 0;
-  }
-
-  return cal.subtract(duration).millisecondsSinceEpoch;
-}
-
-final _yesterdayWords = WordSet(["yesterday", "يوم واحد"]);
-final _twoDaysAgoWords = WordSet(["يومين"]);
-final _todayWords = WordSet(["today"]);
-final _agoWords = WordSet(["ago", "atrás", "önce", "قبل"]);
-final _atWords = WordSet(["hace"]);
-final _dayWords = WordSet([
-  "hari",
-  "gün",
-  "jour",
-  "día",
-  "dia",
-  "day",
-  "วัน",
-  "ngày",
-  "giorni",
-  "أيام",
-  "天",
-]);
-final _hourWords = WordSet([
-  "jam",
-  "saat",
-  "heure",
-  "hora",
-  "hour",
-  "ชั่วโมง",
-  "giờ",
-  "ore",
-  "ساعة",
-  "小时",
-]);
-final _minuteWords = WordSet([
-  "menit",
-  "dakika",
-  "min",
-  "minute",
-  "minuto",
-  "นาที",
-  "دقائق",
-]);
-final _secondsWords = WordSet(["detik", "segundo", "second", "วินาที", "sec"]);
-final _weekWords = WordSet(["week", "semana"]);
-final _monthWords = WordSet(["month", "mes"]);
-final _yearWords = WordSet(["year", "año"]);
 
 final List<String> _dateFormats = [
   'dd/MM/yyyy',
@@ -778,40 +681,45 @@ final List<String> _dateFormats = [
   "MMM dd,yyyy",
 ];
 
-CancelFunc botToast(
+void Function() botToast(
   String title, {
   int second = 10,
   double? fontSize,
   double alignX = 0,
   double alignY = 0.99,
   bool hasCloudFlare = false,
-  bool isError = false,
   String? url,
+  int animationDuration = 200,
+  List<DismissDirection> dismissDirections = const [
+    DismissDirection.horizontal,
+    DismissDirection.down,
+  ],
+  bool onlyOne = true,
+  bool? themeDark,
+  bool showIcon = true,
 }) {
   final context = navigatorKey.currentState?.context;
-
+  final assets = [
+    'assets/app_icons/icon-black.png',
+    'assets/app_icons/icon-red.png',
+  ];
   return BotToast.showNotification(
-    onlyOne: true,
-    dismissDirections: [DismissDirection.horizontal, DismissDirection.down],
+    onlyOne: onlyOne,
+    dismissDirections: dismissDirections,
     align: Alignment(alignX, alignY),
     duration: Duration(seconds: second),
-    animationDuration: const Duration(milliseconds: 200),
-    animationReverseDuration: const Duration(milliseconds: 200),
+    animationDuration: Duration(milliseconds: animationDuration),
+    animationReverseDuration: Duration(milliseconds: animationDuration),
     leading:
-        (_) => Image.asset(
-          isError
-              ? 'assets/app_icons/icon-red.png'
-              : 'assets/app_icons/icon-black.png',
-          height: 25,
-        ),
-    title:
-        (_) => Text(
-          title,
-          style: TextStyle(
-            fontSize: fontSize,
-            color: isError ? context?.errorColor : context?.textColor,
-          ),
-        ),
+        showIcon
+            ? (_) => Image.asset(
+              (themeDark == null
+                  ? (assets..shuffle()).first
+                  : assets[themeDark ? 0 : 1]),
+              height: 25,
+            )
+            : null,
+    title: (_) => Text(title, style: TextStyle(fontSize: fontSize)),
     trailing:
         hasCloudFlare
             ? (_) => OutlinedButton.icon(

@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/category.dart';
 import 'package:mangayomi/models/changed.dart';
@@ -10,10 +12,12 @@ import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_pr
 import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
+import 'package:mangayomi/utils/item_type_filters.dart';
+import 'package:mangayomi/utils/item_type_localization.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 
 class CategoriesScreen extends ConsumerStatefulWidget {
   final (bool, int) data;
-
   const CategoriesScreen({required this.data, super.key});
 
   @override
@@ -23,35 +27,36 @@ class CategoriesScreen extends ConsumerStatefulWidget {
 class _CategoriesScreenState extends ConsumerState<CategoriesScreen>
     with TickerProviderStateMixin {
   late TabController _tabBarController;
-  int tabs = 3;
-
+  late final List<ItemType> _visibleTabTypes;
   @override
   void initState() {
-    _tabBarController = TabController(length: tabs, vsync: this);
-    _tabBarController.animateTo(widget.data.$2);
-
     super.initState();
+    _visibleTabTypes = hiddenItemTypes(ref.read(hideItemsStateProvider));
+    _tabBarController = TabController(
+      length: _visibleTabTypes.length,
+      vsync: this,
+    );
+    _tabBarController.animateTo(widget.data.$2);
+  }
+
+  @override
+  void dispose() {
+    _tabBarController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    int newTabs = 0;
-    final hideItems = ref.watch(hideItemsStateProvider);
-    if (!hideItems.contains("/MangaLibrary")) newTabs++;
-    if (!hideItems.contains("/AnimeLibrary")) newTabs++;
-    if (!hideItems.contains("/NovelLibrary")) newTabs++;
-    if (tabs != newTabs) {
-      _tabBarController.dispose();
-      _tabBarController = TabController(length: newTabs, vsync: this);
-      _tabBarController.animateTo(0);
-      setState(() {
-        tabs = newTabs;
-      });
+    if (_visibleTabTypes.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(title: Text(context.l10n.categories)),
+        body: Center(child: Text("EMPTY\nMPTY\nMTY\nMT\n\n")),
+      );
     }
     final l10n = l10nLocalizations(context)!;
     return DefaultTabController(
       animationDuration: Duration.zero,
-      length: newTabs,
+      length: _visibleTabTypes.length,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -61,25 +66,20 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen>
             style: TextStyle(color: Theme.of(context).hintColor),
           ),
           bottom: TabBar(
-            indicatorSize: TabBarIndicatorSize.tab,
+            indicatorSize: TabBarIndicatorSize.label,
             controller: _tabBarController,
-            tabs: [
-              if (!hideItems.contains("/MangaLibrary")) Tab(text: l10n.manga),
-              if (!hideItems.contains("/AnimeLibrary")) Tab(text: l10n.anime),
-              if (!hideItems.contains("/NovelLibrary")) Tab(text: l10n.novel),
-            ],
+            tabs:
+                _visibleTabTypes.map((type) {
+                  return Tab(text: type.localized(l10n));
+                }).toList(),
           ),
         ),
         body: TabBarView(
           controller: _tabBarController,
-          children: [
-            if (!hideItems.contains("/MangaLibrary"))
-              CategoriesTab(itemType: ItemType.manga),
-            if (!hideItems.contains("/AnimeLibrary"))
-              CategoriesTab(itemType: ItemType.anime),
-            if (!hideItems.contains("/NovelLibrary"))
-              CategoriesTab(itemType: ItemType.novel),
-          ],
+          children:
+              _visibleTabTypes.map((type) {
+                return CategoriesTab(itemType: type);
+              }).toList(),
         ),
       ),
     );
@@ -88,21 +88,78 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen>
 
 class CategoriesTab extends ConsumerStatefulWidget {
   final ItemType itemType;
-
   const CategoriesTab({required this.itemType, super.key});
 
   @override
   ConsumerState<CategoriesTab> createState() => _CategoriesTabState();
 }
 
-class _CategoriesTabState extends ConsumerState<CategoriesTab> {
+class _CategoriesTabState extends ConsumerState<CategoriesTab>
+    with SingleTickerProviderStateMixin {
   List<Category> _entries = [];
+  late AnimationController _swapAnimationController;
+  int? _animatingFromIndex;
+  int? _animatingToIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _swapAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+  }
+
+  @override
+  void dispose() {
+    _swapAnimationController.dispose();
+    super.dispose();
+  }
+
+  final bool _isDesktop =
+      Platform.isMacOS || Platform.isLinux || Platform.isWindows;
+
+  /// Moves a category from `index` to `newIndex` in the list,
+  /// swaps their positions in memory, and persists the change in Isar.
+  Future<void> _moveCategory(int index, int newIndex) async {
+    // Prevent invalid moves (out of bounds)
+    if (newIndex < 0 || newIndex >= _entries.length) return;
+
+    if (_isDesktop && mounted) {
+      setState(() {
+        _animatingFromIndex = index;
+        _animatingToIndex = newIndex;
+      });
+
+      await _swapAnimationController.forward(from: 0.0);
+    }
+
+    // Grab the two category objects involved in the swap
+    final a = _entries[index];
+    final b = _entries[newIndex];
+    // Swap their positions inside the in‑memory list
+    _entries[newIndex] = a;
+    _entries[index] = b;
+    // Swap their persisted `pos` values so ordering is saved correctly
+    final temp = a.pos;
+    a.pos = b.pos;
+    b.pos = temp;
+    // Persist both updated objects in a single Isar transaction
+    await isar.writeTxn(() async => isar.categorys.putAll([a, b]));
+
+    if (mounted) {
+      setState(() {
+        _animatingFromIndex = null;
+        _animatingToIndex = null;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
     final categories = ref.watch(
-      getMangaCategoryStreamProvider(itemType: widget.itemType),
+      getMangaCategorieStreamProvider(itemType: widget.itemType),
     );
     return Scaffold(
       body: categories.when(
@@ -119,137 +176,46 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
               ),
             );
           }
+          data.sort((a, b) => (a.pos ?? 0).compareTo(b.pos ?? 0));
           _entries = data;
-          return ListView.builder(
+
+          return SuperListView.builder(
             itemCount: _entries.length,
+            padding: const EdgeInsets.only(bottom: 100),
             itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Card(
-                  child: Column(
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          elevation: 0,
-                          shadowColor: Colors.transparent,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(0),
-                              bottomRight: Radius.circular(0),
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
-                            ),
-                          ),
+              final category = _entries[index];
+
+              Widget itemWidget = _buildCategoryCard(context, category, index);
+
+              if (_isDesktop &&
+                  _animatingFromIndex != null &&
+                  _animatingToIndex != null) {
+                if (index == _animatingFromIndex ||
+                    index == _animatingToIndex) {
+                  final isMovingDown =
+                      _animatingFromIndex! < _animatingToIndex!;
+                  final offset =
+                      index == _animatingFromIndex
+                          ? (isMovingDown ? 1.0 : -1.0)
+                          : (isMovingDown ? -1.0 : 1.0);
+
+                  itemWidget = AnimatedBuilder(
+                    animation: _swapAnimationController,
+                    builder: (context, child) {
+                      return Transform.translate(
+                        offset: Offset(
+                          0,
+                          offset * (1 - _swapAnimationController.value) * 80,
                         ),
-                        onPressed: () {
-                          _renameCategory(_entries[index]);
-                        },
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const Icon(Icons.label_outline_rounded),
-                            const SizedBox(width: 10),
-                            Expanded(child: Text(_entries[index].name!)),
-                          ],
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Row(
-                            children: [
-                              SizedBox(width: 10),
-                              Icon(Icons.arrow_drop_up_outlined),
-                              SizedBox(width: 10),
-                              Icon(Icons.arrow_drop_down_outlined),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  _renameCategory(_entries[index]);
-                                },
-                                icon: const Icon(
-                                  Icons.mode_edit_outline_outlined,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return StatefulBuilder(
-                                        builder: (context, setState) {
-                                          return AlertDialog(
-                                            title: Text(l10n.delete_category),
-                                            content: Text(
-                                              l10n.delete_category_msg(
-                                                _entries[index].name!,
-                                              ),
-                                            ),
-                                            actions: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text(l10n.cancel),
-                                                  ),
-                                                  const SizedBox(width: 15),
-                                                  TextButton(
-                                                    onPressed: () async {
-                                                      await isar.writeTxn(
-                                                        () async {
-                                                          await isar.categorys
-                                                              .delete(
-                                                                _entries[index]
-                                                                    .id!,
-                                                              );
-                                                        },
-                                                      );
-                                                      await ref
-                                                          .read(
-                                                            synchingProvider(
-                                                              syncId: 1,
-                                                            ).notifier,
-                                                          )
-                                                          .addChangedPartAsync(
-                                                            ActionType
-                                                                .removeCategory,
-                                                            _entries[index].id,
-                                                            "{}",
-                                                            true,
-                                                          );
-                                                      if (context.mounted) {
-                                                        Navigator.pop(context);
-                                                      }
-                                                    },
-                                                    child: Text(l10n.ok),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                  );
-                                },
-                                icon: const Icon(Icons.delete_outlined),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              );
+                        child: child,
+                      );
+                    },
+                    child: itemWidget,
+                  );
+                }
+              }
+
+              return itemWidget;
             },
           );
         },
@@ -312,22 +278,26 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
                                         final category = Category(
                                           forItemType: widget.itemType,
                                           name: controller.text,
+                                          updatedAt:
+                                              DateTime.now()
+                                                  .millisecondsSinceEpoch,
                                         );
-                                        await isar.writeTxn(() async {
-                                          await isar.categorys.put(category);
-                                        });
-                                        await ref
-                                            .read(
-                                              synchingProvider(
-                                                syncId: 1,
-                                              ).notifier,
-                                            )
-                                            .addChangedPartAsync(
-                                              ActionType.addCategory,
-                                              category.id,
-                                              category.toJson(),
-                                              true,
+                                        isar.writeTxnSync(() {
+                                          isar.categorys.putSync(
+                                            category..pos = category.id,
+                                          );
+                                          final categories =
+                                              isar.categorys
+                                                  .filter()
+                                                  .posIsNull()
+                                                  .findAllSync();
+                                          for (var category in categories) {
+                                            isar.categorys.putSync(
+                                              category..pos = category.id,
                                             );
+                                          }
+                                        });
+
                                         if (context.mounted) {
                                           Navigator.pop(context);
                                         }
@@ -365,7 +335,207 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
     );
   }
 
-  _renameCategory(Category category) {
+  Widget _buildCategoryCard(
+    BuildContext context,
+    Category category,
+    int index,
+  ) {
+    final l10n = l10nLocalizations(context)!;
+    return Padding(
+      key: Key('category_${category.id}'),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Card(
+        child: Column(
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                shadowColor: Colors.transparent,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(0),
+                    bottomRight: Radius.circular(0),
+                    topRight: Radius.circular(10),
+                    topLeft: Radius.circular(10),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                _renameCategory(category);
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  const Icon(Icons.label_outline_rounded),
+                  const SizedBox(width: 10),
+                  Expanded(child: Text(category.name!)),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Row(
+                      children: [
+                        const SizedBox(width: 10),
+                        IconButton(
+                          icon: const Icon(Icons.arrow_drop_up_outlined),
+                          onPressed:
+                              index > 0
+                                  ? () {
+                                    _moveCategory(index, index - 1);
+                                  }
+                                  : null,
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.arrow_drop_down_outlined),
+                          onPressed:
+                              index < _entries.length - 1
+                                  ? () {
+                                    _moveCategory(index, index + 1);
+                                  }
+                                  : null,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        _renameCategory(category);
+                      },
+                      icon: const Icon(Icons.mode_edit_outline_outlined),
+                    ),
+                    SizedBox(width: 10),
+                    IconButton(
+                      onPressed: () async {
+                        await isar.writeTxn(() async {
+                          category.shouldUpdate =
+                              !(category.shouldUpdate ?? true);
+                          category.updatedAt =
+                              DateTime.now().millisecondsSinceEpoch;
+                          isar.categorys.put(category);
+                        });
+                      },
+                      icon: Icon(
+                        category.shouldUpdate ?? true
+                            ? Icons.update_outlined
+                            : Icons.update_disabled_outlined,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    IconButton(
+                      onPressed: () async {
+                        await isar.writeTxn(() async {
+                          category.hide = !(category.hide ?? false);
+                          category.updatedAt =
+                              DateTime.now().millisecondsSinceEpoch;
+                          isar.categorys.put(category);
+                        });
+                      },
+                      icon: Icon(
+                        !(category.hide ?? false)
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    IconButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return StatefulBuilder(
+                              builder: (context, setState) {
+                                return AlertDialog(
+                                  title: Text(l10n.delete_category),
+                                  content: Text(
+                                    l10n.delete_category_msg(category.name!),
+                                  ),
+                                  actions: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(l10n.cancel),
+                                        ),
+                                        const SizedBox(width: 15),
+                                        TextButton(
+                                          onPressed: () async {
+                                            await _removeCategory(
+                                              category,
+                                              context,
+                                            );
+                                          },
+                                          child: Text(l10n.ok),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                      icon: const Icon(Icons.delete_outlined),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _removeCategory(Category category, BuildContext context) async {
+    await isar.writeTxn(() async {
+      // All Items with this category
+      final allItems =
+          await isar.mangas
+              .filter()
+              .categoriesElementEqualTo(category.id!)
+              .findAll();
+      // Remove the category ID from each item's category list
+      final updatedItems =
+          allItems.map((manga) {
+            final cats = List<int>.from(manga.categories ?? []);
+            cats.remove(category.id!);
+            manga.categories = cats;
+            return manga;
+          }).toList();
+
+      // Save updated items back to the database
+      await isar.mangas.putAll(updatedItems);
+
+      // Delete category
+      await isar.categorys.delete(category.id!);
+    });
+
+    await ref
+        .read(synchingProvider(syncId: 1).notifier)
+        .addChangedPartAsync(
+          ActionType.removeCategory,
+          category.id,
+          "{}",
+          true,
+        );
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
+  }
+
+  void _renameCategory(Category category) {
     bool isExist = false;
     final controller = TextEditingController(text: category.name);
     bool isSameName = controller.text == category.name;
@@ -412,16 +582,10 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
                               : () async {
                                 await isar.writeTxn(() async {
                                   category.name = controller.text;
+                                  category.updatedAt =
+                                      DateTime.now().millisecondsSinceEpoch;
                                   await isar.categorys.put(category);
                                 });
-                                await ref
-                                    .read(synchingProvider(syncId: 1).notifier)
-                                    .addChangedPartAsync(
-                                      ActionType.renameCategory,
-                                      category.id,
-                                      category.toJson(),
-                                      true,
-                                    );
                                 if (context.mounted) {
                                   Navigator.pop(context);
                                 }

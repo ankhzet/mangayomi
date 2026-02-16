@@ -6,7 +6,6 @@ class MangasCardSelector extends StatelessWidget {
   final IconData icon;
   final bool selected;
   final VoidCallback onPressed;
-
   const MangasCardSelector({
     super.key,
     required this.text,

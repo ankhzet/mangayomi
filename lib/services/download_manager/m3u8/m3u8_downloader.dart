@@ -1,23 +1,20 @@
-import 'dart:async';
-import 'dart:collection';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:isolate';
-
-import 'package:convert/convert.dart';
-import 'package:encrypt/encrypt.dart' as encrypt;
+import 'dart:async';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart';
 import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/services/download_manager/m3u8/models/download.dart';
-import 'package:mangayomi/services/download_manager/m3u8/models/ts_info.dart';
+import 'package:mangayomi/models/video.dart';
+import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/services/http/rhttp/src/model/settings.dart';
-import 'package:mangayomi/src/rust/frb_generated.dart';
+import 'package:mangayomi/services/download_manager/m3u8/models/download.dart';
+import 'package:mangayomi/services/download_manager/m3u8/models/ts_info.dart';
+import 'package:mangayomi/services/download_manager/download_isolate_pool.dart';
+import 'package:mangayomi/services/download_manager/m_downloader.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
+import 'package:mangayomi/utils/log/logger.dart';
 import 'package:path/path.dart' as path;
-
-final isolateChapsSendPorts = <String?, (ReceivePort?, Isolate?)>{};
+import 'package:convert/convert.dart';
 
 class M3u8Downloader {
   final String m3u8Url;
@@ -26,8 +23,8 @@ class M3u8Downloader {
   final String fileName;
   final int concurrentDownloads;
   final Chapter chapter;
-  Isolate? _isolate;
-  ReceivePort? _receivePort;
+  final List<Track>? subtitles;
+
   static var httpClient = MClient.httpClient(
     settings: const ClientSettings(
       throwOnStatusCode: false,
@@ -41,48 +38,20 @@ class M3u8Downloader {
     required this.fileName,
     this.headers,
     required this.chapter,
-    this.concurrentDownloads = 15,
+    this.concurrentDownloads = 1,
+    required this.subtitles,
   });
 
   void _log(String message) {
     if (kDebugMode) {
       log('[M3u8Downloader] $message');
     }
+    AppLogger.log(message);
   }
 
   void close() {
-    _isolate?.kill();
-    _receivePort?.close();
-  }
-
-  static _recreateClient() async {
-    await RustLib.init();
-    httpClient = MClient.httpClient(
-      settings: const ClientSettings(
-        throwOnStatusCode: false,
-        tlsSettings: TlsSettings(verifyCertificates: false),
-      ),
-    );
-  }
-
-  static Future<T> _withRetryStatic<T>(
-    Future<T> Function() operation,
-    int maxRetries,
-  ) async {
-    int attempts = 0;
-    while (true) {
-      try {
-        attempts++;
-        return await operation();
-      } catch (e) {
-        if (attempts >= maxRetries) {
-          throw M3u8DownloaderException(
-            'Operation failed after $maxRetries attempts',
-            e,
-          );
-        }
-      }
-    }
+    DownloadIsolatePool.instance.cancelTask('m3u8_${chapter.id}');
+    isolateChapsSendPorts.remove('${chapter.id}');
   }
 
   Future<T> _withRetry<T>(Future<T> Function() operation) async {
@@ -121,27 +90,56 @@ class M3u8Downloader {
   }
 
   Future<void> download(void Function(DownloadProgress) onProgress) async {
-    final tempDir = Directory(path.join(downloadDir, 'temp'));
+    final tempDir = path.join(downloadDir, 'temp');
+    await StorageProvider().createDirectorySafely(tempDir);
 
     try {
-      await tempDir.create(recursive: true);
       final (tsList, key, iv, mediaSequence) = await _getTsList();
 
-      final tsListToDownload = await _filterExistingSegments(
-        tsList,
-        tempDir.path,
-      );
+      final tsListToDownload = await _filterExistingSegments(tsList, tempDir);
       _log('Downloading ${tsListToDownload.length} segments...');
 
       await _downloadSegmentsWithProgress(
         tsListToDownload,
-        tempDir.path,
+        tempDir,
         key,
         iv,
         mediaSequence,
         onProgress,
       );
+      for (var element in subtitles ?? <Track>[]) {
+        final subtitleFile = File(
+          path.join('${downloadDir}_subtitles', '${element.label}.srt'),
+        );
+        if (subtitleFile.existsSync()) {
+          _log('Subtitle file already exists: ${element.label}');
+          continue;
+        }
+        _log('Downloading subtitle file: ${element.label}');
+        if (element.file == null || element.file!.trim().isEmpty) {
+          _log('Warning: No subtitle file: ${element.label}');
+          continue;
+        }
+        subtitleFile.createSync(recursive: true);
+        if (element.file!.startsWith("http")) {
+          final response = await _withRetry(
+            () =>
+                httpClient.get(Uri.parse(element.file ?? ''), headers: headers),
+          );
+          if (response.statusCode != 200) {
+            _log('Warning: Failed to download subtitle file: ${element.label}');
+            continue;
+          }
+          _log('Subtitle file downloaded: ${element.label}');
+          await subtitleFile.writeAsBytes(response.bodyBytes);
+        } else {
+          _log('Subtitle file written: ${element.label}');
+          await subtitleFile.writeAsString(element.file!);
+        }
+      }
     } catch (e) {
+      AppLogger.log("Download failed", logLevel: LogLevel.error);
+      AppLogger.log(e.toString(), logLevel: LogLevel.error);
       throw M3u8DownloaderException('Download failed', e);
     } finally {
       close();
@@ -165,35 +163,30 @@ class M3u8Downloader {
     int? mediaSequence,
     void Function(DownloadProgress) onProgress,
   ) async {
-    _receivePort = ReceivePort();
+    final completer = Completer<void>();
+    final taskId = 'm3u8_${chapter.id}';
 
-    final errorPort = ReceivePort();
-    _isolate = await Isolate.spawn(
-      _downloadWorker,
-      DownloadParams(
-        segments: segments,
-        tempDir: tempDir,
-        key: key,
-        iv: iv,
-        mediaSequence: mediaSequence,
-        concurrentDownloads: concurrentDownloads,
-        headers: headers,
-        sendPort: _receivePort!.sendPort,
-        itemType: chapter.manga.value!.itemType,
-      ),
-      onError: errorPort.sendPort,
-    );
-    isolateChapsSendPorts['${chapter.id}'] = (_receivePort, _isolate);
-    errorPort.listen((message) {
-      final stackTrace = message.last;
-      _log('Stack trace: $stackTrace');
-      _receivePort!.close();
-    });
-    await for (final message in _receivePort!) {
-      if (message is DownloadProgress) {
-        onProgress.call(message);
-      } else if (message is DownloadComplete) {
+    // Mark as active for compatibility with cancelDownloads()
+    isolateChapsSendPorts['${chapter.id}'] = true;
+
+    await DownloadIsolatePool.instance.submitM3u8Download(
+      taskId: taskId,
+      segments: segments,
+      tempDir: tempDir,
+      key: key,
+      iv: iv,
+      mediaSequence: mediaSequence,
+      concurrentDownloads: concurrentDownloads,
+      headers: headers,
+      itemType: chapter.manga.value!.itemType,
+      onProgress: (progress) {
+        onProgress(progress);
+      },
+      onComplete: () async {
+        // Merge the segments after downloading
         await _mergeSegments(fileName, tempDir, onProgress);
+
+        // Clean up the temporary directory
         if (await Directory(tempDir).exists()) {
           try {
             await Directory(tempDir).delete(recursive: true);
@@ -201,122 +194,19 @@ class M3u8Downloader {
             _log('Warning: Failed to clean up temporary directory: $e');
           }
         }
-        errorPort.close();
-        break;
-      } else if (message is Exception) {
-        errorPort.close();
-        throw message;
-      }
-    }
-  }
 
-  static void _downloadWorker(DownloadParams params) async {
-    await _recreateClient();
-    int completed = 0;
-    final total = params.segments!.length;
-    final queue = Queue<TsInfo>.from(params.segments!);
-    final List<Future<void>> activeTasks = [];
-
-    try {
-      while (queue.isNotEmpty || activeTasks.isNotEmpty) {
-        while (queue.isNotEmpty &&
-            activeTasks.length < params.concurrentDownloads!) {
-          final segment = queue.removeFirst();
-          final task = _processSegment(segment, params, httpClient)
-              .then((_) {
-                completed++;
-                params.sendPort!.send(
-                  DownloadProgress(
-                    segment: segment,
-                    completed,
-                    total,
-                    params.itemType!,
-                  ),
-                );
-              })
-              .catchError((error) {
-                params.sendPort!.send(
-                  M3u8DownloaderException(
-                    'Error downloading segment ${segment.name}',
-                    error,
-                  ),
-                );
-                throw error;
-              });
-
-          activeTasks.add(task);
+        if (!completer.isCompleted) {
+          completer.complete();
         }
-
-        if (activeTasks.isNotEmpty) {
-          await Future.wait(activeTasks.toList(), eagerError: true);
-          activeTasks.clear();
+      },
+      onError: (error) {
+        if (!completer.isCompleted) {
+          completer.completeError(error);
         }
-      }
+      },
+    );
 
-      params.sendPort!.send(DownloadComplete());
-    } catch (e) {
-      params.sendPort!.send(M3u8DownloaderException('Download failed', e));
-    } finally {
-      httpClient.close();
-    }
-  }
-
-  static Future<void> _processSegment(
-    TsInfo ts,
-    DownloadParams params,
-    Client client,
-  ) async {
-    try {
-      final response = await _withRetryStatic(
-        () => client.get(Uri.parse(ts.url), headers: params.headers),
-        3,
-      );
-      if (response.statusCode != 200) {
-        throw M3u8DownloaderException('Failed to download segment: ${ts.name}');
-      }
-
-      final file = File(path.join('${params.tempDir}', '${ts.name}.ts'));
-      await file.writeAsBytes(response.bodyBytes);
-
-      if (params.key != null) {
-        final bytes = await file.readAsBytes();
-        final index = int.parse(ts.name.substringAfter("TS_"));
-        final decrypted = _aesDecryptStatic(
-          (params.mediaSequence ?? 1) + (index - 1),
-          bytes,
-          params.key!,
-          iv: params.iv,
-        );
-        await file.writeAsBytes(decrypted);
-      }
-    } catch (e) {
-      throw M3u8DownloaderException('Failed to process segment: ${ts.name}', e);
-    }
-  }
-
-  static Uint8List _aesDecryptStatic(
-    int sequence,
-    Uint8List encrypted,
-    Uint8List key, {
-    Uint8List? iv,
-  }) {
-    try {
-      if (iv == null) {
-        iv = Uint8List(16);
-        ByteData.view(iv.buffer).setUint64(8, sequence);
-      }
-      final encrypter = encrypt.Encrypter(
-        encrypt.AES(encrypt.Key(key), mode: encrypt.AESMode.cbc),
-      );
-      return Uint8List.fromList(
-        encrypter.decryptBytes(
-          encrypt.Encrypted(encrypted),
-          iv: encrypt.IV(iv),
-        ),
-      );
-    } catch (e) {
-      throw M3u8DownloaderException('Decryption failed', e);
-    }
+    return completer.future;
   }
 
   Future<void> _mergeSegments(
@@ -342,26 +232,29 @@ class M3u8Downloader {
   }
 
   Future<void> _mergeTsToMp4(String fileName, String directory) async {
-    int parseIndex(String name) =>
-        int.parse(name.substringAfter("TS_").substringBefore("."));
-
     try {
-      final outFile = File(fileName).openWrite();
       final dir = Directory(directory);
-      final tsPathList =
+      final files =
           await dir
               .list()
               .where((entity) => entity.path.endsWith('.ts'))
-              .map((entity) => entity.path)
               .toList();
 
-      tsPathList.sort((a, b) => parseIndex(a).compareTo(parseIndex(b)));
+      files.sort((a, b) {
+        final aIndex = int.parse(
+          a.path.substringAfter("TS_").substringBefore("."),
+        );
+        final bIndex = int.parse(
+          b.path.substringAfter("TS_").substringBefore("."),
+        );
+        return aIndex.compareTo(bIndex);
+      });
 
-      for (var path in tsPathList) {
-        await outFile.addStream(File(path).openRead());
+      final outFile = File(fileName).openWrite();
+      for (var file in files) {
+        final inFile = File(file.path).openRead();
+        await outFile.addStream(inFile);
       }
-
-      await outFile.flush();
       await outFile.close();
     } catch (e) {
       throw M3u8DownloaderException('Failed to merge TS files', e);

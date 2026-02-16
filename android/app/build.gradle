@@ -30,8 +30,8 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.kodjodevf.mangayomi"
-    compileSdkVersion 35
-    ndkVersion "28.0.12674087"
+    compileSdkVersion 36
+    ndkVersion flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -52,10 +52,16 @@ android {
         applicationId "com.kodjodevf.mangayomi"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 21
+        minSdkVersion flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+    }
+
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging true
+        }
     }
 
     signingConfigs {

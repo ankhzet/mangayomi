@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:mangayomi/src/rust/api/rhttp/http.dart' as rust;
 import 'package:mangayomi/src/rust/lib.dart' as rust_lib;
 

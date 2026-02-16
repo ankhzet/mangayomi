@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:draggable_menu/draggable_menu.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +26,10 @@ class _MeasureWidgetSizeState extends State<MeasureWidgetSize> {
 
   @override
   initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) => widget.onCalculateSize(_key.currentContext?.size),
     );
-    super.initState();
   }
 
   @override
@@ -64,10 +65,8 @@ Future<void> customDraggableTabBar({
     index = tabBarController.index;
     if (index != currentIndex) {
       index = currentIndex;
-      refresh();
-    } else {
-      refresh();
     }
+    refresh();
   });
 
   await showDialog(
@@ -79,9 +78,7 @@ Future<void> customDraggableTabBar({
             for (var i = 0; i < children.length; i++) ...[
               MeasureWidgetSize(
                 onCalculateSize: (size) {
-                  final additionnalHeight =
-                      ((List.generate(10000, (index) => index * 0.0001))
-                        ..shuffle()).first;
+                  final additionnalHeight = Random().nextDouble() * 0.01;
                   double newHeight = size!.height + 52.0 + additionnalHeight;
                   if (!(newHeight <= maxHeight)) {
                     newHeight = maxHeight + additionnalHeight;
@@ -110,14 +107,11 @@ Future<void> customDraggableTabBar({
         controller: controller,
         levels:
             widgetsHeight
-                .map((e) => e["height"])
-                .map((e) => DraggableMenuLevel(height: e))
+                .map((e) => DraggableMenuLevel(height: e["height"]))
                 .toList(),
         customUi: Consumer(
           builder: (context, ref, child) {
-            final location = ref.watch(
-              routerCurrentLocationStateProvider(context),
-            );
+            final location = ref.watch(routerCurrentLocationStateProvider);
             final width =
                 context.isTablet && !fullWidth
                     ? switch (location) {
@@ -217,4 +211,5 @@ Future<void> customDraggableTabBar({
       ),
     );
   }
+  tabBarController.dispose();
 }

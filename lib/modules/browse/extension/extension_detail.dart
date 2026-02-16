@@ -1,7 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/eval/model/source_preference.dart';
 import 'package:mangayomi/main.dart';
@@ -20,7 +21,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ExtensionDetail extends ConsumerStatefulWidget {
   final Source source;
-
   const ExtensionDetail({super.key, required this.source});
 
   @override
@@ -29,11 +29,21 @@ class ExtensionDetail extends ConsumerStatefulWidget {
 
 class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
   late Source source = isar.sources.getSync(widget.source.id!)!;
-  late List<SourcePreference> sourcePreference =
-      getSourcePreference(
+  late List<SourcePreference>? sourcePreference = () {
+    try {
+      if (source.sourceCodeLanguage == SourceCodeLanguage.mihon &&
+          source.preferenceList != null) {
+        return (jsonDecode(source.preferenceList!) as List)
+            .map((e) => SourcePreference.fromJson(e))
+            .toList();
+      }
+      return getSourcePreference(
         source: source,
       ).map((e) => getSourcePreferenceEntry(e.key!, source.id!)).toList();
-
+    } catch (e) {
+      return null;
+    }
+  }();
   Future<void> _launchInBrowser(Uri url) async {
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw 'Could not launch $url';
@@ -84,6 +94,7 @@ class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
                               child: Icon(Icons.source_outlined, size: 140),
                             ),
                           ),
+                          headers: {},
                         ),
               ),
             ),
@@ -302,20 +313,11 @@ class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
                                           widget.source
                                             ..sourceCode = ""
                                             ..isAdded = false
-                                            ..isPinned = false,
+                                            ..isPinned = false
+                                            ..updatedAt =
+                                                DateTime.now()
+                                                    .millisecondsSinceEpoch,
                                         );
-                                        ref
-                                            .read(
-                                              synchingProvider(
-                                                syncId: 1,
-                                              ).notifier,
-                                            )
-                                            .addChangedPart(
-                                              ActionType.updateExtension,
-                                              source.id,
-                                              source.toJson(),
-                                              false,
-                                            );
                                       }
                                       isar.sourcePreferences.deleteAllSync(
                                         sourcePrefsIds,
@@ -346,10 +348,11 @@ class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
                 ),
               ),
             ),
-            SourcePreferenceWidget(
-              sourcePreference: sourcePreference,
-              source: source,
-            ),
+            if (sourcePreference != null)
+              SourcePreferenceWidget(
+                sourcePreference: sourcePreference!,
+                source: source,
+              ),
           ],
         ),
       ),

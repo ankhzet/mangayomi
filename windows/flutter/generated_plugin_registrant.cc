@@ -10,12 +10,8 @@
 #include <connectivity_plus/connectivity_plus_windows_plugin.h>
 #include <flutter_inappwebview_windows/flutter_inappwebview_windows_plugin_c_api.h>
 #include <flutter_qjs/flutter_qjs_plugin.h>
-<<<<<<< HEAD
-#include <isar_flutter_libs/isar_flutter_libs_plugin.h>
-=======
 #include <isar_community_flutter_libs/isar_flutter_libs_plugin.h>
 #include <m_extension_server/m_extension_server_plugin_c_api.h>
->>>>>>> main
 #include <media_kit_libs_windows_video/media_kit_libs_windows_video_plugin_c_api.h>
 #include <media_kit_video/media_kit_video_plugin_c_api.h>
 #include <permission_handler_windows/permission_handler_windows_plugin.h>
@@ -23,10 +19,7 @@
 #include <screen_retriever_windows/screen_retriever_windows_plugin_c_api.h>
 #include <share_plus/share_plus_windows_plugin_c_api.h>
 #include <url_launcher_windows/url_launcher_windows.h>
-<<<<<<< HEAD
-=======
 #include <volume_controller/volume_controller_plugin_c_api.h>
->>>>>>> main
 #include <window_manager/window_manager_plugin.h>
 #include <window_to_front/window_to_front_plugin.h>
 
@@ -41,11 +34,8 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("FlutterQjsPlugin"));
   IsarFlutterLibsPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("IsarFlutterLibsPlugin"));
-<<<<<<< HEAD
-=======
   MExtensionServerPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("MExtensionServerPluginCApi"));
->>>>>>> main
   MediaKitLibsWindowsVideoPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("MediaKitLibsWindowsVideoPluginCApi"));
   MediaKitVideoPluginCApiRegisterWithRegistrar(
@@ -60,11 +50,8 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("SharePlusWindowsPluginCApi"));
   UrlLauncherWindowsRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("UrlLauncherWindows"));
-<<<<<<< HEAD
-=======
   VolumeControllerPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("VolumeControllerPluginCApi"));
->>>>>>> main
   WindowManagerPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("WindowManagerPlugin"));
   WindowToFrontPluginRegisterWithRegistrar(

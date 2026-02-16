@@ -39,45 +39,42 @@ class _MangaActionsMenuState extends ConsumerState<MangaActionsMenu> {
 
     return PopupMenuButton(
       popUpAnimationStyle: popupAnimationStyle,
-      itemBuilder:
-          (_) => <PopupMenuEntry<int>>[
-            if (!isLocalArchive)
-              PopupMenuItem<int>(value: 0, child: Text(l10n.refresh)),
-            if (!isLocalArchive)
-              PopupMenuItem<int>(value: 1, child: Text(l10n.share)),
-            if (manga.favorite!)
-              PopupMenuItem<int>(value: 2, child: Text(l10n.edit_categories)),
-            if (!isLocalArchive) ...[
-              const PopupMenuDivider(),
-              PopupMenuItem<int>(
-                value: -1,
-                child: Text(isVideo ? l10n.next_episode : l10n.next_chapter),
-              ),
-              PopupMenuItem<int>(
-                value: -5,
-                child: Text(
-                  isVideo ? l10n.next_5_episodes : l10n.next_5_chapters,
-                ),
-              ),
-              PopupMenuItem<int>(
-                value: -10,
-                child: Text(
-                  isVideo ? l10n.next_10_episodes : l10n.next_10_chapters,
-                ),
-              ),
-              PopupMenuItem<int>(
-                value: -25,
-                child: Text(
-                  isVideo ? l10n.next_25_episodes : l10n.next_25_chapters,
-                ),
-              ),
-            ],
-            const PopupMenuDivider(),
-            PopupMenuItem<int>(
-              value: 3,
-              child: Text(isVideo ? l10n.unwatched : l10n.unread),
+      itemBuilder: (_) => <PopupMenuEntry<int>>[
+        if (!isLocalArchive)
+          PopupMenuItem<int>(value: 0, child: Text(l10n.refresh)),
+        if (!isLocalArchive)
+          PopupMenuItem<int>(value: 1, child: Text(l10n.share)),
+        if (manga.favorite!)
+          PopupMenuItem<int>(value: 2, child: Text(l10n.edit_categories)),
+        if (!isLocalArchive) ...[
+          const PopupMenuDivider(),
+          PopupMenuItem<int>(
+            value: -1,
+            child: Text(isVideo ? l10n.next_episode : l10n.next_chapter),
+          ),
+          PopupMenuItem<int>(
+            value: -5,
+            child: Text(isVideo ? l10n.next_5_episodes : l10n.next_5_chapters),
+          ),
+          PopupMenuItem<int>(
+            value: -10,
+            child: Text(
+              isVideo ? l10n.next_10_episodes : l10n.next_10_chapters,
             ),
-          ],
+          ),
+          PopupMenuItem<int>(
+            value: -25,
+            child: Text(
+              isVideo ? l10n.next_25_episodes : l10n.next_25_chapters,
+            ),
+          ),
+        ],
+        const PopupMenuDivider(),
+        PopupMenuItem<int>(
+          value: 3,
+          child: Text(isVideo ? l10n.unwatched : l10n.unread),
+        ),
+      ],
       onSelected: (value) {
         switch (value) {
           case 0:
@@ -106,30 +103,30 @@ class _MangaActionsMenuState extends ConsumerState<MangaActionsMenu> {
   }
 
   void _share() {
-    final source = getSource(manga.lang!, manga.source!);
-    String url =
-        source!.apiUrl!.isEmpty
-            ? manga.link!
-            : "${source.baseUrl}${manga.link!.getUrlWithoutDomain}";
+    final source = getSource(manga.lang!, manga.source!, manga.sourceId);
+    String url = source!.apiUrl!.isEmpty
+        ? manga.link!
+        : "${source.baseUrl}${manga.link!.getUrlWithoutDomain}";
 
     Share.share(url);
   }
 
   void _downloadChapters(int value) {
-    final chapters =
-        isar.chapters
-            .filter()
-            .idIsNotNull()
-            .mangaIdEqualTo(mangaId)
-            .findAllSync();
+    final chapters = isar.chapters
+        .filter()
+        .idIsNotNull()
+        .mangaIdEqualTo(mangaId)
+        .findAllSync();
     final lastChapterReadIndex = chapters.lastIndexWhere(
       (element) => element.isRead == true,
     );
 
     if (lastChapterReadIndex == -1 || chapters.length == 1) {
       final chapter = chapters.first;
-      final entry =
-          isar.downloads.filter().idEqualTo(chapter.id).findFirstSync();
+      final entry = isar.downloads
+          .filter()
+          .idEqualTo(chapter.id)
+          .findFirstSync();
 
       if (entry == null || !entry.isDownload!) {
         ref.watch(downloadChapterProvider(chapter: chapter));
@@ -139,8 +136,10 @@ class _MangaActionsMenuState extends ConsumerState<MangaActionsMenu> {
         if (chapters.length > 1 &&
             chapters.elementAtOrNull(lastChapterReadIndex + i) != null) {
           final chapter = chapters[lastChapterReadIndex + i];
-          final entry =
-              isar.downloads.filter().idEqualTo(chapter.id).findFirstSync();
+          final entry = isar.downloads
+              .filter()
+              .idEqualTo(chapter.id)
+              .findFirstSync();
 
           if (entry == null || !entry.isDownload!) {
             ref.watch(downloadChapterProvider(chapter: chapter));
@@ -151,17 +150,18 @@ class _MangaActionsMenuState extends ConsumerState<MangaActionsMenu> {
   }
 
   void _unreadChapters() {
-    final unreadChapters =
-        isar.chapters
-            .filter()
-            .idIsNotNull()
-            .mangaIdEqualTo(mangaId)
-            .isReadEqualTo(false)
-            .findAllSync();
+    final unreadChapters = isar.chapters
+        .filter()
+        .idIsNotNull()
+        .mangaIdEqualTo(mangaId)
+        .isReadEqualTo(false)
+        .findAllSync();
 
     for (var chapter in unreadChapters) {
-      final entry =
-          isar.downloads.filter().idEqualTo(chapter.id).findFirstSync();
+      final entry = isar.downloads
+          .filter()
+          .idEqualTo(chapter.id)
+          .findFirstSync();
 
       if (entry == null || !entry.isDownload!) {
         ref.watch(downloadChapterProvider(chapter: chapter));

@@ -42,6 +42,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get unread => 'غير مقروء';
 
   @override
+  String get unread_chapters => 'Unread chapters';
+
+  @override
   String get unwatched => 'لم يشاهد';
 
   @override

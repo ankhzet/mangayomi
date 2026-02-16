@@ -42,6 +42,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get unread => 'Непрочитанное';
 
   @override
+  String get unread_chapters => 'Unread chapters';
+
+  @override
   String get unwatched => 'Непросмотренный';
 
   @override

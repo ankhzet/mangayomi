@@ -42,6 +42,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get unread => '未读';
 
   @override
+  String get unread_chapters => 'Unread chapters';
+
+  @override
   String get unwatched => '未观看';
 
   @override

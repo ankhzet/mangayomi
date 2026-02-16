@@ -42,6 +42,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unread => 'Unread';
 
   @override
+  String get unread_chapters => 'Unread chapters';
+
+  @override
   String get unwatched => 'Unwatched';
 
   @override

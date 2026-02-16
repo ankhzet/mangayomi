@@ -42,6 +42,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get unread => 'Belum Dibaca';
 
   @override
+  String get unread_chapters => 'Unread chapters';
+
+  @override
   String get unwatched => 'Belum ditonton';
 
   @override

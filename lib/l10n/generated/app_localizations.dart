@@ -192,6 +192,12 @@ abstract class AppLocalizations {
   /// **'Unread'**
   String get unread;
 
+  /// No description provided for @unread_chapters.
+  ///
+  /// In en, this message translates to:
+  /// **'Unread chapters'**
+  String get unread_chapters;
+
   /// No description provided for @unwatched.
   ///
   /// In en, this message translates to:

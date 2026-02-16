@@ -1529,7 +1529,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen>
                           },
                         ),
                         ListTileItemFilter(
-                          label: l10n.unread,
+                          label: l10n.unread_chapters,
                           type: unreadChapter ? 1 : 0,
                           onTap: () {
                             ref

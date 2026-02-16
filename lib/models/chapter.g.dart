@@ -56,22 +56,23 @@ const ChapterSchema = CollectionSchema(
     ),
     r'mangaId': PropertySchema(id: 9, name: r'mangaId', type: IsarType.long),
     r'name': PropertySchema(id: 10, name: r'name', type: IsarType.string),
+    r'order': PropertySchema(id: 11, name: r'order', type: IsarType.double),
     r'scanlator': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'scanlator',
       type: IsarType.string,
     ),
     r'thumbnailUrl': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'thumbnailUrl',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 13,
+      id: 14,
       name: r'updatedAt',
       type: IsarType.long,
     ),
-    r'url': PropertySchema(id: 14, name: r'url', type: IsarType.string),
+    r'url': PropertySchema(id: 15, name: r'url', type: IsarType.string),
   },
 
   estimateSize: _chapterEstimateSize,
@@ -79,7 +80,34 @@ const ChapterSchema = CollectionSchema(
   deserialize: _chapterDeserialize,
   deserializeProp: _chapterDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'mangaId': IndexSchema(
+      id: 7466570075891278896,
+      name: r'mangaId',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'mangaId',
+          type: IndexType.value,
+          caseSensitive: false,
+        ),
+      ],
+    ),
+    r'order': IndexSchema(
+      id: 5897270977454184057,
+      name: r'order',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'order',
+          type: IndexType.value,
+          caseSensitive: false,
+        ),
+      ],
+    ),
+  },
   links: {
     r'manga': LinkSchema(
       id: -8510956094935473973,
@@ -182,10 +210,11 @@ void _chapterSerialize(
   writer.writeString(offsets[8], object.lastPageRead);
   writer.writeLong(offsets[9], object.mangaId);
   writer.writeString(offsets[10], object.name);
-  writer.writeString(offsets[11], object.scanlator);
-  writer.writeString(offsets[12], object.thumbnailUrl);
-  writer.writeLong(offsets[13], object.updatedAt);
-  writer.writeString(offsets[14], object.url);
+  writer.writeDouble(offsets[11], object.order);
+  writer.writeString(offsets[12], object.scanlator);
+  writer.writeString(offsets[13], object.thumbnailUrl);
+  writer.writeLong(offsets[14], object.updatedAt);
+  writer.writeString(offsets[15], object.url);
 }
 
 Chapter _chapterDeserialize(
@@ -207,10 +236,10 @@ Chapter _chapterDeserialize(
     lastPageRead: reader.readStringOrNull(offsets[8]),
     mangaId: reader.readLongOrNull(offsets[9]),
     name: reader.readStringOrNull(offsets[10]),
-    scanlator: reader.readStringOrNull(offsets[11]),
-    thumbnailUrl: reader.readStringOrNull(offsets[12]),
-    updatedAt: reader.readLongOrNull(offsets[13]),
-    url: reader.readStringOrNull(offsets[14]),
+    scanlator: reader.readStringOrNull(offsets[12]),
+    thumbnailUrl: reader.readStringOrNull(offsets[13]),
+    updatedAt: reader.readLongOrNull(offsets[14]),
+    url: reader.readStringOrNull(offsets[15]),
   );
   return object;
 }
@@ -245,12 +274,14 @@ P _chapterDeserializeProp<P>(
     case 10:
       return (reader.readStringOrNull(offset)) as P;
     case 11:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readDouble(offset)) as P;
     case 12:
       return (reader.readStringOrNull(offset)) as P;
     case 13:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 14:
+      return (reader.readLongOrNull(offset)) as P;
+    case 15:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -274,6 +305,22 @@ extension ChapterQueryWhereSort on QueryBuilder<Chapter, Chapter, QWhere> {
   QueryBuilder<Chapter, Chapter, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhere> anyMangaId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'mangaId'),
+      );
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhere> anyOrder() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'order'),
+      );
     });
   }
 }
@@ -341,6 +388,235 @@ extension ChapterQueryWhere on QueryBuilder<Chapter, Chapter, QWhereClause> {
           lower: lowerId,
           includeLower: includeLower,
           upper: upperId,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> mangaIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'mangaId', value: [null]),
+      );
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> mangaIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'mangaId',
+          lower: [null],
+          includeLower: false,
+          upper: [],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> mangaIdEqualTo(
+    int? mangaId,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'mangaId', value: [mangaId]),
+      );
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> mangaIdNotEqualTo(
+    int? mangaId,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'mangaId',
+                lower: [],
+                upper: [mangaId],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'mangaId',
+                lower: [mangaId],
+                includeLower: false,
+                upper: [],
+              ),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'mangaId',
+                lower: [mangaId],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'mangaId',
+                lower: [],
+                upper: [mangaId],
+                includeUpper: false,
+              ),
+            );
+      }
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> mangaIdGreaterThan(
+    int? mangaId, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'mangaId',
+          lower: [mangaId],
+          includeLower: include,
+          upper: [],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> mangaIdLessThan(
+    int? mangaId, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'mangaId',
+          lower: [],
+          upper: [mangaId],
+          includeUpper: include,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> mangaIdBetween(
+    int? lowerMangaId,
+    int? upperMangaId, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'mangaId',
+          lower: [lowerMangaId],
+          includeLower: includeLower,
+          upper: [upperMangaId],
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> orderEqualTo(double order) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'order', value: [order]),
+      );
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> orderNotEqualTo(
+    double order,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'order',
+                lower: [],
+                upper: [order],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'order',
+                lower: [order],
+                includeLower: false,
+                upper: [],
+              ),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'order',
+                lower: [order],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'order',
+                lower: [],
+                upper: [order],
+                includeUpper: false,
+              ),
+            );
+      }
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> orderGreaterThan(
+    double order, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'order',
+          lower: [order],
+          includeLower: include,
+          upper: [],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> orderLessThan(
+    double order, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'order',
+          lower: [],
+          upper: [order],
+          includeUpper: include,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> orderBetween(
+    double lowerOrder,
+    double upperOrder, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'order',
+          lower: [lowerOrder],
+          includeLower: includeLower,
+          upper: [upperOrder],
           includeUpper: includeUpper,
         ),
       );
@@ -1717,6 +1993,80 @@ extension ChapterQueryFilter
     });
   }
 
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> orderEqualTo(
+    double value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'order',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> orderGreaterThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'order',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> orderLessThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'order',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> orderBetween(
+    double lower,
+    double upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'order',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
   QueryBuilder<Chapter, Chapter, QAfterFilterCondition> scanlatorIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -2434,6 +2784,18 @@ extension ChapterQuerySortBy on QueryBuilder<Chapter, Chapter, QSortBy> {
     });
   }
 
+  QueryBuilder<Chapter, Chapter, QAfterSortBy> sortByOrder() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'order', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterSortBy> sortByOrderDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'order', Sort.desc);
+    });
+  }
+
   QueryBuilder<Chapter, Chapter, QAfterSortBy> sortByScanlator() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'scanlator', Sort.asc);
@@ -2629,6 +2991,18 @@ extension ChapterQuerySortThenBy
     });
   }
 
+  QueryBuilder<Chapter, Chapter, QAfterSortBy> thenByOrder() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'order', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Chapter, Chapter, QAfterSortBy> thenByOrderDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'order', Sort.desc);
+    });
+  }
+
   QueryBuilder<Chapter, Chapter, QAfterSortBy> thenByScanlator() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'scanlator', Sort.asc);
@@ -2760,6 +3134,12 @@ extension ChapterQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Chapter, Chapter, QDistinct> distinctByOrder() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'order');
+    });
+  }
+
   QueryBuilder<Chapter, Chapter, QDistinct> distinctByScanlator({
     bool caseSensitive = true,
   }) {
@@ -2862,6 +3242,12 @@ extension ChapterQueryProperty
   QueryBuilder<Chapter, String?, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
+    });
+  }
+
+  QueryBuilder<Chapter, double, QQueryOperations> orderProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'order');
     });
   }
 

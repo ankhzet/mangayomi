@@ -22,10 +22,11 @@ class Settings {
   @ignore
   LibraryFilter? libraryFilter;
 
-
   bool? libraryShowCategoryTabs;
 
   bool? libraryDownloadedChapters;
+
+  bool? libraryUnreadChapters;
 
   bool? libraryShowLanguage;
 
@@ -108,6 +109,8 @@ class Settings {
   bool? animeLibraryShowCategoryTabs;
 
   bool? animeLibraryDownloadedChapters;
+
+  bool? animeLibraryUnreadChapters;
 
   bool? animeLibraryShowLanguage;
 
@@ -219,6 +222,8 @@ class Settings {
   bool? novelLibraryShowCategoryTabs;
 
   bool? novelLibraryDownloadedChapters;
+
+  bool? novelLibraryUnreadChapters;
 
   bool? novelLibraryShowLanguage;
 

@@ -1449,7 +1449,7 @@ final class MangasSetIsReadStateProvider
 }
 
 String _$mangasSetIsReadStateHash() =>
-    r'44ccdd3ba522c2ad479c50f2e8ce74562991e18c';
+    r'1fe7f0b128c89d079a3910beb89db047228c8a44';
 
 final class MangasSetIsReadStateFamily extends $Family
     with
@@ -1547,7 +1547,7 @@ final class MangasSetUnReadStateProvider
 }
 
 String _$mangasSetUnReadStateHash() =>
-    r'a5303cc9fa47d4fa778be5ec90da002cf099ebf3';
+    r'2fbe96df015ca9e9dd171566521ab2915e77256b';
 
 final class MangasSetUnReadStateFamily extends $Family
     with

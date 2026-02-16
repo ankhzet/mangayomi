@@ -78,7 +78,7 @@ class Chapter {
   @Index(name: "mangaId")
   int? mangaId;
 
-  String? get name => _name;
+  String? get name => calculateTitle(compositeOrder, _name);
 
   set name(String? value) {
     _name = value;
@@ -140,8 +140,8 @@ class Chapter {
   }
 
   ChapterCompositeNumber calculateOrder() {
-    if ((name ?? '').isNotEmpty) {
-      final match = numberRegexp.firstMatch(name!);
+    if ((_name ?? '').isNotEmpty) {
+      final match = numberRegexp.firstMatch(_name!);
 
       if (match != null) {
         final v = match.namedGroup('v');

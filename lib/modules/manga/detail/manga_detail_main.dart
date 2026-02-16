@@ -30,12 +30,17 @@ class _MangaReaderDetailState extends ConsumerState<MangaReaderDetail> {
 
   @override
   Widget build(BuildContext context) {
-    final manga = ref.watch(getMangaDetailStreamProvider(mangaId: widget.mangaId)).combiner();
+    final manga =
+        ref
+            .watch(getMangaDetailStreamProvider(mangaId: widget.mangaId))
+            .combiner();
 
     return Scaffold(
       body: AsyncValueWidget(
         async: manga,
-        builder: (values) => manga.build(values, (Manga? manga) => _body(context, manga)),
+        builder:
+            (values) =>
+                manga.build(values, (Manga? manga) => _body(context, manga)),
       ),
     );
   }
@@ -45,31 +50,37 @@ class _MangaReaderDetailState extends ConsumerState<MangaReaderDetail> {
       return const ProgressCenter();
     }
 
-    final value = ref.watch(getSourceStreamProvider(title: manga.source!, lang: manga.lang!)).combiner();
+    final value =
+        ref
+            .watch(
+              getSourceStreamProvider(title: manga.source!, lang: manga.lang!),
+            )
+            .combiner();
 
     return AsyncValueWidget(
       async: value,
-      builder: (values) => value.build(values, (bool sourceExists) {
-        final view = MangaDetailsView(
-          manga: manga,
-          sourceExist: sourceExists,
-          checkForUpdate: (sourceExists ? (bool initial) => _update(true, initial) : (bool initial) {}),
-        );
+      builder:
+          (values) => value.build(values, (bool sourceExists) {
+            final view = MangaDetailsView(
+              manga: manga,
+              sourceExist: sourceExists,
+              checkForUpdate:
+                  (sourceExists
+                      ? (bool initial) => _update(true, initial)
+                      : (bool initial) {}),
+            );
 
-        if (!sourceExists) {
-          return view;
-        }
+            if (!sourceExists) {
+              return view;
+            }
 
-        return RefreshIndicator(
-          onRefresh: () => _update(false, false),
-          child: Stack(
-            children: [
-              view,
-              if (_isLoading) const OverlayRefreshCenter(),
-            ],
-          ),
-        );
-      }),
+            return RefreshIndicator(
+              onRefresh: () => _update(false, false),
+              child: Stack(
+                children: [view, if (_isLoading) const OverlayRefreshCenter()],
+              ),
+            );
+          }),
     );
   }
 
@@ -83,7 +94,12 @@ class _MangaReaderDetailState extends ConsumerState<MangaReaderDetail> {
     }
 
     try {
-      await ref.read(updateMangaDetailProvider(mangaId: widget.mangaId, isInit: initial).future);
+      await ref.read(
+        updateMangaDetailProvider(
+          mangaId: widget.mangaId,
+          isInit: initial,
+        ).future,
+      );
     } finally {
       if (mounted && manual) {
         setState(() => _isLoading = false);

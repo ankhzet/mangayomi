@@ -8,7 +8,8 @@ typedef OnErrorCombine = Widget Function(Object error, StackTrace stackTrace);
 
 typedef OnLoadingCombine = Widget Function();
 
-abstract interface class CombinerLike<Values extends Record> implements Iterable<AsyncValue> {
+abstract interface class CombinerLike<Values extends Record>
+    implements Iterable<AsyncValue> {
   Widget make(
     Widget Function(List results) builder,
     Widget Function(Object, StackTrace) error,
@@ -16,7 +17,8 @@ abstract interface class CombinerLike<Values extends Record> implements Iterable
   );
 }
 
-class AsyncValueWidget<Values extends Record, Async extends Record> extends StatelessWidget {
+class AsyncValueWidget<Values extends Record, Async extends Record>
+    extends StatelessWidget {
   final AsyncValueCombiner<Values, Async> async;
   final Widget Function(List values) builder;
   final double spinnerSize;

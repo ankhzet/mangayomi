@@ -42,18 +42,26 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
           final chaptersList = ref.watch(chaptersListttStateProvider);
           final isLongPressed = ref.watch(isLongPressedStateProvider) == true;
           final noContinue =
-              isLongPressed || chaptersList.isEmpty || chaptersList.every((element) => element.isRead ?? false);
+              isLongPressed ||
+              chaptersList.isEmpty ||
+              chaptersList.every((element) => element.isRead ?? false);
 
           if (noContinue) {
             return Container();
           }
 
           final isExtended = ref.watch(isExtendedStateProvider);
-          final history = ref.watch(getMangaHistoryStreamProvider(itemType: manga.itemType, mangaId: manga.id));
+          final history = ref.watch(
+            getMangaHistoryStreamProvider(
+              itemType: manga.itemType,
+              mangaId: manga.id,
+            ),
+          );
 
           return history.when(
             data: (data) {
-              String buttonLabel = manga.itemType == ItemType.anime ? l10n.watch : l10n.read;
+              String buttonLabel =
+                  manga.itemType == ItemType.anime ? l10n.watch : l10n.read;
               Chapter? chap = manga.chapters.firstOrNull;
 
               if (data.isNotEmpty) {
@@ -75,9 +83,15 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                 onPressed: () {
                   chap?.pushToReaderView(context);
                 },
-                textWidth: measureTextWidth(buttonLabel, Theme.of(context).textTheme.labelLarge!),
-                width: measureTextWidth(buttonLabel, Theme.of(context).textTheme.labelLarge!,
-                    padding: 50), // 50 Padding, else RenderFlex overflow Exception
+                textWidth: measureTextWidth(
+                  buttonLabel,
+                  Theme.of(context).textTheme.labelLarge!,
+                ),
+                width: measureTextWidth(
+                  buttonLabel,
+                  Theme.of(context).textTheme.labelLarge!,
+                  padding: 50,
+                ), // 50 Padding, else RenderFlex overflow Exception
               );
             },
             error: (Object error, StackTrace stackTrace) => ErrorText(error),

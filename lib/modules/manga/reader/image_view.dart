@@ -20,7 +20,8 @@ class ImageView extends ConsumerWidget {
   final Function(PreloadTask data) onLongPressData;
   final Function(ExtendedImageGestureState state)? onDoubleTap;
   final Function(bool hasError)? onLoadError;
-  final GestureConfig Function(ExtendedImageState state)? initGestureConfigHandler;
+  final GestureConfig Function(ExtendedImageState state)?
+  initGestureConfigHandler;
 
   const ImageView({
     super.key,
@@ -57,7 +58,11 @@ class ImageView extends ConsumerWidget {
               ? imageWidget
               : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [if (data.index == 0) SizedBox(height: MediaQuery.of(context).padding.top), imageWidget],
+                children: [
+                  if (data.index == 0)
+                    SizedBox(height: MediaQuery.of(context).padding.top),
+                  imageWidget,
+                ],
               ),
     );
   }
@@ -70,9 +75,13 @@ class ImageView extends ConsumerWidget {
     if (state.extendedImageLoadState == LoadState.loading) {
       final ImageChunkEvent? loadingProgress = state.loadingProgress;
       final double progress =
-          (loadingProgress?.cumulativeBytesLoaded ?? 0) / (loadingProgress?.expectedTotalBytes ?? 1.0);
+          (loadingProgress?.cumulativeBytesLoaded ?? 0) /
+          (loadingProgress?.expectedTotalBytes ?? 1.0);
 
-      return _center(context, CircularProgressIndicatorAnimateRotate(progress: progress));
+      return _center(
+        context,
+        CircularProgressIndicatorAnimateRotate(progress: progress),
+      );
     }
 
     if (state.extendedImageLoadState == LoadState.completed) {
@@ -88,13 +97,18 @@ class ImageView extends ConsumerWidget {
         onLoadError!(true);
       }
 
-      return _center(context, RetryWidget(onPressed: () {
-        state.reLoadImage();
+      return _center(
+        context,
+        RetryWidget(
+          onPressed: () {
+            state.reLoadImage();
 
-        if (onLoadError != null) {
-          onLoadError!(false);
-        }
-      }));
+            if (onLoadError != null) {
+              onLoadError!(false);
+            }
+          },
+        ),
+      );
     }
 
     return const SizedBox.shrink();

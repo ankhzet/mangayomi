@@ -27,16 +27,17 @@ class Category {
   Category.fromJsonV1(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    forItemType = json['forManga'] is bool
-        ? json['forManga'] == true
-            ? ItemType.manga
-            : ItemType.anime
-        : ItemType.manga;
+    forItemType =
+        json['forManga'] is bool
+            ? json['forManga'] == true
+                ? ItemType.manga
+                : ItemType.anime
+            : ItemType.manga;
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'forItemType': forItemType.index,
-      };
+    'id': id,
+    'name': name,
+    'forItemType': forItemType.index,
+  };
 }

@@ -30,10 +30,7 @@ class PageSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = const TextStyle(
-      fontSize: 12,
-      fontWeight: FontWeight.bold,
-    );
+    final style = const TextStyle(fontSize: 12, fontWeight: FontWeight.bold);
     final label = indexToLabel(currentIndex);
     final first = SizedBox(
       width: 55,
@@ -45,10 +42,7 @@ class PageSlider extends StatelessWidget {
     );
     final minValue = 0.0;
     final maxValue = max(minValue, divisions.toDouble());
-    final value = min(
-      max(minValue, currentIndex.toDouble()),
-      maxValue,
-    );
+    final value = min(max(minValue, currentIndex.toDouble()), maxValue);
 
     return Container(
       height: 70,
@@ -65,8 +59,12 @@ class PageSlider extends StatelessWidget {
               flex: 14,
               child: SliderTheme(
                 data: SliderTheme.of(context).copyWith(
-                  valueIndicatorShape: _CustomValueIndicatorShape(mirror: mirror),
-                  overlayShape: const RoundSliderOverlayShape(overlayRadius: 5.0),
+                  valueIndicatorShape: _CustomValueIndicatorShape(
+                    mirror: mirror,
+                  ),
+                  overlayShape: const RoundSliderOverlayShape(
+                    overlayRadius: 5.0,
+                  ),
                 ),
                 child: Slider(
                   onChanged: (value) => onChange(value.toInt()),
@@ -99,22 +97,29 @@ class _CustomValueIndicatorShape extends SliderComponentShape {
 
   @override
   void paint(
-      PaintingContext context,
-      Offset center, {
-        required Animation<double> activationAnimation,
-        required Animation<double> enableAnimation,
-        required bool isDiscrete,
-        required TextPainter labelPainter,
-        required RenderBox parentBox,
-        required SliderThemeData sliderTheme,
-        required TextDirection textDirection,
-        required double value,
-        required double textScaleFactor,
-        required Size sizeWithOverflow,
-      }) {
-    final textSpan = TextSpan(text: labelPainter.text?.toPlainText(), style: sliderTheme.valueIndicatorTextStyle);
+    PaintingContext context,
+    Offset center, {
+    required Animation<double> activationAnimation,
+    required Animation<double> enableAnimation,
+    required bool isDiscrete,
+    required TextPainter labelPainter,
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    required TextDirection textDirection,
+    required double value,
+    required double textScaleFactor,
+    required Size sizeWithOverflow,
+  }) {
+    final textSpan = TextSpan(
+      text: labelPainter.text?.toPlainText(),
+      style: sliderTheme.valueIndicatorTextStyle,
+    );
 
-    final textPainter = TextPainter(text: textSpan, textAlign: labelPainter.textAlign, textDirection: textDirection);
+    final textPainter = TextPainter(
+      text: textSpan,
+      textAlign: labelPainter.textAlign,
+      textDirection: textDirection,
+    );
 
     textPainter.layout();
 

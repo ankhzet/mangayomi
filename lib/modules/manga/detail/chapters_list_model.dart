@@ -69,7 +69,8 @@ class ChapterFilterModel {
       }
 
       if (downloaded != null) {
-        final modelChapDownload = isar.downloads.filter().idEqualTo(chapter.id).findAllSync();
+        final modelChapDownload =
+            isar.downloads.filter().idEqualTo(chapter.id).findAllSync();
 
         if (!downloaded(modelChapDownload.firstOrNull?.isDownload ?? false)) {
           return false;
@@ -93,7 +94,10 @@ class ChapterFilterModel {
 
   @override
   int get hashCode =>
-      filterUnread.hashCode ^ filterBookmarked.hashCode ^ filterDownloaded.hashCode ^ filterScanlator.hashCode;
+      filterUnread.hashCode ^
+      filterBookmarked.hashCode ^
+      filterDownloaded.hashCode ^
+      filterScanlator.hashCode;
 }
 
 class ChapterSortModel {
@@ -131,7 +135,8 @@ class ChapterSortModel {
       cache[chapter.id!] = chapter.name?.toLowerCase() ?? '';
     }
 
-    return (Chapter a, Chapter b) => multiplier * cache[a.id!]!.compareTo(cache[b.id!]!);
+    return (Chapter a, Chapter b) =>
+        multiplier * cache[a.id!]!.compareTo(cache[b.id!]!);
   }
 
   Comparator<Chapter> compareScanlator(Iterable<Chapter> chapters) {
@@ -142,7 +147,8 @@ class ChapterSortModel {
       cache[chapter.id!] = chapter.scanlator?.toLowerCase() ?? '';
     }
 
-    return (Chapter a, Chapter b) => multiplier * cache[a.id!]!.compareTo(cache[b.id!]!);
+    return (Chapter a, Chapter b) =>
+        multiplier * cache[a.id!]!.compareTo(cache[b.id!]!);
   }
 
   Comparator<Chapter> compareDateUpload(Iterable<Chapter> chapters) {
@@ -150,9 +156,10 @@ class ChapterSortModel {
     final int multiplier = sort.inReverse ? -1 : 1;
 
     for (var chapter in chapters) {
-      cache[chapter.id!] = chapter.dateUpload != null && chapter.dateUpload!.isNotEmpty
-          ? multiplier * int.parse(chapter.dateUpload!)
-          : 0;
+      cache[chapter.id!] =
+          chapter.dateUpload != null && chapter.dateUpload!.isNotEmpty
+              ? multiplier * int.parse(chapter.dateUpload!)
+              : 0;
     }
 
     return (Chapter a, Chapter b) {
@@ -168,25 +175,27 @@ class ChapterSortModel {
   }
 
   Iterable<Chapter> build(Iterable<Chapter> chapters) {
-    final list = chapters is List<Chapter> ? chapters : chapters.toList(growable: false);
+    final list =
+        chapters is List<Chapter> ? chapters : chapters.toList(growable: false);
     final order = compareOrder(chapters);
     final name = compareName(chapters);
     final scanlator = compareScanlator(chapters);
     final timestamp = compareDateUpload(chapters);
 
-    return list
-      ..sort(switch (sort.sort) {
-        SortType.scanlator => (a, b) => switch (scanlator(a, b)) {
-              0 => order(a, b),
-              var cmp => cmp,
-            },
-        SortType.number => (a, b) => switch (order(a, b)) {
-              0 => scanlator(a, b),
-              var cmp => cmp,
-            },
-        SortType.timestamp => timestamp,
-        SortType.name => name,
-      });
+    return list..sort(switch (sort.sort) {
+      SortType.scanlator =>
+        (a, b) => switch (scanlator(a, b)) {
+          0 => order(a, b),
+          var cmp => cmp,
+        },
+      SortType.number =>
+        (a, b) => switch (order(a, b)) {
+          0 => scanlator(a, b),
+          var cmp => cmp,
+        },
+      SortType.timestamp => timestamp,
+      SortType.name => name,
+    });
   }
 
   @override
@@ -207,18 +216,15 @@ class ChaptersListModel {
   const ChaptersListModel({required this.filter, required this.sort});
 
   List<Chapter> build(Iterable<Chapter> chapters) {
-    return sort
-        .build(
-          chapters.where(filter.build()),
-        )
-        .toList(growable: false);
+    return sort.build(chapters.where(filter.build())).toList(growable: false);
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is ChaptersListModel && (filter == other.filter && sort == other.sort);
+    return other is ChaptersListModel &&
+        (filter == other.filter && sort == other.sort);
   }
 
   @override

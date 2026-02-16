@@ -9,17 +9,16 @@ import 'package:mangayomi/utils/extensions/manga.dart';
 class UpdateQueueListTileWidget extends ConsumerWidget {
   final Group<MangaPeriodicity, int> candidate;
 
-  const UpdateQueueListTileWidget({
-    required this.candidate,
-    super.key,
-  });
+  const UpdateQueueListTileWidget({required this.candidate, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final (:manga, :last, :period, :days) = candidate.first!;
     final regularColor = Theme.of(context).textTheme.bodyLarge!.color;
     final now = DateTime.now().millisecondsSinceEpoch;
-    final at = DateTime.fromMillisecondsSinceEpoch(last.millisecondsSinceEpoch + period.inMilliseconds ~/ 10);
+    final at = DateTime.fromMillisecondsSinceEpoch(
+      last.millisecondsSinceEpoch + period.inMilliseconds ~/ 10,
+    );
     final isOverdue = at.millisecondsSinceEpoch < now;
     final atStr = dateFormat(
       null,
@@ -73,12 +72,20 @@ class UpdateQueueListTileWidget extends ConsumerWidget {
                               Text(
                                 manga.name!,
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 14, color: regularColor),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: regularColor,
+                                ),
                               ),
                               Text(
-                                isOverdue ? 'Should\'ve checked $atStr' : 'Would check $atStr',
+                                isOverdue
+                                    ? 'Should\'ve checked $atStr'
+                                    : 'Would check $atStr',
                                 overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 11, color: regularColor),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: regularColor,
+                                ),
                               ),
                             ],
                           ),
@@ -89,12 +96,13 @@ class UpdateQueueListTileWidget extends ConsumerWidget {
                           message: manga.updateError,
                           preferBelow: false,
                           child: Align(
-                              alignment: Alignment.center,
-                              child: Icon(
-                                size: 16,
-                                Icons.error_outline,
-                                color: Theme.of(context).colorScheme.error,
-                              )),
+                            alignment: Alignment.center,
+                            child: Icon(
+                              size: 16,
+                              Icons.error_outline,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
                         ),
                     ],
                   ),

@@ -17,7 +17,10 @@ class ThemeModeState extends _$ThemeModeState {
     state = false;
     ref
         .read(flexSchemeColorStateProvider.notifier)
-        .setTheme(ThemeAA.schemes[settings.flexSchemeColorIndex!].light, settings.flexSchemeColorIndex!);
+        .setTheme(
+          ThemeAA.schemes[settings.flexSchemeColorIndex!].light,
+          settings.flexSchemeColorIndex!,
+        );
     isar.settings.first = settings..themeIsDark = state;
   }
 
@@ -26,7 +29,10 @@ class ThemeModeState extends _$ThemeModeState {
     state = true;
     ref
         .read(flexSchemeColorStateProvider.notifier)
-        .setTheme(ThemeAA.schemes[settings.flexSchemeColorIndex!].dark, settings.flexSchemeColorIndex!);
+        .setTheme(
+          ThemeAA.schemes[settings.flexSchemeColorIndex!].dark,
+          settings.flexSchemeColorIndex!,
+        );
     isar.settings.first = settings..themeIsDark = state;
   }
 }

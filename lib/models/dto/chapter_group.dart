@@ -10,7 +10,10 @@ class ChapterGroup<T> extends Group<Chapter, T> {
 
   static T groupBy<T>(ChapterGroup<T> element) => element.group;
 
-  static List<ChapterGroup<T>> groupChapters<T>(Iterable<Chapter> items, T Function(Chapter item) groupBy) {
+  static List<ChapterGroup<T>> groupChapters<T>(
+    Iterable<Chapter> items,
+    T Function(Chapter item) groupBy,
+  ) {
     return Group.groupItems(
       items,
       groupBy,
@@ -24,7 +27,9 @@ class ChapterGroup<T> extends Group<Chapter, T> {
 
   @override
   String get label {
-    final List<ChapterCompositeNumber> indexes = state.mapToList((chapter) => chapter.compositeOrder);
+    final List<ChapterCompositeNumber> indexes = state.mapToList(
+      (chapter) => chapter.compositeOrder,
+    );
 
     return 'Ch. ${indexesToStr(indexes.map((index) => index.toDouble()))}';
   }
@@ -36,18 +41,28 @@ class ChapterGroup<T> extends Group<Chapter, T> {
   DateTime? get dateUpload => Chapter.firstUpload(state);
   String get fullTitle => Chapter.fullTitle(state);
 
-  Chapter get firstOrRead => state.firstWhere(Chapter.isChapterRead, orElse: () => state.first);
-  Chapter get firstOrUnread => state.firstWhere(Chapter.isChapterUnread, orElse: () => state.first);
+  Chapter get firstOrRead =>
+      state.firstWhere(Chapter.isChapterRead, orElse: () => state.first);
+  Chapter get firstOrUnread =>
+      state.firstWhere(Chapter.isChapterUnread, orElse: () => state.first);
 
-  late String scanlators =
-      state.map((chapter) => (chapter.scanlator?.isEmpty ?? true) ? '?' : chapter.scanlator).join(', ');
+  late String scanlators = state
+      .map(
+        (chapter) =>
+            (chapter.scanlator?.isEmpty ?? true) ? '?' : chapter.scanlator,
+      )
+      .join(', ');
 
-  int get lastUpdate => manga.lastUpdate ?? DateTime.fromMicrosecondsSinceEpoch(0).millisecondsSinceEpoch;
+  int get lastUpdate =>
+      manga.lastUpdate ??
+      DateTime.fromMicrosecondsSinceEpoch(0).millisecondsSinceEpoch;
 
   int compareTo(ChapterGroup other) => lastUpdate.compareTo(other.lastUpdate);
 
   void removeByIds(Iterable<int> ids) {
-    state = state.where((item) => !ids.contains(item.id)).toList(growable: false);
+    state = state
+        .where((item) => !ids.contains(item.id))
+        .toList(growable: false);
   }
 }
 
@@ -83,22 +98,26 @@ String indexToStr(double number) {
 }
 
 String indexesToStr(Iterable<double> indexes) {
-  final groups = groupRanges(indexes.toUnique(growable: false)..sort((a, b) => a.compareTo(b)));
+  final groups = groupRanges(
+    indexes.toUnique(growable: false)..sort((a, b) => a.compareTo(b)),
+  );
 
-  return groups.map((group) {
-    final (start, end) = group;
-    final first = indexToStr(start);
+  return groups
+      .map((group) {
+        final (start, end) = group;
+        final first = indexToStr(start);
 
-    if (start == end) {
-      return first;
-    }
+        if (start == end) {
+          return first;
+        }
 
-    final last = indexToStr(end);
+        final last = indexToStr(end);
 
-    if (start + 1 == end) {
-      return '$first, $last';
-    }
+        if (start + 1 == end) {
+          return '$first, $last';
+        }
 
-    return '$first..$last';
-  }).join(', ');
+        return '$first..$last';
+      })
+      .join(', ');
 }

@@ -10,17 +10,24 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'archive_reader_providers.g.dart';
 
 @riverpod
-Future<List<(String, LocalExtensionType, Uint8List, String)>> getArchivesDataFromDirectory(Ref ref, String path) async {
+Future<List<(String, LocalExtensionType, Uint8List, String)>>
+getArchivesDataFromDirectory(Ref ref, String path) async {
   return compute(_extractOnly, path);
 }
 
 @riverpod
-Future<List<LocalArchive>> getArchiveDataFromDirectory(Ref ref, String path) async {
+Future<List<LocalArchive>> getArchiveDataFromDirectory(
+  Ref ref,
+  String path,
+) async {
   return compute(_extract, path);
 }
 
 @riverpod
-Future<(String, LocalExtensionType, Uint8List, String)> getArchivesDataFromFile(Ref ref, String path) async {
+Future<(String, LocalExtensionType, Uint8List, String)> getArchivesDataFromFile(
+  Ref ref,
+  String path,
+) async {
   return compute(_extractArchiveOnly, path);
 }
 
@@ -33,7 +40,9 @@ Future<List<LocalArchive>> _extract(String data) async {
   return await _searchForArchive(Directory(data));
 }
 
-Future<List<(String, LocalExtensionType, Uint8List, String)>> _extractOnly(String data) async {
+Future<List<(String, LocalExtensionType, Uint8List, String)>> _extractOnly(
+  String data,
+) async {
   return await _searchForArchiveOnly(Directory(data));
 }
 
@@ -56,7 +65,8 @@ Future<List<LocalArchive>> _searchForArchive(Directory dir) async {
   return _list;
 }
 
-Future<List<(String, LocalExtensionType, Uint8List, String)>> _searchForArchiveOnly(Directory dir) async {
+Future<List<(String, LocalExtensionType, Uint8List, String)>>
+_searchForArchiveOnly(Directory dir) async {
   List<FileSystemEntity> entities = dir.listSync();
   for (FileSystemEntity entity in entities) {
     if (entity is Directory) {
@@ -95,14 +105,18 @@ bool _isArchiveFile(String path) {
 }
 
 LocalArchive _extractArchive(String pathname) {
-  final localArchive = LocalArchive()
-    ..path = pathname
-    ..extensionType = setTypeExtension(path.extension(pathname).replaceFirst(".", ""))
-    ..name = path.basenameWithoutExtension(pathname);
+  final localArchive =
+      LocalArchive()
+        ..path = pathname
+        ..extensionType = setTypeExtension(
+          path.extension(pathname).replaceFirst(".", ""),
+        )
+        ..name = path.basenameWithoutExtension(pathname);
   Archive? archive;
   final inputStream = InputFileStream(pathname);
   final extensionType = localArchive.extensionType;
-  if (extensionType == LocalExtensionType.cbt || extensionType == LocalExtensionType.tar) {
+  if (extensionType == LocalExtensionType.cbt ||
+      extensionType == LocalExtensionType.tar) {
     archive = TarDecoder().decodeStream(inputStream);
   } else {
     archive = ZipDecoder().decodeStream(inputStream);
@@ -116,9 +130,11 @@ LocalArchive _extractArchive(String pathname) {
         if (filename.contains("cover")) {
           localArchive.coverImage = data;
         } else {
-          localArchive.images!.add(LocalImage()
-            ..image = data
-            ..name = path.basename(filename));
+          localArchive.images!.add(
+            LocalImage()
+              ..image = data
+              ..name = path.basename(filename),
+          );
         }
       }
     }
@@ -128,30 +144,43 @@ LocalArchive _extractArchive(String pathname) {
   return localArchive;
 }
 
-(String, LocalExtensionType, Uint8List, String) _extractArchiveOnly(String pathname) {
-  final extensionType = setTypeExtension(path.extension(pathname).replaceFirst('.', ''));
+(String, LocalExtensionType, Uint8List, String) _extractArchiveOnly(
+  String pathname,
+) {
+  final extensionType = setTypeExtension(
+    path.extension(pathname).replaceFirst('.', ''),
+  );
   final name = path.basenameWithoutExtension(pathname);
   final inputStream = InputFileStream(pathname);
 
   Uint8List coverImage;
   Archive archive;
 
-  if (extensionType == LocalExtensionType.cbt || extensionType == LocalExtensionType.tar) {
+  if (extensionType == LocalExtensionType.cbt ||
+      extensionType == LocalExtensionType.tar) {
     archive = TarDecoder().decodeStream(inputStream);
   } else {
     archive = ZipDecoder().decodeStream(inputStream);
   }
 
-  final cover = archive.files.where((file) => file.isFile && _isImageFile(file.name) && file.name.contains("cover"));
+  final cover = archive.files.where(
+    (file) =>
+        file.isFile && _isImageFile(file.name) && file.name.contains("cover"),
+  );
 
   if (cover.isNotEmpty) {
     coverImage = cover.first.content;
   } else {
     List<ArchiveFile> lArchive =
-        archive.files.where((file) => file.isFile && _isImageFile(file.name) && !file.name.contains("cover")).toList();
-    lArchive.sort(
-      (a, b) => a.name.compareTo(b.name),
-    );
+        archive.files
+            .where(
+              (file) =>
+                  file.isFile &&
+                  _isImageFile(file.name) &&
+                  !file.name.contains("cover"),
+            )
+            .toList();
+    lArchive.sort((a, b) => a.name.compareTo(b.name));
     coverImage = lArchive.first.content;
   }
 

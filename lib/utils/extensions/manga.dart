@@ -17,9 +17,11 @@ extension MangaExtension on Manga {
 
   bool isNotThisManga<T extends OfManga>(T element) => element.mangaId != id;
 
-  T? getOption<T extends OfManga>(List<T>? list) => list?.where(isThisManga).firstOrNull;
+  T? getOption<T extends OfManga>(List<T>? list) =>
+      list?.where(isThisManga).firstOrNull;
 
-  List<T> getOtherOptions<T extends OfManga>(List<T>? list) => list?.where(isNotThisManga).toList() ?? [];
+  List<T> getOtherOptions<T extends OfManga>(List<T>? list) =>
+      list?.where(isNotThisManga).toList() ?? [];
 
   ImageProvider imageProvider(WidgetRef ref, {Duration? cacheMaxAge}) {
     if (customCoverImage == null) {
@@ -55,13 +57,21 @@ extension MangaExtension on Manga {
     return result;
   }
 
-  List<Chapter> getUnreadChapters(List<Chapter> candidates, {List<Chapter>? all}) {
+  List<Chapter> getUnreadChapters(
+    List<Chapter> candidates, {
+    List<Chapter>? all,
+  }) {
     final List<ChapterCompositeNumber> read =
-        (all ?? chapters).where((chapter) => chapter.isRead ?? false).map((chapter) => chapter.compositeOrder).toList();
+        (all ?? chapters)
+            .where((chapter) => chapter.isRead ?? false)
+            .map((chapter) => chapter.compositeOrder)
+            .toList();
     final List<Chapter> result = [];
 
     for (var chapter in candidates) {
-      final found = read.any((had) => compareComposite(chapter.compositeOrder, had) == 0);
+      final found = read.any(
+        (had) => compareComposite(chapter.compositeOrder, had) == 0,
+      );
 
       if (!found) {
         result.add(chapter);
@@ -73,9 +83,12 @@ extension MangaExtension on Manga {
 
   ChapterFilterModel getChapterFilterModel(Settings settings) {
     final filterUnread = getOption(settings.chapterFilterUnreadList)?.type ?? 0;
-    final filterBookmarked = getOption(settings.chapterFilterBookmarkedList)?.type ?? 0;
-    final filterDownloaded = getOption(settings.chapterFilterDownloadedList)?.type ?? 0;
-    final scanlators = getOption(settings.filterScanlatorList)?.scanlators ?? [];
+    final filterBookmarked =
+        getOption(settings.chapterFilterBookmarkedList)?.type ?? 0;
+    final filterDownloaded =
+        getOption(settings.chapterFilterDownloadedList)?.type ?? 0;
+    final scanlators =
+        getOption(settings.filterScanlatorList)?.scanlators ?? [];
 
     return ChapterFilterModel(
       filterUnread: FilterType.values[filterUnread],
@@ -88,11 +101,7 @@ extension MangaExtension on Manga {
   ChapterSortModel getChapterSortModel(Settings settings) {
     return ChapterSortModel(
       getOption(settings.sortChapterList) ??
-          SortChapter(
-            mangaId: id,
-            index: 1,
-            reverse: false,
-          ),
+          SortChapter(mangaId: id, index: 1, reverse: false),
     );
   }
 

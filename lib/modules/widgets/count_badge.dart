@@ -74,7 +74,10 @@ class CountBadge extends StatelessWidget {
           child: Text(
             count.toString(),
             style: TextStyle(
-              fontSize: fontSize ?? Theme.of(context).textTheme.labelSmall?.fontSize ?? 10,
+              fontSize:
+                  fontSize ??
+                  Theme.of(context).textTheme.labelSmall?.fontSize ??
+                  10,
               color: context.dynamicBlackWhiteColor,
             ),
             softWrap: false,

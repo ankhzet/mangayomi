@@ -45,14 +45,27 @@ class _UpdateQueueTabState extends ConsumerState<UpdateQueueTab> {
       slivers: [
         if (widget.lastUpdated != null)
           SliverPadding(
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 20),
+            padding: const EdgeInsets.only(
+              left: 10,
+              right: 10,
+              top: 10,
+              bottom: 20,
+            ),
             sliver: SliverList(
               delegate: SliverChildListDelegate.fixed([
                 Text(
                   l10n.library_last_updated(
-                    dateFormat(widget.lastUpdated.toString(), ref: ref, context: context, showHourOrMinute: true),
+                    dateFormat(
+                      widget.lastUpdated.toString(),
+                      ref: ref,
+                      context: context,
+                      showHourOrMinute: true,
+                    ),
                   ),
-                  style: TextStyle(fontStyle: FontStyle.italic, color: context.secondaryColor),
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: context.secondaryColor,
+                  ),
                 ),
               ]),
             ),
@@ -76,24 +89,32 @@ class _UpdateQueueTabState extends ConsumerState<UpdateQueueTab> {
       queue,
       (periodicity) => periodicity.days,
       Group<MangaPeriodicity, int>.new,
-      belongsTo: (periodicity, group) => group.first!.manga.id == periodicity.manga.id,
+      belongsTo:
+          (periodicity, group) => group.first!.manga.id == periodicity.manga.id,
     );
 
-    final label = widget.isOverdraft ? 'Not checked in a while' : 'Next in queue';
+    final label =
+        widget.isOverdraft ? 'Not checked in a while' : 'Next in queue';
 
     return SliverGroupedListView(
       elements: groups,
       groupBy: Group.groupBy<int>,
-      groupHeaderBuilder: (value) => Padding(
-        padding: const EdgeInsets.only(top: 16, bottom: 8, left: 12),
-        child: Row(
-          children: [
-            Text('$label: ${_getGroup(value.group)}', style: TextStyle(fontWeight: FontWeight.bold)),
-          ],
-        ),
-      ),
-      itemBuilder: (context, element) => UpdateQueueListTileWidget(candidate: element),
-      itemComparator: (item1, item2) => item1.first!.last.compareTo(item2.first!.last),
+      groupHeaderBuilder:
+          (value) => Padding(
+            padding: const EdgeInsets.only(top: 16, bottom: 8, left: 12),
+            child: Row(
+              children: [
+                Text(
+                  '$label: ${_getGroup(value.group)}',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+      itemBuilder:
+          (context, element) => UpdateQueueListTileWidget(candidate: element),
+      itemComparator:
+          (item1, item2) => item1.first!.last.compareTo(item2.first!.last),
       groupComparator: (item1, item2) => item2 - item1,
       order: GroupedListOrder.DESC,
     );

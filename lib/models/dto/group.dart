@@ -13,7 +13,7 @@ class Provider<State> {
   List<StateListener<State>>? _listeners;
   State _state;
 
-  Provider(State state): _state = state;
+  Provider(State state) : _state = state;
 
   State get state => _state;
 
@@ -31,7 +31,10 @@ class Provider<State> {
     }
   }
 
-  Function() addListener(StateListener<State> listener, { bool fireImmediately = false }) {
+  Function() addListener(
+    StateListener<State> listener, {
+    bool fireImmediately = false,
+  }) {
     if (_listeners == null) {
       _listeners = [listener];
     } else {
@@ -77,7 +80,9 @@ class Group<Item, T> extends Provider<List<Item>> {
     for (final item in items) {
       final group = groupBy(item);
       final bucket = list.firstWhereOrNull(
-        (itemGroup) => (itemGroup.group == group) && (belongsTo == null || belongsTo(item, itemGroup)),
+        (itemGroup) =>
+            (itemGroup.group == group) &&
+            (belongsTo == null || belongsTo(item, itemGroup)),
       );
 
       if (bucket != null) {
@@ -96,17 +101,18 @@ class Group<Item, T> extends Provider<List<Item>> {
 }
 
 class GroupChanges<Item, T> extends ConsumerStatefulWidget {
-  final Group <Item, T> group;
+  final Group<Item, T> group;
   final Widget child;
 
-  const GroupChanges(this.group, { super.key, required this.child });
+  const GroupChanges(this.group, {super.key, required this.child});
 
   @override
   ConsumerState createState() => _GroupChangesState();
 }
 
 class _GroupChangesState<Item, T> extends ConsumerState<GroupChanges<Item, T>> {
-  final StreamController<List<Item>> ctl = StreamController<List<Item>>.broadcast();
+  final StreamController<List<Item>> ctl =
+      StreamController<List<Item>>.broadcast();
 
   @override
   void initState() {

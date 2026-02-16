@@ -67,15 +67,13 @@ final instantiation = '__CODE__\nlet extension = new DefaultExtension();';
 
 final templateRegexp = RegExp(r'__(\w+)__');
 
-String replaceMap(String template, Map<String, dynamic> map) => template.replaceAllMapped(
-      templateRegexp,
-      (match) {
-        final key = match[1] ?? '';
-        final value = map[key] ?? key;
+String replaceMap(String template, Map<String, dynamic> map) =>
+    template.replaceAllMapped(templateRegexp, (match) {
+      final key = match[1] ?? '';
+      final value = map[key] ?? key;
 
-        return value.toString();
-      },
-    );
+      return value.toString();
+    });
 
 class JsExtensionService implements ExtensionService {
   @override
@@ -118,10 +116,15 @@ class JsExtensionService implements ExtensionService {
       return result;
     } catch (e, trace) {
       if (kDebugMode) {
-        final m = RegExp(r'(\w+) not implemented').allMatches(e.toString()).firstOrNull;
+        final m =
+            RegExp(
+              r'(\w+) not implemented',
+            ).allMatches(e.toString()).firstOrNull;
 
         if (m != null) {
-          print('Warn: Source "${source.name!} (${source.lang!})" does not support "${m[1]}" method');
+          print(
+            'Warn: Source "${source.name!} (${source.lang!})" does not support "${m[1]}" method',
+          );
         } else {
           print('Evaluating $code');
           print(e);
@@ -156,10 +159,15 @@ class JsExtensionService implements ExtensionService {
       return jsonDecode(promised.stringResult) as T;
     } catch (e, trace) {
       if (kDebugMode) {
-        final m = RegExp(r'(\w+) not implemented').allMatches(e.toString()).firstOrNull;
+        final m =
+            RegExp(
+              r'(\w+) not implemented',
+            ).allMatches(e.toString()).firstOrNull;
 
         if (m != null) {
-          print('Warn: Source "${source.name!} (${source.lang!})" does not support "${m[1]}" method');
+          print(
+            'Warn: Source "${source.name!} (${source.lang!})" does not support "${m[1]}" method',
+          );
         } else {
           print(e);
           print(trace);
@@ -176,7 +184,10 @@ class JsExtensionService implements ExtensionService {
 
   @override
   Map<String, String> getHeaders() {
-    return _extensionCall<Map>('getHeaders(`${source.baseUrl ?? ''}`)', {}).toMapStringString!;
+    return _extensionCall<Map>(
+      'getHeaders(`${source.baseUrl ?? ''}`)',
+      {},
+    ).toMapStringString!;
   }
 
   @override
@@ -196,13 +207,19 @@ class JsExtensionService implements ExtensionService {
 
   @override
   Future<MPages> getLatestUpdates(int page) async {
-    return MPages.fromJson(await _extensionCallAsync('getLatestUpdates($page)', {}));
+    return MPages.fromJson(
+      await _extensionCallAsync('getLatestUpdates($page)', {}),
+    );
   }
 
   @override
   Future<MPages> search(String query, int page, List<dynamic> filters) async {
     return MPages.fromJson(
-        await _extensionCallAsync('search("$query",$page,${jsonEncode(filterValuesListToJson(filters))})', {}));
+      await _extensionCallAsync(
+        'search("$query",$page,${jsonEncode(filterValuesListToJson(filters))})',
+        {},
+      ),
+    );
   }
 
   @override
@@ -212,8 +229,13 @@ class JsExtensionService implements ExtensionService {
 
   @override
   Future<List<PageUrl>> getPageList(String url) async {
-    return (await _extensionCallAsync<List?>('getPageList(`$url`)', null))
-        !.map((e) => e is String ? PageUrl(e.trim()) : PageUrl.fromJson((e as Map).toMapStringDynamic!))
+    return (await _extensionCallAsync<List?>('getPageList(`$url`)', null))!
+        .map(
+          (e) =>
+              e is String
+                  ? PageUrl(e.trim())
+                  : PageUrl.fromJson((e as Map).toMapStringDynamic!),
+        )
         .toList();
   }
 
@@ -252,8 +274,9 @@ class JsExtensionService implements ExtensionService {
 
   @override
   List<SourcePreference> getSourcePreferences() {
-    return _extensionCall('getSourcePreferences()', [])
-        .map((e) => SourcePreference.fromJson(e)..sourceId = source.id)
-        .toList();
+    return _extensionCall(
+      'getSourcePreferences()',
+      [],
+    ).map((e) => SourcePreference.fromJson(e)..sourceId = source.id).toList();
   }
 }

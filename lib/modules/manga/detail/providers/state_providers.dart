@@ -133,21 +133,26 @@ mixin OptionState<T extends OfManga> implements IFilterTypeState<T> {
 
   Iterable<T> get collection {
     return switch (option) {
-      ChapterFilterOption.download => settings.chapterFilterDownloadedList! as Iterable<T>,
-      ChapterFilterOption.unread => settings.chapterFilterUnreadList! as Iterable<T>,
-      ChapterFilterOption.bookmark => settings.chapterFilterBookmarkedList! as Iterable<T>,
+      ChapterFilterOption.download =>
+        settings.chapterFilterDownloadedList! as Iterable<T>,
+      ChapterFilterOption.unread =>
+        settings.chapterFilterUnreadList! as Iterable<T>,
+      ChapterFilterOption.bookmark =>
+        settings.chapterFilterBookmarkedList! as Iterable<T>,
       ChapterFilterOption.sort => settings.sortChapterList! as Iterable<T>,
     };
   }
 
   @override
   T getModel() {
-    return collection.where(OfManga.isManga(mangaId)).firstOrNull ?? getOption();
+    return collection.where(OfManga.isManga(mangaId)).firstOrNull ??
+        getOption();
   }
 
   @override
   void setModel(T model) {
-    final dynamic list = collection.where(OfManga.isNotManga(mangaId)).toList()..add(model);
+    final dynamic list =
+        collection.where(OfManga.isNotManga(mangaId)).toList()..add(model);
 
     switch (option) {
       case ChapterFilterOption.download:
@@ -167,7 +172,8 @@ mixin OptionState<T extends OfManga> implements IFilterTypeState<T> {
 }
 
 @riverpod
-class SortChapterState extends _$SortChapterState with OptionState<SortChapter> {
+class SortChapterState extends _$SortChapterState
+    with OptionState<SortChapter> {
   @override
   SortChapter build({required int mangaId}) {
     return getModel();
@@ -194,7 +200,8 @@ class SortChapterState extends _$SortChapterState with OptionState<SortChapter> 
   bool get isReverse => state.reverse!;
 }
 
-mixin FilterOption<T extends FilterOptionModel> implements Stateful<T>, OptionState<T> {
+mixin FilterOption<T extends FilterOptionModel>
+    implements Stateful<T>, OptionState<T> {
   void update() {
     setModel(getOption()..type = (state.type! + 1) % 3);
   }
@@ -216,7 +223,8 @@ class ChapterFilterDownloadedState extends _$ChapterFilterDownloadedState
 }
 
 @riverpod
-class ChapterFilterUnreadState extends _$ChapterFilterUnreadState with OptionState<FilterOptionModel>, FilterOption {
+class ChapterFilterUnreadState extends _$ChapterFilterUnreadState
+    with OptionState<FilterOptionModel>, FilterOption {
   @override
   FilterOptionModel build({required int mangaId}) {
     return getModel();
@@ -248,9 +256,16 @@ class ChapterFilterBookmarkedState extends _$ChapterFilterBookmarkedState
 class ChapterFilterResultState extends _$ChapterFilterResultState {
   @override
   bool build({required Manga manga}) {
-    return ref.watch(chapterFilterDownloadedStateProvider(mangaId: manga.id)).type == 0 &&
-        ref.watch(chapterFilterUnreadStateProvider(mangaId: manga.id)).type == 0 &&
-        ref.watch(chapterFilterBookmarkedStateProvider(mangaId: manga.id)).type == 0 &&
+    return ref
+                .watch(chapterFilterDownloadedStateProvider(mangaId: manga.id))
+                .type ==
+            0 &&
+        ref.watch(chapterFilterUnreadStateProvider(mangaId: manga.id)).type ==
+            0 &&
+        ref
+                .watch(chapterFilterBookmarkedStateProvider(mangaId: manga.id))
+                .type ==
+            0 &&
         ref.watch(scanlatorsFilterStateProvider(manga)).$2.isEmpty;
   }
 }
@@ -269,7 +284,12 @@ class ChapterSetIsBookmarkState extends _$ChapterSetIsBookmarkState {
         chapter.manga.saveSync();
         ref
             .read(synchingProvider(syncId: 1).notifier)
-            .addChangedPart(ActionType.updateChapter, chapter.id, chapter.toJson(), false);
+            .addChangedPart(
+              ActionType.updateChapter,
+              chapter.id,
+              chapter.toJson(),
+              false,
+            );
       }
     });
     ref.read(isLongPressedStateProvider.notifier).update(false);
@@ -291,7 +311,12 @@ class ChapterSetIsReadState extends _$ChapterSetIsReadState {
         chapter.manga.saveSync();
         ref
             .read(synchingProvider(syncId: 1).notifier)
-            .addChangedPart(ActionType.updateChapter, chapter.id, chapter.toJson(), false);
+            .addChangedPart(
+              ActionType.updateChapter,
+              chapter.id,
+              chapter.toJson(),
+              false,
+            );
       }
     });
     ref.read(isLongPressedStateProvider.notifier).update(false);
@@ -308,7 +333,8 @@ class ChapterSetDownloadState extends _$ChapterSetDownloadState {
     ref.read(isLongPressedStateProvider.notifier).update(false);
     isar.txnSync(() {
       for (var chapter in ref.watch(chaptersListStateProvider)) {
-        final entries = isar.downloads.filter().idEqualTo(chapter.id).findAllSync();
+        final entries =
+            isar.downloads.filter().idEqualTo(chapter.id).findAllSync();
         if (entries.isEmpty || !entries.first.isDownload!) {
           ref.watch(downloadChapterProvider(chapter: chapter));
         }
@@ -346,7 +372,8 @@ class ScanlatorsFilterState extends _$ScanlatorsFilterState {
   List<String> _getScanlators() {
     List<String> scanlators = [];
     for (var a in manga.chapters.toList()) {
-      if ((a.scanlator?.isNotEmpty ?? false) && !scanlators.contains(a.scanlator)) {
+      if ((a.scanlator?.isNotEmpty ?? false) &&
+          !scanlators.contains(a.scanlator)) {
         scanlators.add(a.scanlator!);
       }
     }
@@ -356,9 +383,10 @@ class ScanlatorsFilterState extends _$ScanlatorsFilterState {
 
   void set(List<String> filterScanlators) async {
     final settings = isar.settings.first;
-    var value = FilterScanlator()
-      ..scanlators = filterScanlators
-      ..mangaId = manga.id;
+    var value =
+        FilterScanlator()
+          ..scanlators = filterScanlators
+          ..mangaId = manga.id;
     List<FilterScanlator>? filterScanlatorList = [];
 
     for (var filterScanlator in settings.filterScanlatorList ?? []) {
@@ -374,7 +402,8 @@ class ScanlatorsFilterState extends _$ScanlatorsFilterState {
 
   List<String>? _getFilterScanlator() {
     final scanlators = isar.settings.first.filterScanlatorList ?? [];
-    final filter = scanlators.where((element) => element.mangaId == manga.id).toList();
+    final filter =
+        scanlators.where((element) => element.mangaId == manga.id).toList();
     return filter.isEmpty ? null : filter.first.scanlators;
   }
 
@@ -387,6 +416,10 @@ class ScanlatorsFilterState extends _$ScanlatorsFilterState {
       scanlatorFilteredList.add(scanlator);
     }
 
-    state = (_getScanlators(), _getFilterScanlator() ?? [], scanlatorFilteredList);
+    state = (
+      _getScanlators(),
+      _getFilterScanlator() ?? [],
+      scanlatorFilteredList,
+    );
   }
 }

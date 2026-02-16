@@ -25,7 +25,11 @@ class SubtitleSettingsState extends _$SubtitleSettingsState {
   }
 
   void resetColor() {
-    state = PlayerSubtitleSettings(fontSize: state.fontSize, useBold: state.useBold, useItalic: state.useItalic);
+    state = PlayerSubtitleSettings(
+      fontSize: state.fontSize,
+      useBold: state.useBold,
+      useItalic: state.useItalic,
+    );
 
     isar.settings.first = isar.settings.first..playerSubtitleSettings = state;
   }

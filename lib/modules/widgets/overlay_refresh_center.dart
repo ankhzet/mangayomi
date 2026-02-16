@@ -10,10 +10,7 @@ class OverlayRefreshCenter extends StatelessWidget {
       top: 0,
       left: 0,
       right: 0,
-      child: Padding(
-        padding: EdgeInsets.only(top: 40),
-        child: RefreshCenter(),
-      ),
+      child: Padding(padding: EdgeInsets.only(top: 40), child: RefreshCenter()),
     );
   }
 }

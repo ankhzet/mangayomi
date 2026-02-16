@@ -24,15 +24,15 @@ class ViewQueueItem {
   });
 
   ViewQueueItem.fromJson(Map<String, dynamic> json)
-      : id = json['id']!,
-        mangaId = json['mangaId']!,
-        chapterId = json['chapterId']!,
-        timestamp = json['timestamp']!;
+    : id = json['id']!,
+      mangaId = json['mangaId']!,
+      chapterId = json['chapterId']!,
+      timestamp = json['timestamp']!;
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'mangaId': mangaId,
-        'chapterId': chapterId,
-        'timestamp': timestamp,
-      };
+    'id': id,
+    'mangaId': mangaId,
+    'chapterId': chapterId,
+    'timestamp': timestamp,
+  };
 }

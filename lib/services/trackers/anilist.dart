@@ -18,25 +18,34 @@ part 'anilist.g.dart';
 @riverpod
 class Anilist extends _$Anilist {
   final http = MClient.init(reqcopyWith: {'useDartHttpClient': true});
-  final String _clientId = (Platform.isWindows || Platform.isLinux) ? '13587' : '13588';
+  final String _clientId =
+      (Platform.isWindows || Platform.isLinux) ? '13587' : '13588';
   static const String _baseApiUrl = "https://graphql.anilist.co/";
-  final String _redirectUri = (Platform.isWindows || Platform.isLinux)
-      ? 'http://localhost:43824/success?code=1337'
-      : 'mangayomi://success?code=1337';
-  final String _clientSecret = (Platform.isWindows || Platform.isLinux)
-      ? 'tJA13cAR2tCCXrJCwwvmwEDbWRoIaahFiJTXToHd'
-      : 'G2fFUiGtgFd60D0lCkhgGKvMmrCfDmZXADQIzWXr';
+  final String _redirectUri =
+      (Platform.isWindows || Platform.isLinux)
+          ? 'http://localhost:43824/success?code=1337'
+          : 'mangayomi://success?code=1337';
+  final String _clientSecret =
+      (Platform.isWindows || Platform.isLinux)
+          ? 'tJA13cAR2tCCXrJCwwvmwEDbWRoIaahFiJTXToHd'
+          : 'G2fFUiGtgFd60D0lCkhgGKvMmrCfDmZXADQIzWXr';
 
   @override
   void build({required int syncId, ItemType? itemType}) {}
 
   Future<bool?> login() async {
-    final callbackUrlScheme = (Platform.isWindows || Platform.isLinux) ? 'http://localhost:43824' : 'mangayomi';
+    final callbackUrlScheme =
+        (Platform.isWindows || Platform.isLinux)
+            ? 'http://localhost:43824'
+            : 'mangayomi';
     final loginUrl =
         'https://anilist.co/api/v2/oauth/authorize?client_id=$_clientId&redirect_uri=$_redirectUri&response_type=code';
 
     try {
-      final uri = await FlutterWebAuth2.authenticate(url: loginUrl, callbackUrlScheme: callbackUrlScheme);
+      final uri = await FlutterWebAuth2.authenticate(
+        url: loginUrl,
+        callbackUrlScheme: callbackUrlScheme,
+      );
 
       final code = Uri.parse(uri).queryParameters['code'];
       final response = await http.post(
@@ -46,17 +55,22 @@ class Anilist extends _$Anilist {
           'client_id': _clientId,
           'client_secret': _clientSecret,
           'redirect_uri': _redirectUri,
-          'code': code
+          'code': code,
         },
       );
       final res = jsonDecode(response.body) as Map<String, dynamic>;
       final aLOAuth = OAuth.fromJson(res);
       final currenUser = await _getCurrentUser(aLOAuth.accessToken!);
-      ref.read(tracksProvider(syncId: syncId).notifier).login(TrackPreference(
-          syncId: syncId,
-          username: currenUser.$1,
-          prefs: jsonEncode({"scoreFormat": currenUser.$2}),
-          oAuth: jsonEncode(aLOAuth.toJson())));
+      ref
+          .read(tracksProvider(syncId: syncId).notifier)
+          .login(
+            TrackPreference(
+              syncId: syncId,
+              username: currenUser.$1,
+              prefs: jsonEncode({"scoreFormat": currenUser.$2}),
+              oAuth: jsonEncode(aLOAuth.toJson()),
+            ),
+          );
 
       return true;
     } catch (e) {
@@ -82,12 +96,15 @@ class Anilist extends _$Anilist {
         "mangaId": track.mediaId,
         "progress": track.lastChapterRead,
         "status": toAniListStatusManga(track.status),
-      }
+      },
     };
 
     final response = await http.post(
       Uri.parse(_baseApiUrl),
-      headers: {"Content-Type": "application/json", 'Authorization': 'Bearer $accessToken'},
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $accessToken',
+      },
       body: json.encode(body),
     );
     final data = json.decode(response.body);
@@ -112,12 +129,15 @@ class Anilist extends _$Anilist {
         "animeId": track.mediaId,
         "progress": track.lastChapterRead,
         "status": toAniListStatusAnime(track.status),
-      }
+      },
     };
 
     final response = await http.post(
       Uri.parse(_baseApiUrl),
-      headers: {"Content-Type": "application/json", 'Authorization': 'Bearer $accessToken'},
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $accessToken',
+      },
       body: json.encode(body),
     );
     final data = json.decode(response.body);
@@ -153,12 +173,15 @@ class Anilist extends _$Anilist {
         "score": track.score!,
         "startedAt": createDate(track.startedReadingDate!),
         "completedAt": createDate(track.finishedReadingDate!),
-      }
+      },
     };
 
     await http.post(
       Uri.parse(_baseApiUrl),
-      headers: {"Content-Type": "application/json", 'Authorization': 'Bearer $accessToken'},
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $accessToken',
+      },
       body: json.encode(body),
     );
     return track;
@@ -192,11 +215,14 @@ class Anilist extends _$Anilist {
         "score": track.score!,
         "startedAt": createDate(track.startedReadingDate!),
         "completedAt": createDate(track.finishedReadingDate!),
-      }
+      },
     };
     await http.post(
       Uri.parse(_baseApiUrl),
-      headers: {"Content-Type": "application/json", 'Authorization': 'Bearer $accessToken'},
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $accessToken',
+      },
       body: json.encode(body),
     );
     return track;
@@ -231,22 +257,26 @@ class Anilist extends _$Anilist {
 
     final body = {
       "query": query,
-      "variables": {
-        "query": search,
-      }
+      "variables": {"query": search},
     };
 
     final response = await http.post(
       Uri.parse(_baseApiUrl),
-      headers: {"Content-Type": "application/json", 'Authorization': 'Bearer $accessToken'},
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $accessToken',
+      },
       body: json.encode(body),
     );
 
     final data = json.decode(response.body);
 
-    final entries = List<Map<String, dynamic>>.from(data['data']['Page']['media']);
+    final entries = List<Map<String, dynamic>>.from(
+      data['data']['Page']['media'],
+    );
     return entries
-        .map((jsonRes) => TrackSearch(
+        .map(
+          (jsonRes) => TrackSearch(
             libraryId: jsonRes['id'],
             syncId: syncId,
             trackingUrl: "",
@@ -255,10 +285,15 @@ class Anilist extends _$Anilist {
             totalChapter: jsonRes['chapters'] ?? 0,
             coverUrl: jsonRes['coverImage']['large'] ?? "",
             title: jsonRes['title']['userPreferred'],
-            startDate: jsonRes["start_date"] ??
-                DateTime.fromMillisecondsSinceEpoch(parseDate(jsonRes, 'startDate')).toString(),
+            startDate:
+                jsonRes["start_date"] ??
+                DateTime.fromMillisecondsSinceEpoch(
+                  parseDate(jsonRes, 'startDate'),
+                ).toString(),
             publishingType: "",
-            publishingStatus: jsonRes['status']))
+            publishingStatus: jsonRes['status'],
+          ),
+        )
         .toList();
   }
 
@@ -291,22 +326,26 @@ class Anilist extends _$Anilist {
 
     final body = {
       "query": query,
-      "variables": {
-        "query": search,
-      }
+      "variables": {"query": search},
     };
 
     final response = await http.post(
       Uri.parse(_baseApiUrl),
-      headers: {"Content-Type": "application/json", 'Authorization': 'Bearer $accessToken'},
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $accessToken',
+      },
       body: json.encode(body),
     );
 
     final data = json.decode(response.body);
 
-    final entries = List<Map<String, dynamic>>.from(data['data']['Page']['media']);
+    final entries = List<Map<String, dynamic>>.from(
+      data['data']['Page']['media'],
+    );
     return entries
-        .map((jsonRes) => TrackSearch(
+        .map(
+          (jsonRes) => TrackSearch(
             libraryId: jsonRes['id'],
             syncId: syncId,
             trackingUrl: "",
@@ -315,16 +354,19 @@ class Anilist extends _$Anilist {
             totalChapter: jsonRes['episodes'] ?? 0,
             coverUrl: jsonRes['coverImage']['large'] ?? "",
             title: jsonRes['title']['userPreferred'],
-            startDate: jsonRes["start_date"] ??
-                DateTime.fromMillisecondsSinceEpoch(parseDate(jsonRes, 'startDate')).toString(),
+            startDate:
+                jsonRes["start_date"] ??
+                DateTime.fromMillisecondsSinceEpoch(
+                  parseDate(jsonRes, 'startDate'),
+                ).toString(),
             publishingType: "",
-            publishingStatus: jsonRes['status']))
+            publishingStatus: jsonRes['status'],
+          ),
+        )
         .toList();
   }
 
-  Future<Track?> findLibManga(
-    Track track,
-  ) async {
+  Future<Track?> findLibManga(Track track) async {
     final userId = ref.watch(tracksProvider(syncId: syncId))!.username;
 
     final accessToken = await _getAccesToken();
@@ -371,19 +413,21 @@ class Anilist extends _$Anilist {
 
     final body = {
       "query": query,
-      "variables": {
-        "id": int.parse(userId!),
-        "manga_id": track.mediaId,
-      }
+      "variables": {"id": int.parse(userId!), "manga_id": track.mediaId},
     };
 
     final response = await http.post(
       Uri.parse(_baseApiUrl),
-      headers: {"Content-Type": "application/json", 'Authorization': 'Bearer $accessToken'},
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $accessToken',
+      },
       body: json.encode(body),
     );
     final data = json.decode(response.body);
-    final entries = List<Map<String, dynamic>>.from(data['data']['Page']['mediaList']);
+    final entries = List<Map<String, dynamic>>.from(
+      data['data']['Page']['mediaList'],
+    );
     if (entries.isNotEmpty) {
       final jsonRes = entries.first;
       track.libraryId = jsonRes['id'];
@@ -400,9 +444,7 @@ class Anilist extends _$Anilist {
     return entries.isNotEmpty ? track : null;
   }
 
-  Future<Track?> findLibAnime(
-    Track track,
-  ) async {
+  Future<Track?> findLibAnime(Track track) async {
     final userId = ref.watch(tracksProvider(syncId: syncId))!.username;
 
     final accessToken = await _getAccesToken();
@@ -449,19 +491,21 @@ class Anilist extends _$Anilist {
 
     final body = {
       "query": query,
-      "variables": {
-        "id": int.parse(userId!),
-        "anime_id": track.mediaId,
-      }
+      "variables": {"id": int.parse(userId!), "anime_id": track.mediaId},
     };
 
     final response = await http.post(
       Uri.parse(_baseApiUrl),
-      headers: {"Content-Type": "application/json", 'Authorization': 'Bearer $accessToken'},
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $accessToken',
+      },
       body: json.encode(body),
     );
     final data = json.decode(response.body);
-    final entries = List<Map<String, dynamic>>.from(data['data']['Page']['mediaList']);
+    final entries = List<Map<String, dynamic>>.from(
+      data['data']['Page']['mediaList'],
+    );
     if (entries.isNotEmpty) {
       final jsonRes = entries.first;
       track.libraryId = jsonRes['id'];
@@ -490,24 +534,30 @@ class Anilist extends _$Anilist {
     }
     ''';
 
-    final body = {
-      "query": query,
-    };
+    final body = {"query": query};
 
     final response = await http.post(
       Uri.parse(_baseApiUrl),
-      headers: {"Content-Type": "application/json", 'Authorization': 'Bearer $accessToken'},
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer $accessToken',
+      },
       body: json.encode(body),
     );
     final data = json.decode(response.body);
 
     final viewer = data['data']['Viewer'];
-    return (viewer['id'].toString(), viewer['mediaListOptions']['scoreFormat'].toString());
+    return (
+      viewer['id'].toString(),
+      viewer['mediaListOptions']['scoreFormat'].toString(),
+    );
   }
 
   Future<String> _getAccesToken() async {
     final track = ref.watch(tracksProvider(syncId: syncId));
-    final mALOAuth = OAuth.fromJson(jsonDecode(track!.oAuth!) as Map<String, dynamic>);
+    final mALOAuth = OAuth.fromJson(
+      jsonDecode(track!.oAuth!) as Map<String, dynamic>,
+    );
     final expiresIn = DateTime.fromMillisecondsSinceEpoch(mALOAuth.expiresIn!);
     if (DateTime.now().isAfter(expiresIn)) {
       ref.read(tracksProvider(syncId: syncId).notifier).logout();
@@ -523,10 +573,22 @@ class Anilist extends _$Anilist {
     return switch (scoreFormat) {
       "POINT_10" => (score / 10).toString(),
       "POINT_100" => score.toString(),
-      "POINT_5" => switch (score) { 0 => "0", < 30 => "1", < 50 => "2", < 70 => "3", < 90 => "4", _ => "5" },
-      "POINT_3" => switch (score) { 0 => "0", <= 35 => ":(", <= 60 => ":|", _ => ":)" },
+      "POINT_5" => switch (score) {
+        0 => "0",
+        < 30 => "1",
+        < 50 => "2",
+        < 70 => "3",
+        < 90 => "4",
+        _ => "5",
+      },
+      "POINT_3" => switch (score) {
+        0 => "0",
+        <= 35 => ":(",
+        <= 60 => ":|",
+        _ => ":)",
+      },
       "POINT_10_DECIMAL" => (score / 10).toString(),
-      _ => throw ("Unknown score type")
+      _ => throw ("Unknown score type"),
     };
   }
 
@@ -558,7 +620,7 @@ class Anilist extends _$Anilist {
     TrackStatus.onHold,
     TrackStatus.dropped,
     TrackStatus.planToRead,
-    TrackStatus.rereading
+    TrackStatus.rereading,
   ];
   List<TrackStatus> aniListStatusListAnime = [
     TrackStatus.watching,
@@ -566,7 +628,7 @@ class Anilist extends _$Anilist {
     TrackStatus.onHold,
     TrackStatus.dropped,
     TrackStatus.planToWatch,
-    TrackStatus.reWatching
+    TrackStatus.reWatching,
   ];
 
   String? toAniListStatusManga(TrackStatus status) {
@@ -605,27 +667,27 @@ class Anilist extends _$Anilist {
 
   Map<String, dynamic> createDate(int dateValue) {
     if (dateValue == 0) {
-      return {
-        "year": null,
-        "month": null,
-        "day": null,
-      };
+      return {"year": null, "month": null, "day": null};
     }
 
     final date = DateTime.fromMillisecondsSinceEpoch(dateValue);
-    return {
-      "year": date.year,
-      "month": date.month,
-      "day": date.day,
-    };
+    return {"year": date.year, "month": date.month, "day": date.day};
   }
 
   String displayScore(int score) {
     final prefs = isar.trackPreferences.getSync(syncId)!.prefs;
     final scoreFormat = jsonDecode(prefs!)['scoreFormat'];
     return switch (scoreFormat) {
-      'POINT_5' => switch (score) { 0 => "0 ★", _ => "${(score + 10) ~/ 20} ★" },
-      'POINT_3' => switch (score) { 0 => "-", <= 35 => "😦", <= 60 => "😐", _ => "😊" },
+      'POINT_5' => switch (score) {
+        0 => "0 ★",
+        _ => "${(score + 10) ~/ 20} ★",
+      },
+      'POINT_3' => switch (score) {
+        0 => "-",
+        <= 35 => "😦",
+        <= 60 => "😐",
+        _ => "😊",
+      },
       _ => _toAnilistScore(score),
     };
   }

@@ -21,37 +21,55 @@ class ExtensionListTileWidget extends ConsumerStatefulWidget {
   final bool isTestSource;
   final String appVersion;
 
-  const ExtensionListTileWidget({super.key, required this.source, required this.appVersion, this.isTestSource = false});
+  const ExtensionListTileWidget({
+    super.key,
+    required this.source,
+    required this.appVersion,
+    this.isTestSource = false,
+  });
 
   @override
-  ConsumerState<ExtensionListTileWidget> createState() => _ExtensionListTileWidgetState();
+  ConsumerState<ExtensionListTileWidget> createState() =>
+      _ExtensionListTileWidgetState();
 }
 
-class _ExtensionListTileWidgetState extends ConsumerState<ExtensionListTileWidget> {
+class _ExtensionListTileWidgetState
+    extends ConsumerState<ExtensionListTileWidget> {
   bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
     final updateAvailable =
-        (!widget.isTestSource) && compareVersions(widget.source.version!, widget.source.versionLast!) < 0;
+        (!widget.isTestSource) &&
+        compareVersions(widget.source.version!, widget.source.versionLast!) < 0;
     final sourceNotEmpty = widget.source.sourceCode?.isNotEmpty ?? false;
     final isObsolete = widget.source.isObsolete ?? false;
-    final version = (widget.source.appMinVerReqLast?.isNotEmpty ?? false)
-        ? widget.source.appMinVerReqLast!
-        : widget.source.appMinVerReq ?? '';
-    final isSupported = version.isNotEmpty ? compareVersions(widget.appVersion, version) > -1 : true;
-    final shouldFetch = !(widget.isTestSource || (!updateAvailable && sourceNotEmpty));
+    final version =
+        (widget.source.appMinVerReqLast?.isNotEmpty ?? false)
+            ? widget.source.appMinVerReqLast!
+            : widget.source.appMinVerReq ?? '';
+    final isSupported =
+        version.isNotEmpty
+            ? compareVersions(widget.appVersion, version) > -1
+            : true;
+    final shouldFetch =
+        !(widget.isTestSource || (!updateAvailable && sourceNotEmpty));
 
     return ListTile(
       onTap: () async {
         if (widget.isTestSource) {
-              isar.writeTxnSync(() {
-                isar.sources.putSync(widget.source);
-                ref
-                    .read(synchingProvider(syncId: 1).notifier)
-                    .addChangedPart(ActionType.updateExtension, widget.source.id, widget.source.toJson(), false);
-              });
+          isar.writeTxnSync(() {
+            isar.sources.putSync(widget.source);
+            ref
+                .read(synchingProvider(syncId: 1).notifier)
+                .addChangedPart(
+                  ActionType.updateExtension,
+                  widget.source.id,
+                  widget.source.toJson(),
+                  false,
+                );
+          });
         }
 
         if (sourceNotEmpty || widget.isTestSource) {
@@ -67,19 +85,21 @@ class _ExtensionListTileWidgetState extends ConsumerState<ExtensionListTileWidge
           color: Theme.of(context).secondaryHeaderColor.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(5),
         ),
-        child: widget.source.iconUrl!.isEmpty
-            ? const Icon(Icons.extension_rounded)
-            : cachedNetworkImage(
-                imageUrl: widget.source.iconUrl!,
-                fit: BoxFit.contain,
-                width: 37,
-                height: 37,
-                errorWidget: const SizedBox(
+        child:
+            widget.source.iconUrl!.isEmpty
+                ? const Icon(Icons.extension_rounded)
+                : cachedNetworkImage(
+                  imageUrl: widget.source.iconUrl!,
+                  fit: BoxFit.contain,
                   width: 37,
                   height: 37,
-                  child: Center(child: Icon(Icons.extension_rounded)),
+                  errorWidget: const SizedBox(
+                    width: 37,
+                    height: 37,
+                    child: Center(child: Icon(Icons.extension_rounded)),
+                  ),
+                  useCustomNetworkImage: false,
                 ),
-                useCustomNetworkImage: false),
       ),
       title: Text(widget.source.name!),
       subtitle: Row(
@@ -90,37 +110,58 @@ class _ExtensionListTileWidgetState extends ConsumerState<ExtensionListTileWidge
             style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 12),
           ),
           const SizedBox(width: 4),
-          Text(widget.source.version!, style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 12)),
+          Text(
+            widget.source.version!,
+            style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 12),
+          ),
           if (isObsolete)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Text("OBSOLETE",
-                  style: TextStyle(color: context.primaryColor, fontWeight: FontWeight.bold, fontSize: 12)),
+              child: Text(
+                "OBSOLETE",
+                style: TextStyle(
+                  color: context.primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
+              ),
             ),
           if (!isSupported)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Text(
                 "UNSUPPORTED ($version > ${widget.appVersion})",
-                style: TextStyle(color: context.errorColor, fontWeight: FontWeight.bold, fontSize: 12),
+                style: TextStyle(
+                  color: context.errorColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
               ),
             ),
         ],
       ),
-      trailing: (isSupported || !shouldFetch)
-          ? TextButton(
-              onPressed: shouldFetch ? _fetch : () => _open(context),
-              child: _isLoading
-                  ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2.0))
-                  : Text(widget.isTestSource
-                      ? l10n.settings
-                      : !sourceNotEmpty
-                          ? l10n.install
-                          : updateAvailable
+      trailing:
+          (isSupported || !shouldFetch)
+              ? TextButton(
+                onPressed: shouldFetch ? _fetch : () => _open(context),
+                child:
+                    _isLoading
+                        ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2.0),
+                        )
+                        : Text(
+                          widget.isTestSource
+                              ? l10n.settings
+                              : !sourceNotEmpty
+                              ? l10n.install
+                              : updateAvailable
                               ? l10n.update
-                              : l10n.settings),
-            )
-          : null,
+                              : l10n.settings,
+                        ),
+              )
+              : null,
     );
   }
 
@@ -135,9 +176,21 @@ class _ExtensionListTileWidgetState extends ConsumerState<ExtensionListTileWidge
 
     try {
       await ref.watch(switch (widget.source.itemType) {
-        ItemType.manga => fetchMangaSourcesListProvider(id: widget.source.id, reFresh: true).future,
-        ItemType.anime => fetchAnimeSourcesListProvider(id: widget.source.id, reFresh: true).future,
-        ItemType.novel => fetchNovelSourcesListProvider(id: widget.source.id, reFresh: true).future,
+        ItemType.manga =>
+          fetchMangaSourcesListProvider(
+            id: widget.source.id,
+            reFresh: true,
+          ).future,
+        ItemType.anime =>
+          fetchAnimeSourcesListProvider(
+            id: widget.source.id,
+            reFresh: true,
+          ).future,
+        ItemType.novel =>
+          fetchNovelSourcesListProvider(
+            id: widget.source.id,
+            reFresh: true,
+          ).future,
       });
     } catch (e) {
       botToast(e.toString(), isError: true);

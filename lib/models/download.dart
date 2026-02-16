@@ -39,11 +39,11 @@ class Download {
   }
 
   Map<String, dynamic> toJson() => {
-        'failed': failed,
-        'id': id,
-        'isDownload': isDownload,
-        'isStartDownload': isStartDownload,
-        'succeeded': succeeded,
-        'total': total
-      };
+    'failed': failed,
+    'id': id,
+    'isDownload': isDownload,
+    'isStartDownload': isStartDownload,
+    'succeeded': succeeded,
+    'total': total,
+  };
 }

@@ -33,8 +33,11 @@ class MainScreen extends ConsumerStatefulWidget {
 
 class _MainScreenState extends ConsumerState<MainScreen> {
   late final navigationOrder = ref.watch(navigationOrderStateProvider);
-  late final autoSyncFrequency = ref.watch(synchingProvider(syncId: 1)).autoSyncFrequency;
-  late String? location = ref.watch(routerCurrentLocationStateProvider(context));
+  late final autoSyncFrequency =
+      ref.watch(synchingProvider(syncId: 1)).autoSyncFrequency;
+  late String? location = ref.watch(
+    routerCurrentLocationStateProvider(context),
+  );
   late String defaultLocation = navigationOrder.first;
 
   @override
@@ -50,9 +53,13 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         final l10n = l10nLocalizations(context)!;
         Timer.periodic(Duration(seconds: autoSyncFrequency), (timer) {
           try {
-            ref.read(syncServerProvider(syncId: 1).notifier).startSync(l10n, true);
+            ref
+                .read(syncServerProvider(syncId: 1).notifier)
+                .startSync(l10n, true);
           } catch (e) {
-            botToast("Failed to sync! Maybe the sync server is down. Restart the app to resume auto sync.");
+            botToast(
+              "Failed to sync! Maybe the sync server is down. Restart the app to resume auto sync.",
+            );
             timer.cancel();
           }
         });
@@ -80,11 +87,18 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           data: (_) {
             return Consumer(
               builder: (context, ref, _) {
-                final location = ref.watch(routerCurrentLocationStateProvider(context));
+                final location = ref.watch(
+                  routerCurrentLocationStateProvider(context),
+                );
                 bool isReadingScreen =
-                    location == '/mangaReaderView' || location == '/animePlayerView' || location == '/novelReaderView';
+                    location == '/mangaReaderView' ||
+                    location == '/animePlayerView' ||
+                    location == '/novelReaderView';
 
-                final dest = navigationOrder.where((nav) => !hideItems.contains(nav)).toList();
+                final dest =
+                    navigationOrder
+                        .where((nav) => !hideItems.contains(nav))
+                        .toList();
 
                 int currentIndex = dest.indexOf(location ?? defaultLocation);
 
@@ -116,7 +130,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   l10n.incognito_mode,
-                                  style: TextStyle(color: Colors.white, fontFamily: GoogleFonts.aBeeZee().fontFamily),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily:
+                                        GoogleFonts.aBeeZee().fontFamily,
+                                  ),
                                 ),
                               ),
                             ],
@@ -127,9 +145,17 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                       child: Scaffold(
                         body:
                             context.isTablet
-                                ? Row(children: [const Navbar(horizontal: false), Expanded(child: widget.content)])
+                                ? Row(
+                                  children: [
+                                    const Navbar(horizontal: false),
+                                    Expanded(child: widget.content),
+                                  ],
+                                )
                                 : widget.content,
-                        bottomNavigationBar: context.isTablet ? null : const Navbar(horizontal: true),
+                        bottomNavigationBar:
+                            context.isTablet
+                                ? null
+                                : const Navbar(horizontal: true),
                       ),
                     ),
                   ],

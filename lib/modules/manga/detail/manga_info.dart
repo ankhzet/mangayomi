@@ -35,17 +35,21 @@ class MangaInfo extends ConsumerStatefulWidget {
   ConsumerState<MangaInfo> createState() => _MangaInfoState();
 }
 
-class _MangaInfoState extends ConsumerState<MangaInfo> with TickerProviderStateMixin {
+class _MangaInfoState extends ConsumerState<MangaInfo>
+    with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    final details = ref.watch(getMangaDetailStreamProvider(mangaId: widget.manga.id));
+    final details = ref.watch(
+      getMangaDetailStreamProvider(mangaId: widget.manga.id),
+    );
 
     return details.when(
-      data: (data) => MangaInfoView(
-        sourceExist: widget.sourceExist,
-        manga: data ?? widget.manga,
-        chapters: widget.chapters,
-      ),
+      data:
+          (data) => MangaInfoView(
+            sourceExist: widget.sourceExist,
+            manga: data ?? widget.manga,
+            chapters: widget.chapters,
+          ),
       error: (error, _) => ErrorWidget(error),
       loading: () => ProgressCenter(),
     );
@@ -61,7 +65,12 @@ class MangaInfoView extends StatelessWidget {
   late final isLocalArchive = manga.isLocalArchive ?? false;
   late final mangaId = manga.id;
 
-  MangaInfoView({super.key, required this.manga, required this.chapters, required this.sourceExist});
+  MangaInfoView({
+    super.key,
+    required this.manga,
+    required this.chapters,
+    required this.sourceExist,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +83,10 @@ class MangaInfoView extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.05),
-                Theme.of(context).scaffoldBackgroundColor
+                Theme.of(
+                  context,
+                ).scaffoldBackgroundColor.withValues(alpha: 0.05),
+                Theme.of(context).scaffoldBackgroundColor,
               ],
               stops: const [0, .3],
             ),
@@ -90,7 +101,10 @@ class MangaInfoView extends StatelessWidget {
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 20),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 13,
+                          vertical: 20,
+                        ),
                         child: MangaCover(
                           manga: manga,
                           width: 65 * 1.5,
@@ -107,7 +121,9 @@ class MangaInfoView extends StatelessWidget {
                     right: 0,
                     child: IconButton(
                       onPressed: () => _editLocalArchiveInfos(context),
-                      icon: const CircleAvatar(child: Icon(Icons.edit_outlined)),
+                      icon: const CircleAvatar(
+                        child: Icon(Icons.edit_outlined),
+                      ),
                     ),
                   ),
               ],
@@ -115,50 +131,55 @@ class MangaInfoView extends StatelessWidget {
             if (manga.updateError != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: Text(manga.updateError!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
+                child: Text(
+                  manga.updateError!,
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
               ),
             if (!isLocalArchive)
-              MangaActions(
-                manga: manga,
-                width: 65 * 1.5,
-                height: 65 * 2.3,
-              ),
+              MangaActions(manga: manga, width: 65 * 1.5, height: 65 * 2.3),
             Container(
               color: Theme.of(context).scaffoldBackgroundColor,
-              child: StatefulBuilder(builder: (context, setState) {
-                bool expanded = context.isTablet;
+              child: StatefulBuilder(
+                builder: (context, setState) {
+                  bool expanded = context.isTablet;
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (manga.description != null)
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (manga.description != null)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ReadMoreWidget(
+                            text: manga.description!,
+                            initial: expanded,
+                            onChanged: (value) {
+                              setState(() {
+                                expanded = value;
+                              });
+                            },
+                          ),
+                        ),
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ReadMoreWidget(
-                          text: manga.description!,
-                          initial: expanded,
-                          onChanged: (value) {
-                            setState(() {
-                              expanded = value;
-                            });
-                          },
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: GenreBadgesWidget(
+                          genres: manga.genre!,
+                          multiline: expanded || context.isTablet,
                         ),
                       ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: GenreBadgesWidget(genres: manga.genre!, multiline: expanded || context.isTablet),
-                    ),
-                    if (!context.isTablet) MangaChaptersCounter(manga: manga, chapters: chapters),
-                  ],
-                );
-              }),
+                      if (!context.isTablet)
+                        MangaChaptersCounter(manga: manga, chapters: chapters),
+                    ],
+                  );
+                },
+              ),
             ),
             if (chapters == 0)
               Container(
                 width: context.width(1),
                 height: context.height(1),
                 color: Theme.of(context).scaffoldBackgroundColor,
-              )
+              ),
           ],
         ),
       ],
@@ -180,47 +201,54 @@ class MangaInfoView extends StatelessWidget {
             message:
                 'ID: @${manga.id}, Link: ${manga.link}\nLong press on title to copy name, on source extension to copy link.\nClick source to navigate to settings',
             preferBelow: false,
-            child: SelectableText(manga.name!, style: const TextStyle(fontSize: 20)),
+            child: SelectableText(
+              manga.name!,
+              style: const TextStyle(fontSize: 20),
+            ),
           ),
         ),
         isLocalArchive
             ? Container()
             : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    manga.author!,
-                    style: const TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      Icon(getMangaStatusIcon(manga.status), size: 14),
-                      const SizedBox(width: 4),
-                      Text(getMangaStatusName(manga.status, context)),
-                      const Text(' • '),
-                      InkResponse(
-                        onTap: () {
-                          final source = getSource(manga.lang!, manga.source!);
-                          context.push('/extension_detail', extra: source);
-                        },
-                        onLongPress: () {
-                          Clipboard.setData(ClipboardData(text: manga.link!));
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  manga.author!,
+                  style: const TextStyle(fontWeight: FontWeight.w500),
+                ),
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    Icon(getMangaStatusIcon(manga.status), size: 14),
+                    const SizedBox(width: 4),
+                    Text(getMangaStatusName(manga.status, context)),
+                    const Text(' • '),
+                    InkResponse(
+                      onTap: () {
+                        final source = getSource(manga.lang!, manga.source!);
+                        context.push('/extension_detail', extra: source);
+                      },
+                      onLongPress: () {
+                        Clipboard.setData(ClipboardData(text: manga.link!));
 
-                          botToast('Copied!', second: 3);
-                        },
-                        child: Text(manga.source!),
+                        botToast('Copied!', second: 3);
+                      },
+                      child: Text(manga.source!),
+                    ),
+                    Text(' (${manga.lang!.toUpperCase()})'),
+                    if (!sourceExist)
+                      const Padding(
+                        padding: EdgeInsets.all(3),
+                        child: Icon(
+                          Icons.warning_amber,
+                          color: Colors.deepOrangeAccent,
+                          size: 14,
+                        ),
                       ),
-                      Text(' (${manga.lang!.toUpperCase()})'),
-                      if (!sourceExist)
-                        const Padding(
-                          padding: EdgeInsets.all(3),
-                          child: Icon(Icons.warning_amber, color: Colors.deepOrangeAccent, size: 14),
-                        )
-                    ],
-                  )
-                ],
-              ),
+                  ],
+                ),
+              ],
+            ),
       ],
     );
   }
@@ -228,86 +256,87 @@ class MangaInfoView extends StatelessWidget {
   void _editLocalArchiveInfos(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
     TextEditingController? name = TextEditingController(text: manga.name!);
-    TextEditingController? description = TextEditingController(text: manga.description!);
+    TextEditingController? description = TextEditingController(
+      text: manga.description!,
+    );
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(
-              l10n.edit,
-            ),
-            content: SizedBox(
-              height: 200,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: Text(l10n.name),
-                        ),
-                        TextFormField(
-                          controller: name,
-                        ),
-                      ],
-                    ),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(l10n.edit),
+          content: SizedBox(
+            height: 200,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Text(l10n.name),
+                      ),
+                      TextFormField(controller: name),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: Text(l10n.description),
-                        ),
-                        TextFormField(
-                          controller: description,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(l10n.cancel)),
-                  const SizedBox(
-                    width: 15,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Text(l10n.description),
+                      ),
+                      TextFormField(controller: description),
+                    ],
                   ),
-                  Consumer(builder: (ctx, ref, _) => TextButton(
-                      onPressed: () {
-                        isar.writeTxnSync(() {
-                          manga.description = description.text;
-                          manga.name = name.text;
-                          isar.mangas.putSync(manga);
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(l10n.cancel),
+                ),
+                const SizedBox(width: 15),
+                Consumer(
+                  builder:
+                      (ctx, ref, _) => TextButton(
+                        onPressed: () {
+                          isar.writeTxnSync(() {
+                            manga.description = description.text;
+                            manga.name = name.text;
+                            isar.mangas.putSync(manga);
 
-                          ref.read(synchingProvider(syncId: 1).notifier).addChangedPart(
-                              ActionType.updateItem,
-                              manga.id,
-                              manga.toJson(),
-                              false
-                          );
-                        });
-                        Navigator.pop(context);
-                      },
-                      child: Text(l10n.edit),
-                  )),
-                ],
-              )
-            ],
-          );
-        });
+                            ref
+                                .read(synchingProvider(syncId: 1).notifier)
+                                .addChangedPart(
+                                  ActionType.updateItem,
+                                  manga.id,
+                                  manga.toJson(),
+                                  false,
+                                );
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Text(l10n.edit),
+                      ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 }

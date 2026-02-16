@@ -52,7 +52,9 @@ Future<GetChapterPagesModel> getChapterPages(
   required Chapter chapter,
 }) async {
   final settings = isar.settings.first;
-  final chapterDirectory = await StorageProvider.getMangaChapterDirectory(chapter);
+  final chapterDirectory = await StorageProvider.getMangaChapterDirectory(
+    chapter,
+  );
   final manga = chapter.manga.value!;
   final isLocalArchive = chapter.archivePath?.isNotEmpty ?? false;
   final List<PreloadTask> tasks = [];
@@ -65,8 +67,12 @@ Future<GetChapterPagesModel> getChapterPages(
     final source = getSource(manga.lang!, manga.source!)!;
     final Iterable<PageUrl> loaded;
 
-    if (((data?.chapterUrl ?? chapter.url) == chapter.url) && (data?.urls?.isNotEmpty ?? false)) {
-      loaded = data!.urls!.indexed.map((i) => PageUrl(i.$2, headers: data.getUrlHeaders(i.$1))).toList();
+    if (((data?.chapterUrl ?? chapter.url) == chapter.url) &&
+        (data?.urls?.isNotEmpty ?? false)) {
+      loaded =
+          data!.urls!.indexed
+              .map((i) => PageUrl(i.$2, headers: data.getUrlHeaders(i.$1)))
+              .toList();
     } else {
       loaded = await getExtensionService(source).getPageList(chapter.url!);
     }
@@ -82,10 +88,15 @@ Future<GetChapterPagesModel> getChapterPages(
 
   if (pageUrls.isNotEmpty || isLocalArchive) {
     final mangaDirectory = await StorageProvider.getMangaMainDirectory(manga);
-    final path = isLocalArchive ? chapter.archivePath! : "$mangaDirectory/${chapter.name}.cbz";
+    final path =
+        isLocalArchive
+            ? chapter.archivePath!
+            : "$mangaDirectory/${chapter.name}.cbz";
 
     if (isLocalArchive || (await File(path).exists())) {
-      final local = await ref.watch(getArchiveDataFromFileProvider(path).future);
+      final local = await ref.watch(
+        getArchiveDataFromFileProvider(path).future,
+      );
 
       for (var image in local.images!) {
         archiveImages.add(image.image!);
@@ -106,31 +117,38 @@ Future<GetChapterPagesModel> getChapterPages(
 
     // .read() ?
     if (!ref.watch(incognitoModeStateProvider)) {
-      final List<String> urls = pageUrls.map((e) => e.url).toList(growable: false);
+      final List<String> urls = pageUrls
+          .map((e) => e.url)
+          .toList(growable: false);
       final List<String>? headers =
-          pageUrls.any((e) => e.headers != null) ? pageUrls.map((e) => jsonEncode(e.headers ?? {})).toList() : null;
+          pageUrls.any((e) => e.headers != null)
+              ? pageUrls.map((e) => jsonEncode(e.headers ?? {})).toList()
+              : null;
 
-      isar.settings.first = settings
-        ..chapterPageUrlsList = [
-          ...chapter.getOtherOptions(settings.chapterPageUrlsList),
-          ChapterPageurls()
-            ..chapterId = chapter.id
-            ..urls = urls
-            ..chapterUrl = chapter.url
-            ..headers = headers,
-        ];
+      isar.settings.first =
+          settings
+            ..chapterPageUrlsList = [
+              ...chapter.getOtherOptions(settings.chapterPageUrlsList),
+              ChapterPageurls()
+                ..chapterId = chapter.id
+                ..urls = urls
+                ..chapterUrl = chapter.url
+                ..headers = headers,
+            ];
     }
 
     for (var (idx, item) in pageUrls.indexed) {
-      tasks.add(PreloadTask(
-        chapter,
-        chapterDirectory,
-        item,
-        isLocalList[idx],
-        archiveImages[idx],
-        idx,
-        model,
-      ));
+      tasks.add(
+        PreloadTask(
+          chapter,
+          chapterDirectory,
+          item,
+          isLocalList[idx],
+          archiveImages[idx],
+          idx,
+          model,
+        ),
+      );
     }
   }
 

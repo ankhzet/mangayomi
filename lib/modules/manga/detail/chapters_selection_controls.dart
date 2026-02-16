@@ -16,7 +16,8 @@ class ChaptersSelectionBar extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ChaptersSelectionBar> createState() => _ChaptersSelectionBarState();
+  ConsumerState<ChaptersSelectionBar> createState() =>
+      _ChaptersSelectionBarState();
 }
 
 class _ChaptersSelectionBarState extends ConsumerState<ChaptersSelectionBar> {
@@ -45,10 +46,19 @@ class _ChaptersSelectionBarState extends ConsumerState<ChaptersSelectionBar> {
           child: AppBar(
             title: Text(selection.length.toString()),
             backgroundColor: context.primaryColor.withValues(alpha: 0.2),
-            leading: IconButton(onPressed: _clearSelection, icon: const Icon(Icons.clear)),
+            leading: IconButton(
+              onPressed: _clearSelection,
+              icon: const Icon(Icons.clear),
+            ),
             actions: [
-              IconButton(onPressed: _selectAll, icon: const Icon(Icons.select_all)),
-              IconButton(onPressed: _toggleSelection, icon: const Icon(Icons.flip_to_back_rounded)),
+              IconButton(
+                onPressed: _selectAll,
+                icon: const Icon(Icons.select_all),
+              ),
+              IconButton(
+                onPressed: _toggleSelection,
+                icon: const Icon(Icons.flip_to_back_rounded),
+              ),
             ],
           ),
         );

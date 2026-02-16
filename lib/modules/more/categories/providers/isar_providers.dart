@@ -8,6 +8,14 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'isar_providers.g.dart';
 
 @riverpod
-Stream<List<Category>> getMangaCategoryStream(Ref ref, {required ItemType itemType}) async* {
-  yield* isar.categorys.filter().idIsNotNull().and().forItemTypeEqualTo(itemType).watch(fireImmediately: true);
+Stream<List<Category>> getMangaCategoryStream(
+  Ref ref, {
+  required ItemType itemType,
+}) async* {
+  yield* isar.categorys
+      .filter()
+      .idIsNotNull()
+      .and()
+      .forItemTypeEqualTo(itemType)
+      .watch(fireImmediately: true);
 }

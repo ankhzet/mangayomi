@@ -22,18 +22,20 @@ class DesktopControllerWidget extends StatefulWidget {
   final Widget bottomButtonBarWidget;
   final Widget seekToWidget;
 
-  const DesktopControllerWidget(
-      {super.key,
-      required this.videoController,
-      required this.topButtonBarWidget,
-      required this.bottomButtonBarWidget,
-      required this.streamController,
-      required this.videoStatekey,
-      required this.seekToWidget,
-      required this.tempDuration});
+  const DesktopControllerWidget({
+    super.key,
+    required this.videoController,
+    required this.topButtonBarWidget,
+    required this.bottomButtonBarWidget,
+    required this.streamController,
+    required this.videoStatekey,
+    required this.seekToWidget,
+    required this.tempDuration,
+  });
 
   @override
-  State<DesktopControllerWidget> createState() => _DesktopControllerWidgetState();
+  State<DesktopControllerWidget> createState() =>
+      _DesktopControllerWidgetState();
 }
 
 class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
@@ -66,28 +68,21 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (subscriptions.isEmpty) {
-      subscriptions.addAll(
-        [
-          widget.videoController.player.stream.buffering.listen(
-            (event) {
-              setState(() {
-                buffering = event;
-              });
-            },
-          ),
-        ],
-      );
+      subscriptions.addAll([
+        widget.videoController.player.stream.buffering.listen((event) {
+          setState(() {
+            buffering = event;
+          });
+        }),
+      ]);
 
-      _timer = Timer(
-        controlsHoverDuration,
-        () {
-          if (mounted) {
-            setState(() {
-              visible = false;
-            });
-          }
-        },
-      );
+      _timer = Timer(controlsHoverDuration, () {
+        if (mounted) {
+          setState(() {
+            visible = false;
+          });
+        }
+      });
     }
   }
 
@@ -153,26 +148,40 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
       bindings: {
         // Default key-board shortcuts.
         // https://support.google.com/youtube/answer/7631406
-        const SingleActivator(LogicalKeyboardKey.mediaPlay): () => widget.videoController.player.play(),
-        const SingleActivator(LogicalKeyboardKey.mediaPause): () => widget.videoController.player.pause(),
-        const SingleActivator(LogicalKeyboardKey.mediaPlayPause): () => widget.videoController.player.playOrPause(),
-        const SingleActivator(LogicalKeyboardKey.mediaTrackNext): () => widget.videoController.player.next(),
-        const SingleActivator(LogicalKeyboardKey.mediaTrackPrevious): () => widget.videoController.player.previous(),
-        const SingleActivator(LogicalKeyboardKey.space): () => widget.videoController.player.playOrPause(),
+        const SingleActivator(LogicalKeyboardKey.mediaPlay):
+            () => widget.videoController.player.play(),
+        const SingleActivator(LogicalKeyboardKey.mediaPause):
+            () => widget.videoController.player.pause(),
+        const SingleActivator(LogicalKeyboardKey.mediaPlayPause):
+            () => widget.videoController.player.playOrPause(),
+        const SingleActivator(LogicalKeyboardKey.mediaTrackNext):
+            () => widget.videoController.player.next(),
+        const SingleActivator(LogicalKeyboardKey.mediaTrackPrevious):
+            () => widget.videoController.player.previous(),
+        const SingleActivator(LogicalKeyboardKey.space):
+            () => widget.videoController.player.playOrPause(),
         const SingleActivator(LogicalKeyboardKey.keyJ): () {
-          final rate = widget.videoController.player.state.position - const Duration(seconds: 10);
+          final rate =
+              widget.videoController.player.state.position -
+              const Duration(seconds: 10);
           widget.videoController.player.seek(rate);
         },
         const SingleActivator(LogicalKeyboardKey.keyL): () {
-          final rate = widget.videoController.player.state.position + const Duration(seconds: 10);
+          final rate =
+              widget.videoController.player.state.position +
+              const Duration(seconds: 10);
           widget.videoController.player.seek(rate);
         },
         const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
-          final rate = widget.videoController.player.state.position - const Duration(seconds: 5);
+          final rate =
+              widget.videoController.player.state.position -
+              const Duration(seconds: 5);
           widget.videoController.player.seek(rate);
         },
         const SingleActivator(LogicalKeyboardKey.arrowRight): () {
-          final rate = widget.videoController.player.state.position + const Duration(seconds: 5);
+          final rate =
+              widget.videoController.player.state.position +
+              const Duration(seconds: 5);
           widget.videoController.player.seek(rate);
         },
         const SingleActivator(LogicalKeyboardKey.arrowUp): () {
@@ -184,64 +193,92 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
           widget.videoController.player.setVolume(volume.clamp(0.0, 100.0));
         },
         const SingleActivator(LogicalKeyboardKey.keyF): () => setFullScreen(),
-        const SingleActivator(LogicalKeyboardKey.escape): () => setFullScreen(value: false),
+        const SingleActivator(LogicalKeyboardKey.escape):
+            () => setFullScreen(value: false),
       },
       child: Stack(
         children: [
           Consumer(
-            builder: (context, ref, _) => ref.read(useLibassStateProvider)
-                ? const SizedBox.shrink()
-                : Positioned(
-                    child: CustomSubtitleView(
-                    controller: widget.videoController,
-                    configuration: SubtitleViewConfiguration(style: subtileTextStyle(ref)),
-                  )),
+            builder:
+                (context, ref, _) =>
+                    ref.read(useLibassStateProvider)
+                        ? const SizedBox.shrink()
+                        : Positioned(
+                          child: CustomSubtitleView(
+                            controller: widget.videoController,
+                            configuration: SubtitleViewConfiguration(
+                              style: subtileTextStyle(ref),
+                            ),
+                          ),
+                        ),
           ),
           Focus(
             autofocus: true,
             child: Listener(
-              onPointerSignal: modifyVolumeOnScroll
-                  ? (e) {
-                      if (e is PointerScrollEvent) {
-                        if (e.delta.dy > 0) {
-                          final volume = widget.videoController.player.state.volume - 5.0;
-                          widget.videoController.player.setVolume(volume.clamp(0.0, 100.0));
-                        }
-                        if (e.delta.dy < 0) {
-                          final volume = widget.videoController.player.state.volume + 5.0;
-                          widget.videoController.player.setVolume(volume.clamp(0.0, 100.0));
+              onPointerSignal:
+                  modifyVolumeOnScroll
+                      ? (e) {
+                        if (e is PointerScrollEvent) {
+                          if (e.delta.dy > 0) {
+                            final volume =
+                                widget.videoController.player.state.volume -
+                                5.0;
+                            widget.videoController.player.setVolume(
+                              volume.clamp(0.0, 100.0),
+                            );
+                          }
+                          if (e.delta.dy < 0) {
+                            final volume =
+                                widget.videoController.player.state.volume +
+                                5.0;
+                            widget.videoController.player.setVolume(
+                              volume.clamp(0.0, 100.0),
+                            );
+                          }
                         }
                       }
-                    }
-                  : null,
+                      : null,
               child: GestureDetector(
-                onTapUp: !toggleFullscreenOnDoublePress
-                    ? null
-                    : (e) {
-                        final now = DateTime.now();
-                        final difference = now.difference(last);
-                        last = now;
-                        if (difference < const Duration(milliseconds: 400)) {
-                          setFullScreen();
+                onTapUp:
+                    !toggleFullscreenOnDoublePress
+                        ? null
+                        : (e) {
+                          final now = DateTime.now();
+                          final difference = now.difference(last);
+                          last = now;
+                          if (difference < const Duration(milliseconds: 400)) {
+                            setFullScreen();
+                          }
+                        },
+                onPanUpdate:
+                    modifyVolumeOnScroll
+                        ? (e) {
+                          if (e.delta.dy > 0) {
+                            final volume =
+                                widget.videoController.player.state.volume -
+                                5.0;
+                            widget.videoController.player.setVolume(
+                              volume.clamp(0.0, 100.0),
+                            );
+                          }
+                          if (e.delta.dy < 0) {
+                            final volume =
+                                widget.videoController.player.state.volume +
+                                5.0;
+                            widget.videoController.player.setVolume(
+                              volume.clamp(0.0, 100.0),
+                            );
+                          }
                         }
-                      },
-                onPanUpdate: modifyVolumeOnScroll
-                    ? (e) {
-                        if (e.delta.dy > 0) {
-                          final volume = widget.videoController.player.state.volume - 5.0;
-                          widget.videoController.player.setVolume(volume.clamp(0.0, 100.0));
-                        }
-                        if (e.delta.dy < 0) {
-                          final volume = widget.videoController.player.state.volume + 5.0;
-                          widget.videoController.player.setVolume(volume.clamp(0.0, 100.0));
-                        }
-                      }
-                    : null,
+                        : null,
                 child: MouseRegion(
                   onHover: (_) => onHover(),
                   onEnter: (_) => onEnter(),
                   onExit: (_) => onExit(),
-                  cursor: cursorVisible ? SystemMouseCursors.basic : SystemMouseCursors.none,
+                  cursor:
+                      cursorVisible
+                          ? SystemMouseCursors.basic
+                          : SystemMouseCursors.none,
                   child: Stack(
                     children: [
                       AnimatedOpacity(
@@ -260,16 +297,12 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
                           alignment: Alignment.bottomCenter,
                           children: [
                             // Top gradient.
-
                             Container(
                               decoration: const BoxDecoration(
                                 gradient: LinearGradient(
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
-                                  stops: [
-                                    0.0,
-                                    0.2,
-                                  ],
+                                  stops: [0.0, 0.2],
                                   colors: [
                                     Color(0x61000000),
                                     Color(0x00000000),
@@ -277,17 +310,14 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
                                 ),
                               ),
                             ),
-                            // Bottom gradient.
 
+                            // Bottom gradient.
                             Container(
                               decoration: const BoxDecoration(
                                 gradient: LinearGradient(
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
-                                  stops: [
-                                    0.5,
-                                    1.0,
-                                  ],
+                                  stops: [0.5, 1.0],
                                   colors: [
                                     Color(0x00000000),
                                     Color(0x61000000),
@@ -297,9 +327,12 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
                             ),
                             if (mount)
                               Padding(
-                                padding: (
+                                padding:
+                                    (
                                     // Add padding in fullscreen!
-                                    isFullscreen(context) ? MediaQuery.of(context).padding : EdgeInsets.zero),
+                                    isFullscreen(context)
+                                        ? MediaQuery.of(context).padding
+                                        : EdgeInsets.zero),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -309,28 +342,46 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
                                     // Only display [primaryButtonBar] if [buffering] is false.
                                     Expanded(
                                       child: AnimatedOpacity(
-                                          curve: Curves.easeInOut,
-                                          opacity: buffering
-                                              ? 0.0
-                                              : !showSwipeDuration
-                                                  ? 0.0
-                                                  : 1.0,
-                                          duration: controlsTransitionDuration,
-                                          child: Center(
-                                              child: seekIndicatorTextWidget(Duration(seconds: swipeDuration),
-                                                  widget.videoController.player.state.position))),
+                                        curve: Curves.easeInOut,
+                                        opacity:
+                                            buffering
+                                                ? 0.0
+                                                : !showSwipeDuration
+                                                ? 0.0
+                                                : 1.0,
+                                        duration: controlsTransitionDuration,
+                                        child: Center(
+                                          child: seekIndicatorTextWidget(
+                                            Duration(seconds: swipeDuration),
+                                            widget
+                                                .videoController
+                                                .player
+                                                .state
+                                                .position,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                     widget.seekToWidget,
                                     Transform.translate(
                                       offset: Offset.zero,
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 5,
+                                        ),
                                         child: CustomSeekBar(
                                           onSeekStart: (value) {
                                             setState(() {
                                               swipeDuration = value.inSeconds;
                                               showSwipeDuration = true;
-                                              widget.tempDuration(widget.videoController.player.state.position + value);
+                                              widget.tempDuration(
+                                                widget
+                                                        .videoController
+                                                        .player
+                                                        .state
+                                                        .position +
+                                                    value,
+                                              );
                                             });
                                             _timer?.cancel();
                                           },
@@ -354,7 +405,7 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
                                         ),
                                       ),
                                     ),
-                                    widget.bottomButtonBarWidget
+                                    widget.bottomButtonBarWidget,
                                   ],
                                 ),
                               ),
@@ -364,9 +415,12 @@ class _DesktopControllerWidgetState extends State<DesktopControllerWidget> {
                       // Buffering Indicator.
                       IgnorePointer(
                         child: Padding(
-                          padding: (
+                          padding:
+                              (
                               // Add padding in fullscreen!
-                              isFullscreen(context) ? MediaQuery.of(context).padding : EdgeInsets.zero),
+                              isFullscreen(context)
+                                  ? MediaQuery.of(context).padding
+                                  : EdgeInsets.zero),
                           child: Column(
                             children: [
                               Container(
@@ -432,10 +486,12 @@ class CustomeMaterialDesktopPlayOrPauseButton extends StatefulWidget {
   });
 
   @override
-  CustomeMaterialDesktopPlayOrPauseButtonState createState() => CustomeMaterialDesktopPlayOrPauseButtonState();
+  CustomeMaterialDesktopPlayOrPauseButtonState createState() =>
+      CustomeMaterialDesktopPlayOrPauseButtonState();
 }
 
-class CustomeMaterialDesktopPlayOrPauseButtonState extends State<CustomeMaterialDesktopPlayOrPauseButton>
+class CustomeMaterialDesktopPlayOrPauseButtonState
+    extends State<CustomeMaterialDesktopPlayOrPauseButton>
     with SingleTickerProviderStateMixin {
   late final animation = AnimationController(
     vsync: this,
@@ -499,10 +555,12 @@ class CustomMaterialDesktopVolumeButton extends StatefulWidget {
   });
 
   @override
-  CustomMaterialDesktopVolumeButtonState createState() => CustomMaterialDesktopVolumeButtonState();
+  CustomMaterialDesktopVolumeButtonState createState() =>
+      CustomMaterialDesktopVolumeButtonState();
 }
 
-class CustomMaterialDesktopVolumeButtonState extends State<CustomMaterialDesktopVolumeButton>
+class CustomMaterialDesktopVolumeButtonState
+    extends State<CustomMaterialDesktopVolumeButton>
     with SingleTickerProviderStateMixin {
   late double volume = widget.controller.player.state.volume;
 
@@ -590,20 +648,21 @@ class CustomMaterialDesktopVolumeButtonState extends State<CustomMaterialDesktop
               color: Colors.white,
               icon: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 150),
-                child: volume == 0.0
-                    ? const Icon(
-                        Icons.volume_off,
-                        key: ValueKey(Icons.volume_off),
-                      )
-                    : volume < 50.0
+                child:
+                    volume == 0.0
                         ? const Icon(
-                            Icons.volume_down,
-                            key: ValueKey(Icons.volume_down),
-                          )
+                          Icons.volume_off,
+                          key: ValueKey(Icons.volume_off),
+                        )
+                        : volume < 50.0
+                        ? const Icon(
+                          Icons.volume_down,
+                          key: ValueKey(Icons.volume_down),
+                        )
                         : const Icon(
-                            Icons.volume_up,
-                            key: ValueKey(Icons.volume_up),
-                          ),
+                          Icons.volume_up,
+                          key: ValueKey(Icons.volume_up),
+                        ),
               ),
             ),
             AnimatedOpacity(
@@ -665,13 +724,19 @@ class CustomMaterialDesktopPositionIndicator extends StatefulWidget {
   final VideoController controller;
   final Duration? delta;
 
-  const CustomMaterialDesktopPositionIndicator({super.key, required this.controller, this.delta});
+  const CustomMaterialDesktopPositionIndicator({
+    super.key,
+    required this.controller,
+    this.delta,
+  });
 
   @override
-  CustomMaterialDesktopPositionIndicatorState createState() => CustomMaterialDesktopPositionIndicatorState();
+  CustomMaterialDesktopPositionIndicatorState createState() =>
+      CustomMaterialDesktopPositionIndicatorState();
 }
 
-class CustomMaterialDesktopPositionIndicatorState extends State<CustomMaterialDesktopPositionIndicator> {
+class CustomMaterialDesktopPositionIndicatorState
+    extends State<CustomMaterialDesktopPositionIndicator> {
   late Duration position = widget.controller.player.state.position;
   late Duration duration = widget.controller.player.state.duration;
 
@@ -688,20 +753,18 @@ class CustomMaterialDesktopPositionIndicatorState extends State<CustomMaterialDe
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (subscriptions.isEmpty) {
-      subscriptions.addAll(
-        [
-          widget.controller.player.stream.position.listen((event) {
-            setState(() {
-              position = event;
-            });
-          }),
-          widget.controller.player.stream.duration.listen((event) {
-            setState(() {
-              duration = event;
-            });
-          }),
-        ],
-      );
+      subscriptions.addAll([
+        widget.controller.player.stream.position.listen((event) {
+          setState(() {
+            position = event;
+          });
+        }),
+        widget.controller.player.stream.duration.listen((event) {
+          setState(() {
+            duration = event;
+          });
+        }),
+      ]);
     }
   }
 
@@ -717,11 +780,7 @@ class CustomMaterialDesktopPositionIndicatorState extends State<CustomMaterialDe
   Widget build(BuildContext context) {
     return Text(
       '${(widget.delta ?? position).label(reference: duration)} / ${duration.label(reference: duration)}',
-      style: const TextStyle(
-        height: 1.0,
-        fontSize: 12.0,
-        color: Colors.white,
-      ),
+      style: const TextStyle(height: 1.0, fontSize: 12.0, color: Colors.white),
     );
   }
 }
@@ -739,12 +798,7 @@ class _CustomTrackShape extends RoundedRectSliderTrackShape {
     final left = offset.dx;
     final top = offset.dy + (parentBox.size.height - height!) / 2;
     final width = parentBox.size.width;
-    return Rect.fromLTWH(
-      left,
-      top,
-      width,
-      height,
-    );
+    return Rect.fromLTWH(left, top, width, height);
   }
 }
 
@@ -757,10 +811,12 @@ class CustomMaterialDesktopFullscreenButton extends StatefulWidget {
   });
 
   @override
-  State<CustomMaterialDesktopFullscreenButton> createState() => _CustomMaterialDesktopFullscreenButtonState();
+  State<CustomMaterialDesktopFullscreenButton> createState() =>
+      _CustomMaterialDesktopFullscreenButtonState();
 }
 
-class _CustomMaterialDesktopFullscreenButtonState extends State<CustomMaterialDesktopFullscreenButton> {
+class _CustomMaterialDesktopFullscreenButtonState
+    extends State<CustomMaterialDesktopFullscreenButton> {
   bool _isFullscreen = false;
 
   @override
@@ -772,7 +828,10 @@ class _CustomMaterialDesktopFullscreenButtonState extends State<CustomMaterialDe
           _isFullscreen = isFullScreen;
         });
       },
-      icon: _isFullscreen ? const Icon(Icons.fullscreen_exit) : const Icon(Icons.fullscreen),
+      icon:
+          _isFullscreen
+              ? const Icon(Icons.fullscreen_exit)
+              : const Icon(Icons.fullscreen),
       iconSize: 25,
       color: Colors.white,
     );

@@ -10,7 +10,8 @@ import 'package:mangayomi/services/http/m_client.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-class CustomExtendedNetworkImageProvider extends ImageProvider<ExtendedNetworkImageProvider>
+class CustomExtendedNetworkImageProvider
+    extends ImageProvider<ExtendedNetworkImageProvider>
     with ExtendedImageProvider<ExtendedNetworkImageProvider>
     implements ExtendedNetworkImageProvider {
   /// Creates an object that fetches the image at the given URL.
@@ -95,14 +96,22 @@ class CustomExtendedNetworkImageProvider extends ImageProvider<ExtendedNetworkIm
   final String? imageCacheFolderName;
 
   @override
-  ImageStreamCompleter loadImage(ExtendedNetworkImageProvider key, ImageDecoderCallback decode) {
+  ImageStreamCompleter loadImage(
+    ExtendedNetworkImageProvider key,
+    ImageDecoderCallback decode,
+  ) {
     // Ownership of this controller is handed off to [_loadAsync]; it is that
     // method's responsibility to close the controller's stream when the image
     // has been loaded or an error is thrown.
-    final StreamController<ImageChunkEvent> chunkEvents = StreamController<ImageChunkEvent>();
+    final StreamController<ImageChunkEvent> chunkEvents =
+        StreamController<ImageChunkEvent>();
 
     return MultiFrameImageStreamCompleter(
-      codec: _loadAsync(key as CustomExtendedNetworkImageProvider, chunkEvents, decode),
+      codec: _loadAsync(
+        key as CustomExtendedNetworkImageProvider,
+        chunkEvents,
+        decode,
+      ),
       scale: key.scale,
       chunkEvents: chunkEvents.stream,
       debugLabel: key.url,
@@ -116,7 +125,9 @@ class CustomExtendedNetworkImageProvider extends ImageProvider<ExtendedNetworkIm
   }
 
   @override
-  Future<CustomExtendedNetworkImageProvider> obtainKey(ImageConfiguration configuration) {
+  Future<CustomExtendedNetworkImageProvider> obtainKey(
+    ImageConfiguration configuration,
+  ) {
     return SynchronousFuture<CustomExtendedNetworkImageProvider>(this);
   }
 
@@ -170,7 +181,11 @@ class CustomExtendedNetworkImageProvider extends ImageProvider<ExtendedNetworkIm
     String md5Key,
   ) async {
     final Directory cacheImagesDirectory = Directory(
-      join((await getTemporaryDirectory()).path, 'Mangayomi', imageCacheFolderName ?? 'cacheimagecover'),
+      join(
+        (await getTemporaryDirectory()).path,
+        'Mangayomi',
+        imageCacheFolderName ?? 'cacheimagecover',
+      ),
     );
     Uint8List? data;
     // exist, try to find cache image file
@@ -225,7 +240,10 @@ class CustomExtendedNetworkImageProvider extends ImageProvider<ExtendedNetworkIm
           if (chunkEvents != null) {
             try {
               chunkEvents.add(
-                ImageChunkEvent(cumulativeBytesLoaded: bytes.length, expectedTotalBytes: response.contentLength ?? 0),
+                ImageChunkEvent(
+                  cumulativeBytesLoaded: bytes.length,
+                  expectedTotalBytes: response.contentLength ?? 0,
+                ),
               );
             } catch (e) {
               if (kDebugMode) {
@@ -239,7 +257,9 @@ class CustomExtendedNetworkImageProvider extends ImageProvider<ExtendedNetworkIm
       }
 
       if (bytes.isEmpty) {
-        return Future<Uint8List>.error(StateError('NetworkImage is an empty file: $resolved'));
+        return Future<Uint8List>.error(
+          StateError('NetworkImage is an empty file: $resolved'),
+        );
       }
 
       return Uint8List.fromList(bytes);
@@ -262,7 +282,9 @@ class CustomExtendedNetworkImageProvider extends ImageProvider<ExtendedNetworkIm
     var request = Request('GET', resolved);
     request.headers.addAll(headers ?? {});
 
-    StreamedResponse response = await MClient.init(showCloudFlareError: showCloudFlareError).send(request);
+    StreamedResponse response = await MClient.init(
+      showCloudFlareError: showCloudFlareError,
+    ).send(request);
     if (response.statusCode != 200) {
       final res = await MClient.init(
         reqcopyWith: {'useDartHttpClient': true},
@@ -279,7 +301,10 @@ class CustomExtendedNetworkImageProvider extends ImageProvider<ExtendedNetworkIm
     cancelToken?.throwIfCancellationRequested();
     return await RetryHelper.tryRun<StreamedResponse>(
       () {
-        return CancellationTokenSource.register(cancelToken, _getResponse(resolved));
+        return CancellationTokenSource.register(
+          cancelToken,
+          _getResponse(resolved),
+        );
       },
       cancelToken: cancelToken,
       timeRetry: timeRetry,
@@ -328,7 +353,9 @@ class CustomExtendedNetworkImageProvider extends ImageProvider<ExtendedNetworkIm
 
   /// Get network image data from cached
   @override
-  Future<Uint8List?> getNetworkImageData({StreamController<ImageChunkEvent>? chunkEvents}) async {
+  Future<Uint8List?> getNetworkImageData({
+    StreamController<ImageChunkEvent>? chunkEvents,
+  }) async {
     final String uId = cacheKey ?? keyToMd5(url);
 
     if (cache) {

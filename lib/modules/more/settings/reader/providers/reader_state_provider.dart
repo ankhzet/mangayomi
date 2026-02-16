@@ -134,7 +134,15 @@ class NavigationOrderState extends _$NavigationOrderState {
   @override
   List<String> build() {
     return isar.settings.first.navigationOrder ??
-        ['/MangaLibrary', '/AnimeLibrary', '/NovelLibrary', '/updates', '/history', '/browse', '/more'];
+        [
+          '/MangaLibrary',
+          '/AnimeLibrary',
+          '/NovelLibrary',
+          '/updates',
+          '/history',
+          '/browse',
+          '/more',
+        ];
   }
 
   void set(List<String> values) {

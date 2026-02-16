@@ -8,19 +8,19 @@ class CustomNavigationSettings extends ConsumerStatefulWidget {
   const CustomNavigationSettings({super.key});
 
   @override
-  ConsumerState<CustomNavigationSettings> createState() => _CustomNavigationSettingsState();
+  ConsumerState<CustomNavigationSettings> createState() =>
+      _CustomNavigationSettingsState();
 }
 
-class _CustomNavigationSettingsState extends ConsumerState<CustomNavigationSettings> {
+class _CustomNavigationSettingsState
+    extends ConsumerState<CustomNavigationSettings> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final navigationOrder = ref.watch(navigationOrderStateProvider);
     final hideItems = ref.watch(hideItemsStateProvider);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.reorder_navigation),
-      ),
+      appBar: AppBar(title: Text(l10n.reorder_navigation)),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -42,17 +42,24 @@ class _CustomNavigationSettingsState extends ConsumerState<CustomNavigationSetti
                       key: Key(navigation),
                       dense: true,
                       value: !hideItems.contains(navigation),
-                      onChanged: ["/more", "/browse", "/history"].any((element) => element == navigation)
-                          ? null
-                          : (value) {
-                              final temp = hideItems.toList();
-                              if (!value && !hideItems.contains(navigation)) {
-                                temp.add(navigation);
-                              } else if (value) {
-                                temp.remove(navigation);
-                              }
-                              ref.read(hideItemsStateProvider.notifier).set(temp);
-                            },
+                      onChanged:
+                          [
+                                "/more",
+                                "/browse",
+                                "/history",
+                              ].any((element) => element == navigation)
+                              ? null
+                              : (value) {
+                                final temp = hideItems.toList();
+                                if (!value && !hideItems.contains(navigation)) {
+                                  temp.add(navigation);
+                                } else if (value) {
+                                  temp.remove(navigation);
+                                }
+                                ref
+                                    .read(hideItemsStateProvider.notifier)
+                                    .set(temp);
+                              },
                       title: Text(navigationItems[navigation]!),
                     ),
                   ),
@@ -73,7 +80,9 @@ class _CustomNavigationSettingsState extends ConsumerState<CustomNavigationSetti
                 }
                 navigationOrder[newIndex] = draggedItem;
               }
-              ref.read(navigationOrderStateProvider.notifier).set(navigationOrder);
+              ref
+                  .read(navigationOrderStateProvider.notifier)
+                  .set(navigationOrder);
             },
           ),
         ),

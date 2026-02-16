@@ -8,8 +8,14 @@ class ListTileWidget extends StatelessWidget {
   final String? subtitle;
   final Widget? trailing;
 
-  const ListTileWidget(
-      {super.key, required this.onTap, required this.title, required this.icon, this.subtitle, this.trailing});
+  const ListTileWidget({
+    super.key,
+    required this.onTap,
+    required this.title,
+    required this.icon,
+    this.subtitle,
+    this.trailing,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +28,9 @@ class ListTileWidget extends StatelessWidget {
       //       )
       //     : null,
       leading: SizedBox(
-          height: 40,
-          child: Icon(
-            icon,
-            color: context.primaryColor,
-          )),
+        height: 40,
+        child: Icon(icon, color: context.primaryColor),
+      ),
       title: Text(title),
       trailing: trailing,
     );

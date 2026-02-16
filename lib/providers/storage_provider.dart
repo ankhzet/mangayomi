@@ -79,7 +79,10 @@ class StorageProvider {
   }
 
   static String getDefaultDirectoryPath() {
-    return path.join(Platform.isAndroid ? androidStorage : documents, mangayomi);
+    return path.join(
+      Platform.isAndroid ? androidStorage : documents,
+      mangayomi,
+    );
   }
 
   static Future<String> getBackupDirectory() async {
@@ -102,7 +105,10 @@ class StorageProvider {
     String location = isar.settings.first.downloadLocation?.fixSeparator ?? '';
 
     if (location.isNotEmpty && !useDefault) {
-      return (Platform.isAndroid || path.basename(location.replaceAll(RegExp(r'[\\/]+$'), '')).endsWith(mangayomi))
+      return (Platform.isAndroid ||
+              path
+                  .basename(location.replaceAll(RegExp(r'[\\/]+$'), ''))
+                  .endsWith(mangayomi))
           ? location
           : path.join(location, mangayomi);
     }
@@ -132,20 +138,28 @@ class StorageProvider {
       final scanlator = chapter.scanlator!;
       final prefix = scanlator.isNotEmpty ? '${scanlator}_' : '';
 
-      return path.join(mangaPath, '$prefix${chapter.name!}'.replaceForbiddenCharacters('_'));
+      return path.join(
+        mangaPath,
+        '$prefix${chapter.name!}'.replaceForbiddenCharacters('_'),
+      );
     }
 
     return mangaPath;
   }
 
   static Future<String> getMangaChapterDirectory(Chapter chapter) async {
-    return ensureDirectoryPath(path.join(
-      getDownloadsDirectoryPath(),
-      getChapterDirectoryRelativePath(chapter),
-    ));
+    return ensureDirectoryPath(
+      path.join(
+        getDownloadsDirectoryPath(),
+        getChapterDirectoryRelativePath(chapter),
+      ),
+    );
   }
 
-  static String getMangaMainDirectoryPath(Manga manga, {bool relative = false}) {
+  static String getMangaMainDirectoryPath(
+    Manga manga, {
+    bool relative = false,
+  }) {
     final type = switch (manga.itemType) {
       ItemType.anime => 'Anime',
       ItemType.manga => 'Manga',
@@ -154,7 +168,9 @@ class StorageProvider {
     final source = '${manga.source} (${manga.lang!.toUpperCase()})';
     final name = manga.name!.replaceForbiddenCharacters('_');
 
-    return relative ? path.join(type, source, name) : path.join(getDownloadsDirectoryPath(), type, source, name);
+    return relative
+        ? path.join(type, source, name)
+        : path.join(getDownloadsDirectoryPath(), type, source, name);
   }
 
   static Future<String> getMangaMainDirectory(Manga manga) async {
@@ -201,7 +217,12 @@ class StorageProvider {
       ViewQueueItemSchema,
     ];
 
-    final isar = Isar.openSync(schemas, directory: directory, name: "mangayomiDb", inspector: inspector!);
+    final isar = Isar.openSync(
+      schemas,
+      directory: directory,
+      name: "mangayomiDb",
+      inspector: inspector!,
+    );
 
     if (isar.settings.filter().idEqualTo(227).isEmptySync()) {
       isar.settings.first = Settings();
@@ -212,5 +233,6 @@ class StorageProvider {
 }
 
 extension StringPathExtension on String {
-  String get fixSeparator => (path.separator == '/') ? this : replaceAll("/", path.separator);
+  String get fixSeparator =>
+      (path.separator == '/') ? this : replaceAll("/", path.separator);
 }

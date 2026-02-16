@@ -38,12 +38,14 @@ class ImageRowView extends StatefulWidget {
   State<ImageRowView> createState() => _ImageRowViewState();
 }
 
-class _ImageRowViewState extends State<ImageRowView> with TickerProviderStateMixin {
+class _ImageRowViewState extends State<ImageRowView>
+    with TickerProviderStateMixin {
   late AnimationController _scaleAnimationController;
   late Animation<double> _animation;
   Alignment _scalePosition = Alignment.center;
   final PhotoViewController _photoViewController = PhotoViewController();
-  final PhotoViewScaleStateController _photoViewScaleStateController = PhotoViewScaleStateController();
+  final PhotoViewScaleStateController _photoViewScaleStateController =
+      PhotoViewScaleStateController();
 
   double get pixelRatio => View.of(context).devicePixelRatio;
 
@@ -53,10 +55,7 @@ class _ImageRowViewState extends State<ImageRowView> with TickerProviderStateMix
     double dx = size.width / 2;
     double dy = size.height / 2;
 
-    return Alignment(
-      (offset.dx - dx) / dx,
-      (offset.dy - dy) / dy,
-    );
+    return Alignment((offset.dx - dx) / dx, (offset.dy - dy) / dy);
   }
 
   @override
@@ -71,11 +70,11 @@ class _ImageRowViewState extends State<ImageRowView> with TickerProviderStateMix
         },
       ),
     );
-    _animation =
-        Tween(begin: 1.0, end: 2.0).animate(CurvedAnimation(curve: Curves.ease, parent: _scaleAnimationController))
-          ..addListener(() {
-            _photoViewController.scale = _animation.value;
-          });
+    _animation = Tween(begin: 1.0, end: 2.0).animate(
+      CurvedAnimation(curve: Curves.ease, parent: _scaleAnimationController),
+    )..addListener(() {
+      _photoViewController.scale = _animation.value;
+    });
 
     super.initState();
   }
@@ -119,24 +118,25 @@ class _ImageRowViewState extends State<ImageRowView> with TickerProviderStateMix
     return PhotoViewGallery.builder(
       backgroundDecoration: const BoxDecoration(color: Colors.transparent),
       itemCount: 1,
-      builder: (context, _) => PhotoViewGalleryPageOptions.customChild(
-        controller: _photoViewController,
-        scaleStateController: _photoViewScaleStateController,
-        basePosition: _scalePosition,
-        onScaleEnd: _onScaleEnd,
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onDoubleTapDown: _toggleScale,
-          child: ImagesSlice(
-            preloads: getTasks(),
-            backgroundColor: widget.backgroundColor,
-            onLongPressData: widget.onLongPressData,
-            onLoadError: widget.onLoadError,
-            horizontal: widget.horizontal,
-            vertical: widget.vertical,
+      builder:
+          (context, _) => PhotoViewGalleryPageOptions.customChild(
+            controller: _photoViewController,
+            scaleStateController: _photoViewScaleStateController,
+            basePosition: _scalePosition,
+            onScaleEnd: _onScaleEnd,
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onDoubleTapDown: _toggleScale,
+              child: ImagesSlice(
+                preloads: getTasks(),
+                backgroundColor: widget.backgroundColor,
+                onLongPressData: widget.onLongPressData,
+                onLoadError: widget.onLoadError,
+                horizontal: widget.horizontal,
+                vertical: widget.vertical,
+              ),
+            ),
           ),
-        ),
-      ),
     );
   }
 
@@ -166,7 +166,11 @@ class _ImageRowViewState extends State<ImageRowView> with TickerProviderStateMix
     });
   }
 
-  void _onScaleEnd(BuildContext context, ScaleEndDetails details, PhotoViewControllerValue controllerValue) {
+  void _onScaleEnd(
+    BuildContext context,
+    ScaleEndDetails details,
+    PhotoViewControllerValue controllerValue,
+  ) {
     if (controllerValue.scale! < 1) {
       _photoViewScaleStateController.reset();
     }

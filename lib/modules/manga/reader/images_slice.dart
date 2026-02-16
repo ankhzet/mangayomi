@@ -26,25 +26,31 @@ class ImagesSlice extends StatelessWidget {
     final separator = const SizedBox(width: 10);
     final images = Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: preloads
-          .map((preload) => (preload == null
-              ? separator
-              : Flexible(
-                  child: ImageView(
-                  data: preload,
-                  backgroundColor: backgroundColor,
-                  onLongPressData: onLongPressData,
-                  onLoadError: onLoadError,
-                  horizontal: horizontal,
-                ))))
-          .toList(),
+      children:
+          preloads
+              .map(
+                (preload) =>
+                    (preload == null
+                        ? separator
+                        : Flexible(
+                          child: ImageView(
+                            data: preload,
+                            backgroundColor: backgroundColor,
+                            onLongPressData: onLongPressData,
+                            onLoadError: onLoadError,
+                            horizontal: horizontal,
+                          ),
+                        )),
+              )
+              .toList(),
     );
 
     if (vertical) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (preloads.first?.index == 0) SizedBox(height: MediaQuery.of(context).padding.top),
+          if (preloads.first?.index == 0)
+            SizedBox(height: MediaQuery.of(context).padding.top),
           images,
         ],
       );

@@ -18,7 +18,9 @@ class MTorrentServer {
   Future<bool> removeTorrent(String? infohash) async {
     if (infohash == null || infohash.isEmpty) return false;
     try {
-      final res = await http.delete(Uri.parse("$_baseUrl/torrent/remove?infohash=$infohash"));
+      final res = await http.delete(
+        Uri.parse("$_baseUrl/torrent/remove?infohash=$infohash"),
+      );
       if (res.statusCode == 200) {
         return true;
       }
@@ -43,10 +45,18 @@ class MTorrentServer {
 
   Future<String> getInfohash(String url, bool isFilePath) async {
     try {
-      final torrentByte = isFilePath ? File(url).readAsBytesSync() : (await http.get(Uri.parse(url))).bodyBytes;
-      var request = MultipartRequest('POST', Uri.parse('$_baseUrl/torrent/add'));
+      final torrentByte =
+          isFilePath
+              ? File(url).readAsBytesSync()
+              : (await http.get(Uri.parse(url))).bodyBytes;
+      var request = MultipartRequest(
+        'POST',
+        Uri.parse('$_baseUrl/torrent/add'),
+      );
 
-      request.files.add(MultipartFile.fromBytes('file', torrentByte, filename: 'file.torrent'));
+      request.files.add(
+        MultipartFile.fromBytes('file', torrentByte, filename: 'file.torrent'),
+      );
       final response = await http.send(request);
       return await response.stream.bytesToString();
     } catch (e) {
@@ -54,7 +64,10 @@ class MTorrentServer {
     }
   }
 
-  Future<(List<Video>, String?)> getTorrentPlaylist(String? url, String? archivePath) async {
+  Future<(List<Video>, String?)> getTorrentPlaylist(
+    String? url,
+    String? archivePath,
+  ) async {
     try {
       final isFilePath = archivePath?.isNotEmpty ?? false;
       final isRunning = await check();
@@ -63,7 +76,9 @@ class MTorrentServer {
         final config = jsonEncode({"path": path, "address": "127.0.0.1:0"});
         int port = 0;
         if (Platform.isAndroid || Platform.isIOS) {
-          const channel = MethodChannel('com.kodjodevf.mangayomi.libmtorrentserver');
+          const channel = MethodChannel(
+            'com.kodjodevf.mangayomi.libmtorrentserver',
+          );
           port = await channel.invokeMethod('start', {"config": config});
         } else {
           port = await Isolate.run(() async {
@@ -109,5 +124,7 @@ String get _baseUrl {
 }
 
 void _setBtServerPort(int newPort) {
-  isar.writeTxnSync(() => isar.settings.putSync(isar.settings.first..btServerPort = newPort));
+  isar.writeTxnSync(
+    () => isar.settings.putSync(isar.settings.first..btServerPort = newPort),
+  );
 }

@@ -29,11 +29,13 @@ Future<void> fetchSourcesList({
   final req = await http.get(Uri.parse(url));
 
   final version = (await PackageInfo.fromPlatform()).version;
-  final sourceList =
-      (jsonDecode(req.body) as List).map((e) => Source.fromJson(e)).where((source) => source.itemType == itemType);
+  final sourceList = (jsonDecode(req.body) as List)
+      .map((e) => Source.fromJson(e))
+      .where((source) => source.itemType == itemType);
 
   bool isSupported(Source source) {
-    return (source.appMinVerReq != null) && (compareVersions(version, source.appMinVerReq!) > -1);
+    return (source.appMinVerReq != null) &&
+        (compareVersions(version, source.appMinVerReq!) > -1);
   }
 
   // if (sourceList.isNotEmpty && sourcesOfType.isEmpty) {
@@ -50,14 +52,15 @@ Future<void> fetchSourcesList({
       if (isSupported(source)) {
         final persisted = isar.sources.getSync(id)!;
         final req = await http.get(Uri.parse(source.sourceCodeUrl!));
-        final headers = getExtensionService(source..sourceCode = req.body).getHeaders();
+        final headers =
+            getExtensionService(source..sourceCode = req.body).getHeaders();
 
-        updated.add(
-            copy(persisted, source)..headers = jsonEncode(headers),
-        );
+        updated.add(copy(persisted, source)..headers = jsonEncode(headers));
         // log("successfully installed or updated");
       } else {
-          throw AssertionError('No extensions that support current app version ($version)');
+        throw AssertionError(
+          'No extensions that support current app version ($version)',
+        );
       }
     }
   } else {
@@ -68,24 +71,24 @@ Future<void> fetchSourcesList({
 
       if (persisted != null) {
         // log("exist");
-        if (!(persisted.isAdded! && (compareVersions(persisted.version!, source.version!) < 0))) {
+        if (!(persisted.isAdded! &&
+            (compareVersions(persisted.version!, source.version!) < 0))) {
           continue;
         }
 
         if (autoupdate && isSupported(source)) {
           // log("update available auto update");
           final req = await http.get(Uri.parse(source.sourceCodeUrl!));
-          final headers = getExtensionService(source..sourceCode = req.body).getHeaders();
+          final headers =
+              getExtensionService(source..sourceCode = req.body).getHeaders();
 
-          updated.add(
-            copy(persisted, source)..headers = jsonEncode(headers),
-          );
+          updated.add(copy(persisted, source)..headers = jsonEncode(headers));
         } else {
           // log("update available");
           updated.add(
-              persisted
-                ..versionLast = source.version
-                ..appMinVerReqLast = source.appMinVerReq
+            persisted
+              ..versionLast = source.version
+              ..appMinVerReqLast = source.appMinVerReq,
           );
         }
       } else if (isSupported(source)) {
@@ -103,7 +106,12 @@ Future<void> fetchSourcesList({
     final notifier = ref.read(synchingProvider(syncId: 1).notifier);
 
     for (final source in updated) {
-      notifier.addChangedPart(ActionType.updateExtension, source.id, source.toJson(), false);
+      notifier.addChangedPart(
+        ActionType.updateExtension,
+        source.id,
+        source.toJson(),
+        false,
+      );
     }
 
     checkIfSourceIsObsolete(sourceList, itemType, url, ref);
@@ -111,10 +119,10 @@ Future<void> fetchSourcesList({
 }
 
 void checkIfSourceIsObsolete(
-    Iterable<Source> sourceList,
-    ItemType itemType,
-    String repoUrl,
-    Ref ref,
+  Iterable<Source> sourceList,
+  ItemType itemType,
+  String repoUrl,
+  Ref ref,
 ) {
   final ids = sourceList.map((e) => e.id).whereType<int>();
 
@@ -122,15 +130,16 @@ void checkIfSourceIsObsolete(
     return;
   }
 
-  final sources = isar.sources
-  //
-      .filter()
-      .idIsNotNull()
-      .itemTypeEqualTo(itemType)
-      .and()
-      .not()
-      .isLocalEqualTo(true)
-      .findAllSync();
+  final sources =
+      isar.sources
+          //
+          .filter()
+          .idIsNotNull()
+          .itemTypeEqualTo(itemType)
+          .and()
+          .not()
+          .isLocalEqualTo(true)
+          .findAllSync();
   final updated = <Source>[];
 
   for (var source in sources) {
@@ -151,36 +160,42 @@ void checkIfSourceIsObsolete(
     final notifier = ref.read(synchingProvider(syncId: 1).notifier);
 
     for (final source in updated) {
-      notifier.addChangedPart(ActionType.updateExtension, source.id, source.toJson(), false);
+      notifier.addChangedPart(
+        ActionType.updateExtension,
+        source.id,
+        source.toJson(),
+        false,
+      );
     }
   }
 }
 
 Source Function(Source to, Source from) copyTo(ItemType itemType, Repo? repo) {
-  return (Source to, Source from) => to
-    ..isAdded = true
-    ..itemType = itemType
-    ..id = from.id
-    ..sourceCodeUrl = from.sourceCodeUrl
-    ..sourceCode = from.sourceCode
-    ..apiUrl = from.apiUrl
-    ..baseUrl = from.baseUrl
-    ..dateFormat = from.dateFormat
-    ..dateFormatLocale = from.dateFormatLocale
-    ..hasCloudflare = from.hasCloudflare
-    ..iconUrl = from.iconUrl
-    ..typeSource = from.typeSource
-    ..lang = from.lang
-    ..isNsfw = from.isNsfw
-    ..name = from.name
-    ..version = from.version
-    ..versionLast = from.version
-    ..isFullData = from.isFullData ?? false
-    ..appMinVerReq = from.appMinVerReq
-    ..sourceCodeLanguage = from.sourceCodeLanguage
-    ..additionalParams = from.additionalParams ?? ""
-    ..isObsolete = false
-    ..repo = repo;
+  return (Source to, Source from) =>
+      to
+        ..isAdded = true
+        ..itemType = itemType
+        ..id = from.id
+        ..sourceCodeUrl = from.sourceCodeUrl
+        ..sourceCode = from.sourceCode
+        ..apiUrl = from.apiUrl
+        ..baseUrl = from.baseUrl
+        ..dateFormat = from.dateFormat
+        ..dateFormatLocale = from.dateFormatLocale
+        ..hasCloudflare = from.hasCloudflare
+        ..iconUrl = from.iconUrl
+        ..typeSource = from.typeSource
+        ..lang = from.lang
+        ..isNsfw = from.isNsfw
+        ..name = from.name
+        ..version = from.version
+        ..versionLast = from.version
+        ..isFullData = from.isFullData ?? false
+        ..appMinVerReq = from.appMinVerReq
+        ..sourceCodeLanguage = from.sourceCodeLanguage
+        ..additionalParams = from.additionalParams ?? ""
+        ..isObsolete = false
+        ..repo = repo;
 }
 
 int compareVersions(String version1, String version2) {

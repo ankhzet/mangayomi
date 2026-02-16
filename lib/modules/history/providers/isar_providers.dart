@@ -11,7 +11,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'isar_providers.g.dart';
 
 @riverpod
-Stream<List<History>> getAllHistoryStream(Ref ref, {required ItemType itemType}) async* {
+Stream<List<History>> getAllHistoryStream(
+  Ref ref, {
+  required ItemType itemType,
+}) async* {
   yield* isar.historys
       .filter()
       .idIsNotNull()
@@ -21,17 +24,28 @@ Stream<List<History>> getAllHistoryStream(Ref ref, {required ItemType itemType})
 }
 
 @riverpod
-Stream<List<History>> getMangaHistoryStream(Ref ref, {required ItemType itemType, required int mangaId}) async* {
+Stream<List<History>> getMangaHistoryStream(
+  Ref ref, {
+  required ItemType itemType,
+  required int mangaId,
+}) async* {
   yield* isar.historys
       .filter()
       .idIsNotNull()
       .and()
-      .chapter((q) => q.manga((q) => q.itemTypeEqualTo(itemType).and().idEqualTo(mangaId)))
+      .chapter(
+        (q) => q.manga(
+          (q) => q.itemTypeEqualTo(itemType).and().idEqualTo(mangaId),
+        ),
+      )
       .watch(fireImmediately: true);
 }
 
 @riverpod
-Stream<List<Update>> getAllUpdateStream(Ref ref, {required ItemType itemType}) async* {
+Stream<List<Update>> getAllUpdateStream(
+  Ref ref, {
+  required ItemType itemType,
+}) async* {
   yield* isar.updates
       .filter()
       .idIsNotNull()
@@ -41,13 +55,17 @@ Stream<List<Update>> getAllUpdateStream(Ref ref, {required ItemType itemType}) a
 }
 
 @riverpod
-Stream<List<Manga>> getAllMangasStream(Ref ref, {required ItemType itemType}) async* {
-  yield* isar.mangas.filter().itemTypeEqualTo(itemType).watch(fireImmediately: true);
+Stream<List<Manga>> getAllMangasStream(
+  Ref ref, {
+  required ItemType itemType,
+}) async* {
+  yield* isar.mangas
+      .filter()
+      .itemTypeEqualTo(itemType)
+      .watch(fireImmediately: true);
 }
 
 @riverpod
 Stream<Iterable<ViewQueueItem>> getViewQueueMap(Ref ref) async* {
-  yield* isar.viewQueueItems
-      .where()
-      .watch(fireImmediately: true);
+  yield* isar.viewQueueItems.where().watch(fireImmediately: true);
 }

@@ -5,10 +5,7 @@ import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 class RetryWidget extends StatelessWidget {
   final void Function() onPressed;
 
-  const RetryWidget({
-    super.key,
-    required this.onPressed,
-  });
+  const RetryWidget({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +24,16 @@ class RetryWidget extends StatelessWidget {
             onLongPress: onPressed,
             onTap: onPressed,
             child: Container(
-              decoration: BoxDecoration(color: context.primaryColor, borderRadius: BorderRadius.circular(30)),
+              decoration: BoxDecoration(
+                color: context.primaryColor,
+                borderRadius: BorderRadius.circular(30),
+              ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: Text(
-                  l10n.retry,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 16,
                 ),
+                child: Text(l10n.retry),
               ),
             ),
           ),

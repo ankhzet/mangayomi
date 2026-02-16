@@ -12,8 +12,7 @@ class AppFontFamily extends _$AppFontFamily {
     final fontFamily = isar.settings.first.appFontFamily;
     if (fontFamily == null) return null;
 
-    return GoogleFonts.asMap()
-        .entries
+    return GoogleFonts.asMap().entries
         .toList()
         .firstWhere((element) => element.value().fontFamily! == fontFamily)
         .value()

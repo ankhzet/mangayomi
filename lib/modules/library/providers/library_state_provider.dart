@@ -27,7 +27,10 @@ class LibraryDisplayTypeState extends _$LibraryDisplayTypeState {
     }
   }
 
-  String getLibraryDisplayTypeName(DisplayType displayType, BuildContext context) {
+  String getLibraryDisplayTypeName(
+    DisplayType displayType,
+    BuildContext context,
+  ) {
     final l10n = context.l10n;
     return switch (displayType) {
       DisplayType.compactGrid => l10n.compact_grid,
@@ -112,13 +115,15 @@ class MangaFilter with Iterable<MangaFilterState> {
   Iterable<MangaFilterState> all;
 
   MangaFilter(Settings settings, ItemType type, void Function() onUpdate)
-      : all = bits.map((bit) => MangaFilterState(
-              settings: settings,
-              type: type,
-              position: bit.$1,
-              filter: bit.$2,
-              onUpdate: onUpdate,
-            ));
+    : all = bits.map(
+        (bit) => MangaFilterState(
+          settings: settings,
+          type: type,
+          position: bit.$1,
+          filter: bit.$2,
+          onUpdate: onUpdate,
+        ),
+      );
 
   MangaFilterState getOfBit(int bit) {
     for (final (index, state) in all.indexed) {
@@ -131,12 +136,7 @@ class MangaFilter with Iterable<MangaFilterState> {
   }
 
   @override
-  late int hashCode = Object.hash(
-    downloaded,
-    unread,
-    bookmarked,
-    started,
-  );
+  late int hashCode = Object.hash(downloaded, unread, bookmarked, started);
 
   @override
   bool operator ==(Object other) {
@@ -173,19 +173,11 @@ class MangaFilter with Iterable<MangaFilterState> {
 class MangaFiltersState extends _$MangaFiltersState {
   @override
   MangaFilter build({required ItemType itemType, required Settings settings}) {
-    return state = MangaFilter(
-      settings,
-      itemType,
-      update,
-    );
+    return state = MangaFilter(settings, itemType, update);
   }
 
   void update() {
-    state = MangaFilter(
-      settings,
-      itemType,
-      update,
-    );
+    state = MangaFilter(settings, itemType, update);
   }
 
   Iterable<Manga> filterEntries(Iterable<Manga> entries) {
@@ -219,8 +211,11 @@ class MangaFilterState {
   }
 
   int setValue(int value) {
-    isar.settings.first = settings
-      ..libraryFilter = ((settings.libraryFilter ?? LibraryFilter())..setValue(type, position, value));
+    isar.settings.first =
+        settings
+          ..libraryFilter =
+              ((settings.libraryFilter ?? LibraryFilter())
+                ..setValue(type, position, value));
 
     onUpdate();
     return value;
@@ -244,7 +239,9 @@ class MangasFilterResultState extends _$MangasFilterResultState {
   @override
   bool build({required ItemType itemType, required Settings settings}) {
     return ref
-        .watch(mangaFiltersStateProvider(itemType: itemType, settings: settings))
+        .watch(
+          mangaFiltersStateProvider(itemType: itemType, settings: settings),
+        )
         .every((option) => option.value == 0);
   }
 }
@@ -418,7 +415,8 @@ class LibraryShowNumbersOfItemsState extends _$LibraryShowNumbersOfItemsState {
 }
 
 @riverpod
-class LibraryShowContinueReadingButtonState extends _$LibraryShowContinueReadingButtonState {
+class LibraryShowContinueReadingButtonState
+    extends _$LibraryShowContinueReadingButtonState {
   @override
   bool build({required ItemType itemType, required Settings settings}) {
     return switch (itemType) {
@@ -448,7 +446,10 @@ class LibraryShowContinueReadingButtonState extends _$LibraryShowContinueReading
 @riverpod
 class SortLibraryMangaState extends _$SortLibraryMangaState {
   @override
-  SortLibraryManga build({required ItemType itemType, required Settings settings}) {
+  SortLibraryManga build({
+    required ItemType itemType,
+    required Settings settings,
+  }) {
     return switch (itemType) {
       ItemType.manga => settings.sortLibraryManga ?? SortLibraryManga(),
       ItemType.anime => settings.sortLibraryAnime ?? SortLibraryManga(),
@@ -458,9 +459,10 @@ class SortLibraryMangaState extends _$SortLibraryMangaState {
 
   void update(bool reverse, int index) {
     Settings appSettings = Settings();
-    var value = SortLibraryManga()
-      ..index = index
-      ..reverse = state.index == index ? !reverse : reverse;
+    var value =
+        SortLibraryManga()
+          ..index = index
+          ..reverse = state.index == index ? !reverse : reverse;
 
     switch (itemType) {
       case ItemType.manga:
@@ -561,7 +563,12 @@ class MangasSetIsReadState extends _$MangasSetIsReadState {
             chapter.manga.saveSync();
             ref
                 .read(synchingProvider(syncId: 1).notifier)
-                .addChangedPart(ActionType.updateChapter, chapter.id, chapter.toJson(), false);
+                .addChangedPart(
+                  ActionType.updateChapter,
+                  chapter.id,
+                  chapter.toJson(),
+                  false,
+                );
           }
         });
       }
@@ -588,7 +595,12 @@ class MangasSetUnReadState extends _$MangasSetUnReadState {
           chapter.manga.saveSync();
           ref
               .read(synchingProvider(syncId: 1).notifier)
-              .addChangedPart(ActionType.updateChapter, chapter.id, chapter.toJson(), false);
+              .addChangedPart(
+                ActionType.updateChapter,
+                chapter.id,
+                chapter.toJson(),
+                false,
+              );
         }
       });
     }

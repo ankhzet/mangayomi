@@ -26,7 +26,10 @@ class GenreBadgeWidget extends StatelessWidget {
         onPressed: onPressed,
         child: Text(
           genre,
-          style: TextStyle(fontSize: 11.5, color: context.isLight ? Colors.black : Colors.white),
+          style: TextStyle(
+            fontSize: 11.5,
+            color: context.isLight ? Colors.black : Colors.white,
+          ),
         ),
       ),
     );

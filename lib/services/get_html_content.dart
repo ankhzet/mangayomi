@@ -15,7 +15,9 @@ Future<String> getHtmlContent(Ref ref, {required Chapter chapter}) async {
   if (!chapter.manga.isLoaded) {
     chapter.manga.loadSync();
   }
-  final mangaDirectory = await StorageProvider.getMangaMainDirectory(chapter.manga.value!);
+  final mangaDirectory = await StorageProvider.getMangaMainDirectory(
+    chapter.manga.value!,
+  );
   final htmlPath = "$mangaDirectory${chapter.name}.html";
   final htmlFile = File(htmlPath);
   String? htmlContent;
@@ -27,10 +29,14 @@ Future<String> getHtmlContent(Ref ref, {required Chapter chapter}) async {
     htmlContent = temp.outerHtml;
   }
 
-  final source = getSource(chapter.manga.value!.lang!, chapter.manga.value!.source!);
-  String html = htmlContent != null
-      ? await getExtensionService(source!).cleanHtmlContent(htmlContent)
-      : await getExtensionService(source!).getHtmlContent(chapter.url!);
+  final source = getSource(
+    chapter.manga.value!.lang!,
+    chapter.manga.value!.source!,
+  );
+  String html =
+      htmlContent != null
+          ? await getExtensionService(source!).cleanHtmlContent(htmlContent)
+          : await getExtensionService(source!).getHtmlContent(chapter.url!);
 
   return '''<div id="readerViewContent"><div style="padding: 2em;">${html.substring(1, html.length - 1)}</div></div>'''
       .replaceAll("\\n", "")

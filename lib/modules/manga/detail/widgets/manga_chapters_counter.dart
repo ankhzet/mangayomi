@@ -30,7 +30,9 @@ class MangaChaptersCounter extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Text(
-                    manga.itemType != ItemType.anime ? l10n.n_chapters(chapters) : l10n.n_episodes(chapters),
+                    manga.itemType != ItemType.anime
+                        ? l10n.n_chapters(chapters)
+                        : l10n.n_episodes(chapters),
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),

@@ -107,29 +107,36 @@ class Manga {
   }
 
   Map<String, dynamic> toJson() => {
-        'author': author,
-        'artist': artist,
-        'categories': categories,
-        'customCoverImage': customCoverImage,
-        'dateAdded': dateAdded,
-        'description': description,
-        'favorite': favorite,
-        'genre': genre,
-        'id': id,
-        'imageUrl': imageUrl,
-        'isLocalArchive': isLocalArchive,
-        'itemType': itemType.index,
-        'lang': lang,
-        'lastRead': lastRead,
-        'lastUpdate': lastUpdate,
-        'link': link,
-        'name': name,
-        'source': source,
-        'status': status.index,
-        'customCoverFromTracker': customCoverFromTracker,
-      };
+    'author': author,
+    'artist': artist,
+    'categories': categories,
+    'customCoverImage': customCoverImage,
+    'dateAdded': dateAdded,
+    'description': description,
+    'favorite': favorite,
+    'genre': genre,
+    'id': id,
+    'imageUrl': imageUrl,
+    'isLocalArchive': isLocalArchive,
+    'itemType': itemType.index,
+    'lang': lang,
+    'lastRead': lastRead,
+    'lastUpdate': lastUpdate,
+    'link': link,
+    'name': name,
+    'source': source,
+    'status': status.index,
+    'customCoverFromTracker': customCoverFromTracker,
+  };
 }
 
-enum Status { ongoing, completed, canceled, unknown, onHiatus, publishingFinished }
+enum Status {
+  ongoing,
+  completed,
+  canceled,
+  unknown,
+  onHiatus,
+  publishingFinished,
+}
 
 enum ItemType { manga, anime, novel }

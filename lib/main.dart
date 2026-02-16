@@ -63,7 +63,10 @@ void main(List<String> args) async {
     if (availableVersion != null) {
       final document = await getApplicationDocumentsDirectory();
       webViewEnvironment = await WebViewEnvironment.create(
-          settings: WebViewEnvironmentSettings(userDataFolder: p.join(document.path, 'flutter_inappwebview')));
+        settings: WebViewEnvironmentSettings(
+          userDataFolder: p.join(document.path, 'flutter_inappwebview'),
+        ),
+      );
     }
   }
 
@@ -101,7 +104,9 @@ class _MyAppState extends ConsumerState<MyApp> {
     initDeepLinks();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (ref.read(clearChapterCacheOnAppLaunchStateProvider)) {
-        ref.read(totalChapterCacheSizeStateProvider.notifier).clearCache(showToast: false);
+        ref
+            .read(totalChapterCacheSizeStateProvider.notifier)
+            .clearCache(showToast: false);
       }
     });
     super.initState();
@@ -185,19 +190,40 @@ class _MyAppState extends ConsumerState<MyApp> {
           final animeRepoUrls = uri.queryParametersAll["anime_url"];
           final novelRepoUrls = uri.queryParametersAll["novel_url"];
           if (mangaRepoUrls != null) {
-            final mangaRepos = ref.read(extensionsRepoStateProvider(ItemType.manga)).toList();
-            mangaRepos.addAll(mangaRepoUrls.map((e) => Repo(name: repoName, jsonUrl: e, website: repoUrl)));
-            ref.read(extensionsRepoStateProvider(ItemType.manga).notifier).set(mangaRepos);
+            final mangaRepos =
+                ref.read(extensionsRepoStateProvider(ItemType.manga)).toList();
+            mangaRepos.addAll(
+              mangaRepoUrls.map(
+                (e) => Repo(name: repoName, jsonUrl: e, website: repoUrl),
+              ),
+            );
+            ref
+                .read(extensionsRepoStateProvider(ItemType.manga).notifier)
+                .set(mangaRepos);
           }
           if (animeRepoUrls != null) {
-            final animeRepos = ref.read(extensionsRepoStateProvider(ItemType.anime)).toList();
-            animeRepos.addAll(animeRepoUrls.map((e) => Repo(name: repoName, jsonUrl: e, website: repoUrl)));
-            ref.read(extensionsRepoStateProvider(ItemType.anime).notifier).set(animeRepos);
+            final animeRepos =
+                ref.read(extensionsRepoStateProvider(ItemType.anime)).toList();
+            animeRepos.addAll(
+              animeRepoUrls.map(
+                (e) => Repo(name: repoName, jsonUrl: e, website: repoUrl),
+              ),
+            );
+            ref
+                .read(extensionsRepoStateProvider(ItemType.anime).notifier)
+                .set(animeRepos);
           }
           if (novelRepoUrls != null) {
-            final novelRepos = ref.read(extensionsRepoStateProvider(ItemType.novel)).toList();
-            novelRepos.addAll(novelRepoUrls.map((e) => Repo(name: repoName, jsonUrl: e, website: repoUrl)));
-            ref.read(extensionsRepoStateProvider(ItemType.novel).notifier).set(novelRepos);
+            final novelRepos =
+                ref.read(extensionsRepoStateProvider(ItemType.novel)).toList();
+            novelRepos.addAll(
+              novelRepoUrls.map(
+                (e) => Repo(name: repoName, jsonUrl: e, website: repoUrl),
+              ),
+            );
+            ref
+                .read(extensionsRepoStateProvider(ItemType.novel).notifier)
+                .set(novelRepos);
           }
           botToast(l10n?.repo_added ?? "Source repository added!");
           break;

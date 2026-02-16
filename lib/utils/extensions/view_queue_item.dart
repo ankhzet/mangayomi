@@ -3,7 +3,9 @@ import 'package:mangayomi/models/view_queue_item.dart';
 
 extension ViewQueueIterableUtils on Iterable<ViewQueueItem> {
   Map<int, bool> mapQueueItems(Iterable<int> entities) {
-    return fold({for (final id in entities) id: false}, (map, item) => map..[item.mangaId] = true);
+    return fold({
+      for (final id in entities) id: false,
+    }, (map, item) => map..[item.mangaId] = true);
   }
 }
 
@@ -16,7 +18,9 @@ extension ViewQueueUtils on IsarCollection<ViewQueueItem> {
     return where().mangaIdEqualTo(mangaId).isNotEmptySync();
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause> queryQueued(Iterable<int> entities) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause> queryQueued(
+    Iterable<int> entities,
+  ) {
     return where().anyOf(entities, (q, id) => q.mangaIdEqualTo(id));
   }
 

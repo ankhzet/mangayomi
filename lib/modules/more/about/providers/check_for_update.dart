@@ -16,7 +16,11 @@ import 'package:url_launcher/url_launcher.dart';
 part 'check_for_update.g.dart';
 
 @riverpod
-Future<void> checkForUpdate(Ref ref, {BuildContext? context, bool manualUpdate = false}) async {
+Future<void> checkForUpdate(
+  Ref ref, {
+  BuildContext? context,
+  bool manualUpdate = false,
+}) async {
   final l10n = l10nLocalizations(context!)!;
   if (manualUpdate) {
     BotToast.showText(text: l10n.searching_for_updates);
@@ -39,26 +43,28 @@ Future<void> checkForUpdate(Ref ref, {BuildContext? context, bool manualUpdate =
         builder: (context) {
           return AlertDialog(
             title: Text(l10n.new_update_available),
-            content: Text("${l10n.app_version(updateAvailable.$1)}\n\n${updateAvailable.$2}"),
+            content: Text(
+              "${l10n.app_version(updateAvailable.$1)}\n\n${updateAvailable.$2}",
+            ),
             actions: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(l10n.cancel)),
-                  const SizedBox(
-                    width: 15,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(l10n.cancel),
                   ),
+                  const SizedBox(width: 15),
                   ElevatedButton(
-                      onPressed: () {
-                        _launchInBrowser(Uri.parse(updateAvailable.$3));
-                      },
-                      child: Text(l10n.download)),
+                    onPressed: () {
+                      _launchInBrowser(Uri.parse(updateAvailable.$3));
+                    },
+                    child: Text(l10n.download),
+                  ),
                 ],
-              )
+              ),
             ],
           );
         },
@@ -72,10 +78,7 @@ Future<void> checkForUpdate(Ref ref, {BuildContext? context, bool manualUpdate =
 }
 
 Future<void> _launchInBrowser(Uri url) async {
-  if (!await launchUrl(
-    url,
-    mode: LaunchMode.externalApplication,
-  )) {
+  if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
     throw 'Could not launch $url';
   }
 }
@@ -83,13 +86,19 @@ Future<void> _launchInBrowser(Uri url) async {
 Future<(String, String, String)> _checkUpdate() async {
   final http = MClient.init(reqcopyWith: {'useDartHttpClient': true});
   try {
-    final res =
-        await http.get(Uri.parse("https://api.github.com/repos/kodjodevf/Mangayomi/releases?page=1&per_page=10"));
+    final res = await http.get(
+      Uri.parse(
+        "https://api.github.com/repos/kodjodevf/Mangayomi/releases?page=1&per_page=10",
+      ),
+    );
     List resListJson = jsonDecode(res.body) as List;
     return (
-      resListJson.first["name"].toString().substringAfter('v').substringBefore('-'),
+      resListJson.first["name"]
+          .toString()
+          .substringAfter('v')
+          .substringBefore('-'),
       resListJson.first["body"].toString(),
-      resListJson.first["html_url"].toString()
+      resListJson.first["html_url"].toString(),
     );
   } catch (e) {
     rethrow;

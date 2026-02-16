@@ -16,13 +16,19 @@ import 'package:mangayomi/utils/extensions/view_queue_item.dart';
 class UpdateChaptersGroup<T> extends ChapterGroup<T> {
   final bool isQueued;
 
-  static List<UpdateChaptersGroup<T>> groupChapters<T>(Iterable<Chapter> items, T Function(Chapter item) groupBy) {
-    final queued = isar.viewQueueItems.getQueuedSync(items.map((item) => item.mangaId!));
+  static List<UpdateChaptersGroup<T>> groupChapters<T>(
+    Iterable<Chapter> items,
+    T Function(Chapter item) groupBy,
+  ) {
+    final queued = isar.viewQueueItems.getQueuedSync(
+      items.map((item) => item.mangaId!),
+    );
 
     return Group.groupItems(
       items,
       groupBy,
-      (items, group) => UpdateChaptersGroup(items, group, queued[items.first.mangaId!]!),
+      (items, group) =>
+          UpdateChaptersGroup(items, group, queued[items.first.mangaId!]!),
       belongsTo: (chapter, group) => group.mangaId == chapter.mangaId,
     );
   }
@@ -34,13 +40,18 @@ class UpdateChapterListTileWidget extends ConsumerStatefulWidget {
   final UpdateChaptersGroup update;
   final bool sourceExist;
 
-  const UpdateChapterListTileWidget({required this.update, required this.sourceExist, super.key});
+  const UpdateChapterListTileWidget({
+    required this.update,
+    required this.sourceExist,
+    super.key,
+  });
 
   @override
   ConsumerState createState() => _UpdateChapterListTileWidgetState();
 }
 
-class _UpdateChapterListTileWidgetState extends ConsumerState<UpdateChapterListTileWidget> {
+class _UpdateChapterListTileWidgetState
+    extends ConsumerState<UpdateChapterListTileWidget> {
   late final update = widget.update;
   late final sourceExist = widget.sourceExist;
 
@@ -77,7 +88,10 @@ class _UpdateChapterListTileWidgetState extends ConsumerState<UpdateChapterListT
                           child: Material(
                             child: GestureDetector(
                               onTap: () {
-                                context.push('/manga-reader/detail', extra: manga.id);
+                                context.push(
+                                  '/manga-reader/detail',
+                                  extra: manga.id,
+                                );
                               },
                               child: Ink.image(
                                 fit: BoxFit.cover,
@@ -99,12 +113,21 @@ class _UpdateChapterListTileWidgetState extends ConsumerState<UpdateChapterListT
                                 Text(
                                   manga.name!,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 14, color: regularColor),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: regularColor,
+                                  ),
                                 ),
                                 Text(
                                   update.label,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 11, color: update.isRead ? Colors.grey : regularColor),
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color:
+                                        update.isRead
+                                            ? Colors.grey
+                                            : regularColor,
+                                  ),
                                 ),
                               ],
                             ),
@@ -115,7 +138,8 @@ class _UpdateChapterListTileWidgetState extends ConsumerState<UpdateChapterListT
                   ),
                   ChaptersFix(update: update),
                   QueueChaptersWidget(update: update),
-                  if (sourceExist) ChapterPageDownload(chapter: update.firstOrUnread),
+                  if (sourceExist)
+                    ChapterPageDownload(chapter: update.firstOrUnread),
                 ],
               ),
             ),

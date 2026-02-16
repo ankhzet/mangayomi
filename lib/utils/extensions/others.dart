@@ -20,7 +20,8 @@ extension LetExtension<T> on T {
 }
 
 extension IterableUtils<T> on Iterable<T> {
-  List<T> toUnique({bool growable = true}) => toSet().toList(growable: growable);
+  List<T> toUnique({bool growable = true}) =>
+      toSet().toList(growable: growable);
 
   List<R> mapToList<R>(R Function(T element) mapper, {bool growable = false}) {
     return map(mapper).toList(growable: growable);
@@ -29,7 +30,8 @@ extension IterableUtils<T> on Iterable<T> {
   Map<K, List<T>> groupBy<K>(K Function(T) keyFunction) {
     return fold(
       <K, List<T>>{},
-      (Map<K, List<T>> map, T element) => map..putIfAbsent(keyFunction(element), () => <T>[]).add(element),
+      (Map<K, List<T>> map, T element) =>
+          map..putIfAbsent(keyFunction(element), () => <T>[]).add(element),
     );
   }
 
@@ -68,13 +70,23 @@ extension IterableUtils<T> on Iterable<T> {
 }
 
 extension Trimmable on String {
-  String normalize() => toString().trim().trimLeft().trimRight(); // why .trimLeft().trimRight()???
+  String normalize() =>
+      toString()
+          .trim()
+          .trimLeft()
+          .trimRight(); // why .trimLeft().trimRight()???
 }
 
 extension ImageProviderExtension on ImageProvider {
-  Future<Uint8List?> getBytes(BuildContext context, {ImageByteFormat format = ImageByteFormat.png}) async {
+  Future<Uint8List?> getBytes(
+    BuildContext context, {
+    ImageByteFormat format = ImageByteFormat.png,
+  }) async {
     final Completer<Uint8List?> completer = Completer<Uint8List?>();
-    final ImageStreamListener listener = ImageStreamListener((imageInfo, synchronousCall) async {
+    final ImageStreamListener listener = ImageStreamListener((
+      imageInfo,
+      synchronousCall,
+    ) async {
       final bytes = await imageInfo.image.toByteData(format: format);
       if (!completer.isCompleted) {
         completer.complete(bytes?.buffer.asUint8List());
@@ -118,7 +130,10 @@ extension UChapDataPreloadExtensions on PreloadTask {
     return imageBytes;
   }
 
-  ImageProvider<Object> getImageProvider(WidgetRef ref, bool showCloudFlareError) {
+  ImageProvider<Object> getImageProvider(
+    WidgetRef ref,
+    bool showCloudFlareError,
+  ) {
     final cropBorders = ref.watch(cropBordersStateProvider);
 
     if (cropBorders && cropImage != null) {
@@ -126,7 +141,9 @@ extension UChapDataPreloadExtensions on PreloadTask {
     }
 
     if (isLocal) {
-      return archiveImage != null ? ExtendedMemoryImageProvider(archiveImage!) : ExtendedFileImageProvider(preloadFile);
+      return archiveImage != null
+          ? ExtendedMemoryImageProvider(archiveImage!)
+          : ExtendedFileImageProvider(preloadFile);
     }
 
     return CustomExtendedNetworkImageProvider(
@@ -137,7 +154,12 @@ extension UChapDataPreloadExtensions on PreloadTask {
       imageCacheFolderName: "cacheimagemanga",
       headers: {
         ...pageUrl!.headers ?? {},
-        ...ref.watch(headersProvider(source: chapter.manga.value!.source!, lang: chapter.manga.value!.lang!))
+        ...ref.watch(
+          headersProvider(
+            source: chapter.manga.value!.source!,
+            lang: chapter.manga.value!.lang!,
+          ),
+        ),
       },
     );
   }
@@ -149,15 +171,20 @@ extension Waiting on Duration {
     T? value;
     dynamic error;
 
-    callback().then((v) {
-      isReady = true;
-      value = v;
-    }, onError: (e) {
-      isReady = true;
-      error = e;
-    });
+    callback().then(
+      (v) {
+        isReady = true;
+        value = v;
+      },
+      onError: (e) {
+        isReady = true;
+        error = e;
+      },
+    );
 
-    return Future.doWhile(() => Future.delayed(this, () => !isReady)).then((void _) {
+    return Future.doWhile(() => Future.delayed(this, () => !isReady)).then((
+      void _,
+    ) {
       if (error != null) {
         throw error;
       }
@@ -170,8 +197,13 @@ extension Waiting on Duration {
 Future<File?> _getCachedImageFile(String url, {String? cacheKey}) async {
   try {
     final String key = cacheKey ?? keyToMd5(url);
-    final Directory cacheImagesDirectory =
-        Directory(join((await getTemporaryDirectory()).path, 'Mangayomi', 'cacheimagemanga'));
+    final Directory cacheImagesDirectory = Directory(
+      join(
+        (await getTemporaryDirectory()).path,
+        'Mangayomi',
+        'cacheimagemanga',
+      ),
+    );
     if (cacheImagesDirectory.existsSync()) {
       await for (final FileSystemEntity file in cacheImagesDirectory.list()) {
         if (file.path.endsWith(key)) {

@@ -3,11 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/modules/widgets/type_tab_bar_view.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 
-enum UpdateInfoType {
-  updates,
-  updateQueue,
-  viewQueue,
-}
+enum UpdateInfoType { updates, updateQueue, viewQueue }
 
 class UpdateInfoTabs extends ConsumerStatefulWidget {
   final Widget Function(UpdateInfoType type) content;
@@ -42,13 +38,15 @@ class _UpdateInfoTabsState extends ConsumerState<UpdateInfoTabs> {
 
   Widget _tabBar(BuildContext context, List<UpdateInfoType> types) {
     final l10n = l10nLocalizations(context)!;
-    final tab = widget.tab ??
+    final tab =
+        widget.tab ??
         (UpdateInfoType type) => Tab(
-                text: switch (type) {
-              UpdateInfoType.updates => l10n.updates,
-              UpdateInfoType.updateQueue => l10n.updateQueue,
-              UpdateInfoType.viewQueue => l10n.viewQueue,
-            });
+          text: switch (type) {
+            UpdateInfoType.updates => l10n.updates,
+            UpdateInfoType.updateQueue => l10n.updateQueue,
+            UpdateInfoType.viewQueue => l10n.viewQueue,
+          },
+        );
 
     return TypeTabBarView(
       tabs: types,

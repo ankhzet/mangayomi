@@ -10,7 +10,11 @@ class MeasureWidgetSize extends StatefulWidget {
   final Function(Size? size) onCalculateSize;
   final Widget child;
 
-  const MeasureWidgetSize({super.key, required this.onCalculateSize, required this.child});
+  const MeasureWidgetSize({
+    super.key,
+    required this.onCalculateSize,
+    required this.child,
+  });
 
   @override
   State<MeasureWidgetSize> createState() => _MeasureWidgetSizeState();
@@ -21,7 +25,9 @@ class _MeasureWidgetSizeState extends State<MeasureWidgetSize> {
 
   @override
   initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) => widget.onCalculateSize(_key.currentContext?.size));
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => widget.onCalculateSize(_key.currentContext?.size),
+    );
     super.initState();
   }
 
@@ -31,13 +37,14 @@ class _MeasureWidgetSizeState extends State<MeasureWidgetSize> {
   }
 }
 
-Future<void> customDraggableTabBar(
-    {required List<Widget> tabs,
-    required List<Widget> children,
-    required BuildContext context,
-    required TickerProvider vsync,
-    bool fullWidth = false,
-    Widget? moreWidget}) async {
+Future<void> customDraggableTabBar({
+  required List<Widget> tabs,
+  required List<Widget> children,
+  required BuildContext context,
+  required TickerProvider vsync,
+  bool fullWidth = false,
+  Widget? moreWidget,
+}) async {
   final controller = DraggableMenuController();
   late TabController tabBarController;
   tabBarController = TabController(length: tabs.length, vsync: vsync);
@@ -47,7 +54,9 @@ Future<void> customDraggableTabBar(
   List<Map<String, dynamic>> widgetsHeight = [];
 
   void refresh() {
-    controller.animateTo(widgetsHeight.indexWhere((element) => element["index"] == index));
+    controller.animateTo(
+      widgetsHeight.indexWhere((element) => element["index"] == index),
+    );
   }
 
   tabBarController.animation!.addListener(() {
@@ -69,64 +78,92 @@ Future<void> customDraggableTabBar(
           children: [
             for (var i = 0; i < children.length; i++) ...[
               MeasureWidgetSize(
-                  onCalculateSize: (size) {
-                    final additionnalHeight = ((List.generate(10000, (index) => index * 0.0001))..shuffle()).first;
-                    double newHeight = size!.height + 52.0 + additionnalHeight;
-                    if (!(newHeight <= maxHeight)) {
-                      newHeight = maxHeight + additionnalHeight;
-                    }
-                    widgetsHeight.add({"index": i, "height": newHeight});
-                    if (widgetsHeight.length == children.length) {
-                      Navigator.pop(context);
-                    }
-                  },
-                  child: children[i])
-            ]
+                onCalculateSize: (size) {
+                  final additionnalHeight =
+                      ((List.generate(10000, (index) => index * 0.0001))
+                        ..shuffle()).first;
+                  double newHeight = size!.height + 52.0 + additionnalHeight;
+                  if (!(newHeight <= maxHeight)) {
+                    newHeight = maxHeight + additionnalHeight;
+                  }
+                  widgetsHeight.add({"index": i, "height": newHeight});
+                  if (widgetsHeight.length == children.length) {
+                    Navigator.pop(context);
+                  }
+                },
+                child: children[i],
+              ),
+            ],
           ],
         ),
       );
     },
   );
-  widgetsHeight.sort((a, b) => (a["height"] as double).compareTo(b["height"] as double));
+  widgetsHeight.sort(
+    (a, b) => (a["height"] as double).compareTo(b["height"] as double),
+  );
   if (context.mounted) {
     await DraggableMenu.open(
-        context,
-        DraggableMenu(
-            curve: Curves.linearToEaseOut,
-            controller: controller,
-            levels: widgetsHeight.map((e) => e["height"]).map((e) => DraggableMenuLevel(height: e)).toList(),
-            customUi: Consumer(builder: (context, ref, child) {
-              final location = ref.watch(routerCurrentLocationStateProvider(context));
-              final width = context.isTablet && !fullWidth
-                  ? switch (location) {
+      context,
+      DraggableMenu(
+        curve: Curves.linearToEaseOut,
+        controller: controller,
+        levels:
+            widgetsHeight
+                .map((e) => e["height"])
+                .map((e) => DraggableMenuLevel(height: e))
+                .toList(),
+        customUi: Consumer(
+          builder: (context, ref, child) {
+            final location = ref.watch(
+              routerCurrentLocationStateProvider(context),
+            );
+            final width =
+                context.isTablet && !fullWidth
+                    ? switch (location) {
                       null => 100,
-                      != '/MangaLibrary' && != '/AnimeLibrary' && != '/history' && != '/browse' && != '/more' => 0,
+                      != '/MangaLibrary' &&
+                          != '/AnimeLibrary' &&
+                          != '/history' &&
+                          != '/browse' &&
+                          != '/more' =>
+                        0,
                       _ => 100,
                     }
-                  : 0;
-              return Scaffold(
-                backgroundColor: Platform.isLinux ? null : Colors.transparent,
-                body: Container(
-                  width: context.width(1) - width,
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-                      color: Theme.of(context).scaffoldBackgroundColor),
-                  child: DefaultTabController(
-                    length: tabs.length,
-                    child: Column(children: [
+                    : 0;
+            return Scaffold(
+              backgroundColor: Platform.isLinux ? null : Colors.transparent,
+              body: Container(
+                width: context.width(1) - width,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                ),
+                child: DefaultTabController(
+                  length: tabs.length,
+                  child: Column(
+                    children: [
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Flexible(
                             flex: 9,
                             child: TabBar(
-                                unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500),
-                                labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                                dividerColor: context.isLight ? Colors.black : Colors.grey,
-                                dividerHeight: 0.4,
-                                controller: tabBarController,
-                                tabs: tabs),
+                              unselectedLabelStyle: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                              ),
+                              labelStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              dividerColor:
+                                  context.isLight ? Colors.black : Colors.grey,
+                              dividerHeight: 0.4,
+                              controller: tabBarController,
+                              tabs: tabs,
+                            ),
                           ),
                           if (moreWidget != null)
                             Flexible(
@@ -138,28 +175,46 @@ Future<void> customDraggableTabBar(
                                   Row(
                                     children: [
                                       Flexible(
-                                        child:
-                                            Container(color: context.isLight ? Colors.black : Colors.grey, height: 0.4),
+                                        child: Container(
+                                          color:
+                                              context.isLight
+                                                  ? Colors.black
+                                                  : Colors.grey,
+                                          height: 0.4,
+                                        ),
                                       ),
                                     ],
-                                  )
+                                  ),
                                 ],
                               ),
-                            )
+                            ),
                         ],
                       ),
                       Flexible(
-                          child: TabBarView(
-                              controller: tabBarController,
-                              children: children
-                                  .map((e) => SingleChildScrollView(
-                                      child: MeasureWidgetSize(onCalculateSize: (_) => refresh(), child: e)))
-                                  .toList()))
-                    ]),
+                        child: TabBarView(
+                          controller: tabBarController,
+                          children:
+                              children
+                                  .map(
+                                    (e) => SingleChildScrollView(
+                                      child: MeasureWidgetSize(
+                                        onCalculateSize: (_) => refresh(),
+                                        child: e,
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              );
-            }),
-            child: const SizedBox.shrink()));
+              ),
+            );
+          },
+        ),
+        child: const SizedBox.shrink(),
+      ),
+    );
   }
 }

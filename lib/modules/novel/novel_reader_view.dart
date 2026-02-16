@@ -32,10 +32,7 @@ typedef DoubleClickAnimationListener = void Function();
 class NovelReaderView extends ConsumerWidget {
   final int chapterId;
 
-  NovelReaderView({
-    super.key,
-    required this.chapterId,
-  });
+  NovelReaderView({super.key, required this.chapterId});
 
   late final Chapter chapter = isar.chapters.getSync(chapterId)!;
 
@@ -43,10 +40,7 @@ class NovelReaderView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final htmlContent = ref.watch(getHtmlContentProvider(chapter: chapter));
 
-    return NovelWebView(
-      chapter: chapter,
-      htmlContent: htmlContent,
-    );
+    return NovelWebView(chapter: chapter, htmlContent: htmlContent);
   }
 }
 
@@ -66,9 +60,11 @@ class NovelWebView extends ConsumerStatefulWidget {
   }
 }
 
-class _NovelWebViewState extends ConsumerState<NovelWebView> with TickerProviderStateMixin {
-  late final NovelReaderController _readerController =
-      ref.read(novelReaderControllerProvider(chapter: chapter).notifier);
+class _NovelWebViewState extends ConsumerState<NovelWebView>
+    with TickerProviderStateMixin {
+  late final NovelReaderController _readerController = ref.read(
+    novelReaderControllerProvider(chapter: chapter).notifier,
+  );
   final _scrollController = ScrollController(
     initialScrollOffset: 0,
     keepScrollOffset: true,
@@ -97,14 +93,18 @@ class _NovelWebViewState extends ConsumerState<NovelWebView> with TickerProvider
     if (isDesktop) {
       setFullScreen(value: false);
     } else {
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+      SystemChrome.setEnabledSystemUIMode(
+        SystemUiMode.manual,
+        overlays: SystemUiOverlay.values,
+      );
     }
     super.dispose();
   }
 
   late Chapter chapter = widget.chapter;
 
-  final StreamController<double> _rebuildDetail = StreamController<double>.broadcast();
+  final StreamController<double> _rebuildDetail =
+      StreamController<double>.broadcast();
 
   @override
   void initState() {
@@ -126,7 +126,8 @@ class _NovelWebViewState extends ConsumerState<NovelWebView> with TickerProvider
 
   Size get size => View.of(context).physicalSize / pixelRatio;
 
-  Color _backgroundColor(BuildContext context) => Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.9);
+  Color _backgroundColor(BuildContext context) =>
+      Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.9);
 
   void _setFullScreen({bool? value}) async {
     if (isDesktop) {
@@ -144,34 +145,50 @@ class _NovelWebViewState extends ConsumerState<NovelWebView> with TickerProvider
       autofocus: true,
       focusNode: FocusNode(),
       onKeyEvent: (event) {
-        bool isLogicalKeyPressed(LogicalKeyboardKey key) => HardwareKeyboard.instance.isLogicalKeyPressed(key);
+        bool isLogicalKeyPressed(LogicalKeyboardKey key) =>
+            HardwareKeyboard.instance.isLogicalKeyPressed(key);
         bool hasNextChapter = _readerController.getChapterIndex().$1 != 0;
-        bool hasPrevChapter = _readerController.getChapterIndex().$1 + 1 !=
-            _readerController.getChaptersLength(_readerController.getChapterIndex().$2);
+        bool hasPrevChapter =
+            _readerController.getChapterIndex().$1 + 1 !=
+            _readerController.getChaptersLength(
+              _readerController.getChapterIndex().$2,
+            );
         final action = switch (event.logicalKey) {
-          LogicalKeyboardKey.f11 => (!isLogicalKeyPressed(LogicalKeyboardKey.f11)) ? _setFullScreen() : null,
-          LogicalKeyboardKey.escape => (!isLogicalKeyPressed(LogicalKeyboardKey.escape)) ? _goBack(context) : null,
-          LogicalKeyboardKey.backspace =>
-            (!isLogicalKeyPressed(LogicalKeyboardKey.backspace)) ? _goBack(context) : null,
-          LogicalKeyboardKey.keyN ||
-          LogicalKeyboardKey.pageDown =>
-            ((!isLogicalKeyPressed(LogicalKeyboardKey.keyN) || !isLogicalKeyPressed(LogicalKeyboardKey.pageDown)))
-                ? switch (hasNextChapter) {
-                    true => pushReplacementMangaReaderView(
-                        context: context,
-                        chapter: _readerController.getNextChapter(),
-                      ),
-                    _ => null
-                  }
+          LogicalKeyboardKey.f11 =>
+            (!isLogicalKeyPressed(LogicalKeyboardKey.f11))
+                ? _setFullScreen()
                 : null,
-          LogicalKeyboardKey.keyP || LogicalKeyboardKey.pageUp => ((!isLogicalKeyPressed(LogicalKeyboardKey.keyP) ||
-                  !isLogicalKeyPressed(LogicalKeyboardKey.pageUp)))
-              ? switch (hasPrevChapter) {
-                  true => pushReplacementMangaReaderView(context: context, chapter: _readerController.getPrevChapter()),
-                  _ => null
+          LogicalKeyboardKey.escape =>
+            (!isLogicalKeyPressed(LogicalKeyboardKey.escape))
+                ? _goBack(context)
+                : null,
+          LogicalKeyboardKey.backspace =>
+            (!isLogicalKeyPressed(LogicalKeyboardKey.backspace))
+                ? _goBack(context)
+                : null,
+          LogicalKeyboardKey.keyN || LogicalKeyboardKey.pageDown =>
+            ((!isLogicalKeyPressed(LogicalKeyboardKey.keyN) ||
+                    !isLogicalKeyPressed(LogicalKeyboardKey.pageDown)))
+                ? switch (hasNextChapter) {
+                  true => pushReplacementMangaReaderView(
+                    context: context,
+                    chapter: _readerController.getNextChapter(),
+                  ),
+                  _ => null,
                 }
-              : null,
-          _ => null
+                : null,
+          LogicalKeyboardKey.keyP || LogicalKeyboardKey.pageUp =>
+            ((!isLogicalKeyPressed(LogicalKeyboardKey.keyP) ||
+                    !isLogicalKeyPressed(LogicalKeyboardKey.pageUp)))
+                ? switch (hasPrevChapter) {
+                  true => pushReplacementMangaReaderView(
+                    context: context,
+                    chapter: _readerController.getPrevChapter(),
+                  ),
+                  _ => null,
+                }
+                : null,
+          _ => null,
         };
         action;
       },
@@ -193,106 +210,127 @@ class _NovelWebViewState extends ConsumerState<NovelWebView> with TickerProvider
                 Row(
                   children: [
                     widget.htmlContent.when(
-                        data: (htmlContent) {
-                          Future.delayed(const Duration(milliseconds: 1000), () {
-                            if (!scrolled && _scrollController.hasClients) {
-                              _scrollController.animateTo(
-                                  _scrollController.position.maxScrollExtent *
-                                      (double.tryParse(chapter.lastPageRead!) ?? 0),
-                                  duration: Duration(seconds: 2),
-                                  curve: Curves.fastOutSlowIn);
-                              scrolled = true;
-                            }
-                          });
-                          return Expanded(
-                            child: Scrollbar(
+                      data: (htmlContent) {
+                        Future.delayed(const Duration(milliseconds: 1000), () {
+                          if (!scrolled && _scrollController.hasClients) {
+                            _scrollController.animateTo(
+                              _scrollController.position.maxScrollExtent *
+                                  (double.tryParse(chapter.lastPageRead!) ?? 0),
+                              duration: Duration(seconds: 2),
+                              curve: Curves.fastOutSlowIn,
+                            );
+                            scrolled = true;
+                          }
+                        });
+                        return Expanded(
+                          child: Scrollbar(
+                            controller: _scrollController,
+                            interactive: true,
+                            child: SingleChildScrollView(
                               controller: _scrollController,
-                              interactive: true,
-                              child: SingleChildScrollView(
-                                controller: _scrollController,
-                                physics: const BouncingScrollPhysics(),
-                                child: GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () {
-                                    _isViewFunction();
-                                  },
-                                  child: Column(
-                                    children: [
-                                      HtmlWidget(
-                                        htmlContent,
-                                        customStylesBuilder: (element) {
-                                          switch (backgroundColor) {
-                                            case BackgroundColor.black:
-                                              return {
-                                                'background-color': 'black',
-                                              };
-                                            default:
-                                              return {
-                                                'background-color': '#F0F0F0',
-                                              };
-                                          }
-                                        },
-                                        onTapUrl: (url) {
-                                          context.push("/mangawebview", extra: {'url': url, 'title': url});
-                                          return true;
-                                        },
-                                        renderMode: RenderMode.column,
-                                        textStyle: TextStyle(
-                                            color:
-                                                backgroundColor == BackgroundColor.white ? Colors.black : Colors.white,
-                                            fontSize: fontSize.toDouble()),
+                              physics: const BouncingScrollPhysics(),
+                              child: GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () {
+                                  _isViewFunction();
+                                },
+                                child: Column(
+                                  children: [
+                                    HtmlWidget(
+                                      htmlContent,
+                                      customStylesBuilder: (element) {
+                                        switch (backgroundColor) {
+                                          case BackgroundColor.black:
+                                            return {
+                                              'background-color': 'black',
+                                            };
+                                          default:
+                                            return {
+                                              'background-color': '#F0F0F0',
+                                            };
+                                        }
+                                      },
+                                      onTapUrl: (url) {
+                                        context.push(
+                                          "/mangawebview",
+                                          extra: {'url': url, 'title': url},
+                                        );
+                                        return true;
+                                      },
+                                      renderMode: RenderMode.column,
+                                      textStyle: TextStyle(
+                                        color:
+                                            backgroundColor ==
+                                                    BackgroundColor.white
+                                                ? Colors.black
+                                                : Colors.white,
+                                        fontSize: fontSize.toDouble(),
                                       ),
-                                      Center(
-                                        heightFactor: 2,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          spacing: 5,
-                                          children: [
-                                            IconButton(
-                                              padding: const EdgeInsets.all(5),
-                                              onPressed: () => pushReplacementMangaReaderView(
-                                                context: context,
-                                                chapter: _readerController.getPrevChapter(),
-                                              ),
-                                              icon: Icon(
-                                                size: 32,
-                                                Icons.arrow_back,
-                                                color: backgroundColor == BackgroundColor.white
-                                                    ? Colors.black
-                                                    : Colors.white,
-                                              ),
+                                    ),
+                                    Center(
+                                      heightFactor: 2,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        spacing: 5,
+                                        children: [
+                                          IconButton(
+                                            padding: const EdgeInsets.all(5),
+                                            onPressed:
+                                                () =>
+                                                    pushReplacementMangaReaderView(
+                                                      context: context,
+                                                      chapter:
+                                                          _readerController
+                                                              .getPrevChapter(),
+                                                    ),
+                                            icon: Icon(
+                                              size: 32,
+                                              Icons.arrow_back,
+                                              color:
+                                                  backgroundColor ==
+                                                          BackgroundColor.white
+                                                      ? Colors.black
+                                                      : Colors.white,
                                             ),
-                                            IconButton(
-                                              padding: const EdgeInsets.all(5),
-                                              onPressed: () => pushReplacementMangaReaderView(
-                                                context: context,
-                                                chapter: _readerController.getNextChapter(),
-                                              ),
-                                              icon: Icon(
-                                                size: 32,
-                                                Icons.arrow_forward,
-                                                color: backgroundColor == BackgroundColor.white
-                                                    ? Colors.black
-                                                    : Colors.white,
-                                              ),
+                                          ),
+                                          IconButton(
+                                            padding: const EdgeInsets.all(5),
+                                            onPressed:
+                                                () =>
+                                                    pushReplacementMangaReaderView(
+                                                      context: context,
+                                                      chapter:
+                                                          _readerController
+                                                              .getNextChapter(),
+                                                    ),
+                                            icon: Icon(
+                                              size: 32,
+                                              Icons.arrow_forward,
+                                              color:
+                                                  backgroundColor ==
+                                                          BackgroundColor.white
+                                                      ? Colors.black
+                                                      : Colors.white,
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                          );
-                        },
-                        loading: () => const Expanded(
-                                child: Center(
-                              child: CircularProgressIndicator(),
-                            )),
-                        error: (err, stack) => Center(
-                              child: Text(err.toString()),
-                            )),
+                          ),
+                        );
+                      },
+                      loading:
+                          () => const Expanded(
+                            child: Center(child: CircularProgressIndicator()),
+                          ),
+                      error:
+                          (err, stack) => Center(child: Text(err.toString())),
+                    ),
                   ],
                 ),
                 _appBar(),
@@ -306,7 +344,10 @@ class _NovelWebViewState extends ConsumerState<NovelWebView> with TickerProvider
   }
 
   void _goBack(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: SystemUiOverlay.values,
+    );
     Navigator.pop(context);
   }
 
@@ -315,13 +356,14 @@ class _NovelWebViewState extends ConsumerState<NovelWebView> with TickerProvider
       return const SizedBox.shrink();
     }
     final fullScreenReader = ref.watch(fullScreenReaderStateProvider);
-    double height = _isView
-        ? Platform.isIOS
-            ? 120
-            : !fullScreenReader && !isDesktop
+    double height =
+        _isView
+            ? Platform.isIOS
+                ? 120
+                : !fullScreenReader && !isDesktop
                 ? 55
                 : 80
-        : 0;
+            : 0;
     return Positioned(
       top: 0,
       child: AnimatedContainer(
@@ -363,44 +405,57 @@ class _NovelWebViewState extends ConsumerState<NovelWebView> with TickerProvider
               ),
             ),
             actions: [
-              btnToShowChapterListDialog(context, context.l10n.chapters, widget.chapter),
+              btnToShowChapterListDialog(
+                context,
+                context.l10n.chapters,
+                widget.chapter,
+              ),
               IconButton(
-                  onPressed: () {
-                    _readerController.setChapterBookmarked();
-                    setState(() {
-                      _isBookmarked = !_isBookmarked;
-                    });
-                  },
-                  icon: Icon(_isBookmarked ? Icons.bookmark : Icons.bookmark_border_outlined)),
+                onPressed: () {
+                  _readerController.setChapterBookmarked();
+                  setState(() {
+                    _isBookmarked = !_isBookmarked;
+                  });
+                },
+                icon: Icon(
+                  _isBookmarked
+                      ? Icons.bookmark
+                      : Icons.bookmark_border_outlined,
+                ),
+              ),
               if ((chapter.manga.value!.isLocalArchive ?? false) == false)
                 IconButton(
-                    onPressed: () async {
-                      final manga = chapter.manga.value!;
-                      final source = getSource(manga.lang!, manga.source!)!;
-                      String url = chapter.url!.startsWith('/') ? "${source.baseUrl}/${chapter.url!}" : chapter.url!;
-                      Map<String, dynamic> data = {
-                        'url': url,
-                        'sourceId': source.id.toString(),
-                        'title': chapter.name!
-                      };
-                      if (Platform.isLinux) {
-                        final urll = Uri.parse(url);
+                  onPressed: () async {
+                    final manga = chapter.manga.value!;
+                    final source = getSource(manga.lang!, manga.source!)!;
+                    String url =
+                        chapter.url!.startsWith('/')
+                            ? "${source.baseUrl}/${chapter.url!}"
+                            : chapter.url!;
+                    Map<String, dynamic> data = {
+                      'url': url,
+                      'sourceId': source.id.toString(),
+                      'title': chapter.name!,
+                    };
+                    if (Platform.isLinux) {
+                      final urll = Uri.parse(url);
+                      if (!await launchUrl(
+                        urll,
+                        mode: LaunchMode.inAppBrowserView,
+                      )) {
                         if (!await launchUrl(
                           urll,
-                          mode: LaunchMode.inAppBrowserView,
+                          mode: LaunchMode.externalApplication,
                         )) {
-                          if (!await launchUrl(
-                            urll,
-                            mode: LaunchMode.externalApplication,
-                          )) {
-                            throw 'Could not launch $url';
-                          }
+                          throw 'Could not launch $url';
                         }
-                      } else {
-                        context.push("/mangawebview", extra: data);
                       }
-                    },
-                    icon: const Icon(Icons.public)),
+                    } else {
+                      context.push("/mangawebview", extra: data);
+                    }
+                  },
+                  icon: const Icon(Icons.public),
+                ),
             ],
             backgroundColor: _backgroundColor(context),
           ),
@@ -413,8 +468,11 @@ class _NovelWebViewState extends ConsumerState<NovelWebView> with TickerProvider
     if (!_isView && Platform.isIOS) {
       return const SizedBox.shrink();
     }
-    bool hasPrevChapter = _readerController.getChapterIndex().$1 + 1 !=
-        _readerController.getChaptersLength(_readerController.getChapterIndex().$2);
+    bool hasPrevChapter =
+        _readerController.getChapterIndex().$1 + 1 !=
+        _readerController.getChaptersLength(
+          _readerController.getChapterIndex().$2,
+        );
     bool hasNextChapter = _readerController.getChapterIndex().$1 != 0;
     // final novelTextAlign = ref.watch(novelTextAlignStateProvider);
 
@@ -438,19 +496,33 @@ class _NovelWebViewState extends ConsumerState<NovelWebView> with TickerProvider
                         radius: 23,
                         backgroundColor: _backgroundColor(context),
                         child: IconButton(
-                            onPressed: hasPrevChapter
-                                ? () {
+                          onPressed:
+                              hasPrevChapter
+                                  ? () {
                                     pushReplacementMangaReaderView(
-                                        context: context, chapter: _readerController.getPrevChapter());
+                                      context: context,
+                                      chapter:
+                                          _readerController.getPrevChapter(),
+                                    );
                                   }
-                                : null,
-                            icon: Transform.scale(
-                              scaleX: 1,
-                              child: Icon(Icons.skip_previous_rounded,
-                                  color: hasPrevChapter
-                                      ? Theme.of(context).textTheme.bodyLarge!.color
-                                      : Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.4)),
-                            )),
+                                  : null,
+                          icon: Transform.scale(
+                            scaleX: 1,
+                            child: Icon(
+                              Icons.skip_previous_rounded,
+                              color:
+                                  hasPrevChapter
+                                      ? Theme.of(
+                                        context,
+                                      ).textTheme.bodyLarge!.color
+                                      : Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .color!
+                                          .withValues(alpha: 0.4),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Flexible(
@@ -458,8 +530,10 @@ class _NovelWebViewState extends ConsumerState<NovelWebView> with TickerProvider
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Container(
                           height: 70,
-                          decoration:
-                              BoxDecoration(color: _backgroundColor(context), borderRadius: BorderRadius.circular(25)),
+                          decoration: BoxDecoration(
+                            color: _backgroundColor(context),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -469,45 +543,66 @@ class _NovelWebViewState extends ConsumerState<NovelWebView> with TickerProvider
                                   width: 55,
                                   child: Center(
                                     child: IconButton(
-                                        onPressed: () {
-                                          final newFontSize = max(4, fontSize - 1);
-                                          ref.read(novelFontSizeStateProvider.notifier).set(newFontSize);
-                                          setState(() {
-                                            fontSize = newFontSize;
-                                          });
-                                        },
-                                        icon: const Icon(Icons.text_decrease)),
+                                      onPressed: () {
+                                        final newFontSize = max(
+                                          4,
+                                          fontSize - 1,
+                                        );
+                                        ref
+                                            .read(
+                                              novelFontSizeStateProvider
+                                                  .notifier,
+                                            )
+                                            .set(newFontSize);
+                                        setState(() {
+                                          fontSize = newFontSize;
+                                        });
+                                      },
+                                      icon: const Icon(Icons.text_decrease),
+                                    ),
                                   ),
                                 ),
                               ),
                               if (_isView)
                                 Flexible(
                                   flex: 14,
-                                  child: Consumer(builder: (context, ref, child) {
-                                    final currentFontSize = ref.watch(novelFontSizeStateProvider);
-                                    return SliderTheme(
-                                      data: SliderTheme.of(context).copyWith(
-                                        overlayShape: const RoundSliderOverlayShape(overlayRadius: 5.0),
-                                      ),
-                                      child: Slider(
-                                        onChanged: (value) {
-                                          ref.read(novelFontSizeStateProvider.notifier).set(value.toInt());
-                                        },
-                                        onChangeEnd: (newValue) {
-                                          try {
-                                            setState(() {
-                                              fontSize = newValue.toInt();
-                                            });
-                                          } catch (_) {}
-                                        },
-                                        divisions: 36,
-                                        value: currentFontSize.toDouble(),
-                                        label: "$currentFontSize",
-                                        min: 4,
-                                        max: 40,
-                                      ),
-                                    );
-                                  }),
+                                  child: Consumer(
+                                    builder: (context, ref, child) {
+                                      final currentFontSize = ref.watch(
+                                        novelFontSizeStateProvider,
+                                      );
+                                      return SliderTheme(
+                                        data: SliderTheme.of(context).copyWith(
+                                          overlayShape:
+                                              const RoundSliderOverlayShape(
+                                                overlayRadius: 5.0,
+                                              ),
+                                        ),
+                                        child: Slider(
+                                          onChanged: (value) {
+                                            ref
+                                                .read(
+                                                  novelFontSizeStateProvider
+                                                      .notifier,
+                                                )
+                                                .set(value.toInt());
+                                          },
+                                          onChangeEnd: (newValue) {
+                                            try {
+                                              setState(() {
+                                                fontSize = newValue.toInt();
+                                              });
+                                            } catch (_) {}
+                                          },
+                                          divisions: 36,
+                                          value: currentFontSize.toDouble(),
+                                          label: "$currentFontSize",
+                                          min: 4,
+                                          max: 40,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               Transform.scale(
                                 scaleX: 1,
@@ -515,14 +610,23 @@ class _NovelWebViewState extends ConsumerState<NovelWebView> with TickerProvider
                                   width: 55,
                                   child: Center(
                                     child: IconButton(
-                                        onPressed: () {
-                                          final newFontSize = min(40, fontSize + 1);
-                                          ref.read(novelFontSizeStateProvider.notifier).set(newFontSize);
-                                          setState(() {
-                                            fontSize = newFontSize;
-                                          });
-                                        },
-                                        icon: const Icon(Icons.text_increase)),
+                                      onPressed: () {
+                                        final newFontSize = min(
+                                          40,
+                                          fontSize + 1,
+                                        );
+                                        ref
+                                            .read(
+                                              novelFontSizeStateProvider
+                                                  .notifier,
+                                            )
+                                            .set(newFontSize);
+                                        setState(() {
+                                          fontSize = newFontSize;
+                                        });
+                                      },
+                                      icon: const Icon(Icons.text_increase),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -537,21 +641,30 @@ class _NovelWebViewState extends ConsumerState<NovelWebView> with TickerProvider
                         radius: 23,
                         backgroundColor: _backgroundColor(context),
                         child: IconButton(
-                          onPressed: hasNextChapter
-                              ? () {
-                                  pushReplacementMangaReaderView(
-                                    context: context,
-                                    chapter: _readerController.getNextChapter(),
-                                  );
-                                }
-                              : null,
+                          onPressed:
+                              hasNextChapter
+                                  ? () {
+                                    pushReplacementMangaReaderView(
+                                      context: context,
+                                      chapter:
+                                          _readerController.getNextChapter(),
+                                    );
+                                  }
+                                  : null,
                           icon: Transform.scale(
                             scaleX: 1,
                             child: Icon(
                               Icons.skip_next_rounded,
-                              color: hasNextChapter
-                                  ? Theme.of(context).textTheme.bodyLarge!.color
-                                  : Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.4),
+                              color:
+                                  hasNextChapter
+                                      ? Theme.of(
+                                        context,
+                                      ).textTheme.bodyLarge!.color
+                                      : Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .color!
+                                          .withValues(alpha: 0.4),
                               // size: 17,
                             ),
                           ),
@@ -633,7 +746,10 @@ class _NovelWebViewState extends ConsumerState<NovelWebView> with TickerProvider
     }
     if (fullScreenReader) {
       if (_isView) {
-        SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+        SystemChrome.setEnabledSystemUIMode(
+          SystemUiMode.manual,
+          overlays: SystemUiOverlay.values,
+        );
       } else {
         SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
       }
@@ -652,9 +768,17 @@ class UChapDataPreload {
   int? pageIndex;
   Uint8List? cropImage;
 
-  UChapDataPreload(this.chapter, this.directory, this.pageUrl, this.isLocale, this.archiveImage, this.index,
-      this.chapterUrlModel, this.pageIndex,
-      {this.cropImage});
+  UChapDataPreload(
+    this.chapter,
+    this.directory,
+    this.pageUrl,
+    this.isLocale,
+    this.archiveImage,
+    this.index,
+    this.chapterUrlModel,
+    this.pageIndex, {
+    this.cropImage,
+  });
 }
 
 class CustomPopupMenuButton<T> extends StatelessWidget {
@@ -665,14 +789,15 @@ class CustomPopupMenuButton<T> extends StatelessWidget {
   final List<T> list;
   final String Function(T) itemText;
 
-  const CustomPopupMenuButton(
-      {super.key,
-      required this.label,
-      required this.title,
-      required this.onSelected,
-      required this.value,
-      required this.list,
-      required this.itemText});
+  const CustomPopupMenuButton({
+    super.key,
+    required this.label,
+    required this.title,
+    required this.onSelected,
+    required this.value,
+    required this.list,
+    required this.itemText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -684,24 +809,26 @@ class CustomPopupMenuButton<T> extends StatelessWidget {
         offset: Offset.fromDirection(1),
         color: Colors.black,
         onSelected: onSelected,
-        itemBuilder: (context) => [
-          for (var d in list)
-            PopupMenuItem(
-                value: d,
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.check,
-                      color: d == value ? Colors.white : Colors.transparent,
-                    ),
-                    const SizedBox(width: 7),
-                    Text(
-                      itemText(d),
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ],
-                )),
-        ],
+        itemBuilder:
+            (context) => [
+              for (var d in list)
+                PopupMenuItem(
+                  value: d,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.check,
+                        color: d == value ? Colors.white : Colors.transparent,
+                      ),
+                      const SizedBox(width: 7),
+                      Text(
+                        itemText(d),
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Row(
@@ -710,13 +837,21 @@ class CustomPopupMenuButton<T> extends StatelessWidget {
               Flexible(
                 child: Text(
                   label,
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9)),
+                  style: TextStyle(
+                    color: Theme.of(
+                      context,
+                    ).textTheme.bodyLarge!.color!.withValues(alpha: 0.9),
+                  ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
               ),
               Row(
-                children: [Text(title), const SizedBox(width: 20), const Icon(Icons.keyboard_arrow_down_outlined)],
+                children: [
+                  Text(title),
+                  const SizedBox(width: 20),
+                  const Icon(Icons.keyboard_arrow_down_outlined),
+                ],
               ),
             ],
           ),

@@ -35,13 +35,17 @@ class ChapterListTileWidget extends ConsumerWidget {
     final hasScanlators = group.hasAnyScanlators;
     final progress = isRead ? '' : chapter.progress();
     final dateUpload = !isLocalArchive ? group.dateUpload : null;
-    final textColor = context.isLight ? Colors.black.withValues(alpha: 0.4) : Colors.white.withValues(alpha: 0.3);
+    final textColor =
+        context.isLight
+            ? Colors.black.withValues(alpha: 0.4)
+            : Colors.white.withValues(alpha: 0.3);
 
     return Container(
       color: isSelected ? context.primaryColor.withValues(alpha: 0.4) : null,
       child: ListTile(
         textColor: isRead ? textColor : null,
-        selectedColor: isRead ? Colors.white.withValues(alpha: 0.3) : Colors.white,
+        selectedColor:
+            isRead ? Colors.white.withValues(alpha: 0.3) : Colors.white,
         onLongPress: () {
           ref.read(chaptersListStateProvider.notifier).updateAll(group.state);
 
@@ -58,7 +62,8 @@ class ChapterListTileWidget extends ConsumerWidget {
         },
         title: Row(
           children: [
-            if (isBookmarked) Icon(Icons.bookmark, size: 16, color: context.primaryColor),
+            if (isBookmarked)
+              Icon(Icons.bookmark, size: 16, color: context.primaryColor),
             Flexible(
               child: Text(
                 group.fullTitle,
@@ -73,25 +78,38 @@ class ChapterListTileWidget extends ConsumerWidget {
           children: [
             if (dateUpload != null)
               Text(
-                dateFormat(null, datetimeDate: dateUpload, ref: ref, context: context),
+                dateFormat(
+                  null,
+                  datetimeDate: dateUpload,
+                  ref: ref,
+                  context: context,
+                ),
                 style: const TextStyle(fontSize: 11),
               ),
             if (progress.isNotEmpty)
               Text(
-                manga.itemType == ItemType.anime ? l10n.episode_progress(progress) : l10n.page(progress),
+                manga.itemType == ItemType.anime
+                    ? l10n.episode_progress(progress)
+                    : l10n.page(progress),
                 style: TextStyle(fontSize: 11, color: textColor),
               ),
             if (hasScanlators)
               Flexible(
                 child: Text(
                   group.scanlators,
-                  style: TextStyle(fontSize: 11, color: isRead ? textColor : null),
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: isRead ? textColor : null,
+                  ),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
           ],
         ),
-        trailing: sourceExist && !isLocalArchive ? ChapterPageDownload(chapter: chapter) : null,
+        trailing:
+            sourceExist && !isLocalArchive
+                ? ChapterPageDownload(chapter: chapter)
+                : null,
       ),
     );
   }

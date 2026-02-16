@@ -70,36 +70,37 @@ class Source {
 
   Repo? repo;
 
-  Source(
-      {this.id = 0,
-      this.name = '',
-      this.baseUrl = '',
-      this.lang = '',
-      this.typeSource = '',
-      this.iconUrl = '',
-      this.dateFormat = '',
-      this.dateFormatLocale = '',
-      this.isActive = true,
-      this.isAdded = false,
-      this.isNsfw = false,
-      this.isFullData = false,
-      this.hasCloudflare = false,
-      this.isPinned = false,
-      this.lastUsed = false,
-      this.apiUrl = "",
-      this.sourceCodeUrl = "",
-      this.version = "0.0.1",
-      this.versionLast = "0.0.1",
-      this.sourceCode = '',
-      this.headers = '',
-      this.isManga,
-      this.itemType = ItemType.manga,
-      this.appMinVerReq = "",
-      this.appMinVerReqLast = "",
-      this.additionalParams = "",
-      this.isLocal = false,
-      this.isObsolete = false,
-      this.repo});
+  Source({
+    this.id = 0,
+    this.name = '',
+    this.baseUrl = '',
+    this.lang = '',
+    this.typeSource = '',
+    this.iconUrl = '',
+    this.dateFormat = '',
+    this.dateFormatLocale = '',
+    this.isActive = true,
+    this.isAdded = false,
+    this.isNsfw = false,
+    this.isFullData = false,
+    this.hasCloudflare = false,
+    this.isPinned = false,
+    this.lastUsed = false,
+    this.apiUrl = "",
+    this.sourceCodeUrl = "",
+    this.version = "0.0.1",
+    this.versionLast = "0.0.1",
+    this.sourceCode = '',
+    this.headers = '',
+    this.isManga,
+    this.itemType = ItemType.manga,
+    this.appMinVerReq = "",
+    this.appMinVerReqLast = "",
+    this.additionalParams = "",
+    this.isLocal = false,
+    this.isObsolete = false,
+    this.repo,
+  });
 
   Source.fromJson(Map<String, dynamic> json) {
     apiUrl = json['apiUrl'];
@@ -130,42 +131,43 @@ class Source {
     additionalParams = json['additionalParams'] ?? "";
     isObsolete = json['isObsolete'];
     isLocal = json['isLocal'];
-    sourceCodeLanguage = SourceCodeLanguage.values[json['sourceCodeLanguage'] ?? 0];
+    sourceCodeLanguage =
+        SourceCodeLanguage.values[json['sourceCodeLanguage'] ?? 0];
     repo = json['repo'] != null ? Repo.fromJson(json['repo']) : null;
   }
 
   Map<String, dynamic> toJson() => {
-        'apiUrl': apiUrl,
-        'appMinVerReq': appMinVerReq,
-        'appMinVerReqLast': appMinVerReqLast,
-        'baseUrl': baseUrl,
-        'dateFormat': dateFormat,
-        'dateFormatLocale': dateFormatLocale,
-        'hasCloudflare': hasCloudflare,
-        'headers': headers,
-        'iconUrl': iconUrl,
-        'id': id,
-        'isActive': isActive,
-        'isAdded': isAdded,
-        'isFullData': isFullData,
-        'isManga': isManga,
-        'itemType': itemType.index,
-        'isNsfw': isNsfw,
-        'isPinned': isPinned,
-        'lang': lang,
-        'lastUsed': lastUsed,
-        'name': name,
-        'sourceCode': sourceCode,
-        'sourceCodeUrl': sourceCodeUrl,
-        'typeSource': typeSource,
-        'version': version,
-        'versionLast': versionLast,
-        'additionalParams': additionalParams,
-        'sourceCodeLanguage': sourceCodeLanguage.index,
-        'isObsolete': isObsolete,
-        'isLocal': isLocal,
-        'repo': repo?.toJson()
-      };
+    'apiUrl': apiUrl,
+    'appMinVerReq': appMinVerReq,
+    'appMinVerReqLast': appMinVerReqLast,
+    'baseUrl': baseUrl,
+    'dateFormat': dateFormat,
+    'dateFormatLocale': dateFormatLocale,
+    'hasCloudflare': hasCloudflare,
+    'headers': headers,
+    'iconUrl': iconUrl,
+    'id': id,
+    'isActive': isActive,
+    'isAdded': isAdded,
+    'isFullData': isFullData,
+    'isManga': isManga,
+    'itemType': itemType.index,
+    'isNsfw': isNsfw,
+    'isPinned': isPinned,
+    'lang': lang,
+    'lastUsed': lastUsed,
+    'name': name,
+    'sourceCode': sourceCode,
+    'sourceCodeUrl': sourceCodeUrl,
+    'typeSource': typeSource,
+    'version': version,
+    'versionLast': versionLast,
+    'additionalParams': additionalParams,
+    'sourceCodeLanguage': sourceCodeLanguage.index,
+    'isObsolete': isObsolete,
+    'isLocal': isLocal,
+    'repo': repo?.toJson(),
+  };
 
   bool get isTorrent => (typeSource?.toLowerCase() ?? "") == "torrent";
 
@@ -174,16 +176,17 @@ class Source {
 
   MSource toMSource() {
     return MSource(
-        id: id,
-        name: name,
-        hasCloudflare: hasCloudflare,
-        isFullData: isFullData,
-        lang: lang,
-        baseUrl: baseUrl,
-        apiUrl: apiUrl,
-        dateFormat: dateFormat,
-        dateFormatLocale: dateFormatLocale,
-        additionalParams: additionalParams);
+      id: id,
+      name: name,
+      hasCloudflare: hasCloudflare,
+      isFullData: isFullData,
+      lang: lang,
+      baseUrl: baseUrl,
+      apiUrl: apiUrl,
+      dateFormat: dateFormat,
+      dateFormatLocale: dateFormatLocale,
+      additionalParams: additionalParams,
+    );
   }
 }
 

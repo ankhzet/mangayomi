@@ -66,23 +66,30 @@ Future<void> checkAndBackup(Ref ref) async {
     final backupFrequency = _duration(settings.backupFrequency);
     if (backupFrequency != null) {
       if (settings.startDatebackup != null) {
-        final startBackupDate = DateTime.fromMillisecondsSinceEpoch(settings.startDatebackup!);
+        final startBackupDate = DateTime.fromMillisecondsSinceEpoch(
+          settings.startDatebackup!,
+        );
 
         if (DateTime.now().isAfter(startBackupDate)) {
           _setBackupFrequency(settings.backupFrequency!);
           await StorageProvider.requestPermission();
           final backupLocation = ref.watch(autoBackupLocationStateProvider).$2;
 
-          Directory backupDirectory =
-              Directory(backupLocation.isEmpty ? await StorageProvider.getBackupDirectory() : backupLocation);
+          Directory backupDirectory = Directory(
+            backupLocation.isEmpty
+                ? await StorageProvider.getBackupDirectory()
+                : backupLocation,
+          );
 
           await backupDirectory.create(recursive: true);
 
-          ref.watch(doBackUpProvider(
-            list: ref.watch(backupFrequencyOptionsStateProvider),
-            pathname: backupDirectory.path,
-            context: null,
-          ));
+          ref.watch(
+            doBackUpProvider(
+              list: ref.watch(backupFrequencyOptionsStateProvider),
+              pathname: backupDirectory.path,
+              context: null,
+            ),
+          );
         }
       }
     }
@@ -96,7 +103,7 @@ Duration? _duration(int? backupFrequency) {
     3 => const Duration(days: 1),
     4 => const Duration(days: 2),
     5 => const Duration(days: 7),
-    _ => null
+    _ => null,
   };
 }
 
@@ -105,7 +112,8 @@ void _setBackupFrequency(int value) {
   final duration = _duration(value);
   final now = DateTime.now();
   final startDate = duration != null ? now.add(duration) : null;
-  isar.settings.first = settings
-    ..backupFrequency = value
-    ..startDatebackup = startDate?.millisecondsSinceEpoch;
+  isar.settings.first =
+      settings
+        ..backupFrequency = value
+        ..startDatebackup = startDate?.millisecondsSinceEpoch;
 }

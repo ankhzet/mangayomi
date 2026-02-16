@@ -27,7 +27,8 @@ class MediaTabs extends ConsumerStatefulWidget {
 }
 
 class _MediaTabsState extends ConsumerState<MediaTabs> {
-  late List<ItemType> defaultTypes = widget.defaultTypes ?? [ItemType.manga, ItemType.anime, ItemType.novel];
+  late List<ItemType> defaultTypes =
+      widget.defaultTypes ?? [ItemType.manga, ItemType.anime, ItemType.novel];
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +43,15 @@ class _MediaTabsState extends ConsumerState<MediaTabs> {
 
   Widget _tabBar(BuildContext context, List<ItemType> types) {
     final l10n = l10nLocalizations(context)!;
-    final tab = widget.tab ??
+    final tab =
+        widget.tab ??
         (ItemType type) => Tab(
-                text: switch (type) {
-              ItemType.manga => l10n.manga,
-              ItemType.anime => l10n.anime,
-              ItemType.novel => l10n.novel,
-            });
+          text: switch (type) {
+            ItemType.manga => l10n.manga,
+            ItemType.anime => l10n.anime,
+            ItemType.novel => l10n.novel,
+          },
+        );
 
     return TypeTabBarView(
       tabs: types,

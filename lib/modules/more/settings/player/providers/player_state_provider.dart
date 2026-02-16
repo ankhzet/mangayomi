@@ -34,7 +34,8 @@ class DefaultSkipIntroLengthState extends _$DefaultSkipIntroLengthState {
 }
 
 @riverpod
-class DefaultDoubleTapToSkipLengthState extends _$DefaultDoubleTapToSkipLengthState {
+class DefaultDoubleTapToSkipLengthState
+    extends _$DefaultDoubleTapToSkipLengthState {
   @override
   int build() {
     return isar.settings.first.defaultDoubleTapToSkipLength ?? 10;

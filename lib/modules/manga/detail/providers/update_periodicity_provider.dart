@@ -12,7 +12,8 @@ part 'update_periodicity_provider.g.dart';
 const defaultGranularity = 1000 * 60 * 60 * 1; // 1h
 const ranges = [1, 7, 30, 90, 180, 356, 3560];
 
-typedef MangaPeriodicity = ({Manga manga, Duration period, DateTime last, int days});
+typedef MangaPeriodicity =
+    ({Manga manga, Duration period, DateTime last, int days});
 
 @riverpod
 Stream<Iterable<MangaPeriodicity>> updatePeriodicity(
@@ -20,18 +21,36 @@ Stream<Iterable<MangaPeriodicity>> updatePeriodicity(
   required ItemType type,
   int granularity = defaultGranularity,
 }) async* {
-  makeQuery() => isar.mangas.where().favoriteEqualTo(true).filter().itemTypeEqualTo(type).sourceIsNotNull();
+  makeQuery() =>
+      isar.mangas
+          .where()
+          .favoriteEqualTo(true)
+          .filter()
+          .itemTypeEqualTo(type)
+          .sourceIsNotNull();
 
   final query = makeQuery().build();
   // fetch watchable entities
-  final entities = query.findAllSync().fold(<int, Manga>{}, (map, manga) => map..putIfAbsent(manga.id, () => manga));
+  final entities = query.findAllSync().fold(
+    <int, Manga>{},
+    (map, manga) => map..putIfAbsent(manga.id, () => manga),
+  );
   final ids = entities.keys;
   // fetch initial chapters state
   final chapters =
-      entities.isEmpty ? <Chapter>[] : isar.chapters.where().anyOf(ids, (q, id) => q.mangaIdEqualTo(id)).findAllSync();
+      entities.isEmpty
+          ? <Chapter>[]
+          : isar.chapters
+              .where()
+              .anyOf(ids, (q, id) => q.mangaIdEqualTo(id))
+              .findAllSync();
 
   // initial periodicity pump
-  Iterable<MangaPeriodicity> periodicity = _getAllPeriodicity(entities, chapters, granularity);
+  Iterable<MangaPeriodicity> periodicity = _getAllPeriodicity(
+    entities,
+    chapters,
+    granularity,
+  );
 
   yield periodicity;
 
@@ -40,16 +59,31 @@ Stream<Iterable<MangaPeriodicity>> updatePeriodicity(
 
   yield* updates.map((void _) {
     // get updated entities
-    final diff = makeQuery()
-        .group((q) => q // (manga NOT IN fetched list) OR (manga IN fetched list AND lastUpdate changed)
-            .group((qq) => qq.not().anyOf(entities.values, (q, manga) => q.group((q) => (q.idEqualTo(manga.id)))))
-            .or()
-            .group((qq) => qq.anyOf(
-                  entities.values,
-                  (q, manga) =>
-                      q.group((q) => (q.idEqualTo(manga.id).and().lastUpdateGreaterThan(manga.lastUpdate ?? 0))),
-                )))
-        .findAllSync();
+    final diff =
+        makeQuery()
+            .group(
+              (q) =>
+                  q // (manga NOT IN fetched list) OR (manga IN fetched list AND lastUpdate changed)
+                      .group(
+                        (qq) => qq.not().anyOf(
+                          entities.values,
+                          (q, manga) => q.group((q) => (q.idEqualTo(manga.id))),
+                        ),
+                      )
+                      .or()
+                      .group(
+                        (qq) => qq.anyOf(
+                          entities.values,
+                          (q, manga) => q.group(
+                            (q) => (q
+                                .idEqualTo(manga.id)
+                                .and()
+                                .lastUpdateGreaterThan(manga.lastUpdate ?? 0)),
+                          ),
+                        ),
+                      ),
+            )
+            .findAllSync();
 
     if (diff.isEmpty) {
       return periodicity;
@@ -57,11 +91,12 @@ Stream<Iterable<MangaPeriodicity>> updatePeriodicity(
 
     final ids = diff.map((manga) => manga.id);
     // fetch updated chapters state
-    final chapters = isar.chapters
-        .where()
-        .anyOf(diff, (q, manga) => q.mangaIdEqualTo(manga.id))
-        .distinctByDateUpload()
-        .findAllSync();
+    final chapters =
+        isar.chapters
+            .where()
+            .anyOf(diff, (q, manga) => q.mangaIdEqualTo(manga.id))
+            .distinctByDateUpload()
+            .findAllSync();
 
     for (final manga in diff) {
       entities[manga.id] = manga;
@@ -71,28 +106,38 @@ Stream<Iterable<MangaPeriodicity>> updatePeriodicity(
     final updated = _getAllPeriodicity(entities, chapters, granularity);
 
     // replace prev
-    final spliced =
-        periodicity.where((item) => !ids.contains(item.manga.id)).followedBy(updated).sorted(comparePeriodicity);
+    final spliced = periodicity
+        .where((item) => !ids.contains(item.manga.id))
+        .followedBy(updated)
+        .sorted(comparePeriodicity);
     periodicity = spliced;
 
     return periodicity;
   });
 }
 
-int comparePeriodicity(MangaPeriodicity a, MangaPeriodicity b) => a.period.inMilliseconds - b.period.inMilliseconds;
+int comparePeriodicity(MangaPeriodicity a, MangaPeriodicity b) =>
+    a.period.inMilliseconds - b.period.inMilliseconds;
 
-Iterable<MangaPeriodicity> _getAllPeriodicity(Map<int, Manga> entities, Iterable<Chapter> chapters, int granularity) {
+Iterable<MangaPeriodicity> _getAllPeriodicity(
+  Map<int, Manga> entities,
+  Iterable<Chapter> chapters,
+  int granularity,
+) {
   final now = DateTime.now().millisecondsSinceEpoch ~/ granularity;
   final byManga = chapters.groupBy((chapter) => chapter.mangaId!);
 
   return byManga //
       .entries
       .map((entry) {
-    int mangaId = entry.key;
-    Manga entity = entities[mangaId] ?? (entities[mangaId] = isar.mangas.getSync(mangaId)!);
+        int mangaId = entry.key;
+        Manga entity =
+            entities[mangaId] ??
+            (entities[mangaId] = isar.mangas.getSync(mangaId)!);
 
-    return _getMangaPeriodicity(entity, entry.value, granularity, now);
-  }).sorted(comparePeriodicity);
+        return _getMangaPeriodicity(entity, entry.value, granularity, now);
+      })
+      .sorted(comparePeriodicity);
 }
 
 MangaPeriodicity _getMangaPeriodicity(
@@ -101,24 +146,29 @@ MangaPeriodicity _getMangaPeriodicity(
   int granularity,
   int now,
 ) {
-  final grouped = ChapterGroup.groupChapters(chapters, (chapter) => chapter.compositeOrder);
-  final timestamps = grouped.map((group) => group.dateUpload).whereType<DateTime>();
-  final periodicity = ( //
-      timestamps.isEmpty //
+  final grouped = ChapterGroup.groupChapters(
+    chapters,
+    (chapter) => chapter.compositeOrder,
+  );
+  final timestamps =
+      grouped.map((group) => group.dateUpload).whereType<DateTime>();
+  final periodicity =
+      ( //
+      timestamps
+              .isEmpty //
           ? 0
-          : _getPeriodicity(timestamps
-              .map((datetime) => datetime.millisecondsSinceEpoch ~/ granularity)
-              .sorted((a, b) => a - b)
-              .followedBy([now])));
+          : _getPeriodicity(
+            timestamps
+                .map(
+                  (datetime) => datetime.millisecondsSinceEpoch ~/ granularity,
+                )
+                .sorted((a, b) => a - b)
+                .followedBy([now]),
+          ));
   final last = DateTime.fromMillisecondsSinceEpoch(manga.lastUpdate ?? 0);
   final period = Duration(milliseconds: periodicity * granularity);
 
-  return (
-    manga: manga,
-    period: period,
-    days: _getRange(period),
-    last: last,
-  );
+  return (manga: manga, period: period, days: _getRange(period), last: last);
 }
 
 int _getRange(Duration periodicity) {
@@ -157,9 +207,12 @@ int _getPeriodicity(Iterable<int> dates) {
   final tenth = deltas.length ~/ 10;
   final cutoff = fifth > 0 ? fifth : tenth;
 
-  List<int> median = cutoff > 0
-      ? (deltas..sort((a, b) => a - b)).sublist(cutoff, deltas.length - cutoff).toList(growable: false)
-      : deltas;
+  List<int> median =
+      cutoff > 0
+          ? (deltas..sort((a, b) => a - b))
+              .sublist(cutoff, deltas.length - cutoff)
+              .toList(growable: false)
+          : deltas;
 
   int min = median.first;
   int max = min;

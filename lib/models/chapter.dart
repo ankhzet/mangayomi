@@ -17,7 +17,8 @@ extension CompositeUtils on ChapterCompositeNumber {
       return chapter.toDouble();
     }
 
-    return chapter + fraction.toDouble() / pow(10, (log(fraction) * log10e).floor() + 1);
+    return chapter +
+        fraction.toDouble() / pow(10, (log(fraction) * log10e).floor() + 1);
   }
 }
 
@@ -99,13 +100,15 @@ class Chapter {
 
   final manga = IsarLink<Manga>();
 
-  static bool isChapterBookmarked(Chapter chapter) => chapter.isBookmarked ?? false;
+  static bool isChapterBookmarked(Chapter chapter) =>
+      chapter.isBookmarked ?? false;
 
   static bool isChapterRead(Chapter chapter) => chapter.isRead ?? false;
 
   static bool isChapterUnread(Chapter chapter) => !(chapter.isRead ?? false);
 
-  static bool hasChapterScanlators(Chapter chapter) => chapter.scanlator?.isNotEmpty ?? false;
+  static bool hasChapterScanlators(Chapter chapter) =>
+      chapter.scanlator?.isNotEmpty ?? false;
 
   static DateTime? firstUpload(Iterable<Chapter> chapters) {
     DateTime? min;
@@ -113,7 +116,9 @@ class Chapter {
     for (final chapter in chapters) {
       final time = chapter.datetimeUpload();
 
-      if (time != null && (min == null || time.millisecondsSinceEpoch < min.millisecondsSinceEpoch)) {
+      if (time != null &&
+          (min == null ||
+              time.millisecondsSinceEpoch < min.millisecondsSinceEpoch)) {
         min = time;
       }
     }
@@ -142,18 +147,18 @@ class Chapter {
     return calculateTitle(number, name);
   }
 
-  Chapter(
-      {this.id = Isar.autoIncrement,
-      required this.mangaId,
-      required String? name,
-      this.url = '',
-      this.dateUpload = '',
-      this.isBookmarked = false,
-      this.scanlator = '',
-      this.isRead = false,
-      this.lastPageRead = '',
-      this.archivePath = ''})
-      : _name = name;
+  Chapter({
+    this.id = Isar.autoIncrement,
+    required this.mangaId,
+    required String? name,
+    this.url = '',
+    this.dateUpload = '',
+    this.isBookmarked = false,
+    this.scanlator = '',
+    this.isRead = false,
+    this.lastPageRead = '',
+    this.archivePath = '',
+  }) : _name = name;
 
   Chapter.fromJson(Map<String, dynamic> json) {
     archivePath = json['archivePath'];
@@ -169,17 +174,17 @@ class Chapter {
   }
 
   Map<String, dynamic> toJson() => {
-        'archivePath': archivePath,
-        'dateUpload': dateUpload,
-        'id': id,
-        'isBookmarked': isBookmarked,
-        'isRead': isRead,
-        'lastPageRead': lastPageRead,
-        'mangaId': mangaId,
-        'name': name,
-        'scanlator': scanlator,
-        'url': url
-      };
+    'archivePath': archivePath,
+    'dateUpload': dateUpload,
+    'id': id,
+    'isBookmarked': isBookmarked,
+    'isRead': isRead,
+    'lastPageRead': lastPageRead,
+    'mangaId': mangaId,
+    'name': name,
+    'scanlator': scanlator,
+    'url': url,
+  };
 
   bool isSameNumber(Chapter other) {
     return 0 == compareComposite(compositeOrder, other.compositeOrder);
@@ -192,7 +197,8 @@ class Chapter {
 
     if ((url?.isNotEmpty ?? false) && url == other.url) {
       return true;
-    } else if ((archivePath?.isNotEmpty ?? false) && archivePath == other.archivePath) {
+    } else if ((archivePath?.isNotEmpty ?? false) &&
+        archivePath == other.archivePath) {
       return true;
     }
 
@@ -202,7 +208,8 @@ class Chapter {
   bool isUpdated(Chapter other) {
     bool updated = false;
 
-    if (updated |= (other.url != null) && other.url!.isNotEmpty && (other.url != url)) {
+    if (updated |=
+        (other.url != null) && other.url!.isNotEmpty && (other.url != url)) {
       url = other.url;
     }
 

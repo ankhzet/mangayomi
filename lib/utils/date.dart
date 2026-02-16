@@ -18,8 +18,11 @@ String dateFormat(
   final l10n = l10nLocalizations(context)!;
   final locale = currentLocale(context);
   final relativeTimestamps = ref.watch(relativeTimesTampsStateProvider);
-  final dateTime = datetimeDate ??
-      (stringDate != null ? DateTime.parse(stringDate) : DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp!)));
+  final dateTime =
+      datetimeDate ??
+      (stringDate != null
+          ? DateTime.parse(stringDate)
+          : DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp!)));
 
   final date = DateTime(dateTime.year, dateTime.month, dateTime.day);
   final now = DateTime.now();
@@ -98,11 +101,15 @@ String dateFormat(
     return date.toString();
   }
 
-  final format = dateFormat.isEmpty ? ref.watch(dateFormatStateProvider) : dateFormat;
+  final format =
+      dateFormat.isEmpty ? ref.watch(dateFormatStateProvider) : dateFormat;
   final dateStr = DateFormat(format, locale.toLanguageTag()).format(date);
 
   if (showHourOrMinute) {
-    final timeStr = DateFormat('HH:mm', locale.toLanguageTag()).format(dateTime);
+    final timeStr = DateFormat(
+      'HH:mm',
+      locale.toLanguageTag(),
+    ).format(dateTime);
     return '$dateStr $timeStr';
   }
 
@@ -116,7 +123,15 @@ String dateFormatHour(String timestamp, BuildContext context) {
   return DateFormat.Hm(locale.toLanguageTag()).format(dateTime);
 }
 
-List<String> dateFormatsList = ["M/d/y", "MM/dd/yy", "dd/MM/yy", "yyyy-MM-dd", "dd MMM yyyy", "MMM dd, yyyy", "dd.MM.yyyy"];
+List<String> dateFormatsList = [
+  "M/d/y",
+  "MM/dd/yy",
+  "dd/MM/yy",
+  "yyyy-MM-dd",
+  "dd MMM yyyy",
+  "MMM dd, yyyy",
+  "dd.MM.yyyy",
+];
 
 List<String> relativeTimestampsList(BuildContext context) {
   final l10n = l10nLocalizations(context)!;

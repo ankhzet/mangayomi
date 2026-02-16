@@ -6,9 +6,7 @@ import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 // import 'package:rive/rive.dart';
 
 class DarkModeButton extends ConsumerStatefulWidget {
-  const DarkModeButton({
-    super.key,
-  });
+  const DarkModeButton({super.key});
 
   @override
   ConsumerState<DarkModeButton> createState() => _DarkModeButtonState();

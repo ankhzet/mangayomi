@@ -5,8 +5,6 @@ class RefreshCenter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: RefreshProgressIndicator(),
-    );
+    return const Center(child: RefreshProgressIndicator());
   }
 }

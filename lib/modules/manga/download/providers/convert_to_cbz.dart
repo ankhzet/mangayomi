@@ -9,7 +9,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'convert_to_cbz.g.dart';
 
 @riverpod
-Future<List<String>> convertToCBZ(Ref ref, String sourceDir, String targetDir, String archiveName, int files) async {
+Future<List<String>> convertToCBZ(
+  Ref ref,
+  String sourceDir,
+  String targetDir,
+  String archiveName,
+  int files,
+) async {
   return compute(_convertToCBZ, (sourceDir, targetDir, archiveName, files));
 }
 
@@ -18,7 +24,9 @@ Future<List<String>> _convertToCBZ((String, String, String, int) datas) async {
   final source = Directory(sourceDir);
 
   if (source.existsSync()) {
-    final images = source.listSync().whereType<File>().where((file) => file.path.endsWith('.jpg'));
+    final images = source.listSync().whereType<File>().where(
+      (file) => file.path.endsWith('.jpg'),
+    );
 
     if (images.isNotEmpty && files == images.length) {
       final sorted = images.toList()..sort((a, b) => a.path.compareTo(b.path));

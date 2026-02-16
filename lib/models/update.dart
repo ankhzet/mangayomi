@@ -32,11 +32,11 @@ class Update {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'mangaId': mangaId,
-        'chapterName': chapterName,
-        'date': date,
-      };
+    'id': id,
+    'mangaId': mangaId,
+    'chapterName': chapterName,
+    'date': date,
+  };
 
   @ignore
   Manga get manga => chapter.value!.manga.value!;

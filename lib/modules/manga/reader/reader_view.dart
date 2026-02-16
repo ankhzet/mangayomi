@@ -18,7 +18,8 @@ class MangaReaderView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final chapterData = ref.watch(getChapterPagesProvider(chapter: chapter));
-    final isExternalSource = (chapter.manga.value!.isLocalArchive ?? false) == false;
+    final isExternalSource =
+        (chapter.manga.value!.isLocalArchive ?? false) == false;
 
     try {
       return chapterData.when(
@@ -27,14 +28,21 @@ class MangaReaderView extends ConsumerWidget {
             throw AssertionError('Failed to load chapter pages');
           }
 
-          return MangaChapterPageGallery(chapter: chapter, chapterUrlModel: data);
+          return MangaChapterPageGallery(
+            chapter: chapter,
+            chapterUrlModel: data,
+          );
         },
         error: (error, stackTrace) => throw error,
-        loading: () => _scaffold(context: context, body: const ProgressCenter()),
+        loading:
+            () => _scaffold(context: context, body: const ProgressCenter()),
       );
     } catch (error) {
       var errorText = error.toString();
-      final match = RegExp(r'Chapter would be published ([^\n]+)', caseSensitive: false).firstMatch(errorText);
+      final match = RegExp(
+        r'Chapter would be published ([^\n]+)',
+        caseSensitive: false,
+      ).firstMatch(errorText);
 
       if (match != null) {
         final date = DateTime.fromMillisecondsSinceEpoch(int.parse(match[1]!));
@@ -64,7 +72,11 @@ class MangaReaderView extends ConsumerWidget {
     }
   }
 
-  _scaffold({required BuildContext context, required Widget body, bool systemUI = false}) {
+  _scaffold({
+    required BuildContext context,
+    required Widget body,
+    bool systemUI = false,
+  }) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -72,7 +84,10 @@ class MangaReaderView extends ConsumerWidget {
         leading: BackButton(
           onPressed: () {
             if (systemUI) {
-              SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+              SystemChrome.setEnabledSystemUIMode(
+                SystemUiMode.manual,
+                overlays: SystemUiOverlay.values,
+              );
             }
 
             Navigator.pop(context);

@@ -4,7 +4,11 @@ class SeparatedRow extends StatelessWidget {
   final Widget separator;
   final Iterable<Widget?> children;
 
-  const SeparatedRow({super.key, required this.separator, required this.children});
+  const SeparatedRow({
+    super.key,
+    required this.separator,
+    required this.children,
+  });
 
   @override
   Widget build(BuildContext context) {

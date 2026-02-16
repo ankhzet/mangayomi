@@ -24,9 +24,14 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
 
   void _set(int index, List<int> indexList) {
     if (indexList.contains(index)) {
-      ref.read(backupFrequencyOptionsStateProvider.notifier).set(indexList.where((e) => e != index).toList());
+      ref
+          .read(backupFrequencyOptionsStateProvider.notifier)
+          .set(indexList.where((e) => e != index).toList());
     } else {
-      ref.read(backupFrequencyOptionsStateProvider.notifier).set([...indexList, index]);
+      ref.read(backupFrequencyOptionsStateProvider.notifier).set([
+        ...indexList,
+        index,
+      ]);
     }
   }
 
@@ -35,24 +40,30 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
     final l10n = context.l10n;
     final indexList = ref.watch(backupFrequencyOptionsStateProvider);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.create_backup),
-      ),
+      appBar: AppBar(title: Text(l10n.create_backup)),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
                 child: Row(
                   children: [
-                    Text(l10n.library, style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      l10n.library,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               ),
               Card(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
                 child: ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
                   shrinkWrap: true,
@@ -61,24 +72,33 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                   itemBuilder: (context, index) {
                     final (label, idx) = _libraryList[index];
                     return ListTileItemFilter(
-                        label: label,
-                        type: indexList.contains(idx) ? 1 : 0,
-                        onTap: () {
-                          _set(idx, indexList);
-                        });
+                      label: label,
+                      type: indexList.contains(idx) ? 1 : 0,
+                      onTap: () {
+                        _set(idx, indexList);
+                      },
+                    );
                   },
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
                 child: Row(
                   children: [
-                    Text(l10n.settings, style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      l10n.settings,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               ),
               Card(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
                 child: ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
                   shrinkWrap: true,
@@ -87,24 +107,33 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                   itemBuilder: (context, index) {
                     final (label, idx) = _settingsList[index];
                     return ListTileItemFilter(
-                        label: label,
-                        type: indexList.contains(idx) ? 1 : 0,
-                        onTap: () {
-                          _set(idx, indexList);
-                        });
+                      label: label,
+                      type: indexList.contains(idx) ? 1 : 0,
+                      onTap: () {
+                        _set(idx, indexList);
+                      },
+                    );
                   },
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
                 child: Row(
                   children: [
-                    Text(l10n.extensions, style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      l10n.extensions,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               ),
               Card(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
                 child: ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
                   shrinkWrap: true,
@@ -113,11 +142,12 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                   itemBuilder: (context, index) {
                     final (label, idx) = _extensionList[index];
                     return ListTileItemFilter(
-                        label: label,
-                        type: indexList.contains(idx) ? 1 : 0,
-                        onTap: () {
-                          _set(idx, indexList);
-                        });
+                      label: label,
+                      type: indexList.contains(idx) ? 1 : 0,
+                      onTap: () {
+                        _set(idx, indexList);
+                      },
+                    );
                   },
                 ),
               ),
@@ -131,24 +161,39 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(backgroundColor: context.primaryColor),
-                          onPressed: () async {
-                            String? result;
-                            if (Platform.isIOS) {
-                              result = await StorageProvider.getBackupDirectory();
-                            } else {
-                              result = await FilePicker.platform.getDirectoryPath();
-                            }
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: context.primaryColor,
+                        ),
+                        onPressed: () async {
+                          String? result;
+                          if (Platform.isIOS) {
+                            result = await StorageProvider.getBackupDirectory();
+                          } else {
+                            result =
+                                await FilePicker.platform.getDirectoryPath();
+                          }
 
-                            if (result != null && context.mounted) {
-                              ref.watch(doBackUpProvider(list: indexList, pathname: result, context: context));
-                            }
-                          },
-                          child: Text(l10n.create, style: TextStyle(color: context.dynamicBlackWhiteColor))),
+                          if (result != null && context.mounted) {
+                            ref.watch(
+                              doBackUpProvider(
+                                list: indexList,
+                                pathname: result,
+                                context: context,
+                              ),
+                            );
+                          }
+                        },
+                        child: Text(
+                          l10n.create,
+                          style: TextStyle(
+                            color: context.dynamicBlackWhiteColor,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -165,7 +210,7 @@ List<(String, int)> _getLibraryList(BuildContext context) {
     (l10n.chapters_and_episode, 2),
     (l10n.tracking, 3),
     (l10n.history, 4),
-    (l10n.updates, 5)
+    (l10n.updates, 5),
   ];
 }
 

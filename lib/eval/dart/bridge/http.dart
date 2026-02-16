@@ -18,137 +18,319 @@ class $Client implements $Instance {
   late final $Instance _superclass = $Object($value);
 
   /// Compile-time bridged type reference for [$InterceptedClient]
-  static const $type = BridgeTypeRef(BridgeTypeSpec('package:mangayomi/bridge_lib.dart', 'Client'));
+  static const $type = BridgeTypeRef(
+    BridgeTypeSpec('package:mangayomi/bridge_lib.dart', 'Client'),
+  );
 
   /// Compile-time bridged class declaration for [$InterceptedClient]
-  static const $declaration = BridgeClassDef(BridgeClassType($type),
-      constructors: {
-        '': BridgeConstructorDef(BridgeFunctionDef(returns: BridgeTypeAnnotation($type), params: [
-          BridgeParameter('source', BridgeTypeAnnotation($MSource.$type), true),
-          BridgeParameter('reqcopyWith', BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.string)), true),
-        ], namedParams: []))
-      },
-      methods: {
-        'get': BridgeMethodDef(BridgeFunctionDef(
-            returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.future, [$Response.$type])),
-            params: [
-              BridgeParameter('url', BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.uri)), false),
-            ],
-            namedParams: [
-              BridgeParameter(
-                  'headers',
-                  BridgeTypeAnnotation(
-                      BridgeTypeRef(CoreTypes.map, [BridgeTypeRef(CoreTypes.string), BridgeTypeRef(CoreTypes.string)]),
-                      nullable: true),
-                  true),
-            ])),
-        'post': BridgeMethodDef(BridgeFunctionDef(
-            returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.future, [$Response.$type])),
-            params: [
-              BridgeParameter('url', BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.uri)), false),
-            ],
-            namedParams: [
-              BridgeParameter(
-                  'headers',
-                  BridgeTypeAnnotation(
-                      BridgeTypeRef(CoreTypes.map, [BridgeTypeRef(CoreTypes.string), BridgeTypeRef(CoreTypes.string)]),
-                      nullable: true),
-                  true),
-              BridgeParameter('body', BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.object), nullable: true), true),
-              BridgeParameter(
-                  'encoding', BridgeTypeAnnotation(BridgeTypeRef(ConvertTypes.encoding), nullable: true), true),
-            ])),
-        'put': BridgeMethodDef(BridgeFunctionDef(
-            returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.future, [$Response.$type])),
-            params: [
-              BridgeParameter('url', BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.uri)), false),
-            ],
-            namedParams: [
-              BridgeParameter(
-                  'headers',
-                  BridgeTypeAnnotation(
-                      BridgeTypeRef(CoreTypes.map, [BridgeTypeRef(CoreTypes.string), BridgeTypeRef(CoreTypes.string)]),
-                      nullable: true),
-                  true),
-              BridgeParameter('body', BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.object), nullable: true), true),
-              BridgeParameter(
-                  'encoding', BridgeTypeAnnotation(BridgeTypeRef(ConvertTypes.encoding), nullable: true), true),
-            ])),
-        'delete': BridgeMethodDef(BridgeFunctionDef(
-            returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.future, [$Response.$type])),
-            params: [
-              BridgeParameter('url', BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.uri)), false),
-            ],
-            namedParams: [
-              BridgeParameter(
-                  'headers',
-                  BridgeTypeAnnotation(
-                      BridgeTypeRef(CoreTypes.map, [BridgeTypeRef(CoreTypes.string), BridgeTypeRef(CoreTypes.string)]),
-                      nullable: true),
-                  true),
-              BridgeParameter('body', BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.object), nullable: true), true),
-              BridgeParameter(
-                  'encoding', BridgeTypeAnnotation(BridgeTypeRef(ConvertTypes.encoding), nullable: true), true),
-            ])),
-        'patch': BridgeMethodDef(BridgeFunctionDef(
-            returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.future, [$Response.$type])),
-            params: [
-              BridgeParameter('url', BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.uri)), false),
-            ],
-            namedParams: [
-              BridgeParameter(
-                  'headers',
-                  BridgeTypeAnnotation(
-                      BridgeTypeRef(CoreTypes.map, [BridgeTypeRef(CoreTypes.string), BridgeTypeRef(CoreTypes.string)]),
-                      nullable: true),
-                  true),
-              BridgeParameter('body', BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.object), nullable: true), true),
-              BridgeParameter(
-                  'encoding', BridgeTypeAnnotation(BridgeTypeRef(ConvertTypes.encoding), nullable: true), true),
-            ])),
-        'read': BridgeMethodDef(BridgeFunctionDef(
-            returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.future, [BridgeTypeRef(CoreTypes.string)])),
-            params: [
-              BridgeParameter('url', BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.uri)), false),
-            ],
-            namedParams: [
-              BridgeParameter(
-                  'headers',
-                  BridgeTypeAnnotation(
-                      BridgeTypeRef(CoreTypes.map, [BridgeTypeRef(CoreTypes.string), BridgeTypeRef(CoreTypes.string)]),
-                      nullable: true),
-                  true),
-            ])),
-        'readBytes': BridgeMethodDef(BridgeFunctionDef(
-            returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.future, [
-              BridgeTypeRef(CoreTypes.list, [BridgeTypeRef(CoreTypes.int)])
-            ])),
-            params: [
-              BridgeParameter('url', BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.uri)), false),
-            ],
-            namedParams: [
-              BridgeParameter(
-                  'headers',
-                  BridgeTypeAnnotation(
-                      BridgeTypeRef(CoreTypes.map, [BridgeTypeRef(CoreTypes.string), BridgeTypeRef(CoreTypes.string)]),
-                      nullable: true),
-                  true),
-            ])),
-        'send': BridgeMethodDef(BridgeFunctionDef(
-            returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.future, [BridgeTypeRef(CoreTypes.list)])),
-            params: [
-              BridgeParameter('request', BridgeTypeAnnotation($BaseRequest.$type), false),
-            ])),
-        'close': BridgeMethodDef(BridgeFunctionDef(
+  static const $declaration = BridgeClassDef(
+    BridgeClassType($type),
+    constructors: {
+      '': BridgeConstructorDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation($type),
+          params: [
+            BridgeParameter(
+              'source',
+              BridgeTypeAnnotation($MSource.$type),
+              true,
+            ),
+            BridgeParameter(
+              'reqcopyWith',
+              BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.string)),
+              true,
+            ),
+          ],
+          namedParams: [],
+        ),
+      ),
+    },
+    methods: {
+      'get': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(
+            BridgeTypeRef(CoreTypes.future, [$Response.$type]),
+          ),
+          params: [
+            BridgeParameter(
+              'url',
+              BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.uri)),
+              false,
+            ),
+          ],
+          namedParams: [
+            BridgeParameter(
+              'headers',
+              BridgeTypeAnnotation(
+                BridgeTypeRef(CoreTypes.map, [
+                  BridgeTypeRef(CoreTypes.string),
+                  BridgeTypeRef(CoreTypes.string),
+                ]),
+                nullable: true,
+              ),
+              true,
+            ),
+          ],
+        ),
+      ),
+      'post': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(
+            BridgeTypeRef(CoreTypes.future, [$Response.$type]),
+          ),
+          params: [
+            BridgeParameter(
+              'url',
+              BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.uri)),
+              false,
+            ),
+          ],
+          namedParams: [
+            BridgeParameter(
+              'headers',
+              BridgeTypeAnnotation(
+                BridgeTypeRef(CoreTypes.map, [
+                  BridgeTypeRef(CoreTypes.string),
+                  BridgeTypeRef(CoreTypes.string),
+                ]),
+                nullable: true,
+              ),
+              true,
+            ),
+            BridgeParameter(
+              'body',
+              BridgeTypeAnnotation(
+                BridgeTypeRef(CoreTypes.object),
+                nullable: true,
+              ),
+              true,
+            ),
+            BridgeParameter(
+              'encoding',
+              BridgeTypeAnnotation(
+                BridgeTypeRef(ConvertTypes.encoding),
+                nullable: true,
+              ),
+              true,
+            ),
+          ],
+        ),
+      ),
+      'put': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(
+            BridgeTypeRef(CoreTypes.future, [$Response.$type]),
+          ),
+          params: [
+            BridgeParameter(
+              'url',
+              BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.uri)),
+              false,
+            ),
+          ],
+          namedParams: [
+            BridgeParameter(
+              'headers',
+              BridgeTypeAnnotation(
+                BridgeTypeRef(CoreTypes.map, [
+                  BridgeTypeRef(CoreTypes.string),
+                  BridgeTypeRef(CoreTypes.string),
+                ]),
+                nullable: true,
+              ),
+              true,
+            ),
+            BridgeParameter(
+              'body',
+              BridgeTypeAnnotation(
+                BridgeTypeRef(CoreTypes.object),
+                nullable: true,
+              ),
+              true,
+            ),
+            BridgeParameter(
+              'encoding',
+              BridgeTypeAnnotation(
+                BridgeTypeRef(ConvertTypes.encoding),
+                nullable: true,
+              ),
+              true,
+            ),
+          ],
+        ),
+      ),
+      'delete': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(
+            BridgeTypeRef(CoreTypes.future, [$Response.$type]),
+          ),
+          params: [
+            BridgeParameter(
+              'url',
+              BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.uri)),
+              false,
+            ),
+          ],
+          namedParams: [
+            BridgeParameter(
+              'headers',
+              BridgeTypeAnnotation(
+                BridgeTypeRef(CoreTypes.map, [
+                  BridgeTypeRef(CoreTypes.string),
+                  BridgeTypeRef(CoreTypes.string),
+                ]),
+                nullable: true,
+              ),
+              true,
+            ),
+            BridgeParameter(
+              'body',
+              BridgeTypeAnnotation(
+                BridgeTypeRef(CoreTypes.object),
+                nullable: true,
+              ),
+              true,
+            ),
+            BridgeParameter(
+              'encoding',
+              BridgeTypeAnnotation(
+                BridgeTypeRef(ConvertTypes.encoding),
+                nullable: true,
+              ),
+              true,
+            ),
+          ],
+        ),
+      ),
+      'patch': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(
+            BridgeTypeRef(CoreTypes.future, [$Response.$type]),
+          ),
+          params: [
+            BridgeParameter(
+              'url',
+              BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.uri)),
+              false,
+            ),
+          ],
+          namedParams: [
+            BridgeParameter(
+              'headers',
+              BridgeTypeAnnotation(
+                BridgeTypeRef(CoreTypes.map, [
+                  BridgeTypeRef(CoreTypes.string),
+                  BridgeTypeRef(CoreTypes.string),
+                ]),
+                nullable: true,
+              ),
+              true,
+            ),
+            BridgeParameter(
+              'body',
+              BridgeTypeAnnotation(
+                BridgeTypeRef(CoreTypes.object),
+                nullable: true,
+              ),
+              true,
+            ),
+            BridgeParameter(
+              'encoding',
+              BridgeTypeAnnotation(
+                BridgeTypeRef(ConvertTypes.encoding),
+                nullable: true,
+              ),
+              true,
+            ),
+          ],
+        ),
+      ),
+      'read': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(
+            BridgeTypeRef(CoreTypes.future, [BridgeTypeRef(CoreTypes.string)]),
+          ),
+          params: [
+            BridgeParameter(
+              'url',
+              BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.uri)),
+              false,
+            ),
+          ],
+          namedParams: [
+            BridgeParameter(
+              'headers',
+              BridgeTypeAnnotation(
+                BridgeTypeRef(CoreTypes.map, [
+                  BridgeTypeRef(CoreTypes.string),
+                  BridgeTypeRef(CoreTypes.string),
+                ]),
+                nullable: true,
+              ),
+              true,
+            ),
+          ],
+        ),
+      ),
+      'readBytes': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(
+            BridgeTypeRef(CoreTypes.future, [
+              BridgeTypeRef(CoreTypes.list, [BridgeTypeRef(CoreTypes.int)]),
+            ]),
+          ),
+          params: [
+            BridgeParameter(
+              'url',
+              BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.uri)),
+              false,
+            ),
+          ],
+          namedParams: [
+            BridgeParameter(
+              'headers',
+              BridgeTypeAnnotation(
+                BridgeTypeRef(CoreTypes.map, [
+                  BridgeTypeRef(CoreTypes.string),
+                  BridgeTypeRef(CoreTypes.string),
+                ]),
+                nullable: true,
+              ),
+              true,
+            ),
+          ],
+        ),
+      ),
+      'send': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(
+            BridgeTypeRef(CoreTypes.future, [BridgeTypeRef(CoreTypes.list)]),
+          ),
+          params: [
+            BridgeParameter(
+              'request',
+              BridgeTypeAnnotation($BaseRequest.$type),
+              false,
+            ),
+          ],
+        ),
+      ),
+      'close': BridgeMethodDef(
+        BridgeFunctionDef(
           returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.voidType)),
-        )),
-      },
-      wrap: true);
+        ),
+      ),
+    },
+    wrap: true,
+  );
 
   static $Client $new(Runtime runtime, $Value? target, List<$Value?> args) {
-    final reqcopyWith = args[1]?.$value == null
-        ? null
-        : (jsonDecode(args[1]!.$value) as Map).map((key, value) => MapEntry(key.toString(), value));
+    final reqcopyWith =
+        args[1]?.$value == null
+            ? null
+            : (jsonDecode(args[1]!.$value) as Map).map(
+              (key, value) => MapEntry(key.toString(), value),
+            );
     return $Client.wrap(
       MClient.init(source: args[0]?.$value, reqcopyWith: reqcopyWith),
     );
@@ -184,8 +366,13 @@ class $Client implements $Instance {
     final url = args[0]!.$value as Uri;
     final headers = _toMapString(args[1]?.$value);
 
-    final request = (target!.$value as InterceptedClient).get(url, headers: headers);
-    return $Future.wrap(request.then((value) => $Response.wrap(value)).onErrorMessage());
+    final request = (target!.$value as InterceptedClient).get(
+      url,
+      headers: headers,
+    );
+    return $Future.wrap(
+      request.then((value) => $Response.wrap(value)).onErrorMessage(),
+    );
   }
 
   static const $Function __post = $Function(_post);
@@ -196,8 +383,15 @@ class $Client implements $Instance {
     final body = _toBodyObject(args[2]?.$value);
     final encoding = args[3]?.$value as Encoding?;
 
-    final request = (target!.$value as InterceptedClient).post(url, headers: headers, body: body, encoding: encoding);
-    return $Future.wrap(request.then((value) => $Response.wrap(value)).onErrorMessage());
+    final request = (target!.$value as InterceptedClient).post(
+      url,
+      headers: headers,
+      body: body,
+      encoding: encoding,
+    );
+    return $Future.wrap(
+      request.then((value) => $Response.wrap(value)).onErrorMessage(),
+    );
   }
 
   static const $Function __put = $Function(_put);
@@ -208,8 +402,15 @@ class $Client implements $Instance {
     final body = _toBodyObject(args[2]?.$value);
     final encoding = args[3]?.$value as Encoding?;
 
-    final request = (target!.$value as InterceptedClient).put(url, headers: headers, body: body, encoding: encoding);
-    return $Future.wrap(request.then((value) => $Response.wrap(value)).onErrorMessage());
+    final request = (target!.$value as InterceptedClient).put(
+      url,
+      headers: headers,
+      body: body,
+      encoding: encoding,
+    );
+    return $Future.wrap(
+      request.then((value) => $Response.wrap(value)).onErrorMessage(),
+    );
   }
 
   static const $Function __delete = $Function(_delete);
@@ -220,8 +421,15 @@ class $Client implements $Instance {
     final body = _toBodyObject(args[2]?.$value);
     final encoding = args[3]?.$value as Encoding?;
 
-    final request = (target!.$value as InterceptedClient).delete(url, headers: headers, body: body, encoding: encoding);
-    return $Future.wrap(request.then((value) => $Response.wrap(value)).onErrorMessage());
+    final request = (target!.$value as InterceptedClient).delete(
+      url,
+      headers: headers,
+      body: body,
+      encoding: encoding,
+    );
+    return $Future.wrap(
+      request.then((value) => $Response.wrap(value)).onErrorMessage(),
+    );
   }
 
   static const $Function __patch = $Function(_patch);
@@ -232,8 +440,15 @@ class $Client implements $Instance {
     final body = _toBodyObject(args[2]?.$value);
     final encoding = args[3]?.$value as Encoding?;
 
-    final request = (target!.$value as InterceptedClient).patch(url, headers: headers, body: body, encoding: encoding);
-    return $Future.wrap(request.then((value) => $Response.wrap(value)).onErrorMessage());
+    final request = (target!.$value as InterceptedClient).patch(
+      url,
+      headers: headers,
+      body: body,
+      encoding: encoding,
+    );
+    return $Future.wrap(
+      request.then((value) => $Response.wrap(value)).onErrorMessage(),
+    );
   }
 
   static const $Function __read = $Function(_read);
@@ -242,19 +457,35 @@ class $Client implements $Instance {
     final url = args[0]!.$value as Uri;
     final headers = _toMapString(args[1]?.$value);
 
-    final request = (target!.$value as InterceptedClient).read(url, headers: headers);
-    return $Future.wrap(request.then((value) => $String(value)).onErrorMessage());
+    final request = (target!.$value as InterceptedClient).read(
+      url,
+      headers: headers,
+    );
+    return $Future.wrap(
+      request.then((value) => $String(value)).onErrorMessage(),
+    );
   }
 
   static const $Function __readBytes = $Function(_readBytes);
 
-  static $Value? _readBytes(Runtime runtime, $Value? target, List<$Value?> args) {
+  static $Value? _readBytes(
+    Runtime runtime,
+    $Value? target,
+    List<$Value?> args,
+  ) {
     final url = args[0]!.$value as Uri;
-    final headers = (args[1]?.$value as Map<$Value, $Value>?)
-        ?.map((key, value) => MapEntry((key.$reified).toString(), (value.$reified).toString()));
+    final headers = (args[1]?.$value as Map<$Value, $Value>?)?.map(
+      (key, value) =>
+          MapEntry((key.$reified).toString(), (value.$reified).toString()),
+    );
 
-    final request = (target!.$value as InterceptedClient).readBytes(url, headers: headers);
-    return $Future.wrap(request.then((value) => $List.wrap(value)).onErrorMessage());
+    final request = (target!.$value as InterceptedClient).readBytes(
+      url,
+      headers: headers,
+    );
+    return $Future.wrap(
+      request.then((value) => $List.wrap(value)).onErrorMessage(),
+    );
   }
 
   static const $Function __close = $Function(_close);
@@ -282,46 +513,66 @@ class $BaseRequest implements $Instance {
   final BaseRequest $value;
 
   /// Compile-time bridged type reference for [$BaseRequest]
-  static const $type = BridgeTypeRef(BridgeTypeSpec('package:mangayomi/bridge_lib.dart', 'BaseRequest'));
+  static const $type = BridgeTypeRef(
+    BridgeTypeSpec('package:mangayomi/bridge_lib.dart', 'BaseRequest'),
+  );
 
   /// Compile-time bridged class declaration for [$BaseRequest]
-  static const $declaration = BridgeClassDef(BridgeClassType($type, isAbstract: true),
-      constructors: {},
-      getters: {
-        'contentLength': BridgeMethodDef(BridgeFunctionDef(
-          returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.int), nullable: true),
-        )),
-        'finalized': BridgeMethodDef(BridgeFunctionDef(
-          returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.bool)),
-        )),
-        'followRedirects': BridgeMethodDef(BridgeFunctionDef(
-          returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.bool)),
-        )),
-        'headers': BridgeMethodDef(BridgeFunctionDef(
+  static const $declaration = BridgeClassDef(
+    BridgeClassType($type, isAbstract: true),
+    constructors: {},
+    getters: {
+      'contentLength': BridgeMethodDef(
+        BridgeFunctionDef(
           returns: BridgeTypeAnnotation(
-            BridgeTypeRef(CoreTypes.map, [BridgeTypeRef(CoreTypes.string), BridgeTypeRef(CoreTypes.string)]),
+            BridgeTypeRef(CoreTypes.int),
+            nullable: true,
           ),
-        )),
-        'maxRedirects': BridgeMethodDef(BridgeFunctionDef(
+        ),
+      ),
+      'finalized': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.bool)),
+        ),
+      ),
+      'followRedirects': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.bool)),
+        ),
+      ),
+      'headers': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(
+            BridgeTypeRef(CoreTypes.map, [
+              BridgeTypeRef(CoreTypes.string),
+              BridgeTypeRef(CoreTypes.string),
+            ]),
+          ),
+        ),
+      ),
+      'maxRedirects': BridgeMethodDef(
+        BridgeFunctionDef(
           returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.int)),
-        )),
-        'method': BridgeMethodDef(BridgeFunctionDef(
-          returns: BridgeTypeAnnotation(
-            BridgeTypeRef(CoreTypes.string),
-          ),
-        )),
-        'persistentConnection': BridgeMethodDef(BridgeFunctionDef(
-          returns: BridgeTypeAnnotation(
-            BridgeTypeRef(CoreTypes.string),
-          ),
-        )),
-        'url': BridgeMethodDef(BridgeFunctionDef(
-          returns: BridgeTypeAnnotation(
-            BridgeTypeRef(CoreTypes.uri),
-          ),
-        )),
-      },
-      wrap: true);
+        ),
+      ),
+      'method': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.string)),
+        ),
+      ),
+      'persistentConnection': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.string)),
+        ),
+      ),
+      'url': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.uri)),
+        ),
+      ),
+    },
+    wrap: true,
+  );
 
   final $Instance _superclass;
 
@@ -370,42 +621,77 @@ class $Response implements $Instance {
   final Response $value;
 
   /// Compile-time bridged type reference for [$Response]
-  static const $type = BridgeTypeRef(BridgeTypeSpec('package:mangayomi/bridge_lib.dart', 'Response'));
+  static const $type = BridgeTypeRef(
+    BridgeTypeSpec('package:mangayomi/bridge_lib.dart', 'Response'),
+  );
 
   /// Compile-time bridged class declaration for [$Response]
   static const $declaration = BridgeClassDef(
     BridgeClassType($type),
-    constructors: {'': BridgeConstructorDef(BridgeFunctionDef(returns: BridgeTypeAnnotation($type)))},
+    constructors: {
+      '': BridgeConstructorDef(
+        BridgeFunctionDef(returns: BridgeTypeAnnotation($type)),
+      ),
+    },
     getters: {
-      'body': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.string)),
-      )),
-      'bodyBytes': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.list, [BridgeTypeRef(CoreTypes.int)])),
-      )),
-      'contentLength': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.int), nullable: true),
-      )),
-      'headers': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation(
-          BridgeTypeRef(CoreTypes.map, [BridgeTypeRef(CoreTypes.string), BridgeTypeRef(CoreTypes.string)]),
+      'body': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.string)),
         ),
-      )),
-      'isRedirect': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.bool)),
-      )),
-      'persistentConnection': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.bool)),
-      )),
-      'reasonPhrase': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.string), nullable: true),
-      )),
-      'statusCode': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.int)),
-      )),
-      'request': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation($BaseRequest.$type, nullable: true),
-      )),
+      ),
+      'bodyBytes': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(
+            BridgeTypeRef(CoreTypes.list, [BridgeTypeRef(CoreTypes.int)]),
+          ),
+        ),
+      ),
+      'contentLength': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(
+            BridgeTypeRef(CoreTypes.int),
+            nullable: true,
+          ),
+        ),
+      ),
+      'headers': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(
+            BridgeTypeRef(CoreTypes.map, [
+              BridgeTypeRef(CoreTypes.string),
+              BridgeTypeRef(CoreTypes.string),
+            ]),
+          ),
+        ),
+      ),
+      'isRedirect': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.bool)),
+        ),
+      ),
+      'persistentConnection': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.bool)),
+        ),
+      ),
+      'reasonPhrase': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(
+            BridgeTypeRef(CoreTypes.string),
+            nullable: true,
+          ),
+        ),
+      ),
+      'statusCode': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.int)),
+        ),
+      ),
+      'request': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation($BaseRequest.$type, nullable: true),
+        ),
+      ),
     },
     wrap: true,
   );
@@ -461,39 +747,68 @@ class $StreamedResponse implements $Instance {
   final StreamedResponse $value;
 
   /// Compile-time bridged type reference for [$StreamedResponse]
-  static const $type = BridgeTypeRef(BridgeTypeSpec('package:mangayomi/bridge_lib.dart', 'StreamedResponse'));
+  static const $type = BridgeTypeRef(
+    BridgeTypeSpec('package:mangayomi/bridge_lib.dart', 'StreamedResponse'),
+  );
 
   /// Compile-time bridged class declaration for [$StreamedResponse]
   static const $declaration = BridgeClassDef(
     BridgeClassType($type),
-    constructors: {'': BridgeConstructorDef(BridgeFunctionDef(returns: BridgeTypeAnnotation($type)))},
+    constructors: {
+      '': BridgeConstructorDef(
+        BridgeFunctionDef(returns: BridgeTypeAnnotation($type)),
+      ),
+    },
     getters: {
-      'stream': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation($ByteStream.$type),
-      )),
-      'contentLength': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.int), nullable: true),
-      )),
-      'headers': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation(
-          BridgeTypeRef(CoreTypes.map, [BridgeTypeRef(CoreTypes.string), BridgeTypeRef(CoreTypes.string)]),
+      'stream': BridgeMethodDef(
+        BridgeFunctionDef(returns: BridgeTypeAnnotation($ByteStream.$type)),
+      ),
+      'contentLength': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(
+            BridgeTypeRef(CoreTypes.int),
+            nullable: true,
+          ),
         ),
-      )),
-      'isRedirect': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.bool)),
-      )),
-      'persistentConnection': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.bool)),
-      )),
-      'reasonPhrase': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.string), nullable: true),
-      )),
-      'statusCode': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.int)),
-      )),
-      'request': BridgeMethodDef(BridgeFunctionDef(
-        returns: BridgeTypeAnnotation($BaseRequest.$type, nullable: true),
-      )),
+      ),
+      'headers': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(
+            BridgeTypeRef(CoreTypes.map, [
+              BridgeTypeRef(CoreTypes.string),
+              BridgeTypeRef(CoreTypes.string),
+            ]),
+          ),
+        ),
+      ),
+      'isRedirect': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.bool)),
+        ),
+      ),
+      'persistentConnection': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.bool)),
+        ),
+      ),
+      'reasonPhrase': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(
+            BridgeTypeRef(CoreTypes.string),
+            nullable: true,
+          ),
+        ),
+      ),
+      'statusCode': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation(BridgeTypeRef(CoreTypes.int)),
+        ),
+      ),
+      'request': BridgeMethodDef(
+        BridgeFunctionDef(
+          returns: BridgeTypeAnnotation($BaseRequest.$type, nullable: true),
+        ),
+      ),
     },
     wrap: true,
   );
@@ -547,12 +862,18 @@ class $ByteStream implements $Instance {
   final ByteStream $value;
 
   /// Compile-time bridged type reference for [$ByteStream]
-  static const $type = BridgeTypeRef(BridgeTypeSpec('package:mangayomi/bridge_lib.dart', 'ByteStream'));
+  static const $type = BridgeTypeRef(
+    BridgeTypeSpec('package:mangayomi/bridge_lib.dart', 'ByteStream'),
+  );
 
   /// Compile-time bridged class declaration for [$ByteStream]
   static const $declaration = BridgeClassDef(
     BridgeClassType($type),
-    constructors: {'': BridgeConstructorDef(BridgeFunctionDef(returns: BridgeTypeAnnotation($type)))},
+    constructors: {
+      '': BridgeConstructorDef(
+        BridgeFunctionDef(returns: BridgeTypeAnnotation($type)),
+      ),
+    },
     getters: {},
     wrap: true,
   );
@@ -580,13 +901,19 @@ class $ByteStream implements $Instance {
 }
 
 Map<String, String>? _toMapString(Map<$Value, $Value>? value) {
-  return value?.map((key, value) => MapEntry((key.$reified).toString(), (value.$reified).toString()));
+  return value?.map(
+    (key, value) =>
+        MapEntry((key.$reified).toString(), (value.$reified).toString()),
+  );
 }
 
 Object? _toBodyObject(Object? value) {
   Object? body;
   if (value is Map<$Value, $Value>) {
-    body = value.map((key, value) => MapEntry((key.$reified).toString(), (value.$reified).toString()));
+    body = value.map(
+      (key, value) =>
+          MapEntry((key.$reified).toString(), (value.$reified).toString()),
+    );
   } else if (value is List<$Value>) {
     body = value.map((e) => e.$reified).toList();
   } else {

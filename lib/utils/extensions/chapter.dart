@@ -16,13 +16,19 @@ extension ChapterExtension on Chapter {
 
   bool isThisChapter<T extends OfChapter>(T element) => element.chapterId == id;
 
-  bool isNotThisChapter<T extends OfChapter>(T element) => element.chapterId != id;
+  bool isNotThisChapter<T extends OfChapter>(T element) =>
+      element.chapterId != id;
 
-  T? getOption<T extends OfChapter>(List<T>? list) => list?.where(isThisChapter).firstOrNull;
+  T? getOption<T extends OfChapter>(List<T>? list) =>
+      list?.where(isThisChapter).firstOrNull;
 
-  List<T> getOtherOptions<T extends OfChapter>(List<T>? list) => list?.where(isNotThisChapter).toList() ?? [];
+  List<T> getOtherOptions<T extends OfChapter>(List<T>? list) =>
+      list?.where(isNotThisChapter).toList() ?? [];
 
-  Future<void> pushToReaderView(BuildContext context, {bool ignoreIsRead = false}) async {
+  Future<void> pushToReaderView(
+    BuildContext context, {
+    bool ignoreIsRead = false,
+  }) async {
     if (ignoreIsRead || !isRead!) {
       await pushMangaReaderView(context: context, chapter: this);
     } else {
@@ -49,8 +55,11 @@ extension ChapterExtension on Chapter {
 
     return switch (manga.value!.itemType) {
       ItemType.manga => progress,
-      ItemType.anime => Duration(milliseconds: int.parse(progress)).toString().substringBefore("."),
-      ItemType.novel => "${((double.tryParse(progress) ?? 0) * 100).toStringAsFixed(0)} %",
+      ItemType.anime => Duration(
+        milliseconds: int.parse(progress),
+      ).toString().substringBefore("."),
+      ItemType.novel =>
+        "${((double.tryParse(progress) ?? 0) * 100).toStringAsFixed(0)} %",
     };
   }
 

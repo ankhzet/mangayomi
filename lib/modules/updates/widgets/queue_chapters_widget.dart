@@ -8,10 +8,7 @@ import 'package:mangayomi/utils/extensions/view_queue_item.dart';
 class QueueChaptersWidget extends ConsumerStatefulWidget {
   final UpdateChaptersGroup update;
 
-  const QueueChaptersWidget({
-    super.key,
-    required this.update,
-  });
+  const QueueChaptersWidget({super.key, required this.update});
 
   @override
   ConsumerState createState() => _QueueChaptersWidgetState();
@@ -35,11 +32,13 @@ class _QueueChaptersWidgetState extends ConsumerState<QueueChaptersWidget> {
     }
 
     await isar.writeTxn(() async {
-      await isar.viewQueueItems.put(ViewQueueItem(
-        mangaId: mangaId,
-        chapterId: unread.id!,
-        timestamp: DateTime.now().millisecondsSinceEpoch,
-      ));
+      await isar.viewQueueItems.put(
+        ViewQueueItem(
+          mangaId: mangaId,
+          chapterId: unread.id!,
+          timestamp: DateTime.now().millisecondsSinceEpoch,
+        ),
+      );
     });
 
     setState(() {
@@ -60,9 +59,10 @@ class _QueueChaptersWidgetState extends ConsumerState<QueueChaptersWidget> {
           onPressed: _queueChapter,
           icon: Icon(
             _isQueued ? Icons.playlist_add_check : Icons.playlist_add,
-            color: _isQueued
-                ? Theme.of(context).buttonTheme.colorScheme!.primary
-                : Theme.of(context).iconTheme.color!.withValues(alpha: 0.7),
+            color:
+                _isQueued
+                    ? Theme.of(context).buttonTheme.colorScheme!.primary
+                    : Theme.of(context).iconTheme.color!.withValues(alpha: 0.7),
           ),
         ),
       ),

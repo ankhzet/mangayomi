@@ -36,8 +36,9 @@ final types = {
 
 class _ViewQueueTabState extends ConsumerState<ViewQueueTab> {
   late final entries = widget.entries;
-  late final Map<int, int> periodicityMap =
-      Map.fromEntries(widget.periodicity.map((i) => MapEntry(i.manga.id, i.days)));
+  late final Map<int, int> periodicityMap = Map.fromEntries(
+    widget.periodicity.map((i) => MapEntry(i.manga.id, i.days)),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -55,19 +56,27 @@ class _ViewQueueTabState extends ConsumerState<ViewQueueTab> {
         SliverGroupedListView(
           elements: groups,
           groupBy: ChapterGroup.groupBy,
-          groupHeaderBuilder: (value) => Padding(
-            padding: const EdgeInsets.only(top: 16, bottom: 8, left: 12),
-            child: Row(
-              children: [
-                Text(_getGroup(value.group), style: TextStyle(fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
-          itemBuilder: (context, element) => UpdateChapterListTileWidget(update: element, sourceExist: true),
+          groupHeaderBuilder:
+              (value) => Padding(
+                padding: const EdgeInsets.only(top: 16, bottom: 8, left: 12),
+                child: Row(
+                  children: [
+                    Text(
+                      _getGroup(value.group),
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+          itemBuilder:
+              (context, element) => UpdateChapterListTileWidget(
+                update: element,
+                sourceExist: true,
+              ),
           itemComparator: (item1, item2) => item1.compareTo(item2),
           groupComparator: (item1, item2) => item2 - item1,
           order: GroupedListOrder.DESC,
-        )
+        ),
       ],
     );
   }

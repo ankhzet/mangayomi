@@ -10,7 +10,11 @@ class CategoriesSelector extends ConsumerStatefulWidget {
   final ItemType? itemType;
   final dynamic Function(Category category, bool select) onSelect;
 
-  const CategoriesSelector({super.key, required this.itemType, required this.onSelect});
+  const CategoriesSelector({
+    super.key,
+    required this.itemType,
+    required this.onSelect,
+  });
 
   @override
   ConsumerState<CategoriesSelector> createState() => _CategoriesSelectorState();

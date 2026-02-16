@@ -25,16 +25,22 @@ String throwUpdateError(int mangaId, String error) {
   }
 
   isar.writeTxnSync(() {
-    isar.mangas.putSync(instance
-      ..lastUpdate = (instance.lastUpdate ?? 0) + 1
-      ..updateError = error);
+    isar.mangas.putSync(
+      instance
+        ..lastUpdate = (instance.lastUpdate ?? 0) + 1
+        ..updateError = error,
+    );
   });
 
   return error;
 }
 
 @riverpod
-Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isInit}) async {
+Future<void> updateMangaDetail(
+  Ref ref, {
+  required int mangaId,
+  required bool isInit,
+}) async {
   final manga = isar.mangas.getSync(mangaId)!;
   final oldChapters = manga.chapters;
   final hadChapters = oldChapters.isNotEmpty;
@@ -55,18 +61,29 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
   try {
     final MManga? details = await Duration(milliseconds: 100).waitFor(() async {
       try {
-        return await ref.watch(getDetailProvider(url: manga.link!, source: source).future);
+        return await ref.watch(
+          getDetailProvider(url: manga.link!, source: source).future,
+        );
       } catch (_) {
-        final others = await getExtensionService(source).search(manga.name!, 1, []);
-        final duplicate = others.list.firstWhereOrNull((dto) => dto.name == manga.name);
+        final others = await getExtensionService(
+          source,
+        ).search(manga.name!, 1, []);
+        final duplicate = others.list.firstWhereOrNull(
+          (dto) => dto.name == manga.name,
+        );
         final link = duplicate?.link ?? manga.link!;
 
         try {
-          final other = await ref.watch(getDetailProvider(url: link, source: source).future);
+          final other = await ref.watch(
+            getDetailProvider(url: link, source: source).future,
+          );
 
           return other..link = link;
         } catch (e) {
-          throw throwUpdateError(mangaId, '${source.name!} extension details update returns error (${e.toString()})');
+          throw throwUpdateError(
+            mangaId,
+            '${source.name!} extension details update returns error (${e.toString()})',
+          );
         }
       }
     });
@@ -91,8 +108,10 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
       ..genre = (genre.isEmpty ? null : genre) ?? manga.genre ?? []
       ..author = details.author?.normalize() ?? manga.author ?? ""
       ..artist = details.artist?.normalize() ?? manga.artist ?? ""
-      ..status = details.status == Status.unknown ? manga.status : details.status!
-      ..description = details.description?.normalize() ?? manga.description ?? ""
+      ..status =
+          details.status == Status.unknown ? manga.status : details.status!
+      ..description =
+          details.description?.normalize() ?? manga.description ?? ""
       ..link = details.link?.normalize() ?? manga.link
       ..source = manga.source
       ..lang = manga.lang
@@ -101,24 +120,31 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
       ..lastUpdate = timestamp;
 
     final timeString = timestamp.toString();
-    final mapped = (details.chapters ?? []).map((data) => Chapter(
-          name: data.name!.normalize(),
-          url: data.url!.normalize(),
-          dateUpload: data.dateUpload ?? timeString,
-          scanlator: data.scanlator ?? '',
-          mangaId: mangaId,
-        ));
+    final mapped = (details.chapters ?? []).map(
+      (data) => Chapter(
+        name: data.name!.normalize(),
+        url: data.url!.normalize(),
+        dateUpload: data.dateUpload ?? timeString,
+        scanlator: data.scanlator ?? '',
+        mangaId: mangaId,
+      ),
+    );
 
     final List<Chapter> chapters = [];
     final List<Chapter> deleted = [];
     final List<Chapter> added = [];
     final List<Chapter> updated = [];
     final read = oldChapters.where((chapter) => chapter.isRead == true);
-    final lastRead = read.fold<Chapter?>(null, (last, chapter) => (last?.compareTo(chapter) == -1 ? last : chapter));
+    final lastRead = read.fold<Chapter?>(
+      null,
+      (last, chapter) => (last?.compareTo(chapter) == -1 ? last : chapter),
+    );
 
     if (mapped.isNotEmpty) {
       for (var chapter in mapped) {
-        final similar = oldChapters.firstWhereOrNull((item) => item.isSame(chapter));
+        final similar = oldChapters.firstWhereOrNull(
+          (item) => item.isSame(chapter),
+        );
 
         if (similar == null) {
           chapter.manga.value = manga;
@@ -129,7 +155,9 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
 
           chapters.add(chapter);
           added.add(chapter);
-        } else if (similar.isUpdated(chapter) && (null == chapters.firstWhereOrNull((item) => item.isSame(similar)))) {
+        } else if (similar.isUpdated(chapter) &&
+            (null ==
+                chapters.firstWhereOrNull((item) => item.isSame(similar)))) {
           chapters.add(chapter);
           updated.add(similar);
         }
@@ -147,19 +175,40 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
 
     isar.writeTxnSync(() {
       isar.mangas.putSync(manga);
-      notifier.addChangedPart(ActionType.updateItem, manga.id, manga.toJson(), false);
+      notifier.addChangedPart(
+        ActionType.updateItem,
+        manga.id,
+        manga.toJson(),
+        false,
+      );
 
       if (deleted.isNotEmpty) {
-        final updatesToDelete = isar.updates.filter().chapter((q) => q.anyOf(deleted, (q, c) => q.idEqualTo(c.id!))).findAllSync();
-        isar.updates.deleteAllSync(updatesToDelete.map((update) => update.id!).toList());
+        final updatesToDelete =
+            isar.updates
+                .filter()
+                .chapter((q) => q.anyOf(deleted, (q, c) => q.idEqualTo(c.id!)))
+                .findAllSync();
+        isar.updates.deleteAllSync(
+          updatesToDelete.map((update) => update.id!).toList(),
+        );
         isar.chapters.deleteAllSync(deleted.mapToList((c) => c.id!));
 
         for (final chapter in deleted) {
-          notifier.addChangedPart(ActionType.removeChapter, chapter.id, chapter.toJson(), false);
+          notifier.addChangedPart(
+            ActionType.removeChapter,
+            chapter.id,
+            chapter.toJson(),
+            false,
+          );
         }
 
         for (final update in updatesToDelete) {
-          notifier.addChangedPart(ActionType.removeUpdate, update.id, update.toJson(), false);
+          notifier.addChangedPart(
+            ActionType.removeUpdate,
+            update.id,
+            update.toJson(),
+            false,
+          );
         }
       }
 
@@ -184,19 +233,33 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
               mangaId: mangaId,
               chapterName: chap.name,
               date: timeString,
-            )
-              ..chapter.value = chap;
+            )..chapter.value = chap;
             updateBacklog.add(update);
           } else {
-            notifier.addChangedPart(ActionType.updateChapter, chap.id, chap.toJson(), false);
+            notifier.addChangedPart(
+              ActionType.updateChapter,
+              chap.id,
+              chap.toJson(),
+              false,
+            );
           }
         }
 
         isar.updates.putAllSync(updateBacklog);
 
         for (final update in updateBacklog) {
-          notifier.addChangedPart(ActionType.addChapter, update.chapter.value!.id!, update.chapter.value!.toJson(), false);
-          notifier.addChangedPart(ActionType.addUpdate, update.id, update.toJson(), false);
+          notifier.addChangedPart(
+            ActionType.addChapter,
+            update.chapter.value!.id!,
+            update.chapter.value!.toJson(),
+            false,
+          );
+          notifier.addChangedPart(
+            ActionType.addUpdate,
+            update.id,
+            update.toJson(),
+            false,
+          );
         }
       }
     });

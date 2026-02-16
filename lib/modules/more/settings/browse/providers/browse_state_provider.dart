@@ -44,17 +44,27 @@ class ExtensionsRepoState extends _$ExtensionsRepoState {
     state = value;
     isar.writeTxnSync(() {
       final a = switch (itemType) {
-        ItemType.manga => isar.settings.putSync(settings..mangaExtensionsRepo = value),
-        ItemType.anime => isar.settings.putSync(settings..animeExtensionsRepo = value),
+        ItemType.manga => isar.settings.putSync(
+          settings..mangaExtensionsRepo = value,
+        ),
+        ItemType.anime => isar.settings.putSync(
+          settings..animeExtensionsRepo = value,
+        ),
         _ => isar.settings.putSync(settings..novelExtensionsRepo = value),
       };
       a;
     });
     try {
       final a = switch (itemType) {
-        ItemType.manga => ref.refresh(fetchMangaSourcesListProvider(id: null, reFresh: false).future),
-        ItemType.anime => ref.refresh(fetchAnimeSourcesListProvider(id: null, reFresh: false).future),
-        _ => ref.refresh(fetchNovelSourcesListProvider(id: null, reFresh: false).future),
+        ItemType.manga => ref.refresh(
+          fetchMangaSourcesListProvider(id: null, reFresh: false).future,
+        ),
+        ItemType.anime => ref.refresh(
+          fetchAnimeSourcesListProvider(id: null, reFresh: false).future,
+        ),
+        _ => ref.refresh(
+          fetchNovelSourcesListProvider(id: null, reFresh: false).future,
+        ),
       };
       Future.wait([a]);
     } catch (_) {}

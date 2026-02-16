@@ -34,22 +34,26 @@ part 'restore.g.dart';
 void doRestore(Ref ref, {required String path, required BuildContext context}) {
   final inputStream = InputFileStream(path);
   final archive = ZipDecoder().decodeStream(inputStream);
-  final backup = jsonDecode(utf8.decode(archive.files.first.content)) as Map<String, dynamic>;
+  final backup =
+      jsonDecode(utf8.decode(archive.files.first.content))
+          as Map<String, dynamic>;
   try {
     ref.read(restoreBackupProvider(backup));
     BotToast.showNotification(
-        animationDuration: const Duration(milliseconds: 200),
-        animationReverseDuration: const Duration(milliseconds: 200),
-        duration: const Duration(seconds: 5),
-        backButtonBehavior: BackButtonBehavior.none,
-        leading: (_) => Image.asset('assets/app_icons/icon-red.png', height: 40),
-        title: (_) => const Text(
-              "Backup restored!",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-        enableSlideOff: true,
-        onlyOne: true,
-        crossPage: true);
+      animationDuration: const Duration(milliseconds: 200),
+      animationReverseDuration: const Duration(milliseconds: 200),
+      duration: const Duration(seconds: 5),
+      backButtonBehavior: BackButtonBehavior.none,
+      leading: (_) => Image.asset('assets/app_icons/icon-red.png', height: 40),
+      title:
+          (_) => const Text(
+            "Backup restored!",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+      enableSlideOff: true,
+      onlyOne: true,
+      crossPage: true,
+    );
   } catch (e) {
     botToast(e.toString());
   }
@@ -61,23 +65,53 @@ void restoreBackup(Ref ref, Map<String, dynamic> backup, {bool full = true}) {
   if (["1", "2"].any((e) => e == version)) {
     try {
       final manga =
-          (backup["manga"] as List?)?.map((e) => Manga.fromJson(e)..itemType = _convertToItemType(e)).toList();
-      final chapters = (backup["chapters"] as List?)?.map((e) => Chapter.fromJson(e)).toList();
-      final categories = (backup["categories"] as List?)
-          ?.map((e) => Category.fromJson(e)..forItemType = _convertToItemTypeCategory(e))
-          .toList();
+          (backup["manga"] as List?)
+              ?.map((e) => Manga.fromJson(e)..itemType = _convertToItemType(e))
+              .toList();
+      final chapters =
+          (backup["chapters"] as List?)
+              ?.map((e) => Chapter.fromJson(e))
+              .toList();
+      final categories =
+          (backup["categories"] as List?)
+              ?.map(
+                (e) =>
+                    Category.fromJson(e)
+                      ..forItemType = _convertToItemTypeCategory(e),
+              )
+              .toList();
       final track =
-          (backup["tracks"] as List?)?.map((e) => Track.fromJson(e)..itemType = _convertToItemType(e)).toList();
-      final trackPreferences = (backup["trackPreferences"] as List?)?.map((e) => TrackPreference.fromJson(e)).toList();
+          (backup["tracks"] as List?)
+              ?.map((e) => Track.fromJson(e)..itemType = _convertToItemType(e))
+              .toList();
+      final trackPreferences =
+          (backup["trackPreferences"] as List?)
+              ?.map((e) => TrackPreference.fromJson(e))
+              .toList();
       final history =
-          (backup["history"] as List?)?.map((e) => History.fromJson(e)..itemType = _convertToItemType(e)).toList();
-      final downloads = (backup["downloads"] as List?)?.map((e) => Download.fromJson(e)).toList();
-      final settings = (backup["settings"] as List?)?.map((e) => Settings.fromJson(e)).toList();
+          (backup["history"] as List?)
+              ?.map(
+                (e) => History.fromJson(e)..itemType = _convertToItemType(e),
+              )
+              .toList();
+      final downloads =
+          (backup["downloads"] as List?)
+              ?.map((e) => Download.fromJson(e))
+              .toList();
+      final settings =
+          (backup["settings"] as List?)
+              ?.map((e) => Settings.fromJson(e))
+              .toList();
       final extensions =
-          (backup["extensions"] as List?)?.map((e) => Source.fromJson(e)..itemType = _convertToItemType(e)).toList();
+          (backup["extensions"] as List?)
+              ?.map((e) => Source.fromJson(e)..itemType = _convertToItemType(e))
+              .toList();
       final sourcesPrefs =
-          (backup["extensions_preferences"] as List?)?.map((e) => SourcePreference.fromJson(e)).toList();
-      final updates = (backup["updates"] as List?)?.map((e) => Update.fromJson(e)).toList();
+          (backup["extensions_preferences"] as List?)
+              ?.map((e) => SourcePreference.fromJson(e))
+              .toList();
+      final updates =
+          (backup["updates"] as List?)?.map((e) => Update.fromJson(e)).toList();
 
       isar.writeTxnSync(() {
         isar.mangas.clearSync();
@@ -119,11 +153,17 @@ void restoreBackup(Ref ref, Map<String, dynamic> backup, {bool full = true}) {
 
             isar.updates.clearSync();
             if (updates != null) {
-              final tempChapters = isar.chapters.filter().idIsNotNull().findAllSync().toList();
+              final tempChapters =
+                  isar.chapters.filter().idIsNotNull().findAllSync().toList();
               for (var update in updates) {
-                final matchingChapter = tempChapters
-                    .where((chapter) => chapter.mangaId == update.mangaId && chapter.name == update.chapterName)
-                    .firstOrNull;
+                final matchingChapter =
+                    tempChapters
+                        .where(
+                          (chapter) =>
+                              chapter.mangaId == update.mangaId &&
+                              chapter.name == update.chapterName,
+                        )
+                        .firstOrNull;
                 if (matchingChapter != null) {
                   isar.updates.putSync(update..chapter.value = matchingChapter);
                   update.chapter.saveSync();
@@ -168,7 +208,9 @@ void restoreBackup(Ref ref, Map<String, dynamic> backup, {bool full = true}) {
           }
         }
         if (full) {
-          ref.read(synchingProvider(syncId: 1).notifier).clearAllChangedParts(false);
+          ref
+              .read(synchingProvider(syncId: 1).notifier)
+              .clearAllChangedParts(false);
           ref.invalidate(themeModeStateProvider);
           ref.invalidate(blendLevelStateProvider);
           ref.invalidate(flexSchemeColorStateProvider);
@@ -194,8 +236,8 @@ ItemType _convertToItemType(Map<String, dynamic> backup) {
   return isManga == null
       ? ItemType.values[backup['itemType'] ?? 0]
       : isManga
-          ? ItemType.manga
-          : ItemType.anime;
+      ? ItemType.manga
+      : ItemType.anime;
 }
 
 ItemType _convertToItemTypeCategory(Map<String, dynamic> backup) {
@@ -203,6 +245,6 @@ ItemType _convertToItemTypeCategory(Map<String, dynamic> backup) {
   return forManga == null
       ? ItemType.values[backup['forItemType'] ?? 0]
       : forManga
-          ? ItemType.manga
-          : ItemType.anime;
+      ? ItemType.manga
+      : ItemType.anime;
 }

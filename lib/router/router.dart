@@ -89,7 +89,8 @@ class RouterCurrentLocationState extends _$RouterCurrentLocationState {
   String? _getLocation(RouteMatchList matches) {
     final hideItems = ref.watch(hideItemsStateProvider);
     final RouteMatch lastMatch = matches.last;
-    final RouteMatchList matchList = lastMatch is ImperativeRouteMatch ? lastMatch.matches : matches;
+    final RouteMatchList matchList =
+        lastMatch is ImperativeRouteMatch ? lastMatch.matches : matches;
     final location = matchList.uri.toString();
 
     return (!hideItems.contains(location) && navigationOrder.contains(location))
@@ -106,50 +107,73 @@ class RouterNotifier extends ChangeNotifier {
         GoRoute(
           name: "MangaLibrary",
           path: '/MangaLibrary',
-          builder: (context, state) => const LibraryScreen(itemType: ItemType.manga),
+          builder:
+              (context, state) => const LibraryScreen(itemType: ItemType.manga),
           pageBuilder:
-              (context, state) =>
-                  transitionPage(key: state.pageKey, child: const LibraryScreen(itemType: ItemType.manga)),
+              (context, state) => transitionPage(
+                key: state.pageKey,
+                child: const LibraryScreen(itemType: ItemType.manga),
+              ),
         ),
         GoRoute(
           name: "AnimeLibrary",
           path: '/AnimeLibrary',
-          builder: (context, state) => const LibraryScreen(itemType: ItemType.anime),
+          builder:
+              (context, state) => const LibraryScreen(itemType: ItemType.anime),
           pageBuilder:
-              (context, state) =>
-                  transitionPage(key: state.pageKey, child: const LibraryScreen(itemType: ItemType.anime)),
+              (context, state) => transitionPage(
+                key: state.pageKey,
+                child: const LibraryScreen(itemType: ItemType.anime),
+              ),
         ),
         GoRoute(
           name: "NovelLibrary",
           path: '/NovelLibrary',
-          builder: (context, state) => const LibraryScreen(itemType: ItemType.novel),
+          builder:
+              (context, state) => const LibraryScreen(itemType: ItemType.novel),
           pageBuilder:
-              (context, state) =>
-                  transitionPage(key: state.pageKey, child: const LibraryScreen(itemType: ItemType.novel)),
+              (context, state) => transitionPage(
+                key: state.pageKey,
+                child: const LibraryScreen(itemType: ItemType.novel),
+              ),
         ),
         GoRoute(
           name: "history",
           path: '/history',
           builder: (context, state) => const HistoryScreen(),
-          pageBuilder: (context, state) => transitionPage(key: state.pageKey, child: const HistoryScreen()),
+          pageBuilder:
+              (context, state) => transitionPage(
+                key: state.pageKey,
+                child: const HistoryScreen(),
+              ),
         ),
         GoRoute(
           name: "updates",
           path: '/updates',
           builder: (context, state) => const UpdatesScreen(),
-          pageBuilder: (context, state) => transitionPage(key: state.pageKey, child: const UpdatesScreen()),
+          pageBuilder:
+              (context, state) => transitionPage(
+                key: state.pageKey,
+                child: const UpdatesScreen(),
+              ),
         ),
         GoRoute(
           name: "browse",
           path: '/browse',
           builder: (context, state) => const BrowseScreen(),
-          pageBuilder: (context, state) => transitionPage(key: state.pageKey, child: const BrowseScreen()),
+          pageBuilder:
+              (context, state) => transitionPage(
+                key: state.pageKey,
+                child: const BrowseScreen(),
+              ),
         ),
         GoRoute(
           name: "more",
           path: '/more',
           builder: (context, state) => const MoreScreen(),
-          pageBuilder: (context, state) => transitionPage(key: state.pageKey, child: const MoreScreen()),
+          pageBuilder:
+              (context, state) =>
+                  transitionPage(key: state.pageKey, child: const MoreScreen()),
         ),
       ],
     ),
@@ -162,7 +186,10 @@ class RouterNotifier extends ChangeNotifier {
       },
       pageBuilder: (context, state) {
         final source = state.extra as (Source?, bool);
-        return transitionPage(key: state.pageKey, child: MangaHomeScreen(source: source.$1!, isLatest: source.$2));
+        return transitionPage(
+          key: state.pageKey,
+          child: MangaHomeScreen(source: source.$1!, isLatest: source.$2),
+        );
       },
     ),
     GoRoute(
@@ -175,7 +202,10 @@ class RouterNotifier extends ChangeNotifier {
       pageBuilder: (context, state) {
         int mangaId = state.extra as int;
 
-        return transitionPage(key: state.pageKey, child: MangaReaderDetail(mangaId: mangaId));
+        return transitionPage(
+          key: state.pageKey,
+          child: MangaReaderDetail(mangaId: mangaId),
+        );
       },
     ),
     GoRoute(
@@ -187,7 +217,10 @@ class RouterNotifier extends ChangeNotifier {
       },
       pageBuilder: (context, state) {
         final chapterId = state.extra as int;
-        return transitionPage(key: state.pageKey, child: MangaReaderView(chapterId: chapterId));
+        return transitionPage(
+          key: state.pageKey,
+          child: MangaReaderView(chapterId: chapterId),
+        );
       },
     ),
     GoRoute(
@@ -199,7 +232,10 @@ class RouterNotifier extends ChangeNotifier {
       },
       pageBuilder: (context, state) {
         final episodeId = state.extra as int;
-        return transitionPage(key: state.pageKey, child: AnimePlayerView(episodeId: episodeId));
+        return transitionPage(
+          key: state.pageKey,
+          child: AnimePlayerView(episodeId: episodeId),
+        );
       },
     ),
     GoRoute(
@@ -211,7 +247,10 @@ class RouterNotifier extends ChangeNotifier {
       },
       pageBuilder: (context, state) {
         final chapterId = state.extra as int;
-        return transitionPage(key: state.pageKey, child: NovelReaderView(chapterId: chapterId));
+        return transitionPage(
+          key: state.pageKey,
+          child: NovelReaderView(chapterId: chapterId),
+        );
       },
     ),
     GoRoute(
@@ -223,7 +262,10 @@ class RouterNotifier extends ChangeNotifier {
       },
       pageBuilder: (context, state) {
         final itemType = state.extra as ItemType;
-        return transitionPage(key: state.pageKey, child: ExtensionsLang(itemType: itemType));
+        return transitionPage(
+          key: state.pageKey,
+          child: ExtensionsLang(itemType: itemType),
+        );
       },
     ),
     GoRoute(
@@ -233,7 +275,10 @@ class RouterNotifier extends ChangeNotifier {
         return const SettingsScreen();
       },
       pageBuilder: (context, state) {
-        return transitionPage(key: state.pageKey, child: const SettingsScreen());
+        return transitionPage(
+          key: state.pageKey,
+          child: const SettingsScreen(),
+        );
       },
     ),
     GoRoute(
@@ -243,7 +288,10 @@ class RouterNotifier extends ChangeNotifier {
         return const AppearanceScreen();
       },
       pageBuilder: (context, state) {
-        return transitionPage(key: state.pageKey, child: const AppearanceScreen());
+        return transitionPage(
+          key: state.pageKey,
+          child: const AppearanceScreen(),
+        );
       },
     ),
     GoRoute(
@@ -255,7 +303,10 @@ class RouterNotifier extends ChangeNotifier {
       },
       pageBuilder: (context, state) {
         final source = state.extra as Source;
-        return transitionPage(key: state.pageKey, child: ExtensionDetail(source: source));
+        return transitionPage(
+          key: state.pageKey,
+          child: ExtensionDetail(source: source),
+        );
       },
     ),
     GoRoute(
@@ -267,7 +318,10 @@ class RouterNotifier extends ChangeNotifier {
       },
       pageBuilder: (context, state) {
         final itemType = state.extra as ItemType;
-        return transitionPage(key: state.pageKey, child: GlobalSearchScreen(itemType: itemType));
+        return transitionPage(
+          key: state.pageKey,
+          child: GlobalSearchScreen(itemType: itemType),
+        );
       },
     ),
     GoRoute(
@@ -309,7 +363,10 @@ class RouterNotifier extends ChangeNotifier {
       },
       pageBuilder: (context, state) {
         final itemType = state.extra as ItemType;
-        return transitionPage(key: state.pageKey, child: SourcesFilterScreen(itemType: itemType));
+        return transitionPage(
+          key: state.pageKey,
+          child: SourcesFilterScreen(itemType: itemType),
+        );
       },
     ),
     GoRoute(
@@ -319,7 +376,10 @@ class RouterNotifier extends ChangeNotifier {
         return const DownloadQueueScreen();
       },
       pageBuilder: (context, state) {
-        return transitionPage(key: state.pageKey, child: const DownloadQueueScreen());
+        return transitionPage(
+          key: state.pageKey,
+          child: const DownloadQueueScreen(),
+        );
       },
     ),
     GoRoute(
@@ -331,7 +391,10 @@ class RouterNotifier extends ChangeNotifier {
       },
       pageBuilder: (context, state) {
         final data = state.extra as Map<String, dynamic>;
-        return transitionPage(key: state.pageKey, child: MangaWebView(url: data["url"]!, title: data['title']!));
+        return transitionPage(
+          key: state.pageKey,
+          child: MangaWebView(url: data["url"]!, title: data['title']!),
+        );
       },
     ),
     GoRoute(
@@ -343,7 +406,10 @@ class RouterNotifier extends ChangeNotifier {
       },
       pageBuilder: (context, state) {
         final data = state.extra as (bool, int);
-        return transitionPage(key: state.pageKey, child: CategoriesScreen(data: data));
+        return transitionPage(
+          key: state.pageKey,
+          child: CategoriesScreen(data: data),
+        );
       },
     ),
     GoRoute(
@@ -385,7 +451,10 @@ class RouterNotifier extends ChangeNotifier {
       },
       pageBuilder: (context, state) {
         final itemType = state.extra as ItemType;
-        return transitionPage(key: state.pageKey, child: SourceRepositories(itemType: itemType));
+        return transitionPage(
+          key: state.pageKey,
+          child: SourceRepositories(itemType: itemType),
+        );
       },
     ),
     GoRoute(
@@ -395,7 +464,10 @@ class RouterNotifier extends ChangeNotifier {
         return const DownloadsScreen();
       },
       pageBuilder: (context, state) {
-        return transitionPage(key: state.pageKey, child: const DownloadsScreen());
+        return transitionPage(
+          key: state.pageKey,
+          child: const DownloadsScreen(),
+        );
       },
     ),
     GoRoute(
@@ -405,7 +477,10 @@ class RouterNotifier extends ChangeNotifier {
         return const DataAndStorage();
       },
       pageBuilder: (context, state) {
-        return transitionPage(key: state.pageKey, child: const DataAndStorage());
+        return transitionPage(
+          key: state.pageKey,
+          child: const DataAndStorage(),
+        );
       },
     ),
     GoRoute(
@@ -415,7 +490,10 @@ class RouterNotifier extends ChangeNotifier {
         return const ManageTrackersScreen();
       },
       pageBuilder: (context, state) {
-        return transitionPage(key: state.pageKey, child: const ManageTrackersScreen());
+        return transitionPage(
+          key: state.pageKey,
+          child: const ManageTrackersScreen(),
+        );
       },
     ),
     GoRoute(
@@ -427,7 +505,10 @@ class RouterNotifier extends ChangeNotifier {
       },
       pageBuilder: (context, state) {
         final trackerPref = state.extra as TrackPreference;
-        return transitionPage(key: state.pageKey, child: TrackingDetail(trackerPref: trackerPref));
+        return transitionPage(
+          key: state.pageKey,
+          child: TrackingDetail(trackerPref: trackerPref),
+        );
       },
     ),
     GoRoute(
@@ -449,7 +530,10 @@ class RouterNotifier extends ChangeNotifier {
       },
       pageBuilder: (context, state) {
         final sourceId = state.extra as int?;
-        return transitionPage(key: state.pageKey, child: CodeEditorPage(sourceId: sourceId));
+        return transitionPage(
+          key: state.pageKey,
+          child: CodeEditorPage(sourceId: sourceId),
+        );
       },
     ),
     GoRoute(
@@ -459,7 +543,10 @@ class RouterNotifier extends ChangeNotifier {
         return const CreateExtension();
       },
       pageBuilder: (context, state) {
-        return transitionPage(key: state.pageKey, child: const CreateExtension());
+        return transitionPage(
+          key: state.pageKey,
+          child: const CreateExtension(),
+        );
       },
     ),
     GoRoute(
@@ -479,14 +566,19 @@ class RouterNotifier extends ChangeNotifier {
         return const CustomNavigationSettings();
       },
       pageBuilder: (context, state) {
-        return transitionPage(key: state.pageKey, child: const CustomNavigationSettings());
+        return transitionPage(
+          key: state.pageKey,
+          child: const CustomNavigationSettings(),
+        );
       },
     ),
   ];
 }
 
 Page transitionPage({required LocalKey key, required child}) {
-  return Platform.isIOS ? CupertinoPage(key: key, child: child) : CustomTransition(child: child, key: key);
+  return Platform.isIOS
+      ? CupertinoPage(key: key, child: child)
+      : CustomTransition(child: child, key: key);
 }
 
 class CustomTransition extends CustomTransitionPage {
@@ -536,7 +628,10 @@ class _ExtraDecoder extends Converter<Object?, Object?> {
         _ => throw FormatException('"$value" is not a valid item type'),
       },
 
-      ['SourceTuple', int? id, bool value] => (id != null ? isar.sources.getSync(id) : Source(), value),
+      ['SourceTuple', int? id, bool value] => (
+        id != null ? isar.sources.getSync(id) : Source(),
+        value,
+      ),
 
       String str =>
         (() {

@@ -14,11 +14,12 @@ class CustomColorFilterState extends _$CustomColorFilterState {
 
   void set(int a, int r, int g, int b, bool end) {
     final settings = isar.settings.first;
-    var value = CustomColorFilter()
-      ..a = a
-      ..r = r
-      ..g = g
-      ..b = b;
+    var value =
+        CustomColorFilter()
+          ..a = a
+          ..r = r
+          ..g = g
+          ..b = b;
     if (end) {
       isar.settings.first = settings..customColorFilter = value;
     }

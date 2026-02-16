@@ -75,8 +75,18 @@ class Navbar extends StatelessWidget {
           height: height,
           child:
               horizontal
-                  ? _buildHorizontal(ref: ref, context: context, items: items, index: currentIndex)
-                  : _buildVertical(ref: ref, context: context, items: items, index: currentIndex),
+                  ? _buildHorizontal(
+                    ref: ref,
+                    context: context,
+                    items: items,
+                    index: currentIndex,
+                  )
+                  : _buildVertical(
+                    ref: ref,
+                    context: context,
+                    items: items,
+                    index: currentIndex,
+                  ),
         );
       },
     );
@@ -90,8 +100,12 @@ class Navbar extends StatelessWidget {
   }) {
     return NavigationBarTheme(
       data: NavigationBarThemeData(
-        labelTextStyle: WidgetStatePropertyAll(TextStyle(overflow: TextOverflow.ellipsis)),
-        indicatorShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        labelTextStyle: WidgetStatePropertyAll(
+          TextStyle(overflow: TextOverflow.ellipsis),
+        ),
+        indicatorShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
       ),
       child: NavigationBar(
         animationDuration: const Duration(milliseconds: 500),
@@ -99,10 +113,19 @@ class Navbar extends StatelessWidget {
         onDestinationSelected: _navigate(context, items),
         destinations: items
             .map((NavItem item) {
-              final widget = NavigationDestination(icon: item.icon, selectedIcon: item.selectedIcon, label: item.label);
+              final widget = NavigationDestination(
+                icon: item.icon,
+                selectedIcon: item.selectedIcon,
+                label: item.label,
+              );
 
               if (item.badge != null) {
-                return Stack(children: [widget, Positioned(right: 14, top: 3, child: item.badge!)]);
+                return Stack(
+                  children: [
+                    widget,
+                    Positioned(right: 14, top: 3, child: item.badge!),
+                  ],
+                );
               }
 
               return widget;
@@ -123,7 +146,11 @@ class Navbar extends StatelessWidget {
             .map(
               (entry) =>
                   entry.$2.badge != null
-                      ? Positioned(left: minVerticalWidth / 2, top: 4 + entry.$1 * 70, child: entry.$2.badge!)
+                      ? Positioned(
+                        left: minVerticalWidth / 2,
+                        top: 4 + entry.$1 * 70,
+                        child: entry.$2.badge!,
+                      )
                       : null,
             )
             .whereType<Widget>();
@@ -132,7 +159,9 @@ class Navbar extends StatelessWidget {
       children: [
         NavigationRailTheme(
           data: NavigationRailThemeData(
-            indicatorShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            indicatorShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
           ),
           child: NavigationRail(
             labelType: NavigationRailLabelType.all,
@@ -144,7 +173,10 @@ class Navbar extends StatelessWidget {
                   (NavItem item) => NavigationRailDestination(
                     icon: item.icon,
                     selectedIcon: item.selectedIcon,
-                    label: Padding(padding: const EdgeInsets.only(top: 5), child: Text(item.label)),
+                    label: Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Text(item.label),
+                    ),
                   ),
                 )
                 .toList(growable: false),
@@ -167,14 +199,19 @@ class Navbar extends StatelessWidget {
     return index < 0 ? null : index;
   }
 
-  void Function(int index) _navigate(BuildContext context, List<NavItem> items) {
+  void Function(int index) _navigate(
+    BuildContext context,
+    List<NavItem> items,
+  ) {
     return (int index) => GoRouter.of(context).go(items[index].route);
   }
 
   List<NavItem> _buildItems<T>(BuildContext context, WidgetRef ref) {
     final l10n = l10nLocalizations(context)!;
     final hideItems = ref.watch(hideItemsStateProvider);
-    final paths = ref.watch(navigationOrderStateProvider).where((path) => !hideItems.contains(path));
+    final paths = ref
+        .watch(navigationOrderStateProvider)
+        .where((path) => !hideItems.contains(path));
 
     return paths.mapToList(
       (route) => (switch (route) {
@@ -202,7 +239,10 @@ class Navbar extends StatelessWidget {
           icon: const Icon(Icons.new_releases_outlined),
           label:
               context.isTablet
-                  ? getHyphenatedUpdatesLabel(ref.watch(l10nLocaleStateProvider).languageCode, l10n.updates)
+                  ? getHyphenatedUpdatesLabel(
+                    ref.watch(l10nLocaleStateProvider).languageCode,
+                    l10n.updates,
+                  )
                   : l10n.updates,
           badge: _updatesTotalNumbers(ref),
         ),
@@ -236,9 +276,18 @@ Widget _extensionUpdateTotalNumbers(WidgetRef ref) {
   final stream = isar.sources
       .filter()
       .idIsNotNull()
-      .optional(hideItems.contains("/MangaLibrary"), (q) => q.not().itemTypeEqualTo(ItemType.manga))
-      .optional(hideItems.contains("/AnimeLibrary"), (q) => q.not().itemTypeEqualTo(ItemType.anime))
-      .optional(hideItems.contains("/NovelLibrary"), (q) => q.not().itemTypeEqualTo(ItemType.novel))
+      .optional(
+        hideItems.contains("/MangaLibrary"),
+        (q) => q.not().itemTypeEqualTo(ItemType.manga),
+      )
+      .optional(
+        hideItems.contains("/AnimeLibrary"),
+        (q) => q.not().itemTypeEqualTo(ItemType.anime),
+      )
+      .optional(
+        hideItems.contains("/NovelLibrary"),
+        (q) => q.not().itemTypeEqualTo(ItemType.novel),
+      )
       .and()
       .isActiveEqualTo(true)
       .watch(fireImmediately: true);
@@ -250,7 +299,14 @@ Widget _extensionUpdateTotalNumbers(WidgetRef ref) {
           count:
               ((snapshot.hasData && snapshot.data!.isNotEmpty)
                   ? snapshot.data!
-                      .where((element) => compareVersions(element.version!, element.versionLast!) < 0)
+                      .where(
+                        (element) =>
+                            compareVersions(
+                              element.version!,
+                              element.versionLast!,
+                            ) <
+                            0,
+                      )
                       .length
                   : 0),
         ),
@@ -262,18 +318,26 @@ Widget _updatesTotalNumbers(WidgetRef ref) {
   final stream = isar.updates
       .filter()
       .idIsNotNull()
-      .chapter((q) => q.not().group((q) => q.isReadEqualTo(true).and().idIsNotNull()))
+      .chapter(
+        (q) => q.not().group((q) => q.isReadEqualTo(true).and().idIsNotNull()),
+      )
       .optional(
         hideItems.contains("/MangaLibrary"),
-        (q) => q.chapter((c) => c.manga((m) => m.not().itemTypeEqualTo(ItemType.manga))),
+        (q) => q.chapter(
+          (c) => c.manga((m) => m.not().itemTypeEqualTo(ItemType.manga)),
+        ),
       )
       .optional(
         hideItems.contains("/AnimeLibrary"),
-        (q) => q.chapter((c) => c.manga((m) => m.not().itemTypeEqualTo(ItemType.anime))),
+        (q) => q.chapter(
+          (c) => c.manga((m) => m.not().itemTypeEqualTo(ItemType.anime)),
+        ),
       )
       .optional(
         hideItems.contains("/NovelLibrary"),
-        (q) => q.chapter((c) => c.manga((m) => m.not().itemTypeEqualTo(ItemType.novel))),
+        (q) => q.chapter(
+          (c) => c.manga((m) => m.not().itemTypeEqualTo(ItemType.novel)),
+        ),
       )
       .watch(fireImmediately: true);
 
@@ -304,5 +368,11 @@ class NavItem {
   final Widget selectedIcon;
   final Widget? badge;
 
-  const NavItem(this.route, {required this.label, required this.icon, required this.selectedIcon, this.badge});
+  const NavItem(
+    this.route, {
+    required this.label,
+    required this.icon,
+    required this.selectedIcon,
+    this.badge,
+  });
 }

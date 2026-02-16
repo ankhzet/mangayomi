@@ -26,7 +26,9 @@ class RoundNavButton extends StatelessWidget {
             scaleX: 1,
             child: Icon(
               icon,
-              color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: onPressed == null ? 0.4 : 1.0),
+              color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(
+                alpha: onPressed == null ? 0.4 : 1.0,
+              ),
             ),
           ),
         ),

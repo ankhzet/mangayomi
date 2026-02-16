@@ -9,36 +9,45 @@ import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 class MangaImportWidget extends StatelessWidget {
   final Manga manga;
 
-  const MangaImportWidget({
-    super.key,
-    required this.manga,
-  });
+  const MangaImportWidget({super.key, required this.manga});
 
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
 
     return Consumer(
-      builder: (context, ref, child) => ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.all(5),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        ),
-        icon: Icon(Icons.add, color: context.secondaryColor),
-        label: Text(
-          manga.itemType == ItemType.anime ? l10n.add_episodes : l10n.add_chapters,
-          style: TextStyle(fontWeight: FontWeight.bold, color: context.secondaryColor),
-        ),
-        onPressed: () async {
-          if (manga.source == "torrent") {
-            addTorrent(context, manga: manga);
-          } else {
-            await ref.watch(
-              importArchivesFromFileProvider(itemType: manga.itemType, manga, init: false).future,
-            );
-          }
-        },
-      ),
+      builder:
+          (context, ref, child) => ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.all(5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+            ),
+            icon: Icon(Icons.add, color: context.secondaryColor),
+            label: Text(
+              manga.itemType == ItemType.anime
+                  ? l10n.add_episodes
+                  : l10n.add_chapters,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: context.secondaryColor,
+              ),
+            ),
+            onPressed: () async {
+              if (manga.source == "torrent") {
+                addTorrent(context, manga: manga);
+              } else {
+                await ref.watch(
+                  importArchivesFromFileProvider(
+                    itemType: manga.itemType,
+                    manga,
+                    init: false,
+                  ).future,
+                );
+              }
+            },
+          ),
     );
   }
 }

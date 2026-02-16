@@ -22,7 +22,8 @@ class TypeTabBarView<T> extends ConsumerStatefulWidget {
   ConsumerState<TypeTabBarView<T>> createState() => _TypeTabBarState();
 }
 
-class _TypeTabBarState<T> extends ConsumerState<TypeTabBarView<T>> with TickerProviderStateMixin {
+class _TypeTabBarState<T> extends ConsumerState<TypeTabBarView<T>>
+    with TickerProviderStateMixin {
   late TabController _tabBarController;
   late List<T> types = widget.tabs;
 

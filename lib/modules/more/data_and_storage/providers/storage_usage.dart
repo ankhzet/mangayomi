@@ -41,15 +41,21 @@ class TotalChapterCacheSizeState extends _$TotalChapterCacheSizeState {
     } catch (_) {}
     if (msg != null && showToast) {
       state = msg;
-      botToast(navigatorKey.currentContext?.l10n.cache_cleared ?? "Cache cleared");
+      botToast(
+        navigatorKey.currentContext?.l10n.cache_cleared ?? "Cache cleared",
+      );
     }
   }
 
   Future<int> _getTotalDiskSpace() async {
     final tempPath = (await getTemporaryDirectory()).path;
     try {
-      return await _getdirectorySize(Directory(join(tempPath, _cacheImageMangaPath))) +
-          await _getdirectorySize(Directory(join(tempPath, _cacheDownloadPath)));
+      return await _getdirectorySize(
+            Directory(join(tempPath, _cacheImageMangaPath)),
+          ) +
+          await _getdirectorySize(
+            Directory(join(tempPath, _cacheDownloadPath)),
+          );
     } catch (_) {}
     return 0;
   }
@@ -62,8 +68,8 @@ class TotalChapterCacheSizeState extends _$TotalChapterCacheSizeState {
             .where((entity) => entity is File)
             .cast<File>()
             .fold(0, (total, file) {
-          return total + file.lengthSync();
-        });
+              return total + file.lengthSync();
+            });
       }
     } catch (_) {}
     return 0;
@@ -84,7 +90,8 @@ class TotalChapterCacheSizeState extends _$TotalChapterCacheSizeState {
 }
 
 @riverpod
-class ClearChapterCacheOnAppLaunchState extends _$ClearChapterCacheOnAppLaunchState {
+class ClearChapterCacheOnAppLaunchState
+    extends _$ClearChapterCacheOnAppLaunchState {
   @override
   bool build() {
     return isar.settings.first.clearChapterCacheOnAppLaunch ?? false;
@@ -92,6 +99,10 @@ class ClearChapterCacheOnAppLaunchState extends _$ClearChapterCacheOnAppLaunchSt
 
   void set(bool value) {
     state = value;
-    isar.writeTxnSync(() => isar.settings.putSync(isar.settings.first..clearChapterCacheOnAppLaunch = value));
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        isar.settings.first..clearChapterCacheOnAppLaunch = value,
+      ),
+    );
   }
 }

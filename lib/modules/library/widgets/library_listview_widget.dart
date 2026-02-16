@@ -65,22 +65,35 @@ class LibraryListViewWidget extends StatelessWidget {
                       mangaM: entry,
                       source: entry.source!,
                     );
-                    ref.invalidate(getAllMangaWithoutCategoriesStreamProvider(itemType: entry.itemType));
-                    ref.invalidate(getAllMangaStreamProvider(categoryId: null, itemType: entry.itemType));
+                    ref.invalidate(
+                      getAllMangaWithoutCategoriesStreamProvider(
+                        itemType: entry.itemType,
+                      ),
+                    );
+                    ref.invalidate(
+                      getAllMangaStreamProvider(
+                        categoryId: null,
+                        itemType: entry.itemType,
+                      ),
+                    );
                   }
                 },
                 onLongPress: () {
                   ref.read(mangasListStateProvider.notifier).update(entry);
 
                   if (!isLongPressed) {
-                    ref.read(isLongPressedMangaStateProvider.notifier).update(!isLongPressed);
+                    ref
+                        .read(isLongPressedMangaStateProvider.notifier)
+                        .update(!isLongPressed);
                   }
                 },
                 onSecondaryTap: () {
                   ref.read(mangasListStateProvider.notifier).update(entry);
 
                   if (!isLongPressed) {
-                    ref.read(isLongPressedMangaStateProvider.notifier).update(!isLongPressed);
+                    ref
+                        .read(isLongPressedMangaStateProvider.notifier)
+                        .update(!isLongPressed);
                   }
                 },
                 child: Container(
@@ -89,10 +102,15 @@ class LibraryListViewWidget extends StatelessWidget {
                           ? context.primaryColor.withValues(alpha: 0.4)
                           : Colors.transparent,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
                     child: Container(
                       height: 45,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -111,7 +129,8 @@ class LibraryListViewWidget extends StatelessWidget {
                                         child: Container(
                                           color:
                                               mangaIdsList.contains(entry.id)
-                                                  ? context.primaryColor.withValues(alpha: 0.4)
+                                                  ? context.primaryColor
+                                                      .withValues(alpha: 0.4)
                                                   : Colors.transparent,
                                         ),
                                       ),
@@ -120,11 +139,17 @@ class LibraryListViewWidget extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                    ),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Text(entry.name!, overflow: TextOverflow.ellipsis),
+                                        Text(
+                                          entry.name!,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                         Row(
                                           children: [
                                             Text.rich(
@@ -136,14 +161,18 @@ class LibraryListViewWidget extends StatelessWidget {
                                                       null,
                                                       ref: ref,
                                                       context: context,
-                                                      datetimeDate: DateTime.fromMillisecondsSinceEpoch(
-                                                        entry.dateAdded!,
-                                                      ),
+                                                      datetimeDate:
+                                                          DateTime.fromMillisecondsSinceEpoch(
+                                                            entry.dateAdded!,
+                                                          ),
                                                     ),
                                                   ),
                                                 ],
                                               ),
-                                              style: Theme.of(context).textTheme.labelSmall!,
+                                              style:
+                                                  Theme.of(
+                                                    context,
+                                                  ).textTheme.labelSmall!,
                                             ),
                                           ],
                                         ),
@@ -154,7 +183,10 @@ class LibraryListViewWidget extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Padding(padding: const EdgeInsets.all(5), child: _badges(context: context, entry: entry)),
+                          Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: _badges(context: context, entry: entry),
+                          ),
                           if (continueReaderBtn)
                             Consumer(
                               builder: (context, ref, child) {
@@ -163,59 +195,104 @@ class LibraryListViewWidget extends StatelessWidget {
                                       .filter()
                                       .idIsNotNull()
                                       .and()
-                                      .chapter((q) => q.manga((q) => q.itemTypeEqualTo(entry.itemType)))
+                                      .chapter(
+                                        (q) => q.manga(
+                                          (q) =>
+                                              q.itemTypeEqualTo(entry.itemType),
+                                        ),
+                                      )
                                       .watch(fireImmediately: true),
                                   builder: (context, snapshot) {
-                                    if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                                      final incognitoMode = ref.watch(incognitoModeStateProvider);
+                                    if (snapshot.hasData &&
+                                        snapshot.data!.isNotEmpty) {
+                                      final incognitoMode = ref.watch(
+                                        incognitoModeStateProvider,
+                                      );
                                       final entries =
-                                          snapshot.data!.where((element) => element.mangaId == entry.id).toList();
-                                      if (entries.isNotEmpty && !incognitoMode) {
-                                        final chap = entries.first.chapter.value!;
+                                          snapshot.data!
+                                              .where(
+                                                (element) =>
+                                                    element.mangaId == entry.id,
+                                              )
+                                              .toList();
+                                      if (entries.isNotEmpty &&
+                                          !incognitoMode) {
+                                        final chap =
+                                            entries.first.chapter.value!;
                                         return GestureDetector(
                                           onTap: () {
                                             chap.pushToReaderView(context);
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5),
-                                              color: context.primaryColor.withValues(alpha: 0.9),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: context.primaryColor
+                                                  .withValues(alpha: 0.9),
                                             ),
                                             child: const Padding(
                                               padding: EdgeInsets.all(7),
-                                              child: Icon(Icons.play_arrow, size: 19, color: Colors.white),
+                                              child: Icon(
+                                                Icons.play_arrow,
+                                                size: 19,
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           ),
                                         );
                                       }
                                       return GestureDetector(
                                         onTap: () {
-                                          entry.chapters.toList().reversed.toList().last.pushToReaderView(context);
+                                          entry.chapters
+                                              .toList()
+                                              .reversed
+                                              .toList()
+                                              .last
+                                              .pushToReaderView(context);
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(5),
-                                            color: context.primaryColor.withValues(alpha: 0.9),
+                                            borderRadius: BorderRadius.circular(
+                                              5,
+                                            ),
+                                            color: context.primaryColor
+                                                .withValues(alpha: 0.9),
                                           ),
                                           child: const Padding(
                                             padding: EdgeInsets.all(7),
-                                            child: Icon(Icons.play_arrow, size: 19, color: Colors.white),
+                                            child: Icon(
+                                              Icons.play_arrow,
+                                              size: 19,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       );
                                     }
                                     return GestureDetector(
                                       onTap: () {
-                                        entry.chapters.toList().reversed.toList().last.pushToReaderView(context);
+                                        entry.chapters
+                                            .toList()
+                                            .reversed
+                                            .toList()
+                                            .last
+                                            .pushToReaderView(context);
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5),
-                                          color: context.primaryColor.withValues(alpha: 0.9),
+                                          borderRadius: BorderRadius.circular(
+                                            5,
+                                          ),
+                                          color: context.primaryColor
+                                              .withValues(alpha: 0.9),
                                         ),
                                         child: const Padding(
                                           padding: EdgeInsets.all(7),
-                                          child: Icon(Icons.play_arrow, size: 19, color: Colors.white),
+                                          child: Icon(
+                                            Icons.play_arrow,
+                                            size: 19,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                     );
@@ -237,7 +314,14 @@ class LibraryListViewWidget extends StatelessWidget {
   }
 
   String unreadChapters(Manga entry) {
-    int count = isar.chapters.filter().idIsNotNull().mangaIdEqualTo(entry.id).not().isReadEqualTo(true).countSync();
+    int count =
+        isar.chapters
+            .filter()
+            .idIsNotNull()
+            .mangaIdEqualTo(entry.id)
+            .not()
+            .isReadEqualTo(true)
+            .countSync();
 
     return count > 0 ? '$count' : '';
   }
@@ -247,7 +331,10 @@ class LibraryListViewWidget extends StatelessWidget {
         isar.downloads
             .filter()
             .isDownloadEqualTo(true)
-            .anyOf(entry.chapters.map((chapter) => chapter.id!), (q, item) => q.idEqualTo(item))
+            .anyOf(
+              entry.chapters.map((chapter) => chapter.id!),
+              (q, item) => q.idEqualTo(item),
+            )
             .countSync();
 
     return count > 0 ? '$count' : '';
@@ -256,10 +343,13 @@ class LibraryListViewWidget extends StatelessWidget {
   Widget _badges({required BuildContext context, required Manga entry}) {
     final List<(String, TextStyle?)> samples = [
       if (localSource && (entry.isLocalArchive ?? false)) ('Local', null),
-      if (downloadedChapter) (downloadedChapters(entry), const TextStyle(color: Colors.deepOrange)),
-      if (unreadChapter) (unreadChapters(entry), const TextStyle(color: Colors.yellowAccent)),
+      if (downloadedChapter)
+        (downloadedChapters(entry), const TextStyle(color: Colors.deepOrange)),
+      if (unreadChapter)
+        (unreadChapters(entry), const TextStyle(color: Colors.yellowAccent)),
       ('${entry.chapters.length}', null),
-      if (language && entry.lang!.isNotEmpty) (entry.lang!.toUpperCase(), const TextStyle(color: Colors.green)),
+      if (language && entry.lang!.isNotEmpty)
+        (entry.lang!.toUpperCase(), const TextStyle(color: Colors.green)),
     ];
 
     final items = samples.fold<List<Widget>>([], (result, item) {
@@ -270,17 +360,28 @@ class LibraryListViewWidget extends StatelessWidget {
       if (result.isEmpty) {
         result.add(_badge(item.$1, style: item.$2));
       } else {
-        result.add(Padding(padding: const EdgeInsets.only(left: 5), child: _badge(item.$1, style: item.$2)));
+        result.add(
+          Padding(
+            padding: const EdgeInsets.only(left: 5),
+            child: _badge(item.$1, style: item.$2),
+          ),
+        );
       }
 
       return result;
     });
 
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: context.primaryColor),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(3),
+        color: context.primaryColor,
+      ),
       child: SizedBox(
         height: 22,
-        child: Padding(padding: const EdgeInsets.symmetric(horizontal: 3), child: Row(children: items)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 3),
+          child: Row(children: items),
+        ),
       ),
     );
   }

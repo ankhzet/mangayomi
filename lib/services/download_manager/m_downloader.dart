@@ -22,7 +22,11 @@ class MDownloader {
   Isolate? _isolate;
   ReceivePort? _receivePort;
   static var httpClient = MClient.httpClient(
-      settings: const ClientSettings(throwOnStatusCode: false, tlsSettings: TlsSettings(verifyCertificates: false)));
+    settings: const ClientSettings(
+      throwOnStatusCode: false,
+      tlsSettings: TlsSettings(verifyCertificates: false),
+    ),
+  );
 
   MDownloader({
     required this.chapter,
@@ -44,10 +48,17 @@ class MDownloader {
   static _recreateClient() async {
     await RustLib.init();
     httpClient = MClient.httpClient(
-        settings: const ClientSettings(throwOnStatusCode: false, tlsSettings: TlsSettings(verifyCertificates: false)));
+      settings: const ClientSettings(
+        throwOnStatusCode: false,
+        tlsSettings: TlsSettings(verifyCertificates: false),
+      ),
+    );
   }
 
-  static Future<T> _withRetryStatic<T>(Future<T> Function() operation, int maxRetries) async {
+  static Future<T> _withRetryStatic<T>(
+    Future<T> Function() operation,
+    int maxRetries,
+  ) async {
     int attempts = 0;
     while (true) {
       try {
@@ -55,7 +66,10 @@ class MDownloader {
         return await operation();
       } catch (e) {
         if (attempts >= maxRetries) {
-          throw M3u8DownloaderException('Operation failed after $maxRetries attempts', e);
+          throw M3u8DownloaderException(
+            'Operation failed after $maxRetries attempts',
+            e,
+          );
         }
       }
     }
@@ -81,10 +95,11 @@ class MDownloader {
     _isolate = await Isolate.spawn(
       _downloadWorker,
       DownloadParams(
-          pageUrls: pageUrls,
-          sendPort: _receivePort!.sendPort,
-          concurrentDownloads: concurrentDownloads,
-          itemType: chapter.manga.value!.itemType),
+        pageUrls: pageUrls,
+        sendPort: _receivePort!.sendPort,
+        concurrentDownloads: concurrentDownloads,
+        itemType: chapter.manga.value!.itemType,
+      ),
       onError: errorPort.sendPort,
     );
     isolateChapsSendPorts['${chapter.id}'] = (_receivePort, _isolate);
@@ -97,7 +112,14 @@ class MDownloader {
       if (message is DownloadProgress) {
         onProgress.call(message);
       } else if (message is DownloadComplete) {
-        onProgress.call(DownloadProgress(1, 1, chapter.manga.value!.itemType, isCompleted: true));
+        onProgress.call(
+          DownloadProgress(
+            1,
+            1,
+            chapter.manga.value!.itemType,
+            isCompleted: true,
+          ),
+        );
         errorPort.close();
         break;
       } else if (message is Exception) {
@@ -116,19 +138,32 @@ class MDownloader {
 
     try {
       while (queue.isNotEmpty || activeTasks.isNotEmpty) {
-        while (queue.isNotEmpty && activeTasks.length < params.concurrentDownloads!) {
+        while (queue.isNotEmpty &&
+            activeTasks.length < params.concurrentDownloads!) {
           final pageUrl = queue.removeFirst();
-          final task = _processFile(pageUrl, httpClient, params).then((_) {
-            if (params.itemType! != ItemType.anime) {
-              completed++;
-              params.sendPort!.send(DownloadProgress(pageUrl: pageUrl, completed, total, params.itemType!));
-            }
-          }).catchError((error) {
-            params.sendPort!.send(
-              MDownloaderException('Error downloading ${pageUrl.fileName}', error),
-            );
-            throw error;
-          });
+          final task = _processFile(pageUrl, httpClient, params)
+              .then((_) {
+                if (params.itemType! != ItemType.anime) {
+                  completed++;
+                  params.sendPort!.send(
+                    DownloadProgress(
+                      pageUrl: pageUrl,
+                      completed,
+                      total,
+                      params.itemType!,
+                    ),
+                  );
+                }
+              })
+              .catchError((error) {
+                params.sendPort!.send(
+                  MDownloaderException(
+                    'Error downloading ${pageUrl.fileName}',
+                    error,
+                  ),
+                );
+                throw error;
+              });
 
           activeTasks.add(task);
         }
@@ -147,12 +182,21 @@ class MDownloader {
     }
   }
 
-  static Future<void> _processFile(PageUrl pageUrl, Client client, DownloadParams params) async {
+  static Future<void> _processFile(
+    PageUrl pageUrl,
+    Client client,
+    DownloadParams params,
+  ) async {
     try {
       if (params.itemType! != ItemType.anime) {
-        final response = await _withRetryStatic(() => client.get(Uri.parse(pageUrl.url), headers: pageUrl.headers), 3);
+        final response = await _withRetryStatic(
+          () => client.get(Uri.parse(pageUrl.url), headers: pageUrl.headers),
+          3,
+        );
         if (response.statusCode != 200) {
-          throw MDownloaderException('Failed to download file: ${pageUrl.fileName!}');
+          throw MDownloaderException(
+            'Failed to download file: ${pageUrl.fileName!}',
+          );
         }
 
         final file = File(pageUrl.fileName!);
@@ -164,7 +208,9 @@ class MDownloader {
           request.headers.addAll(pageUrl.headers ?? {});
           StreamedResponse response = await client.send(request);
           if (response.statusCode != 200) {
-            throw MDownloaderException('Failed to download file: ${pageUrl.fileName!}');
+            throw MDownloaderException(
+              'Failed to download file: ${pageUrl.fileName!}',
+            );
           }
           int total = response.contentLength ?? 0;
           int recieved = 0;
@@ -173,8 +219,14 @@ class MDownloader {
             bytes.addAll(value);
             try {
               recieved += value.length;
-              params.sendPort!
-                  .send(DownloadProgress((recieved / total * 100).toInt(), 100, pageUrl: pageUrl, params.itemType!));
+              params.sendPort!.send(
+                DownloadProgress(
+                  (recieved / total * 100).toInt(),
+                  100,
+                  pageUrl: pageUrl,
+                  params.itemType!,
+                ),
+              );
             } catch (_) {}
           }
           return bytes;
@@ -184,7 +236,10 @@ class MDownloader {
         await file.writeAsBytes(bytes);
       }
     } catch (e) {
-      throw MDownloaderException('Failed to process file: ${pageUrl.fileName!}', e);
+      throw MDownloaderException(
+        'Failed to process file: ${pageUrl.fileName!}',
+        e,
+      );
     }
   }
 }
@@ -196,5 +251,6 @@ class MDownloaderException implements Exception {
   MDownloaderException(this.message, [this.originalError]);
 
   @override
-  String toString() => 'MDownloaderException: $message${originalError != null ? ' ($originalError)' : ''}';
+  String toString() =>
+      'MDownloaderException: $message${originalError != null ? ' ($originalError)' : ''}';
 }

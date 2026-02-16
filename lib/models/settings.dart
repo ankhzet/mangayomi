@@ -1,6 +1,12 @@
+import 'dart:math';
+
 import 'package:isar_community/isar.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/utils/constant.dart';
+
+export 'package:mangayomi/models/options.dart';
+
 part 'settings.g.dart';
 
 @collection
@@ -13,29 +19,16 @@ class Settings {
   @enumerated
   late DisplayType displayType;
 
-  int libraryFilterMangasDownloadType = 0;
+  @ignore
+  LibraryFilter? libraryFilter;
 
-  int libraryFilterMangasUnreadType = 0;
+  int? libraryFilterMangasDownloadType;
 
-  int libraryFilterMangasStartedType = 0;
+  int? libraryFilterMangasUnreadType;
 
-  int libraryFilterMangasBookMarkedType = 0;
+  int? libraryFilterMangasStartedType;
 
-  int libraryFilterAnimeDownloadType = 0;
-
-  int libraryFilterAnimeUnreadType = 0;
-
-  int libraryFilterAnimeStartedType = 0;
-
-  int libraryFilterAnimeBookMarkedType = 0;
-
-  int libraryFilterNovelDownloadType = 0;
-
-  int libraryFilterNovelUnreadType = 0;
-
-  int libraryFilterNovelStartedType = 0;
-
-  int libraryFilterNovelBookMarkedType = 0;
+  int? libraryFilterMangasBookMarkedType;
 
   bool? libraryShowCategoryTabs;
 
@@ -118,6 +111,14 @@ class Settings {
 
   @enumerated
   late DisplayType animeDisplayType;
+
+  int? libraryFilterAnimeDownloadType;
+
+  int? libraryFilterAnimeUnreadType;
+
+  int? libraryFilterAnimeStartedType;
+
+  int? libraryFilterAnimeBookMarkedType;
 
   bool? animeLibraryShowCategoryTabs;
 
@@ -229,6 +230,14 @@ class Settings {
   String? hwdecMode;
 
   bool? enableHardwareAcceleration;
+
+  int? libraryFilterNovelDownloadType;
+
+  int? libraryFilterNovelUnreadType;
+
+  int? libraryFilterNovelStartedType;
+
+  int? libraryFilterNovelBookMarkedType;
 
   bool? novelLibraryShowCategoryTabs;
 
@@ -521,6 +530,9 @@ class Settings {
     id = json['id'];
     incognitoMode = json['incognitoMode'];
     libraryDownloadedChapters = json['libraryDownloadedChapters'];
+    libraryFilter = json['libraryFilter'] != null
+        ? LibraryFilter.fromJson(json['libraryFilter'])
+        : null;
     libraryFilterAnimeBookMarkedType = json['libraryFilterAnimeBookMarkedType'];
     libraryFilterAnimeDownloadType = json['libraryFilterAnimeDownloadType'];
     libraryFilterAnimeStartedType = json['libraryFilterAnimeStartedType'];
@@ -754,6 +766,7 @@ class Settings {
     'id': id,
     'incognitoMode': incognitoMode,
     'libraryDownloadedChapters': libraryDownloadedChapters,
+    'libraryFilter': libraryFilter?.toJson(),
     'libraryFilterAnimeBookMarkedType': libraryFilterAnimeBookMarkedType,
     'libraryFilterAnimeDownloadType': libraryFilterAnimeDownloadType,
     'libraryFilterAnimeStartedType': libraryFilterAnimeStartedType,
@@ -1299,4 +1312,132 @@ enum ColorFilterBlendMode {
   softLight,
   plus,
   exclusion,
+}
+
+class LibraryFilter {
+  List<int>? bitfields;
+
+  LibraryFilter({this.bitfields});
+
+  LibraryFilter.fromJson(Map<String, dynamic> json) {
+    final persisted = json['bitfields'];
+
+    if (persisted != null) {
+      int items = persisted.length;
+
+      while (items < typeDefaults.length) {
+        persisted.add(typeDefaults[items++]);
+      }
+
+      bitfields = persisted;
+
+      return;
+    }
+
+    int bits(List<int?> values) {
+      int bitfields = 0;
+
+      for (final (bit, value) in values.indexed) {
+        bitfields = setBitfields(bitfields, bit, value ?? 0);
+      }
+
+      return bitfields;
+    }
+
+    bitfields = [
+      bits([
+        json['libraryFilterAnimeDownloadType'],
+        json['libraryFilterAnimeUnreadType'],
+        json['libraryFilterAnimeStartedType'],
+        json['libraryFilterAnimeBookMarkedType'],
+      ]),
+      bits([
+        json['libraryFilterMangasDownloadType'],
+        json['libraryFilterMangasUnreadType'],
+        json['libraryFilterMangasStartedType'],
+        json['libraryFilterMangasBookMarkedType'],
+      ]),
+      bits([
+        json['libraryFilterNovelDownloadType'],
+        json['libraryFilterNovelUnreadType'],
+        json['libraryFilterNovelStartedType'],
+        json['libraryFilterNovelBookMarkedType'],
+      ]),
+    ];
+  }
+
+  Map<String, dynamic> toJson() => {'bitfields': bitfields};
+
+  static const List<int> typeDefaults = [0, 0, 0];
+  static const int downloadedBit = 0;
+  static const int unreadBit = 1;
+  static const int startedBit = 2;
+  static const int bookmarkedBit = 3;
+
+  static final bits = 32;
+  static final half = bits ~/ 2;
+  static final all = pow(2, bits).toInt();
+
+  static int setBitfields(int bitfields, int position, int value) {
+    final bit = 1 << position;
+
+    if (value == 0) {
+      bitfields &= ~bit;
+    } else {
+      final exclusive = bit << half;
+      bitfields |= bit;
+
+      if (value == 1) {
+        bitfields &= ~exclusive;
+      } else if (value == 2) {
+        bitfields |= exclusive;
+      }
+    }
+
+    return bitfields;
+  }
+
+  static int itemTypeToIndex(ItemType type) {
+    return switch (type) {
+      ItemType.anime => 0,
+      ItemType.manga => 1,
+      ItemType.novel => 2,
+    };
+  }
+
+  int getBitfieldOfType(ItemType type) {
+    if (bitfields != null) {
+      final index = itemTypeToIndex(type);
+
+      if (index >= 0 && index < bitfields!.length) {
+        return bitfields![index];
+      }
+    }
+
+    return 0;
+  }
+
+  int getValue(ItemType type, int position) {
+    final ofType = getBitfieldOfType(type);
+
+    if (ofType != 0) {
+      final bitMask = 1 << position;
+
+      if ((ofType & bitMask) != 0) {
+        final isExclusive = (ofType & (bitMask << half)) != 0;
+
+        return isExclusive ? 2 : 1;
+      }
+    }
+
+    return 0;
+  }
+
+  void setValue(ItemType type, int position, int value) {
+    (bitfields ??= [...typeDefaults])[itemTypeToIndex(type)] = setBitfields(
+      getBitfieldOfType(type),
+      position,
+      value,
+    );
+  }
 }

@@ -1690,18 +1690,18 @@ Settings _settingsDeserialize(
     incognitoMode: reader.readBoolOrNull(offsets[71]),
     lastTrackerLibraryLocation: reader.readStringOrNull(offsets[72]),
     libraryDownloadedChapters: reader.readBoolOrNull(offsets[73]),
-    libraryFilterAnimeBookMarkedType: reader.readLongOrNull(offsets[74]) ?? 0,
-    libraryFilterAnimeDownloadType: reader.readLongOrNull(offsets[75]) ?? 0,
-    libraryFilterAnimeStartedType: reader.readLongOrNull(offsets[76]) ?? 0,
-    libraryFilterAnimeUnreadType: reader.readLongOrNull(offsets[77]) ?? 0,
-    libraryFilterMangasBookMarkedType: reader.readLongOrNull(offsets[78]) ?? 0,
-    libraryFilterMangasDownloadType: reader.readLongOrNull(offsets[79]) ?? 0,
-    libraryFilterMangasStartedType: reader.readLongOrNull(offsets[80]) ?? 0,
-    libraryFilterMangasUnreadType: reader.readLongOrNull(offsets[81]) ?? 0,
-    libraryFilterNovelBookMarkedType: reader.readLongOrNull(offsets[82]) ?? 0,
-    libraryFilterNovelDownloadType: reader.readLongOrNull(offsets[83]) ?? 0,
-    libraryFilterNovelStartedType: reader.readLongOrNull(offsets[84]) ?? 0,
-    libraryFilterNovelUnreadType: reader.readLongOrNull(offsets[85]) ?? 0,
+    libraryFilterAnimeBookMarkedType: reader.readLongOrNull(offsets[74]),
+    libraryFilterAnimeDownloadType: reader.readLongOrNull(offsets[75]),
+    libraryFilterAnimeStartedType: reader.readLongOrNull(offsets[76]),
+    libraryFilterAnimeUnreadType: reader.readLongOrNull(offsets[77]),
+    libraryFilterMangasBookMarkedType: reader.readLongOrNull(offsets[78]),
+    libraryFilterMangasDownloadType: reader.readLongOrNull(offsets[79]),
+    libraryFilterMangasStartedType: reader.readLongOrNull(offsets[80]),
+    libraryFilterMangasUnreadType: reader.readLongOrNull(offsets[81]),
+    libraryFilterNovelBookMarkedType: reader.readLongOrNull(offsets[82]),
+    libraryFilterNovelDownloadType: reader.readLongOrNull(offsets[83]),
+    libraryFilterNovelStartedType: reader.readLongOrNull(offsets[84]),
+    libraryFilterNovelUnreadType: reader.readLongOrNull(offsets[85]),
     libraryLocalSource: reader.readBoolOrNull(offsets[86]),
     libraryShowCategoryTabs: reader.readBoolOrNull(offsets[87]),
     libraryShowContinueReadingButton: reader.readBoolOrNull(offsets[88]),
@@ -2102,29 +2102,29 @@ P _settingsDeserializeProp<P>(
     case 73:
       return (reader.readBoolOrNull(offset)) as P;
     case 74:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 75:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 76:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 77:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 78:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 79:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 80:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 81:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 82:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 83:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 84:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 85:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 86:
       return (reader.readBoolOrNull(offset)) as P;
     case 87:
@@ -7743,7 +7743,29 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeBookMarkedTypeEqualTo(int value) {
+  libraryFilterAnimeBookMarkedTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterAnimeBookMarkedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeBookMarkedTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterAnimeBookMarkedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeBookMarkedTypeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -7756,7 +7778,7 @@ extension SettingsQueryFilter
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryFilterAnimeBookMarkedTypeGreaterThan(
-    int value, {
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -7771,7 +7793,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeBookMarkedTypeLessThan(int value, {bool include = false}) {
+  libraryFilterAnimeBookMarkedTypeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -7785,8 +7807,8 @@ extension SettingsQueryFilter
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryFilterAnimeBookMarkedTypeBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -7804,7 +7826,29 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeDownloadTypeEqualTo(int value) {
+  libraryFilterAnimeDownloadTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterAnimeDownloadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeDownloadTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterAnimeDownloadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeDownloadTypeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -7816,7 +7860,10 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeDownloadTypeGreaterThan(int value, {bool include = false}) {
+  libraryFilterAnimeDownloadTypeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -7829,7 +7876,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeDownloadTypeLessThan(int value, {bool include = false}) {
+  libraryFilterAnimeDownloadTypeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -7843,8 +7890,8 @@ extension SettingsQueryFilter
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryFilterAnimeDownloadTypeBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -7862,7 +7909,29 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeStartedTypeEqualTo(int value) {
+  libraryFilterAnimeStartedTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterAnimeStartedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeStartedTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterAnimeStartedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeStartedTypeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -7874,7 +7943,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeStartedTypeGreaterThan(int value, {bool include = false}) {
+  libraryFilterAnimeStartedTypeGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -7887,7 +7956,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeStartedTypeLessThan(int value, {bool include = false}) {
+  libraryFilterAnimeStartedTypeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -7901,8 +7970,8 @@ extension SettingsQueryFilter
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryFilterAnimeStartedTypeBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -7920,7 +7989,27 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeUnreadTypeEqualTo(int value) {
+  libraryFilterAnimeUnreadTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'libraryFilterAnimeUnreadType'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeUnreadTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterAnimeUnreadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeUnreadTypeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -7932,7 +8021,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeUnreadTypeGreaterThan(int value, {bool include = false}) {
+  libraryFilterAnimeUnreadTypeGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -7945,7 +8034,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeUnreadTypeLessThan(int value, {bool include = false}) {
+  libraryFilterAnimeUnreadTypeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -7959,8 +8048,8 @@ extension SettingsQueryFilter
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryFilterAnimeUnreadTypeBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -7978,7 +8067,29 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasBookMarkedTypeEqualTo(int value) {
+  libraryFilterMangasBookMarkedTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterMangasBookMarkedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasBookMarkedTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterMangasBookMarkedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasBookMarkedTypeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -7991,7 +8102,7 @@ extension SettingsQueryFilter
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryFilterMangasBookMarkedTypeGreaterThan(
-    int value, {
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -8006,7 +8117,10 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasBookMarkedTypeLessThan(int value, {bool include = false}) {
+  libraryFilterMangasBookMarkedTypeLessThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -8020,8 +8134,8 @@ extension SettingsQueryFilter
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryFilterMangasBookMarkedTypeBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -8039,7 +8153,29 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasDownloadTypeEqualTo(int value) {
+  libraryFilterMangasDownloadTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterMangasDownloadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasDownloadTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterMangasDownloadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasDownloadTypeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8052,7 +8188,7 @@ extension SettingsQueryFilter
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryFilterMangasDownloadTypeGreaterThan(
-    int value, {
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -8067,7 +8203,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasDownloadTypeLessThan(int value, {bool include = false}) {
+  libraryFilterMangasDownloadTypeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -8081,8 +8217,8 @@ extension SettingsQueryFilter
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryFilterMangasDownloadTypeBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -8100,7 +8236,29 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasStartedTypeEqualTo(int value) {
+  libraryFilterMangasStartedTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterMangasStartedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasStartedTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterMangasStartedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasStartedTypeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8112,7 +8270,10 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasStartedTypeGreaterThan(int value, {bool include = false}) {
+  libraryFilterMangasStartedTypeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -8125,7 +8286,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasStartedTypeLessThan(int value, {bool include = false}) {
+  libraryFilterMangasStartedTypeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -8139,8 +8300,8 @@ extension SettingsQueryFilter
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryFilterMangasStartedTypeBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -8158,7 +8319,29 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasUnreadTypeEqualTo(int value) {
+  libraryFilterMangasUnreadTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterMangasUnreadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasUnreadTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterMangasUnreadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasUnreadTypeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8170,7 +8353,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasUnreadTypeGreaterThan(int value, {bool include = false}) {
+  libraryFilterMangasUnreadTypeGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -8183,7 +8366,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasUnreadTypeLessThan(int value, {bool include = false}) {
+  libraryFilterMangasUnreadTypeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -8197,8 +8380,8 @@ extension SettingsQueryFilter
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryFilterMangasUnreadTypeBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -8216,7 +8399,29 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelBookMarkedTypeEqualTo(int value) {
+  libraryFilterNovelBookMarkedTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterNovelBookMarkedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelBookMarkedTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterNovelBookMarkedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelBookMarkedTypeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8229,7 +8434,7 @@ extension SettingsQueryFilter
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryFilterNovelBookMarkedTypeGreaterThan(
-    int value, {
+    int? value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -8244,7 +8449,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelBookMarkedTypeLessThan(int value, {bool include = false}) {
+  libraryFilterNovelBookMarkedTypeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -8258,8 +8463,8 @@ extension SettingsQueryFilter
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryFilterNovelBookMarkedTypeBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -8277,7 +8482,29 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelDownloadTypeEqualTo(int value) {
+  libraryFilterNovelDownloadTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterNovelDownloadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelDownloadTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterNovelDownloadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelDownloadTypeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8289,7 +8516,10 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelDownloadTypeGreaterThan(int value, {bool include = false}) {
+  libraryFilterNovelDownloadTypeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -8302,7 +8532,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelDownloadTypeLessThan(int value, {bool include = false}) {
+  libraryFilterNovelDownloadTypeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -8316,8 +8546,8 @@ extension SettingsQueryFilter
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryFilterNovelDownloadTypeBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -8335,7 +8565,29 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelStartedTypeEqualTo(int value) {
+  libraryFilterNovelStartedTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterNovelStartedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelStartedTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterNovelStartedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelStartedTypeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8347,7 +8599,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelStartedTypeGreaterThan(int value, {bool include = false}) {
+  libraryFilterNovelStartedTypeGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -8360,7 +8612,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelStartedTypeLessThan(int value, {bool include = false}) {
+  libraryFilterNovelStartedTypeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -8374,8 +8626,8 @@ extension SettingsQueryFilter
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryFilterNovelStartedTypeBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -8393,7 +8645,27 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelUnreadTypeEqualTo(int value) {
+  libraryFilterNovelUnreadTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'libraryFilterNovelUnreadType'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelUnreadTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterNovelUnreadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelUnreadTypeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8405,7 +8677,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelUnreadTypeGreaterThan(int value, {bool include = false}) {
+  libraryFilterNovelUnreadTypeGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -8418,7 +8690,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelUnreadTypeLessThan(int value, {bool include = false}) {
+  libraryFilterNovelUnreadTypeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -8432,8 +8704,8 @@ extension SettingsQueryFilter
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryFilterNovelUnreadTypeBetween(
-    int lower,
-    int upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -16434,84 +16706,84 @@ extension SettingsQueryProperty
     });
   }
 
-  QueryBuilder<Settings, int, QQueryOperations>
+  QueryBuilder<Settings, int?, QQueryOperations>
   libraryFilterAnimeBookMarkedTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryFilterAnimeBookMarkedType');
     });
   }
 
-  QueryBuilder<Settings, int, QQueryOperations>
+  QueryBuilder<Settings, int?, QQueryOperations>
   libraryFilterAnimeDownloadTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryFilterAnimeDownloadType');
     });
   }
 
-  QueryBuilder<Settings, int, QQueryOperations>
+  QueryBuilder<Settings, int?, QQueryOperations>
   libraryFilterAnimeStartedTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryFilterAnimeStartedType');
     });
   }
 
-  QueryBuilder<Settings, int, QQueryOperations>
+  QueryBuilder<Settings, int?, QQueryOperations>
   libraryFilterAnimeUnreadTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryFilterAnimeUnreadType');
     });
   }
 
-  QueryBuilder<Settings, int, QQueryOperations>
+  QueryBuilder<Settings, int?, QQueryOperations>
   libraryFilterMangasBookMarkedTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryFilterMangasBookMarkedType');
     });
   }
 
-  QueryBuilder<Settings, int, QQueryOperations>
+  QueryBuilder<Settings, int?, QQueryOperations>
   libraryFilterMangasDownloadTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryFilterMangasDownloadType');
     });
   }
 
-  QueryBuilder<Settings, int, QQueryOperations>
+  QueryBuilder<Settings, int?, QQueryOperations>
   libraryFilterMangasStartedTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryFilterMangasStartedType');
     });
   }
 
-  QueryBuilder<Settings, int, QQueryOperations>
+  QueryBuilder<Settings, int?, QQueryOperations>
   libraryFilterMangasUnreadTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryFilterMangasUnreadType');
     });
   }
 
-  QueryBuilder<Settings, int, QQueryOperations>
+  QueryBuilder<Settings, int?, QQueryOperations>
   libraryFilterNovelBookMarkedTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryFilterNovelBookMarkedType');
     });
   }
 
-  QueryBuilder<Settings, int, QQueryOperations>
+  QueryBuilder<Settings, int?, QQueryOperations>
   libraryFilterNovelDownloadTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryFilterNovelDownloadType');
     });
   }
 
-  QueryBuilder<Settings, int, QQueryOperations>
+  QueryBuilder<Settings, int?, QQueryOperations>
   libraryFilterNovelStartedTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryFilterNovelStartedType');
     });
   }
 
-  QueryBuilder<Settings, int, QQueryOperations>
+  QueryBuilder<Settings, int?, QQueryOperations>
   libraryFilterNovelUnreadTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryFilterNovelUnreadType');

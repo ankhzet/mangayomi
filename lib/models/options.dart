@@ -1,4 +1,4 @@
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 
 abstract interface class OfManga {
   static bool Function(T element) isManga<T extends OfManga>(int id) =>

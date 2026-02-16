@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/dto/preload_task.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/manga/reader/images_slice.dart';
 import 'package:photo_view/photo_view.dart';

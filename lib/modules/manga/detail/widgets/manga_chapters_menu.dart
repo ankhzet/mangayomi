@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/manga.dart';
-import 'package:mangayomi/modules/manga/detail/chapter_filters.dart';
-import 'package:mangayomi/modules/manga/detail/chapter_sort_type.dart';
 import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
 import 'package:mangayomi/modules/widgets/custom_draggable_tabbar.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
@@ -53,8 +51,8 @@ class _MangaChaptersMenuState extends ConsumerState<MangaChaptersMenu>
         Tab(text: l10n.display),
       ],
       children: [
-        ChapterFilters(manga: manga),
-        ChapterSortType(manga: manga),
+        const Center(child: Text("Filters")),
+        const Center(child: Text("Sort")),
         Consumer(
           builder: (context, ref, child) {
             return Column(

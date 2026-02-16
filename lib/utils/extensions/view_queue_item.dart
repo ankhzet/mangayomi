@@ -1,4 +1,4 @@
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 import 'package:mangayomi/models/view_queue_item.dart';
 
 extension ViewQueueIterableUtils on Iterable<ViewQueueItem> {

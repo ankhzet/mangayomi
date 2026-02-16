@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
-import 'package:mangayomi/models/dto/group.dart';
 import 'package:mangayomi/modules/manga/detail/providers/update_periodicity_provider.dart';
 import 'package:mangayomi/modules/updates/widgets/update_queue_list_tile_widget.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';

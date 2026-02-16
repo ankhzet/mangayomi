@@ -59,7 +59,7 @@ class _QueueChaptersWidgetState extends ConsumerState<QueueChaptersWidget> {
           iconSize: 17,
           onPressed: _queueChapter,
           icon: Icon(
-            _isQueued ? Icons.playlist_add_check : Icons.queue_outlined,
+            _isQueued ? Icons.playlist_add_check : Icons.playlist_add,
             color: _isQueued
                 ? Theme.of(context).buttonTheme.colorScheme!.primary
                 : Theme.of(context).iconTheme.color!.withValues(alpha: 0.7),

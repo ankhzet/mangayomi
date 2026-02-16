@@ -509,9 +509,7 @@ Route createRoute({required Widget page}) {
       );
 }
 
-/// A codec that can serialize both [ComplexData1] and [ComplexData2].
 class ExtraCodec extends Codec<Object?, Object?> {
-  /// Create a codec.
   const ExtraCodec();
 
   @override

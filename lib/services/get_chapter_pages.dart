@@ -82,7 +82,7 @@ Future<GetChapterPagesModel> getChapterPages(
 
   if (pageUrls.isNotEmpty || isLocalArchive) {
     final mangaDirectory = await StorageProvider.getMangaMainDirectory(manga);
-    final path = isLocalArchive ? chapter.archivePath! : "$mangaDirectory${chapter.name}.cbz";
+    final path = isLocalArchive ? chapter.archivePath! : "$mangaDirectory/${chapter.name}.cbz";
 
     if (isLocalArchive || (await File(path).exists())) {
       final local = await ref.watch(getArchiveDataFromFileProvider(path).future);
@@ -106,7 +106,7 @@ Future<GetChapterPagesModel> getChapterPages(
 
     // .read() ?
     if (!ref.watch(incognitoModeStateProvider)) {
-      final List<String> urls = pageUrls.map((e) => e.url).toList();
+      final List<String> urls = pageUrls.map((e) => e.url).toList(growable: false);
       final List<String>? headers =
           pageUrls.any((e) => e.headers != null) ? pageUrls.map((e) => jsonEncode(e.headers ?? {})).toList() : null;
 

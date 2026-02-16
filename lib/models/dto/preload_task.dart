@@ -34,5 +34,5 @@ class PreloadTask {
 
   static String filename(int index) => '${padIndex(index + 1)}.jpg';
 
-  static File file(String path, int index) => File('$path${filename(index)}');
+  static File file(String path, int index) => File('$path/${filename(index)}');
 }

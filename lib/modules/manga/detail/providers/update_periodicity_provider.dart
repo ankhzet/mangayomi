@@ -75,7 +75,6 @@ Stream<Iterable<MangaPeriodicity>> updatePeriodicity(
         periodicity.where((item) => !ids.contains(item.manga.id)).followedBy(updated).sorted(comparePeriodicity);
     periodicity = spliced;
 
-    print('emit periodicity');
     return periodicity;
   });
 }
@@ -146,6 +145,10 @@ int _getPeriodicity(Iterable<int> dates) {
       deltas[total++] = delta;
       prev = timestamp;
     }
+  }
+
+  if (total <= 0) {
+    return 0;
   }
 
   deltas.length = total;

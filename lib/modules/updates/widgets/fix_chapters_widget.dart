@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_qjs/quickjs/ffi.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
@@ -82,12 +84,24 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> {
         final List<Chapter> chapters = snapshot.hasData ? snapshot.data! : [];
         final List<Chapter> duplicates = manga.getDuplicateChapters(all: chapters);
         final List<Chapter> unread = manga.getUnreadChapters(update.state, all: chapters);
-        final List<Chapter> ghosts =
-            chapters.where((chapter) => chapter.name == null || chapter.name!.isEmpty).toList();
+        final List<Chapter> ghosts = chapters.where((chapter) => chapter.name == null || chapter.name!.isEmpty).toList();
         final int readUpdates = update.state.length - unread.length;
 
         if (duplicates.isEmpty && ghosts.isEmpty && (readUpdates <= 0) && favorite) {
           return Container();
+        }
+
+        if (kDebugMode) {
+          if (duplicates.isNotEmpty) {
+            print('Duplicates:');
+
+            for (final e in duplicates) {
+              final orig = manga.chapters.firstWhereOrNull((c) => c.isSame(e));
+
+              print('\torig: ${orig?.toJson()}}');
+              print('\tdupl: ${e.toJson()}}');
+            }
+          }
         }
 
         return SizedBox(
@@ -136,7 +150,11 @@ class _ChaptersFixState extends ConsumerState<ChaptersFix> {
 }
 
 Widget _fixWidget(BuildContext context, int items, bool isLoading) {
-  final color = Theme.of(context).iconTheme.color!.withValues(alpha: 0.7);
+  final color = Theme
+      .of(context)
+      .iconTheme
+      .color!
+      .withValues(alpha: 0.7);
 
   return Stack(
     children: [
@@ -162,8 +180,14 @@ Widget _fixWidget(BuildContext context, int items, bool isLoading) {
       Align(
         alignment: const Alignment(2, 2),
         child: Badge(
-            backgroundColor: Theme.of(context).badgeTheme.backgroundColor,
-            textColor: Theme.of(context).badgeTheme.textColor,
+            backgroundColor: Theme
+                .of(context)
+                .badgeTheme
+                .backgroundColor,
+            textColor: Theme
+                .of(context)
+                .badgeTheme
+                .textColor,
             smallSize: 8,
             largeSize: 8,
             padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 2),

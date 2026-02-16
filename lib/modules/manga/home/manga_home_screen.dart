@@ -115,7 +115,7 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
     return switch (_selectedIndex) {
       1 => getLatestUpdatesProvider(source: source, page: page),
       0 => getPopularProvider(source: source, page: page),
-      _ => throw AssertionError('Unknown _selectedIndex: $_selectedIndex'),
+      _ => searchProvider(source: source, query: _query, page: page, filterList: filters),
     };
   }
 

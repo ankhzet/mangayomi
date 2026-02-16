@@ -25,23 +25,6 @@ class ChapterGroup<T> extends Group<Chapter, T> {
   @override
   String get label {
     final List<ChapterCompositeNumber> indexes = state.mapToList((chapter) => chapter.compositeOrder);
-    final volumes = indexes.map((index) => index.$1).toUnique(growable: false)..sort((a, b) => a - b);
-
-    if (volumes.length > 1) {
-      final volumes = indexes.fold<Map<int, List<double>>>({}, (map, index) {
-        final bucket = map[index.$1];
-
-        if (bucket != null) {
-          bucket.add(index.toDouble());
-        } else {
-          map[index.$1] = [index.toDouble()];
-        }
-
-        return map;
-      });
-
-      return volumes.entries.map((entry) => 'Vol. ${entry.key}: ${indexesToStr(entry.value)}').join(', ');
-    }
 
     return 'Ch. ${indexesToStr(indexes.map((index) => index.toDouble()))}';
   }
@@ -78,7 +61,7 @@ List<(double, double)> groupRanges(List<double> indexes) {
   while (++pos < indexes.length) {
     final next = indexes[pos].floor();
 
-    if (next != prev + 1) {
+    if ((next != prev) && (next != prev + 1)) {
       groups.add((indexes[start], indexes[end]));
       start = pos;
     }

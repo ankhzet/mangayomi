@@ -27,7 +27,7 @@ class MDownloader {
   MDownloader({
     required this.chapter,
     required this.pageUrls,
-    this.concurrentDownloads = 15,
+    this.concurrentDownloads = 5,
   });
 
   void _log(String message) {

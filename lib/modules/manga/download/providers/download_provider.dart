@@ -58,7 +58,7 @@ Future<void> downloadChapter(Ref ref, {required Chapter chapter, bool? useWifi})
   final path1 = await StorageProvider.getDownloadsDirectory();
   final finalPath = StorageProvider.getChapterDirectoryRelativePath(chapter);
   final chapterName = chapter.name!.replaceForbiddenCharacters(' ');
-  final directory = Directory("$path1$finalPath");
+  final directory = Directory("$path1/$finalPath");
 
   await directory.create(recursive: true);
 
@@ -167,7 +167,7 @@ Future<void> downloadChapter(Ref ref, {required Chapter chapter, bool? useWifi})
     return;
   }
 
-  final cbzPath = path.join(mangaDir, "${chapter.name}.cbz");
+  final cbzPath = path.join(mangaDir, "$chapterName.cbz");
   final mp4Path = path.join(mangaDir, "$chapterName.mp4");
   final htmlPath = path.join(mangaDir, "$chapterName.html");
 
@@ -180,17 +180,20 @@ Future<void> downloadChapter(Ref ref, {required Chapter chapter, bool? useWifi})
   if (!isCached) {
     List<PageUrl> pages = [];
 
+    final defaultHeaders = (switch (itemType) {
+      ItemType.manga => ref.watch(headersProvider(source: manga.source!, lang: manga.lang!)),
+      ItemType.anime => videoHeaders,
+      ItemType.novel => htmlHeaders,
+    }).map((key, value) => MapEntry(key.toLowerCase(), value));
+
+    defaultHeaders.putIfAbsent(HttpHeaders.userAgentHeader, () => isar.settings.first.userAgent!);
+
     for (final (index, page) in filtered.indexed) {
       final cookie = MClient.getCookiesPref(page.url);
-      final headers = switch (itemType) {
-        ItemType.manga => ref.watch(headersProvider(source: manga.source!, lang: manga.lang!)),
-        ItemType.anime => videoHeaders,
-        ItemType.novel => htmlHeaders,
-      };
+      Map<String, String> headers = {}..addAll(defaultHeaders);
 
       if (cookie.isNotEmpty) {
         headers.addAll(cookie);
-        headers[HttpHeaders.userAgentHeader] = isar.settings.first.userAgent!;
       }
 
       if (page.headers != null) {

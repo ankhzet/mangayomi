@@ -112,6 +112,7 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
     final List<Chapter> chapters = [];
     final List<Chapter> deleted = [];
     final List<Chapter> added = [];
+    final List<Chapter> updated = [];
     final read = oldChapters.where((chapter) => chapter.isRead == true);
     final lastRead = read.fold<Chapter?>(null, (last, chapter) => (last?.compareTo(chapter) == -1 ? last : chapter));
 
@@ -129,7 +130,8 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
           chapters.add(chapter);
           added.add(chapter);
         } else if (similar.isUpdated(chapter) && (null == chapters.firstWhereOrNull((item) => item.isSame(similar)))) {
-          chapters.add(similar);
+          chapters.add(chapter);
+          updated.add(similar);
         }
       }
 
@@ -165,7 +167,8 @@ Future<void> updateMangaDetail(Ref ref, {required int mangaId, required bool isI
         return;
       }
 
-      isar.chapters.putAllSync(chapters);
+      isar.chapters.putAllSync(updated);
+      isar.chapters.putAllSync(added);
 
       if (hadChapters) {
         // not first update AND has new chapters

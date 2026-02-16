@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/models/dto/chapter_group.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/update.dart';
@@ -284,25 +283,17 @@ Widget _updatesTotalNumbers(WidgetRef ref) {
       int count = 0;
 
       if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-        final groups = ChapterGroup.groupChapters(
-          snapshot.data!.map((update) => update.chapter.value).whereType<Chapter>(),
-          (Chapter chapter) => '${chapter.mangaId!}-${chapter.order}',
-        );
+        Map<int?, int> groups = {};
+
+        for (final update in snapshot.data!) {
+          groups[update.mangaId] = (groups[update.mangaId] ?? 0) + 1;
+        }
 
         count = groups.length;
       }
 
       return CountBadge(count: count);
     },
-
-    // builder: (context, snapshot) => UpdateBadge(
-    //   count: snapshot.hasData && snapshot.data!.isNotEmpty
-    //       ? UpdateGroup.groupUpdates(
-    //           snapshot.data!,
-    //           (Update update) => '${update.mangaId!}-${update.chapter.value!.order}',
-    //         ).length
-    //       : 0,
-    // ),
   );
 }
 

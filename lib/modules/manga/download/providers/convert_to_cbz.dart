@@ -13,7 +13,7 @@ Future<List<String>> convertToCBZ(Ref ref, String sourceDir, String targetDir, S
   return compute(_convertToCBZ, (sourceDir, targetDir, archiveName, files));
 }
 
-List<String> _convertToCBZ((String, String, String, int) datas) {
+Future<List<String>> _convertToCBZ((String, String, String, int) datas) async {
   final (sourceDir, targetDir, archiveName, files) = datas;
   final source = Directory(sourceDir);
 
@@ -27,7 +27,7 @@ List<String> _convertToCBZ((String, String, String, int) datas) {
       encoder.create(path.join(targetDir, "$archiveName.cbz"));
 
       for (var image in sorted) {
-        encoder.addFile(image);
+        await encoder.addFile(image);
       }
 
       encoder.close();

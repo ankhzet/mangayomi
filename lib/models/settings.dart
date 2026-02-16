@@ -22,13 +22,6 @@ class Settings {
   @ignore
   LibraryFilter? libraryFilter;
 
-  int? libraryFilterMangasDownloadType;
-
-  int? libraryFilterMangasUnreadType;
-
-  int? libraryFilterMangasStartedType;
-
-  int? libraryFilterMangasBookMarkedType;
 
   bool? libraryShowCategoryTabs;
 
@@ -111,14 +104,6 @@ class Settings {
 
   @enumerated
   late DisplayType animeDisplayType;
-
-  int? libraryFilterAnimeDownloadType;
-
-  int? libraryFilterAnimeUnreadType;
-
-  int? libraryFilterAnimeStartedType;
-
-  int? libraryFilterAnimeBookMarkedType;
 
   bool? animeLibraryShowCategoryTabs;
 
@@ -231,14 +216,6 @@ class Settings {
 
   bool? enableHardwareAcceleration;
 
-  int? libraryFilterNovelDownloadType;
-
-  int? libraryFilterNovelUnreadType;
-
-  int? libraryFilterNovelStartedType;
-
-  int? libraryFilterNovelBookMarkedType;
-
   bool? novelLibraryShowCategoryTabs;
 
   bool? novelLibraryDownloadedChapters;
@@ -323,10 +300,6 @@ class Settings {
     this.id = 227,
     this.updatedAt = 0,
     this.displayType = DisplayType.compactGrid,
-    this.libraryFilterMangasDownloadType = 0,
-    this.libraryFilterMangasUnreadType = 0,
-    this.libraryFilterMangasStartedType = 0,
-    this.libraryFilterMangasBookMarkedType = 0,
     this.libraryShowCategoryTabs = false,
     this.libraryDownloadedChapters = false,
     this.libraryShowLanguage = false,
@@ -361,10 +334,6 @@ class Settings {
     this.libraryLocalSource,
     this.autoExtensionsUpdates = false,
     this.animeDisplayType = DisplayType.compactGrid,
-    this.libraryFilterAnimeDownloadType = 0,
-    this.libraryFilterAnimeUnreadType = 0,
-    this.libraryFilterAnimeStartedType = 0,
-    this.libraryFilterAnimeBookMarkedType = 0,
     this.animeLibraryShowCategoryTabs = false,
     this.animeLibraryDownloadedChapters = false,
     this.animeLibraryShowLanguage = false,
@@ -413,10 +382,6 @@ class Settings {
     this.useLibass = true,
     this.hwdecMode = "auto",
     this.enableHardwareAcceleration,
-    this.libraryFilterNovelDownloadType = 0,
-    this.libraryFilterNovelUnreadType = 0,
-    this.libraryFilterNovelStartedType = 0,
-    this.libraryFilterNovelBookMarkedType = 0,
     this.novelLibraryShowCategoryTabs = false,
     this.novelLibraryDownloadedChapters = false,
     this.novelLibraryShowLanguage = false,
@@ -533,15 +498,6 @@ class Settings {
     libraryFilter = json['libraryFilter'] != null
         ? LibraryFilter.fromJson(json['libraryFilter'])
         : null;
-    libraryFilterAnimeBookMarkedType = json['libraryFilterAnimeBookMarkedType'];
-    libraryFilterAnimeDownloadType = json['libraryFilterAnimeDownloadType'];
-    libraryFilterAnimeStartedType = json['libraryFilterAnimeStartedType'];
-    libraryFilterAnimeUnreadType = json['libraryFilterAnimeUnreadType'];
-    libraryFilterMangasBookMarkedType =
-        json['libraryFilterMangasBookMarkedType'];
-    libraryFilterMangasDownloadType = json['libraryFilterMangasDownloadType'];
-    libraryFilterMangasStartedType = json['libraryFilterMangasStartedType'];
-    libraryFilterMangasUnreadType = json['libraryFilterMangasUnreadType'];
     libraryLocalSource = json['libraryLocalSource'];
     libraryShowCategoryTabs = json['libraryShowCategoryTabs'];
     libraryShowContinueReadingButton = json['libraryShowContinueReadingButton'];
@@ -633,10 +589,6 @@ class Settings {
     useLibass = json['useLibass'];
     hwdecMode = json['hwdecMode'];
     enableHardwareAcceleration = json['enableHardwareAcceleration'];
-    libraryFilterNovelBookMarkedType = json['libraryFilterNovelBookMarkedType'];
-    libraryFilterNovelDownloadType = json['libraryFilterNovelDownloadType'];
-    libraryFilterNovelStartedType = json['libraryFilterNovelStartedType'];
-    libraryFilterNovelUnreadType = json['libraryFilterNovelUnreadType'];
     novelLibraryShowCategoryTabs = json['novelLibraryShowCategoryTabs'];
     novelLibraryDownloadedChapters = json['novelLibraryDownloadedChapters'];
     novelLibraryShowLanguage = json['novelLibraryShowLanguage'];
@@ -767,14 +719,6 @@ class Settings {
     'incognitoMode': incognitoMode,
     'libraryDownloadedChapters': libraryDownloadedChapters,
     'libraryFilter': libraryFilter?.toJson(),
-    'libraryFilterAnimeBookMarkedType': libraryFilterAnimeBookMarkedType,
-    'libraryFilterAnimeDownloadType': libraryFilterAnimeDownloadType,
-    'libraryFilterAnimeStartedType': libraryFilterAnimeStartedType,
-    'libraryFilterAnimeUnreadType': libraryFilterAnimeUnreadType,
-    'libraryFilterMangasBookMarkedType': libraryFilterMangasBookMarkedType,
-    'libraryFilterMangasDownloadType': libraryFilterMangasDownloadType,
-    'libraryFilterMangasStartedType': libraryFilterMangasStartedType,
-    'libraryFilterMangasUnreadType': libraryFilterMangasUnreadType,
     'libraryLocalSource': libraryLocalSource,
     'libraryShowCategoryTabs': libraryShowCategoryTabs,
     'libraryShowContinueReadingButton': libraryShowContinueReadingButton,
@@ -837,10 +781,6 @@ class Settings {
     'useLibass': useLibass,
     'hwdecMode': hwdecMode,
     'enableHardwareAcceleration': enableHardwareAcceleration,
-    'libraryFilterNovelBookMarkedType': libraryFilterNovelBookMarkedType,
-    'libraryFilterNovelDownloadType': libraryFilterNovelDownloadType,
-    'libraryFilterNovelStartedType': libraryFilterNovelStartedType,
-    'libraryFilterNovelUnreadType': libraryFilterNovelUnreadType,
     'novelLibraryShowCategoryTabs': novelLibraryShowCategoryTabs,
     'novelLibraryDownloadedChapters': novelLibraryDownloadedChapters,
     'novelLibraryShowLanguage': novelLibraryShowLanguage,

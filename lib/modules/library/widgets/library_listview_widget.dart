@@ -172,184 +172,7 @@ class LibraryListViewWidget extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(5),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                color: context.primaryColor,
-                              ),
-                              child: SizedBox(
-                                height: 22,
-                                child: Row(
-                                  children: [
-                                    if (localSource && isLocalArchive)
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(3),
-                                            bottomLeft: Radius.circular(3),
-                                          ),
-                                          color: Theme.of(context).hintColor,
-                                        ),
-                                        child: const Padding(
-                                          padding: EdgeInsets.only(
-                                            left: 3,
-                                            right: 3,
-                                          ),
-                                          child: Text(
-                                            "Local",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    if (downloadedChapter)
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          right: 5,
-                                        ),
-                                        child: Consumer(
-                                          builder: (context, ref, child) {
-                                            List nbrDown = [];
-                                            isar.txnSync(() {
-                                              for (
-                                                var i = 0;
-                                                i < entry.chapters.length;
-                                                i++
-                                              ) {
-                                                final entries = isar.downloads
-                                                    .filter()
-                                                    .idEqualTo(
-                                                      entry.chapters
-                                                          .toList()[i]
-                                                          .id,
-                                                    )
-                                                    .findAllSync();
-
-                                                if (entries.isNotEmpty &&
-                                                    entries.first.isDownload!) {
-                                                  nbrDown.add(entries.first);
-                                                }
-                                              }
-                                            });
-                                            if (nbrDown.isNotEmpty) {
-                                              return Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      const BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(3),
-                                                        bottomLeft:
-                                                            Radius.circular(3),
-                                                      ),
-                                                  color: Colors.deepOrange,
-                                                ),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                        left: 3,
-                                                        right: 3,
-                                                      ),
-                                                  child: Text(
-                                                    nbrDown.length.toString(),
-                                                    style: const TextStyle(
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            } else {
-                                              return Container();
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    if (unreadChapter)
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          right: 5,
-                                        ),
-                                        child: Consumer(
-                                          builder: (context, ref, child) {
-                                            int unreadCount = isar.chapters
-                                                .filter()
-                                                .mangaIdEqualTo(entry.id)
-                                                .not()
-                                                .isReadEqualTo(true)
-                                                .countSync();
-                                            if (unreadCount > 0) {
-                                              return Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      const BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(3),
-                                                        bottomLeft:
-                                                            Radius.circular(3),
-                                                      ),
-                                                  color: Colors.yellowAccent,
-                                                ),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                        left: 3,
-                                                        right: 3,
-                                                      ),
-                                                  child: Text(
-                                                    unreadCount.toString(),
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            } else {
-                                              return Container();
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 3),
-                                      child: Text(
-                                        entry.chapters.length.toString(),
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                    if (language && entry.lang!.isNotEmpty)
-                                      Container(
-                                        color: context.primaryColor,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                                  topRight: Radius.circular(3),
-                                                  bottomRight: Radius.circular(
-                                                    3,
-                                                  ),
-                                                ),
-                                            color: Theme.of(context).hintColor,
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                              left: 3,
-                                              right: 3,
-                                            ),
-                                            child: Text(
-                                              entry.lang!.toUpperCase(),
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            child: _badges(context: context, entry: entry),
                           ),
                           if (continueReaderBtn)
                             Consumer(
@@ -474,5 +297,77 @@ class LibraryListViewWidget extends StatelessWidget {
         );
       },
     );
+  }
+
+  String unreadChapters(Manga entry) {
+    int count = isar.chapters
+        .filter()
+        .mangaIdEqualTo(entry.id)
+        .not()
+        .isReadEqualTo(true)
+        .countSync();
+    return count > 0 ? '$count' : '';
+  }
+
+  String downloadedChapters(Manga entry) {
+    int count = isar.downloads
+        .filter()
+        .isDownloadEqualTo(true)
+        .anyOf(
+          entry.chapters.map((chapter) => chapter.id),
+          (q, item) => q.idEqualTo(item),
+        )
+        .countSync();
+    return count > 0 ? '$count' : '';
+  }
+
+  Widget _badges({required BuildContext context, required Manga entry}) {
+    final List<(String, TextStyle?)> samples = [
+      if (localSource && (entry.isLocalArchive ?? false)) ('Local', null),
+      if (downloadedChapter)
+        (downloadedChapters(entry), const TextStyle(color: Colors.deepOrange)),
+      if (unreadChapter)
+        (unreadChapters(entry), const TextStyle(color: Colors.yellowAccent)),
+      ('${entry.chapters.length}', null),
+      if (language && entry.lang!.isNotEmpty)
+        (entry.lang!.toUpperCase(), const TextStyle(color: Colors.green)),
+    ];
+
+    final items = samples.fold<List<Widget>>([], (result, item) {
+      if (item.$1.isEmpty) {
+        return result;
+      }
+
+      if (result.isEmpty) {
+        result.add(_badge(item.$1, style: item.$2));
+      } else {
+        result.add(
+          Padding(
+            padding: const EdgeInsets.only(left: 5),
+            child: _badge(item.$1, style: item.$2),
+          ),
+        );
+      }
+
+      return result;
+    });
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(3),
+        color: context.primaryColor,
+      ),
+      child: SizedBox(
+        height: 22,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 3),
+          child: Row(children: items),
+        ),
+      ),
+    );
+  }
+
+  Widget _badge(String text, {TextStyle? style}) {
+    return Text(text, style: style ?? const TextStyle(color: Colors.white));
   }
 }

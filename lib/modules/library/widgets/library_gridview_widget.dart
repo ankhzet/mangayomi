@@ -144,176 +144,7 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                             left: 0,
                             child: Padding(
                               padding: const EdgeInsets.all(5),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(3),
-                                  color: context.primaryColor,
-                                ),
-                                child: Row(
-                                  children: [
-                                    if (widget.localSource && isLocalArchive)
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(3),
-                                            bottomLeft: Radius.circular(3),
-                                          ),
-                                          color: Theme.of(context).hintColor,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 3,
-                                            right: 3,
-                                          ),
-                                          child: Text(
-                                            "Local",
-                                            style: TextStyle(
-                                              color: context
-                                                  .dynamicBlackWhiteColor,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 5),
-                                      child: Consumer(
-                                        builder: (context, ref, child) {
-                                          List nbrDown = [];
-                                          if (widget.downloadedChapter) {
-                                            isar.txnSync(() {
-                                              for (
-                                                var i = 0;
-                                                i < entry.chapters.length;
-                                                i++
-                                              ) {
-                                                final entries = isar.downloads
-                                                    .filter()
-                                                    .idEqualTo(
-                                                      entry.chapters
-                                                          .toList()[i]
-                                                          .id,
-                                                    )
-                                                    .findAllSync();
-
-                                                if (entries.isNotEmpty &&
-                                                    entries.first.isDownload!) {
-                                                  nbrDown.add(1);
-                                                }
-                                              }
-                                            });
-                                          }
-
-                                          return Row(
-                                            children: [
-                                              if (nbrDown.isNotEmpty &&
-                                                  widget.downloadedChapter)
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        const BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                3,
-                                                              ),
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                3,
-                                                              ),
-                                                        ),
-                                                    color: Colors.deepOrange,
-                                                  ),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                          left: 3,
-                                                          right: 3,
-                                                        ),
-                                                    child: Text(
-                                                      nbrDown.length.toString(),
-                                                      style: const TextStyle(
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              if (widget.unreadChapter)
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                        left: 3,
-                                                      ),
-                                                  child: Consumer(
-                                                    builder: (context, ref, child) {
-                                                      int unreadCount = isar
-                                                          .chapters
-                                                          .filter()
-                                                          .mangaIdEqualTo(
-                                                            entry.id,
-                                                          )
-                                                          .not()
-                                                          .isReadEqualTo(true)
-                                                          .countSync();
-                                                      if (unreadCount > 0) {
-                                                        return Container(
-                                                          decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                const BorderRadius.only(
-                                                                  topLeft:
-                                                                      Radius.circular(
-                                                                        3,
-                                                                      ),
-                                                                  bottomLeft:
-                                                                      Radius.circular(
-                                                                        3,
-                                                                      ),
-                                                                ),
-                                                            color: Colors
-                                                                .yellowAccent,
-                                                          ),
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets.only(
-                                                                  left: 3,
-                                                                  right: 3,
-                                                                ),
-                                                            child: Text(
-                                                              unreadCount
-                                                                  .toString(),
-                                                              style:
-                                                                  const TextStyle(
-                                                                    color: Colors
-                                                                        .black,
-                                                                  ),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      } else {
-                                                        return Container();
-                                                      }
-                                                    },
-                                                  ),
-                                                ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 3,
-                                                ),
-                                                child: Text(
-                                                  entry.chapters.length
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                    color: context
-                                                        .dynamicBlackWhiteColor,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              child: _badges(context: context, entry: entry),
                             ),
                           ),
                           if (widget.language && entry.lang!.isNotEmpty)
@@ -492,5 +323,77 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
     } else {
       ref.read(mangasListStateProvider.notifier).update(entry);
     }
+  }
+
+  String unreadChapters(Manga entry) {
+    int count = isar.chapters
+        .filter()
+        .mangaIdEqualTo(entry.id)
+        .not()
+        .isReadEqualTo(true)
+        .countSync();
+    return count > 0 ? '$count' : '';
+  }
+
+  String downloadedChapters(Manga entry) {
+    int count = isar.downloads
+        .filter()
+        .isDownloadEqualTo(true)
+        .anyOf(
+          entry.chapters.map((chapter) => chapter.id),
+          (q, item) => q.idEqualTo(item),
+        )
+        .countSync();
+    return count > 0 ? '$count' : '';
+  }
+
+  Widget _badges({required BuildContext context, required Manga entry}) {
+    final List<(String, TextStyle?)> samples = [
+      if (widget.localSource && (entry.isLocalArchive ?? false)) ('Local', null),
+      if (widget.downloadedChapter)
+        (downloadedChapters(entry), const TextStyle(color: Colors.deepOrange)),
+      if (widget.unreadChapter)
+        (unreadChapters(entry), const TextStyle(color: Colors.yellowAccent)),
+      ('${entry.chapters.length}', null),
+      if (widget.language && entry.lang!.isNotEmpty)
+        (entry.lang!.toUpperCase(), const TextStyle(color: Colors.green)),
+    ];
+
+    final items = samples.fold<List<Widget>>([], (result, item) {
+      if (item.$1.isEmpty) {
+        return result;
+      }
+
+      if (result.isEmpty) {
+        result.add(_badge(item.$1, style: item.$2));
+      } else {
+        result.add(
+          Padding(
+            padding: const EdgeInsets.only(left: 5),
+            child: _badge(item.$1, style: item.$2),
+          ),
+        );
+      }
+
+      return result;
+    });
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(3),
+        color: context.primaryColor,
+      ),
+      child: SizedBox(
+        height: 22,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 3),
+          child: Row(children: items),
+        ),
+      ),
+    );
+  }
+
+  Widget _badge(String text, {TextStyle? style}) {
+    return Text(text, style: style ?? const TextStyle(color: Colors.white));
   }
 }

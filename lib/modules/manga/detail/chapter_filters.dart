@@ -23,7 +23,7 @@ class _ChapterFiltersState extends ConsumerState<ChapterFilters> {
   @override
   void initState() {
     super.initState();
-    mangaId = widget.manga.id!;
+    mangaId = widget.manga.id;
     isLocalArchive = widget.manga.isLocalArchive ?? false;
   }
 

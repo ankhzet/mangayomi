@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:isar_community/isar.dart';
 import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
-import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -152,7 +150,7 @@ class MangaFilter with Iterable<MangaFilterState> {
         .filter()
         .idIsNotNull()
         .isDownloadEqualTo(true)
-        .anyOf(manga.chapters, (q, chapter) => q.idEqualTo(chapter.id!))
+        .anyOf(manga.chapters, (q, chapter) => q.idEqualTo(chapter.id))
         .limit(1)
         .isNotEmptySync();
   }

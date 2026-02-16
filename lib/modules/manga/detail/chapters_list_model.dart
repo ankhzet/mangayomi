@@ -113,12 +113,12 @@ class ChapterSortModel {
     final int multiplier = sort.inReverse ? -1 : 1;
 
     for (var chapter in chapters) {
-      cache[chapter.id!] = chapter.compositeOrder;
+      cache[chapter.id] = chapter.compositeOrder;
     }
 
     return (Chapter a, Chapter b) {
-      final (_, ac, af) = cache[a.id!]!;
-      final (_, bc, bf) = cache[b.id!]!;
+      final (_, ac, af) = cache[a.id]!;
+      final (_, bc, bf) = cache[b.id]!;
 
       if (ac != bc) {
         return multiplier * (ac < bc ? 1 : -1);
@@ -135,11 +135,11 @@ class ChapterSortModel {
     final int multiplier = sort.inReverse ? -1 : 1;
 
     for (var chapter in chapters) {
-      cache[chapter.id!] = chapter.name?.toLowerCase() ?? '';
+      cache[chapter.id] = chapter.name?.toLowerCase() ?? '';
     }
 
     return (Chapter a, Chapter b) =>
-        multiplier * cache[a.id!]!.compareTo(cache[b.id!]!);
+        multiplier * cache[a.id]!.compareTo(cache[b.id]!);
   }
 
   Comparator<Chapter> compareScanlator(Iterable<Chapter> chapters) {
@@ -147,11 +147,11 @@ class ChapterSortModel {
     final int multiplier = sort.inReverse ? -1 : 1;
 
     for (var chapter in chapters) {
-      cache[chapter.id!] = chapter.scanlator?.toLowerCase() ?? '';
+      cache[chapter.id] = chapter.scanlator?.toLowerCase() ?? '';
     }
 
     return (Chapter a, Chapter b) =>
-        multiplier * cache[a.id!]!.compareTo(cache[b.id!]!);
+        multiplier * cache[a.id]!.compareTo(cache[b.id]!);
   }
 
   Comparator<Chapter> compareDateUpload(Iterable<Chapter> chapters) {
@@ -159,15 +159,15 @@ class ChapterSortModel {
     final int multiplier = sort.inReverse ? -1 : 1;
 
     for (var chapter in chapters) {
-      cache[chapter.id!] =
+      cache[chapter.id] =
           chapter.dateUpload != null && chapter.dateUpload!.isNotEmpty
           ? multiplier * (int.tryParse(chapter.dateUpload!) ?? 0)
           : 0;
     }
 
     return (Chapter a, Chapter b) {
-      int i1 = cache[a.id!]!;
-      int i2 = cache[b.id!]!;
+      int i1 = cache[a.id]!;
+      int i2 = cache[b.id]!;
 
       return switch (i1 - i2) {
         > 0 => 1,

@@ -19,10 +19,9 @@ extension FileFormatter on num {
   String formattedFileSize({bool base1024 = true}) {
     if (this <= 0) return "0.00 B";
     final base = base1024 ? 1024 : 1000;
-    final units =
-        base1024
-            ? ["B", "KiB", "MiB", "GiB", "TiB"]
-            : ["B", "kB", "MB", "GB", "TB"];
+    final units = base1024
+        ? ["B", "KiB", "MiB", "GiB", "TiB"]
+        : ["B", "kB", "MB", "GB", "TB"];
     int digitGroups = (log(this) / log(base)).floor().clamp(
       0,
       units.length - 1,
@@ -81,10 +80,9 @@ extension UChapDataPreloadExtensions on UChapDataPreload {
     if (archiveImage != null) {
       imageBytes = archiveImage;
     } else if (isLocale == true && directory != null && index != null) {
-      imageBytes =
-          File(
-            p.join(directory!.path, "${padIndex(index!)}.jpg"),
-          ).readAsBytesSync();
+      imageBytes = File(
+        p.join(directory!.path, "${padIndex(index!)}.jpg"),
+      ).readAsBytesSync();
     } else {
       File? cachedImage;
       if (pageUrl != null) {
@@ -116,34 +114,34 @@ extension UChapDataPreloadExtensions on UChapDataPreload {
     return cropBorders && data.cropImage != null
         ? ExtendedMemoryImageProvider(data.cropImage!)
         : (isLocale
-                ? archiveImage != null
-                    ? ExtendedMemoryImageProvider(archiveImage)
-                    : ExtendedFileImageProvider(
-                      File(
-                        p.join(
-                          data.directory!.path,
-                          "${padIndex(data.index!)}.jpg",
+                  ? archiveImage != null
+                        ? ExtendedMemoryImageProvider(archiveImage)
+                        : ExtendedFileImageProvider(
+                            File(
+                              p.join(
+                                data.directory!.path,
+                                "${padIndex(data.index!)}.jpg",
+                              ),
+                            ),
+                          )
+                  : CustomExtendedNetworkImageProvider(
+                      data.pageUrl!.url.trim(),
+                      cache: true,
+                      cacheMaxAge: const Duration(days: 7),
+                      showCloudFlareError: showCloudFlareError,
+                      imageCacheFolderName: "cacheimagemanga",
+                      headers: {
+                        ...data.pageUrl!.headers ?? {},
+                        ...ref.watch(
+                          headersProvider(
+                            source: data.chapter!.manga.value!.source!,
+                            lang: data.chapter!.manga.value!.lang!,
+                            sourceId: data.chapter!.manga.value!.sourceId,
+                          ),
                         ),
-                      ),
-                    )
-                : CustomExtendedNetworkImageProvider(
-                  data.pageUrl!.url.trim(),
-                  cache: true,
-                  cacheMaxAge: const Duration(days: 7),
-                  showCloudFlareError: showCloudFlareError,
-                  imageCacheFolderName: "cacheimagemanga",
-                  headers: {
-                    ...data.pageUrl!.headers ?? {},
-                    ...ref.watch(
-                      headersProvider(
-                        source: data.chapter!.manga.value!.source!,
-                        lang: data.chapter!.manga.value!.lang!,
-                        sourceId: data.chapter!.manga.value!.sourceId,
-                      ),
-                    ),
-                  },
-                ))
-            as ImageProvider<Object>;
+                      },
+                    ))
+              as ImageProvider<Object>;
   }
 }
 
@@ -163,4 +161,28 @@ Future<File?> _getCachedImageFile(String url, {String? cacheKey}) async {
     return null;
   }
   return null;
+}
+
+extension Sorted<T> on Iterable<T> {
+  Iterable<T> sorted([int Function(T, T)? compare]) {
+    final list = toList();
+    list.sort(compare);
+    return list;
+  }
+}
+
+extension Waiting on Duration {
+  Future<T> waitFor<T>(Future<T> Function() callback) {
+    bool isReady = false;
+    T? value;
+
+    callback().then((v) {
+      isReady = true;
+      value = v;
+    });
+
+    return Future.doWhile(
+      () => Future.delayed(this, () => !isReady),
+    ).then((void _) => value!);
+  }
 }

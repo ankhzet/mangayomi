@@ -125,21 +125,21 @@ class RouterNotifier extends ChangeNotifier {
         _genericRoute<String?>(
           name: "MangaLibrary",
           builder:
-              (id) => LibraryScreen(itemType: ItemType.manga, presetInput: id),
+              (id) => LibraryScreen(itemType: ItemType.manga),
         ),
         _genericRoute<String?>(
           name: "AnimeLibrary",
           builder:
-              (id) => LibraryScreen(itemType: ItemType.anime, presetInput: id),
+              (id) => LibraryScreen(itemType: ItemType.anime),
         ),
         _genericRoute<String?>(
           name: "NovelLibrary",
           builder:
-              (id) => LibraryScreen(itemType: ItemType.novel, presetInput: id),
+              (id) => LibraryScreen(itemType: ItemType.novel),
         ),
         _genericRoute<String?>(
           name: "trackerLibrary",
-          builder: (id) => TrackerLibraryScreen(presetInput: id),
+          builder: (id) => TrackerLibraryScreen(),
         ),
         _genericRoute(name: "history", child: const HistoryScreen()),
         _genericRoute(name: "updates", child: const UpdatesScreen()),

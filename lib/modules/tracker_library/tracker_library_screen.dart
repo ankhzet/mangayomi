@@ -35,8 +35,7 @@ enum TrackerProviders {
 }
 
 class TrackerLibraryScreen extends ConsumerStatefulWidget {
-  final String? presetInput;
-  const TrackerLibraryScreen({required this.presetInput, super.key});
+  const TrackerLibraryScreen({super.key});
 
   @override
   ConsumerState<TrackerLibraryScreen> createState() =>

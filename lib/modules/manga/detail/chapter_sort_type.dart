@@ -24,7 +24,7 @@ class _ChapterSortTypeState extends ConsumerState<ChapterSortType> {
   @override
   void initState() {
     super.initState();
-    mangaId = widget.manga.id!;
+    mangaId = widget.manga.id;
     isLocalArchive = widget.manga.isLocalArchive ?? false;
   }
 

@@ -20,7 +20,6 @@ import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/track.dart' as track;
 import 'package:mangayomi/models/track_preference.dart';
-import 'package:mangayomi/models/track_search.dart';
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
 import 'package:mangayomi/modules/manga/reader/providers/crop_borders_provider.dart';
 import 'package:mangayomi/modules/more/data_and_storage/providers/storage_usage.dart';
@@ -85,12 +84,10 @@ void main(List<String> args) async {
 Future<void> _postLaunchInit(StorageProvider storage) async {
   await AppLogger.init();
   unawaited(MDownloader.initializeIsolatePool(poolSize: 6));
-  final hivePath =
-      (Platform.isIOS || Platform.isMacOS)
-          ? "databases"
-          : p.join("Mangayomi", "databases");
+  final hivePath = (Platform.isIOS || Platform.isMacOS)
+      ? "databases"
+      : p.join("Mangayomi", "databases");
   await Hive.initFlutter(Platform.isAndroid ? "" : hivePath);
-  Hive.registerAdapter(TrackSearchAdapter());
   if (Platform.isMacOS || Platform.isLinux || Platform.isWindows) {
     discordRpc = DiscordRPC(applicationId: "1395040506677039157");
     await discordRpc?.initialize();
@@ -137,10 +134,9 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     final followSystem = ref.watch(followSystemThemeStateProvider);
     final forcedDark = ref.watch(themeModeStateProvider);
-    final themeMode =
-        followSystem
-            ? ThemeMode.system
-            : (forcedDark ? ThemeMode.dark : ThemeMode.light);
+    final themeMode = followSystem
+        ? ThemeMode.system
+        : (forcedDark ? ThemeMode.dark : ThemeMode.light);
     final locale = ref.watch(l10nLocaleStateProvider);
     final router = ref.watch(routerProvider);
 
@@ -364,8 +360,10 @@ class _MyAppState extends ConsumerState<MyApp> {
   }
 
   Future<void> _checkTrackerRefresh() async {
-    final prefs =
-        await isar.trackPreferences.filter().syncIdIsNotNull().findAll();
+    final prefs = await isar.trackPreferences
+        .filter()
+        .syncIdIsNotNull()
+        .findAll();
     for (final pref in prefs) {
       final temp = track.Track(
         syncId: pref.syncId,

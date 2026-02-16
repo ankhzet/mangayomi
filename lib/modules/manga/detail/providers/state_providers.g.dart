@@ -594,7 +594,7 @@ final class ChapterFilterResultStateProvider
 }
 
 String _$chapterFilterResultStateHash() =>
-    r'ed7adcf7a9d34c3614547735b48789bb004f49cd';
+    r'79b8f5da1de60d7e72338786b284105b0be050a0';
 
 final class ChapterFilterResultStateFamily extends $Family
     with

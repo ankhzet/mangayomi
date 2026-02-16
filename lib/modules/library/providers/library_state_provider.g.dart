@@ -60,7 +60,7 @@ final class LibraryDisplayTypeStateProvider
 }
 
 String _$libraryDisplayTypeStateHash() =>
-    r'459a91429b3d1490347cae4bd062745c5e372f05';
+    r'395cdbf1f2d7d335d099c18439bd575082caeb64';
 
 final class LibraryDisplayTypeStateFamily extends $Family
     with
@@ -167,7 +167,7 @@ final class LibraryGridSizeStateProvider
 }
 
 String _$libraryGridSizeStateHash() =>
-    r'288b58266426aae511454e120d76a7fde7d2899b';
+    r'9c0748259efe8cce423ba4ef9f3a99a73ee3f2de';
 
 final class LibraryGridSizeStateFamily extends $Family
     with
@@ -209,49 +209,47 @@ abstract class _$LibraryGridSizeState extends $Notifier<int?> {
   }
 }
 
-@ProviderFor(MangaFilterDownloadedState)
-final mangaFilterDownloadedStateProvider = MangaFilterDownloadedStateFamily._();
+@ProviderFor(MangaFiltersState)
+final mangaFiltersStateProvider = MangaFiltersStateFamily._();
 
-final class MangaFilterDownloadedStateProvider
-    extends $NotifierProvider<MangaFilterDownloadedState, int> {
-  MangaFilterDownloadedStateProvider._({
-    required MangaFilterDownloadedStateFamily super.from,
-    required ({List<Manga> mangaList, ItemType itemType, Settings settings})
-    super.argument,
+final class MangaFiltersStateProvider
+    extends $NotifierProvider<MangaFiltersState, MangaFilter> {
+  MangaFiltersStateProvider._({
+    required MangaFiltersStateFamily super.from,
+    required ({ItemType itemType, Settings settings}) super.argument,
   }) : super(
          retry: null,
-         name: r'mangaFilterDownloadedStateProvider',
+         name: r'mangaFiltersStateProvider',
          isAutoDispose: true,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
 
   @override
-  String debugGetCreateSourceHash() => _$mangaFilterDownloadedStateHash();
+  String debugGetCreateSourceHash() => _$mangaFiltersStateHash();
 
   @override
   String toString() {
-    return r'mangaFilterDownloadedStateProvider'
+    return r'mangaFiltersStateProvider'
         ''
         '$argument';
   }
 
   @$internal
   @override
-  MangaFilterDownloadedState create() => MangaFilterDownloadedState();
+  MangaFiltersState create() => MangaFiltersState();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(int value) {
+  Override overrideWithValue(MangaFilter value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<int>(value),
+      providerOverride: $SyncValueProvider<MangaFilter>(value),
     );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is MangaFilterDownloadedStateProvider &&
-        other.argument == argument;
+    return other is MangaFiltersStateProvider && other.argument == argument;
   }
 
   @override
@@ -260,435 +258,59 @@ final class MangaFilterDownloadedStateProvider
   }
 }
 
-String _$mangaFilterDownloadedStateHash() =>
-    r'7ede8df99996399e368f5074dc1b3d4d7fa5e649';
+String _$mangaFiltersStateHash() => r'20a9a9ab1b1ba7b9b5ff332da74cf934b35dc28b';
 
-final class MangaFilterDownloadedStateFamily extends $Family
+final class MangaFiltersStateFamily extends $Family
     with
         $ClassFamilyOverride<
-          MangaFilterDownloadedState,
-          int,
-          int,
-          int,
-          ({List<Manga> mangaList, ItemType itemType, Settings settings})
+          MangaFiltersState,
+          MangaFilter,
+          MangaFilter,
+          MangaFilter,
+          ({ItemType itemType, Settings settings})
         > {
-  MangaFilterDownloadedStateFamily._()
+  MangaFiltersStateFamily._()
     : super(
         retry: null,
-        name: r'mangaFilterDownloadedStateProvider',
+        name: r'mangaFiltersStateProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
         isAutoDispose: true,
       );
 
-  MangaFilterDownloadedStateProvider call({
-    required List<Manga> mangaList,
+  MangaFiltersStateProvider call({
     required ItemType itemType,
     required Settings settings,
-  }) => MangaFilterDownloadedStateProvider._(
-    argument: (mangaList: mangaList, itemType: itemType, settings: settings),
+  }) => MangaFiltersStateProvider._(
+    argument: (itemType: itemType, settings: settings),
     from: this,
   );
 
   @override
-  String toString() => r'mangaFilterDownloadedStateProvider';
+  String toString() => r'mangaFiltersStateProvider';
 }
 
-abstract class _$MangaFilterDownloadedState extends $Notifier<int> {
-  late final _$args =
-      ref.$arg
-          as ({List<Manga> mangaList, ItemType itemType, Settings settings});
-  List<Manga> get mangaList => _$args.mangaList;
+abstract class _$MangaFiltersState extends $Notifier<MangaFilter> {
+  late final _$args = ref.$arg as ({ItemType itemType, Settings settings});
   ItemType get itemType => _$args.itemType;
   Settings get settings => _$args.settings;
 
-  int build({
-    required List<Manga> mangaList,
-    required ItemType itemType,
-    required Settings settings,
-  });
+  MangaFilter build({required ItemType itemType, required Settings settings});
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<int, int>;
+    final ref = this.ref as $Ref<MangaFilter, MangaFilter>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
+              AnyNotifier<MangaFilter, MangaFilter>,
+              MangaFilter,
               Object?,
               Object?
             >;
     element.handleCreate(
       ref,
-      () => build(
-        mangaList: _$args.mangaList,
-        itemType: _$args.itemType,
-        settings: _$args.settings,
-      ),
-    );
-  }
-}
-
-@ProviderFor(MangaFilterUnreadState)
-final mangaFilterUnreadStateProvider = MangaFilterUnreadStateFamily._();
-
-final class MangaFilterUnreadStateProvider
-    extends $NotifierProvider<MangaFilterUnreadState, int> {
-  MangaFilterUnreadStateProvider._({
-    required MangaFilterUnreadStateFamily super.from,
-    required ({List<Manga> mangaList, ItemType itemType, Settings settings})
-    super.argument,
-  }) : super(
-         retry: null,
-         name: r'mangaFilterUnreadStateProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
-
-  @override
-  String debugGetCreateSourceHash() => _$mangaFilterUnreadStateHash();
-
-  @override
-  String toString() {
-    return r'mangaFilterUnreadStateProvider'
-        ''
-        '$argument';
-  }
-
-  @$internal
-  @override
-  MangaFilterUnreadState create() => MangaFilterUnreadState();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(int value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<int>(value),
-    );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is MangaFilterUnreadStateProvider &&
-        other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
-}
-
-String _$mangaFilterUnreadStateHash() =>
-    r'2bcea3aaccd923e415738d51511c0966a93a2900';
-
-final class MangaFilterUnreadStateFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          MangaFilterUnreadState,
-          int,
-          int,
-          int,
-          ({List<Manga> mangaList, ItemType itemType, Settings settings})
-        > {
-  MangaFilterUnreadStateFamily._()
-    : super(
-        retry: null,
-        name: r'mangaFilterUnreadStateProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  MangaFilterUnreadStateProvider call({
-    required List<Manga> mangaList,
-    required ItemType itemType,
-    required Settings settings,
-  }) => MangaFilterUnreadStateProvider._(
-    argument: (mangaList: mangaList, itemType: itemType, settings: settings),
-    from: this,
-  );
-
-  @override
-  String toString() => r'mangaFilterUnreadStateProvider';
-}
-
-abstract class _$MangaFilterUnreadState extends $Notifier<int> {
-  late final _$args =
-      ref.$arg
-          as ({List<Manga> mangaList, ItemType itemType, Settings settings});
-  List<Manga> get mangaList => _$args.mangaList;
-  ItemType get itemType => _$args.itemType;
-  Settings get settings => _$args.settings;
-
-  int build({
-    required List<Manga> mangaList,
-    required ItemType itemType,
-    required Settings settings,
-  });
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(
-      ref,
-      () => build(
-        mangaList: _$args.mangaList,
-        itemType: _$args.itemType,
-        settings: _$args.settings,
-      ),
-    );
-  }
-}
-
-@ProviderFor(MangaFilterStartedState)
-final mangaFilterStartedStateProvider = MangaFilterStartedStateFamily._();
-
-final class MangaFilterStartedStateProvider
-    extends $NotifierProvider<MangaFilterStartedState, int> {
-  MangaFilterStartedStateProvider._({
-    required MangaFilterStartedStateFamily super.from,
-    required ({List<Manga> mangaList, ItemType itemType, Settings settings})
-    super.argument,
-  }) : super(
-         retry: null,
-         name: r'mangaFilterStartedStateProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
-
-  @override
-  String debugGetCreateSourceHash() => _$mangaFilterStartedStateHash();
-
-  @override
-  String toString() {
-    return r'mangaFilterStartedStateProvider'
-        ''
-        '$argument';
-  }
-
-  @$internal
-  @override
-  MangaFilterStartedState create() => MangaFilterStartedState();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(int value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<int>(value),
-    );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is MangaFilterStartedStateProvider &&
-        other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
-}
-
-String _$mangaFilterStartedStateHash() =>
-    r'7546110e32fe4eac49006ce3c721d8f72a2b3128';
-
-final class MangaFilterStartedStateFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          MangaFilterStartedState,
-          int,
-          int,
-          int,
-          ({List<Manga> mangaList, ItemType itemType, Settings settings})
-        > {
-  MangaFilterStartedStateFamily._()
-    : super(
-        retry: null,
-        name: r'mangaFilterStartedStateProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  MangaFilterStartedStateProvider call({
-    required List<Manga> mangaList,
-    required ItemType itemType,
-    required Settings settings,
-  }) => MangaFilterStartedStateProvider._(
-    argument: (mangaList: mangaList, itemType: itemType, settings: settings),
-    from: this,
-  );
-
-  @override
-  String toString() => r'mangaFilterStartedStateProvider';
-}
-
-abstract class _$MangaFilterStartedState extends $Notifier<int> {
-  late final _$args =
-      ref.$arg
-          as ({List<Manga> mangaList, ItemType itemType, Settings settings});
-  List<Manga> get mangaList => _$args.mangaList;
-  ItemType get itemType => _$args.itemType;
-  Settings get settings => _$args.settings;
-
-  int build({
-    required List<Manga> mangaList,
-    required ItemType itemType,
-    required Settings settings,
-  });
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(
-      ref,
-      () => build(
-        mangaList: _$args.mangaList,
-        itemType: _$args.itemType,
-        settings: _$args.settings,
-      ),
-    );
-  }
-}
-
-@ProviderFor(MangaFilterBookmarkedState)
-final mangaFilterBookmarkedStateProvider = MangaFilterBookmarkedStateFamily._();
-
-final class MangaFilterBookmarkedStateProvider
-    extends $NotifierProvider<MangaFilterBookmarkedState, int> {
-  MangaFilterBookmarkedStateProvider._({
-    required MangaFilterBookmarkedStateFamily super.from,
-    required ({List<Manga> mangaList, ItemType itemType, Settings settings})
-    super.argument,
-  }) : super(
-         retry: null,
-         name: r'mangaFilterBookmarkedStateProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
-
-  @override
-  String debugGetCreateSourceHash() => _$mangaFilterBookmarkedStateHash();
-
-  @override
-  String toString() {
-    return r'mangaFilterBookmarkedStateProvider'
-        ''
-        '$argument';
-  }
-
-  @$internal
-  @override
-  MangaFilterBookmarkedState create() => MangaFilterBookmarkedState();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(int value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<int>(value),
-    );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is MangaFilterBookmarkedStateProvider &&
-        other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
-}
-
-String _$mangaFilterBookmarkedStateHash() =>
-    r'77e5317ee6504667e001e43c549f0ee5abd3ed53';
-
-final class MangaFilterBookmarkedStateFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          MangaFilterBookmarkedState,
-          int,
-          int,
-          int,
-          ({List<Manga> mangaList, ItemType itemType, Settings settings})
-        > {
-  MangaFilterBookmarkedStateFamily._()
-    : super(
-        retry: null,
-        name: r'mangaFilterBookmarkedStateProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  MangaFilterBookmarkedStateProvider call({
-    required List<Manga> mangaList,
-    required ItemType itemType,
-    required Settings settings,
-  }) => MangaFilterBookmarkedStateProvider._(
-    argument: (mangaList: mangaList, itemType: itemType, settings: settings),
-    from: this,
-  );
-
-  @override
-  String toString() => r'mangaFilterBookmarkedStateProvider';
-}
-
-abstract class _$MangaFilterBookmarkedState extends $Notifier<int> {
-  late final _$args =
-      ref.$arg
-          as ({List<Manga> mangaList, ItemType itemType, Settings settings});
-  List<Manga> get mangaList => _$args.mangaList;
-  ItemType get itemType => _$args.itemType;
-  Settings get settings => _$args.settings;
-
-  int build({
-    required List<Manga> mangaList,
-    required ItemType itemType,
-    required Settings settings,
-  });
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(
-      ref,
-      () => build(
-        mangaList: _$args.mangaList,
-        itemType: _$args.itemType,
-        settings: _$args.settings,
-      ),
+      () => build(itemType: _$args.itemType, settings: _$args.settings),
     );
   }
 }
@@ -700,8 +322,7 @@ final class MangasFilterResultStateProvider
     extends $NotifierProvider<MangasFilterResultState, bool> {
   MangasFilterResultStateProvider._({
     required MangasFilterResultStateFamily super.from,
-    required ({List<Manga> mangaList, ItemType itemType, Settings settings})
-    super.argument,
+    required ({ItemType itemType, Settings settings}) super.argument,
   }) : super(
          retry: null,
          name: r'mangasFilterResultStateProvider',
@@ -745,7 +366,7 @@ final class MangasFilterResultStateProvider
 }
 
 String _$mangasFilterResultStateHash() =>
-    r'c6f916c35e9b7125ba073d09aa6838605b933b20';
+    r'a01bc6668724e3f9336c6c86392bcf5c209f16c7';
 
 final class MangasFilterResultStateFamily extends $Family
     with
@@ -754,7 +375,7 @@ final class MangasFilterResultStateFamily extends $Family
           bool,
           bool,
           bool,
-          ({List<Manga> mangaList, ItemType itemType, Settings settings})
+          ({ItemType itemType, Settings settings})
         > {
   MangasFilterResultStateFamily._()
     : super(
@@ -766,11 +387,10 @@ final class MangasFilterResultStateFamily extends $Family
       );
 
   MangasFilterResultStateProvider call({
-    required List<Manga> mangaList,
     required ItemType itemType,
     required Settings settings,
   }) => MangasFilterResultStateProvider._(
-    argument: (mangaList: mangaList, itemType: itemType, settings: settings),
+    argument: (itemType: itemType, settings: settings),
     from: this,
   );
 
@@ -779,18 +399,11 @@ final class MangasFilterResultStateFamily extends $Family
 }
 
 abstract class _$MangasFilterResultState extends $Notifier<bool> {
-  late final _$args =
-      ref.$arg
-          as ({List<Manga> mangaList, ItemType itemType, Settings settings});
-  List<Manga> get mangaList => _$args.mangaList;
+  late final _$args = ref.$arg as ({ItemType itemType, Settings settings});
   ItemType get itemType => _$args.itemType;
   Settings get settings => _$args.settings;
 
-  bool build({
-    required List<Manga> mangaList,
-    required ItemType itemType,
-    required Settings settings,
-  });
+  bool build({required ItemType itemType, required Settings settings});
   @$mustCallSuper
   @override
   void runBuild() {
@@ -805,11 +418,7 @@ abstract class _$MangasFilterResultState extends $Notifier<bool> {
             >;
     element.handleCreate(
       ref,
-      () => build(
-        mangaList: _$args.mangaList,
-        itemType: _$args.itemType,
-        settings: _$args.settings,
-      ),
+      () => build(itemType: _$args.itemType, settings: _$args.settings),
     );
   }
 }
@@ -866,7 +475,7 @@ final class LibraryShowCategoryTabsStateProvider
 }
 
 String _$libraryShowCategoryTabsStateHash() =>
-    r'0bdaf08a47247175aea9ca1fe515b6c347c27c61';
+    r'59bbef3139c88b91e54c743dfd6fbd7f8090ab0d';
 
 final class LibraryShowCategoryTabsStateFamily extends $Family
     with
@@ -975,7 +584,7 @@ final class LibraryDownloadedChaptersStateProvider
 }
 
 String _$libraryDownloadedChaptersStateHash() =>
-    r'ac9868c3cda2c6a9097d9c4c8a6fd0a78edffe26';
+    r'87552c70dbe83509a4e7d2940b4e5e3a2d1bbe43';
 
 final class LibraryDownloadedChaptersStateFamily extends $Family
     with
@@ -1008,6 +617,114 @@ final class LibraryDownloadedChaptersStateFamily extends $Family
 }
 
 abstract class _$LibraryDownloadedChaptersState extends $Notifier<bool> {
+  late final _$args = ref.$arg as ({ItemType itemType, Settings settings});
+  ItemType get itemType => _$args.itemType;
+  Settings get settings => _$args.settings;
+
+  bool build({required ItemType itemType, required Settings settings});
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<bool, bool>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(
+      ref,
+      () => build(itemType: _$args.itemType, settings: _$args.settings),
+    );
+  }
+}
+
+@ProviderFor(LibraryUnreadChaptersState)
+final libraryUnreadChaptersStateProvider = LibraryUnreadChaptersStateFamily._();
+
+final class LibraryUnreadChaptersStateProvider
+    extends $NotifierProvider<LibraryUnreadChaptersState, bool> {
+  LibraryUnreadChaptersStateProvider._({
+    required LibraryUnreadChaptersStateFamily super.from,
+    required ({ItemType itemType, Settings settings}) super.argument,
+  }) : super(
+         retry: null,
+         name: r'libraryUnreadChaptersStateProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$libraryUnreadChaptersStateHash();
+
+  @override
+  String toString() {
+    return r'libraryUnreadChaptersStateProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  LibraryUnreadChaptersState create() => LibraryUnreadChaptersState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is LibraryUnreadChaptersStateProvider &&
+        other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$libraryUnreadChaptersStateHash() =>
+    r'5835430b88d7903f83932cd6c9e0a07c97c4cae0';
+
+final class LibraryUnreadChaptersStateFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          LibraryUnreadChaptersState,
+          bool,
+          bool,
+          bool,
+          ({ItemType itemType, Settings settings})
+        > {
+  LibraryUnreadChaptersStateFamily._()
+    : super(
+        retry: null,
+        name: r'libraryUnreadChaptersStateProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  LibraryUnreadChaptersStateProvider call({
+    required ItemType itemType,
+    required Settings settings,
+  }) => LibraryUnreadChaptersStateProvider._(
+    argument: (itemType: itemType, settings: settings),
+    from: this,
+  );
+
+  @override
+  String toString() => r'libraryUnreadChaptersStateProvider';
+}
+
+abstract class _$LibraryUnreadChaptersState extends $Notifier<bool> {
   late final _$args = ref.$arg as ({ItemType itemType, Settings settings});
   ItemType get itemType => _$args.itemType;
   Settings get settings => _$args.settings;
@@ -1082,7 +799,7 @@ final class LibraryLanguageStateProvider
 }
 
 String _$libraryLanguageStateHash() =>
-    r'3673dceb22d4220347f104efa31a2e5ecb0e5fb9';
+    r'8d65ce133148f78fb604fc07f2914343ad2edf2a';
 
 final class LibraryLanguageStateFamily extends $Family
     with
@@ -1190,7 +907,7 @@ final class LibraryLocalSourceStateProvider
 }
 
 String _$libraryLocalSourceStateHash() =>
-    r'4a1beb1f43cd4023f848f9d76731c3095236a148';
+    r'4b632da7d310c540bfb047c47ade2681c5a6554f';
 
 final class LibraryLocalSourceStateFamily extends $Family
     with
@@ -1299,7 +1016,7 @@ final class LibraryShowNumbersOfItemsStateProvider
 }
 
 String _$libraryShowNumbersOfItemsStateHash() =>
-    r'040768e98505577b85e52b5e5f6ae6915de1b222';
+    r'ad8a3a975ea05020aaa5a9b2f4ffd34323b1ee6e';
 
 final class LibraryShowNumbersOfItemsStateFamily extends $Family
     with
@@ -1410,7 +1127,7 @@ final class LibraryShowContinueReadingButtonStateProvider
 }
 
 String _$libraryShowContinueReadingButtonStateHash() =>
-    r'e85d6a904a1aed27810aff85f55701da150a8a33';
+    r'd415c6b72f2fc74290f1f8600ef859312dd0db2b';
 
 final class LibraryShowContinueReadingButtonStateFamily extends $Family
     with
@@ -1517,7 +1234,7 @@ final class SortLibraryMangaStateProvider
 }
 
 String _$sortLibraryMangaStateHash() =>
-    r'9cf913f9ad66fa19fad1d8b86afdcf52d990c5ee';
+    r'8aaa1c25bd707c96d811edb0ef66131196240b96';
 
 final class SortLibraryMangaStateFamily extends $Family
     with
@@ -1609,7 +1326,7 @@ final class MangasListStateProvider
   }
 }
 
-String _$mangasListStateHash() => r'bbd2e3600ec22a774b1774ae3c221815e52bfef6';
+String _$mangasListStateHash() => r'5a3f1a7aec1576af25bd071db4081654fc600b62';
 
 abstract class _$MangasListState extends $Notifier<List<int>> {
   List<int> build();
@@ -1629,6 +1346,59 @@ abstract class _$MangasListState extends $Notifier<List<int>> {
   }
 }
 
+@ProviderFor(IsLongPressedMangaState)
+final isLongPressedMangaStateProvider = IsLongPressedMangaStateProvider._();
+
+final class IsLongPressedMangaStateProvider
+    extends $NotifierProvider<IsLongPressedMangaState, bool> {
+  IsLongPressedMangaStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'isLongPressedMangaStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$isLongPressedMangaStateHash();
+
+  @$internal
+  @override
+  IsLongPressedMangaState create() => IsLongPressedMangaState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$isLongPressedMangaStateHash() =>
+    r'f77076b0335e92df26a75ea0c338d4214a330184';
+
+abstract class _$IsLongPressedMangaState extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<bool, bool>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
 @ProviderFor(MangasSetIsReadState)
 final mangasSetIsReadStateProvider = MangasSetIsReadStateFamily._();
 
@@ -1636,7 +1406,7 @@ final class MangasSetIsReadStateProvider
     extends $NotifierProvider<MangasSetIsReadState, void> {
   MangasSetIsReadStateProvider._({
     required MangasSetIsReadStateFamily super.from,
-    required ({List<int> mangaIds, bool markAsRead}) super.argument,
+    required List<int> super.argument,
   }) : super(
          retry: null,
          name: r'mangasSetIsReadStateProvider',
@@ -1652,7 +1422,7 @@ final class MangasSetIsReadStateProvider
   String toString() {
     return r'mangasSetIsReadStateProvider'
         ''
-        '$argument';
+        '($argument)';
   }
 
   @$internal
@@ -1679,7 +1449,7 @@ final class MangasSetIsReadStateProvider
 }
 
 String _$mangasSetIsReadStateHash() =>
-    r'2a1b1005e2ed5068d36188a3fb969d21b64bfef6';
+    r'44ccdd3ba522c2ad479c50f2e8ce74562991e18c';
 
 final class MangasSetIsReadStateFamily extends $Family
     with
@@ -1688,7 +1458,7 @@ final class MangasSetIsReadStateFamily extends $Family
           void,
           void,
           void,
-          ({List<int> mangaIds, bool markAsRead})
+          List<int>
         > {
   MangasSetIsReadStateFamily._()
     : super(
@@ -1699,24 +1469,18 @@ final class MangasSetIsReadStateFamily extends $Family
         isAutoDispose: true,
       );
 
-  MangasSetIsReadStateProvider call({
-    required List<int> mangaIds,
-    required bool markAsRead,
-  }) => MangasSetIsReadStateProvider._(
-    argument: (mangaIds: mangaIds, markAsRead: markAsRead),
-    from: this,
-  );
+  MangasSetIsReadStateProvider call({required List<int> mangaIds}) =>
+      MangasSetIsReadStateProvider._(argument: mangaIds, from: this);
 
   @override
   String toString() => r'mangasSetIsReadStateProvider';
 }
 
 abstract class _$MangasSetIsReadState extends $Notifier<void> {
-  late final _$args = ref.$arg as ({List<int> mangaIds, bool markAsRead});
-  List<int> get mangaIds => _$args.mangaIds;
-  bool get markAsRead => _$args.markAsRead;
+  late final _$args = ref.$arg as List<int>;
+  List<int> get mangaIds => _$args;
 
-  void build({required List<int> mangaIds, required bool markAsRead});
+  void build({required List<int> mangaIds});
   @$mustCallSuper
   @override
   void runBuild() {
@@ -1729,9 +1493,104 @@ abstract class _$MangasSetIsReadState extends $Notifier<void> {
               Object?,
               Object?
             >;
-    element.handleCreate(
-      ref,
-      () => build(mangaIds: _$args.mangaIds, markAsRead: _$args.markAsRead),
+    element.handleCreate(ref, () => build(mangaIds: _$args));
+  }
+}
+
+@ProviderFor(MangasSetUnReadState)
+final mangasSetUnReadStateProvider = MangasSetUnReadStateFamily._();
+
+final class MangasSetUnReadStateProvider
+    extends $NotifierProvider<MangasSetUnReadState, void> {
+  MangasSetUnReadStateProvider._({
+    required MangasSetUnReadStateFamily super.from,
+    required List<int> super.argument,
+  }) : super(
+         retry: null,
+         name: r'mangasSetUnReadStateProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$mangasSetUnReadStateHash();
+
+  @override
+  String toString() {
+    return r'mangasSetUnReadStateProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  MangasSetUnReadState create() => MangasSetUnReadState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(void value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<void>(value),
     );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is MangasSetUnReadStateProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$mangasSetUnReadStateHash() =>
+    r'a5303cc9fa47d4fa778be5ec90da002cf099ebf3';
+
+final class MangasSetUnReadStateFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          MangasSetUnReadState,
+          void,
+          void,
+          void,
+          List<int>
+        > {
+  MangasSetUnReadStateFamily._()
+    : super(
+        retry: null,
+        name: r'mangasSetUnReadStateProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  MangasSetUnReadStateProvider call({required List<int> mangaIds}) =>
+      MangasSetUnReadStateProvider._(argument: mangaIds, from: this);
+
+  @override
+  String toString() => r'mangasSetUnReadStateProvider';
+}
+
+abstract class _$MangasSetUnReadState extends $Notifier<void> {
+  late final _$args = ref.$arg as List<int>;
+  List<int> get mangaIds => _$args;
+
+  void build({required List<int> mangaIds});
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<void, void>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<void, void>,
+              void,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, () => build(mangaIds: _$args));
   }
 }

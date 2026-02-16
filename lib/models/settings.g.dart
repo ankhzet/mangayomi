@@ -419,377 +419,317 @@ const SettingsSchema = CollectionSchema(
       name: r'libraryDownloadedChapters',
       type: IsarType.bool,
     ),
-    r'libraryFilterAnimeBookMarkedType': PropertySchema(
-      id: 74,
-      name: r'libraryFilterAnimeBookMarkedType',
-      type: IsarType.long,
-    ),
-    r'libraryFilterAnimeDownloadType': PropertySchema(
-      id: 75,
-      name: r'libraryFilterAnimeDownloadType',
-      type: IsarType.long,
-    ),
-    r'libraryFilterAnimeStartedType': PropertySchema(
-      id: 76,
-      name: r'libraryFilterAnimeStartedType',
-      type: IsarType.long,
-    ),
-    r'libraryFilterAnimeUnreadType': PropertySchema(
-      id: 77,
-      name: r'libraryFilterAnimeUnreadType',
-      type: IsarType.long,
-    ),
-    r'libraryFilterMangasBookMarkedType': PropertySchema(
-      id: 78,
-      name: r'libraryFilterMangasBookMarkedType',
-      type: IsarType.long,
-    ),
-    r'libraryFilterMangasDownloadType': PropertySchema(
-      id: 79,
-      name: r'libraryFilterMangasDownloadType',
-      type: IsarType.long,
-    ),
-    r'libraryFilterMangasStartedType': PropertySchema(
-      id: 80,
-      name: r'libraryFilterMangasStartedType',
-      type: IsarType.long,
-    ),
-    r'libraryFilterMangasUnreadType': PropertySchema(
-      id: 81,
-      name: r'libraryFilterMangasUnreadType',
-      type: IsarType.long,
-    ),
-    r'libraryFilterNovelBookMarkedType': PropertySchema(
-      id: 82,
-      name: r'libraryFilterNovelBookMarkedType',
-      type: IsarType.long,
-    ),
-    r'libraryFilterNovelDownloadType': PropertySchema(
-      id: 83,
-      name: r'libraryFilterNovelDownloadType',
-      type: IsarType.long,
-    ),
-    r'libraryFilterNovelStartedType': PropertySchema(
-      id: 84,
-      name: r'libraryFilterNovelStartedType',
-      type: IsarType.long,
-    ),
-    r'libraryFilterNovelUnreadType': PropertySchema(
-      id: 85,
-      name: r'libraryFilterNovelUnreadType',
-      type: IsarType.long,
-    ),
     r'libraryLocalSource': PropertySchema(
-      id: 86,
+      id: 74,
       name: r'libraryLocalSource',
       type: IsarType.bool,
     ),
     r'libraryShowCategoryTabs': PropertySchema(
-      id: 87,
+      id: 75,
       name: r'libraryShowCategoryTabs',
       type: IsarType.bool,
     ),
     r'libraryShowContinueReadingButton': PropertySchema(
-      id: 88,
+      id: 76,
       name: r'libraryShowContinueReadingButton',
       type: IsarType.bool,
     ),
     r'libraryShowLanguage': PropertySchema(
-      id: 89,
+      id: 77,
       name: r'libraryShowLanguage',
       type: IsarType.bool,
     ),
     r'libraryShowNumbersOfItems': PropertySchema(
-      id: 90,
+      id: 78,
       name: r'libraryShowNumbersOfItems',
       type: IsarType.bool,
     ),
     r'localFolders': PropertySchema(
-      id: 91,
+      id: 79,
       name: r'localFolders',
       type: IsarType.stringList,
     ),
     r'locale': PropertySchema(
-      id: 92,
+      id: 80,
       name: r'locale',
       type: IsarType.object,
 
       target: r'L10nLocale',
     ),
     r'mangaExtensionsRepo': PropertySchema(
-      id: 93,
+      id: 81,
       name: r'mangaExtensionsRepo',
       type: IsarType.objectList,
 
       target: r'Repo',
     ),
     r'mangaGridSize': PropertySchema(
-      id: 94,
+      id: 82,
       name: r'mangaGridSize',
       type: IsarType.long,
     ),
     r'mangaHomeDisplayType': PropertySchema(
-      id: 95,
+      id: 83,
       name: r'mangaHomeDisplayType',
       type: IsarType.byte,
       enumMap: _SettingsmangaHomeDisplayTypeEnumValueMap,
     ),
     r'markEpisodeAsSeenType': PropertySchema(
-      id: 96,
+      id: 84,
       name: r'markEpisodeAsSeenType',
       type: IsarType.long,
     ),
     r'mergeLibraryNavMobile': PropertySchema(
-      id: 97,
+      id: 85,
       name: r'mergeLibraryNavMobile',
       type: IsarType.bool,
     ),
     r'navigationOrder': PropertySchema(
-      id: 98,
+      id: 86,
       name: r'navigationOrder',
       type: IsarType.stringList,
     ),
     r'novelDisplayType': PropertySchema(
-      id: 99,
+      id: 87,
       name: r'novelDisplayType',
       type: IsarType.byte,
       enumMap: _SettingsnovelDisplayTypeEnumValueMap,
     ),
     r'novelExtensionsRepo': PropertySchema(
-      id: 100,
+      id: 88,
       name: r'novelExtensionsRepo',
       type: IsarType.objectList,
 
       target: r'Repo',
     ),
     r'novelFontSize': PropertySchema(
-      id: 101,
+      id: 89,
       name: r'novelFontSize',
       type: IsarType.long,
     ),
     r'novelGridSize': PropertySchema(
-      id: 102,
+      id: 90,
       name: r'novelGridSize',
       type: IsarType.long,
     ),
     r'novelLibraryDownloadedChapters': PropertySchema(
-      id: 103,
+      id: 91,
       name: r'novelLibraryDownloadedChapters',
       type: IsarType.bool,
     ),
     r'novelLibraryLocalSource': PropertySchema(
-      id: 104,
+      id: 92,
       name: r'novelLibraryLocalSource',
       type: IsarType.bool,
     ),
     r'novelLibraryShowCategoryTabs': PropertySchema(
-      id: 105,
+      id: 93,
       name: r'novelLibraryShowCategoryTabs',
       type: IsarType.bool,
     ),
     r'novelLibraryShowContinueReadingButton': PropertySchema(
-      id: 106,
+      id: 94,
       name: r'novelLibraryShowContinueReadingButton',
       type: IsarType.bool,
     ),
     r'novelLibraryShowLanguage': PropertySchema(
-      id: 107,
+      id: 95,
       name: r'novelLibraryShowLanguage',
       type: IsarType.bool,
     ),
     r'novelLibraryShowNumbersOfItems': PropertySchema(
-      id: 108,
+      id: 96,
       name: r'novelLibraryShowNumbersOfItems',
       type: IsarType.bool,
     ),
     r'novelReaderLineHeight': PropertySchema(
-      id: 109,
+      id: 97,
       name: r'novelReaderLineHeight',
       type: IsarType.double,
     ),
     r'novelReaderPadding': PropertySchema(
-      id: 110,
+      id: 98,
       name: r'novelReaderPadding',
       type: IsarType.long,
     ),
     r'novelReaderTextColor': PropertySchema(
-      id: 111,
+      id: 99,
       name: r'novelReaderTextColor',
       type: IsarType.string,
     ),
     r'novelReaderTheme': PropertySchema(
-      id: 112,
+      id: 100,
       name: r'novelReaderTheme',
       type: IsarType.string,
     ),
     r'novelRemoveExtraParagraphSpacing': PropertySchema(
-      id: 113,
+      id: 101,
       name: r'novelRemoveExtraParagraphSpacing',
       type: IsarType.bool,
     ),
     r'novelShowScrollPercentage': PropertySchema(
-      id: 114,
+      id: 102,
       name: r'novelShowScrollPercentage',
       type: IsarType.bool,
     ),
     r'novelTapToScroll': PropertySchema(
-      id: 115,
+      id: 103,
       name: r'novelTapToScroll',
       type: IsarType.bool,
     ),
     r'novelTextAlign': PropertySchema(
-      id: 116,
+      id: 104,
       name: r'novelTextAlign',
       type: IsarType.byte,
       enumMap: _SettingsnovelTextAlignEnumValueMap,
     ),
     r'onlyIncludePinnedSources': PropertySchema(
-      id: 117,
+      id: 105,
       name: r'onlyIncludePinnedSources',
       type: IsarType.bool,
     ),
     r'pagePreloadAmount': PropertySchema(
-      id: 118,
+      id: 106,
       name: r'pagePreloadAmount',
       type: IsarType.long,
     ),
     r'personalPageModeList': PropertySchema(
-      id: 119,
+      id: 107,
       name: r'personalPageModeList',
       type: IsarType.objectList,
 
       target: r'PersonalPageMode',
     ),
     r'personalReaderModeList': PropertySchema(
-      id: 120,
+      id: 108,
       name: r'personalReaderModeList',
       type: IsarType.objectList,
 
       target: r'PersonalReaderMode',
     ),
     r'playerSubtitleSettings': PropertySchema(
-      id: 121,
+      id: 109,
       name: r'playerSubtitleSettings',
       type: IsarType.object,
 
       target: r'PlayerSubtitleSettings',
     ),
     r'pureBlackDarkMode': PropertySchema(
-      id: 122,
+      id: 110,
       name: r'pureBlackDarkMode',
       type: IsarType.bool,
     ),
     r'relativeTimesTamps': PropertySchema(
-      id: 123,
+      id: 111,
       name: r'relativeTimesTamps',
       type: IsarType.long,
     ),
     r'rpcShowCoverImage': PropertySchema(
-      id: 124,
+      id: 112,
       name: r'rpcShowCoverImage',
       type: IsarType.bool,
     ),
     r'rpcShowReadingWatchingProgress': PropertySchema(
-      id: 125,
+      id: 113,
       name: r'rpcShowReadingWatchingProgress',
       type: IsarType.bool,
     ),
     r'rpcShowTitle': PropertySchema(
-      id: 126,
+      id: 114,
       name: r'rpcShowTitle',
       type: IsarType.bool,
     ),
     r'saveAsCBZArchive': PropertySchema(
-      id: 127,
+      id: 115,
       name: r'saveAsCBZArchive',
       type: IsarType.bool,
     ),
     r'scaleType': PropertySchema(
-      id: 128,
+      id: 116,
       name: r'scaleType',
       type: IsarType.byte,
       enumMap: _SettingsscaleTypeEnumValueMap,
     ),
     r'showPagesNumber': PropertySchema(
-      id: 129,
+      id: 117,
       name: r'showPagesNumber',
       type: IsarType.bool,
     ),
     r'sortChapterList': PropertySchema(
-      id: 130,
+      id: 118,
       name: r'sortChapterList',
       type: IsarType.objectList,
 
       target: r'SortChapter',
     ),
     r'sortLibraryAnime': PropertySchema(
-      id: 131,
+      id: 119,
       name: r'sortLibraryAnime',
       type: IsarType.object,
 
       target: r'SortLibraryManga',
     ),
     r'sortLibraryManga': PropertySchema(
-      id: 132,
+      id: 120,
       name: r'sortLibraryManga',
       type: IsarType.object,
 
       target: r'SortLibraryManga',
     ),
     r'sortLibraryNovel': PropertySchema(
-      id: 133,
+      id: 121,
       name: r'sortLibraryNovel',
       type: IsarType.object,
 
       target: r'SortLibraryManga',
     ),
     r'startDatebackup': PropertySchema(
-      id: 134,
+      id: 122,
       name: r'startDatebackup',
       type: IsarType.long,
     ),
     r'themeIsDark': PropertySchema(
-      id: 135,
+      id: 123,
       name: r'themeIsDark',
       type: IsarType.bool,
     ),
     r'updateProgressAfterReading': PropertySchema(
-      id: 136,
+      id: 124,
       name: r'updateProgressAfterReading',
       type: IsarType.bool,
     ),
     r'updatedAt': PropertySchema(
-      id: 137,
+      id: 125,
       name: r'updatedAt',
       type: IsarType.long,
     ),
     r'useLibass': PropertySchema(
-      id: 138,
+      id: 126,
       name: r'useLibass',
       type: IsarType.bool,
     ),
     r'useMpvConfig': PropertySchema(
-      id: 139,
+      id: 127,
       name: r'useMpvConfig',
       type: IsarType.bool,
     ),
     r'usePageTapZones': PropertySchema(
-      id: 140,
+      id: 128,
       name: r'usePageTapZones',
       type: IsarType.bool,
     ),
     r'useYUV420P': PropertySchema(
-      id: 141,
+      id: 129,
       name: r'useYUV420P',
       type: IsarType.bool,
     ),
     r'userAgent': PropertySchema(
-      id: 142,
+      id: 130,
       name: r'userAgent',
       type: IsarType.string,
     ),
     r'volumeBoostCap': PropertySchema(
-      id: 143,
+      id: 131,
       name: r'volumeBoostCap',
       type: IsarType.long,
     ),
@@ -1422,126 +1362,114 @@ void _settingsSerialize(
   writer.writeBool(offsets[71], object.incognitoMode);
   writer.writeString(offsets[72], object.lastTrackerLibraryLocation);
   writer.writeBool(offsets[73], object.libraryDownloadedChapters);
-  writer.writeLong(offsets[74], object.libraryFilterAnimeBookMarkedType);
-  writer.writeLong(offsets[75], object.libraryFilterAnimeDownloadType);
-  writer.writeLong(offsets[76], object.libraryFilterAnimeStartedType);
-  writer.writeLong(offsets[77], object.libraryFilterAnimeUnreadType);
-  writer.writeLong(offsets[78], object.libraryFilterMangasBookMarkedType);
-  writer.writeLong(offsets[79], object.libraryFilterMangasDownloadType);
-  writer.writeLong(offsets[80], object.libraryFilterMangasStartedType);
-  writer.writeLong(offsets[81], object.libraryFilterMangasUnreadType);
-  writer.writeLong(offsets[82], object.libraryFilterNovelBookMarkedType);
-  writer.writeLong(offsets[83], object.libraryFilterNovelDownloadType);
-  writer.writeLong(offsets[84], object.libraryFilterNovelStartedType);
-  writer.writeLong(offsets[85], object.libraryFilterNovelUnreadType);
-  writer.writeBool(offsets[86], object.libraryLocalSource);
-  writer.writeBool(offsets[87], object.libraryShowCategoryTabs);
-  writer.writeBool(offsets[88], object.libraryShowContinueReadingButton);
-  writer.writeBool(offsets[89], object.libraryShowLanguage);
-  writer.writeBool(offsets[90], object.libraryShowNumbersOfItems);
-  writer.writeStringList(offsets[91], object.localFolders);
+  writer.writeBool(offsets[74], object.libraryLocalSource);
+  writer.writeBool(offsets[75], object.libraryShowCategoryTabs);
+  writer.writeBool(offsets[76], object.libraryShowContinueReadingButton);
+  writer.writeBool(offsets[77], object.libraryShowLanguage);
+  writer.writeBool(offsets[78], object.libraryShowNumbersOfItems);
+  writer.writeStringList(offsets[79], object.localFolders);
   writer.writeObject<L10nLocale>(
-    offsets[92],
+    offsets[80],
     allOffsets,
     L10nLocaleSchema.serialize,
     object.locale,
   );
   writer.writeObjectList<Repo>(
-    offsets[93],
+    offsets[81],
     allOffsets,
     RepoSchema.serialize,
     object.mangaExtensionsRepo,
   );
-  writer.writeLong(offsets[94], object.mangaGridSize);
-  writer.writeByte(offsets[95], object.mangaHomeDisplayType.index);
-  writer.writeLong(offsets[96], object.markEpisodeAsSeenType);
-  writer.writeBool(offsets[97], object.mergeLibraryNavMobile);
-  writer.writeStringList(offsets[98], object.navigationOrder);
-  writer.writeByte(offsets[99], object.novelDisplayType.index);
+  writer.writeLong(offsets[82], object.mangaGridSize);
+  writer.writeByte(offsets[83], object.mangaHomeDisplayType.index);
+  writer.writeLong(offsets[84], object.markEpisodeAsSeenType);
+  writer.writeBool(offsets[85], object.mergeLibraryNavMobile);
+  writer.writeStringList(offsets[86], object.navigationOrder);
+  writer.writeByte(offsets[87], object.novelDisplayType.index);
   writer.writeObjectList<Repo>(
-    offsets[100],
+    offsets[88],
     allOffsets,
     RepoSchema.serialize,
     object.novelExtensionsRepo,
   );
-  writer.writeLong(offsets[101], object.novelFontSize);
-  writer.writeLong(offsets[102], object.novelGridSize);
-  writer.writeBool(offsets[103], object.novelLibraryDownloadedChapters);
-  writer.writeBool(offsets[104], object.novelLibraryLocalSource);
-  writer.writeBool(offsets[105], object.novelLibraryShowCategoryTabs);
-  writer.writeBool(offsets[106], object.novelLibraryShowContinueReadingButton);
-  writer.writeBool(offsets[107], object.novelLibraryShowLanguage);
-  writer.writeBool(offsets[108], object.novelLibraryShowNumbersOfItems);
-  writer.writeDouble(offsets[109], object.novelReaderLineHeight);
-  writer.writeLong(offsets[110], object.novelReaderPadding);
-  writer.writeString(offsets[111], object.novelReaderTextColor);
-  writer.writeString(offsets[112], object.novelReaderTheme);
-  writer.writeBool(offsets[113], object.novelRemoveExtraParagraphSpacing);
-  writer.writeBool(offsets[114], object.novelShowScrollPercentage);
-  writer.writeBool(offsets[115], object.novelTapToScroll);
-  writer.writeByte(offsets[116], object.novelTextAlign.index);
-  writer.writeBool(offsets[117], object.onlyIncludePinnedSources);
-  writer.writeLong(offsets[118], object.pagePreloadAmount);
+  writer.writeLong(offsets[89], object.novelFontSize);
+  writer.writeLong(offsets[90], object.novelGridSize);
+  writer.writeBool(offsets[91], object.novelLibraryDownloadedChapters);
+  writer.writeBool(offsets[92], object.novelLibraryLocalSource);
+  writer.writeBool(offsets[93], object.novelLibraryShowCategoryTabs);
+  writer.writeBool(offsets[94], object.novelLibraryShowContinueReadingButton);
+  writer.writeBool(offsets[95], object.novelLibraryShowLanguage);
+  writer.writeBool(offsets[96], object.novelLibraryShowNumbersOfItems);
+  writer.writeDouble(offsets[97], object.novelReaderLineHeight);
+  writer.writeLong(offsets[98], object.novelReaderPadding);
+  writer.writeString(offsets[99], object.novelReaderTextColor);
+  writer.writeString(offsets[100], object.novelReaderTheme);
+  writer.writeBool(offsets[101], object.novelRemoveExtraParagraphSpacing);
+  writer.writeBool(offsets[102], object.novelShowScrollPercentage);
+  writer.writeBool(offsets[103], object.novelTapToScroll);
+  writer.writeByte(offsets[104], object.novelTextAlign.index);
+  writer.writeBool(offsets[105], object.onlyIncludePinnedSources);
+  writer.writeLong(offsets[106], object.pagePreloadAmount);
   writer.writeObjectList<PersonalPageMode>(
-    offsets[119],
+    offsets[107],
     allOffsets,
     PersonalPageModeSchema.serialize,
     object.personalPageModeList,
   );
   writer.writeObjectList<PersonalReaderMode>(
-    offsets[120],
+    offsets[108],
     allOffsets,
     PersonalReaderModeSchema.serialize,
     object.personalReaderModeList,
   );
   writer.writeObject<PlayerSubtitleSettings>(
-    offsets[121],
+    offsets[109],
     allOffsets,
     PlayerSubtitleSettingsSchema.serialize,
     object.playerSubtitleSettings,
   );
-  writer.writeBool(offsets[122], object.pureBlackDarkMode);
-  writer.writeLong(offsets[123], object.relativeTimesTamps);
-  writer.writeBool(offsets[124], object.rpcShowCoverImage);
-  writer.writeBool(offsets[125], object.rpcShowReadingWatchingProgress);
-  writer.writeBool(offsets[126], object.rpcShowTitle);
-  writer.writeBool(offsets[127], object.saveAsCBZArchive);
-  writer.writeByte(offsets[128], object.scaleType.index);
-  writer.writeBool(offsets[129], object.showPagesNumber);
+  writer.writeBool(offsets[110], object.pureBlackDarkMode);
+  writer.writeLong(offsets[111], object.relativeTimesTamps);
+  writer.writeBool(offsets[112], object.rpcShowCoverImage);
+  writer.writeBool(offsets[113], object.rpcShowReadingWatchingProgress);
+  writer.writeBool(offsets[114], object.rpcShowTitle);
+  writer.writeBool(offsets[115], object.saveAsCBZArchive);
+  writer.writeByte(offsets[116], object.scaleType.index);
+  writer.writeBool(offsets[117], object.showPagesNumber);
   writer.writeObjectList<SortChapter>(
-    offsets[130],
+    offsets[118],
     allOffsets,
     SortChapterSchema.serialize,
     object.sortChapterList,
   );
   writer.writeObject<SortLibraryManga>(
-    offsets[131],
+    offsets[119],
     allOffsets,
     SortLibraryMangaSchema.serialize,
     object.sortLibraryAnime,
   );
   writer.writeObject<SortLibraryManga>(
-    offsets[132],
+    offsets[120],
     allOffsets,
     SortLibraryMangaSchema.serialize,
     object.sortLibraryManga,
   );
   writer.writeObject<SortLibraryManga>(
-    offsets[133],
+    offsets[121],
     allOffsets,
     SortLibraryMangaSchema.serialize,
     object.sortLibraryNovel,
   );
-  writer.writeLong(offsets[134], object.startDatebackup);
-  writer.writeBool(offsets[135], object.themeIsDark);
-  writer.writeBool(offsets[136], object.updateProgressAfterReading);
-  writer.writeLong(offsets[137], object.updatedAt);
-  writer.writeBool(offsets[138], object.useLibass);
-  writer.writeBool(offsets[139], object.useMpvConfig);
-  writer.writeBool(offsets[140], object.usePageTapZones);
-  writer.writeBool(offsets[141], object.useYUV420P);
-  writer.writeString(offsets[142], object.userAgent);
-  writer.writeLong(offsets[143], object.volumeBoostCap);
+  writer.writeLong(offsets[122], object.startDatebackup);
+  writer.writeBool(offsets[123], object.themeIsDark);
+  writer.writeBool(offsets[124], object.updateProgressAfterReading);
+  writer.writeLong(offsets[125], object.updatedAt);
+  writer.writeBool(offsets[126], object.useLibass);
+  writer.writeBool(offsets[127], object.useMpvConfig);
+  writer.writeBool(offsets[128], object.usePageTapZones);
+  writer.writeBool(offsets[129], object.useYUV420P);
+  writer.writeString(offsets[130], object.userAgent);
+  writer.writeLong(offsets[131], object.volumeBoostCap);
 }
 
 Settings _settingsDeserialize(
@@ -1690,129 +1618,117 @@ Settings _settingsDeserialize(
     incognitoMode: reader.readBoolOrNull(offsets[71]),
     lastTrackerLibraryLocation: reader.readStringOrNull(offsets[72]),
     libraryDownloadedChapters: reader.readBoolOrNull(offsets[73]),
-    libraryFilterAnimeBookMarkedType: reader.readLongOrNull(offsets[74]),
-    libraryFilterAnimeDownloadType: reader.readLongOrNull(offsets[75]),
-    libraryFilterAnimeStartedType: reader.readLongOrNull(offsets[76]),
-    libraryFilterAnimeUnreadType: reader.readLongOrNull(offsets[77]),
-    libraryFilterMangasBookMarkedType: reader.readLongOrNull(offsets[78]),
-    libraryFilterMangasDownloadType: reader.readLongOrNull(offsets[79]),
-    libraryFilterMangasStartedType: reader.readLongOrNull(offsets[80]),
-    libraryFilterMangasUnreadType: reader.readLongOrNull(offsets[81]),
-    libraryFilterNovelBookMarkedType: reader.readLongOrNull(offsets[82]),
-    libraryFilterNovelDownloadType: reader.readLongOrNull(offsets[83]),
-    libraryFilterNovelStartedType: reader.readLongOrNull(offsets[84]),
-    libraryFilterNovelUnreadType: reader.readLongOrNull(offsets[85]),
-    libraryLocalSource: reader.readBoolOrNull(offsets[86]),
-    libraryShowCategoryTabs: reader.readBoolOrNull(offsets[87]),
-    libraryShowContinueReadingButton: reader.readBoolOrNull(offsets[88]),
-    libraryShowLanguage: reader.readBoolOrNull(offsets[89]),
-    libraryShowNumbersOfItems: reader.readBoolOrNull(offsets[90]),
-    localFolders: reader.readStringList(offsets[91]),
+    libraryLocalSource: reader.readBoolOrNull(offsets[74]),
+    libraryShowCategoryTabs: reader.readBoolOrNull(offsets[75]),
+    libraryShowContinueReadingButton: reader.readBoolOrNull(offsets[76]),
+    libraryShowLanguage: reader.readBoolOrNull(offsets[77]),
+    libraryShowNumbersOfItems: reader.readBoolOrNull(offsets[78]),
+    localFolders: reader.readStringList(offsets[79]),
     mangaExtensionsRepo: reader.readObjectList<Repo>(
-      offsets[93],
+      offsets[81],
       RepoSchema.deserialize,
       allOffsets,
       Repo(),
     ),
-    mangaGridSize: reader.readLongOrNull(offsets[94]),
+    mangaGridSize: reader.readLongOrNull(offsets[82]),
     mangaHomeDisplayType:
         _SettingsmangaHomeDisplayTypeValueEnumMap[reader.readByteOrNull(
-          offsets[95],
+          offsets[83],
         )] ??
         DisplayType.comfortableGrid,
-    markEpisodeAsSeenType: reader.readLongOrNull(offsets[96]),
-    mergeLibraryNavMobile: reader.readBoolOrNull(offsets[97]),
-    navigationOrder: reader.readStringList(offsets[98]),
+    markEpisodeAsSeenType: reader.readLongOrNull(offsets[84]),
+    mergeLibraryNavMobile: reader.readBoolOrNull(offsets[85]),
+    navigationOrder: reader.readStringList(offsets[86]),
     novelDisplayType:
         _SettingsnovelDisplayTypeValueEnumMap[reader.readByteOrNull(
-          offsets[99],
+          offsets[87],
         )] ??
         DisplayType.comfortableGrid,
     novelExtensionsRepo: reader.readObjectList<Repo>(
-      offsets[100],
+      offsets[88],
       RepoSchema.deserialize,
       allOffsets,
       Repo(),
     ),
-    novelFontSize: reader.readLongOrNull(offsets[101]),
-    novelLibraryDownloadedChapters: reader.readBoolOrNull(offsets[103]),
-    novelLibraryLocalSource: reader.readBoolOrNull(offsets[104]),
-    novelLibraryShowCategoryTabs: reader.readBoolOrNull(offsets[105]),
-    novelLibraryShowContinueReadingButton: reader.readBoolOrNull(offsets[106]),
-    novelLibraryShowLanguage: reader.readBoolOrNull(offsets[107]),
-    novelLibraryShowNumbersOfItems: reader.readBoolOrNull(offsets[108]),
-    novelReaderLineHeight: reader.readDoubleOrNull(offsets[109]),
-    novelReaderPadding: reader.readLongOrNull(offsets[110]),
-    novelReaderTextColor: reader.readStringOrNull(offsets[111]),
-    novelReaderTheme: reader.readStringOrNull(offsets[112]),
-    novelRemoveExtraParagraphSpacing: reader.readBoolOrNull(offsets[113]),
-    novelShowScrollPercentage: reader.readBoolOrNull(offsets[114]),
-    novelTapToScroll: reader.readBoolOrNull(offsets[115]),
+    novelFontSize: reader.readLongOrNull(offsets[89]),
+    novelLibraryDownloadedChapters: reader.readBoolOrNull(offsets[91]),
+    novelLibraryLocalSource: reader.readBoolOrNull(offsets[92]),
+    novelLibraryShowCategoryTabs: reader.readBoolOrNull(offsets[93]),
+    novelLibraryShowContinueReadingButton: reader.readBoolOrNull(offsets[94]),
+    novelLibraryShowLanguage: reader.readBoolOrNull(offsets[95]),
+    novelLibraryShowNumbersOfItems: reader.readBoolOrNull(offsets[96]),
+    novelReaderLineHeight: reader.readDoubleOrNull(offsets[97]),
+    novelReaderPadding: reader.readLongOrNull(offsets[98]),
+    novelReaderTextColor: reader.readStringOrNull(offsets[99]),
+    novelReaderTheme: reader.readStringOrNull(offsets[100]),
+    novelRemoveExtraParagraphSpacing: reader.readBoolOrNull(offsets[101]),
+    novelShowScrollPercentage: reader.readBoolOrNull(offsets[102]),
+    novelTapToScroll: reader.readBoolOrNull(offsets[103]),
     novelTextAlign:
         _SettingsnovelTextAlignValueEnumMap[reader.readByteOrNull(
-          offsets[116],
+          offsets[104],
         )] ??
         NovelTextAlign.left,
-    onlyIncludePinnedSources: reader.readBoolOrNull(offsets[117]),
-    pagePreloadAmount: reader.readLongOrNull(offsets[118]),
+    onlyIncludePinnedSources: reader.readBoolOrNull(offsets[105]),
+    pagePreloadAmount: reader.readLongOrNull(offsets[106]),
     personalPageModeList: reader.readObjectList<PersonalPageMode>(
-      offsets[119],
+      offsets[107],
       PersonalPageModeSchema.deserialize,
       allOffsets,
       PersonalPageMode(),
     ),
     personalReaderModeList: reader.readObjectList<PersonalReaderMode>(
-      offsets[120],
+      offsets[108],
       PersonalReaderModeSchema.deserialize,
       allOffsets,
       PersonalReaderMode(),
     ),
     playerSubtitleSettings: reader.readObjectOrNull<PlayerSubtitleSettings>(
-      offsets[121],
+      offsets[109],
       PlayerSubtitleSettingsSchema.deserialize,
       allOffsets,
     ),
-    pureBlackDarkMode: reader.readBoolOrNull(offsets[122]),
-    relativeTimesTamps: reader.readLongOrNull(offsets[123]),
-    rpcShowCoverImage: reader.readBoolOrNull(offsets[124]),
-    rpcShowReadingWatchingProgress: reader.readBoolOrNull(offsets[125]),
-    rpcShowTitle: reader.readBoolOrNull(offsets[126]),
-    saveAsCBZArchive: reader.readBoolOrNull(offsets[127]),
+    pureBlackDarkMode: reader.readBoolOrNull(offsets[110]),
+    relativeTimesTamps: reader.readLongOrNull(offsets[111]),
+    rpcShowCoverImage: reader.readBoolOrNull(offsets[112]),
+    rpcShowReadingWatchingProgress: reader.readBoolOrNull(offsets[113]),
+    rpcShowTitle: reader.readBoolOrNull(offsets[114]),
+    saveAsCBZArchive: reader.readBoolOrNull(offsets[115]),
     scaleType:
-        _SettingsscaleTypeValueEnumMap[reader.readByteOrNull(offsets[128])] ??
+        _SettingsscaleTypeValueEnumMap[reader.readByteOrNull(offsets[116])] ??
         ScaleType.fitScreen,
-    showPagesNumber: reader.readBoolOrNull(offsets[129]),
+    showPagesNumber: reader.readBoolOrNull(offsets[117]),
     sortChapterList: reader.readObjectList<SortChapter>(
-      offsets[130],
+      offsets[118],
       SortChapterSchema.deserialize,
       allOffsets,
       SortChapter(),
     ),
     sortLibraryAnime: reader.readObjectOrNull<SortLibraryManga>(
-      offsets[131],
+      offsets[119],
       SortLibraryMangaSchema.deserialize,
       allOffsets,
     ),
     sortLibraryManga: reader.readObjectOrNull<SortLibraryManga>(
-      offsets[132],
+      offsets[120],
       SortLibraryMangaSchema.deserialize,
       allOffsets,
     ),
     sortLibraryNovel: reader.readObjectOrNull<SortLibraryManga>(
-      offsets[133],
+      offsets[121],
       SortLibraryMangaSchema.deserialize,
       allOffsets,
     ),
-    startDatebackup: reader.readLongOrNull(offsets[134]),
-    themeIsDark: reader.readBoolOrNull(offsets[135]),
-    updateProgressAfterReading: reader.readBoolOrNull(offsets[136]),
-    updatedAt: reader.readLongOrNull(offsets[137]),
-    useLibass: reader.readBoolOrNull(offsets[138]),
-    useMpvConfig: reader.readBoolOrNull(offsets[139]),
-    usePageTapZones: reader.readBoolOrNull(offsets[140]),
-    useYUV420P: reader.readBoolOrNull(offsets[141]),
-    userAgent: reader.readStringOrNull(offsets[142]),
-    volumeBoostCap: reader.readLongOrNull(offsets[143]),
+    startDatebackup: reader.readLongOrNull(offsets[122]),
+    themeIsDark: reader.readBoolOrNull(offsets[123]),
+    updateProgressAfterReading: reader.readBoolOrNull(offsets[124]),
+    updatedAt: reader.readLongOrNull(offsets[125]),
+    useLibass: reader.readBoolOrNull(offsets[126]),
+    useMpvConfig: reader.readBoolOrNull(offsets[127]),
+    usePageTapZones: reader.readBoolOrNull(offsets[128]),
+    useYUV420P: reader.readBoolOrNull(offsets[129]),
+    userAgent: reader.readStringOrNull(offsets[130]),
+    volumeBoostCap: reader.readLongOrNull(offsets[131]),
   );
   object.chapterFilterBookmarkedList = reader
       .readObjectList<ChapterFilterBookmarked>(
@@ -1839,11 +1755,11 @@ Settings _settingsDeserialize(
     FilterScanlator(),
   );
   object.locale = reader.readObjectOrNull<L10nLocale>(
-    offsets[92],
+    offsets[80],
     L10nLocaleSchema.deserialize,
     allOffsets,
   );
-  object.novelGridSize = reader.readLongOrNull(offsets[102]);
+  object.novelGridSize = reader.readLongOrNull(offsets[90]);
   return object;
 }
 
@@ -2102,49 +2018,25 @@ P _settingsDeserializeProp<P>(
     case 73:
       return (reader.readBoolOrNull(offset)) as P;
     case 74:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 75:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 76:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 77:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 78:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 79:
-      return (reader.readLongOrNull(offset)) as P;
-    case 80:
-      return (reader.readLongOrNull(offset)) as P;
-    case 81:
-      return (reader.readLongOrNull(offset)) as P;
-    case 82:
-      return (reader.readLongOrNull(offset)) as P;
-    case 83:
-      return (reader.readLongOrNull(offset)) as P;
-    case 84:
-      return (reader.readLongOrNull(offset)) as P;
-    case 85:
-      return (reader.readLongOrNull(offset)) as P;
-    case 86:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 87:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 88:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 89:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 90:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 91:
       return (reader.readStringList(offset)) as P;
-    case 92:
+    case 80:
       return (reader.readObjectOrNull<L10nLocale>(
             offset,
             L10nLocaleSchema.deserialize,
             allOffsets,
           ))
           as P;
-    case 93:
+    case 81:
       return (reader.readObjectList<Repo>(
             offset,
             RepoSchema.deserialize,
@@ -2152,27 +2044,27 @@ P _settingsDeserializeProp<P>(
             Repo(),
           ))
           as P;
-    case 94:
+    case 82:
       return (reader.readLongOrNull(offset)) as P;
-    case 95:
+    case 83:
       return (_SettingsmangaHomeDisplayTypeValueEnumMap[reader.readByteOrNull(
                 offset,
               )] ??
               DisplayType.comfortableGrid)
           as P;
-    case 96:
+    case 84:
       return (reader.readLongOrNull(offset)) as P;
-    case 97:
+    case 85:
       return (reader.readBoolOrNull(offset)) as P;
-    case 98:
+    case 86:
       return (reader.readStringList(offset)) as P;
-    case 99:
+    case 87:
       return (_SettingsnovelDisplayTypeValueEnumMap[reader.readByteOrNull(
                 offset,
               )] ??
               DisplayType.comfortableGrid)
           as P;
-    case 100:
+    case 88:
       return (reader.readObjectList<Repo>(
             offset,
             RepoSchema.deserialize,
@@ -2180,47 +2072,47 @@ P _settingsDeserializeProp<P>(
             Repo(),
           ))
           as P;
+    case 89:
+      return (reader.readLongOrNull(offset)) as P;
+    case 90:
+      return (reader.readLongOrNull(offset)) as P;
+    case 91:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 92:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 93:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 94:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 95:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 96:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 97:
+      return (reader.readDoubleOrNull(offset)) as P;
+    case 98:
+      return (reader.readLongOrNull(offset)) as P;
+    case 99:
+      return (reader.readStringOrNull(offset)) as P;
+    case 100:
+      return (reader.readStringOrNull(offset)) as P;
     case 101:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 102:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 103:
       return (reader.readBoolOrNull(offset)) as P;
     case 104:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 105:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 106:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 107:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 108:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 109:
-      return (reader.readDoubleOrNull(offset)) as P;
-    case 110:
-      return (reader.readLongOrNull(offset)) as P;
-    case 111:
-      return (reader.readStringOrNull(offset)) as P;
-    case 112:
-      return (reader.readStringOrNull(offset)) as P;
-    case 113:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 114:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 115:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 116:
       return (_SettingsnovelTextAlignValueEnumMap[reader.readByteOrNull(
                 offset,
               )] ??
               NovelTextAlign.left)
           as P;
-    case 117:
+    case 105:
       return (reader.readBoolOrNull(offset)) as P;
-    case 118:
+    case 106:
       return (reader.readLongOrNull(offset)) as P;
-    case 119:
+    case 107:
       return (reader.readObjectList<PersonalPageMode>(
             offset,
             PersonalPageModeSchema.deserialize,
@@ -2228,7 +2120,7 @@ P _settingsDeserializeProp<P>(
             PersonalPageMode(),
           ))
           as P;
-    case 120:
+    case 108:
       return (reader.readObjectList<PersonalReaderMode>(
             offset,
             PersonalReaderModeSchema.deserialize,
@@ -2236,32 +2128,32 @@ P _settingsDeserializeProp<P>(
             PersonalReaderMode(),
           ))
           as P;
-    case 121:
+    case 109:
       return (reader.readObjectOrNull<PlayerSubtitleSettings>(
             offset,
             PlayerSubtitleSettingsSchema.deserialize,
             allOffsets,
           ))
           as P;
-    case 122:
+    case 110:
       return (reader.readBoolOrNull(offset)) as P;
-    case 123:
+    case 111:
       return (reader.readLongOrNull(offset)) as P;
-    case 124:
+    case 112:
       return (reader.readBoolOrNull(offset)) as P;
-    case 125:
+    case 113:
       return (reader.readBoolOrNull(offset)) as P;
-    case 126:
+    case 114:
       return (reader.readBoolOrNull(offset)) as P;
-    case 127:
+    case 115:
       return (reader.readBoolOrNull(offset)) as P;
-    case 128:
+    case 116:
       return (_SettingsscaleTypeValueEnumMap[reader.readByteOrNull(offset)] ??
               ScaleType.fitScreen)
           as P;
-    case 129:
+    case 117:
       return (reader.readBoolOrNull(offset)) as P;
-    case 130:
+    case 118:
       return (reader.readObjectList<SortChapter>(
             offset,
             SortChapterSchema.deserialize,
@@ -2269,46 +2161,46 @@ P _settingsDeserializeProp<P>(
             SortChapter(),
           ))
           as P;
-    case 131:
+    case 119:
       return (reader.readObjectOrNull<SortLibraryManga>(
             offset,
             SortLibraryMangaSchema.deserialize,
             allOffsets,
           ))
           as P;
-    case 132:
+    case 120:
       return (reader.readObjectOrNull<SortLibraryManga>(
             offset,
             SortLibraryMangaSchema.deserialize,
             allOffsets,
           ))
           as P;
-    case 133:
+    case 121:
       return (reader.readObjectOrNull<SortLibraryManga>(
             offset,
             SortLibraryMangaSchema.deserialize,
             allOffsets,
           ))
           as P;
-    case 134:
+    case 122:
       return (reader.readLongOrNull(offset)) as P;
-    case 135:
+    case 123:
       return (reader.readBoolOrNull(offset)) as P;
-    case 136:
+    case 124:
       return (reader.readBoolOrNull(offset)) as P;
-    case 137:
+    case 125:
       return (reader.readLongOrNull(offset)) as P;
-    case 138:
+    case 126:
       return (reader.readBoolOrNull(offset)) as P;
-    case 139:
+    case 127:
       return (reader.readBoolOrNull(offset)) as P;
-    case 140:
+    case 128:
       return (reader.readBoolOrNull(offset)) as P;
-    case 141:
+    case 129:
       return (reader.readBoolOrNull(offset)) as P;
-    case 142:
+    case 130:
       return (reader.readStringOrNull(offset)) as P;
-    case 143:
+    case 131:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -7743,986 +7635,6 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeBookMarkedTypeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(
-          property: r'libraryFilterAnimeBookMarkedType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeBookMarkedTypeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(
-          property: r'libraryFilterAnimeBookMarkedType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeBookMarkedTypeEqualTo(int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'libraryFilterAnimeBookMarkedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeBookMarkedTypeGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'libraryFilterAnimeBookMarkedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeBookMarkedTypeLessThan(int? value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'libraryFilterAnimeBookMarkedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeBookMarkedTypeBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'libraryFilterAnimeBookMarkedType',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeDownloadTypeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(
-          property: r'libraryFilterAnimeDownloadType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeDownloadTypeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(
-          property: r'libraryFilterAnimeDownloadType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeDownloadTypeEqualTo(int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'libraryFilterAnimeDownloadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeDownloadTypeGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'libraryFilterAnimeDownloadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeDownloadTypeLessThan(int? value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'libraryFilterAnimeDownloadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeDownloadTypeBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'libraryFilterAnimeDownloadType',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeStartedTypeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(
-          property: r'libraryFilterAnimeStartedType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeStartedTypeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(
-          property: r'libraryFilterAnimeStartedType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeStartedTypeEqualTo(int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'libraryFilterAnimeStartedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeStartedTypeGreaterThan(int? value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'libraryFilterAnimeStartedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeStartedTypeLessThan(int? value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'libraryFilterAnimeStartedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeStartedTypeBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'libraryFilterAnimeStartedType',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeUnreadTypeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(property: r'libraryFilterAnimeUnreadType'),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeUnreadTypeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(
-          property: r'libraryFilterAnimeUnreadType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeUnreadTypeEqualTo(int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'libraryFilterAnimeUnreadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeUnreadTypeGreaterThan(int? value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'libraryFilterAnimeUnreadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeUnreadTypeLessThan(int? value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'libraryFilterAnimeUnreadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterAnimeUnreadTypeBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'libraryFilterAnimeUnreadType',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasBookMarkedTypeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(
-          property: r'libraryFilterMangasBookMarkedType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasBookMarkedTypeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(
-          property: r'libraryFilterMangasBookMarkedType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasBookMarkedTypeEqualTo(int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'libraryFilterMangasBookMarkedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasBookMarkedTypeGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'libraryFilterMangasBookMarkedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasBookMarkedTypeLessThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'libraryFilterMangasBookMarkedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasBookMarkedTypeBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'libraryFilterMangasBookMarkedType',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasDownloadTypeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(
-          property: r'libraryFilterMangasDownloadType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasDownloadTypeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(
-          property: r'libraryFilterMangasDownloadType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasDownloadTypeEqualTo(int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'libraryFilterMangasDownloadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasDownloadTypeGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'libraryFilterMangasDownloadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasDownloadTypeLessThan(int? value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'libraryFilterMangasDownloadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasDownloadTypeBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'libraryFilterMangasDownloadType',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasStartedTypeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(
-          property: r'libraryFilterMangasStartedType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasStartedTypeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(
-          property: r'libraryFilterMangasStartedType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasStartedTypeEqualTo(int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'libraryFilterMangasStartedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasStartedTypeGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'libraryFilterMangasStartedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasStartedTypeLessThan(int? value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'libraryFilterMangasStartedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasStartedTypeBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'libraryFilterMangasStartedType',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasUnreadTypeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(
-          property: r'libraryFilterMangasUnreadType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasUnreadTypeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(
-          property: r'libraryFilterMangasUnreadType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasUnreadTypeEqualTo(int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'libraryFilterMangasUnreadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasUnreadTypeGreaterThan(int? value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'libraryFilterMangasUnreadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasUnreadTypeLessThan(int? value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'libraryFilterMangasUnreadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterMangasUnreadTypeBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'libraryFilterMangasUnreadType',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelBookMarkedTypeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(
-          property: r'libraryFilterNovelBookMarkedType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelBookMarkedTypeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(
-          property: r'libraryFilterNovelBookMarkedType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelBookMarkedTypeEqualTo(int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'libraryFilterNovelBookMarkedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelBookMarkedTypeGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'libraryFilterNovelBookMarkedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelBookMarkedTypeLessThan(int? value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'libraryFilterNovelBookMarkedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelBookMarkedTypeBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'libraryFilterNovelBookMarkedType',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelDownloadTypeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(
-          property: r'libraryFilterNovelDownloadType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelDownloadTypeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(
-          property: r'libraryFilterNovelDownloadType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelDownloadTypeEqualTo(int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'libraryFilterNovelDownloadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelDownloadTypeGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'libraryFilterNovelDownloadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelDownloadTypeLessThan(int? value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'libraryFilterNovelDownloadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelDownloadTypeBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'libraryFilterNovelDownloadType',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelStartedTypeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(
-          property: r'libraryFilterNovelStartedType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelStartedTypeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(
-          property: r'libraryFilterNovelStartedType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelStartedTypeEqualTo(int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'libraryFilterNovelStartedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelStartedTypeGreaterThan(int? value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'libraryFilterNovelStartedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelStartedTypeLessThan(int? value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'libraryFilterNovelStartedType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelStartedTypeBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'libraryFilterNovelStartedType',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelUnreadTypeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(property: r'libraryFilterNovelUnreadType'),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelUnreadTypeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(
-          property: r'libraryFilterNovelUnreadType',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelUnreadTypeEqualTo(int? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'libraryFilterNovelUnreadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelUnreadTypeGreaterThan(int? value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'libraryFilterNovelUnreadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelUnreadTypeLessThan(int? value, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'libraryFilterNovelUnreadType',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
-  libraryFilterNovelUnreadTypeBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'libraryFilterNovelUnreadType',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition>
   libraryLocalSourceIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -13052,174 +11964,6 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterAnimeBookMarkedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterAnimeBookMarkedType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterAnimeBookMarkedTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterAnimeBookMarkedType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterAnimeDownloadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterAnimeDownloadType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterAnimeDownloadTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterAnimeDownloadType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterAnimeStartedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterAnimeStartedType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterAnimeStartedTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterAnimeStartedType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterAnimeUnreadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterAnimeUnreadType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterAnimeUnreadTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterAnimeUnreadType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterMangasBookMarkedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterMangasBookMarkedType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterMangasBookMarkedTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterMangasBookMarkedType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterMangasDownloadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterMangasDownloadType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterMangasDownloadTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterMangasDownloadType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterMangasStartedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterMangasStartedType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterMangasStartedTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterMangasStartedType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterMangasUnreadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterMangasUnreadType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterMangasUnreadTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterMangasUnreadType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterNovelBookMarkedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterNovelBookMarkedType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterNovelBookMarkedTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterNovelBookMarkedType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterNovelDownloadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterNovelDownloadType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterNovelDownloadTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterNovelDownloadType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterNovelStartedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterNovelStartedType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterNovelStartedTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterNovelStartedType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterNovelUnreadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterNovelUnreadType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  sortByLibraryFilterNovelUnreadTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterNovelUnreadType', Sort.desc);
-    });
-  }
-
   QueryBuilder<Settings, Settings, QAfterSortBy> sortByLibraryLocalSource() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryLocalSource', Sort.asc);
@@ -14609,174 +13353,6 @@ extension SettingsQuerySortThenBy
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterAnimeBookMarkedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterAnimeBookMarkedType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterAnimeBookMarkedTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterAnimeBookMarkedType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterAnimeDownloadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterAnimeDownloadType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterAnimeDownloadTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterAnimeDownloadType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterAnimeStartedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterAnimeStartedType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterAnimeStartedTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterAnimeStartedType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterAnimeUnreadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterAnimeUnreadType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterAnimeUnreadTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterAnimeUnreadType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterMangasBookMarkedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterMangasBookMarkedType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterMangasBookMarkedTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterMangasBookMarkedType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterMangasDownloadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterMangasDownloadType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterMangasDownloadTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterMangasDownloadType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterMangasStartedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterMangasStartedType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterMangasStartedTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterMangasStartedType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterMangasUnreadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterMangasUnreadType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterMangasUnreadTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterMangasUnreadType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterNovelBookMarkedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterNovelBookMarkedType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterNovelBookMarkedTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterNovelBookMarkedType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterNovelDownloadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterNovelDownloadType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterNovelDownloadTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterNovelDownloadType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterNovelStartedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterNovelStartedType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterNovelStartedTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterNovelStartedType', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterNovelUnreadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterNovelUnreadType', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy>
-  thenByLibraryFilterNovelUnreadTypeDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryFilterNovelUnreadType', Sort.desc);
-    });
-  }
-
   QueryBuilder<Settings, Settings, QAfterSortBy> thenByLibraryLocalSource() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryLocalSource', Sort.asc);
@@ -15805,90 +14381,6 @@ extension SettingsQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct>
-  distinctByLibraryFilterAnimeBookMarkedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'libraryFilterAnimeBookMarkedType');
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QDistinct>
-  distinctByLibraryFilterAnimeDownloadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'libraryFilterAnimeDownloadType');
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QDistinct>
-  distinctByLibraryFilterAnimeStartedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'libraryFilterAnimeStartedType');
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QDistinct>
-  distinctByLibraryFilterAnimeUnreadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'libraryFilterAnimeUnreadType');
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QDistinct>
-  distinctByLibraryFilterMangasBookMarkedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'libraryFilterMangasBookMarkedType');
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QDistinct>
-  distinctByLibraryFilterMangasDownloadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'libraryFilterMangasDownloadType');
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QDistinct>
-  distinctByLibraryFilterMangasStartedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'libraryFilterMangasStartedType');
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QDistinct>
-  distinctByLibraryFilterMangasUnreadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'libraryFilterMangasUnreadType');
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QDistinct>
-  distinctByLibraryFilterNovelBookMarkedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'libraryFilterNovelBookMarkedType');
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QDistinct>
-  distinctByLibraryFilterNovelDownloadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'libraryFilterNovelDownloadType');
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QDistinct>
-  distinctByLibraryFilterNovelStartedType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'libraryFilterNovelStartedType');
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QDistinct>
-  distinctByLibraryFilterNovelUnreadType() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'libraryFilterNovelUnreadType');
-    });
-  }
-
   QueryBuilder<Settings, Settings, QDistinct> distinctByLibraryLocalSource() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'libraryLocalSource');
@@ -16703,90 +15195,6 @@ extension SettingsQueryProperty
   libraryDownloadedChaptersProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryDownloadedChapters');
-    });
-  }
-
-  QueryBuilder<Settings, int?, QQueryOperations>
-  libraryFilterAnimeBookMarkedTypeProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'libraryFilterAnimeBookMarkedType');
-    });
-  }
-
-  QueryBuilder<Settings, int?, QQueryOperations>
-  libraryFilterAnimeDownloadTypeProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'libraryFilterAnimeDownloadType');
-    });
-  }
-
-  QueryBuilder<Settings, int?, QQueryOperations>
-  libraryFilterAnimeStartedTypeProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'libraryFilterAnimeStartedType');
-    });
-  }
-
-  QueryBuilder<Settings, int?, QQueryOperations>
-  libraryFilterAnimeUnreadTypeProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'libraryFilterAnimeUnreadType');
-    });
-  }
-
-  QueryBuilder<Settings, int?, QQueryOperations>
-  libraryFilterMangasBookMarkedTypeProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'libraryFilterMangasBookMarkedType');
-    });
-  }
-
-  QueryBuilder<Settings, int?, QQueryOperations>
-  libraryFilterMangasDownloadTypeProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'libraryFilterMangasDownloadType');
-    });
-  }
-
-  QueryBuilder<Settings, int?, QQueryOperations>
-  libraryFilterMangasStartedTypeProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'libraryFilterMangasStartedType');
-    });
-  }
-
-  QueryBuilder<Settings, int?, QQueryOperations>
-  libraryFilterMangasUnreadTypeProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'libraryFilterMangasUnreadType');
-    });
-  }
-
-  QueryBuilder<Settings, int?, QQueryOperations>
-  libraryFilterNovelBookMarkedTypeProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'libraryFilterNovelBookMarkedType');
-    });
-  }
-
-  QueryBuilder<Settings, int?, QQueryOperations>
-  libraryFilterNovelDownloadTypeProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'libraryFilterNovelDownloadType');
-    });
-  }
-
-  QueryBuilder<Settings, int?, QQueryOperations>
-  libraryFilterNovelStartedTypeProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'libraryFilterNovelStartedType');
-    });
-  }
-
-  QueryBuilder<Settings, int?, QQueryOperations>
-  libraryFilterNovelUnreadTypeProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'libraryFilterNovelUnreadType');
     });
   }
 

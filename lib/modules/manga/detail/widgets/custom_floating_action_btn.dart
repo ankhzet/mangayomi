@@ -43,22 +43,23 @@ class CustomFloatingActionBtn extends StatelessWidget {
               child: FadeTransition(opacity: animation, child: child),
             );
           },
-          child: isExtended
-              ? Padding(
-                  key: const ValueKey('extended'),
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    label,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.5,
+          child:
+              isExtended
+                  ? Padding(
+                    key: const ValueKey('extended'),
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      label,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.5,
+                      ),
                     ),
-                  ),
-                )
-              : const SizedBox.shrink(key: ValueKey('collapsed')),
+                  )
+                  : const SizedBox.shrink(key: ValueKey('collapsed')),
         ),
       ),
     );

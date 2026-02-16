@@ -79,25 +79,27 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                       isComfortableGrid: widget.isComfortableGrid,
                     ),
                     isComfortableGrid: widget.isComfortableGrid,
-                    image: entry.customCoverImage != null
-                        ? MemoryImage(entry.customCoverImage as Uint8List)
-                              as ImageProvider
-                        : CustomExtendedNetworkImageProvider(
-                            toImgUrl(
-                              entry.customCoverFromTracker ??
-                                  entry.imageUrl ??
-                                  "",
+                    image:
+                        entry.customCoverImage != null
+                            ? MemoryImage(entry.customCoverImage as Uint8List)
+                                as ImageProvider
+                            : CustomExtendedNetworkImageProvider(
+                              toImgUrl(
+                                entry.customCoverFromTracker ??
+                                    entry.imageUrl ??
+                                    "",
+                              ),
+                              headers:
+                                  entry.isLocalArchive!
+                                      ? null
+                                      : ref.watch(
+                                        headersProvider(
+                                          source: entry.source!,
+                                          lang: entry.lang!,
+                                          sourceId: entry.sourceId,
+                                        ),
+                                      ),
                             ),
-                            headers: entry.isLocalArchive!
-                                ? null
-                                : ref.watch(
-                                    headersProvider(
-                                      source: entry.source!,
-                                      lang: entry.lang!,
-                                      sourceId: entry.sourceId,
-                                    ),
-                                  ),
-                          ),
                     onTap: () async {
                       if (isLongPressed) {
                         ref
@@ -166,8 +168,9 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                                           child: Text(
                                             "Local",
                                             style: TextStyle(
-                                              color: context
-                                                  .dynamicBlackWhiteColor,
+                                              color:
+                                                  context
+                                                      .dynamicBlackWhiteColor,
                                             ),
                                           ),
                                         ),
@@ -184,14 +187,15 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                                                 i < entry.chapters.length;
                                                 i++
                                               ) {
-                                                final entries = isar.downloads
-                                                    .filter()
-                                                    .idEqualTo(
-                                                      entry.chapters
-                                                          .toList()[i]
-                                                          .id,
-                                                    )
-                                                    .findAllSync();
+                                                final entries =
+                                                    isar.downloads
+                                                        .filter()
+                                                        .idEqualTo(
+                                                          entry.chapters
+                                                              .toList()[i]
+                                                              .id,
+                                                        )
+                                                        .findAllSync();
 
                                                 if (entries.isNotEmpty &&
                                                     entries.first.isDownload!) {
@@ -218,9 +222,10 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                                                                 3,
                                                               ),
                                                         ),
-                                                    color: Theme.of(
-                                                      context,
-                                                    ).secondaryHeaderColor,
+                                                    color:
+                                                        Theme.of(
+                                                          context,
+                                                        ).secondaryHeaderColor,
                                                   ),
                                                   child: Padding(
                                                     padding:
@@ -246,8 +251,9 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                                                       .length
                                                       .toString(),
                                                   style: TextStyle(
-                                                    color: context
-                                                        .dynamicBlackWhiteColor,
+                                                    color:
+                                                        context
+                                                            .dynamicBlackWhiteColor,
                                                   ),
                                                 ),
                                               ),
@@ -323,12 +329,13 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                                       final incognitoMode = ref.watch(
                                         incognitoModeStateProvider,
                                       );
-                                      final entries = snapshot.data!
-                                          .where(
-                                            (element) =>
-                                                element.mangaId == entry.id,
-                                          )
-                                          .toList();
+                                      final entries =
+                                          snapshot.data!
+                                              .where(
+                                                (element) =>
+                                                    element.mangaId == entry.id,
+                                              )
+                                              .toList();
                                       if (entries.isNotEmpty &&
                                           !incognitoMode) {
                                         return GestureDetector(

@@ -29,9 +29,10 @@ class CustomTrackShape extends SliderTrackShape {
     bool? isEnabled,
     bool? isDiscrete,
   }) {
-    final double thumbWidth = sliderTheme.thumbShape!
-        .getPreferredSize(isEnabled ?? true, isDiscrete ?? false)
-        .width;
+    final double thumbWidth =
+        sliderTheme.thumbShape!
+            .getPreferredSize(isEnabled ?? true, isDiscrete ?? false)
+            .width;
     final double trackHeight = sliderTheme.trackHeight!;
 
     final double trackTop =
@@ -88,27 +89,29 @@ class CustomTrackShape extends SliderTrackShape {
     Rect trackRect,
     double currentPositionWidth,
   ) {
-    final Paint defaultPathPaint = Paint()
-      ..color = sliderTheme.activeTrackColor!
-      ..style = PaintingStyle.fill;
+    final Paint defaultPathPaint =
+        Paint()
+          ..color = sliderTheme.activeTrackColor!
+          ..style = PaintingStyle.fill;
 
-    final defaultPathSegment = Path()
-      ..addRect(
-        Rect.fromPoints(
-          Offset(trackRect.left, trackRect.top),
-          Offset(trackRect.left + currentPositionWidth, trackRect.bottom),
-        ),
-      )
-      ..lineTo(trackRect.left, trackRect.bottom)
-      ..arcTo(
-        Rect.fromPoints(
-          Offset(trackRect.left + 5, trackRect.top),
-          Offset(trackRect.left - 5, trackRect.bottom),
-        ),
-        -pi * 3 / 2,
-        pi,
-        false,
-      );
+    final defaultPathSegment =
+        Path()
+          ..addRect(
+            Rect.fromPoints(
+              Offset(trackRect.left, trackRect.top),
+              Offset(trackRect.left + currentPositionWidth, trackRect.bottom),
+            ),
+          )
+          ..lineTo(trackRect.left, trackRect.bottom)
+          ..arcTo(
+            Rect.fromPoints(
+              Offset(trackRect.left + 5, trackRect.top),
+              Offset(trackRect.left - 5, trackRect.bottom),
+            ),
+            -pi * 3 / 2,
+            pi,
+            false,
+          );
 
     context.canvas.drawPath(defaultPathSegment, defaultPathPaint);
   }
@@ -120,27 +123,29 @@ class CustomTrackShape extends SliderTrackShape {
     double currentPositionWidth,
     double bufferPositionWidth,
   ) {
-    final Paint defaultPathPaint = Paint()
-      ..color = sliderTheme.secondaryActiveTrackColor!
-      ..style = PaintingStyle.fill;
+    final Paint defaultPathPaint =
+        Paint()
+          ..color = sliderTheme.secondaryActiveTrackColor!
+          ..style = PaintingStyle.fill;
 
-    final defaultPathSegment = Path()
-      ..addRect(
-        Rect.fromPoints(
-          Offset(trackRect.left + currentPositionWidth, trackRect.top),
-          Offset(trackRect.left + bufferPositionWidth, trackRect.bottom),
-        ),
-      )
-      ..lineTo(trackRect.left, trackRect.bottom)
-      ..arcTo(
-        Rect.fromPoints(
-          Offset(trackRect.left + 5, trackRect.top),
-          Offset(trackRect.left - 5, trackRect.bottom),
-        ),
-        -pi * 3 / 2,
-        pi,
-        false,
-      );
+    final defaultPathSegment =
+        Path()
+          ..addRect(
+            Rect.fromPoints(
+              Offset(trackRect.left + currentPositionWidth, trackRect.top),
+              Offset(trackRect.left + bufferPositionWidth, trackRect.bottom),
+            ),
+          )
+          ..lineTo(trackRect.left, trackRect.bottom)
+          ..arcTo(
+            Rect.fromPoints(
+              Offset(trackRect.left + 5, trackRect.top),
+              Offset(trackRect.left - 5, trackRect.bottom),
+            ),
+            -pi * 3 / 2,
+            pi,
+            false,
+          );
 
     context.canvas.drawPath(defaultPathSegment, defaultPathPaint);
   }
@@ -151,25 +156,27 @@ class CustomTrackShape extends SliderTrackShape {
     Rect trackRect,
     double currentPositionWidth,
   ) {
-    final unselectedPathPaint = Paint()
-      ..style = PaintingStyle.fill
-      ..color = sliderTheme.inactiveTrackColor!;
+    final unselectedPathPaint =
+        Paint()
+          ..style = PaintingStyle.fill
+          ..color = sliderTheme.inactiveTrackColor!;
 
-    final unselectedPathSegment = Path()
-      ..addRect(
-        Rect.fromPoints(
-          Offset(trackRect.right, trackRect.top),
-          Offset(trackRect.left + currentPositionWidth, trackRect.bottom),
-        ),
-      )
-      ..addArc(
-        Rect.fromPoints(
-          Offset(trackRect.right - 5, trackRect.bottom),
-          Offset(trackRect.right + 5, trackRect.top),
-        ),
-        -pi / 2,
-        pi,
-      );
+    final unselectedPathSegment =
+        Path()
+          ..addRect(
+            Rect.fromPoints(
+              Offset(trackRect.right, trackRect.top),
+              Offset(trackRect.left + currentPositionWidth, trackRect.bottom),
+            ),
+          )
+          ..addArc(
+            Rect.fromPoints(
+              Offset(trackRect.right - 5, trackRect.bottom),
+              Offset(trackRect.right + 5, trackRect.top),
+            ),
+            -pi / 2,
+            pi,
+          );
 
     context.canvas.drawPath(unselectedPathSegment, unselectedPathPaint);
   }
@@ -180,20 +187,21 @@ class CustomTrackShape extends SliderTrackShape {
     Rect trackRect,
     double markPositionWidth,
   ) {
-    final Paint borderPaint = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill;
+    final Paint borderPaint =
+        Paint()
+          ..color = Colors.white
+          ..style = PaintingStyle.fill;
 
-    final pathSegmentSelected = Path()
-      ..addRect(
-        Rect.fromPoints(
-          Offset(trackRect.left + markPositionWidth, trackRect.top),
-          Offset(
-            trackRect.left + markPositionWidth + chapterMarkWidth,
-            trackRect.bottom,
+    final pathSegmentSelected =
+        Path()..addRect(
+          Rect.fromPoints(
+            Offset(trackRect.left + markPositionWidth, trackRect.top),
+            Offset(
+              trackRect.left + markPositionWidth + chapterMarkWidth,
+              trackRect.bottom,
+            ),
           ),
-        ),
-      );
+        );
 
     context.canvas.drawPath(pathSegmentSelected, borderPaint);
   }

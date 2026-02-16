@@ -43,30 +43,31 @@ class _TrackerSectionScreenState extends State<TrackerSectionScreen> {
           children: [
             ListTile(dense: true, title: Text(widget.section.name)),
             Flexible(
-              child: _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : Builder(
-                      builder: (context) {
-                        if (_errorMessage.isNotEmpty) {
-                          return Center(child: Text(_errorMessage));
-                        }
-                        if (_tracks.isNotEmpty) {
-                          return SuperListView.builder(
-                            extentPrecalculationPolicy:
-                                SuperPrecalculationPolicy(),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: _tracks.length,
-                            itemBuilder: (context, index) {
-                              return TrackerLibraryImageCard(
-                                track: _tracks[index],
-                                itemType: widget.section.itemType,
-                              );
-                            },
-                          );
-                        }
-                        return Center(child: Text(l10n.no_result));
-                      },
-                    ),
+              child:
+                  _isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : Builder(
+                        builder: (context) {
+                          if (_errorMessage.isNotEmpty) {
+                            return Center(child: Text(_errorMessage));
+                          }
+                          if (_tracks.isNotEmpty) {
+                            return SuperListView.builder(
+                              extentPrecalculationPolicy:
+                                  SuperPrecalculationPolicy(),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: _tracks.length,
+                              itemBuilder: (context, index) {
+                                return TrackerLibraryImageCard(
+                                  track: _tracks[index],
+                                  itemType: widget.section.itemType,
+                                );
+                              },
+                            );
+                          }
+                          return Center(child: Text(l10n.no_result));
+                        },
+                      ),
             ),
           ],
         ),

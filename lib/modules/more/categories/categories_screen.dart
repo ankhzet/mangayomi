@@ -68,16 +68,18 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen>
           bottom: TabBar(
             indicatorSize: TabBarIndicatorSize.label,
             controller: _tabBarController,
-            tabs: _visibleTabTypes.map((type) {
-              return Tab(text: type.localized(l10n));
-            }).toList(),
+            tabs:
+                _visibleTabTypes.map((type) {
+                  return Tab(text: type.localized(l10n));
+                }).toList(),
           ),
         ),
         body: TabBarView(
           controller: _tabBarController,
-          children: _visibleTabTypes.map((type) {
-            return CategoriesTab(itemType: type);
-          }).toList(),
+          children:
+              _visibleTabTypes.map((type) {
+                return CategoriesTab(itemType: type);
+              }).toList(),
         ),
       ),
     );
@@ -192,9 +194,10 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab>
                     index == _animatingToIndex) {
                   final isMovingDown =
                       _animatingFromIndex! < _animatingToIndex!;
-                  final offset = index == _animatingFromIndex
-                      ? (isMovingDown ? 1.0 : -1.0)
-                      : (isMovingDown ? -1.0 : 1.0);
+                  final offset =
+                      index == _animatingFromIndex
+                          ? (isMovingDown ? 1.0 : -1.0)
+                          : (isMovingDown ? -1.0 : 1.0);
 
                   itemWidget = AnimatedBuilder(
                     animation: _swapAnimationController,
@@ -268,42 +271,46 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab>
                             ),
                             const SizedBox(width: 15),
                             TextButton(
-                              onPressed: controller.text.isEmpty || isExist
-                                  ? null
-                                  : () async {
-                                      final category = Category(
-                                        forItemType: widget.itemType,
-                                        name: controller.text,
-                                        updatedAt: DateTime.now()
-                                            .millisecondsSinceEpoch,
-                                      );
-                                      isar.writeTxnSync(() {
-                                        isar.categorys.putSync(
-                                          category..pos = category.id,
+                              onPressed:
+                                  controller.text.isEmpty || isExist
+                                      ? null
+                                      : () async {
+                                        final category = Category(
+                                          forItemType: widget.itemType,
+                                          name: controller.text,
+                                          updatedAt:
+                                              DateTime.now()
+                                                  .millisecondsSinceEpoch,
                                         );
-                                        final categories = isar.categorys
-                                            .filter()
-                                            .posIsNull()
-                                            .findAllSync();
-                                        for (var category in categories) {
+                                        isar.writeTxnSync(() {
                                           isar.categorys.putSync(
                                             category..pos = category.id,
                                           );
-                                        }
-                                      });
+                                          final categories =
+                                              isar.categorys
+                                                  .filter()
+                                                  .posIsNull()
+                                                  .findAllSync();
+                                          for (var category in categories) {
+                                            isar.categorys.putSync(
+                                              category..pos = category.id,
+                                            );
+                                          }
+                                        });
 
-                                      if (context.mounted) {
-                                        Navigator.pop(context);
-                                      }
-                                    },
+                                        if (context.mounted) {
+                                          Navigator.pop(context);
+                                        }
+                                      },
                               child: Text(
                                 l10n.add,
                                 style: TextStyle(
-                                  color: controller.text.isEmpty || isExist
-                                      ? Theme.of(
-                                          context,
-                                        ).primaryColor.withValues(alpha: 0.2)
-                                      : null,
+                                  color:
+                                      controller.text.isEmpty || isExist
+                                          ? Theme.of(
+                                            context,
+                                          ).primaryColor.withValues(alpha: 0.2)
+                                          : null,
                                 ),
                               ),
                             ),
@@ -376,19 +383,21 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab>
                         const SizedBox(width: 10),
                         IconButton(
                           icon: const Icon(Icons.arrow_drop_up_outlined),
-                          onPressed: index > 0
-                              ? () {
-                                  _moveCategory(index, index - 1);
-                                }
-                              : null,
+                          onPressed:
+                              index > 0
+                                  ? () {
+                                    _moveCategory(index, index - 1);
+                                  }
+                                  : null,
                         ),
                         IconButton(
                           icon: const Icon(Icons.arrow_drop_down_outlined),
-                          onPressed: index < _entries.length - 1
-                              ? () {
-                                  _moveCategory(index, index + 1);
-                                }
-                              : null,
+                          onPressed:
+                              index < _entries.length - 1
+                                  ? () {
+                                    _moveCategory(index, index + 1);
+                                  }
+                                  : null,
                         ),
                       ],
                     ),
@@ -492,17 +501,19 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab>
   Future<void> _removeCategory(Category category, BuildContext context) async {
     await isar.writeTxn(() async {
       // All Items with this category
-      final allItems = await isar.mangas
-          .filter()
-          .categoriesElementEqualTo(category.id!)
-          .findAll();
+      final allItems =
+          await isar.mangas
+              .filter()
+              .categoriesElementEqualTo(category.id!)
+              .findAll();
       // Remove the category ID from each item's category list
-      final updatedItems = allItems.map((manga) {
-        final cats = List<int>.from(manga.categories ?? []);
-        cats.remove(category.id!);
-        manga.categories = cats;
-        return manga;
-      }).toList();
+      final updatedItems =
+          allItems.map((manga) {
+            final cats = List<int>.from(manga.categories ?? []);
+            cats.remove(category.id!);
+            manga.categories = cats;
+            return manga;
+          }).toList();
 
       // Save updated items back to the database
       await isar.mangas.putAll(updatedItems);
@@ -567,27 +578,27 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab>
                     TextButton(
                       onPressed:
                           controller.text.isEmpty || isExist || isSameName
-                          ? null
-                          : () async {
-                              await isar.writeTxn(() async {
-                                category.name = controller.text;
-                                category.updatedAt =
-                                    DateTime.now().millisecondsSinceEpoch;
-                                await isar.categorys.put(category);
-                              });
-                              if (context.mounted) {
-                                Navigator.pop(context);
-                              }
-                            },
+                              ? null
+                              : () async {
+                                await isar.writeTxn(() async {
+                                  category.name = controller.text;
+                                  category.updatedAt =
+                                      DateTime.now().millisecondsSinceEpoch;
+                                  await isar.categorys.put(category);
+                                });
+                                if (context.mounted) {
+                                  Navigator.pop(context);
+                                }
+                              },
                       child: Text(
                         l10n.ok,
                         style: TextStyle(
                           color:
                               controller.text.isEmpty || isExist || isSameName
-                              ? Theme.of(
-                                  context,
-                                ).primaryColor.withValues(alpha: 0.2)
-                              : null,
+                                  ? Theme.of(
+                                    context,
+                                  ).primaryColor.withValues(alpha: 0.2)
+                                  : null,
                         ),
                       ),
                     ),

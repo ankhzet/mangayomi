@@ -40,9 +40,10 @@ class SyncScreen extends ConsumerWidget {
             fireImmediately: true,
           ),
           builder: (context, snapshot) {
-            SyncPreference syncPreference = snapshot.data?.isNotEmpty ?? false
-                ? snapshot.data?.first ?? SyncPreference()
-                : SyncPreference();
+            SyncPreference syncPreference =
+                snapshot.data?.isNotEmpty ?? false
+                    ? snapshot.data?.first ?? SyncPreference()
+                    : SyncPreference();
             final bool isLogged = syncPreference.authToken?.isNotEmpty ?? false;
             return Column(
               children: [
@@ -159,35 +160,38 @@ class SyncScreen extends ConsumerWidget {
                 SwitchListTile(
                   value: syncPreference.syncHistories,
                   title: Text(context.l10n.sync_enable_histories),
-                  onChanged: syncPreference.syncOn
-                      ? (value) {
-                          ref
-                              .read(synchingProvider(syncId: 1).notifier)
-                              .setSyncHistories(value);
-                        }
-                      : null,
+                  onChanged:
+                      syncPreference.syncOn
+                          ? (value) {
+                            ref
+                                .read(synchingProvider(syncId: 1).notifier)
+                                .setSyncHistories(value);
+                          }
+                          : null,
                 ),
                 SwitchListTile(
                   value: syncPreference.syncUpdates,
                   title: Text(context.l10n.sync_enable_updates),
-                  onChanged: syncPreference.syncOn
-                      ? (value) {
-                          ref
-                              .read(synchingProvider(syncId: 1).notifier)
-                              .setSyncUpdates(value);
-                        }
-                      : null,
+                  onChanged:
+                      syncPreference.syncOn
+                          ? (value) {
+                            ref
+                                .read(synchingProvider(syncId: 1).notifier)
+                                .setSyncUpdates(value);
+                          }
+                          : null,
                 ),
                 SwitchListTile(
                   value: syncPreference.syncSettings,
                   title: Text(context.l10n.sync_enable_settings),
-                  onChanged: syncPreference.syncOn
-                      ? (value) {
-                          ref
-                              .read(synchingProvider(syncId: 1).notifier)
-                              .setSyncSettings(value);
-                        }
-                      : null,
+                  onChanged:
+                      syncPreference.syncOn
+                          ? (value) {
+                            ref
+                                .read(synchingProvider(syncId: 1).notifier)
+                                .setSyncSettings(value);
+                          }
+                          : null,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -315,20 +319,24 @@ class SyncScreen extends ConsumerWidget {
                     Column(
                       children: [
                         IconButton(
-                          onPressed: !syncPreference.syncOn || !isLogged
-                              ? null
-                              : () {
-                                  ref
-                                      .read(
-                                        syncServerProvider(syncId: 1).notifier,
-                                      )
-                                      .startSync(l10n, false);
-                                },
+                          onPressed:
+                              !syncPreference.syncOn || !isLogged
+                                  ? null
+                                  : () {
+                                    ref
+                                        .read(
+                                          syncServerProvider(
+                                            syncId: 1,
+                                          ).notifier,
+                                        )
+                                        .startSync(l10n, false);
+                                  },
                           icon: Icon(
                             Icons.sync,
-                            color: !syncPreference.syncOn || !isLogged
-                                ? context.secondaryColor
-                                : context.primaryColor,
+                            color:
+                                !syncPreference.syncOn || !isLogged
+                                    ? context.secondaryColor
+                                    : context.primaryColor,
                           ),
                         ),
                         Text(l10n.sync_button_sync),
@@ -338,14 +346,17 @@ class SyncScreen extends ConsumerWidget {
                     Column(
                       children: [
                         IconButton(
-                          onPressed: !syncPreference.syncOn || !isLogged
-                              ? null
-                              : () => _showConfirmDialog(context, ref, true),
+                          onPressed:
+                              !syncPreference.syncOn || !isLogged
+                                  ? null
+                                  : () =>
+                                      _showConfirmDialog(context, ref, true),
                           icon: Icon(
                             Icons.file_upload_outlined,
-                            color: !syncPreference.syncOn || !isLogged
-                                ? context.secondaryColor
-                                : context.primaryColor,
+                            color:
+                                !syncPreference.syncOn || !isLogged
+                                    ? context.secondaryColor
+                                    : context.primaryColor,
                           ),
                         ),
                         Text(l10n.sync_button_upload),
@@ -355,14 +366,17 @@ class SyncScreen extends ConsumerWidget {
                     Column(
                       children: [
                         IconButton(
-                          onPressed: !syncPreference.syncOn || !isLogged
-                              ? null
-                              : () => _showConfirmDialog(context, ref, false),
+                          onPressed:
+                              !syncPreference.syncOn || !isLogged
+                                  ? null
+                                  : () =>
+                                      _showConfirmDialog(context, ref, false),
                           icon: Icon(
                             Icons.file_download_outlined,
-                            color: !syncPreference.syncOn || !isLogged
-                                ? context.secondaryColor
-                                : context.primaryColor,
+                            color:
+                                !syncPreference.syncOn || !isLogged
+                                    ? context.secondaryColor
+                                    : context.primaryColor,
                           ),
                         ),
                         Text(l10n.sync_button_download),
@@ -442,156 +456,168 @@ class SyncScreen extends ConsumerWidget {
     final l10n = l10nLocalizations(context)!;
     showDialog(
       context: context,
-      builder: (context) => StatefulBuilder(
-        builder: (context, setState) {
-          return AlertDialog(
-            title: Text(
-              l10n.login_into("SyncServer"),
-              style: const TextStyle(fontSize: 30),
-            ),
-            content: SizedBox(
-              height: 400,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: TextFormField(
-                      controller: serverController,
-                      autofocus: true,
-                      onChanged: (value) => setState(() {
-                        server = value;
-                      }),
-                      decoration: InputDecoration(
-                        hintText: l10n.sync_server,
-                        filled: false,
-                        contentPadding: const EdgeInsets.all(12),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(width: 0.4),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: const BorderSide(),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: TextFormField(
-                      controller: emailController,
-                      autofocus: true,
-                      onChanged: (value) => setState(() {
-                        email = value;
-                      }),
-                      decoration: InputDecoration(
-                        hintText: l10n.email_adress,
-                        filled: false,
-                        contentPadding: const EdgeInsets.all(12),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(width: 0.4),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: const BorderSide(),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: TextFormField(
-                      controller: passwordController,
-                      obscureText: obscureText,
-                      onChanged: (value) => setState(() {
-                        password = value;
-                      }),
-                      decoration: InputDecoration(
-                        hintText: l10n.sync_password,
-                        suffixIcon: IconButton(
-                          onPressed: () => setState(() {
-                            obscureText = !obscureText;
-                          }),
-                          icon: Icon(
-                            obscureText
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
+      builder:
+          (context) => StatefulBuilder(
+            builder: (context, setState) {
+              return AlertDialog(
+                title: Text(
+                  l10n.login_into("SyncServer"),
+                  style: const TextStyle(fontSize: 30),
+                ),
+                content: SizedBox(
+                  height: 400,
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: TextFormField(
+                          controller: serverController,
+                          autofocus: true,
+                          onChanged:
+                              (value) => setState(() {
+                                server = value;
+                              }),
+                          decoration: InputDecoration(
+                            hintText: l10n.sync_server,
+                            filled: false,
+                            contentPadding: const EdgeInsets.all(12),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(width: 0.4),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: const BorderSide(),
+                            ),
                           ),
                         ),
-                        filled: false,
-                        contentPadding: const EdgeInsets.all(12),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(width: 0.4),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: const BorderSide(),
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: TextFormField(
+                          controller: emailController,
+                          autofocus: true,
+                          onChanged:
+                              (value) => setState(() {
+                                email = value;
+                              }),
+                          decoration: InputDecoration(
+                            hintText: l10n.email_adress,
+                            filled: false,
+                            contentPadding: const EdgeInsets.all(12),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(width: 0.4),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: const BorderSide(),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(errorMessage, style: const TextStyle(color: Colors.red)),
-                  const SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: SizedBox(
-                      width: context.width(1),
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: isLoading
-                            ? null
-                            : () async {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                                final res = await ref
-                                    .read(
-                                      syncServerProvider(syncId: 1).notifier,
-                                    )
-                                    .login(l10n, server, email, password);
-                                if (!res.$1) {
-                                  setState(() {
-                                    isLoading = false;
-                                    errorMessage = res.$2;
-                                  });
-                                } else {
-                                  if (context.mounted) {
-                                    Navigator.pop(context);
-                                  }
-                                }
-                              },
-                        child: isLoading
-                            ? const CircularProgressIndicator()
-                            : Text(l10n.login),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: TextFormField(
+                          controller: passwordController,
+                          obscureText: obscureText,
+                          onChanged:
+                              (value) => setState(() {
+                                password = value;
+                              }),
+                          decoration: InputDecoration(
+                            hintText: l10n.sync_password,
+                            suffixIcon: IconButton(
+                              onPressed:
+                                  () => setState(() {
+                                    obscureText = !obscureText;
+                                  }),
+                              icon: Icon(
+                                obscureText
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                              ),
+                            ),
+                            filled: false,
+                            contentPadding: const EdgeInsets.all(12),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(width: 0.4),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: const BorderSide(),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: 10),
+                      Text(
+                        errorMessage,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                      const SizedBox(height: 30),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: SizedBox(
+                          width: context.width(1),
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed:
+                                isLoading
+                                    ? null
+                                    : () async {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      final res = await ref
+                                          .read(
+                                            syncServerProvider(
+                                              syncId: 1,
+                                            ).notifier,
+                                          )
+                                          .login(l10n, server, email, password);
+                                      if (!res.$1) {
+                                        setState(() {
+                                          isLoading = false;
+                                          errorMessage = res.$2;
+                                        });
+                                      } else {
+                                        if (context.mounted) {
+                                          Navigator.pop(context);
+                                        }
+                                      }
+                                    },
+                            child:
+                                isLoading
+                                    ? const CircularProgressIndicator()
+                                    : Text(l10n.login),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+                ),
+              );
+            },
+          ),
     );
   }
 }

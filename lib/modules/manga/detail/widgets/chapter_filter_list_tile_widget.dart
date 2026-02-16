@@ -16,11 +16,12 @@ class ListTileChapterFilter extends StatelessWidget {
     return CheckboxListTile(
       dense: true,
       tristate: true,
-      value: type == 0
-          ? false
-          : type == 1
-          ? true
-          : null,
+      value:
+          type == 0
+              ? false
+              : type == 1
+              ? true
+              : null,
       title: Text(label, style: const TextStyle(fontSize: 14)),
       controlAffinity: ListTileControlAffinity.leading,
       onChanged: (value) {

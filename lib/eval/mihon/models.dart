@@ -8,17 +8,17 @@ class MangaPages {
   factory MangaPages.fromJson(Map<String, dynamic> json, ItemType itemType) {
     final name = itemType == ItemType.anime ? "animes" : "mangas";
     return MangaPages(
-      list: json[name] != null
-          ? (json[name] as List).map((e) => SManga.fromJson(e)).toList()
-          : [],
+      list:
+          json[name] != null
+              ? (json[name] as List).map((e) => SManga.fromJson(e)).toList()
+              : [],
       hasNextPage: json['hasNextPage'],
     );
   }
 
   Map<String, dynamic> toJson(ItemType itemType) => {
-    itemType == ItemType.anime ? "animes" : "mangas": list
-        .map((v) => v.toJson())
-        .toList(),
+    itemType == ItemType.anime ? "animes" : "mangas":
+        list.map((v) => v.toJson()).toList(),
     'hasNextPage': hasNextPage,
   };
 }

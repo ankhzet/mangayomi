@@ -32,24 +32,33 @@ class MChapterBridge {
       'duration': (visitor, target) => (target as MChapter).duration,
     },
     setters: {
-      'name': (visitor, target, value) =>
-          (target as MChapter).name = value as String?,
-      'url': (visitor, target, value) =>
-          (target as MChapter).url = value as String?,
-      'dateUpload': (visitor, target, value) =>
-          (target as MChapter).dateUpload = value as String?,
-      'scanlator': (visitor, target, value) =>
-          (target as MChapter).scanlator = value as String?,
-      'isFiller': (visitor, target, value) =>
-          (target as MChapter).isFiller = value as bool?,
-      'thumbnailUrl': (visitor, target, value) =>
-          (target as MChapter).thumbnailUrl = value as String?,
-      'description': (visitor, target, value) =>
-          (target as MChapter).description = value as String?,
-      'downloadSize': (visitor, target, value) =>
-          (target as MChapter).downloadSize = value as String?,
-      'duration': (visitor, target, value) =>
-          (target as MChapter).duration = value as String?,
+      'name':
+          (visitor, target, value) =>
+              (target as MChapter).name = value as String?,
+      'url':
+          (visitor, target, value) =>
+              (target as MChapter).url = value as String?,
+      'dateUpload':
+          (visitor, target, value) =>
+              (target as MChapter).dateUpload = value as String?,
+      'scanlator':
+          (visitor, target, value) =>
+              (target as MChapter).scanlator = value as String?,
+      'isFiller':
+          (visitor, target, value) =>
+              (target as MChapter).isFiller = value as bool?,
+      'thumbnailUrl':
+          (visitor, target, value) =>
+              (target as MChapter).thumbnailUrl = value as String?,
+      'description':
+          (visitor, target, value) =>
+              (target as MChapter).description = value as String?,
+      'downloadSize':
+          (visitor, target, value) =>
+              (target as MChapter).downloadSize = value as String?,
+      'duration':
+          (visitor, target, value) =>
+              (target as MChapter).duration = value as String?,
     },
   );
   void registerBridgedClasses(D4rt interpreter) {

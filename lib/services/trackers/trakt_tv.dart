@@ -21,9 +21,8 @@ class TraktTv extends _$TraktTv implements BaseTracker {
   static const _baseOAuthUrl = 'https://api.trakt.tv/oauth';
   static const _baseApiUrl = 'https://api.trakt.tv';
   static final _isDesktop = (Platform.isWindows || Platform.isLinux);
-  static final _redirectUri = _isDesktop
-      ? 'http://localhost:43824'
-      : 'mangayomi://';
+  static final _redirectUri =
+      _isDesktop ? 'http://localhost:43824' : 'mangayomi://';
   static const _clientId =
       '5520c7e24da0d8d73ec80315b61b9849483583b013cb7f296c6db723eb9886a1';
   static const _clientSecret =
@@ -41,9 +40,8 @@ class TraktTv extends _$TraktTv implements BaseTracker {
   }) {}
 
   Future<bool?> login() async {
-    final callbackUrlScheme = _isDesktop
-        ? 'http://localhost:43824'
-        : 'mangayomi';
+    final callbackUrlScheme =
+        _isDesktop ? 'http://localhost:43824' : 'mangayomi';
     final loginUrl = _authUrl();
 
     try {
@@ -93,15 +91,18 @@ class TraktTv extends _$TraktTv implements BaseTracker {
                 'No summary available.',
             totalChapter:
                 e['aired_episodes'] ?? e[type]?['aired_episodes'] ?? 1,
-            coverUrl: (e['images']?['fanart'] as List?)?.isNotEmpty ?? false
-                ? 'https://wsrv.nl/?url=${e['images']?['fanart'][0]}'
-                : (e[type]?['images']?['fanart'] as List?)?.isNotEmpty ?? false
-                ? 'https://wsrv.nl/?url=${e[type]?['images']?['fanart'][0]}'
-                : (e['images']?['poster'] as List?)?.isNotEmpty ?? false
-                ? 'https://wsrv.nl/?url=${e['images']?['poster'][0]}'
-                : (e[type]?['images']?['poster'] as List?)?.isNotEmpty ?? false
-                ? 'https://wsrv.nl/?url=${e[type]?['images']?['poster'][0]}'
-                : '',
+            coverUrl:
+                (e['images']?['fanart'] as List?)?.isNotEmpty ?? false
+                    ? 'https://wsrv.nl/?url=${e['images']?['fanart'][0]}'
+                    : (e[type]?['images']?['fanart'] as List?)?.isNotEmpty ??
+                        false
+                    ? 'https://wsrv.nl/?url=${e[type]?['images']?['fanart'][0]}'
+                    : (e['images']?['poster'] as List?)?.isNotEmpty ?? false
+                    ? 'https://wsrv.nl/?url=${e['images']?['poster'][0]}'
+                    : (e[type]?['images']?['poster'] as List?)?.isNotEmpty ??
+                        false
+                    ? 'https://wsrv.nl/?url=${e[type]?['images']?['poster'][0]}'
+                    : '',
             title: e['title'] ?? e[type]?['title'] ?? 'Unknown Title',
             score: double.tryParse(
               (e["rating"] ?? e[type]?["rating"] as num?)
@@ -136,15 +137,18 @@ class TraktTv extends _$TraktTv implements BaseTracker {
             mediaId: e[type]?['ids']?['trakt'],
             summary: e[type]?['overview'] ?? 'No summary available.',
             totalChapter: e[type]?['aired_episodes'] ?? 1,
-            coverUrl: (e['images']?['fanart'] as List?)?.isNotEmpty ?? false
-                ? 'https://wsrv.nl/?url=${e['images']?['fanart'][0]}'
-                : (e[type]?['images']?['fanart'] as List?)?.isNotEmpty ?? false
-                ? 'https://wsrv.nl/?url=${e[type]?['images']?['fanart'][0]}'
-                : (e['images']?['poster'] as List?)?.isNotEmpty ?? false
-                ? 'https://wsrv.nl/?url=${e['images']?['poster'][0]}'
-                : (e[type]?['images']?['poster'] as List?)?.isNotEmpty ?? false
-                ? 'https://wsrv.nl/?url=${e[type]?['images']?['poster'][0]}'
-                : '',
+            coverUrl:
+                (e['images']?['fanart'] as List?)?.isNotEmpty ?? false
+                    ? 'https://wsrv.nl/?url=${e['images']?['fanart'][0]}'
+                    : (e[type]?['images']?['fanart'] as List?)?.isNotEmpty ??
+                        false
+                    ? 'https://wsrv.nl/?url=${e[type]?['images']?['fanart'][0]}'
+                    : (e['images']?['poster'] as List?)?.isNotEmpty ?? false
+                    ? 'https://wsrv.nl/?url=${e['images']?['poster'][0]}'
+                    : (e[type]?['images']?['poster'] as List?)?.isNotEmpty ??
+                        false
+                    ? 'https://wsrv.nl/?url=${e[type]?['images']?['poster'][0]}'
+                    : '',
             title: e[type]['title'] ?? 'Unknown Title',
             score: double.tryParse(
               (e[type]?["rating"] as num?)?.toDouble().toStringAsFixed(2) ?? "",
@@ -168,19 +172,21 @@ class TraktTv extends _$TraktTv implements BaseTracker {
         "movies";
     final url = Uri.parse(
       '$_baseApiUrl/sync/history/${isMovie ? "movies" : "shows"}/${track.mediaId}',
-    ).replace(queryParameters: {"extended": "full", "page": "1", "limit": "3000"});
+    ).replace(
+      queryParameters: {"extended": "full", "page": "1", "limit": "3000"},
+    );
     final result = await _makeGetRequest(url, accessToken);
     final data = jsonDecode(result.body) as List?;
     if (data?.isNotEmpty ?? false) {
       if (!isMovie) {
-        track.lastChapterRead = data!
-            .where((e) => e["type"] == "episode")
-            .length;
+        track.lastChapterRead =
+            data!.where((e) => e["type"] == "episode").length;
       }
       if ((track.lastChapterRead ?? 0) >= (track.totalChapter ?? 0)) {
-        track.finishedReadingDate = DateTime.tryParse(
-          data!.firstOrNull?["watched_at"],
-        )?.millisecondsSinceEpoch;
+        track.finishedReadingDate =
+            DateTime.tryParse(
+              data!.firstOrNull?["watched_at"],
+            )?.millisecondsSinceEpoch;
       }
       return track;
     }
@@ -207,15 +213,18 @@ class TraktTv extends _$TraktTv implements BaseTracker {
             mediaId: e[type]?['ids']?['trakt'],
             summary: e[type]?['overview'] ?? 'No summary available.',
             totalChapter: e[type]?['aired_episodes'] ?? 1,
-            coverUrl: (e['images']?['fanart'] as List?)?.isNotEmpty ?? false
-                ? 'https://wsrv.nl/?url=${e['images']?['fanart'][0]}'
-                : (e[type]?['images']?['fanart'] as List?)?.isNotEmpty ?? false
-                ? 'https://wsrv.nl/?url=${e[type]?['images']?['fanart'][0]}'
-                : (e['images']?['poster'] as List?)?.isNotEmpty ?? false
-                ? 'https://wsrv.nl/?url=${e['images']?['poster'][0]}'
-                : (e[type]?['images']?['poster'] as List?)?.isNotEmpty ?? false
-                ? 'https://wsrv.nl/?url=${e[type]?['images']?['poster'][0]}'
-                : '',
+            coverUrl:
+                (e['images']?['fanart'] as List?)?.isNotEmpty ?? false
+                    ? 'https://wsrv.nl/?url=${e['images']?['fanart'][0]}'
+                    : (e[type]?['images']?['fanart'] as List?)?.isNotEmpty ??
+                        false
+                    ? 'https://wsrv.nl/?url=${e[type]?['images']?['fanart'][0]}'
+                    : (e['images']?['poster'] as List?)?.isNotEmpty ?? false
+                    ? 'https://wsrv.nl/?url=${e['images']?['poster'][0]}'
+                    : (e[type]?['images']?['poster'] as List?)?.isNotEmpty ??
+                        false
+                    ? 'https://wsrv.nl/?url=${e[type]?['images']?['poster'][0]}'
+                    : '',
             title: e[type]['title'] ?? 'Unknown Title',
             score: double.tryParse(
               (e["rating"] ?? e[type]?["rating"] as num?)
@@ -265,34 +274,36 @@ class TraktTv extends _$TraktTv implements BaseTracker {
     final url = Uri.parse(
       "$_baseApiUrl/sync/history",
     ).replace(queryParameters: {'extended': 'full', 'clientId': _clientId});
-    final body = isMovie
-        ? {
-            'movies': [
-              {
-                'watched_at': DateTime.timestamp().toIso8601String(),
-                'ids': {'trakt': track.mediaId},
-              },
-            ],
-          }
-        : {
-            'shows': [
-              {
-                'ids': {'trakt': track.mediaId},
-                'seasons': [
-                  {
-                    'number': 1,
-                    'episodes': [
-                      for (int i = 1; i <= (track.lastChapterRead ?? 1); i++)
-                        {
-                          'watched_at': DateTime.timestamp().toIso8601String(),
-                          'number': i,
-                        },
-                    ],
-                  },
-                ],
-              },
-            ],
-          };
+    final body =
+        isMovie
+            ? {
+              'movies': [
+                {
+                  'watched_at': DateTime.timestamp().toIso8601String(),
+                  'ids': {'trakt': track.mediaId},
+                },
+              ],
+            }
+            : {
+              'shows': [
+                {
+                  'ids': {'trakt': track.mediaId},
+                  'seasons': [
+                    {
+                      'number': 1,
+                      'episodes': [
+                        for (int i = 1; i <= (track.lastChapterRead ?? 1); i++)
+                          {
+                            'watched_at':
+                                DateTime.timestamp().toIso8601String(),
+                            'number': i,
+                          },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            };
     await _makePostRequest(url, accessToken, body);
     return track;
   }
@@ -351,9 +362,10 @@ class TraktTv extends _$TraktTv implements BaseTracker {
 
   OAuth _buildOAuth(Map<String, dynamic> json, String clientId) {
     return OAuth.fromJson(json)
-      ..expiresIn = DateTime.now()
-          .add(Duration(seconds: json['expires_in']))
-          .millisecondsSinceEpoch
+      ..expiresIn =
+          DateTime.now()
+              .add(Duration(seconds: json['expires_in']))
+              .millisecondsSinceEpoch
       ..clientId = clientId;
   }
 

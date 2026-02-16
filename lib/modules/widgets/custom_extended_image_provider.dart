@@ -373,9 +373,8 @@ class CustomExtendedNetworkImageProvider
 
       // Pre-allocate list if content length is known
       final int total = response.contentLength ?? 0;
-      final List<int> bytes = total > 0
-          ? List<int>.filled(total, 0, growable: true)
-          : [];
+      final List<int> bytes =
+          total > 0 ? List<int>.filled(total, 0, growable: true) : [];
       int received = 0;
 
       response.stream.asBroadcastStream();

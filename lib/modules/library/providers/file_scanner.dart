@@ -70,22 +70,24 @@ Future<void> _scanDirectory(Ref ref, Directory? dir) async {
   final dateNow = DateTime.now().millisecondsSinceEpoch;
 
   // Fetch all existing mangas in library that are in /local (or \local)
-  final List<Manga> existingMangas = await isar.mangas
-      .filter()
-      .sourceEqualTo("local")
-      .or()
-      .linkContains("Mangayomi/local")
-      .or()
-      .linkContains("Mangayomi\\local")
-      .findAll();
+  final List<Manga> existingMangas =
+      await isar.mangas
+          .filter()
+          .sourceEqualTo("local")
+          .or()
+          .linkContains("Mangayomi/local")
+          .or()
+          .linkContains("Mangayomi\\local")
+          .findAll();
   final mangaMap = {for (var m in existingMangas) _getRelativePath(m.link!): m};
 
   // Fetch all chapters for existing mangas
   final existingMangaIds = existingMangas.map((m) => m.id);
-  final existingChapters = await isar.chapters
-      .filter()
-      .anyOf(existingMangaIds, (q, id) => q.mangaIdEqualTo(id))
-      .findAll();
+  final existingChapters =
+      await isar.chapters
+          .filter()
+          .anyOf(existingMangaIds, (q, id) => q.mangaIdEqualTo(id))
+          .findAll();
 
   // Map where the key is manga ID and the value is a set of chapter paths.
   final chaptersMap = <int, Set<String>>{};
@@ -132,9 +134,8 @@ Future<void> _scanDirectory(Ref ref, Directory? dir) async {
     final files = children.whereType<File>().toList();
 
     // Determine itemtype
-    final hasImagesFolders = subDirs
-        .where((e) => !e.path.endsWith("_subtitles"))
-        .isNotEmpty;
+    final hasImagesFolders =
+        subDirs.where((e) => !e.path.endsWith("_subtitles")).isNotEmpty;
     final hasArchives = files.any((f) => _isArchive(f.path));
     final hasVideos = files.any((f) => _isVideo(f.path));
     final hasEpubs = files.any((f) => _isEpub(f.path));
@@ -204,9 +205,10 @@ Future<void> _scanDirectory(Ref ref, Directory? dir) async {
         manga.artist = data?["artist"];
         manga.author = data?["author"];
         manga.genre = data?["genre"]?.cast<String>();
-        manga.status = data?["status"] != null
-            ? Status.values[data!["status"]]
-            : Status.unknown;
+        manga.status =
+            data?["status"] != null
+                ? Status.values[data!["status"]]
+                : Status.unknown;
         manga.lastUpdate = dateNow;
       } catch (e) {
         BotToast.showText(text: "Error reading metadata: $e");
@@ -258,23 +260,25 @@ Future<void> _scanDirectory(Ref ref, Directory? dir) async {
     // Copy processedMangas
     List<Manga> newAddedMangas = processedMangas;
     // Fetch all existing mangas in library that are in /local (or \local)
-    final savedMangas = await isar.mangas
-        .filter()
-        .sourceEqualTo("local")
-        .or()
-        .linkContains("Mangayomi/local")
-        .or()
-        .linkContains("Mangayomi\\local")
-        .findAll();
+    final savedMangas =
+        await isar.mangas
+            .filter()
+            .sourceEqualTo("local")
+            .or()
+            .linkContains("Mangayomi/local")
+            .or()
+            .linkContains("Mangayomi\\local")
+            .findAll();
     // Save all retrieved Manga objects (now with id) matching the processedMangas list
-    newAddedMangas = savedMangas
-        .where(
-          (m) => processedMangas.any(
-            (newManga) =>
-                _getRelativePath(newManga.link) == _getRelativePath(m.link),
-          ),
-        )
-        .toList();
+    newAddedMangas =
+        savedMangas
+            .where(
+              (m) => processedMangas.any(
+                (newManga) =>
+                    _getRelativePath(newManga.link) == _getRelativePath(m.link),
+              ),
+            )
+            .toList();
     processedMangas.clear();
     processedMangas = newAddedMangas;
   }
@@ -316,13 +320,14 @@ Future<void> _scanDirectory(Ref ref, Directory? dir) async {
           mangaId: manga.id,
           name:
               pathBool[1] // If Chapter is an image folder or archive/video
-              ? p.basename(chapterPath)
-              : p.basenameWithoutExtension(chapterPath),
+                  ? p.basename(chapterPath)
+                  : p.basenameWithoutExtension(chapterPath),
           dateUpload: dateNow.toString(),
           archivePath: chapterPath,
-          downloadSize: chapterFile.existsSync()
-              ? chapterFile.lengthSync().formattedFileSize()
-              : null,
+          downloadSize:
+              chapterFile.existsSync()
+                  ? chapterFile.lengthSync().formattedFileSize()
+                  : null,
         );
         chaptersToSave.add(chap);
       }

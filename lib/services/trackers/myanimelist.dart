@@ -40,9 +40,8 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
   }) {}
 
   Future<bool?> login() async {
-    final callbackUrlScheme = _isDesktop
-        ? 'http://localhost:43824'
-        : 'mangayomi';
+    final callbackUrlScheme =
+        _isDesktop ? 'http://localhost:43824' : 'mangayomi';
     final loginUrl = _authUrl();
 
     try {
@@ -114,9 +113,10 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
 
   OAuth _buildOAuth(Map<String, dynamic> json, String clientId) {
     return OAuth.fromJson(json)
-      ..expiresIn = DateTime.now()
-          .add(Duration(seconds: json['expires_in']))
-          .millisecondsSinceEpoch
+      ..expiresIn =
+          DateTime.now()
+              .add(Duration(seconds: json['expires_in']))
+              .millisecondsSinceEpoch
       ..clientId = clientId;
   }
 
@@ -142,9 +142,10 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
     final result = await _makeGetRequest(url, accessToken);
     final res = jsonDecode(result.body) as Map<String, dynamic>;
 
-    List<int> mangaIds = res['data'] == null
-        ? []
-        : (res['data'] as List).map((e) => e['node']["id"] as int).toList();
+    List<int> mangaIds =
+        res['data'] == null
+            ? []
+            : (res['data'] as List).map((e) => e['node']["id"] as int).toList();
     final trackSearchResult = await Future.wait(
       mangaIds.map((id) => getDetails(id, accessToken, isManga)),
     );
@@ -208,22 +209,22 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
     return res['data'] == null
         ? []
         : (res['data'] as List).map((e) {
-            final node = e["node"] as Map<String, dynamic>;
-            String clean(String? s) => (s ?? '').replaceAll('_', ' ');
-            return TrackSearch(
-              mediaId: node["id"],
-              summary: node["synopsis"] ?? "",
-              totalChapter: node[contentUnit],
-              coverUrl: node["main_picture"]?["large"] ?? "",
-              title: node["title"],
-              score: (node["mean"] as num?)?.toDouble(),
-              startDate: node["start_date"] ?? "",
-              publishingType: clean(node["media_type"].toString()),
-              publishingStatus: clean(node["status"].toString()),
-              trackingUrl: "https://myanimelist.net/$item/${node["id"]}",
-              syncId: syncId,
-            );
-          }).toList();
+          final node = e["node"] as Map<String, dynamic>;
+          String clean(String? s) => (s ?? '').replaceAll('_', ' ');
+          return TrackSearch(
+            mediaId: node["id"],
+            summary: node["synopsis"] ?? "",
+            totalChapter: node[contentUnit],
+            coverUrl: node["main_picture"]?["large"] ?? "",
+            title: node["title"],
+            score: (node["mean"] as num?)?.toDouble(),
+            startDate: node["start_date"] ?? "",
+            publishingType: clean(node["media_type"].toString()),
+            publishingStatus: clean(node["status"].toString()),
+            trackingUrl: "https://myanimelist.net/$item/${node["id"]}",
+            syncId: syncId,
+          );
+        }).toList();
   }
 
   @override
@@ -248,30 +249,30 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
     return res['data'] == null
         ? []
         : (res['data'] as List).map((e) {
-            final node = e["node"] as Map<String, dynamic>;
-            final listStatus = e["list_status"] as Map<String, dynamic>;
-            String clean(String? s) => (s ?? '').replaceAll('_', ' ');
-            return TrackSearch(
-              mediaId: node["id"],
-              summary: node["synopsis"] ?? "",
-              totalChapter: node[contentUnit],
-              coverUrl: node["main_picture"]?["large"] ?? "",
-              title: node["title"],
-              score: (node["mean"] as num?)?.toDouble(),
-              startDate: node["start_date"] ?? "",
-              publishingType: clean(node["media_type"].toString()),
-              publishingStatus: clean(node["status"].toString()),
-              trackingUrl: "https://myanimelist.net/$item/${node["id"]}",
-              startedReadingDate: _parseDate(listStatus["start_date"]),
-              finishedReadingDate: _parseDate(listStatus["finish_date"]),
-              lastChapterRead:
-                  listStatus[isManga
-                      ? "num_chapters_read"
-                      : "num_episodes_watched"],
-              status: fromMyAnimeListStatus(listStatus["status"], isManga).name,
-              syncId: syncId,
-            );
-          }).toList();
+          final node = e["node"] as Map<String, dynamic>;
+          final listStatus = e["list_status"] as Map<String, dynamic>;
+          String clean(String? s) => (s ?? '').replaceAll('_', ' ');
+          return TrackSearch(
+            mediaId: node["id"],
+            summary: node["synopsis"] ?? "",
+            totalChapter: node[contentUnit],
+            coverUrl: node["main_picture"]?["large"] ?? "",
+            title: node["title"],
+            score: (node["mean"] as num?)?.toDouble(),
+            startDate: node["start_date"] ?? "",
+            publishingType: clean(node["media_type"].toString()),
+            publishingStatus: clean(node["status"].toString()),
+            trackingUrl: "https://myanimelist.net/$item/${node["id"]}",
+            startedReadingDate: _parseDate(listStatus["start_date"]),
+            finishedReadingDate: _parseDate(listStatus["finish_date"]),
+            lastChapterRead:
+                listStatus[isManga
+                    ? "num_chapters_read"
+                    : "num_episodes_watched"],
+            status: fromMyAnimeListStatus(listStatus["status"], isManga).name,
+            syncId: syncId,
+          );
+        }).toList();
   }
 
   String _convertToIsoDate(int? epochTime) {
@@ -392,9 +393,10 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
   Track _parseItem(Map<String, dynamic> mJson, Track track, bool isManga) {
     bool isRepeating =
         mJson[isManga ? "is_rereading" : "is_rewatching"] ?? false;
-    track.status = isRepeating
-        ? (isManga ? TrackStatus.reReading : TrackStatus.reWatching)
-        : _getMALTrackStatus(mJson["status"], isManga);
+    track.status =
+        isRepeating
+            ? (isManga ? TrackStatus.reReading : TrackStatus.reWatching)
+            : _getMALTrackStatus(mJson["status"], isManga);
     track.lastChapterRead = int.parse(
       mJson[isManga ? "num_chapters_read" : "num_episodes_watched"].toString(),
     );
@@ -424,9 +426,8 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
                   (isManga ? TrackStatus.reReading : TrackStatus.reWatching))
               .toString(),
       'score': track.score.toString(),
-      isManga ? 'num_chapters_read' : 'num_watched_episodes': track
-          .lastChapterRead
-          .toString(),
+      isManga ? 'num_chapters_read' : 'num_watched_episodes':
+          track.lastChapterRead.toString(),
       if (track.startedReadingDate != null)
         'start_date': _convertToIsoDate(track.startedReadingDate),
       if (track.finishedReadingDate != null)

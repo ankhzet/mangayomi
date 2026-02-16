@@ -60,24 +60,26 @@ class ImageViewWebtoon extends StatelessWidget {
   Widget build(BuildContext context) {
     return PhotoViewGallery.builder(
       itemCount: 1,
-      builder: (_, _) => PhotoViewGalleryPageOptions.customChild(
-        controller: photoViewController,
-        scaleStateController: photoViewScaleStateController,
-        basePosition: scalePosition,
-        onScaleEnd: (context, details, controllerValue) => onScaleEnd(details),
-        child: ScrollablePositionedList.separated(
-          scrollDirection: scrollDirection,
-          minCacheExtent: minCacheExtent,
-          initialScrollIndex: initialScrollIndex,
-          itemCount: pages.length,
-          physics: physics,
-          itemScrollController: itemScrollController,
-          scrollOffsetController: scrollOffsetController,
-          itemPositionsListener: itemPositionsListener,
-          itemBuilder: (context, index) => _buildItem(context, index),
-          separatorBuilder: _buildSeparator,
-        ),
-      ),
+      builder:
+          (_, _) => PhotoViewGalleryPageOptions.customChild(
+            controller: photoViewController,
+            scaleStateController: photoViewScaleStateController,
+            basePosition: scalePosition,
+            onScaleEnd:
+                (context, details, controllerValue) => onScaleEnd(details),
+            child: ScrollablePositionedList.separated(
+              scrollDirection: scrollDirection,
+              minCacheExtent: minCacheExtent,
+              initialScrollIndex: initialScrollIndex,
+              itemCount: pages.length,
+              physics: physics,
+              itemScrollController: itemScrollController,
+              scrollOffsetController: scrollOffsetController,
+              itemPositionsListener: itemPositionsListener,
+              itemBuilder: (context, index) => _buildItem(context, index),
+              separatorBuilder: _buildSeparator,
+            ),
+          ),
     );
   }
 
@@ -123,12 +125,13 @@ class ImageViewWebtoon extends StatelessWidget {
     final int index1 = index * 2 - 1;
     final int index2 = index1 + 1;
 
-    final List<UChapDataPreload?> datas = index == 0
-        ? [pages[0], null]
-        : [
-            index1 < pageLength ? pages[index1] : null,
-            index2 < pageLength ? pages[index2] : null,
-          ];
+    final List<UChapDataPreload?> datas =
+        index == 0
+            ? [pages[0], null]
+            : [
+              index1 < pageLength ? pages[index1] : null,
+              index2 < pageLength ? pages[index2] : null,
+            ];
 
     return GestureDetector(
       behavior: HitTestBehavior.translucent,

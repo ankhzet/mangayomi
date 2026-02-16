@@ -13,9 +13,10 @@ Widget cachedNetworkImage({
   Widget errorWidget = const Icon(Icons.error, size: 50),
 }) {
   return ExtendedImage(
-    image: useCustomNetworkImage
-        ? CustomExtendedNetworkImageProvider(imageUrl, headers: headers)
-        : ExtendedNetworkImageProvider(imageUrl, headers: headers),
+    image:
+        useCustomNetworkImage
+            ? CustomExtendedNetworkImageProvider(imageUrl, headers: headers)
+            : ExtendedNetworkImageProvider(imageUrl, headers: headers),
     width: width,
     height: height,
     fit: fit,

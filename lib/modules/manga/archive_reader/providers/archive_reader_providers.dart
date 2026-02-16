@@ -168,11 +168,12 @@ Future<LocalArchive> _extractFromImageFolder(String path) async {
     throw Exception('No images found in folder: $path');
   }
 
-  final images = imageFiles.map((file) {
-    return LocalImage()
-      ..image = file.readAsBytesSync()
-      ..name = p.basename(file.path);
-  }).toList();
+  final images =
+      imageFiles.map((file) {
+        return LocalImage()
+          ..image = file.readAsBytesSync()
+          ..name = p.basename(file.path);
+      }).toList();
 
   return LocalArchive()
     ..path = path
@@ -185,11 +186,12 @@ Future<LocalArchive> _extractFromImageFolder(String path) async {
 /// Extract images from an archive file
 LocalArchive _extractFromArchiveFile(String path) {
   final extensionType = _getArchiveType(path);
-  final localArchive = LocalArchive()
-    ..path = path
-    ..extensionType = extensionType
-    ..name = p.basenameWithoutExtension(path)
-    ..images = [];
+  final localArchive =
+      LocalArchive()
+        ..path = path
+        ..extensionType = extensionType
+        ..name = p.basenameWithoutExtension(path)
+        ..images = [];
 
   InputFileStream? inputStream;
 

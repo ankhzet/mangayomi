@@ -186,9 +186,9 @@ class TrackState extends _$TrackState {
     final tracker = getNotifier(syncId);
     return rankingType != null
         ? await tracker.fetchGeneralData(
-            isManga: _isManga,
-            rankingType: rankingType,
-          )
+          isManga: _isManga,
+          rankingType: rankingType,
+        )
         : await tracker.fetchGeneralData(isManga: _isManga);
   }
 

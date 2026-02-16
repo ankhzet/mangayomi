@@ -31,9 +31,10 @@ class ChapterListTileWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = l10nLocalizations(context)!;
     return Container(
-      color: chapterList.contains(chapter)
-          ? context.primaryColor.withValues(alpha: 0.4)
-          : null,
+      color:
+          chapterList.contains(chapter)
+              ? context.primaryColor.withValues(alpha: 0.4)
+              : null,
       child: GestureDetector(
         onLongPress: () => _handleInteraction(ref),
         onSecondaryTap: () => _handleInteraction(ref),
@@ -45,23 +46,27 @@ class ChapterListTileWidget extends ConsumerWidget {
             width: 2,
             height: 40,
             decoration: BoxDecoration(
-              color: chapter.isRead!
-                  ? Colors.grey.withValues(alpha: 0.3)
-                  : context.primaryColor,
+              color:
+                  chapter.isRead!
+                      ? Colors.grey.withValues(alpha: 0.3)
+                      : context.primaryColor,
               borderRadius: BorderRadius.circular(10),
             ),
           ),
-          tileColor: (chapter.isFiller ?? false)
-              ? context.primaryColor.withValues(alpha: 0.15)
-              : null,
-          textColor: chapter.isRead!
-              ? context.isLight
-                    ? Colors.black.withValues(alpha: 0.4)
-                    : Colors.white.withValues(alpha: 0.3)
-              : null,
-          selectedColor: chapter.isRead!
-              ? Colors.white.withValues(alpha: 0.3)
-              : Colors.white,
+          tileColor:
+              (chapter.isFiller ?? false)
+                  ? context.primaryColor.withValues(alpha: 0.15)
+                  : null,
+          textColor:
+              chapter.isRead!
+                  ? context.isLight
+                      ? Colors.black.withValues(alpha: 0.4)
+                      : Colors.white.withValues(alpha: 0.3)
+                  : null,
+          selectedColor:
+              chapter.isRead!
+                  ? Colors.white.withValues(alpha: 0.3)
+                  : Colors.white,
           onTap: () async => _handleInteraction(ref, context),
           title: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,18 +78,18 @@ class ChapterListTileWidget extends ConsumerWidget {
                   : SizedBox.shrink(),
               chapter.description != null
                   ? Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildTitle(chapter.name!, context),
-                          Text(
-                            chapter.description!,
-                            style: const TextStyle(fontSize: 11),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    )
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildTitle(chapter.name!, context),
+                        Text(
+                          chapter.description!,
+                          style: const TextStyle(fontSize: 11),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  )
                   : Flexible(child: _buildTitle(chapter.name!, context)),
             ],
           ),
@@ -108,10 +113,10 @@ class ChapterListTileWidget extends ConsumerWidget {
                   chapter.dateUpload == null || chapter.dateUpload!.isEmpty
                       ? ""
                       : dateFormat(
-                          chapter.dateUpload!,
-                          ref: ref,
-                          context: context,
-                        ),
+                        chapter.dateUpload!,
+                        ref: ref,
+                        context: context,
+                      ),
                   style: const TextStyle(fontSize: 11),
                 ),
               if (!chapter.isRead!)
@@ -123,22 +128,21 @@ class ChapterListTileWidget extends ConsumerWidget {
                       Text(
                         chapter.manga.value!.itemType == ItemType.anime
                             ? l10n.episode_progress(
-                                Duration(
-                                  milliseconds: int.parse(
-                                    chapter.lastPageRead!,
-                                  ),
-                                ).toString().substringBefore("."),
-                              )
+                              Duration(
+                                milliseconds: int.parse(chapter.lastPageRead!),
+                              ).toString().substringBefore("."),
+                            )
                             : l10n.page(
-                                chapter.manga.value!.itemType == ItemType.manga
-                                    ? chapter.lastPageRead!
-                                    : "${((double.tryParse(chapter.lastPageRead!) ?? 0) * 100).toStringAsFixed(0)} %",
-                              ),
+                              chapter.manga.value!.itemType == ItemType.manga
+                                  ? chapter.lastPageRead!
+                                  : "${((double.tryParse(chapter.lastPageRead!) ?? 0) * 100).toStringAsFixed(0)} %",
+                            ),
                         style: TextStyle(
                           fontSize: 11,
-                          color: context.isLight
-                              ? Colors.black.withValues(alpha: 0.4)
-                              : Colors.white.withValues(alpha: 0.3),
+                          color:
+                              context.isLight
+                                  ? Colors.black.withValues(alpha: 0.4)
+                                  : Colors.white.withValues(alpha: 0.3),
                         ),
                       ),
                     ],
@@ -151,11 +155,12 @@ class ChapterListTileWidget extends ConsumerWidget {
                       chapter.scanlator!,
                       style: TextStyle(
                         fontSize: 11,
-                        color: chapter.isRead!
-                            ? context.isLight
-                                  ? Colors.black.withValues(alpha: 0.4)
-                                  : Colors.white.withValues(alpha: 0.3)
-                            : null,
+                        color:
+                            chapter.isRead!
+                                ? context.isLight
+                                    ? Colors.black.withValues(alpha: 0.4)
+                                    : Colors.white.withValues(alpha: 0.3)
+                                : null,
                       ),
                     ),
                   ],
@@ -168,9 +173,10 @@ class ChapterListTileWidget extends ConsumerWidget {
                       chapter.downloadSize!,
                       style: TextStyle(
                         fontSize: 11,
-                        color: context.isLight
-                            ? Colors.black.withValues(alpha: 0.4)
-                            : Colors.white.withValues(alpha: 0.3),
+                        color:
+                            context.isLight
+                                ? Colors.black.withValues(alpha: 0.4)
+                                : Colors.white.withValues(alpha: 0.3),
                       ),
                     ),
                   ],
@@ -179,8 +185,8 @@ class ChapterListTileWidget extends ConsumerWidget {
           ),
           trailing:
               !sourceExist || (chapter.manga.value!.isLocalArchive ?? false)
-              ? null
-              : ChapterPageDownload(chapter: chapter),
+                  ? null
+                  : ChapterPageDownload(chapter: chapter),
         ),
       ),
     );
@@ -205,14 +211,13 @@ class ChapterListTileWidget extends ConsumerWidget {
       builder: (context, constraints) {
         // Make sure that (constraints.maxWidth - (35 + 5)) is strictly positive.
         final double availableWidth = constraints.maxWidth - (35 + 5);
-        final textPainter =
-            TextPainter(
-              text: TextSpan(text: text, style: const TextStyle(fontSize: 13)),
-              maxLines: 1,
-              textDirection: TextDirection.ltr,
-            )..layout(
-              maxWidth: availableWidth > 0 ? availableWidth : 1.0,
-            ); // - Download icon size (download_page_widget.dart, Widget Build SizedBox width: 35)
+        final textPainter = TextPainter(
+          text: TextSpan(text: text, style: const TextStyle(fontSize: 13)),
+          maxLines: 1,
+          textDirection: TextDirection.ltr,
+        )..layout(
+          maxWidth: availableWidth > 0 ? availableWidth : 1.0,
+        ); // - Download icon size (download_page_widget.dart, Widget Build SizedBox width: 35)
 
         final isOverflowing = textPainter.didExceedMaxLines;
 

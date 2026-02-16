@@ -55,10 +55,10 @@ Future importArchivesFromFile(
       for (var file in result.files.reversed.toList()) {
         (String, LocalExtensionType, Uint8List, String)? data =
             itemType == ItemType.manga
-            ? await ref.watch(
-                getArchivesDataFromFileProvider(file.path!).future,
-              )
-            : null;
+                ? await ref.watch(
+                  getArchivesDataFromFileProvider(file.path!).future,
+                )
+                : null;
         String name = _getName(file.path!);
 
         if (init) {

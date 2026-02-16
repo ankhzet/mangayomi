@@ -41,9 +41,10 @@ class CustomTextFormField extends StatelessWidget {
       },
       onFieldSubmitted: (s) {},
       decoration: InputDecoration(
-        helperText: isExist == true
-            ? l10n!.add_category_error_exist
-            : l10n!.category_name_required,
+        helperText:
+            isExist == true
+                ? l10n!.add_category_error_exist
+                : l10n!.category_name_required,
         helperStyle: TextStyle(color: isExist == true ? Colors.red : null),
         isDense: true,
         label: Text(
@@ -54,23 +55,20 @@ class CustomTextFormField extends StatelessWidget {
         fillColor: Colors.transparent,
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: isExist == true
-                ? Colors.red
-                : Theme.of(context).primaryColor,
+            color:
+                isExist == true ? Colors.red : Theme.of(context).primaryColor,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: isExist == true
-                ? Colors.red
-                : Theme.of(context).primaryColor,
+            color:
+                isExist == true ? Colors.red : Theme.of(context).primaryColor,
           ),
         ),
         border: OutlineInputBorder(
           borderSide: BorderSide(
-            color: isExist == true
-                ? Colors.red
-                : Theme.of(context).primaryColor,
+            color:
+                isExist == true ? Colors.red : Theme.of(context).primaryColor,
           ),
         ),
       ),

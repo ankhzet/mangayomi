@@ -263,10 +263,11 @@ class _DoublePageViewState extends State<DoublePageView>
 
   Widget _buildLoadingState(ExtendedImageState state) {
     final loadingProgress = state.loadingProgress;
-    final progress = loadingProgress?.expectedTotalBytes != null
-        ? loadingProgress!.cumulativeBytesLoaded /
-              loadingProgress.expectedTotalBytes!
-        : 0.0;
+    final progress =
+        loadingProgress?.expectedTotalBytes != null
+            ? loadingProgress!.cumulativeBytesLoaded /
+                loadingProgress.expectedTotalBytes!
+            : 0.0;
 
     return Container(
       color: getBackgroundColor(widget.backgroundColor),

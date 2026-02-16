@@ -44,17 +44,18 @@ class _SourcePreferenceWidgetState extends State<SourcePreferenceWidget> {
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (context) => EditTextDialogWidget(
-                        text: pref.value ?? "",
-                        onChanged: (value) {
-                          setState(() {
-                            pref.value = value;
-                          });
-                          setPreferenceSetting(preference, widget.source);
-                        },
-                        dialogTitle: pref.dialogTitle ?? "",
-                        dialogMessage: pref.dialogMessage ?? "",
-                      ),
+                      builder:
+                          (context) => EditTextDialogWidget(
+                            text: pref.value ?? "",
+                            onChanged: (value) {
+                              setState(() {
+                                pref.value = value;
+                              });
+                              setPreferenceSetting(preference, widget.source);
+                            },
+                            dialogTitle: pref.dialogTitle ?? "",
+                            dialogMessage: pref.dialogMessage ?? "",
+                          ),
                     );
                   },
                 );
@@ -112,59 +113,62 @@ class _SourcePreferenceWidgetState extends State<SourcePreferenceWidget> {
                   onTap: () async {
                     final res = await showDialog(
                       context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(text: pref.title!),
-                              if (pref.summary?.isNotEmpty ?? false)
-                                TextSpan(
-                                  text: "\n\n${pref.summary!}",
-                                  style: TextStyle(fontSize: 13),
-                                ),
-                            ],
-                          ),
-                        ),
-                        content: SizedBox(
-                          width: context.width(0.8),
-                          child: RadioGroup(
-                            groupValue: pref.valueIndex,
-                            onChanged: (value) {
-                              Navigator.pop(context, value);
-                            },
-                            child: SuperListView.builder(
-                              shrinkWrap: true,
-                              itemCount: pref.entries!.length,
-                              itemBuilder: (context, index) {
-                                return RadioListTile(
-                                  dense: true,
-                                  contentPadding: const EdgeInsets.all(0),
-                                  value: index,
-                                  title: Row(
-                                    children: [Text(pref.entries![index])],
-                                  ),
-                                );
-                              },
+                      builder:
+                          (context) => AlertDialog(
+                            title: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(text: pref.title!),
+                                  if (pref.summary?.isNotEmpty ?? false)
+                                    TextSpan(
+                                      text: "\n\n${pref.summary!}",
+                                      style: TextStyle(fontSize: 13),
+                                    ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ),
-                        actions: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              TextButton(
-                                onPressed: () async {
-                                  Navigator.pop(context);
+                            content: SizedBox(
+                              width: context.width(0.8),
+                              child: RadioGroup(
+                                groupValue: pref.valueIndex,
+                                onChanged: (value) {
+                                  Navigator.pop(context, value);
                                 },
-                                child: Text(
-                                  context.l10n.cancel,
-                                  style: TextStyle(color: context.primaryColor),
+                                child: SuperListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: pref.entries!.length,
+                                  itemBuilder: (context, index) {
+                                    return RadioListTile(
+                                      dense: true,
+                                      contentPadding: const EdgeInsets.all(0),
+                                      value: index,
+                                      title: Row(
+                                        children: [Text(pref.entries![index])],
+                                      ),
+                                    );
+                                  },
                                 ),
+                              ),
+                            ),
+                            actions: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  TextButton(
+                                    onPressed: () async {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      context.l10n.cancel,
+                                      style: TextStyle(
+                                        color: context.primaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
                     );
                     if (res != null) {
                       setState(() {
@@ -205,10 +209,10 @@ class _SourcePreferenceWidgetState extends State<SourcePreferenceWidget> {
                                       label: pref.entries![index],
                                       type:
                                           indexList.contains(
-                                            pref.entryValues![index],
-                                          )
-                                          ? 1
-                                          : 0,
+                                                pref.entryValues![index],
+                                              )
+                                              ? 1
+                                              : 0,
                                       onTap: () {
                                         if (indexList.contains(
                                           pref.entryValues![index],

@@ -92,7 +92,7 @@ class TrackSearch {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id, 
+    'id': id,
     'libraryId': libraryId,
     'mediaId': mediaId,
     'syncId': syncId,

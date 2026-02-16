@@ -161,11 +161,11 @@ class ReaderBottomBar extends ConsumerWidget {
                   scaleX: 1,
                   child: Icon(
                     Icons.skip_previous_rounded,
-                    color: hasPreviousChapter
-                        ? Theme.of(context).textTheme.bodyLarge!.color
-                        : Theme.of(
-                            context,
-                          ).textTheme.bodyLarge!.color!.withValues(alpha: 0.4),
+                    color:
+                        hasPreviousChapter
+                            ? Theme.of(context).textTheme.bodyLarge!.color
+                            : Theme.of(context).textTheme.bodyLarge!.color!
+                                .withValues(alpha: 0.4),
                   ),
                 ),
               ),
@@ -254,11 +254,11 @@ class ReaderBottomBar extends ConsumerWidget {
                   scaleX: 1,
                   child: Icon(
                     Icons.skip_next_rounded,
-                    color: hasNextChapter
-                        ? Theme.of(context).textTheme.bodyLarge!.color
-                        : Theme.of(
-                            context,
-                          ).textTheme.bodyLarge!.color!.withValues(alpha: 0.4),
+                    color:
+                        hasNextChapter
+                            ? Theme.of(context).textTheme.bodyLarge!.color
+                            : Theme.of(context).textTheme.bodyLarge!.color!
+                                .withValues(alpha: 0.4),
                   ),
                 ),
               ),
@@ -278,15 +278,17 @@ class ReaderBottomBar extends ConsumerWidget {
       builder: (context, ref, child) {
         final currentIndex = ref.watch(currentIndexProvider(chapter));
 
-        final maxValue = (_isDoublePageMode && !isHorizontalContinuous)
-            ? ((totalPages / 2).ceil() + 1).toDouble()
-            : (totalPages - 1).toDouble();
+        final maxValue =
+            (_isDoublePageMode && !isHorizontalContinuous)
+                ? ((totalPages / 2).ceil() + 1).toDouble()
+                : (totalPages - 1).toDouble();
 
-        final divisions = totalPages == 1
-            ? null
-            : _isDoublePageMode
-            ? (totalPages / 2).ceil() + 1
-            : totalPages - 1;
+        final divisions =
+            totalPages == 1
+                ? null
+                : _isDoublePageMode
+                ? (totalPages / 2).ceil() + 1
+                : totalPages - 1;
 
         final currentValue = min(
           currentIndex.toDouble(),
@@ -339,30 +341,32 @@ class ReaderBottomBar extends ConsumerWidget {
             onSelected: (value) {
               onReaderModeChanged(value, ref);
             },
-            itemBuilder: (context) => [
-              for (var mode in ReaderMode.values)
-                PopupMenuItem(
-                  value: mode,
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.check,
-                        color: readerMode == mode
-                            ? Colors.white
-                            : Colors.transparent,
+            itemBuilder:
+                (context) => [
+                  for (var mode in ReaderMode.values)
+                    PopupMenuItem(
+                      value: mode,
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.check,
+                            color:
+                                readerMode == mode
+                                    ? Colors.white
+                                    : Colors.transparent,
+                          ),
+                          const SizedBox(width: 7),
+                          Text(
+                            getReaderModeName(mode, context),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 7),
-                      Text(
-                        getReaderModeName(mode, context),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-            ],
+                    ),
+                ],
             child: const Icon(Icons.app_settings_alt_outlined),
           ),
 
@@ -440,9 +444,10 @@ class PageNumberOverlay extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final label = pageMode == PageMode.doublePage && currentIndex > 0
-        ? _getDoublePageLabel()
-        : '${currentIndex + 1}';
+    final label =
+        pageMode == PageMode.doublePage && currentIndex > 0
+            ? _getDoublePageLabel()
+            : '${currentIndex + 1}';
 
     return Align(
       alignment: Alignment.bottomCenter,

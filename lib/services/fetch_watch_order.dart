@@ -84,9 +84,10 @@ Future<List<WatchOrderItem>> fetchWatchOrder(String id) async {
               return WatchOrderItem(
                 id: e.attr("data-id") ?? id,
                 anilistId: e.attr("data-anilist-id") ?? "",
-                image: startIdx != -1 && endIdx != -1
-                    ? "https://chiaki.site/${img?.substring(startIdx + 5, endIdx)}"
-                    : "",
+                image:
+                    startIdx != -1 && endIdx != -1
+                        ? "https://chiaki.site/${img?.substring(startIdx + 5, endIdx)}"
+                        : "",
                 name:
                     e.selectFirst("td > span.wo_title")?.text ??
                     "Unknown title",

@@ -257,47 +257,50 @@ class _CustomButtonScreenState extends ConsumerState<CustomButtonScreen> {
                       ),
                       const SizedBox(width: 15),
                       TextButton(
-                        onPressed: isTitleMissing || isCodePressMissing
-                            ? null
-                            : () async {
-                                final temp = await isar.customButtons
-                                    .filter()
-                                    .idEqualTo(customButton?.id)
-                                    .findFirst();
-                                final button =
-                                    temp ??
-                                    CustomButton(
-                                      title: "",
-                                      codePress: "",
-                                      codeLongPress: "",
-                                      codeStartup: "",
-                                      pos: await isar.customButtons.count(),
+                        onPressed:
+                            isTitleMissing || isCodePressMissing
+                                ? null
+                                : () async {
+                                  final temp =
+                                      await isar.customButtons
+                                          .filter()
+                                          .idEqualTo(customButton?.id)
+                                          .findFirst();
+                                  final button =
+                                      temp ??
+                                      CustomButton(
+                                        title: "",
+                                        codePress: "",
+                                        codeLongPress: "",
+                                        codeStartup: "",
+                                        pos: await isar.customButtons.count(),
+                                      );
+                                  await isar.writeTxn(() async {
+                                    await isar.customButtons.put(
+                                      button
+                                        ..title = titleController.text
+                                        ..codePress = codePressController.text
+                                        ..codeLongPress =
+                                            codeLongPressController.text
+                                        ..codeStartup =
+                                            codeStartupController.text,
                                     );
-                                await isar.writeTxn(() async {
-                                  await isar.customButtons.put(
-                                    button
-                                      ..title = titleController.text
-                                      ..codePress = codePressController.text
-                                      ..codeLongPress =
-                                          codeLongPressController.text
-                                      ..codeStartup =
-                                          codeStartupController.text,
-                                  );
-                                });
-                                if (context.mounted) {
-                                  Navigator.pop(context);
-                                }
-                              },
+                                  });
+                                  if (context.mounted) {
+                                    Navigator.pop(context);
+                                  }
+                                },
                         child: Text(
                           customButton == null
                               ? context.l10n.add
                               : context.l10n.edit,
                           style: TextStyle(
-                            color: isTitleMissing || isCodePressMissing
-                                ? Theme.of(
-                                    context,
-                                  ).primaryColor.withValues(alpha: 0.2)
-                                : null,
+                            color:
+                                isTitleMissing || isCodePressMissing
+                                    ? Theme.of(
+                                      context,
+                                    ).primaryColor.withValues(alpha: 0.2)
+                                    : null,
                           ),
                         ),
                       ),
@@ -377,9 +380,8 @@ class CustomTextFormField extends StatelessWidget {
       minLines: minLines,
       maxLines: null,
       controller: controller,
-      keyboardType: allowEnterNewLine
-          ? TextInputType.multiline
-          : TextInputType.text,
+      keyboardType:
+          allowEnterNewLine ? TextInputType.multiline : TextInputType.text,
       onChanged: (value) {
         missing(controller.text.isEmpty);
         val(value);

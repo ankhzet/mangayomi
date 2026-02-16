@@ -119,9 +119,10 @@ class Source {
     this.updatedAt = 0,
   });
 
-  FilterList? getFilterList() => filterList != null
-      ? FilterList.fromJson(jsonDecode(filterList!) as Map<String, dynamic>)
-      : null;
+  FilterList? getFilterList() =>
+      filterList != null
+          ? FilterList.fromJson(jsonDecode(filterList!) as Map<String, dynamic>)
+          : null;
 
   Source.fromJson(Map<String, dynamic> json) {
     apiUrl = json['apiUrl'];

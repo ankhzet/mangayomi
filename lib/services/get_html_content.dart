@@ -41,10 +41,11 @@ Future<(String, EpubNovel?)> getHtmlContent(
       final mangaMainDirectory = await storageProvider.getMangaMainDirectory(
         chapter,
       );
-      final chapterDirectory = (await storageProvider.getMangaChapterDirectory(
-        chapter,
-        mangaMainDirectory: mangaMainDirectory,
-      ))!;
+      final chapterDirectory =
+          (await storageProvider.getMangaChapterDirectory(
+            chapter,
+            mangaMainDirectory: mangaMainDirectory,
+          ))!;
 
       final htmlPath = p.join(chapterDirectory.path, "${chapter.name}.html");
 

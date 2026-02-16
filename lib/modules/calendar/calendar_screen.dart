@@ -94,15 +94,16 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                                     borderRadius: BorderRadius.circular(50),
                                   ),
                                 ),
-                                segments: _visibleTypes.map((type) {
-                                  return ButtonSegment(
-                                    value: type.index,
-                                    label: Padding(
-                                      padding: const EdgeInsets.all(12),
-                                      child: Text(type.localized(l10n)),
-                                    ),
-                                  );
-                                }).toList(),
+                                segments:
+                                    _visibleTypes.map((type) {
+                                      return ButtonSegment(
+                                        value: type.index,
+                                        label: Padding(
+                                          padding: const EdgeInsets.all(12),
+                                          child: Text(type.localized(l10n)),
+                                        ),
+                                      );
+                                    }).toList(),
                                 selected: {itemType?.index},
                                 onSelectionChanged: (newSelection) {
                                   if (newSelection.isNotEmpty &&
@@ -141,16 +142,17 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                           useRelativeTimesTamps: false,
                         );
                       },
-                      groupSeparatorBuilder: (String groupByValue) => Padding(
-                        padding: const EdgeInsets.only(bottom: 8, left: 12),
-                        child: Row(
-                          children: [
-                            Text(
-                              "${dateFormat(null, context: context, stringDate: groupByValue, ref: ref, useRelativeTimesTamps: true, showInDaysFuture: true)} - ${dateFormat(null, context: context, stringDate: groupByValue, ref: ref, useRelativeTimesTamps: false)}",
+                      groupSeparatorBuilder:
+                          (String groupByValue) => Padding(
+                            padding: const EdgeInsets.only(bottom: 8, left: 12),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "${dateFormat(null, context: context, stringDate: groupByValue, ref: ref, useRelativeTimesTamps: true, showInDaysFuture: true)} - ${dateFormat(null, context: context, stringDate: groupByValue, ref: ref, useRelativeTimesTamps: false)}",
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
                       itemBuilder: (context, element) {
                         return CalendarListTileWidget(
                           manga: element,
@@ -220,10 +222,12 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
         outsideDaysVisible: true,
         weekendTextStyle: TextStyle(color: context.primaryColor),
       ),
-      onDaySelected: (selectedDay, focusedDay) =>
-          _onDaySelected(selectedDay, focusedDay, data),
-      onRangeSelected: (start, end, focusedDay) =>
-          _onRangeSelected(start, end, focusedDay, data),
+      onDaySelected:
+          (selectedDay, focusedDay) =>
+              _onDaySelected(selectedDay, focusedDay, data),
+      onRangeSelected:
+          (start, end, focusedDay) =>
+              _onRangeSelected(start, end, focusedDay, data),
       onFormatChanged: (format) {
         if (_calendarFormat != format) {
           setState(() => _calendarFormat = format);
@@ -238,20 +242,20 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
   List<Manga> _getEntriesForDay(DateTime day, List<Manga> data) {
     final key = "${day.year}-${day.month}-${day.day}";
     if (_dayCache.containsKey(key)) return _dayCache[key]!;
-    final result = data.where((e) {
-      final lastChapter = e.chapters
-          .filter()
-          .sortByDateUploadDesc()
-          .findFirstSync();
-      final lastDate = int.tryParse(lastChapter?.dateUpload ?? "");
-      final start = lastDate != null
-          ? DateTime.fromMillisecondsSinceEpoch(lastDate)
-          : DateTime.now();
-      final temp = start.add(Duration(days: e.smartUpdateDays!));
-      return temp.year == day.year &&
-          temp.month == day.month &&
-          temp.day == day.day;
-    }).toList();
+    final result =
+        data.where((e) {
+          final lastChapter =
+              e.chapters.filter().sortByDateUploadDesc().findFirstSync();
+          final lastDate = int.tryParse(lastChapter?.dateUpload ?? "");
+          final start =
+              lastDate != null
+                  ? DateTime.fromMillisecondsSinceEpoch(lastDate)
+                  : DateTime.now();
+          final temp = start.add(Duration(days: e.smartUpdateDays!));
+          return temp.year == day.year &&
+              temp.month == day.month &&
+              temp.day == day.day;
+        }).toList();
     _dayCache[key] = result;
     return result;
   }
@@ -360,24 +364,25 @@ class CalendarListTileWidget extends ConsumerWidget {
                               fit: BoxFit.cover,
                               width: 40,
                               height: 45,
-                              image: manga.customCoverImage != null
-                                  ? MemoryImage(
-                                          manga.customCoverImage as Uint8List,
-                                        )
-                                        as ImageProvider
-                                  : CustomExtendedNetworkImageProvider(
-                                      toImgUrl(
-                                        manga.customCoverFromTracker ??
-                                            manga.imageUrl!,
-                                      ),
-                                      headers: ref.watch(
-                                        headersProvider(
-                                          source: manga.source!,
-                                          lang: manga.lang!,
-                                          sourceId: manga.sourceId,
+                              image:
+                                  manga.customCoverImage != null
+                                      ? MemoryImage(
+                                            manga.customCoverImage as Uint8List,
+                                          )
+                                          as ImageProvider
+                                      : CustomExtendedNetworkImageProvider(
+                                        toImgUrl(
+                                          manga.customCoverFromTracker ??
+                                              manga.imageUrl!,
+                                        ),
+                                        headers: ref.watch(
+                                          headersProvider(
+                                            source: manga.source!,
+                                            lang: manga.lang!,
+                                            sourceId: manga.sourceId,
+                                          ),
                                         ),
                                       ),
-                                    ),
                               child: InkWell(child: Container()),
                             ),
                           ),
@@ -395,9 +400,10 @@ class CalendarListTileWidget extends ConsumerWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Theme.of(
-                                    context,
-                                  ).textTheme.bodyLarge!.color,
+                                  color:
+                                      Theme.of(
+                                        context,
+                                      ).textTheme.bodyLarge!.color,
                                 ),
                               ),
                               Text(

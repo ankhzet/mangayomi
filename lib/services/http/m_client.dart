@@ -29,16 +29,19 @@ class MClient {
       try {
         settings ??= rhttp.ClientSettings(
           throwOnStatusCode: false,
-          proxySettings: reqcopyWith?["noProxy"] ?? false
-              ? const rhttp.ProxySettings.noProxy()
-              : null,
-          timeout: reqcopyWith?["timeout"] != null
-              ? Duration(seconds: reqcopyWith?["timeout"])
-              : null,
+          proxySettings:
+              reqcopyWith?["noProxy"] ?? false
+                  ? const rhttp.ProxySettings.noProxy()
+                  : null,
+          timeout:
+              reqcopyWith?["timeout"] != null
+                  ? Duration(seconds: reqcopyWith?["timeout"])
+                  : null,
           timeoutSettings: TimeoutSettings(
-            connectTimeout: reqcopyWith?["connectTimeout"] != null
-                ? Duration(seconds: reqcopyWith?["connectTimeout"])
-                : null,
+            connectTimeout:
+                reqcopyWith?["connectTimeout"] != null
+                    ? Duration(seconds: reqcopyWith?["connectTimeout"])
+                    : null,
           ),
           tlsSettings: rhttp.TlsSettings(
             verifyCertificates: reqcopyWith?["verifyCertificates"] ?? false,
@@ -78,10 +81,11 @@ class MClient {
     }
 
     // Apply DNS settings if configured
-    final clientSettings = dnsSettings != null
-        ? settings?.copyWith(dnsSettings: dnsSettings) ??
-              ClientSettings(dnsSettings: dnsSettings)
-        : settings;
+    final clientSettings =
+        dnsSettings != null
+            ? settings?.copyWith(dnsSettings: dnsSettings) ??
+                ClientSettings(dnsSettings: dnsSettings)
+            : settings;
 
     return InterceptedClient.build(
       client: httpClient(settings: clientSettings, reqcopyWith: reqcopyWith),
@@ -97,12 +101,13 @@ class MClient {
     final cookiesList = isar.settings.getSync(227)!.cookiesList ?? [];
     if (cookiesList.isEmpty) return {};
     final host = Uri.parse(url).host;
-    final cookies = cookiesList
-        .firstWhere(
-          (element) => element.host == host || host.contains(element.host!),
-          orElse: () => MCookie(cookie: ""),
-        )
-        .cookie!;
+    final cookies =
+        cookiesList
+            .firstWhere(
+              (element) => element.host == host || host.contains(element.host!),
+              orElse: () => MCookie(cookie: ""),
+            )
+            .cookie!;
     if (cookies.isEmpty) return {};
     return {HttpHeaders.cookieHeader: cookies};
   }
@@ -116,20 +121,19 @@ class MClient {
     List<String> cookies = [];
     // if incoming cookie is not empty, use it first
     if (cookie != null && cookie.isNotEmpty) {
-      cookies = cookie
-          .split(RegExp('(?<=)(,)(?=[^;]+?=)'))
-          .where((cookie) => cookie.isNotEmpty)
-          .toList();
+      cookies =
+          cookie
+              .split(RegExp('(?<=)(,)(?=[^;]+?=)'))
+              .where((cookie) => cookie.isNotEmpty)
+              .toList();
     } else if (!Platform.isLinux) {
       cookies =
           (await flutter_inappwebview.CookieManager.instance(
-                webViewEnvironment: webViewEnvironment,
-              ).getCookies(
-                url: flutter_inappwebview.WebUri(url),
-                webViewController: webViewController,
-              ))
-              .map((e) => "${e.name}=${e.value}")
-              .toList();
+            webViewEnvironment: webViewEnvironment,
+          ).getCookies(
+            url: flutter_inappwebview.WebUri(url),
+            webViewController: webViewController,
+          )).map((e) => "${e.name}=${e.value}").toList();
     }
     if (cookies.isNotEmpty) {
       final host = Uri.parse(url).host;

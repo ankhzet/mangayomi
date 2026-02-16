@@ -47,20 +47,20 @@ class _MigrationScreenScreenState extends ConsumerState<MigrationScreen> {
   final _textEditingController = TextEditingController();
   late final List<Source> sourceList =
       ref.read(onlyIncludePinnedSourceStateProvider)
-      ? isar.sources
-            .filter()
-            .isPinnedEqualTo(true)
-            .and()
-            .itemTypeEqualTo(widget.manga.itemType)
-            .findAllSync()
-      : isar.sources
-            .filter()
-            .idIsNotNull()
-            .and()
-            .isAddedEqualTo(true)
-            .and()
-            .itemTypeEqualTo(widget.manga.itemType)
-            .findAllSync();
+          ? isar.sources
+              .filter()
+              .isPinnedEqualTo(true)
+              .and()
+              .itemTypeEqualTo(widget.manga.itemType)
+              .findAllSync()
+          : isar.sources
+              .filter()
+              .idIsNotNull()
+              .and()
+              .isAddedEqualTo(true)
+              .and()
+              .itemTypeEqualTo(widget.manga.itemType)
+              .findAllSync();
   @override
   void initState() {
     super.initState();
@@ -71,9 +71,10 @@ class _MigrationScreenScreenState extends ConsumerState<MigrationScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
-    final query = _query.isNotEmpty
-        ? _query
-        : widget.manga.name ?? widget.manga.author ?? "";
+    final query =
+        _query.isNotEmpty
+            ? _query
+            : widget.manga.name ?? widget.manga.author ?? "";
 
     return Scaffold(
       appBar: AppBar(
@@ -111,25 +112,25 @@ class _MigrationScreenScreenState extends ConsumerState<MigrationScreen> {
       ),
       body:
           _query.isNotEmpty ||
-              (widget.manga.name != null && widget.manga.author != null)
-          ? SuperListView.builder(
-              itemCount: sourceList.length,
-              extentPrecalculationPolicy: SuperPrecalculationPolicy(),
-              itemBuilder: (context, index) {
-                final source = sourceList[index];
-                return SizedBox(
-                  height: 260,
-                  child: MigrationSourceSearchScreen(
-                    key: ValueKey(query),
-                    query: query,
-                    manga: widget.manga,
-                    source: source,
-                    trackSearch: widget.trackSearch,
-                  ),
-                );
-              },
-            )
-          : Container(),
+                  (widget.manga.name != null && widget.manga.author != null)
+              ? SuperListView.builder(
+                itemCount: sourceList.length,
+                extentPrecalculationPolicy: SuperPrecalculationPolicy(),
+                itemBuilder: (context, index) {
+                  final source = sourceList[index];
+                  return SizedBox(
+                    height: 260,
+                    child: MigrationSourceSearchScreen(
+                      key: ValueKey(query),
+                      query: query,
+                      manga: widget.manga,
+                      source: source,
+                      trackSearch: widget.trackSearch,
+                    ),
+                  );
+                },
+              )
+              : Container(),
     );
   }
 
@@ -214,32 +215,33 @@ class _MigrationSourceSearchScreenState
               ),
             ),
             Flexible(
-              child: _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : Builder(
-                      builder: (context) {
-                        if (_errorMessage.isNotEmpty) {
-                          return Center(child: Text(_errorMessage));
-                        }
-                        if (pages!.list.isNotEmpty) {
-                          return SuperListView.builder(
-                            extentPrecalculationPolicy:
-                                SuperPrecalculationPolicy(),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: pages!.list.length,
-                            itemBuilder: (context, index) {
-                              return MigrationMangaGlobalImageCard(
-                                oldManga: widget.manga,
-                                manga: pages!.list[index],
-                                source: widget.source,
-                                trackSearch: widget.trackSearch,
-                              );
-                            },
-                          );
-                        }
-                        return Center(child: Text(l10n.no_result));
-                      },
-                    ),
+              child:
+                  _isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : Builder(
+                        builder: (context) {
+                          if (_errorMessage.isNotEmpty) {
+                            return Center(child: Text(_errorMessage));
+                          }
+                          if (pages!.list.isNotEmpty) {
+                            return SuperListView.builder(
+                              extentPrecalculationPolicy:
+                                  SuperPrecalculationPolicy(),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: pages!.list.length,
+                              itemBuilder: (context, index) {
+                                return MigrationMangaGlobalImageCard(
+                                  oldManga: widget.manga,
+                                  manga: pages!.list[index],
+                                  source: widget.source,
+                                  trackSearch: widget.trackSearch,
+                                );
+                              },
+                            );
+                          }
+                          return Center(child: Text(l10n.no_result));
+                        },
+                      ),
             ),
           ],
         ),
@@ -316,11 +318,11 @@ class _MigrationMangaGlobalImageCardState
                               imageUrl: toImgUrl(
                                 hasData
                                     ? snapshot
-                                              .data!
-                                              .first
-                                              .customCoverFromTracker ??
-                                          snapshot.data!.first.imageUrl ??
-                                          ""
+                                            .data!
+                                            .first
+                                            .customCoverFromTracker ??
+                                        snapshot.data!.first.imageUrl ??
+                                        ""
                                     : getMangaDetail.imageUrl ?? "",
                               ),
                               width: 110,
@@ -343,9 +345,10 @@ class _MigrationMangaGlobalImageCardState
                 Container(
                   width: 110,
                   height: 150,
-                  color: hasData && snapshot.data!.first.favorite!
-                      ? Colors.black.withValues(alpha: 0.7)
-                      : null,
+                  color:
+                      hasData && snapshot.data!.first.favorite!
+                          ? Colors.black.withValues(alpha: 0.7)
+                          : null,
                 ),
                 if (hasData && snapshot.data!.first.favorite!)
                   Positioned(
@@ -389,70 +392,73 @@ class _MigrationMangaGlobalImageCardState
                         ? l10n.migrate_confirm
                         : l10n.track_library_add_confirm,
                   ),
-                  content: preview.chapters != null
-                      ? SizedBox(
-                          height: ctx.height(0.5),
-                          width: ctx.width(1),
-                          child: CustomScrollView(
-                            slivers: [
-                              SliverPadding(
-                                padding: const EdgeInsets.all(0),
-                                sliver: SuperSliverList.builder(
-                                  itemCount: preview.chapters!.length,
-                                  itemBuilder: (context, index) {
-                                    final chapter = preview.chapters![index];
-                                    return ListTile(
-                                      title: Row(
-                                        children: [
-                                          Flexible(
-                                            child: Text(
-                                              preview.chapters![index].name!,
-                                              style: const TextStyle(
-                                                fontSize: 13,
+                  content:
+                      preview.chapters != null
+                          ? SizedBox(
+                            height: ctx.height(0.5),
+                            width: ctx.width(1),
+                            child: CustomScrollView(
+                              slivers: [
+                                SliverPadding(
+                                  padding: const EdgeInsets.all(0),
+                                  sliver: SuperSliverList.builder(
+                                    itemCount: preview.chapters!.length,
+                                    itemBuilder: (context, index) {
+                                      final chapter = preview.chapters![index];
+                                      return ListTile(
+                                        title: Row(
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                preview.chapters![index].name!,
+                                                style: const TextStyle(
+                                                  fontSize: 13,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
                                               ),
-                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      subtitle: Row(
-                                        children: [
-                                          Text(
-                                            chapter.dateUpload == null ||
-                                                    chapter.dateUpload!.isEmpty
-                                                ? ""
-                                                : dateFormat(
+                                          ],
+                                        ),
+                                        subtitle: Row(
+                                          children: [
+                                            Text(
+                                              chapter.dateUpload == null ||
+                                                      chapter
+                                                          .dateUpload!
+                                                          .isEmpty
+                                                  ? ""
+                                                  : dateFormat(
                                                     chapter.dateUpload!,
                                                     ref: ref,
                                                     context: context,
                                                   ),
-                                            style: const TextStyle(
-                                              fontSize: 11,
+                                              style: const TextStyle(
+                                                fontSize: 11,
+                                              ),
                                             ),
-                                          ),
-                                          if (chapter.scanlator?.isNotEmpty ??
-                                              false)
-                                            Row(
-                                              children: [
-                                                const Text(' • '),
-                                                Text(
-                                                  chapter.scanlator!,
-                                                  style: TextStyle(
-                                                    fontSize: 11,
+                                            if (chapter.scanlator?.isNotEmpty ??
+                                                false)
+                                              Row(
+                                                children: [
+                                                  const Text(' • '),
+                                                  Text(
+                                                    chapter.scanlator!,
+                                                    style: TextStyle(
+                                                      fontSize: 11,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                        ],
-                                      ),
-                                    );
-                                  },
+                                                ],
+                                              ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : Text(l10n.n_chapters(0)),
+                              ],
+                            ),
+                          )
+                          : Text(l10n.n_chapters(0)),
                   actions: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -465,20 +471,21 @@ class _MigrationMangaGlobalImageCardState
                         ),
                         const SizedBox(width: 15),
                         Consumer(
-                          builder: (context, ref, child) => TextButton(
-                            onPressed: () async {
-                              if (widget.trackSearch == null) {
-                                await _migrateManga(preview);
-                                if (ctx.mounted) {
-                                  Navigator.pop(ctx);
-                                  Navigator.pop(ctx);
-                                }
-                              } else {
-                                await _addTrackManga(context);
-                              }
-                            },
-                            child: Text(l10n.ok),
-                          ),
+                          builder:
+                              (context, ref, child) => TextButton(
+                                onPressed: () async {
+                                  if (widget.trackSearch == null) {
+                                    await _migrateManga(preview);
+                                    if (ctx.mounted) {
+                                      Navigator.pop(ctx);
+                                      Navigator.pop(ctx);
+                                    }
+                                  } else {
+                                    await _addTrackManga(context);
+                                  }
+                                },
+                                child: Text(l10n.ok),
+                              ),
                         ),
                       ],
                     ),
@@ -527,9 +534,8 @@ class _MigrationMangaGlobalImageCardState
                                 }
                               });
                             },
-                            type: categoryIds.contains(entries[index].id)
-                                ? 1
-                                : 0,
+                            type:
+                                categoryIds.contains(entries[index].id) ? 1 : 0,
                           );
                         },
                       );
@@ -632,11 +638,12 @@ class _MigrationMangaGlobalImageCardState
     String? historyDate;
     List<Chapter> chaptersProgress = [];
     isar.writeTxnSync(() {
-      final histories = isar.historys
-          .filter()
-          .mangaIdEqualTo(widget.oldManga.id)
-          .sortByDate()
-          .findAllSync();
+      final histories =
+          isar.historys
+              .filter()
+              .mangaIdEqualTo(widget.oldManga.id)
+              .sortByDate()
+              .findAllSync();
       historyChapter = _extractChapterNumber(
         histories.lastOrNull?.chapter.value?.name ?? "",
       );
@@ -681,14 +688,15 @@ class _MigrationMangaGlobalImageCardState
     );
     isar.writeTxnSync(() {
       for (var oldChapter in chaptersProgress) {
-        final chapter = isar.chapters
-            .filter()
-            .mangaIdEqualTo(widget.oldManga.id)
-            .nameContains(
-              _extractChapterNumber(oldChapter.name ?? "") ?? ".....",
-              caseSensitive: false,
-            )
-            .findFirstSync();
+        final chapter =
+            isar.chapters
+                .filter()
+                .mangaIdEqualTo(widget.oldManga.id)
+                .nameContains(
+                  _extractChapterNumber(oldChapter.name ?? "") ?? ".....",
+                  caseSensitive: false,
+                )
+                .findFirstSync();
         if (chapter != null) {
           chapter.isBookmarked = oldChapter.isBookmarked;
           chapter.lastPageRead = oldChapter.lastPageRead;
@@ -696,11 +704,12 @@ class _MigrationMangaGlobalImageCardState
           isar.chapters.putSync(chapter);
         }
       }
-      final chapter = isar.chapters
-          .filter()
-          .mangaIdEqualTo(widget.oldManga.id)
-          .nameContains(historyChapter ?? ".....", caseSensitive: false)
-          .findFirstSync();
+      final chapter =
+          isar.chapters
+              .filter()
+              .mangaIdEqualTo(widget.oldManga.id)
+              .nameContains(historyChapter ?? ".....", caseSensitive: false)
+              .findFirstSync();
       if (chapter != null) {
         isar.historys.putSync(
           History(

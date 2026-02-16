@@ -80,9 +80,10 @@ class DiscordRPC {
   }
 
   Future<void> showChapterDetails(WidgetRef ref, Chapter chapter) async {
-    final status = chapter.manga.value!.itemType == ItemType.anime
-        ? "Watching"
-        : "Reading";
+    final status =
+        chapter.manga.value!.itemType == ItemType.anime
+            ? "Watching"
+            : "Reading";
     final title = chapter.manga.value!.name;
     final chapterTitle = chapter.name;
     final imageUrl = chapter.manga.value!.imageUrl;
@@ -90,18 +91,19 @@ class DiscordRPC {
     final rpcShowCoverImage = ref.read(rpcShowCoverImageStateProvider);
     await updateActivity(
       details: rpcShowTitle ? "$status $title" : "Idle",
-      state: rpcShowTitle && rpcShowReadingWatchingProgress
-          ? chapterTitle
-          : "-----",
+      state:
+          rpcShowTitle && rpcShowReadingWatchingProgress
+              ? chapterTitle
+              : "-----",
       assets:
           rpcShowCoverImage && imageUrl != null && imageUrl.startsWith("http")
-          ? RPCAssets(
-              largeImage: imageUrl,
-              largeText: rpcShowTitle ? chapter.manga.value!.name : "-----",
-              smallImage: "app-icon",
-              smallText: "Mangayomi",
-            )
-          : const RPCAssets(largeImage: "app-icon", largeText: "Mangayomi"),
+              ? RPCAssets(
+                largeImage: imageUrl,
+                largeText: rpcShowTitle ? chapter.manga.value!.name : "-----",
+                smallImage: "app-icon",
+                smallText: "Mangayomi",
+              )
+              : const RPCAssets(largeImage: "app-icon", largeText: "Mangayomi"),
     );
   }
 
@@ -136,10 +138,11 @@ class DiscordRPC {
     await updateActivity(
       timestamps: RPCTimestamps(
         start: DateTime.timestamp().subtract(position).millisecondsSinceEpoch,
-        end: DateTime.timestamp()
-            .subtract(position)
-            .add(duration)
-            .millisecondsSinceEpoch,
+        end:
+            DateTime.timestamp()
+                .subtract(position)
+                .add(duration)
+                .millisecondsSinceEpoch,
       ),
     );
   }

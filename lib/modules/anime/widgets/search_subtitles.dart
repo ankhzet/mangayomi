@@ -76,109 +76,118 @@ class _SubtitlesWidgetSearchState extends ConsumerState<SubtitlesWidgetSearch> {
         bottomRight: Radius.circular(20),
       ),
       clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: _isLoading
-          ? SizedBox(
-              height: context.height(0.3),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: const ProgressCenter(),
-              ),
-            )
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: SizedBox(
-                height: context.height(0.8),
-                child: Column(
-                  mainAxisAlignment: _errorMsg != null
-                      ? MainAxisAlignment.center
-                      : MainAxisAlignment.start,
-                  children: [
-                    if (subtitles != null || episodes != null)
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            if (subtitles != null) {
-                              subtitles = null;
-                            } else if (episodes != null) {
-                              episodes = null;
-                            }
-                          });
-                        },
-                        icon: const Icon(Icons.keyboard_arrow_left),
-                      ),
-                    if (_errorMsg != null)
+      child:
+          _isLoading
+              ? SizedBox(
+                height: context.height(0.3),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: const ProgressCenter(),
+                ),
+              )
+              : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: SizedBox(
+                  height: context.height(0.8),
+                  child: Column(
+                    mainAxisAlignment:
+                        _errorMsg != null
+                            ? MainAxisAlignment.center
+                            : MainAxisAlignment.start,
+                    children: [
+                      if (subtitles != null || episodes != null)
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              if (subtitles != null) {
+                                subtitles = null;
+                              } else if (episodes != null) {
+                                episodes = null;
+                              }
+                            });
+                          },
+                          icon: const Icon(Icons.keyboard_arrow_left),
+                        ),
+                      if (_errorMsg != null)
+                        Padding(
+                          padding: const EdgeInsets.all(30),
+                          child: ErrorText(_errorMsg!),
+                        ),
+                      if (_errorMsg == null && !hide)
+                        Flexible(child: _showImdbList(context)),
                       Padding(
-                        padding: const EdgeInsets.all(30),
-                        child: ErrorText(_errorMsg!),
-                      ),
-                    if (_errorMsg == null && !hide)
-                      Flexible(child: _showImdbList(context)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: TextFormField(
-                        onTap: () {
-                          if (Platform.isAndroid || Platform.isIOS) {
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: TextFormField(
+                          onTap: () {
+                            if (Platform.isAndroid || Platform.isIOS) {
+                              setState(() {
+                                hide = true;
+                              });
+                            }
+                          },
+                          controller: _controller,
+                          keyboardType: TextInputType.text,
+                          onChanged: (d) {
                             setState(() {
-                              hide = true;
+                              query = d;
                             });
-                          }
-                        },
-                        controller: _controller,
-                        keyboardType: TextInputType.text,
-                        onChanged: (d) {
-                          setState(() {
-                            query = d;
-                          });
-                        },
-                        onFieldSubmitted: (d) async {
-                          setState(() {
-                            _isLoading = true;
-                            _errorMsg = null;
-                            subtitles = null;
-                            episodes = null;
-                          });
-                          try {
-                            titles = await fetchImdbTitles(query);
-                          } catch (e) {
-                            _errorMsg = e.toString();
-                            hide = false;
-                          }
-
-                          if (mounted) {
+                          },
+                          onFieldSubmitted: (d) async {
                             setState(() {
-                              _isLoading = false;
+                              _isLoading = true;
+                              _errorMsg = null;
+                              subtitles = null;
+                              episodes = null;
+                            });
+                            try {
+                              titles = await fetchImdbTitles(query);
+                            } catch (e) {
+                              _errorMsg = e.toString();
                               hide = false;
-                            });
-                          }
-                        },
-                        decoration: InputDecoration(
-                          isDense: true,
-                          filled: true,
-                          fillColor: Colors.transparent,
-                          suffixIcon: query.isEmpty
-                              ? null
-                              : IconButton(
-                                  onPressed: () {
-                                    _controller.clear();
-                                  },
-                                  icon: const Icon(Icons.clear),
-                                ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: context.primaryColor),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: context.primaryColor),
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: context.primaryColor),
+                            }
+
+                            if (mounted) {
+                              setState(() {
+                                _isLoading = false;
+                                hide = false;
+                              });
+                            }
+                          },
+                          decoration: InputDecoration(
+                            isDense: true,
+                            filled: true,
+                            fillColor: Colors.transparent,
+                            suffixIcon:
+                                query.isEmpty
+                                    ? null
+                                    : IconButton(
+                                      onPressed: () {
+                                        _controller.clear();
+                                      },
+                                      icon: const Icon(Icons.clear),
+                                    ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: context.primaryColor,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: context.primaryColor,
+                              ),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: context.primaryColor,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
     );
   }
 
@@ -233,11 +242,12 @@ class _SubtitlesWidgetSearchState extends ConsumerState<SubtitlesWidgetSearch> {
                           height: 120,
                           width: 80,
                           fit: BoxFit.cover,
-                          image: titles[index].primaryImage != null
-                              ? CustomExtendedNetworkImageProvider(
-                                  titles[index].primaryImage!,
-                                )
-                              : const AssetImage('assets/transparent.png'),
+                          image:
+                              titles[index].primaryImage != null
+                                  ? CustomExtendedNetworkImageProvider(
+                                    titles[index].primaryImage!,
+                                  )
+                                  : const AssetImage('assets/transparent.png'),
                         ),
                       ),
                     const SizedBox(width: 10),
@@ -334,13 +344,14 @@ class _SubtitlesWidgetSearchState extends ConsumerState<SubtitlesWidgetSearch> {
       final storageProvider = StorageProvider();
       final animeDir =
           widget.chapter.archivePath != null &&
-              widget.chapter.manga.value?.source == "local"
-          ? Directory(path.dirname(widget.chapter.archivePath!))
-          : null;
-      final chapterDirectory = (await storageProvider.getMangaChapterDirectory(
-        widget.chapter,
-        mangaMainDirectory: animeDir,
-      ))!;
+                  widget.chapter.manga.value?.source == "local"
+              ? Directory(path.dirname(widget.chapter.archivePath!))
+              : null;
+      final chapterDirectory =
+          (await storageProvider.getMangaChapterDirectory(
+            widget.chapter,
+            mangaMainDirectory: animeDir,
+          ))!;
       final subtitleFile = File(
         path.join(
           '${chapterDirectory.path}_subtitles',
@@ -400,46 +411,47 @@ Future<dynamic> subtitlesSearchraggableMenu(
   var padding = MediaQuery.of(context).padding;
   return await showDialog(
     context: context,
-    builder: (context) => Scaffold(
-      backgroundColor: Colors.transparent,
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: context.height(1) - padding.top - padding.bottom,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+    builder:
+        (context) => Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SingleChildScrollView(
+            child: SizedBox(
+              height: context.height(1) - padding.top - padding.bottom,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                    ),
+                    child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(Icons.clear),
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: const Icon(Icons.clear),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                  SubtitlesWidgetSearch(chapter: chapter, isLocal: isLocal),
+                ],
               ),
-              SubtitlesWidgetSearch(chapter: chapter, isLocal: isLocal),
-            ],
+            ),
           ),
         ),
-      ),
-    ),
   );
 }

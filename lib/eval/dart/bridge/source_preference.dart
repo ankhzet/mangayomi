@@ -20,12 +20,15 @@ class SourcePreferenceBridge {
     },
     getters: {
       'key': (visitor, target) => (target as SourcePreference).key,
-      'title': (visitor, target) =>
-          (target as SourcePreference).checkBoxPreference?.title,
-      'summary': (visitor, target) =>
-          (target as SourcePreference).checkBoxPreference?.summary,
-      'value': (visitor, target) =>
-          (target as SourcePreference).checkBoxPreference?.value,
+      'title':
+          (visitor, target) =>
+              (target as SourcePreference).checkBoxPreference?.title,
+      'summary':
+          (visitor, target) =>
+              (target as SourcePreference).checkBoxPreference?.summary,
+      'value':
+          (visitor, target) =>
+              (target as SourcePreference).checkBoxPreference?.value,
     },
   );
   final switchPreferenceCompatBridgedClass = BridgedClass(
@@ -45,12 +48,15 @@ class SourcePreferenceBridge {
     },
     getters: {
       'key': (visitor, target) => (target as SourcePreference).key,
-      'title': (visitor, target) =>
-          (target as SourcePreference).switchPreferenceCompat?.title,
-      'summary': (visitor, target) =>
-          (target as SourcePreference).switchPreferenceCompat?.summary,
-      'value': (visitor, target) =>
-          (target as SourcePreference).switchPreferenceCompat?.value,
+      'title':
+          (visitor, target) =>
+              (target as SourcePreference).switchPreferenceCompat?.title,
+      'summary':
+          (visitor, target) =>
+              (target as SourcePreference).switchPreferenceCompat?.summary,
+      'value':
+          (visitor, target) =>
+              (target as SourcePreference).switchPreferenceCompat?.value,
     },
   );
   final listPreferenceBridgedClass = BridgedClass(
@@ -72,16 +78,21 @@ class SourcePreferenceBridge {
     },
     getters: {
       'key': (visitor, target) => (target as SourcePreference).key,
-      'title': (visitor, target) =>
-          (target as SourcePreference).listPreference?.title,
-      'summary': (visitor, target) =>
-          (target as SourcePreference).listPreference?.summary,
-      'value': (visitor, target) =>
-          (target as SourcePreference).listPreference?.valueIndex,
-      'entries': (visitor, target) =>
-          (target as SourcePreference).listPreference?.entries,
-      'entryValues': (visitor, target) =>
-          (target as SourcePreference).listPreference?.entryValues,
+      'title':
+          (visitor, target) =>
+              (target as SourcePreference).listPreference?.title,
+      'summary':
+          (visitor, target) =>
+              (target as SourcePreference).listPreference?.summary,
+      'value':
+          (visitor, target) =>
+              (target as SourcePreference).listPreference?.valueIndex,
+      'entries':
+          (visitor, target) =>
+              (target as SourcePreference).listPreference?.entries,
+      'entryValues':
+          (visitor, target) =>
+              (target as SourcePreference).listPreference?.entryValues,
     },
   );
 
@@ -104,16 +115,23 @@ class SourcePreferenceBridge {
     },
     getters: {
       'key': (visitor, target) => (target as SourcePreference).key,
-      'title': (visitor, target) =>
-          (target as SourcePreference).multiSelectListPreference?.title,
-      'summary': (visitor, target) =>
-          (target as SourcePreference).multiSelectListPreference?.summary,
-      'values': (visitor, target) =>
-          (target as SourcePreference).multiSelectListPreference?.values,
-      'entries': (visitor, target) =>
-          (target as SourcePreference).multiSelectListPreference?.entries,
-      'entryValues': (visitor, target) =>
-          (target as SourcePreference).multiSelectListPreference?.entryValues,
+      'title':
+          (visitor, target) =>
+              (target as SourcePreference).multiSelectListPreference?.title,
+      'summary':
+          (visitor, target) =>
+              (target as SourcePreference).multiSelectListPreference?.summary,
+      'values':
+          (visitor, target) =>
+              (target as SourcePreference).multiSelectListPreference?.values,
+      'entries':
+          (visitor, target) =>
+              (target as SourcePreference).multiSelectListPreference?.entries,
+      'entryValues':
+          (visitor, target) =>
+              (target as SourcePreference)
+                  .multiSelectListPreference
+                  ?.entryValues,
     },
   );
   final editTextPreferenceBridgedClass = BridgedClass(
@@ -136,18 +154,24 @@ class SourcePreferenceBridge {
     },
     getters: {
       'key': (visitor, target) => (target as SourcePreference).key,
-      'title': (visitor, target) =>
-          (target as SourcePreference).editTextPreference?.title,
-      'summary': (visitor, target) =>
-          (target as SourcePreference).editTextPreference?.summary,
-      'value': (visitor, target) =>
-          (target as SourcePreference).editTextPreference?.value,
-      'dialogTitle': (visitor, target) =>
-          (target as SourcePreference).editTextPreference?.dialogTitle,
-      'dialogMessage': (visitor, target) =>
-          (target as SourcePreference).editTextPreference?.dialogMessage,
-      'text': (visitor, target) =>
-          (target as SourcePreference).editTextPreference?.text,
+      'title':
+          (visitor, target) =>
+              (target as SourcePreference).editTextPreference?.title,
+      'summary':
+          (visitor, target) =>
+              (target as SourcePreference).editTextPreference?.summary,
+      'value':
+          (visitor, target) =>
+              (target as SourcePreference).editTextPreference?.value,
+      'dialogTitle':
+          (visitor, target) =>
+              (target as SourcePreference).editTextPreference?.dialogTitle,
+      'dialogMessage':
+          (visitor, target) =>
+              (target as SourcePreference).editTextPreference?.dialogMessage,
+      'text':
+          (visitor, target) =>
+              (target as SourcePreference).editTextPreference?.text,
     },
   );
 

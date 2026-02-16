@@ -51,39 +51,36 @@ class _SourceRepositoriesState extends ConsumerState<SourceRepositories> {
         actions: [
           isRefreshing
               ? const Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 3),
-                  ),
-                )
-              : Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: IconButton(
-                    splashRadius: 20,
-                    onPressed: () async {
-                      setState(() {
-                        isRefreshing = true;
-                      });
-                      final result = await ref.refresh(
-                        fetchItemSourcesListProvider(
-                          id: null,
-                          reFresh: true,
-                          itemType: widget.itemType,
-                        ).future,
-                      );
-                      setState(() {
-                        isRefreshing = false;
-                      });
-                      return result;
-                    },
-                    icon: Icon(
-                      Icons.refresh,
-                      color: Theme.of(context).hintColor,
-                    ),
-                  ),
+                padding: EdgeInsets.all(20.0),
+                child: SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 3),
                 ),
+              )
+              : Padding(
+                padding: EdgeInsets.all(8.0),
+                child: IconButton(
+                  splashRadius: 20,
+                  onPressed: () async {
+                    setState(() {
+                      isRefreshing = true;
+                    });
+                    final result = await ref.refresh(
+                      fetchItemSourcesListProvider(
+                        id: null,
+                        reFresh: true,
+                        itemType: widget.itemType,
+                      ).future,
+                    );
+                    setState(() {
+                      isRefreshing = false;
+                    });
+                    return result;
+                  },
+                  icon: Icon(Icons.refresh, color: Theme.of(context).hintColor),
+                ),
+              ),
         ],
       ),
       body: data.when(
@@ -158,9 +155,10 @@ class _SourceRepositoriesState extends ConsumerState<SourceRepositories> {
                                       repo.jsonUrl ??
                                       "Invalid source - remove it",
                                   style: TextStyle(
-                                    decoration: isHidden
-                                        ? TextDecoration.lineThrough
-                                        : TextDecoration.none,
+                                    decoration:
+                                        isHidden
+                                            ? TextDecoration.lineThrough
+                                            : TextDecoration.none,
                                   ),
                                 ),
                               ),
@@ -190,13 +188,14 @@ class _SourceRepositoriesState extends ConsumerState<SourceRepositories> {
                             ),
                             SizedBox(width: 10),
                             IconButton(
-                              onPressed: () => ref
-                                  .read(
-                                    extensionsRepoStateProvider(
-                                      widget.itemType,
-                                    ).notifier,
-                                  )
-                                  .setVisibility(repo, !isHidden),
+                              onPressed:
+                                  () => ref
+                                      .read(
+                                        extensionsRepoStateProvider(
+                                          widget.itemType,
+                                        ).notifier,
+                                      )
+                                      .setVisibility(repo, !isHidden),
                               icon: Stack(
                                 children: [
                                   const Icon(Icons.remove_red_eye_outlined),
@@ -222,8 +221,8 @@ class _SourceRepositoriesState extends ConsumerState<SourceRepositories> {
                             ),
                             SizedBox(width: 10),
                             IconButton(
-                              onPressed: () =>
-                                  _showRemoveRepoDialog(context, index),
+                              onPressed:
+                                  () => _showRemoveRepoDialog(context, index),
                               icon: const Icon(Icons.delete_outlined),
                             ),
                           ],
@@ -288,9 +287,12 @@ class _SourceRepositoriesState extends ConsumerState<SourceRepositories> {
                     const SizedBox(width: 15),
                     TextButton(
                       onPressed: () {
-                        final mangaRepos = ref
-                            .read(extensionsRepoStateProvider(widget.itemType))
-                            .toList();
+                        final mangaRepos =
+                            ref
+                                .read(
+                                  extensionsRepoStateProvider(widget.itemType),
+                                )
+                                .toList();
                         mangaRepos.removeWhere((url) => url == _entries[index]);
                         ref
                             .read(
@@ -385,61 +387,65 @@ class _SourceRepositoriesState extends ConsumerState<SourceRepositories> {
                           return TextButton(
                             onPressed:
                                 controller.text.isEmpty ||
-                                    !controller.text.endsWith(".json")
-                                ? null
-                                : () async {
-                                    setState(() => isLoading = true);
-                                    try {
-                                      final mangaRepos = ref
-                                          .read(
-                                            extensionsRepoStateProvider(
-                                              widget.itemType,
-                                            ),
-                                          )
-                                          .toList();
-                                      final repo = await ref.read(
-                                        getRepoInfosProvider(
-                                          jsonUrl: controller.text,
-                                        ).future,
-                                      );
-                                      if (repo == null) {
-                                        botToast(l10n.unsupported_repo);
-                                        return;
+                                        !controller.text.endsWith(".json")
+                                    ? null
+                                    : () async {
+                                      setState(() => isLoading = true);
+                                      try {
+                                        final mangaRepos =
+                                            ref
+                                                .read(
+                                                  extensionsRepoStateProvider(
+                                                    widget.itemType,
+                                                  ),
+                                                )
+                                                .toList();
+                                        final repo = await ref.read(
+                                          getRepoInfosProvider(
+                                            jsonUrl: controller.text,
+                                          ).future,
+                                        );
+                                        if (repo == null) {
+                                          botToast(l10n.unsupported_repo);
+                                          return;
+                                        }
+                                        mangaRepos.add(repo);
+                                        ref
+                                            .read(
+                                              extensionsRepoStateProvider(
+                                                widget.itemType,
+                                              ).notifier,
+                                            )
+                                            .set(mangaRepos);
+                                      } catch (e, s) {
+                                        setState(() => isLoading = false);
+                                        botToast('$e\n$s');
                                       }
-                                      mangaRepos.add(repo);
-                                      ref
-                                          .read(
-                                            extensionsRepoStateProvider(
-                                              widget.itemType,
-                                            ).notifier,
-                                          )
-                                          .set(mangaRepos);
-                                    } catch (e, s) {
-                                      setState(() => isLoading = false);
-                                      botToast('$e\n$s');
-                                    }
 
-                                    if (context.mounted) {
-                                      Navigator.pop(context);
-                                    }
-                                  },
-                            child: isLoading
-                                ? SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(),
-                                  )
-                                : Text(
-                                    l10n.add,
-                                    style: TextStyle(
-                                      color:
-                                          controller.text.isEmpty ||
-                                              !controller.text.endsWith(".json")
-                                          ? Theme.of(context).primaryColor
-                                                .withValues(alpha: 0.2)
-                                          : null,
+                                      if (context.mounted) {
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                            child:
+                                isLoading
+                                    ? SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(),
+                                    )
+                                    : Text(
+                                      l10n.add,
+                                      style: TextStyle(
+                                        color:
+                                            controller.text.isEmpty ||
+                                                    !controller.text.endsWith(
+                                                      ".json",
+                                                    )
+                                                ? Theme.of(context).primaryColor
+                                                    .withValues(alpha: 0.2)
+                                                : null,
+                                      ),
                                     ),
-                                  ),
                           );
                         },
                       ),

@@ -18,8 +18,8 @@ Future<List<String>> convertToCBZ(
 
 List<String> _convertToCBZ((String, String, String, List<String>) datas) {
   final (chapterDir, mangaDir, chapterName, pageList) = datas;
-  final imagesPaths = pageList.where((path) => path.endsWith('.jpg')).toList()
-    ..sort();
+  final imagesPaths =
+      pageList.where((path) => path.endsWith('.jpg')).toList()..sort();
 
   if (imagesPaths.isEmpty) return imagesPaths;
 

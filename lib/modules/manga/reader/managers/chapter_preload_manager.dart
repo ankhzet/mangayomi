@@ -134,11 +134,10 @@ class ChapterPreloadManager {
 
       // Update page indices for new pages
       final startIndex = _pages.length + 1;
-      final newPages = chapterData.uChapDataPreload.asMap().entries.map((
-        entry,
-      ) {
-        return entry.value..pageIndex = startIndex + entry.key;
-      }).toList();
+      final newPages =
+          chapterData.uChapDataPreload.asMap().entries.map((entry) {
+            return entry.value..pageIndex = startIndex + entry.key;
+          }).toList();
 
       // Add to pages list
       _pages.add(transitionPage);

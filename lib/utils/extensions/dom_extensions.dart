@@ -65,9 +65,8 @@ void _initPseudoSelector() {
     if (args == null) return false;
     final parent = element.parent;
     if (parent == null) return false;
-    final siblings = parent.children
-        .where((e) => e.localName == element.localName)
-        .toList();
+    final siblings =
+        parent.children.where((e) => e.localName == element.localName).toList();
     final index = siblings.indexOf(element) + 1; // 1-based
     final (a, b) = parseNth(args);
     return matchesNth(index, a, b);
@@ -77,9 +76,8 @@ void _initPseudoSelector() {
     if (args == null) return false;
     final parent = element.parent;
     if (parent == null) return false;
-    final siblings = parent.children
-        .where((e) => e.localName == element.localName)
-        .toList();
+    final siblings =
+        parent.children.where((e) => e.localName == element.localName).toList();
     final index =
         siblings.length - siblings.indexOf(element); // 1-based from end
     final (a, b) = parseNth(args);
@@ -89,18 +87,20 @@ void _initPseudoSelector() {
   bool has(Element element, String? args) {
     if (args == null) return false;
     final parent = element.parent;
-    final res = parent == null
-        ? false
-        : pseudom.parse(args).selectFirst(parent) == element;
+    final res =
+        parent == null
+            ? false
+            : pseudom.parse(args).selectFirst(parent) == element;
     return res ? res : pseudom.parse(args).selectFirst(element) != null;
   }
 
   bool inot(Element element, String? args) {
     if (args == null) return false;
     final parent = element.parent;
-    final res = parent == null
-        ? false
-        : pseudom.parse(args).selectFirst(parent) != element;
+    final res =
+        parent == null
+            ? false
+            : pseudom.parse(args).selectFirst(parent) != element;
     return res ? res : pseudom.parse(args).selectFirst(element) == null;
   }
 

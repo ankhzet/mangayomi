@@ -80,17 +80,18 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
         padding: const EdgeInsets.only(top: 10),
         child: streamExtensions.when(
           data: (data) {
-            final filteredData = widget.query.isEmpty
-                ? data
-                : data
-                      .where(
-                        (element) =>
-                            element.name?.toLowerCase().contains(
-                              widget.query.toLowerCase(),
-                            ) ??
-                            false,
-                      )
-                      .toList();
+            final filteredData =
+                widget.query.isEmpty
+                    ? data
+                    : data
+                        .where(
+                          (element) =>
+                              element.name?.toLowerCase().contains(
+                                widget.query.toLowerCase(),
+                              ) ??
+                              false,
+                        )
+                        .toList();
 
             final updateEntries = <Source>[];
             final installedEntries = <Source>[];
@@ -138,12 +139,13 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
               ),
             );
           },
-          error: (error, _) => Center(
-            child: ElevatedButton(
-              onPressed: _refreshSources,
-              child: Text(context.l10n.refresh),
-            ),
-          ),
+          error:
+              (error, _) => Center(
+                child: ElevatedButton(
+                  onPressed: _refreshSources,
+                  child: Text(context.l10n.refresh),
+                ),
+              ),
           loading: () => const ProgressCenter(),
         ),
       ),
@@ -154,51 +156,57 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
     return CustomSliverGroupedListView<Source, String>(
       elements: updateEntries,
       groupBy: (_) => "",
-      groupSeparatorBuilder: (_) => StatefulBuilder(
-        builder: (context, setState) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  l10n.update_pending,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                  ),
+      groupSeparatorBuilder:
+          (_) => StatefulBuilder(
+            builder: (context, setState) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      l10n.update_pending,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed:
+                          isUpdating
+                              ? null
+                              : () async {
+                                setState(() => isUpdating = true);
+                                try {
+                                  for (var source in updateEntries) {
+                                    await _updateSource(source);
+                                  }
+                                } finally {
+                                  setState(() => isUpdating = false);
+                                }
+                              },
+                      child:
+                          isUpdating
+                              ? const SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
+                              : Text(l10n.update_all),
+                    ),
+                  ],
                 ),
-                ElevatedButton(
-                  onPressed: isUpdating
-                      ? null
-                      : () async {
-                          setState(() => isUpdating = true);
-                          try {
-                            for (var source in updateEntries) {
-                              await _updateSource(source);
-                            }
-                          } finally {
-                            setState(() => isUpdating = false);
-                          }
-                        },
-                  child: isUpdating
-                      ? const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : Text(l10n.update_all),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-      itemBuilder: (context, Source element) =>
-          ref.watch(extensionListTileWidget(element)),
+              );
+            },
+          ),
+      itemBuilder:
+          (context, Source element) =>
+              ref.watch(extensionListTileWidget(element)),
       groupComparator: (group1, group2) => group1.compareTo(group2),
-      itemComparator: (item1, item2) =>
-          item1.name?.compareTo(item2.name ?? '') ?? 0,
+      itemComparator:
+          (item1, item2) => item1.name?.compareTo(item2.name ?? '') ?? 0,
       order: GroupedListOrder.ASC,
     );
   }
@@ -207,18 +215,20 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
     return CustomSliverGroupedListView<Source, String>(
       elements: installedEntries,
       groupBy: (_) => "",
-      groupSeparatorBuilder: (_) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Text(
-          l10n.installed,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-        ),
-      ),
-      itemBuilder: (context, Source element) =>
-          ref.watch(extensionListTileWidget(element)),
+      groupSeparatorBuilder:
+          (_) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Text(
+              l10n.installed,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            ),
+          ),
+      itemBuilder:
+          (context, Source element) =>
+              ref.watch(extensionListTileWidget(element)),
       groupComparator: (group1, group2) => group1.compareTo(group2),
-      itemComparator: (item1, item2) =>
-          item1.name?.compareTo(item2.name ?? '') ?? 0,
+      itemComparator:
+          (item1, item2) => item1.name?.compareTo(item2.name ?? '') ?? 0,
       order: GroupedListOrder.ASC,
     );
   }
@@ -226,20 +236,22 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
   Widget _buildNotInstalledSection(List<Source> notInstalledEntries) {
     return CustomSliverGroupedListView<Source, String>(
       elements: notInstalledEntries,
-      groupBy: (element) =>
-          completeLanguageName(element.lang?.toLowerCase() ?? ''),
-      groupSeparatorBuilder: (String groupByValue) => Padding(
-        padding: const EdgeInsets.only(left: 12),
-        child: Text(
-          groupByValue,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-        ),
-      ),
-      itemBuilder: (context, Source element) =>
-          ref.watch(extensionListTileWidget(element)),
+      groupBy:
+          (element) => completeLanguageName(element.lang?.toLowerCase() ?? ''),
+      groupSeparatorBuilder:
+          (String groupByValue) => Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: Text(
+              groupByValue,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            ),
+          ),
+      itemBuilder:
+          (context, Source element) =>
+              ref.watch(extensionListTileWidget(element)),
       groupComparator: (group1, group2) => group1.compareTo(group2),
-      itemComparator: (item1, item2) =>
-          item1.name?.compareTo(item2.name ?? '') ?? 0,
+      itemComparator:
+          (item1, item2) => item1.name?.compareTo(item2.name ?? '') ?? 0,
       order: GroupedListOrder.ASC,
     );
   }

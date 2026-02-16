@@ -46,11 +46,12 @@ class ImageActionsDialog {
     showModalBottomSheet(
       context: context,
       constraints: BoxConstraints(maxWidth: context.width(1)),
-      builder: (context) => _ImageActionsSheet(
-        imageBytes: imageBytes,
-        manga: manga,
-        fileName: name,
-      ),
+      builder:
+          (context) => _ImageActionsSheet(
+            imageBytes: imageBytes,
+            manga: manga,
+            fileName: name,
+          ),
     );
   }
 }
@@ -123,36 +124,36 @@ class _ImageActionsSheet extends StatelessWidget {
   Future<void> _setAsCover(BuildContext context) async {
     final res = await showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
-        content: Text(context.l10n.use_this_as_cover_art),
-        actions: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(context.l10n.cancel),
-              ),
-              const SizedBox(width: 15),
-              TextButton(
-                onPressed: () {
-                  isar.writeTxnSync(() {
-                    isar.mangas.putSync(
-                      manga
-                        ..customCoverImage = Uint8List.fromList(
-                          imageBytes,
-                        ).getCoverImage
-                        ..updatedAt = DateTime.now().millisecondsSinceEpoch,
-                    );
-                  });
-                  Navigator.pop(context, "ok");
-                },
-                child: Text(context.l10n.ok),
+      builder:
+          (context) => AlertDialog(
+            content: Text(context.l10n.use_this_as_cover_art),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(context.l10n.cancel),
+                  ),
+                  const SizedBox(width: 15),
+                  TextButton(
+                    onPressed: () {
+                      isar.writeTxnSync(() {
+                        isar.mangas.putSync(
+                          manga
+                            ..customCoverImage =
+                                Uint8List.fromList(imageBytes).getCoverImage
+                            ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+                        );
+                      });
+                      Navigator.pop(context, "ok");
+                    },
+                    child: Text(context.l10n.ok),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
     );
 
     if (res == "ok" && context.mounted) {

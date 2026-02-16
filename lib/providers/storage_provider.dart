@@ -140,11 +140,12 @@ class StorageProvider {
   Future<Directory?> getMangaMainDirectory(Chapter chapter) async {
     final manga = chapter.manga.value!;
     final itemType = chapter.manga.value!.itemType;
-    final itemTypePath = itemType == ItemType.manga
-        ? "Manga"
-        : itemType == ItemType.anime
-        ? "Anime"
-        : "Novel";
+    final itemTypePath =
+        itemType == ItemType.manga
+            ? "Manga"
+            : itemType == ItemType.anime
+            ? "Anime"
+            : "Novel";
     final dir = await getDirectory();
     return Directory(
       path.join(
@@ -162,9 +163,10 @@ class StorageProvider {
     Directory? mangaMainDirectory,
   }) async {
     final basedir = mangaMainDirectory ?? await getMangaMainDirectory(chapter);
-    String scanlator = chapter.scanlator?.isNotEmpty ?? false
-        ? "${chapter.scanlator!.replaceForbiddenCharacters('_')}_"
-        : "";
+    String scanlator =
+        chapter.scanlator?.isNotEmpty ?? false
+            ? "${chapter.scanlator!.replaceForbiddenCharacters('_')}_"
+            : "";
     return Directory(
       path.join(
         basedir!.path,
@@ -254,10 +256,8 @@ class StorageProvider {
     } catch (_) {
       if (await requestPermission()) {
         try {
-          final settings = await isar.settings
-              .filter()
-              .idEqualTo(227)
-              .findFirst();
+          final settings =
+              await isar.settings.filter().idEqualTo(227).findFirst();
           if (settings == null) {
             await isar.writeTxn(() async => isar.settings.put(Settings()));
           }
@@ -269,20 +269,16 @@ class StorageProvider {
       }
     }
 
-    final prefs = await isar.trackPreferences
-        .filter()
-        .syncIdIsNotNull()
-        .findAll();
+    final prefs =
+        await isar.trackPreferences.filter().syncIdIsNotNull().findAll();
     await isar.writeTxn(() async {
       for (final pref in prefs) {
         await isar.trackPreferences.put(pref..refreshing = true);
       }
     });
 
-    final customButton = await isar.customButtons
-        .filter()
-        .idIsNotNull()
-        .findFirst();
+    final customButton =
+        await isar.customButtons.filter().idIsNotNull().findFirst();
     if (customButton == null) {
       await isar.writeTxn(() async {
         await isar.customButtons.put(

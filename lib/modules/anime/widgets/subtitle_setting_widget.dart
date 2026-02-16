@@ -117,9 +117,10 @@ class _FontSettingWidgetState extends ConsumerState<FontSettingWidget> {
                       );
                   setState(() {});
                 },
-                iconColors: subtitleSettings.useBold!
-                    ? null
-                    : context.dynamicWhiteBlackColor.withValues(alpha: 0.5),
+                iconColors:
+                    subtitleSettings.useBold!
+                        ? null
+                        : context.dynamicWhiteBlackColor.withValues(alpha: 0.5),
               ),
               iconButton(
                 Icons.format_italic,
@@ -133,9 +134,10 @@ class _FontSettingWidgetState extends ConsumerState<FontSettingWidget> {
                       );
                   setState(() {});
                 },
-                iconColors: subtitleSettings.useItalic!
-                    ? null
-                    : context.dynamicWhiteBlackColor.withValues(alpha: 0.5),
+                iconColors:
+                    subtitleSettings.useItalic!
+                        ? null
+                        : context.dynamicWhiteBlackColor.withValues(alpha: 0.5),
               ),
             ],
           ),

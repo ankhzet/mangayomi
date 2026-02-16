@@ -35,9 +35,8 @@ class CodeEditorPage extends ConsumerStatefulWidget {
 
 class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
   dynamic result;
-  late final source = widget.sourceId == null
-      ? null
-      : isar.sources.getSync(widget.sourceId!);
+  late final source =
+      widget.sourceId == null ? null : isar.sources.getSync(widget.sourceId!);
   final CodeLineEditingController _controller = CodeLineEditingController();
 
   List<(String, int)> _getServices(BuildContext context) => [
@@ -121,55 +120,56 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
   Future<String?> filterDialog(BuildContext context) async {
     return await showModalBottomSheet(
       context: context,
-      builder: (context) => StatefulBuilder(
-        builder: (context, setState) {
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    TextButton(
-                      onPressed: () {
+      builder:
+          (context) => StatefulBuilder(
+            builder: (context, setState) {
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              filters = getFilterList(source: source!);
+                            });
+                          },
+                          child: Text(context.l10n.reset),
+                        ),
+                        const Spacer(),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: context.primaryColor,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context, 'filter');
+                          },
+                          child: Text(
+                            context.l10n.filter,
+                            style: TextStyle(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(),
+                  Expanded(
+                    child: FilterWidget(
+                      filterList: filters,
+                      onChanged: (values) {
                         setState(() {
-                          filters = getFilterList(source: source!);
+                          filters = values;
                         });
                       },
-                      child: Text(context.l10n.reset),
                     ),
-                    const Spacer(),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: context.primaryColor,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context, 'filter');
-                      },
-                      child: Text(
-                        context.l10n.filter,
-                        style: TextStyle(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const Divider(),
-              Expanded(
-                child: FilterWidget(
-                  filterList: filters,
-                  onChanged: (values) {
-                    setState(() {
-                      filters = values;
-                    });
-                  },
-                ),
-              ),
-            ],
-          );
-        },
-      ),
+                  ),
+                ],
+              );
+            },
+          ),
     );
   }
 
@@ -185,9 +185,8 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> filterList = source != null
-        ? getFilterList(source: source!)
-        : [];
+    List<dynamic> filterList =
+        source != null ? getFilterList(source: source!) : [];
     final appFontFamily = ref.watch(appFontFamilyProvider);
     return Scaffold(
       appBar: AppBar(
@@ -284,27 +283,26 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                           }
                         },
                         wordWrap: false,
-                        indicatorBuilder:
-                            (
-                              context,
-                              editingController,
-                              chunkController,
-                              notifier,
-                            ) {
-                              return Row(
-                                children: [
-                                  DefaultCodeLineNumber(
-                                    controller: editingController,
-                                    notifier: notifier,
-                                  ),
-                                  DefaultCodeChunkIndicator(
-                                    width: 20,
-                                    controller: chunkController,
-                                    notifier: notifier,
-                                  ),
-                                ],
-                              );
-                            },
+                        indicatorBuilder: (
+                          context,
+                          editingController,
+                          chunkController,
+                          notifier,
+                        ) {
+                          return Row(
+                            children: [
+                              DefaultCodeLineNumber(
+                                controller: editingController,
+                                notifier: notifier,
+                              ),
+                              DefaultCodeChunkIndicator(
+                                width: 20,
+                                controller: chunkController,
+                                notifier: notifier,
+                              ),
+                            ],
+                          );
+                        },
                         sperator: Container(
                           width: 1,
                           color: context.dynamicThemeColor.withValues(
@@ -376,29 +374,30 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                                       .$1,
                                   style: const TextStyle(fontSize: 13),
                                 ),
-                                items: _getServices(context)
-                                    .map(
-                                      (e) => DropdownMenuItem(
-                                        value: e,
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              _getServiceIcon(e.$2),
-                                              size: 18,
-                                              color: context.primaryColor,
+                                items:
+                                    _getServices(context)
+                                        .map(
+                                          (e) => DropdownMenuItem(
+                                            value: e,
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  _getServiceIcon(e.$2),
+                                                  size: 18,
+                                                  color: context.primaryColor,
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Text(
+                                                  e.$1,
+                                                  style: const TextStyle(
+                                                    fontSize: 13,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            const SizedBox(width: 10),
-                                            Text(
-                                              e.$1,
-                                              style: const TextStyle(
-                                                fontSize: 13,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
+                                          ),
+                                        )
+                                        .toList(),
                                 onChanged: (v) {
                                   setState(() {
                                     _serviceIndex = v!.$2;
@@ -473,8 +472,9 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                                       isar.writeTxnSync(() {
                                         isar.sources.putSync(
                                           source!
-                                            ..updatedAt = DateTime.now()
-                                                .millisecondsSinceEpoch,
+                                            ..updatedAt =
+                                                DateTime.now()
+                                                    .millisecondsSinceEpoch,
                                         );
                                       });
                                     }
@@ -705,110 +705,111 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                           ),
                           const Divider(height: 1),
                           Expanded(
-                            child: _error
-                                ? Container(
-                                    padding: const EdgeInsets.all(20),
-                                    child: Center(
-                                      child: Container(
-                                        padding: const EdgeInsets.all(16),
-                                        decoration: BoxDecoration(
-                                          color: Colors.red.withValues(
-                                            alpha: 0.1,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                            12,
-                                          ),
-                                          border: Border.all(
+                            child:
+                                _error
+                                    ? Container(
+                                      padding: const EdgeInsets.all(20),
+                                      child: Center(
+                                        child: Container(
+                                          padding: const EdgeInsets.all(16),
+                                          decoration: BoxDecoration(
                                             color: Colors.red.withValues(
-                                              alpha: 0.3,
+                                              alpha: 0.1,
                                             ),
-                                            width: 1,
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                            border: Border.all(
+                                              color: Colors.red.withValues(
+                                                alpha: 0.3,
+                                              ),
+                                              width: 1,
+                                            ),
                                           ),
-                                        ),
-                                        child: SelectableText(
-                                          _errorText,
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                            fontFamily: 'monospace',
+                                          child: SelectableText(
+                                            _errorText,
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              fontFamily: 'monospace',
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  )
-                                : _isLoading
-                                ? Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        CircularProgressIndicator(
-                                          color: context.primaryColor,
-                                        ),
-                                        const SizedBox(height: 16),
-                                        Text(
-                                          'Executing...',
-                                          style: TextStyle(
+                                    )
+                                    : _isLoading
+                                    ? Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          CircularProgressIndicator(
                                             color: context.primaryColor,
-                                            fontWeight: FontWeight.w500,
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : result != null
-                                ? Container(
-                                    padding: const EdgeInsets.all(12),
-                                    child: JsonConfig(
-                                      data: JsonConfigData(
-                                        gap: 100,
-                                        style: const JsonStyleScheme(
-                                          quotation: JsonQuotation.same('"'),
-                                          openAtStart: false,
-                                          arrow: Icon(
-                                            Icons.arrow_forward_rounded,
-                                          ),
-                                          depth: 4,
-                                        ),
-                                        color: const JsonColorScheme(),
-                                      ),
-                                      child: JsonView(json: result),
-                                    ),
-                                  )
-                                : Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.data_object_rounded,
-                                          size: 64,
-                                          color: Colors.grey.withValues(
-                                            alpha: 0.5,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 16),
-                                        Text(
-                                          'No results yet',
-                                          style: TextStyle(
-                                            color: Colors.grey.withValues(
-                                              alpha: 0.7,
+                                          const SizedBox(height: 16),
+                                          Text(
+                                            'Executing...',
+                                            style: TextStyle(
+                                              color: context.primaryColor,
+                                              fontWeight: FontWeight.w500,
                                             ),
-                                            fontSize: 15,
                                           ),
+                                        ],
+                                      ),
+                                    )
+                                    : result != null
+                                    ? Container(
+                                      padding: const EdgeInsets.all(12),
+                                      child: JsonConfig(
+                                        data: JsonConfigData(
+                                          gap: 100,
+                                          style: const JsonStyleScheme(
+                                            quotation: JsonQuotation.same('"'),
+                                            openAtStart: false,
+                                            arrow: Icon(
+                                              Icons.arrow_forward_rounded,
+                                            ),
+                                            depth: 4,
+                                          ),
+                                          color: const JsonColorScheme(),
                                         ),
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          'Execute a service to see results',
-                                          style: TextStyle(
+                                        child: JsonView(json: result),
+                                      ),
+                                    )
+                                    : Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.data_object_rounded,
+                                            size: 64,
                                             color: Colors.grey.withValues(
                                               alpha: 0.5,
                                             ),
-                                            fontSize: 12,
                                           ),
-                                        ),
-                                      ],
+                                          const SizedBox(height: 16),
+                                          Text(
+                                            'No results yet',
+                                            style: TextStyle(
+                                              color: Colors.grey.withValues(
+                                                alpha: 0.7,
+                                              ),
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          Text(
+                                            'Execute a service to see results',
+                                            style: TextStyle(
+                                              color: Colors.grey.withValues(
+                                                alpha: 0.5,
+                                              ),
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
                           ),
                         ],
                       ),
@@ -895,62 +896,71 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                     Expanded(
                       child: ValueListenableBuilder(
                         valueListenable: _logsNotifier,
-                        builder: (context, logs, child) => logs.isEmpty
-                            ? Center(
-                                child: Text(
-                                  'No logs yet',
-                                  style: TextStyle(
-                                    color: Colors.grey.withValues(alpha: 0.5),
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              )
-                            : SuperListView.separated(
-                                separatorBuilder: (context, index) => Divider(
-                                  height: 1,
-                                  color: Colors.grey.withValues(alpha: 0.2),
-                                ),
-                                controller: _scrollController,
-                                padding: const EdgeInsets.all(12),
-                                itemCount: logs.length,
-                                itemBuilder: (context, index) {
-                                  final value = logs[index];
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Icon(
-                                          value.$1 == LoggerLevel.info
-                                              ? Icons.info_outline_rounded
-                                              : Icons.bug_report_rounded,
-                                          size: 14,
-                                          color: value.$1 == LoggerLevel.info
-                                              ? Colors.yellow
-                                              : Colors.blueAccent,
+                        builder:
+                            (context, logs, child) =>
+                                logs.isEmpty
+                                    ? Center(
+                                      child: Text(
+                                        'No logs yet',
+                                        style: TextStyle(
+                                          color: Colors.grey.withValues(
+                                            alpha: 0.5,
+                                          ),
+                                          fontSize: 12,
                                         ),
-                                        const SizedBox(width: 8),
-                                        Expanded(
-                                          child: SelectableText(
-                                            value.$2,
-                                            style: TextStyle(
-                                              fontSize: 11,
-                                              fontFamily: 'monospace',
-                                              color:
-                                                  value.$1 == LoggerLevel.info
-                                                  ? Colors.yellow
-                                                  : Colors.blueAccent,
+                                      ),
+                                    )
+                                    : SuperListView.separated(
+                                      separatorBuilder:
+                                          (context, index) => Divider(
+                                            height: 1,
+                                            color: Colors.grey.withValues(
+                                              alpha: 0.2,
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                      controller: _scrollController,
+                                      padding: const EdgeInsets.all(12),
+                                      itemCount: logs.length,
+                                      itemBuilder: (context, index) {
+                                        final value = logs[index];
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 4,
+                                          ),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Icon(
+                                                value.$1 == LoggerLevel.info
+                                                    ? Icons.info_outline_rounded
+                                                    : Icons.bug_report_rounded,
+                                                size: 14,
+                                                color:
+                                                    value.$1 == LoggerLevel.info
+                                                        ? Colors.yellow
+                                                        : Colors.blueAccent,
+                                              ),
+                                              const SizedBox(width: 8),
+                                              Expanded(
+                                                child: SelectableText(
+                                                  value.$2,
+                                                  style: TextStyle(
+                                                    fontSize: 11,
+                                                    fontFamily: 'monospace',
+                                                    color:
+                                                        value.$1 ==
+                                                                LoggerLevel.info
+                                                            ? Colors.yellow
+                                                            : Colors.blueAccent,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
                                     ),
-                                  );
-                                },
-                              ),
                       ),
                     ),
                   ],

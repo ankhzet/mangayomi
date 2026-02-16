@@ -100,55 +100,55 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen>
           actions: [
             _isSearch
                 ? SeachFormTextField(
-                    onChanged: (value) {
-                      setState(() {});
-                    },
-                    onSuffixPressed: () {
-                      _textEditingController.clear();
-                    },
-                    onPressed: () {
-                      setState(() {
-                        _isSearch = false;
-                      });
-                      _textEditingController.clear();
-                    },
-                    controller: _textEditingController,
-                  )
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  onSuffixPressed: () {
+                    _textEditingController.clear();
+                  },
+                  onPressed: () {
+                    setState(() {
+                      _isSearch = false;
+                    });
+                    _textEditingController.clear();
+                  },
+                  controller: _textEditingController,
+                )
                 : Row(
-                    children: [
-                      if (isExtensionTab)
-                        IconButton(
-                          onPressed: () {
-                            context.push('/createExtension');
-                          },
-                          icon: Icon(
-                            Icons.add_outlined,
-                            color: Theme.of(context).hintColor,
-                          ),
-                        ),
+                  children: [
+                    if (isExtensionTab)
                       IconButton(
-                        splashRadius: 20,
                         onPressed: () {
-                          if (isExtensionTab) {
-                            setState(() {
-                              _isSearch = true;
-                            });
-                          } else {
-                            context.push(
-                              '/globalSearch',
-                              extra: (null, currentTab.type),
-                            );
-                          }
+                          context.push('/createExtension');
                         },
                         icon: Icon(
-                          !isExtensionTab
-                              ? Icons.travel_explore_rounded
-                              : Icons.search_rounded,
+                          Icons.add_outlined,
                           color: Theme.of(context).hintColor,
                         ),
                       ),
-                    ],
-                  ),
+                    IconButton(
+                      splashRadius: 20,
+                      onPressed: () {
+                        if (isExtensionTab) {
+                          setState(() {
+                            _isSearch = true;
+                          });
+                        } else {
+                          context.push(
+                            '/globalSearch',
+                            extra: (null, currentTab.type),
+                          );
+                        }
+                      },
+                      icon: Icon(
+                        !isExtensionTab
+                            ? Icons.travel_explore_rounded
+                            : Icons.search_rounded,
+                        color: Theme.of(context).hintColor,
+                      ),
+                    ),
+                  ],
+                ),
             IconButton(
               splashRadius: 20,
               onPressed: () {
@@ -169,44 +169,46 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen>
             indicatorSize: TabBarIndicatorSize.label,
             isScrollable: true,
             controller: _tabBarController,
-            tabs: _tabList.map((tab) {
-              final type = tab.type;
-              final isExt = tab.kind == BrowseTabKind.extensions;
+            tabs:
+                _tabList.map((tab) {
+                  final type = tab.type;
+                  final isExt = tab.kind == BrowseTabKind.extensions;
 
-              return Tab(
-                child: Row(
-                  children: [
-                    Text(
-                      isExt
-                          ? type.localizedExtensions(l10n)
-                          : type.localizedSources(l10n),
+                  return Tab(
+                    child: Row(
+                      children: [
+                        Text(
+                          isExt
+                              ? type.localizedExtensions(l10n)
+                              : type.localizedSources(l10n),
+                        ),
+                        if (isExt) ...[
+                          const SizedBox(width: 8),
+                          _extensionUpdateNumbers(ref, type),
+                        ],
+                      ],
                     ),
-                    if (isExt) ...[
-                      const SizedBox(width: 8),
-                      _extensionUpdateNumbers(ref, type),
-                    ],
-                  ],
-                ),
-              );
-            }).toList(),
+                  );
+                }).toList(),
           ),
         ),
         body: TabBarView(
           controller: _tabBarController,
-          children: _tabList.map((tab) {
-            if (tab.kind == BrowseTabKind.sources) {
-              return SourcesScreen(
-                itemType: tab.type,
-                tabs: _tabList,
-                tabIndex: (index) => _tabBarController.animateTo(index),
-              );
-            } else {
-              return ExtensionScreen(
-                query: _textEditingController.text,
-                itemType: tab.type,
-              );
-            }
-          }).toList(),
+          children:
+              _tabList.map((tab) {
+                if (tab.kind == BrowseTabKind.sources) {
+                  return SourcesScreen(
+                    itemType: tab.type,
+                    tabs: _tabList,
+                    tabIndex: (index) => _tabBarController.animateTo(index),
+                  );
+                } else {
+                  return ExtensionScreen(
+                    query: _textEditingController.text,
+                    itemType: tab.type,
+                  );
+                }
+              }).toList(),
         ),
       ),
     );
@@ -224,23 +226,25 @@ Widget _extensionUpdateNumbers(WidgetRef ref, ItemType itemType) {
         .watch(fireImmediately: true),
     builder: (context, snapshot) {
       if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-        final entries = snapshot.data!
-            .where(
-              (element) =>
-                  compareVersions(element.version!, element.versionLast!) < 0,
-            )
-            .toList();
+        final entries =
+            snapshot.data!
+                .where(
+                  (element) =>
+                      compareVersions(element.version!, element.versionLast!) <
+                      0,
+                )
+                .toList();
         return entries.isEmpty
             ? SizedBox.shrink()
             : Badge(
-                backgroundColor: Theme.of(context).focusColor,
-                label: Text(
-                  entries.length.toString(),
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.bodySmall!.color,
-                  ),
+              backgroundColor: Theme.of(context).focusColor,
+              label: Text(
+                entries.length.toString(),
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodySmall!.color,
                 ),
-              );
+              ),
+            );
       }
       return Container();
     },

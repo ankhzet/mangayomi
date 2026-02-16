@@ -73,10 +73,8 @@ class NovelReaderController extends _$NovelReaderController {
     });
     History? history;
 
-    final empty = isar.historys
-        .filter()
-        .mangaIdEqualTo(getManga().id)
-        .isEmptySync();
+    final empty =
+        isar.historys.filter().mangaIdEqualTo(getManga().id).isEmptySync();
 
     if (empty) {
       history = History(
@@ -109,8 +107,8 @@ class NovelReaderController extends _$NovelReaderController {
       final ch = chapter;
       isar.writeTxnSync(() {
         ch.isRead = isRead;
-        ch.lastPageRead = (maxOffset != 0 ? newOffset / maxOffset : 0)
-            .toString();
+        ch.lastPageRead =
+            (maxOffset != 0 ? newOffset / maxOffset : 0).toString();
         ch.updatedAt = DateTime.now().millisecondsSinceEpoch;
         isar.chapters.putSync(ch);
       });

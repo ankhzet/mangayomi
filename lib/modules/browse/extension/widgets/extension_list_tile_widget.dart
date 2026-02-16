@@ -65,17 +65,18 @@ class _ExtensionListTileWidgetState
     final isUpdate = label == context.l10n.update;
     return _isLoading
         ? const SizedBox(
-            height: 20,
-            width: 20,
-            child: CircularProgressIndicator(strokeWidth: 2.0),
-          )
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(strokeWidth: 2.0),
+        )
         : Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextButton(
-                onPressed: _isLoading
-                    ? null
-                    : () {
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed:
+                  _isLoading
+                      ? null
+                      : () {
                         if (!_updateAvailable && _sourceNotEmpty) {
                           context.push(
                             '/extension_detail',
@@ -85,123 +86,126 @@ class _ExtensionListTileWidgetState
                           _handleSourceFetch();
                         }
                       },
-                child: Icon(
-                  isInstall
-                      ? Icons.download_outlined
-                      : isUpdate
-                      ? Icons.system_update_alt_outlined
-                      : Icons.settings_outlined,
-                  size: 24,
-                ),
+              child: Icon(
+                isInstall
+                    ? Icons.download_outlined
+                    : isUpdate
+                    ? Icons.system_update_alt_outlined
+                    : Icons.settings_outlined,
+                size: 24,
               ),
-              if (_sourceNotEmpty)
-                TextButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (ctx) {
-                        return AlertDialog(
-                          title: Text(widget.source.name!),
-                          content: Text(
-                            ctx.l10n.uninstall_extension(widget.source.name!),
-                          ),
-                          actions: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(ctx);
-                                  },
-                                  child: Text(ctx.l10n.cancel),
-                                ),
-                                const SizedBox(width: 15),
-                                TextButton(
-                                  onPressed: () {
-                                    final sourcePrefsIds = isar
-                                        .sourcePreferences
-                                        .filter()
-                                        .sourceIdEqualTo(widget.source.id!)
-                                        .findAllSync()
-                                        .map((e) => e.id!)
-                                        .toList();
-                                    final sourcePrefsStringIds = isar
-                                        .sourcePreferenceStringValues
-                                        .filter()
-                                        .sourceIdEqualTo(widget.source.id!)
-                                        .findAllSync()
-                                        .map((e) => e.id)
-                                        .toList();
-                                    isar.writeTxnSync(() {
-                                      if (widget.source.isObsolete ?? false) {
-                                        isar.sources.deleteSync(
-                                          widget.source.id!,
-                                        );
-                                        ref
-                                            .read(
-                                              synchingProvider(
-                                                syncId: 1,
-                                              ).notifier,
-                                            )
-                                            .addChangedPart(
-                                              ActionType.removeExtension,
-                                              widget.source.id,
-                                              "{}",
-                                              false,
-                                            );
-                                      } else {
-                                        isar.sources.putSync(
-                                          widget.source
-                                            ..sourceCode = ""
-                                            ..isAdded = false
-                                            ..isPinned = false
-                                            ..updatedAt = DateTime.now()
-                                                .millisecondsSinceEpoch,
-                                        );
-                                      }
-                                      isar.sourcePreferences.deleteAllSync(
-                                        sourcePrefsIds,
-                                      );
+            ),
+            if (_sourceNotEmpty)
+              TextButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (ctx) {
+                      return AlertDialog(
+                        title: Text(widget.source.name!),
+                        content: Text(
+                          ctx.l10n.uninstall_extension(widget.source.name!),
+                        ),
+                        actions: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(ctx);
+                                },
+                                child: Text(ctx.l10n.cancel),
+                              ),
+                              const SizedBox(width: 15),
+                              TextButton(
+                                onPressed: () {
+                                  final sourcePrefsIds =
+                                      isar.sourcePreferences
+                                          .filter()
+                                          .sourceIdEqualTo(widget.source.id!)
+                                          .findAllSync()
+                                          .map((e) => e.id!)
+                                          .toList();
+                                  final sourcePrefsStringIds =
                                       isar.sourcePreferenceStringValues
-                                          .deleteAllSync(sourcePrefsStringIds);
-                                    });
+                                          .filter()
+                                          .sourceIdEqualTo(widget.source.id!)
+                                          .findAllSync()
+                                          .map((e) => e.id)
+                                          .toList();
+                                  isar.writeTxnSync(() {
+                                    if (widget.source.isObsolete ?? false) {
+                                      isar.sources.deleteSync(
+                                        widget.source.id!,
+                                      );
+                                      ref
+                                          .read(
+                                            synchingProvider(
+                                              syncId: 1,
+                                            ).notifier,
+                                          )
+                                          .addChangedPart(
+                                            ActionType.removeExtension,
+                                            widget.source.id,
+                                            "{}",
+                                            false,
+                                          );
+                                    } else {
+                                      isar.sources.putSync(
+                                        widget.source
+                                          ..sourceCode = ""
+                                          ..isAdded = false
+                                          ..isPinned = false
+                                          ..updatedAt =
+                                              DateTime.now()
+                                                  .millisecondsSinceEpoch,
+                                      );
+                                    }
+                                    isar.sourcePreferences.deleteAllSync(
+                                      sourcePrefsIds,
+                                    );
+                                    isar.sourcePreferenceStringValues
+                                        .deleteAllSync(sourcePrefsStringIds);
+                                  });
 
-                                    Navigator.pop(ctx);
-                                  },
-                                  child: Text(ctx.l10n.ok),
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  child: Icon(Icons.delete_outline, size: 24),
-                ),
-            ],
-          );
+                                  Navigator.pop(ctx);
+                                },
+                                child: Text(ctx.l10n.ok),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Icon(Icons.delete_outline, size: 24),
+              ),
+          ],
+        );
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
-    final buttonLabel = !_sourceNotEmpty
-        ? l10n.install
-        : _updateAvailable
-        ? l10n.update
-        : l10n.settings;
+    final buttonLabel =
+        !_sourceNotEmpty
+            ? l10n.install
+            : _updateAvailable
+            ? l10n.update
+            : l10n.settings;
 
     return ListTile(
-      onTap: _isLoading
-          ? null
-          : () {
-              if (_sourceNotEmpty) {
-                context.push('/extension_detail', extra: widget.source);
-              } else {
-                _handleSourceFetch();
-              }
-            },
+      onTap:
+          _isLoading
+              ? null
+              : () {
+                if (_sourceNotEmpty) {
+                  context.push('/extension_detail', extra: widget.source);
+                } else {
+                  _handleSourceFetch();
+                }
+              },
       leading: Container(
         height: 37,
         width: 37,
@@ -209,20 +213,21 @@ class _ExtensionListTileWidgetState
           color: Theme.of(context).secondaryHeaderColor.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(5),
         ),
-        child: widget.source.iconUrl!.isEmpty
-            ? const Icon(Icons.extension_rounded)
-            : cachedNetworkImage(
-                imageUrl: widget.source.iconUrl!,
-                fit: BoxFit.contain,
-                width: 37,
-                height: 37,
-                errorWidget: const SizedBox(
+        child:
+            widget.source.iconUrl!.isEmpty
+                ? const Icon(Icons.extension_rounded)
+                : cachedNetworkImage(
+                  imageUrl: widget.source.iconUrl!,
+                  fit: BoxFit.contain,
                   width: 37,
                   height: 37,
-                  child: Center(child: Icon(Icons.extension_rounded)),
+                  errorWidget: const SizedBox(
+                    width: 37,
+                    height: 37,
+                    child: Center(child: Icon(Icons.extension_rounded)),
+                  ),
+                  useCustomNetworkImage: false,
                 ),
-                useCustomNetworkImage: false,
-              ),
       ),
       title: Text(widget.source.name!),
       subtitle: Row(

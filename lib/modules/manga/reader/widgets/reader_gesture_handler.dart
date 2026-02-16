@@ -104,17 +104,20 @@ class ReaderGestureHandler extends StatelessWidget {
         // Center zone
         Expanded(
           flex: 2,
-          child: hasImageError
-              ? SizedBox(width: context.width(1), height: context.height(0.7))
-              : _ZoneGestureDetector(
-                  onTap: onToggleUI,
-                  onDoubleTapDown: isContinuousMode ? onDoubleTapDown : null,
-                  onDoubleTap: isContinuousMode ? onDoubleTap : null,
-                  onSecondaryTapDown: isContinuousMode
-                      ? onSecondaryTapDown
-                      : null,
-                  onSecondaryTap: isContinuousMode ? onSecondaryTap : null,
-                ),
+          child:
+              hasImageError
+                  ? SizedBox(
+                    width: context.width(1),
+                    height: context.height(0.7),
+                  )
+                  : _ZoneGestureDetector(
+                    onTap: onToggleUI,
+                    onDoubleTapDown: isContinuousMode ? onDoubleTapDown : null,
+                    onDoubleTap: isContinuousMode ? onDoubleTap : null,
+                    onSecondaryTapDown:
+                        isContinuousMode ? onSecondaryTapDown : null,
+                    onSecondaryTap: isContinuousMode ? onSecondaryTap : null,
+                  ),
         ),
 
         // Right zone
@@ -209,13 +212,15 @@ class _ZoneGestureDetector extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: onTap,
-      onDoubleTapDown: onDoubleTapDown != null
-          ? (details) => onDoubleTapDown!(details.globalPosition)
-          : null,
+      onDoubleTapDown:
+          onDoubleTapDown != null
+              ? (details) => onDoubleTapDown!(details.globalPosition)
+              : null,
       onDoubleTap: onDoubleTap,
-      onSecondaryTapDown: onSecondaryTapDown != null
-          ? (details) => onSecondaryTapDown!(details.globalPosition)
-          : null,
+      onSecondaryTapDown:
+          onSecondaryTapDown != null
+              ? (details) => onSecondaryTapDown!(details.globalPosition)
+              : null,
       onSecondaryTap: onSecondaryTap,
     );
   }

@@ -203,23 +203,23 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
             ((!isLogicalKeyPressed(LogicalKeyboardKey.keyN) ||
                     !isLogicalKeyPressed(LogicalKeyboardKey.pageDown)))
                 ? switch (hasNextChapter) {
-                    true => pushReplacementMangaReaderView(
-                      context: context,
-                      chapter: _readerController.getNextChapter(),
-                    ),
-                    _ => null,
-                  }
+                  true => pushReplacementMangaReaderView(
+                    context: context,
+                    chapter: _readerController.getNextChapter(),
+                  ),
+                  _ => null,
+                }
                 : null,
           LogicalKeyboardKey.keyP || LogicalKeyboardKey.pageUp =>
             ((!isLogicalKeyPressed(LogicalKeyboardKey.keyP) ||
                     !isLogicalKeyPressed(LogicalKeyboardKey.pageUp)))
                 ? switch (hasPrevChapter) {
-                    true => pushReplacementMangaReaderView(
-                      context: context,
-                      chapter: _readerController.getPrevChapter(),
-                    ),
-                    _ => null,
-                  }
+                  true => pushReplacementMangaReaderView(
+                    context: context,
+                    chapter: _readerController.getPrevChapter(),
+                  ),
+                  _ => null,
+                }
                 : null,
           _ => null,
         };
@@ -373,9 +373,14 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                                   textAlign: getTextAlign(),
                                                 ),
                                                 "p": Style(
-                                                  margin: removeExtraSpacing
-                                                      ? Margins.only(bottom: 4)
-                                                      : Margins.only(bottom: 8),
+                                                  margin:
+                                                      removeExtraSpacing
+                                                          ? Margins.only(
+                                                            bottom: 4,
+                                                          )
+                                                          : Margins.only(
+                                                            bottom: 8,
+                                                          ),
                                                   fontSize: FontSize(
                                                     fontSize.toDouble(),
                                                   ),
@@ -493,18 +498,21 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                                   },
                                                 ),
                                               ],
-                                              onLinkTap:
-                                                  (url, attributes, element) {
-                                                    if (url != null) {
-                                                      context.push(
-                                                        "/mangawebview",
-                                                        extra: {
-                                                          'url': url,
-                                                          'title': url,
-                                                        },
-                                                      );
-                                                    }
-                                                  },
+                                              onLinkTap: (
+                                                url,
+                                                attributes,
+                                                element,
+                                              ) {
+                                                if (url != null) {
+                                                  context.push(
+                                                    "/mangawebview",
+                                                    extra: {
+                                                      'url': url,
+                                                      'title': url,
+                                                    },
+                                                  );
+                                                }
+                                              },
                                             ),
                                           ),
                                         ],
@@ -528,11 +536,12 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                   final customTextColor = ref.watch(
                                     novelReaderTextColorStateProvider,
                                   );
-                                  final scrollPercentage = maxOffset > 0
-                                      ? ((offset / maxOffset) * 100)
-                                            .clamp(0, 100)
-                                            .toInt()
-                                      : 0;
+                                  final scrollPercentage =
+                                      maxOffset > 0
+                                          ? ((offset / maxOffset) * 100)
+                                              .clamp(0, 100)
+                                              .toInt()
+                                          : 0;
                                   return Row(
                                     children: [
                                       Expanded(
@@ -581,12 +590,16 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                   ],
                 );
               },
-              loading: () => scaffoldWith(
-                context,
-                Center(child: CircularProgressIndicator()),
-              ),
-              error: (err, stack) =>
-                  scaffoldWith(context, Center(child: Text(err.toString()))),
+              loading:
+                  () => scaffoldWith(
+                    context,
+                    Center(child: CircularProgressIndicator()),
+                  ),
+              error:
+                  (err, stack) => scaffoldWith(
+                    context,
+                    Center(child: Text(err.toString())),
+                  ),
             ),
           ),
         ),
@@ -598,25 +611,31 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
     return Positioned(
       bottom: 0,
       right: 0,
-      child: !_isView
-          ? ValueListenableBuilder(
-              valueListenable: _autoScrollPage,
-              builder: (context, valueT, child) => valueT
-                  ? ValueListenableBuilder(
-                      valueListenable: _autoScroll,
-                      builder: (context, value, child) => IconButton(
-                        onPressed: () {
-                          _autoPagescroll();
-                          _autoScroll.value = !value;
-                        },
-                        icon: Icon(
-                          value ? Icons.pause_circle : Icons.play_circle,
-                        ),
-                      ),
-                    )
-                  : const SizedBox.shrink(),
-            )
-          : const SizedBox.shrink(),
+      child:
+          !_isView
+              ? ValueListenableBuilder(
+                valueListenable: _autoScrollPage,
+                builder:
+                    (context, valueT, child) =>
+                        valueT
+                            ? ValueListenableBuilder(
+                              valueListenable: _autoScroll,
+                              builder:
+                                  (context, value, child) => IconButton(
+                                    onPressed: () {
+                                      _autoPagescroll();
+                                      _autoScroll.value = !value;
+                                    },
+                                    icon: Icon(
+                                      value
+                                          ? Icons.pause_circle
+                                          : Icons.play_circle,
+                                    ),
+                                  ),
+                            )
+                            : const SizedBox.shrink(),
+              )
+              : const SizedBox.shrink(),
     );
   }
 
@@ -740,13 +759,14 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
       return const SizedBox.shrink();
     }
     final fullScreenReader = ref.watch(fullScreenReaderStateProvider);
-    double height = _isView
-        ? Platform.isIOS
-              ? 120
-              : !fullScreenReader && !isDesktop
-              ? 55
-              : 80
-        : 0;
+    double height =
+        _isView
+            ? Platform.isIOS
+                ? 120
+                : !fullScreenReader && !isDesktop
+                ? 55
+                : 80
+            : 0;
     return Positioned(
       top: 0,
       child: AnimatedContainer(
@@ -810,14 +830,12 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                 IconButton(
                   onPressed: () async {
                     final manga = chapter.manga.value!;
-                    final source = getSource(
-                      manga.lang!,
-                      manga.source!,
-                      manga.sourceId,
-                    )!;
-                    String url = chapter.url!.startsWith('/')
-                        ? "${source.baseUrl}/${chapter.url!}"
-                        : chapter.url!;
+                    final source =
+                        getSource(manga.lang!, manga.source!, manga.sourceId)!;
+                    String url =
+                        chapter.url!.startsWith('/')
+                            ? "${source.baseUrl}/${chapter.url!}"
+                            : chapter.url!;
                     Map<String, dynamic> data = {
                       'url': url,
                       'sourceId': source.id.toString(),
@@ -879,19 +897,21 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                       radius: 21,
                       backgroundColor: _backgroundColor(context),
                       child: IconButton(
-                        onPressed: hasPrevChapter
-                            ? () {
-                                pushReplacementMangaReaderView(
-                                  context: context,
-                                  chapter: _readerController.getPrevChapter(),
-                                );
-                              }
-                            : null,
+                        onPressed:
+                            hasPrevChapter
+                                ? () {
+                                  pushReplacementMangaReaderView(
+                                    context: context,
+                                    chapter: _readerController.getPrevChapter(),
+                                  );
+                                }
+                                : null,
                         icon: Icon(
                           Icons.skip_previous_rounded,
-                          color: hasPrevChapter
-                              ? bodyLargeColor
-                              : bodyLargeColor!.withValues(alpha: 0.4),
+                          color:
+                              hasPrevChapter
+                                  ? bodyLargeColor
+                                  : bodyLargeColor!.withValues(alpha: 0.4),
                         ),
                       ),
                     ),
@@ -908,11 +928,12 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                         builder: (context, asyncSnapshot) {
                           return Consumer(
                             builder: (context, ref, child) {
-                              final scrollPercentage = maxOffset > 0
-                                  ? ((offset / maxOffset) * 100)
-                                        .clamp(0, 100)
-                                        .toInt()
-                                  : 0;
+                              final scrollPercentage =
+                                  maxOffset > 0
+                                      ? ((offset / maxOffset) * 100)
+                                          .clamp(0, 100)
+                                          .toInt()
+                                      : 0;
                               return Row(
                                 children: [
                                   SizedBox(width: 10),
@@ -983,21 +1004,23 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                       radius: 21,
                       backgroundColor: _backgroundColor(context),
                       child: IconButton(
-                        onPressed: hasNextChapter
-                            ? () {
-                                pushReplacementMangaReaderView(
-                                  context: context,
-                                  chapter: _readerController.getNextChapter(),
-                                );
-                              }
-                            : null,
+                        onPressed:
+                            hasNextChapter
+                                ? () {
+                                  pushReplacementMangaReaderView(
+                                    context: context,
+                                    chapter: _readerController.getNextChapter(),
+                                  );
+                                }
+                                : null,
                         icon: Transform.scale(
                           scaleX: 1,
                           child: Icon(
                             Icons.skip_next_rounded,
-                            color: hasNextChapter
-                                ? bodyLargeColor
-                                : bodyLargeColor!.withValues(alpha: 0.4),
+                            color:
+                                hasNextChapter
+                                    ? bodyLargeColor
+                                    : bodyLargeColor!.withValues(alpha: 0.4),
                           ),
                         ),
                       ),
@@ -1091,9 +1114,10 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onPrimaryContainer,
+                                                color:
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .onPrimaryContainer,
                                               ),
                                             );
                                           },
@@ -1201,35 +1225,37 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
     if (element.localName == "img" && element.getSrc != null) {
       final src = element.getSrc!;
       final fileName = src.split("/").last;
-      final image = epubBook!.images
-          .firstWhereOrNull(
-            (img) =>
-                img.name.endsWith(fileName) ||
-                img.name.contains(fileName.replaceAll('%20', ' ')),
-          )
-          ?.content;
+      final image =
+          epubBook!.images
+              .firstWhereOrNull(
+                (img) =>
+                    img.name.endsWith(fileName) ||
+                    img.name.contains(fileName.replaceAll('%20', ' ')),
+              )
+              ?.content;
 
       if (image != null) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: widgets.Image(
-            errorBuilder: (context, error, stackTrace) => Container(
-              padding: const EdgeInsets.all(8),
-              color: Colors.red.withValues(alpha: 0.1),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.broken_image, color: Colors.red),
-                  const SizedBox(width: 8),
-                  Flexible(
-                    child: Text(
-                      'Image not loaded: $fileName',
-                      style: const TextStyle(color: Colors.red),
-                    ),
+            errorBuilder:
+                (context, error, stackTrace) => Container(
+                  padding: const EdgeInsets.all(8),
+                  color: Colors.red.withValues(alpha: 0.1),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.broken_image, color: Colors.red),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          'Image not loaded: $fileName',
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
             fit: BoxFit.contain,
             image: MemoryImage(image) as ImageProvider,
           ),

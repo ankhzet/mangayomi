@@ -120,11 +120,12 @@ class Synching extends _$Synching {
     if (!state.syncOn) {
       return;
     }
-    final changedPart = isar.changedParts
-        .filter()
-        .actionTypeEqualTo(action)
-        .isarIdEqualTo(isarId)
-        .findFirstSync();
+    final changedPart =
+        isar.changedParts
+            .filter()
+            .actionTypeEqualTo(action)
+            .isarIdEqualTo(isarId)
+            .findFirstSync();
     void putChangedPart() {
       if (changedPart != null) {
         isar.changedParts.putSync(
@@ -160,11 +161,12 @@ class Synching extends _$Synching {
     if (!state.syncOn) {
       return;
     }
-    final changedPart = isar.changedParts
-        .filter()
-        .actionTypeEqualTo(action)
-        .isarIdEqualTo(isarId)
-        .findFirstSync();
+    final changedPart =
+        isar.changedParts
+            .filter()
+            .actionTypeEqualTo(action)
+            .isarIdEqualTo(isarId)
+            .findFirstSync();
     Future<void> putChangedPart() async {
       if (changedPart != null) {
         await isar.changedParts.put(
@@ -198,9 +200,8 @@ class Synching extends _$Synching {
     for (ActionType action in actions.skip(1)) {
       temp = temp.or().actionTypeEqualTo(action);
     }
-    final changedParts = (await temp.findAll())
-        .map((cp) => cp.id as Id)
-        .toList();
+    final changedParts =
+        (await temp.findAll()).map((cp) => cp.id as Id).toList();
     if (txn) {
       await isar.writeTxn(() async {
         await isar.changedParts.deleteAll(changedParts);

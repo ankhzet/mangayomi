@@ -37,20 +37,20 @@ class _GlobalSearchScreenState extends ConsumerState<GlobalSearchScreen> {
   final _textEditingController = TextEditingController();
   late final List<Source> sourceList =
       ref.read(onlyIncludePinnedSourceStateProvider)
-      ? isar.sources
-            .filter()
-            .isPinnedEqualTo(true)
-            .and()
-            .itemTypeEqualTo(widget.itemType)
-            .findAllSync()
-      : isar.sources
-            .filter()
-            .idIsNotNull()
-            .and()
-            .isAddedEqualTo(true)
-            .and()
-            .itemTypeEqualTo(widget.itemType)
-            .findAllSync();
+          ? isar.sources
+              .filter()
+              .isPinnedEqualTo(true)
+              .and()
+              .itemTypeEqualTo(widget.itemType)
+              .findAllSync()
+          : isar.sources
+              .filter()
+              .idIsNotNull()
+              .and()
+              .isAddedEqualTo(true)
+              .and()
+              .itemTypeEqualTo(widget.itemType)
+              .findAllSync();
 
   @override
   void initState() {
@@ -92,23 +92,24 @@ class _GlobalSearchScreenState extends ConsumerState<GlobalSearchScreen> {
           ),
         ],
       ),
-      body: _query.isNotEmpty || widget.search != null
-          ? SuperListView.builder(
-              itemCount: sourceList.length,
-              extentPrecalculationPolicy: SuperPrecalculationPolicy(),
-              itemBuilder: (context, index) {
-                final source = sourceList[index];
-                return SizedBox(
-                  height: 260,
-                  child: SourceSearchScreen(
-                    key: ValueKey(query),
-                    query: query,
-                    source: source,
-                  ),
-                );
-              },
-            )
-          : Container(),
+      body:
+          _query.isNotEmpty || widget.search != null
+              ? SuperListView.builder(
+                itemCount: sourceList.length,
+                extentPrecalculationPolicy: SuperPrecalculationPolicy(),
+                itemBuilder: (context, index) {
+                  final source = sourceList[index];
+                  return SizedBox(
+                    height: 260,
+                    child: SourceSearchScreen(
+                      key: ValueKey(query),
+                      query: query,
+                      source: source,
+                    ),
+                  );
+                },
+              )
+              : Container(),
     );
   }
 
@@ -200,30 +201,31 @@ class _SourceSearchScreenState extends ConsumerState<SourceSearchScreen> {
               trailing: const Icon(Icons.arrow_forward_sharp),
             ),
             Flexible(
-              child: _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : Builder(
-                      builder: (context) {
-                        if (_errorMessage.isNotEmpty) {
-                          return Center(child: Text(_errorMessage));
-                        }
-                        if (pages!.list.isNotEmpty) {
-                          return SuperListView.builder(
-                            extentPrecalculationPolicy:
-                                SuperPrecalculationPolicy(),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: pages!.list.length,
-                            itemBuilder: (context, index) {
-                              return MangaGlobalImageCard(
-                                manga: pages!.list[index],
-                                source: widget.source,
-                              );
-                            },
-                          );
-                        }
-                        return Center(child: Text(l10n.no_result));
-                      },
-                    ),
+              child:
+                  _isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : Builder(
+                        builder: (context) {
+                          if (_errorMessage.isNotEmpty) {
+                            return Center(child: Text(_errorMessage));
+                          }
+                          if (pages!.list.isNotEmpty) {
+                            return SuperListView.builder(
+                              extentPrecalculationPolicy:
+                                  SuperPrecalculationPolicy(),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: pages!.list.length,
+                              itemBuilder: (context, index) {
+                                return MangaGlobalImageCard(
+                                  manga: pages!.list[index],
+                                  source: widget.source,
+                                );
+                              },
+                            );
+                          }
+                          return Center(child: Text(l10n.no_result));
+                        },
+                      ),
             ),
           ],
         ),
@@ -305,11 +307,11 @@ class _MangaGlobalImageCardState extends ConsumerState<MangaGlobalImageCard>
                               imageUrl: toImgUrl(
                                 hasData
                                     ? snapshot
-                                              .data!
-                                              .first
-                                              .customCoverFromTracker ??
-                                          snapshot.data!.first.imageUrl ??
-                                          ""
+                                            .data!
+                                            .first
+                                            .customCoverFromTracker ??
+                                        snapshot.data!.first.imageUrl ??
+                                        ""
                                     : getMangaDetail.imageUrl ?? "",
                               ),
                               width: 110,
@@ -332,9 +334,10 @@ class _MangaGlobalImageCardState extends ConsumerState<MangaGlobalImageCard>
                 Container(
                   width: 110,
                   height: 150,
-                  color: hasData && snapshot.data!.first.favorite!
-                      ? Colors.black.withValues(alpha: 0.7)
-                      : null,
+                  color:
+                      hasData && snapshot.data!.first.favorite!
+                          ? Colors.black.withValues(alpha: 0.7)
+                          : null,
                 ),
                 if (hasData && snapshot.data!.first.favorite!)
                   Positioned(

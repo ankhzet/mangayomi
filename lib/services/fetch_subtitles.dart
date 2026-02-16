@@ -98,9 +98,10 @@ class ImdbTitle {
       primaryImage: json["primaryImage"]?["url"],
       startYear: json["startYear"],
       endYear: json["endYear"],
-      aggregateRating: json["rating"]?["aggregateRating"] is int
-          ? (json["rating"]?["aggregateRating"] as int).toDouble()
-          : json["rating"]?["aggregateRating"],
+      aggregateRating:
+          json["rating"]?["aggregateRating"] is int
+              ? (json["rating"]?["aggregateRating"] as int).toDouble()
+              : json["rating"]?["aggregateRating"],
       voteCount: json["rating"]?["voteCount"],
     );
   }

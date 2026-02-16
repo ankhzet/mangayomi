@@ -161,8 +161,8 @@ class ExpandableTextState extends State<ExpandableText>
 
     final prefixText =
         widget.prefixText != null && widget.prefixText!.isNotEmpty
-        ? '${widget.prefixText} '
-        : '';
+            ? '${widget.prefixText} '
+            : '';
 
     final link = TextSpan(
       children: [
@@ -193,11 +193,16 @@ class ExpandableTextState extends State<ExpandableText>
       recognizer: _prefixTapGestureRecognizer,
     );
 
-    final text = _textSegments.isNotEmpty
-        ? TextSpan(
-            children: _buildTextSpans(_textSegments, effectiveTextStyle, null),
-          )
-        : TextSpan(text: widget.text);
+    final text =
+        _textSegments.isNotEmpty
+            ? TextSpan(
+              children: _buildTextSpans(
+                _textSegments,
+                effectiveTextStyle,
+                null,
+              ),
+            )
+            : TextSpan(text: widget.text);
 
     final content = TextSpan(
       children: <TextSpan>[prefix, text],
@@ -245,27 +250,29 @@ class ExpandableTextState extends State<ExpandableText>
 
           final recognizer =
               (_expanded ? widget.collapseOnTextTap : widget.expandOnTextTap)
-              ? _linkTapGestureRecognizer
-              : null;
+                  ? _linkTapGestureRecognizer
+                  : null;
 
-          final text = _textSegments.isNotEmpty
-              ? TextSpan(
-                  children: _buildTextSpans(
-                    _expanded
-                        ? _textSegments
-                        : parseText(
+          final text =
+              _textSegments.isNotEmpty
+                  ? TextSpan(
+                    children: _buildTextSpans(
+                      _expanded
+                          ? _textSegments
+                          : parseText(
                             widget.text.substring(0, max(endOffset, 0)),
                           ),
-                    effectiveTextStyle!,
-                    recognizer,
-                  ),
-                )
-              : TextSpan(
-                  text: _expanded
-                      ? widget.text
-                      : widget.text.substring(0, max(endOffset, 0)),
-                  recognizer: recognizer,
-                );
+                      effectiveTextStyle!,
+                      recognizer,
+                    ),
+                  )
+                  : TextSpan(
+                    text:
+                        _expanded
+                            ? widget.text
+                            : widget.text.substring(0, max(endOffset, 0)),
+                    recognizer: recognizer,
+                  );
 
           textSpan = TextSpan(
             style: effectiveTextStyle,
@@ -391,24 +398,27 @@ class ExpandableTextState extends State<ExpandableText>
 
     for (var element in _textSegments) {
       if (element.isUrl && widget.onUrlTap != null) {
-        final recognizer = TapGestureRecognizer()
-          ..onTap = () {
-            widget.onUrlTap!(element.name!);
-          };
+        final recognizer =
+            TapGestureRecognizer()
+              ..onTap = () {
+                widget.onUrlTap!(element.name!);
+              };
 
         _textSegmentsTapGestureRecognizers.add(recognizer);
       } else if (element.isHashtag && widget.onHashtagTap != null) {
-        final recognizer = TapGestureRecognizer()
-          ..onTap = () {
-            widget.onHashtagTap!(element.name!);
-          };
+        final recognizer =
+            TapGestureRecognizer()
+              ..onTap = () {
+                widget.onHashtagTap!(element.name!);
+              };
 
         _textSegmentsTapGestureRecognizers.add(recognizer);
       } else if (element.isMention && widget.onMentionTap != null) {
-        final recognizer = TapGestureRecognizer()
-          ..onTap = () {
-            widget.onMentionTap!(element.name!);
-          };
+        final recognizer =
+            TapGestureRecognizer()
+              ..onTap = () {
+                widget.onMentionTap!(element.name!);
+              };
 
         _textSegmentsTapGestureRecognizers.add(recognizer);
       }

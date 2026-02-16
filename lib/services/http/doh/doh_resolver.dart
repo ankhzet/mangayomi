@@ -22,9 +22,10 @@ class _ProviderStats {
   DateTime lastFailure = DateTime.now();
   bool isCircuitOpen = false;
 
-  double get successRate => (successCount + failureCount) == 0
-      ? 100
-      : (successCount / (successCount + failureCount)) * 100;
+  double get successRate =>
+      (successCount + failureCount) == 0
+          ? 100
+          : (successCount / (successCount + failureCount)) * 100;
 
   bool shouldRetry() {
     if (!isCircuitOpen) return true;
@@ -123,9 +124,8 @@ class DoHResolver {
     final providerHost = uri.host;
 
     // Validate bootstrap IPs format
-    final validBootstrapIps = provider.bootstrapIPs
-        .where((ip) => _isValidIp(ip))
-        .toList();
+    final validBootstrapIps =
+        provider.bootstrapIPs.where((ip) => _isValidIp(ip)).toList();
     if (validBootstrapIps.isEmpty) {
       _log('No valid bootstrap IPs for ${provider.name}', isError: true);
       return [];
@@ -264,21 +264,23 @@ class DoHResolver {
       final answers = json['Answer'] as List?;
 
       if (answers != null && answers.isNotEmpty) {
-        final ips = answers
-            .map((answer) {
-              if (answer is Map && answer.containsKey('data')) {
-                return answer['data'] as String;
-              }
-              return null;
-            })
-            .whereType<String>()
-            .toList();
+        final ips =
+            answers
+                .map((answer) {
+                  if (answer is Map && answer.containsKey('data')) {
+                    return answer['data'] as String;
+                  }
+                  return null;
+                })
+                .whereType<String>()
+                .toList();
 
         if (ips.isNotEmpty) {
           // Extract TTL from first answer if available
-          final ttl = (answers.first is Map && answers.first.containsKey('TTL'))
-              ? (answers.first['TTL'] as int?) ?? 300
-              : 300;
+          final ttl =
+              (answers.first is Map && answers.first.containsKey('TTL'))
+                  ? (answers.first['TTL'] as int?) ?? 300
+                  : 300;
           _log('Parsed ${ips.length} record(s) with TTL $ttl');
         }
 

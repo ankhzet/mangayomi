@@ -164,9 +164,8 @@ class _PlayerAudioScreenState extends ConsumerState<PlayerAudioScreen> {
 
   void _showEditController() {
     final audioPreferredLang = ref.read(audioPreferredLangStateProvider);
-    final langCodes = AppLocalizations.supportedLocales
-        .map((e) => e.languageCode)
-        .toList();
+    final langCodes =
+        AppLocalizations.supportedLocales.map((e) => e.languageCode).toList();
     bool isLangCodeError = false;
     final textController = TextEditingController(text: audioPreferredLang);
     showDialog(
@@ -193,11 +192,12 @@ class _PlayerAudioScreenState extends ConsumerState<PlayerAudioScreen> {
                   controller: textController,
                   context: context,
                   isMissing: isLangCodeError,
-                  val: (text) => setState(() {
-                    isLangCodeError = text
-                        .split(",")
-                        .any((e) => !langCodes.contains(e));
-                  }),
+                  val:
+                      (text) => setState(() {
+                        isLangCodeError = text
+                            .split(",")
+                            .any((e) => !langCodes.contains(e));
+                      }),
                   missing: (_) {},
                 ),
               ),

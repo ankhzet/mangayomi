@@ -207,13 +207,14 @@ async function parseEpubChapter(bookName, url, headers, chapterTitle) {
     final bookName = args[0] as String;
     final url = args[1] as String;
     final headers = (args[2] as Map?)?.toMapStringString;
-    final body = args.length >= 4
-        ? args[3] is List
-              ? args[3] as List
-              : args[3] is String
-              ? args[3] as String
-              : (args[3] as Map?)?.toMapStringDynamic
-        : null;
+    final body =
+        args.length >= 4
+            ? args[3] is List
+                ? args[3] as List
+                : args[3] is String
+                ? args[3] as String
+                : (args[3] as Map?)?.toMapStringDynamic
+            : null;
 
     final tmpDirectory = (await StorageProvider().getTmpDirectory())!;
     if (Platform.isAndroid) {

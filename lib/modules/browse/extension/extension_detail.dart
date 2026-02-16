@@ -79,22 +79,23 @@ class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
                   ).secondaryHeaderColor.withValues(alpha: 0.5),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: widget.source.iconUrl!.isEmpty
-                    ? const Icon(Icons.source_outlined, size: 140)
-                    : cachedNetworkImage(
-                        imageUrl: widget.source.iconUrl!,
-                        fit: BoxFit.contain,
-                        width: 140,
-                        height: 140,
-                        errorWidget: const SizedBox(
+                child:
+                    widget.source.iconUrl!.isEmpty
+                        ? const Icon(Icons.source_outlined, size: 140)
+                        : cachedNetworkImage(
+                          imageUrl: widget.source.iconUrl!,
+                          fit: BoxFit.contain,
                           width: 140,
                           height: 140,
-                          child: Center(
-                            child: Icon(Icons.source_outlined, size: 140),
+                          errorWidget: const SizedBox(
+                            width: 140,
+                            height: 140,
+                            child: Center(
+                              child: Icon(Icons.source_outlined, size: 140),
+                            ),
                           ),
+                          headers: {},
                         ),
-                        headers: {},
-                      ),
               ),
             ),
             Padding(
@@ -177,12 +178,15 @@ class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
                     if (res != null && mounted) {
                       setState(() {
                         source = res as Source;
-                        sourcePreference = getSourcePreference(source: source)
-                            .map(
-                              (e) =>
-                                  getSourcePreferenceEntry(e.key!, source.id!),
-                            )
-                            .toList();
+                        sourcePreference =
+                            getSourcePreference(source: source)
+                                .map(
+                                  (e) => getSourcePreferenceEntry(
+                                    e.key!,
+                                    source.id!,
+                                  ),
+                                )
+                                .toList();
                       });
                     }
                   },
@@ -273,20 +277,20 @@ class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
                                 const SizedBox(width: 15),
                                 TextButton(
                                   onPressed: () {
-                                    final sourcePrefsIds = isar
-                                        .sourcePreferences
-                                        .filter()
-                                        .sourceIdEqualTo(source.id!)
-                                        .findAllSync()
-                                        .map((e) => e.id!)
-                                        .toList();
-                                    final sourcePrefsStringIds = isar
-                                        .sourcePreferenceStringValues
-                                        .filter()
-                                        .sourceIdEqualTo(source.id!)
-                                        .findAllSync()
-                                        .map((e) => e.id)
-                                        .toList();
+                                    final sourcePrefsIds =
+                                        isar.sourcePreferences
+                                            .filter()
+                                            .sourceIdEqualTo(source.id!)
+                                            .findAllSync()
+                                            .map((e) => e.id!)
+                                            .toList();
+                                    final sourcePrefsStringIds =
+                                        isar.sourcePreferenceStringValues
+                                            .filter()
+                                            .sourceIdEqualTo(source.id!)
+                                            .findAllSync()
+                                            .map((e) => e.id)
+                                            .toList();
                                     isar.writeTxnSync(() {
                                       if (source.isObsolete ?? false) {
                                         isar.sources.deleteSync(
@@ -310,8 +314,9 @@ class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
                                             ..sourceCode = ""
                                             ..isAdded = false
                                             ..isPinned = false
-                                            ..updatedAt = DateTime.now()
-                                                .millisecondsSinceEpoch,
+                                            ..updatedAt =
+                                                DateTime.now()
+                                                    .millisecondsSinceEpoch,
                                         );
                                       }
                                       isar.sourcePreferences.deleteAllSync(

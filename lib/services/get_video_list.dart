@@ -36,12 +36,13 @@ Future<(List<Video>, bool, List<String>, Directory?)> getVideoList(
     if (await File(mp4animePath).exists() || isLocalArchive) {
       final animeDir =
           episode.archivePath != null && episode.manga.value?.source == "local"
-          ? Directory(p.dirname(episode.archivePath!))
-          : null;
-      final chapterDirectory = (await storageProvider.getMangaChapterDirectory(
-        episode,
-        mangaMainDirectory: animeDir ?? mangaDirectory,
-      ))!;
+              ? Directory(p.dirname(episode.archivePath!))
+              : null;
+      final chapterDirectory =
+          (await storageProvider.getMangaChapterDirectory(
+            episode,
+            mangaMainDirectory: animeDir ?? mangaDirectory,
+          ))!;
       final path = isLocalArchive ? episode.archivePath : mp4animePath;
       final subtitlesDir = Directory(
         p.join('${chapterDirectory.path}_subtitles'),

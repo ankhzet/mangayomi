@@ -43,9 +43,10 @@ class HorizontalTapZones extends StatelessWidget {
         // Center region (2 flex)
         Expanded(
           flex: 2,
-          child: showFailedOverlay && failedWidget != null
-              ? failedWidget!
-              : _TapZone(onTap: onCenterTap, onDoubleTap: onDoubleTap),
+          child:
+              showFailedOverlay && failedWidget != null
+                  ? failedWidget!
+                  : _TapZone(onTap: onCenterTap, onDoubleTap: onDoubleTap),
         ),
         // Right region (2 flex)
         Expanded(
@@ -111,13 +112,15 @@ class _TapZone extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: onTap,
-      onDoubleTapDown: onDoubleTap != null
-          ? (details) => onDoubleTap!(details.globalPosition)
-          : null,
+      onDoubleTapDown:
+          onDoubleTap != null
+              ? (details) => onDoubleTap!(details.globalPosition)
+              : null,
       onDoubleTap: onDoubleTap != null ? () {} : null,
-      onSecondaryTapDown: onDoubleTap != null
-          ? (details) => onDoubleTap!(details.globalPosition)
-          : null,
+      onSecondaryTapDown:
+          onDoubleTap != null
+              ? (details) => onDoubleTap!(details.globalPosition)
+              : null,
       onSecondaryTap: onDoubleTap != null ? () {} : null,
     );
   }
@@ -204,8 +207,9 @@ class ReaderKeyboardHandler {
     return KeyboardListener(
       autofocus: true,
       focusNode: focusNode ?? FocusNode(),
-      onKeyEvent: (event) =>
-          handleKeyEvent(event, isReverseHorizontal: isReverseHorizontal),
+      onKeyEvent:
+          (event) =>
+              handleKeyEvent(event, isReverseHorizontal: isReverseHorizontal),
       child: child,
     );
   }

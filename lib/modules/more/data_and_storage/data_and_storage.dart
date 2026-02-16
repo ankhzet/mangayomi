@@ -40,9 +40,10 @@ class DataAndStorage extends ConsumerWidget {
                       content: SizedBox(
                         width: context.width(0.8),
                         child: RadioGroup(
-                          groupValue: downloadLocationState.$2.isEmpty
-                              ? downloadLocationState.$1
-                              : downloadLocationState.$2,
+                          groupValue:
+                              downloadLocationState.$2.isEmpty
+                                  ? downloadLocationState.$1
+                                  : downloadLocationState.$2,
                           onChanged: (value) async {
                             if (value == downloadLocationState.$1) {
                               ref
@@ -50,8 +51,8 @@ class DataAndStorage extends ConsumerWidget {
                                   .set("");
                               Navigator.pop(context);
                             } else {
-                              String? result = await FilePicker.platform
-                                  .getDirectoryPath();
+                              String? result =
+                                  await FilePicker.platform.getDirectoryPath();
 
                               if (result != null) {
                                 ref
@@ -372,9 +373,11 @@ class DataAndStorage extends ConsumerWidget {
             ),
             ListTile(
               title: Text(l10n.clear_chapter_and_episode_cache),
-              onTap: () => ref
-                  .read(totalChapterCacheSizeStateProvider.notifier)
-                  .clearCache(),
+              onTap:
+                  () =>
+                      ref
+                          .read(totalChapterCacheSizeStateProvider.notifier)
+                          .clearCache(),
               subtitle: Text(
                 totalChapterCacheSize,
                 style: TextStyle(fontSize: 11, color: context.secondaryColor),

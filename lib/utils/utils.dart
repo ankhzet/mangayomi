@@ -15,11 +15,12 @@ Source? getSource(
     }
     final sourcesList = sourcesFilter.findAllSync();
     return sourcesList.firstWhere(
-      (element) => sourceId != null
-          ? element.id == sourceId && element.sourceCode != null
-          : element.name!.toLowerCase() == name.toLowerCase() &&
-                element.lang == lang &&
-                element.sourceCode != null,
+      (element) =>
+          sourceId != null
+              ? element.id == sourceId && element.sourceCode != null
+              : element.name!.toLowerCase() == name.toLowerCase() &&
+                  element.lang == lang &&
+                  element.sourceCode != null,
       orElse: () => throw ("Error when getting source"),
     );
   } catch (_) {

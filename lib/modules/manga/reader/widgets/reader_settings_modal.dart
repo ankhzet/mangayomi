@@ -200,18 +200,19 @@ class _ReadingModeTab extends ConsumerWidget {
                       if (valueT)
                         ValueListenableBuilder(
                           valueListenable: pageOffset,
-                          builder: (context, value, child) => Slider(
-                            min: 2.0,
-                            max: 30.0,
-                            divisions: max(28, 3),
-                            value: value,
-                            onChanged: (val) {
-                              pageOffset.value = val;
-                            },
-                            onChangeEnd: (val) {
-                              onAutoScrollSave(valueT, val);
-                            },
-                          ),
+                          builder:
+                              (context, value, child) => Slider(
+                                min: 2.0,
+                                max: 30.0,
+                                divisions: max(28, 3),
+                                value: value,
+                                onChanged: (val) {
+                                  pageOffset.value = val;
+                                },
+                                onChangeEnd: (val) {
+                                  onAutoScrollSave(valueT, val);
+                                },
+                              ),
                         ),
                     ],
                   );
@@ -269,15 +270,16 @@ class _GeneralTab extends ConsumerWidget {
                     .set(ScaleType.values[value.index]);
               },
               value: scaleType,
-              list: ScaleType.values.where((scale) {
-                try {
-                  return getScaleTypeNames(
-                    context,
-                  ).contains(getScaleTypeNames(context)[scale.index]);
-                } catch (_) {
-                  return false;
-                }
-              }).toList(),
+              list:
+                  ScaleType.values.where((scale) {
+                    try {
+                      return getScaleTypeNames(
+                        context,
+                      ).contains(getScaleTypeNames(context)[scale.index]);
+                    } catch (_) {
+                      return false;
+                    }
+                  }).toList(),
               itemText: (scale) => getScaleTypeNames(context)[scale.index],
             ),
 

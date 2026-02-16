@@ -121,9 +121,8 @@ class AnimeStreamController extends _$AnimeStreamController {
     if (incognitoMode) return Duration.zero;
     String position = episode.lastPageRead ?? "0";
     return Duration(
-      milliseconds: episode.isRead!
-          ? 0
-          : int.parse(position.isEmpty ? "0" : position),
+      milliseconds:
+          episode.isRead! ? 0 : int.parse(position.isEmpty ? "0" : position),
     );
   }
 
@@ -137,10 +136,8 @@ class AnimeStreamController extends _$AnimeStreamController {
     });
     History? history;
 
-    final empty = isar.historys
-        .filter()
-        .mangaIdEqualTo(getAnime().id)
-        .isEmptySync();
+    final empty =
+        isar.historys.filter().mangaIdEqualTo(getAnime().id).isEmptySync();
 
     if (empty) {
       history = History(
@@ -177,11 +174,11 @@ class AnimeStreamController extends _$AnimeStreamController {
     final markEpisodeAsSeenType = ref.read(markEpisodeAsSeenTypeStateProvider);
     final isWatch =
         totalDuration != null &&
-            totalDuration != Duration.zero &&
-            duration != Duration.zero
-        ? duration.inSeconds >=
-              ((totalDuration.inSeconds * markEpisodeAsSeenType) / 100).ceil()
-        : false;
+                totalDuration != Duration.zero &&
+                duration != Duration.zero
+            ? duration.inSeconds >=
+                ((totalDuration.inSeconds * markEpisodeAsSeenType) / 100).ceil()
+            : false;
     if (isWatch || save) {
       final ep = episode;
       isar.writeTxnSync(() {
@@ -197,18 +194,20 @@ class AnimeStreamController extends _$AnimeStreamController {
   }
 
   (int, int)? _getTrackId() {
-    final malId = isar.tracks
-        .filter()
-        .syncIdEqualTo(1)
-        .mangaIdEqualTo(episode.manga.value!.id!)
-        .findFirstSync()
-        ?.mediaId;
-    final aniId = isar.tracks
-        .filter()
-        .syncIdEqualTo(2)
-        .mangaIdEqualTo(episode.manga.value!.id!)
-        .findFirstSync()
-        ?.mediaId;
+    final malId =
+        isar.tracks
+            .filter()
+            .syncIdEqualTo(1)
+            .mangaIdEqualTo(episode.manga.value!.id!)
+            .findFirstSync()
+            ?.mediaId;
+    final aniId =
+        isar.tracks
+            .filter()
+            .syncIdEqualTo(2)
+            .mangaIdEqualTo(episode.manga.value!.id!)
+            .findFirstSync()
+            ?.mediaId;
     return switch (malId) {
       != null => (malId, 1),
       == null => switch (aniId) {

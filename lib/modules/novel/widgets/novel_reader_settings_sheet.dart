@@ -383,18 +383,19 @@ class GeneralSettingsTab extends ConsumerWidget {
                   if (valueT)
                     ValueListenableBuilder(
                       valueListenable: pageOffset,
-                      builder: (context, value, child) => Slider(
-                        min: 2.0,
-                        max: 30.0,
-                        divisions: max(28, 3),
-                        value: value,
-                        onChanged: (val) {
-                          pageOffset.value = val;
-                        },
-                        onChangeEnd: (val) {
-                          readerController.setAutoScroll(valueT, val);
-                        },
-                      ),
+                      builder:
+                          (context, value, child) => Slider(
+                            min: 2.0,
+                            max: 30.0,
+                            divisions: max(28, 3),
+                            value: value,
+                            onChanged: (val) {
+                              pageOffset.value = val;
+                            },
+                            onChangeEnd: (val) {
+                              readerController.setAutoScroll(valueT, val);
+                            },
+                          ),
                     ),
                 ],
               );
@@ -550,22 +551,24 @@ class _ThemeButton extends StatelessWidget {
             color: _parseColor(backgroundColor),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: isSelected
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey.withValues(alpha: 0.3),
+              color:
+                  isSelected
+                      ? Theme.of(context).primaryColor
+                      : Colors.grey.withValues(alpha: 0.3),
               width: isSelected ? 3 : 1.5,
             ),
-            boxShadow: isSelected
-                ? [
-                    BoxShadow(
-                      color: Theme.of(
-                        context,
-                      ).primaryColor.withValues(alpha: 0.3),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ]
-                : null,
+            boxShadow:
+                isSelected
+                    ? [
+                      BoxShadow(
+                        color: Theme.of(
+                          context,
+                        ).primaryColor.withValues(alpha: 0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ]
+                    : null,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -700,27 +703,30 @@ class _ColorPicker extends StatelessWidget {
               color: isSelected ? Theme.of(context).primaryColor : Colors.grey,
               width: isSelected ? 3 : 1.5,
             ),
-            boxShadow: isSelected
-                ? [
-                    BoxShadow(
-                      color: Theme.of(
-                        context,
-                      ).primaryColor.withValues(alpha: 0.4),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ]
-                : null,
+            boxShadow:
+                isSelected
+                    ? [
+                      BoxShadow(
+                        color: Theme.of(
+                          context,
+                        ).primaryColor.withValues(alpha: 0.4),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ]
+                    : null,
           ),
-          child: isSelected
-              ? Icon(
-                  Icons.check_circle_rounded,
-                  size: 26,
-                  color: optionColor.computeLuminance() > 0.5
-                      ? Colors.black
-                      : Colors.white,
-                )
-              : null,
+          child:
+              isSelected
+                  ? Icon(
+                    Icons.check_circle_rounded,
+                    size: 26,
+                    color:
+                        optionColor.computeLuminance() > 0.5
+                            ? Colors.black
+                            : Colors.white,
+                  )
+                  : null,
         ),
       ),
     );
@@ -831,23 +837,26 @@ class _AlignButton extends StatelessWidget {
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color: isSelected
-                ? Theme.of(context).primaryColor.withValues(alpha: 0.15)
-                : Colors.transparent,
+            color:
+                isSelected
+                    ? Theme.of(context).primaryColor.withValues(alpha: 0.15)
+                    : Colors.transparent,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: isSelected
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey.withValues(alpha: 0.3),
+              color:
+                  isSelected
+                      ? Theme.of(context).primaryColor
+                      : Colors.grey.withValues(alpha: 0.3),
               width: isSelected ? 2 : 1.5,
             ),
           ),
           child: Icon(
             icon,
             size: 22,
-            color: isSelected
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).iconTheme.color,
+            color:
+                isSelected
+                    ? Theme.of(context).primaryColor
+                    : Theme.of(context).iconTheme.color,
           ),
         ),
       ),

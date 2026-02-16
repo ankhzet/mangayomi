@@ -24,15 +24,16 @@ class GridViewWidget extends StatelessWidget {
       child: GridView.builder(
         padding: const EdgeInsets.only(top: 13),
         controller: controller,
-        gridDelegate: (gridSize == null || gridSize == 0)
-            ? SliverGridDelegateWithMaxCrossAxisExtent(
-                childAspectRatio: childAspectRatio!,
-                maxCrossAxisExtent: 220,
-              )
-            : SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: gridSize!,
-                childAspectRatio: childAspectRatio!,
-              ),
+        gridDelegate:
+            (gridSize == null || gridSize == 0)
+                ? SliverGridDelegateWithMaxCrossAxisExtent(
+                  childAspectRatio: childAspectRatio!,
+                  maxCrossAxisExtent: 220,
+                )
+                : SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: gridSize!,
+                  childAspectRatio: childAspectRatio!,
+                ),
         itemCount: itemCount,
         itemBuilder: itemBuilder,
       ),

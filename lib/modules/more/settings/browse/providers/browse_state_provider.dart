@@ -76,12 +76,13 @@ class ExtensionsRepoState extends _$ExtensionsRepoState {
   }
 
   void setVisibility(Repo repo, bool hidden) {
-    final value = state.map((e) {
-      if (e == repo) {
-        e.hidden = hidden;
-      }
-      return e;
-    }).toList();
+    final value =
+        state.map((e) {
+          if (e == repo) {
+            e.hidden = hidden;
+          }
+          return e;
+        }).toList();
     set(value);
   }
 

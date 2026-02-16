@@ -63,36 +63,41 @@ abstract class BaseLibraryTabScreenState<T extends ConsumerStatefulWidget>
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: isSearch
-            ? null
-            : Text(title, style: TextStyle(color: Theme.of(context).hintColor)),
+        title:
+            isSearch
+                ? null
+                : Text(
+                  title,
+                  style: TextStyle(color: Theme.of(context).hintColor),
+                ),
         actions: [
           isSearch
               ? SeachFormTextField(
-                  controller: textEditingController,
-                  onChanged: (_) => setState(() {}),
-                  onSuffixPressed: () {
-                    textEditingController.clear();
-                    setState(() {});
-                  },
-                  onPressed: () {
-                    setState(() => isSearch = false);
-                    textEditingController.clear();
-                  },
-                )
+                controller: textEditingController,
+                onChanged: (_) => setState(() {}),
+                onSuffixPressed: () {
+                  textEditingController.clear();
+                  setState(() {});
+                },
+                onPressed: () {
+                  setState(() => isSearch = false);
+                  textEditingController.clear();
+                },
+              )
               : IconButton(
-                  splashRadius: 20,
-                  onPressed: () => setState(() => isSearch = true),
-                  icon: Icon(Icons.search, color: Theme.of(context).hintColor),
-                ),
+                splashRadius: 20,
+                onPressed: () => setState(() => isSearch = true),
+                icon: Icon(Icons.search, color: Theme.of(context).hintColor),
+              ),
           ...buildExtraActions(context),
         ],
         bottom: TabBar(
           controller: tabController,
           indicatorSize: TabBarIndicatorSize.tab,
-          tabs: visibleTabTypes.map((type) {
-            return buildTabLabel(type, type.localized(l10n));
-          }).toList(),
+          tabs:
+              visibleTabTypes.map((type) {
+                return buildTabLabel(type, type.localized(l10n));
+              }).toList(),
         ),
       ),
       body: TabBarView(

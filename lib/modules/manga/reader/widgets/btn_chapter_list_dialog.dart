@@ -191,16 +191,18 @@ class _ChapterListTileState extends State<ChapterListTile> {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       decoration: BoxDecoration(
-        color: widget.currentChap
-            ? context.primaryColor.withValues(alpha: 0.15)
-            : Colors.transparent,
+        color:
+            widget.currentChap
+                ? context.primaryColor.withValues(alpha: 0.15)
+                : Colors.transparent,
         borderRadius: BorderRadius.circular(12),
-        border: widget.currentChap
-            ? Border.all(
-                color: context.primaryColor.withValues(alpha: 0.4),
-                width: 1.5,
-              )
-            : null,
+        border:
+            widget.currentChap
+                ? Border.all(
+                  color: context.primaryColor.withValues(alpha: 0.4),
+                  width: 1.5,
+                )
+                : null,
       ),
       child: Material(
         color: Colors.transparent,
@@ -224,9 +226,10 @@ class _ChapterListTileState extends State<ChapterListTile> {
                   width: 4,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: chapter.isRead!
-                        ? Colors.grey.withValues(alpha: 0.3)
-                        : context.primaryColor,
+                    color:
+                        chapter.isRead!
+                            ? Colors.grey.withValues(alpha: 0.3)
+                            : context.primaryColor,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -240,14 +243,16 @@ class _ChapterListTileState extends State<ChapterListTile> {
                         chapter.name!,
                         style: TextStyle(
                           fontSize: 14,
-                          fontWeight: widget.currentChap
-                              ? FontWeight.bold
-                              : FontWeight.w500,
-                          color: chapter.isRead!
-                              ? context.isLight
-                                    ? Colors.black.withValues(alpha: 0.4)
-                                    : Colors.white.withValues(alpha: 0.4)
-                              : null,
+                          fontWeight:
+                              widget.currentChap
+                                  ? FontWeight.bold
+                                  : FontWeight.w500,
+                          color:
+                              chapter.isRead!
+                                  ? context.isLight
+                                      ? Colors.black.withValues(alpha: 0.4)
+                                      : Colors.white.withValues(alpha: 0.4)
+                                  : null,
                         ),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
@@ -260,31 +265,31 @@ class _ChapterListTileState extends State<ChapterListTile> {
                               builder: (context, ref, child) {
                                 final dateText =
                                     chapter.dateUpload == null ||
-                                        chapter.dateUpload!.isEmpty
-                                    ? ""
-                                    : dateFormat(
-                                        chapter.dateUpload!,
-                                        ref: ref,
-                                        context: context,
-                                      );
+                                            chapter.dateUpload!.isEmpty
+                                        ? ""
+                                        : dateFormat(
+                                          chapter.dateUpload!,
+                                          ref: ref,
+                                          context: context,
+                                        );
                                 return dateText.isNotEmpty
                                     ? Row(
-                                        children: [
-                                          Icon(
-                                            Icons.access_time_rounded,
-                                            size: 12,
+                                      children: [
+                                        Icon(
+                                          Icons.access_time_rounded,
+                                          size: 12,
+                                          color: Colors.grey,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          dateText,
+                                          style: const TextStyle(
+                                            fontSize: 11,
                                             color: Colors.grey,
                                           ),
-                                          const SizedBox(width: 4),
-                                          Text(
-                                            dateText,
-                                            style: const TextStyle(
-                                              fontSize: 11,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ],
-                                      )
+                                        ),
+                                      ],
+                                    )
                                     : const SizedBox.shrink();
                               },
                             ),
@@ -344,18 +349,18 @@ class _ChapterListTileState extends State<ChapterListTile> {
                               Text(
                                 chapter.manga.value!.itemType == ItemType.anime
                                     ? context.l10n.episode_progress(
-                                        Duration(
-                                          milliseconds: int.parse(
-                                            chapter.lastPageRead!,
-                                          ),
-                                        ).toString().substringBefore("."),
-                                      )
+                                      Duration(
+                                        milliseconds: int.parse(
+                                          chapter.lastPageRead!,
+                                        ),
+                                      ).toString().substringBefore("."),
+                                    )
                                     : context.l10n.page(
-                                        chapter.manga.value!.itemType ==
-                                                ItemType.manga
-                                            ? chapter.lastPageRead!
-                                            : "${((double.tryParse(chapter.lastPageRead!) ?? 0) * 100).toStringAsFixed(0)} %",
-                                      ),
+                                      chapter.manga.value!.itemType ==
+                                              ItemType.manga
+                                          ? chapter.lastPageRead!
+                                          : "${((double.tryParse(chapter.lastPageRead!) ?? 0) * 100).toStringAsFixed(0)} %",
+                                    ),
                                 style: TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w500,
@@ -371,39 +376,41 @@ class _ChapterListTileState extends State<ChapterListTile> {
                 const SizedBox(width: 12),
                 // Bookmark button
                 Consumer(
-                  builder: (context, ref, child) => Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(20),
-                      onTap: () {
-                        setState(() {
-                          isBookmarked = !isBookmarked;
-                        });
-                        isar.writeTxnSync(
-                          () => {
-                            isar.chapters.putSync(
-                              chapter
-                                ..isBookmarked = isBookmarked
-                                ..updatedAt =
-                                    DateTime.now().millisecondsSinceEpoch,
-                            ),
+                  builder:
+                      (context, ref, child) => Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(20),
+                          onTap: () {
+                            setState(() {
+                              isBookmarked = !isBookmarked;
+                            });
+                            isar.writeTxnSync(
+                              () => {
+                                isar.chapters.putSync(
+                                  chapter
+                                    ..isBookmarked = isBookmarked
+                                    ..updatedAt =
+                                        DateTime.now().millisecondsSinceEpoch,
+                                ),
+                              },
+                            );
                           },
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Icon(
-                          isBookmarked
-                              ? Icons.bookmark_rounded
-                              : Icons.bookmark_outline_rounded,
-                          color: isBookmarked
-                              ? context.primaryColor
-                              : Colors.grey,
-                          size: 22,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Icon(
+                              isBookmarked
+                                  ? Icons.bookmark_rounded
+                                  : Icons.bookmark_outline_rounded,
+                              color:
+                                  isBookmarked
+                                      ? context.primaryColor
+                                      : Colors.grey,
+                              size: 22,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
                 ),
               ],
             ),

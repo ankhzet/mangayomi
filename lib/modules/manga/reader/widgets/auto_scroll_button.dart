@@ -38,22 +38,28 @@ class ReaderAutoScrollButton extends StatelessWidget {
     return Positioned(
       bottom: 0,
       right: 0,
-      child: isUiVisible
-          ? const SizedBox.shrink()
-          : ValueListenableBuilder(
-              valueListenable: autoScrollPage,
-              builder: (context, isEnabled, child) => isEnabled
-                  ? ValueListenableBuilder(
-                      valueListenable: autoScroll,
-                      builder: (context, isPlaying, child) => IconButton(
-                        onPressed: onToggle,
-                        icon: Icon(
-                          isPlaying ? Icons.pause_circle : Icons.play_circle,
-                        ),
-                      ),
-                    )
-                  : const SizedBox.shrink(),
-            ),
+      child:
+          isUiVisible
+              ? const SizedBox.shrink()
+              : ValueListenableBuilder(
+                valueListenable: autoScrollPage,
+                builder:
+                    (context, isEnabled, child) =>
+                        isEnabled
+                            ? ValueListenableBuilder(
+                              valueListenable: autoScroll,
+                              builder:
+                                  (context, isPlaying, child) => IconButton(
+                                    onPressed: onToggle,
+                                    icon: Icon(
+                                      isPlaying
+                                          ? Icons.pause_circle
+                                          : Icons.play_circle,
+                                    ),
+                                  ),
+                            )
+                            : const SizedBox.shrink(),
+              ),
     );
   }
 }

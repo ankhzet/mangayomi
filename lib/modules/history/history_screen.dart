@@ -53,23 +53,24 @@ class _HistoryScreenState extends BaseLibraryTabScreenState<HistoryScreen> {
         onPressed: () {
           showDialog(
             context: context,
-            builder: (dialogContext) => AlertDialog(
-              title: Text(l10n.remove_everything),
-              content: Text(l10n.remove_everything_msg),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(dialogContext).pop(),
-                  child: Text(l10n.cancel),
+            builder:
+                (dialogContext) => AlertDialog(
+                  title: Text(l10n.remove_everything),
+                  content: Text(l10n.remove_everything_msg),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(dialogContext).pop(),
+                      child: Text(l10n.cancel),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        Navigator.of(dialogContext).pop();
+                        await _clearHistory();
+                      },
+                      child: Text(l10n.ok),
+                    ),
+                  ],
                 ),
-                TextButton(
-                  onPressed: () async {
-                    Navigator.of(dialogContext).pop();
-                    await _clearHistory();
-                  },
-                  child: Text(l10n.ok),
-                ),
-              ],
-            ),
           );
         },
       ),
@@ -77,11 +78,14 @@ class _HistoryScreenState extends BaseLibraryTabScreenState<HistoryScreen> {
   }
 
   Future<void> _clearHistory() async {
-    List<History> histories = await isar.historys
-        .filter()
-        .idIsNotNull()
-        .chapter((q) => q.manga((q) => q.itemTypeEqualTo(getCurrentItemType())))
-        .findAll();
+    List<History> histories =
+        await isar.historys
+            .filter()
+            .idIsNotNull()
+            .chapter(
+              (q) => q.manga((q) => q.itemTypeEqualTo(getCurrentItemType())),
+            )
+            .findAll();
     final List<Id> idsToDelete = histories.map((h) => h.id!).toList();
     await isar.writeTxn(() => isar.historys.deleteAll(idsToDelete));
   }
@@ -117,28 +121,30 @@ class _HistoryTabState extends ConsumerState<HistoryTab>
             slivers: [
               CustomSliverGroupedListView<History, String>(
                 elements: entries,
-                groupBy: (element) => dateFormat(
-                  element.date!,
-                  context: context,
-                  ref: ref,
-                  forHistoryValue: true,
-                  useRelativeTimesTamps: false,
-                ),
-                groupSeparatorBuilder: (String groupByValue) => Padding(
-                  padding: const EdgeInsets.only(bottom: 8, left: 12),
-                  child: Row(
-                    children: [
-                      Text(
-                        dateFormat(
-                          null,
-                          context: context,
-                          stringDate: groupByValue,
-                          ref: ref,
-                        ),
+                groupBy:
+                    (element) => dateFormat(
+                      element.date!,
+                      context: context,
+                      ref: ref,
+                      forHistoryValue: true,
+                      useRelativeTimesTamps: false,
+                    ),
+                groupSeparatorBuilder:
+                    (String groupByValue) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8, left: 12),
+                      child: Row(
+                        children: [
+                          Text(
+                            dateFormat(
+                              null,
+                              context: context,
+                              stringDate: groupByValue,
+                              ref: ref,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
                 itemBuilder: (context, History element) {
                   final chapter = element.chapter.value!;
                   final manga = chapter.manga.value!;
@@ -202,9 +208,11 @@ class _HistoryTabState extends ConsumerState<HistoryTab>
                                               manga.name!,
                                               style: TextStyle(
                                                 fontSize: 14,
-                                                color: Theme.of(
-                                                  context,
-                                                ).textTheme.bodyLarge!.color,
+                                                color:
+                                                    Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge!
+                                                        .color,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                               textAlign: TextAlign.start,
@@ -217,20 +225,22 @@ class _HistoryTabState extends ConsumerState<HistoryTab>
                                                   chapter.name!,
                                                   style: TextStyle(
                                                     fontSize: 11,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge!
-                                                        .color,
+                                                    color:
+                                                        Theme.of(context)
+                                                            .textTheme
+                                                            .bodyLarge!
+                                                            .color,
                                                   ),
                                                 ),
                                                 Text(
                                                   " - ${dateFormatHour(element.date!, context)}",
                                                   style: TextStyle(
                                                     fontSize: 11,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge!
-                                                        .color,
+                                                    color:
+                                                        Theme.of(context)
+                                                            .textTheme
+                                                            .bodyLarge!
+                                                            .color,
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                 ),
@@ -242,17 +252,19 @@ class _HistoryTabState extends ConsumerState<HistoryTab>
                                     ),
                                   ),
                                   IconButton(
-                                    onPressed: () => _openDeleteDialog(
-                                      l10n,
-                                      manga,
-                                      element.id,
-                                    ),
+                                    onPressed:
+                                        () => _openDeleteDialog(
+                                          l10n,
+                                          manga,
+                                          element.id,
+                                        ),
                                     icon: Icon(
                                       Icons.delete_outline,
                                       size: 25,
-                                      color: Theme.of(
-                                        context,
-                                      ).textTheme.bodyLarge!.color,
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).textTheme.bodyLarge!.color,
                                     ),
                                   ),
                                 ],
@@ -264,8 +276,8 @@ class _HistoryTabState extends ConsumerState<HistoryTab>
                     ),
                   );
                 },
-                itemComparator: (item1, item2) =>
-                    item1.date!.compareTo(item2.date!),
+                itemComparator:
+                    (item1, item2) => item1.date!.compareTo(item2.date!),
                 order: GroupedListOrder.DESC,
               ),
             ],
@@ -286,20 +298,20 @@ class _HistoryTabState extends ConsumerState<HistoryTab>
     return manga.customCoverImage != null
         ? Image.memory(manga.customCoverImage as Uint8List)
         : cachedCompressedNetworkImage(
-            headers: ref.watch(
-              headersProvider(
-                source: manga.source!,
-                lang: manga.lang!,
-                sourceId: manga.sourceId,
-              ),
+          headers: ref.watch(
+            headersProvider(
+              source: manga.source!,
+              lang: manga.lang!,
+              sourceId: manga.sourceId,
             ),
-            imageUrl: toImgUrl(
-              manga.customCoverFromTracker ?? manga.imageUrl ?? "",
-            ),
-            width: 60,
-            height: 90,
-            fit: BoxFit.cover,
-          );
+          ),
+          imageUrl: toImgUrl(
+            manga.customCoverFromTracker ?? manga.imageUrl ?? "",
+          ),
+          width: 60,
+          height: 90,
+          fit: BoxFit.cover,
+        );
   }
 
   void _openDeleteDialog(AppLocalizations l10n, Manga manga, int? deleteId) {

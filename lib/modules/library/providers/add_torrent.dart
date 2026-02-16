@@ -25,10 +25,11 @@ Future addTorrentFromUrlOrFromFile(
   if (result != null || url != null) {
     String torrentName = "";
     if (url != null) {
-      torrentName = (await MTorrentServer().getTorrentPlaylist(
-        url,
-        null,
-      )).$1.first.quality;
+      torrentName =
+          (await MTorrentServer().getTorrentPlaylist(
+            url,
+            null,
+          )).$1.first.quality;
     }
     final dateNow = DateTime.now().millisecondsSinceEpoch;
     final manga =

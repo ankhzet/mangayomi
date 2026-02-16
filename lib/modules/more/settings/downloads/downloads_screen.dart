@@ -51,24 +51,27 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                     return AlertDialog(
                       title: Text(context.l10n.concurrent_downloads),
                       content: StatefulBuilder(
-                        builder: (context, setState) => SizedBox(
-                          height: 200,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              NumberPicker(
-                                value: currentIntValue,
-                                minValue: 1,
-                                maxValue: 255,
-                                step: 1,
-                                haptics: true,
-                                textMapper: (numberText) => numberText,
-                                onChanged: (value) =>
-                                    setState(() => currentIntValue = value),
+                        builder:
+                            (context, setState) => SizedBox(
+                              height: 200,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  NumberPicker(
+                                    value: currentIntValue,
+                                    minValue: 1,
+                                    maxValue: 255,
+                                    step: 1,
+                                    haptics: true,
+                                    textMapper: (numberText) => numberText,
+                                    onChanged:
+                                        (value) => setState(
+                                          () => currentIntValue = value,
+                                        ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
+                            ),
                       ),
                       actions: [
                         Row(
@@ -151,14 +154,16 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                   ),
                   FutureBuilder(
                     future: getLocalLibrary(),
-                    builder: (context, snapshot) => snapshot.data?.path != null
-                        ? _buildLocalFolder(
-                            l10n,
-                            localFolders,
-                            snapshot.data!.path,
-                            isDefault: true,
-                          )
-                        : Container(),
+                    builder:
+                        (context, snapshot) =>
+                            snapshot.data?.path != null
+                                ? _buildLocalFolder(
+                                  l10n,
+                                  localFolders,
+                                  snapshot.data!.path,
+                                  isDefault: true,
+                                )
+                                : Container(),
                   ),
                   ...localFolders.map(
                     (e) => _buildLocalFolder(l10n, localFolders, e),
@@ -365,8 +370,8 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                                           const SizedBox(width: 15),
                                           TextButton(
                                             onPressed: () {
-                                              final temp = localFolders
-                                                  .toList();
+                                              final temp =
+                                                  localFolders.toList();
                                               temp.removeAt(
                                                 temp.indexOf(folder),
                                               );

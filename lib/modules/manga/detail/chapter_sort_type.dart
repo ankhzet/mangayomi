@@ -40,8 +40,8 @@ class _ChapterSortTypeState extends ConsumerState<ChapterSortType> {
 
         return Column(
           children: [
-            for (var type = 0; type < 4; type++)
-              if (type != 0 || hasScanlators)
+            for (var type in SortType.values)
+              if (type != SortType.scanlator || hasScanlators)
                 ListTileChapterSort(
                   label: _getSortNameByIndex(type, context),
                   reverse: sort.reverse ?? false,
@@ -50,9 +50,9 @@ class _ChapterSortTypeState extends ConsumerState<ChapterSortType> {
                         .read(
                           sortChapterStateProvider(mangaId: mangaId).notifier,
                         )
-                        .set(type);
+                        .set(type.index);
                   },
-                  showLeading: sort.index == type,
+                  showLeading: sort.index == type.index,
                 ),
           ],
         );
@@ -60,14 +60,13 @@ class _ChapterSortTypeState extends ConsumerState<ChapterSortType> {
     );
   }
 
-  String _getSortNameByIndex(int type, BuildContext context) {
+  String _getSortNameByIndex(SortType type, BuildContext context) {
     final l10n = l10nLocalizations(context)!;
     return switch (type) {
-      0 => l10n.by_scanlator,
-      1 => l10n.by_chapter_number,
-      2 => l10n.by_upload_date,
-      3 => l10n.by_name,
-      _ => l10n.by_chapter_number,
+      SortType.scanlator => l10n.by_scanlator,
+      SortType.number => l10n.by_chapter_number,
+      SortType.timestamp => l10n.by_upload_date,
+      SortType.name => l10n.by_name,
     };
   }
 }

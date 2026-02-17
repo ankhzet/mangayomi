@@ -93,26 +93,28 @@ class ChapterListTileWidget extends ConsumerWidget {
                     manga.itemType == ItemType.anime
                         ? l10n.episode_progress(progress)
                         : l10n.page(progress),
-                    style: TextStyle(fontSize: 11, color: textColor),
+                    style: const TextStyle(fontSize: 11),
                   ),
                 ],
               ),
             if (hasScanlators)
-              Row(
-                children: [
-                  const Text(' • '),
-                  Flexible(
-                    child: Text(
-                      group.scanlators,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: isRead ? textColor : null,
+              Flexible(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(' • '),
+                    Flexible(
+                      child: Text(
+                        group.scanlators,
+                        style: const TextStyle(fontSize: 11),
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              )
+            else
+              const Spacer(),
           ],
         ),
         trailing: sourceExist && !isLocalArchive

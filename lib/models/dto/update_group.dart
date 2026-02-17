@@ -51,25 +51,27 @@ class UpdateGroup<T> {
         .sorted((a, b) => a.compareTo(b))
         .map((chapter) => chapter.compositeOrder)
         .toList(growable: false);
-    final volumes = indexes.map((index) => index.$1).toUnique(growable: false);
 
-    if (volumes.length > 1) {
-      final volumesMap = indexes.fold<Map<int, List<ChapterCompositeNumber>>>(
-        {},
-        (map, index) {
-          final bucket = map[index.$1];
-          if (bucket != null) {
-            bucket.add(index);
-          } else {
-            map[index.$1] = [index];
-          }
-          return map;
-        },
-      );
-      return volumesMap.entries
-          .map((entry) => 'Vol. ${entry.key}: ${indexesToStr(entry.value)}')
-          .join(', ');
-    }
+    // when volumes data is inconsistent, this clutters the label needlessly
+    // final volumes = indexes.map((index) => index.$1).toUnique(growable: false);
+    //
+    // if (volumes.length > 1) {
+    //   final volumesMap = indexes.fold<Map<int, List<ChapterCompositeNumber>>>(
+    //     {},
+    //     (map, index) {
+    //       final bucket = map[index.$1];
+    //       if (bucket != null) {
+    //         bucket.add(index);
+    //       } else {
+    //         map[index.$1] = [index];
+    //       }
+    //       return map;
+    //     },
+    //   );
+    //   return volumesMap.entries
+    //       .map((entry) => 'Vol. ${entry.key}: ${indexesToStr(entry.value)}')
+    //       .join(', ');
+    // }
 
     return 'Ch. ${indexesToStr(indexes)}';
   }

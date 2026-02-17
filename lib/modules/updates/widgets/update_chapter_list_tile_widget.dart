@@ -27,6 +27,9 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
     final manga = chapter.manga.value!;
     final chapterCount = chapterGroup?.chapters.length ?? 1;
     final chapterLabel = chapterGroup?.label ?? chapter.name ?? '';
+    final uniqueChapterCount = chapterGroup != null
+        ? chapterGroup!.chapters.map((c) => c.compositeOrder).toSet().length
+        : 1;
 
     return Material(
       borderRadius: BorderRadius.circular(5),
@@ -108,8 +111,8 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
                                 ),
                               ),
                               Text(
-                                chapterCount > 1
-                                    ? '$chapterLabel ($chapterCount chapters)'
+                                uniqueChapterCount > 1
+                                    ? '$chapterLabel ($uniqueChapterCount chapters)'
                                     : chapterLabel,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(

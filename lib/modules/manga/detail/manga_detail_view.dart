@@ -231,33 +231,41 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
         })
         .where((element) => !filterScanlator.contains(element.scanlator))
         .toList();
-    List<Chapter> chapters = sortChapter == 1
-        ? chapterList.reversed.toList()
-        : chapterList;
+    List<Chapter> chapters = chapterList;
+    int multiplier = sortChapter == 1 ? -1 : 1;
     if (sortChapter == 0) {
-      chapters.sort((a, b) {
-        return (a.scanlator == null ||
-                b.scanlator == null ||
-                a.dateUpload == null ||
-                b.dateUpload == null)
-            ? 0
-            : a.scanlator!.compareTo(b.scanlator!) |
-                  a.dateUpload!.compareTo(b.dateUpload!);
-      });
+      chapters = chapterList
+        ..sort((a, b) {
+          final scanlator_cmp = (a.scanlator ?? '').compareTo(
+            b.scanlator ?? '',
+          );
+          if (scanlator_cmp != 0) return scanlator_cmp;
+          return multiplier * a.order.compareTo(b.order);
+        });
+    } else if (sortChapter == 1) {
+      chapters = chapterList
+        ..sort((a, b) {
+          return multiplier * a.order.compareTo(b.order);
+        });
     } else if (sortChapter == 2) {
-      chapters.sort((a, b) {
-        return (a.dateUpload == null || b.dateUpload == null)
-            ? 0
-            : int.parse(a.dateUpload!).compareTo(int.parse(b.dateUpload!));
-      });
+      chapters = chapterList
+        ..sort((a, b) {
+          return (a.dateUpload == null || b.dateUpload == null)
+              ? 0
+              : multiplier *
+                    int.parse(
+                      a.dateUpload!,
+                    ).compareTo(int.parse(b.dateUpload!));
+        });
     } else if (sortChapter == 3) {
-      chapters.sort((a, b) {
-        return (a.name == null || b.name == null)
-            ? 0
-            : a.name!.compareTo(b.name!);
-      });
+      chapters = chapterList
+        ..sort((a, b) {
+          return (a.name == null || b.name == null)
+              ? 0
+              : multiplier * a.name!.compareTo(b.name!);
+        });
     }
-    return chapterList;
+    return chapters;
   }
 
   Widget _buildWidget({

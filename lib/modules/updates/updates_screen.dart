@@ -183,20 +183,49 @@ class _UpdateTabState extends ConsumerState<UpdateTab>
         search: widget.query,
       ),
     );
+
+    String _getTimePeriodKey(String? timestampStr) {
+      if (timestampStr == null || timestampStr.isEmpty) return 'unknown';
+      final timestamp = int.tryParse(timestampStr);
+      if (timestamp == null) return 'unknown';
+      final now = DateTime.now().millisecondsSinceEpoch;
+      final diff = now - timestamp;
+      final days = diff ~/ (1000 * 60 * 60 * 24);
+
+      if (days <= 1) return 'today';
+      if (days <= 7) return 'week';
+      if (days <= 30) return 'month';
+      if (days <= 365) return 'year';
+      return 'older';
+    }
+
+    String _getTimePeriodLabel(String key) {
+      switch (key) {
+        case 'today':
+          return 'Today';
+        case 'week':
+          return 'This week';
+        case 'month':
+          return 'This month';
+        case 'year':
+          return 'This year';
+        case 'older':
+          return 'Older';
+        default:
+          return 'Unknown';
+      }
+    }
+
+    final periodOrder = ['today', 'week', 'month', 'year', 'older', 'unknown'];
+
     return Stack(
       children: [
         update.when(
           data: (entries) {
-            final groupedByDate = <String, List<Update>>{};
+            final groupedByPeriod = <String, List<Update>>{};
             for (var entry in entries) {
-              final dateKey = dateFormat(
-                entry.date!,
-                context: context,
-                ref: ref,
-                forHistoryValue: true,
-                useRelativeTimesTamps: false,
-              );
-              groupedByDate.putIfAbsent(dateKey, () => []).add(entry);
+              final periodKey = _getTimePeriodKey(entry.date);
+              groupedByPeriod.putIfAbsent(periodKey, () => []).add(entry);
             }
 
             final lastUpdatedList = entries
@@ -235,43 +264,44 @@ class _UpdateTabState extends ConsumerState<UpdateTab>
                         ]),
                       ),
                     ),
-                  ...groupedByDate.entries.expand((dateEntry) {
-                    final dateKey = dateEntry.key;
-                    final updatesForDate = dateEntry.value;
-                    final groupedByManga = UpdateGroup.groupUpdates<int?>(
-                      updatesForDate,
-                      (update) => update.chapter.value?.mangaId,
-                    );
-                    groupedByManga.sort((a, b) => b.compareTo(a));
+                  ...periodOrder
+                      .where((p) => groupedByPeriod.containsKey(p))
+                      .expand((periodKey) {
+                        final updatesForPeriod = groupedByPeriod[periodKey]!;
+                        final groupedByManga = UpdateGroup.groupUpdates<int?>(
+                          updatesForPeriod,
+                          (update) => update.chapter.value?.mangaId,
+                        );
+                        groupedByManga.sort((a, b) => b.compareTo(a));
 
-                    return [
-                      SliverPadding(
-                        padding: const EdgeInsets.only(bottom: 8, left: 12),
-                        sliver: SliverList(
-                          delegate: SliverChildListDelegate.fixed([
-                            Text(
-                              dateFormat(
-                                null,
-                                context: context,
-                                stringDate: dateKey,
-                                ref: ref,
-                              ),
+                        return [
+                          SliverPadding(
+                            padding: const EdgeInsets.only(
+                              top: 16,
+                              bottom: 8,
+                              left: 12,
                             ),
-                          ]),
-                        ),
-                      ),
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate((context, index) {
-                          final group = groupedByManga[index];
-                          return UpdateChapterListTileWidget(
-                            chapter: group.firstOrUnread,
-                            chapterGroup: group,
-                            sourceExist: true,
-                          );
-                        }, childCount: groupedByManga.length),
-                      ),
-                    ];
-                  }),
+                            sliver: SliverList(
+                              delegate: SliverChildListDelegate.fixed([
+                                Text(_getTimePeriodLabel(periodKey)),
+                              ]),
+                            ),
+                          ),
+                          SliverList(
+                            delegate: SliverChildBuilderDelegate((
+                              context,
+                              index,
+                            ) {
+                              final group = groupedByManga[index];
+                              return UpdateChapterListTileWidget(
+                                chapter: group.firstOrUnread,
+                                chapterGroup: group,
+                                sourceExist: true,
+                              );
+                            }, childCount: groupedByManga.length),
+                          ),
+                        ];
+                      }),
                 ],
               );
             }

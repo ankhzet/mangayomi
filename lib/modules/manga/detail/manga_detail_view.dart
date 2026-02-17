@@ -908,11 +908,12 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                                   ? reverseIndex
                                   : finalIndex;
                               return ChapterListTileWidget(
-                                chapter: chapters[indexx].firstOrRead,
-                                chapterList: chapters
-                                    .expand((g) => g.chapters)
-                                    .toList(),
+                                manga: widget.manga!,
+                                group: chapters[indexx],
                                 sourceExist: widget.sourceExist,
+                                isSelected: chapterList.contains(
+                                  chapters[indexx].firstOrRead,
+                                ),
                               );
                             },
                           ),

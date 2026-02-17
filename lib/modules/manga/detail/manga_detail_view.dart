@@ -147,17 +147,22 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
             sortChapter: sortChapter,
             filterScanlator: scanlators.$2,
           );
+          final grouped = ChapterGroup.groupChapters(
+            chapters,
+            (c) => c.compositeOrder,
+          );
           ref.read(chaptersListttStateProvider.notifier).set(chapters);
-          return _buildWidget(chapters: chapters, reverse: reverse);
+          return _buildWidget(chapters: grouped, reverse: reverse);
         },
         error: (Object error, StackTrace stackTrace) {
           return ErrorText(error);
         },
         loading: () {
-          return _buildWidget(
-            chapters: widget.manga!.chapters.toList().reversed.toList(),
-            reverse: reverse,
+          final grouped = ChapterGroup.groupChapters(
+            widget.manga!.chapters.toList().reversed.toList(),
+            (c) => c.compositeOrder,
           );
+          return _buildWidget(chapters: grouped, reverse: reverse);
         },
       ),
     );
@@ -270,7 +275,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
   }
 
   Widget _buildWidget({
-    required List<Chapter> chapters,
+    required List<ChapterGroup<ChapterCompositeNumber>> chapters,
     required bool reverse,
   }) {
     final chapterList = ref.watch(chaptersListStateProvider);
@@ -396,10 +401,14 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                           actions: [
                             IconButton(
                               onPressed: () {
-                                for (var chapter in chapters) {
-                                  ref
-                                      .read(chaptersListStateProvider.notifier)
-                                      .selectAll(chapter);
+                                for (var group in chapters) {
+                                  for (var chapter in group.chapters) {
+                                    ref
+                                        .read(
+                                          chaptersListStateProvider.notifier,
+                                        )
+                                        .selectAll(chapter);
+                                  }
                                 }
                               },
                               icon: const Icon(Icons.select_all),
@@ -407,23 +416,27 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                             IconButton(
                               onPressed: () {
                                 if (chapters.length == chapterList.length) {
-                                  for (var chapter in chapters) {
-                                    ref
-                                        .read(
-                                          chaptersListStateProvider.notifier,
-                                        )
-                                        .selectSome(chapter);
+                                  for (var group in chapters) {
+                                    for (var chapter in group.chapters) {
+                                      ref
+                                          .read(
+                                            chaptersListStateProvider.notifier,
+                                          )
+                                          .selectSome(chapter);
+                                    }
                                   }
                                   ref
                                       .read(isLongPressedStateProvider.notifier)
                                       .update(false);
                                 } else {
-                                  for (var chapter in chapters) {
-                                    ref
-                                        .read(
-                                          chaptersListStateProvider.notifier,
-                                        )
-                                        .selectSome(chapter);
+                                  for (var group in chapters) {
+                                    for (var chapter in group.chapters) {
+                                      ref
+                                          .read(
+                                            chaptersListStateProvider.notifier,
+                                          )
+                                          .selectSome(chapter);
+                                    }
                                   }
                                 }
                               },
@@ -895,8 +908,10 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                                   ? reverseIndex
                                   : finalIndex;
                               return ChapterListTileWidget(
-                                chapter: chapters[indexx],
-                                chapterList: chapterList,
+                                chapter: chapters[indexx].firstOrRead,
+                                chapterList: chapters
+                                    .expand((g) => g.chapters)
+                                    .toList(),
                                 sourceExist: widget.sourceExist,
                               );
                             },
@@ -998,12 +1013,15 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                         ],
                       ),
                       onPressed: () {
-                        int index = chapters.indexOf(chap.first);
+                        final allChapters = chapterList;
+                        int index = allChapters.indexOf(chap.first);
                         final List<Chapter> updatedChapters = [];
                         final now = DateTime.now().millisecondsSinceEpoch;
-                        chapters[index + 1].updateTrackChapterRead(ref);
-                        for (var i = index + 1; i < chapters.length; i++) {
-                          final chapter = chapters[i];
+                        if (index + 1 < allChapters.length) {
+                          allChapters[index + 1].updateTrackChapterRead(ref);
+                        }
+                        for (var i = index + 1; i < allChapters.length; i++) {
+                          final chapter = allChapters[i];
                           if (!chapter.isRead!) {
                             chapter.isRead = true;
                             chapter.lastPageRead = "1";

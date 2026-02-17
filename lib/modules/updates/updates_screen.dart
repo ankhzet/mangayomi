@@ -340,12 +340,17 @@ Widget _updateNumbers(WidgetRef ref, ItemType itemType) {
     builder: (context, snapshot) {
       if (snapshot.hasData && snapshot.data!.isNotEmpty) {
         final entries = snapshot.data!.toList();
+        final distinctMangaCount = entries
+            .map((e) => e.chapter.value?.mangaId)
+            .whereType<int>()
+            .toSet()
+            .length;
         return entries.isEmpty
             ? SizedBox.shrink()
             : Badge(
                 backgroundColor: Theme.of(context).focusColor,
                 label: Text(
-                  entries.length.toString(),
+                  distinctMangaCount.toString(),
                   style: TextStyle(
                     color: Theme.of(context).textTheme.bodySmall!.color,
                   ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/category.dart';
 import 'package:mangayomi/models/changed.dart';
+import 'package:mangayomi/models/dto/update_group.dart';
 import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/widgets/base_library_tab_screen.dart';
 import 'package:mangayomi/modules/widgets/custom_sliver_grouped_list_view.dart';
@@ -186,8 +187,21 @@ class _UpdateTabState extends ConsumerState<UpdateTab>
       children: [
         update.when(
           data: (entries) {
+            final groupedByDate = <String, List<Update>>{};
+            for (var entry in entries) {
+              final dateKey = dateFormat(
+                entry.date!,
+                context: context,
+                ref: ref,
+                forHistoryValue: true,
+                useRelativeTimesTamps: false,
+              );
+              groupedByDate.putIfAbsent(dateKey, () => []).add(entry);
+            }
+
             final lastUpdatedList = entries
-                .map((e) => e.chapter.value!.manga.value!.lastUpdate!)
+                .map((e) => e.chapter.value?.manga.value?.lastUpdate)
+                .whereType<int>()
                 .toList();
             lastUpdatedList.sort((a, b) => b.compareTo(a));
             final lastUpdated = lastUpdatedList.firstOrNull;
@@ -221,41 +235,43 @@ class _UpdateTabState extends ConsumerState<UpdateTab>
                         ]),
                       ),
                     ),
-                  CustomSliverGroupedListView<Update, String>(
-                    elements: entries,
-                    groupBy: (element) => dateFormat(
-                      element.date!,
-                      context: context,
-                      ref: ref,
-                      forHistoryValue: true,
-                      useRelativeTimesTamps: false,
-                    ),
-                    groupSeparatorBuilder: (String groupByValue) => Padding(
-                      padding: const EdgeInsets.only(bottom: 8, left: 12),
-                      child: Row(
-                        children: [
-                          Text(
-                            dateFormat(
-                              null,
-                              context: context,
-                              stringDate: groupByValue,
-                              ref: ref,
+                  ...groupedByDate.entries.expand((dateEntry) {
+                    final dateKey = dateEntry.key;
+                    final updatesForDate = dateEntry.value;
+                    final groupedByManga = UpdateGroup.groupUpdates<int?>(
+                      updatesForDate,
+                      (update) => update.chapter.value?.mangaId,
+                    );
+                    groupedByManga.sort((a, b) => b.compareTo(a));
+
+                    return [
+                      SliverPadding(
+                        padding: const EdgeInsets.only(bottom: 8, left: 12),
+                        sliver: SliverList(
+                          delegate: SliverChildListDelegate.fixed([
+                            Text(
+                              dateFormat(
+                                null,
+                                context: context,
+                                stringDate: dateKey,
+                                ref: ref,
+                              ),
                             ),
-                          ),
-                        ],
+                          ]),
+                        ),
                       ),
-                    ),
-                    itemBuilder: (context, element) {
-                      final chapter = element.chapter.value!;
-                      return UpdateChapterListTileWidget(
-                        chapter: chapter,
-                        sourceExist: true,
-                      );
-                    },
-                    itemComparator: (item1, item2) =>
-                        item1.date!.compareTo(item2.date!),
-                    order: GroupedListOrder.DESC,
-                  ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate((context, index) {
+                          final group = groupedByManga[index];
+                          return UpdateChapterListTileWidget(
+                            chapter: group.firstOrUnread,
+                            chapterGroup: group,
+                            sourceExist: true,
+                          );
+                        }, childCount: groupedByManga.length),
+                      ),
+                    ];
+                  }),
                 ],
               );
             }

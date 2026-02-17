@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangayomi/models/chapter.dart';
+import 'package:mangayomi/models/dto/update_group.dart';
 import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
 import 'package:mangayomi/utils/constant.dart';
 import 'package:mangayomi/modules/manga/download/download_page_widget.dart';
@@ -13,22 +14,31 @@ import 'package:mangayomi/utils/headers.dart';
 class UpdateChapterListTileWidget extends ConsumerWidget {
   final Chapter chapter;
   final bool sourceExist;
+  final UpdateGroup<int?>? chapterGroup;
   const UpdateChapterListTileWidget({
     required this.chapter,
     required this.sourceExist,
+    this.chapterGroup,
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final manga = chapter.manga.value!;
+    final chapterCount = chapterGroup?.chapters.length ?? 1;
+    final chapterLabel = chapterGroup?.label ?? chapter.name ?? '';
+
     return Material(
       borderRadius: BorderRadius.circular(5),
       color: Colors.transparent,
       clipBehavior: Clip.antiAliasWithSaveLayer,
       child: InkWell(
         onTap: () async {
-          chapter.pushToReaderView(context, ignoreIsRead: true);
+          if (chapterGroup != null && chapterCount > 1) {
+            _showChapterSelection(context, chapterGroup!);
+          } else {
+            chapter.pushToReaderView(context, ignoreIsRead: true);
+          }
         },
         onLongPress: () {},
         onSecondaryTap: () {},
@@ -57,25 +67,24 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
                               fit: BoxFit.cover,
                               width: 40,
                               height: 45,
-                              image:
-                                  manga.customCoverImage != null
-                                      ? MemoryImage(
-                                            manga.customCoverImage as Uint8List,
-                                          )
-                                          as ImageProvider
-                                      : CustomExtendedNetworkImageProvider(
-                                        toImgUrl(
-                                          manga.customCoverFromTracker ??
-                                              manga.imageUrl!,
-                                        ),
-                                        headers: ref.watch(
-                                          headersProvider(
-                                            source: manga.source!,
-                                            lang: manga.lang!,
-                                            sourceId: manga.sourceId,
-                                          ),
+                              image: manga.customCoverImage != null
+                                  ? MemoryImage(
+                                          manga.customCoverImage as Uint8List,
+                                        )
+                                        as ImageProvider
+                                  : CustomExtendedNetworkImageProvider(
+                                      toImgUrl(
+                                        manga.customCoverFromTracker ??
+                                            manga.imageUrl!,
+                                      ),
+                                      headers: ref.watch(
+                                        headersProvider(
+                                          source: manga.source!,
+                                          lang: manga.lang!,
+                                          sourceId: manga.sourceId,
                                         ),
                                       ),
+                                    ),
                               child: InkWell(child: Container()),
                             ),
                           ),
@@ -93,23 +102,21 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).textTheme.bodyLarge!.color,
+                                  color: Theme.of(
+                                    context,
+                                  ).textTheme.bodyLarge!.color,
                                 ),
                               ),
                               Text(
-                                chapter.name!,
+                                chapterLabel,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 11,
-                                  color:
-                                      chapter.isRead ?? false
-                                          ? Colors.grey
-                                          : Theme.of(
-                                            context,
-                                          ).textTheme.bodyLarge!.color,
+                                  color: chapter.isRead ?? false
+                                      ? Colors.grey
+                                      : Theme.of(
+                                          context,
+                                        ).textTheme.bodyLarge!.color,
                                 ),
                               ),
                             ],
@@ -125,6 +132,29 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _showChapterSelection(BuildContext context, UpdateGroup<int?> group) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: group.chapters.length,
+          itemBuilder: (context, index) {
+            final chapter = group.chapters[index];
+            return ListTile(
+              title: Text(chapter.name ?? ''),
+              subtitle: Text(chapter.scanlator ?? ''),
+              onTap: () {
+                Navigator.pop(context);
+                chapter.pushToReaderView(context, ignoreIsRead: true);
+              },
+            );
+          },
+        );
+      },
     );
   }
 }

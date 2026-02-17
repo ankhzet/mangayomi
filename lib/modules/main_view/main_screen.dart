@@ -81,12 +81,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     super.initState();
 
     _navigationOrder = ref.read(navigationOrderStateProvider);
-    _autoSyncFrequency =
-        ref.read(synchingProvider(syncId: 1)).autoSyncFrequency;
+    _autoSyncFrequency = ref
+        .read(synchingProvider(syncId: 1))
+        .autoSyncFrequency;
     final hiddenItems = ref.read(hideItemsStateProvider);
 
-    _defaultLocation =
-        _navigationOrder.where((e) => !hiddenItems.contains(e)).first;
+    _defaultLocation = _navigationOrder
+        .where((e) => !hiddenItems.contains(e))
+        .first;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
@@ -182,131 +184,120 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     return ref
         .watch(migrationProvider)
         .when(
-          data:
-              (_) => Consumer(
-                builder: (context, ref, child) {
-                  final isReadingScreen = _isReadingScreen(location);
-                  bool uniqueSwitch = false;
-                  List<String> dest =
-                      !context.isTablet && isLibSwitch
-                          ? [
-                            "_disableLibSwitch",
-                            ...navigationOrder.where(
-                              (nav) => libLocationRegex.hasMatch(nav),
-                            ),
-                          ].where((nav) => !hideItems.contains(nav)).toList()
-                          : navigationOrder
-                              .where((nav) => !hideItems.contains(nav))
-                              .toList();
-
-                  if (mergeLibraryNavMobile &&
-                      !context.isTablet &&
-                      !isLibSwitch) {
-                    dest =
-                        dest
-                            .map((nav) {
-                              if ([
-                                "/MangaLibrary",
-                                "/AnimeLibrary",
-                                "/NovelLibrary",
-                              ].contains(nav)) {
-                                if (uniqueSwitch) return null;
-                                uniqueSwitch = true;
-                                return "_enableLibSwitch";
-                              }
-                              return nav;
-                            })
-                            .nonNulls
-                            .toList();
-                  }
-
-                  if (isLibSwitch &&
-                      (currentIndex >= dest.length ||
-                          !libLocationRegex.hasMatch(location ?? ""))) {
-                    currentIndex = 0;
-                  } else {
-                    String? libLocation;
-                    if (mergeLibraryNavMobile &&
-                        !context.isTablet &&
-                        !isLibSwitch) {
-                      libLocation = location?.replaceAll(
-                        libLocationRegex,
-                        "_enableLibSwitch",
-                      );
-                    }
-                    int currentIdx = dest.indexOf(
-                      libLocation ?? location ?? _defaultLocation,
-                    );
-                    if (currentIdx != -1) {
-                      currentIndex = currentIdx;
-                    }
-                  }
-
-                  final incognitoMode = ref.watch(incognitoModeStateProvider);
-                  final downloadedOnly = ref.watch(downloadedOnlyStateProvider);
-                  final isLongPressed = ref.watch(isLongPressedStateProvider);
-
-                  return Column(
-                    children: [
-                      if (!isReadingScreen)
-                        _DownloadedOnlyBar(
-                          downloadedOnly: downloadedOnly,
-                          l10n: l10n,
-                        ),
-                      if (!isReadingScreen)
-                        _IncognitoModeBar(
-                          incognitoMode: incognitoMode,
-                          l10n: l10n,
-                        ),
-                      Flexible(
-                        child: Scaffold(
-                          body:
-                              context.isTablet
-                                  ? _TabletLayout(
-                                    isLongPressed: isLongPressed,
-                                    location: location,
-                                    dest: dest,
-                                    currentIndex: currentIndex,
-                                    route: route,
-                                    ref: ref,
-                                    buildNavigationWidgetsDesktop:
-                                        _buildNavigationWidgetsDesktop,
-                                    child: widget.child,
-                                  )
-                                  : widget.child,
-                          bottomNavigationBar:
-                              context.isTablet
-                                  ? null
-                                  : _MobileBottomNavigation(
-                                    isLongPressed: isLongPressed,
-                                    location: location,
-                                    currentIndex: currentIndex,
-                                    dest: dest,
-                                    route: route,
-                                    ref: ref,
-                                    buildNavigationWidgetsMobile:
-                                        _buildNavigationWidgetsMobile,
-                                    onDestinationSelected: (destination) {
-                                      if (destination == "_enableLibSwitch") {
-                                        setState(() {
-                                          isLibSwitch = true;
-                                        });
-                                      } else if (destination ==
-                                          "_disableLibSwitch") {
-                                        setState(() {
-                                          isLibSwitch = false;
-                                        });
-                                      } else {
-                                        route.go(destination);
-                                      }
-                                    },
-                                  ),
-                        ),
+          data: (_) => Consumer(
+            builder: (context, ref, child) {
+              final isReadingScreen = _isReadingScreen(location);
+              bool uniqueSwitch = false;
+              List<String> dest = !context.isTablet && isLibSwitch
+                  ? [
+                      "_disableLibSwitch",
+                      ...navigationOrder.where(
+                        (nav) => libLocationRegex.hasMatch(nav),
                       ),
-                    ],
+                    ].where((nav) => !hideItems.contains(nav)).toList()
+                  : navigationOrder
+                        .where((nav) => !hideItems.contains(nav))
+                        .toList();
+
+              if (mergeLibraryNavMobile && !context.isTablet && !isLibSwitch) {
+                dest = dest
+                    .map((nav) {
+                      if ([
+                        "/MangaLibrary",
+                        "/AnimeLibrary",
+                        "/NovelLibrary",
+                      ].contains(nav)) {
+                        if (uniqueSwitch) return null;
+                        uniqueSwitch = true;
+                        return "_enableLibSwitch";
+                      }
+                      return nav;
+                    })
+                    .nonNulls
+                    .toList();
+              }
+
+              if (isLibSwitch &&
+                  (currentIndex >= dest.length ||
+                      !libLocationRegex.hasMatch(location ?? ""))) {
+                currentIndex = 0;
+              } else {
+                String? libLocation;
+                if (mergeLibraryNavMobile &&
+                    !context.isTablet &&
+                    !isLibSwitch) {
+                  libLocation = location?.replaceAll(
+                    libLocationRegex,
+                    "_enableLibSwitch",
                   );
-                },
-              ),
+                }
+                int currentIdx = dest.indexOf(
+                  libLocation ?? location ?? _defaultLocation,
+                );
+                if (currentIdx != -1) {
+                  currentIndex = currentIdx;
+                }
+              }
+
+              final incognitoMode = ref.watch(incognitoModeStateProvider);
+              final downloadedOnly = ref.watch(downloadedOnlyStateProvider);
+              final isLongPressed = ref.watch(isLongPressedStateProvider);
+
+              return Column(
+                children: [
+                  if (!isReadingScreen)
+                    _DownloadedOnlyBar(
+                      downloadedOnly: downloadedOnly,
+                      l10n: l10n,
+                    ),
+                  if (!isReadingScreen)
+                    _IncognitoModeBar(incognitoMode: incognitoMode, l10n: l10n),
+                  Flexible(
+                    child: Scaffold(
+                      body: context.isTablet
+                          ? _TabletLayout(
+                              isLongPressed: isLongPressed,
+                              location: location,
+                              dest: dest,
+                              currentIndex: currentIndex,
+                              route: route,
+                              ref: ref,
+                              buildNavigationWidgetsDesktop:
+                                  _buildNavigationWidgetsDesktop,
+                              child: widget.child,
+                            )
+                          : widget.child,
+                      bottomNavigationBar: context.isTablet
+                          ? null
+                          : _MobileBottomNavigation(
+                              isLongPressed: isLongPressed,
+                              location: location,
+                              currentIndex: currentIndex,
+                              dest: dest,
+                              route: route,
+                              ref: ref,
+                              buildNavigationWidgetsMobile:
+                                  _buildNavigationWidgetsMobile,
+                              onDestinationSelected: (destination) {
+                                if (destination == "_enableLibSwitch") {
+                                  setState(() {
+                                    isLibSwitch = true;
+                                  });
+                                } else if (destination == "_disableLibSwitch") {
+                                  setState(() {
+                                    isLibSwitch = false;
+                                  });
+                                } else {
+                                  route.go(destination);
+                                }
+                              },
+                            ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
           error: (error, _) => const LoadingIcon(),
           loading: () => const LoadingIcon(),
         );
@@ -552,12 +543,11 @@ class _DownloadedOnlyBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: AnimatedContainer(
-        height:
-            downloadedOnly
-                ? Platform.isAndroid || Platform.isIOS
-                    ? MediaQuery.of(context).padding.top * 2
-                    : 50
-                : 0,
+        height: downloadedOnly
+            ? Platform.isAndroid || Platform.isIOS
+                  ? MediaQuery.of(context).padding.top * 2
+                  : 50
+            : 0,
         curve: Curves.easeIn,
         duration: const Duration(milliseconds: 150),
         color: context.secondaryColor,
@@ -592,12 +582,11 @@ class _IncognitoModeBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: AnimatedContainer(
-        height:
-            incognitoMode
-                ? Platform.isAndroid || Platform.isIOS
-                    ? MediaQuery.of(context).padding.top * 2
-                    : 50
-                : 0,
+        height: incognitoMode
+            ? Platform.isAndroid || Platform.isIOS
+                  ? MediaQuery.of(context).padding.top * 2
+                  : 50
+            : 0,
         curve: Curves.easeIn,
         duration: const Duration(milliseconds: 150),
         color: context.primaryColor,
@@ -670,8 +659,8 @@ class _TabletLayout extends StatelessWidget {
                   destinations: destinations,
                   selectedIndex:
                       (currentIndex >= 0 && currentIndex < destinations.length)
-                          ? currentIndex
-                          : 0,
+                      ? currentIndex
+                      : 0,
                   onDestinationSelected: (newIndex) {
                     route.go(dest[newIndex]);
                   },
@@ -807,14 +796,12 @@ class _ExtensionBadgeWidget extends ConsumerWidget {
           return icon;
         }
 
-        final entries =
-            snapshot.data!
-                .where(
-                  (element) =>
-                      compareVersions(element.version!, element.versionLast!) <
-                      0,
-                )
-                .toList();
+        final entries = snapshot.data!
+            .where(
+              (element) =>
+                  compareVersions(element.version!, element.versionLast!) < 0,
+            )
+            .toList();
 
         if (entries.isEmpty) {
           return icon;
@@ -864,19 +851,28 @@ class _UpdatesBadgeWidget extends ConsumerWidget {
           return icon;
         }
 
-        final entries =
-            snapshot.data!.where((element) {
-              if (!element.chapter.isLoaded) {
-                element.chapter.loadSync();
-              }
-              return !(element.chapter.value?.isRead ?? false);
-            }).toList();
+        final entries = snapshot.data!.where((element) {
+          if (!element.chapter.isLoaded) {
+            element.chapter.loadSync();
+          }
+          return !(element.chapter.value?.isRead ?? false);
+        }).toList();
 
         if (entries.isEmpty) {
           return icon;
         }
 
-        return Badge(label: Text("${entries.length}"), child: icon);
+        final distinctMangaCount = entries
+            .map((e) => e.chapter.value?.mangaId)
+            .whereType<int>()
+            .toSet()
+            .length;
+
+        if (distinctMangaCount == 0) {
+          return icon;
+        }
+
+        return Badge(label: Text("$distinctMangaCount"), child: icon);
       },
     );
   }

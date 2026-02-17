@@ -43,37 +43,10 @@ class UpdateGroup<T> {
 
   String get label {
     if (chapters.length == 1) {
-      final idx = chapters.first.compositeOrder;
-      return 'Ch. ${indexToStr(idx.$2, idx.$3)}';
+      return 'Ch. ${indexToStr(chapters.first.compositeOrder)}';
     }
 
-    final indexes = chapters
-        .sorted((a, b) => a.compareTo(b))
-        .map((chapter) => chapter.compositeOrder)
-        .toList(growable: false);
-
-    // when volumes data is inconsistent, this clutters the label needlessly
-    // final volumes = indexes.map((index) => index.$1).toUnique(growable: false);
-    //
-    // if (volumes.length > 1) {
-    //   final volumesMap = indexes.fold<Map<int, List<ChapterCompositeNumber>>>(
-    //     {},
-    //     (map, index) {
-    //       final bucket = map[index.$1];
-    //       if (bucket != null) {
-    //         bucket.add(index);
-    //       } else {
-    //         map[index.$1] = [index];
-    //       }
-    //       return map;
-    //     },
-    //   );
-    //   return volumesMap.entries
-    //       .map((entry) => 'Vol. ${entry.key}: ${indexesToStr(entry.value)}')
-    //       .join(', ');
-    // }
-
-    return 'Ch. ${indexesToStr(indexes)}';
+    return 'Ch. ${indexesToStr(chapters)}';
   }
 
   bool get isRead => chapters.every((chapter) => chapter.isRead ?? false);
@@ -92,44 +65,49 @@ class UpdateGroup<T> {
   int compareTo(UpdateGroup other) => lastUpdate.compareTo(other.lastUpdate);
 }
 
-List<List<String>> groupRanges(Iterable<String> indexes) {
-  final idxList = indexes.toList();
-  if (idxList.isEmpty) return [];
+List<(ChapterCompositeNumber, ChapterCompositeNumber)> groupRanges(Iterable<ChapterCompositeNumber> indexes) {
+  if (indexes.isEmpty) return [];
 
-  List<List<String>> groups = [];
+  final idxList = indexes.toList(growable: false);
+  List<(ChapterCompositeNumber, ChapterCompositeNumber)> groups = [];
   int start = 0;
   int end = 0;
 
   for (int pos = 1; pos < idxList.length; pos++) {
-    final prev = double.parse(idxList[pos - 1]);
-    final curr = double.parse(idxList[pos]);
+    final prev = idxList[pos - 1];
+    final curr = idxList[pos];
 
-    if ((curr - prev).abs() > 1.01) {
-      groups.add([idxList[start], idxList[end]]);
+    if ((curr.$2 - prev.$2).abs() > 1) {
+      groups.add((idxList[start], idxList[end]));
       start = pos;
     }
     end = pos;
   }
 
-  groups.add([idxList[start], idxList[end]]);
+  groups.add((idxList[start], idxList[end]));
+
   return groups;
 }
 
-String indexToStr(int c, int s) => s != 0 ? '$c.$s' : c.toString();
+String indexToStr((int v, int c, int s) idx) => idx.$3 != 0 ? '${idx.$2}.${idx.$3}' : idx.$2.toString();
 
-String indexesToStr(List<ChapterCompositeNumber> indexes) {
+String indexesToStr(List<Chapter> chapters) {
   final groups = groupRanges(
-    indexes.map((index) => indexToStr(index.$2, index.$3)),
+      chapters
+        .sorted((a, b) => a.compareTo(b))
+        .map((chapter) => chapter.compositeOrder)
   );
+
   return groups
       .map((group) {
-        final [start, end] = group;
+        final (start, end) = group;
+
         if (start == end) {
-          return start;
-        } else if (double.parse(start) + 1 == double.parse(end)) {
-          return '$start, $end';
+          return indexToStr(start);
+        } else if (start.$2 + 1 == end.$2) {
+          return '${indexToStr(start)}, ${indexToStr(end)}';
         }
-        return '$start..$end';
+        return '${indexToStr(start)}..${indexToStr(end)}';
       })
       .join(', ');
 }

@@ -30,11 +30,9 @@ extension ChapterExtension on Chapter {
   }
 
   void cancelDownloads(int? downloadId) {
-    // Cancel via the Isolate pool (new system)
     DownloadIsolatePool.instance.cancelTask('$id');
     DownloadIsolatePool.instance.cancelTask('m3u8_$id');
 
-    // Clean the map for compatibility
     isolateChapsSendPorts.remove('$id');
 
     isar.writeTxnSync(() {
@@ -43,5 +41,42 @@ extension ChapterExtension on Chapter {
         isar.downloads.deleteSync(downloadId);
       }
     });
+  }
+
+  static bool isChapterRead(Chapter chapter) => chapter.isRead ?? false;
+  static bool isChapterUnread(Chapter chapter) => !(chapter.isRead ?? false);
+  static bool isChapterBookmarked(Chapter chapter) =>
+      chapter.isBookmarked ?? false;
+  static bool hasChapterScanlators(Chapter chapter) =>
+      chapter.scanlator?.isNotEmpty ?? false;
+
+  static DateTime? firstUpload(List<Chapter> chapters) {
+    if (chapters.isEmpty) return null;
+    DateTime? earliest;
+    for (var chapter in chapters) {
+      if (chapter.dateUpload != null && chapter.dateUpload!.isNotEmpty) {
+        final timestamp = int.tryParse(chapter.dateUpload!);
+        if (timestamp != null) {
+          final date = DateTime.fromMillisecondsSinceEpoch(timestamp);
+          if (earliest == null || date.isBefore(earliest)) {
+            earliest = date;
+          }
+        }
+      }
+    }
+    return earliest;
+  }
+
+  static String fullTitle(List<Chapter> chapters) {
+    if (chapters.isEmpty) return '';
+    final first = chapters.first;
+    return first.name ?? '';
+  }
+
+  String progress() {
+    if (lastPageRead == null || lastPageRead!.isEmpty || lastPageRead == '1') {
+      return '';
+    }
+    return lastPageRead!;
   }
 }

@@ -10,9 +10,9 @@ import 'package:mangayomi/utils/extensions/chapter.dart';
 import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
 import 'package:mangayomi/modules/manga/download/download_page_widget.dart';
 
-class ChapterListTileWidget extends ConsumerWidget {
+class ChapterListTileWidget<T> extends ConsumerWidget {
   final Manga manga;
-  final ChapterGroup<ChapterCompositeNumber> group;
+  final ChapterGroup<T> group;
   final bool sourceExist;
   final bool isSelected;
 

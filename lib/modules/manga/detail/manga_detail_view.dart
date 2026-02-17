@@ -5,6 +5,7 @@ import 'package:draggable_menu/draggable_menu.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:isar_community/isar.dart';
@@ -1949,9 +1950,20 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SelectableText(
-          widget.manga!.name!,
-          style: const TextStyle(fontSize: 20),
+        InkWell(
+          onLongPress: () {
+            Clipboard.setData(ClipboardData(text: widget.manga!.name!));
+            botToast('Copied!', second: 3);
+          },
+          child: Tooltip(
+            message:
+                'ID: @${widget.manga!.id}, Link: ${widget.manga!.link}\nLong press on title to copy name, on source extension to copy link.\nClick source to navigate to settings.',
+            preferBelow: false,
+            child: SelectableText(
+              widget.manga!.name!,
+              style: const TextStyle(fontSize: 20),
+            ),
+          ),
         ),
         widget.titleDescription!,
       ],

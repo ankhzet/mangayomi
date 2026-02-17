@@ -62,10 +62,10 @@ class QuarkUcExtractor {
 
   Map<String, String> getHeaders() {
     return {
-      'User-Agent': ua,
-      'Referer': refererUrl,
-      "Content-Type": "application/json",
-      "Cookie": getCurrentCookie(),
+      'user-agent': ua,
+      'referer': refererUrl,
+      "content-type": "application/json",
+      "cookie": getCurrentCookie(),
     };
   }
 

@@ -12,6 +12,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart'
 import 'package:mangayomi/models/settings.dart';
 import 'package:http/io_client.dart';
 import 'package:mangayomi/services/http/rhttp/src/model/settings.dart';
+import 'package:mangayomi/utils/extensions/settings.dart';
 import 'package:mangayomi/utils/log/log.dart';
 import 'package:mangayomi/services/http/rhttp/rhttp.dart' as rhttp;
 import 'package:mangayomi/services/http/doh/doh_resolver.dart';
@@ -98,7 +99,7 @@ class MClient {
   }
 
   static Map<String, String> getCookiesPref(String url) {
-    final cookiesList = isar.settings.getSync(227)!.cookiesList ?? [];
+    final cookiesList = isar.settings.first.cookiesList ?? [];
     if (cookiesList.isEmpty) return {};
     final host = Uri.parse(url).host;
     final cookies =
@@ -186,19 +187,20 @@ class MCookieManager extends InterceptorContract {
 
   @override
   Future<BaseRequest> interceptRequest({required BaseRequest request}) async {
+    final settings = await isar.settings.get(227);
+    final userAgent = settings!.userAgent!;
     final cookie = MClient.getCookiesPref(request.url.toString());
-    if (cookie.isNotEmpty) {
-      final settings = await isar.settings.get(227);
-      final userAgent = settings!.userAgent!;
-      if (request.headers[HttpHeaders.cookieHeader] == null) {
-        request.headers.addAll(cookie);
-      }
-      if (request.headers[HttpHeaders.userAgentHeader] == null) {
-        request.headers[HttpHeaders.userAgentHeader] = userAgent;
-      }
+
+    if (cookie.isNotEmpty && (request.headers[HttpHeaders.cookieHeader] == null)) {
+      request.headers.addAll(cookie);
     }
-    try {
-      if (reqcopyWith != null) {
+
+    if (request.headers[HttpHeaders.userAgentHeader] == null) {
+      request.headers[HttpHeaders.userAgentHeader] = userAgent;
+    }
+
+    if (reqcopyWith != null) {
+      try {
         if (reqcopyWith!["followRedirects"] != null) {
           request.followRedirects = reqcopyWith!["followRedirects"];
         }
@@ -211,8 +213,8 @@ class MCookieManager extends InterceptorContract {
         if (reqcopyWith!["persistentConnection"] != null) {
           request.persistentConnection = reqcopyWith!["persistentConnection"];
         }
-      }
-    } catch (_) {}
+      } catch (_) {}
+    }
     return request;
   }
 

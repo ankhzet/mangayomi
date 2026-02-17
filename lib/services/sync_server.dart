@@ -49,7 +49,7 @@ class SyncServer extends _$SyncServer {
     try {
       var response = await http.post(
         Uri.parse('$server$_loginUrl'),
-        headers: {'Content-Type': 'application/json'},
+        headers: {'content-type': 'application/json'},
         body: jsonEncode({'email': username, 'password': password}),
       );
       var cookieHeader = response.headers["set-cookie"];
@@ -148,8 +148,8 @@ class SyncServer extends _$SyncServer {
     var response = await http.post(
       Uri.parse('${_getServer()}$_syncMangaUrl'),
       headers: {
-        'Content-Type': 'application/json',
-        'Cookie': 'id=$accessToken',
+        'content-type': 'application/json',
+        'cookie': 'id=$accessToken',
       },
       body: mangaData,
     );
@@ -189,8 +189,8 @@ class SyncServer extends _$SyncServer {
     var response = await http.post(
       Uri.parse('${_getServer()}$_syncHistoryUrl'),
       headers: {
-        'Content-Type': 'application/json',
-        'Cookie': 'id=$accessToken',
+        'content-type': 'application/json',
+        'cookie': 'id=$accessToken',
       },
       body: historyData,
     );
@@ -222,8 +222,8 @@ class SyncServer extends _$SyncServer {
     var response = await http.post(
       Uri.parse('${_getServer()}$_syncUpdateUrl'),
       headers: {
-        'Content-Type': 'application/json',
-        'Cookie': 'id=$accessToken',
+        'content-type': 'application/json',
+        'cookie': 'id=$accessToken',
       },
       body: updateData,
     );
@@ -254,8 +254,8 @@ class SyncServer extends _$SyncServer {
     var response = await http.post(
       Uri.parse('${_getServer()}$_syncSettingsUrl'),
       headers: {
-        'Content-Type': 'application/json',
-        'Cookie': 'id=$accessToken',
+        'content-type': 'application/json',
+        'cookie': 'id=$accessToken',
       },
       body: settingsData,
     );

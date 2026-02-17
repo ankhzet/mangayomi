@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:d4rt/d4rt.dart';
 import 'package:flutter/widgets.dart';
 import 'package:isar_community/isar.dart';
 import 'package:mangayomi/eval/lib.dart';
@@ -26,6 +27,7 @@ import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/services/download_manager/m3u8/m3u8_downloader.dart';
 import 'package:mangayomi/services/download_manager/m3u8/models/download.dart';
 import 'package:mangayomi/utils/extensions/chapter.dart';
+import 'package:mangayomi/utils/extensions/settings.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/headers.dart';
 import 'package:mangayomi/utils/reg_exp_matcher.dart';
@@ -96,8 +98,8 @@ Future<void> downloadChapter(
     await storageProvider.createDirectorySafely(chapterDirectory.path);
     Map<String, String> videoHeader = {};
     Map<String, String> htmlHeader = {
-      "Priority": "u=0, i",
-      "User-Agent":
+      "priority": "u=0, i",
+      "user-agent":
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
     };
     bool hasM3U8File = false;
@@ -247,11 +249,13 @@ Future<void> downloadChapter(
         headers[HttpHeaders.userAgentHeader] = userAgent;
       }
       final res = await http.get(Uri.parse(chapterUrl), headers: headers);
-      if (res.headers.containsKey("Location")) {
-        novelPage = PageUrl(res.headers["Location"]!);
-      } else {
-        novelPage = PageUrl(chapterUrl);
-      }
+      final location = res.headers[HttpHeaders.locationHeader];
+
+      novelPage = PageUrl(
+          (location?.isNotEmpty ?? false)
+              ? location!
+              : chapterUrl
+      );
       isOk = true;
     }
 
@@ -305,12 +309,16 @@ Future<void> downloadChapter(
                   ? videoHeader
                   : htmlHeader;
           if (cookie.isNotEmpty) {
-            final userAgent = isar.settings.getSync(227)!.userAgent!;
-            headers.addAll(cookie);
+            final userAgent = isar.settings.first.userAgent!;
             headers[HttpHeaders.userAgentHeader] = userAgent;
+            headers.addAll(cookie);
           }
-          Map<String, String> pageHeaders = headers;
-          pageHeaders.addAll(page.headers ?? {});
+
+          Map<String, String> pageHeaders = Map.of(headers);
+
+          if (page.headers != null) {
+            pageHeaders.addAll(page.headers!);
+          }
 
           if (itemType == ItemType.manga) {
             final file = File(

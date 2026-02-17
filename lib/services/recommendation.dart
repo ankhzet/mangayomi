@@ -35,8 +35,8 @@ Future<List<RecommendationResult>?> _getRecommendation(
     Uri.parse(url),
     headers: {
       "priority": "u=1, i",
-      "Referer": "https://anibrain.ai/",
-      "User-Agent":
+      "referer": "https://anibrain.ai/",
+      "user-agent":
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
     },
     params: {
@@ -70,8 +70,8 @@ Future<String?> _getSuggest(
     Uri.parse(url),
     headers: {
       "priority": "u=1, i",
-      "Referer": "https://anibrain.ai/recommender/manga",
-      "User-Agent":
+      "referer": "https://anibrain.ai/recommender/manga",
+      "user-agent":
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
     },
   );

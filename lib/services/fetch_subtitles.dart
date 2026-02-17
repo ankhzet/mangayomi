@@ -8,8 +8,8 @@ Future<List<ImdbTitle>> fetchImdbTitles(String query) async {
     final res = await http.get(
       Uri.parse(url),
       headers: {
-        "Accept": "application/json",
-        "User-Agent":
+        "accept": "application/json",
+        "user-agent":
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
       },
     );
@@ -30,8 +30,8 @@ Future<List<ImdbEpisode>?> fetchImdbEpisodes(String imdbId) async {
     final res = await http.get(
       Uri.parse(url),
       headers: {
-        "Accept": "application/json",
-        "User-Agent":
+        "accept": "application/json",
+        "user-agent":
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
       },
     );
@@ -51,8 +51,8 @@ Future<List<ImdbSubtitle>?> fetchImdbSubtitles(String imdbId) async {
     final res = await http.get(
       Uri.parse(url),
       headers: {
-        "Accept": "application/json",
-        "User-Agent":
+        "accept": "application/json",
+        "user-agent":
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
       },
     );

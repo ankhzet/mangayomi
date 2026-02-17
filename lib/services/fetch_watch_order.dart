@@ -23,8 +23,8 @@ Future<List<SequelItem>> fetchSequels(
       headers: {
         "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
         "priority": "u=1, i",
-        "Referer": "https://chiaki.site/?/tools/watch_order",
-        "User-Agent":
+        "referer": "https://chiaki.site/?/tools/watch_order",
+        "user-agent":
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
       },
       body:
@@ -50,8 +50,8 @@ Future<List<WatchOrderSearch>> searchWatchOrder(String name) async {
       url,
       headers: {
         "priority": "u=1, i",
-        "Referer": "https://chiaki.site/?/tools/watch_order",
-        "User-Agent":
+        "referer": "https://chiaki.site/?/tools/watch_order",
+        "user-agent":
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
       },
     );
@@ -69,8 +69,8 @@ Future<List<WatchOrderItem>> fetchWatchOrder(String id) async {
       Uri.parse("https://chiaki.site/?/tools/watch_order/id/$id"),
       headers: {
         "priority": "u=1, i",
-        "Referer": "https://chiaki.site/?/tools/watch_order",
-        "User-Agent":
+        "referer": "https://chiaki.site/?/tools/watch_order",
+        "user-agent":
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
       },
     );

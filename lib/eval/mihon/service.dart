@@ -13,6 +13,7 @@ import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/video.dart';
 import 'package:mangayomi/services/http/m_client.dart';
+import 'package:mangayomi/utils/extensions/settings.dart';
 
 import '../../models/manga.dart';
 import '../interface.dart';
@@ -360,10 +361,10 @@ class MihonExtensionService implements ExtensionService {
   }
 
   Map<String, String> getCookie() {
-    final userAgent = isar.settings.getSync(227)!.userAgent;
+    final userAgent = isar.settings.first.userAgent;
     return {
       ...MClient.getCookiesPref(source.baseUrl!),
-      if (userAgent != null) 'user-agent': userAgent,
+      'user-agent': ?userAgent,
     };
   }
 }

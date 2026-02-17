@@ -190,9 +190,9 @@ class DoHResolver {
       );
 
       // Set Host header to the actual provider hostname (required for HTTPS SNI)
-      request.headers.set('Host', providerHost);
-      request.headers.set('Accept', 'application/dns-json');
-      request.headers.set('User-Agent', 'Mangayomi/1.0');
+      request.headers.set('host', providerHost);
+      request.headers.set('accept', 'application/dns-json');
+      request.headers.set('user-agent', 'Mangayomi/1.0');
 
       final response = await request.close().timeout(_requestTimeout);
 

@@ -254,11 +254,11 @@ class _UpdateTabState extends ConsumerState<UpdateTab>
         case 'week':
           return 'This week';
         case 'month':
-          return 'This month';
+          return 'More than a week ago';
         case 'year':
-          return 'This year';
+          return 'More than a month ago';
         case 'older':
-          return 'Older';
+          return 'More than a year ago';
         default:
           return 'Unknown';
       }

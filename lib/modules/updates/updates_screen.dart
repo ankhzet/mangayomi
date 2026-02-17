@@ -30,8 +30,56 @@ class UpdatesScreen extends ConsumerStatefulWidget {
 class _UpdatesScreenState extends BaseLibraryTabScreenState<UpdatesScreen> {
   bool _isLoading = false;
 
+  Map<ItemType, int> _getUpdateCounts() {
+    final counts = <ItemType, int>{};
+    for (final type in ItemType.values) {
+      final count = isar.updates
+          .filter()
+          .idIsNotNull()
+          .and()
+          .chapter((q) => q.manga((q) => q.itemTypeEqualTo(type)))
+          .countSync();
+      if (count > 0) {
+        counts[type] = count;
+      }
+    }
+    return counts;
+  }
+
   @override
   String get title => l10nLocalizations(context)!.updates;
+
+  bool get _hasMultipleTypesWithUpdates => _getUpdateCounts().length > 1;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_hasMultipleTypesWithUpdates) {
+      return _buildSingleTypeView();
+    }
+    return super.build(context);
+  }
+
+  Widget _buildSingleTypeView() {
+    final counts = _getUpdateCounts();
+    final itemType = counts.keys.first;
+
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        title: Text(
+          title,
+          style: TextStyle(color: Theme.of(context).hintColor),
+        ),
+        actions: buildExtraActions(context),
+      ),
+      body: UpdateTab(
+        itemType: itemType,
+        query: textEditingController.text,
+        isLoading: _isLoading,
+      ),
+    );
+  }
 
   @override
   Widget buildTab(ItemType type) {

@@ -42,8 +42,13 @@ class UpdateGroup<T> {
   int get mangaId => manga.id;
 
   String get label {
+    if (chapters.length == 1) {
+      final idx = chapters.first.compositeOrder;
+      return 'Ch. ${indexToStr(idx.$2, idx.$3)}';
+    }
+
     final indexes = chapters
-        .sorted((a, b) => b.compareTo(a))
+        .sorted((a, b) => a.compareTo(b))
         .map((chapter) => chapter.compositeOrder)
         .toList(growable: false);
     final volumes = indexes.map((index) => index.$1).toUnique(growable: false);
@@ -87,19 +92,20 @@ class UpdateGroup<T> {
 
 List<List<String>> groupRanges(Iterable<String> indexes) {
   final idxList = indexes.toList();
-  List<List<String>> groups = [];
-  int pos = 0;
-  int start = pos;
-  int end = pos;
-  int prev = double.parse(idxList[start]).floor();
+  if (idxList.isEmpty) return [];
 
-  while (++pos < idxList.length) {
-    final next = double.parse(idxList[pos]).floor();
-    if (next.floor() != prev.floor() + 1) {
+  List<List<String>> groups = [];
+  int start = 0;
+  int end = 0;
+
+  for (int pos = 1; pos < idxList.length; pos++) {
+    final prev = double.parse(idxList[pos - 1]);
+    final curr = double.parse(idxList[pos]);
+
+    if ((curr - prev).abs() > 1.01) {
       groups.add([idxList[start], idxList[end]]);
       start = pos;
     }
-    prev = next;
     end = pos;
   }
 

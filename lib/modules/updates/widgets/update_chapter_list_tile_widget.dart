@@ -108,7 +108,9 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
                                 ),
                               ),
                               Text(
-                                chapterLabel,
+                                chapterCount > 1
+                                    ? '$chapterLabel ($chapterCount chapters)'
+                                    : chapterLabel,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 11,

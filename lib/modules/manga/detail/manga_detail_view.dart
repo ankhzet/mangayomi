@@ -1020,10 +1020,10 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                         int index = allChapters.indexOf(currentChapter);
                         final List<Chapter> updatedChapters = [];
                         final now = DateTime.now().millisecondsSinceEpoch;
-                        if (index + 1 < allChapters.length) {
-                          allChapters[index + 1].updateTrackChapterRead(ref);
+                        if (index < allChapters.length) {
+                          allChapters[index].updateTrackChapterRead(ref);
                         }
-                        for (var i = index + 1; i < allChapters.length; i++) {
+                        for (var i = index; i < allChapters.length; i++) {
                           final chapter = allChapters[i];
                           if (!chapter.isRead!) {
                             chapter.isRead = true;

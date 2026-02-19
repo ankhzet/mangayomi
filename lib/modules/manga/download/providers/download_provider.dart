@@ -54,6 +54,9 @@ Future<void> addDownloadToQueue(Ref ref, {required Chapter chapter}) async {
   }
 }
 
+const defaultUA =
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36";
+
 @riverpod
 Future<void> downloadChapter(
   Ref ref, {
@@ -96,11 +99,10 @@ Future<void> downloadChapter(
           mangaMainDirectory: mangaMainDirectory,
         ))!;
     await storageProvider.createDirectorySafely(chapterDirectory.path);
-    Map<String, String> videoHeader = {};
-    Map<String, String> htmlHeader = {
+    Map<String, String> videoHeaders = {};
+    Map<String, String> htmlHeaders = {
       "priority": "u=0, i",
-      "user-agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
+      HttpHeaders.userAgentHeader: defaultUA,
     };
     bool hasM3U8File = false;
     bool nonM3U8File = false;
@@ -233,7 +235,7 @@ Future<void> downloadChapter(
           } else {
             pageUrls = [PageUrl(videosUrls.first.url)];
           }
-          videoHeader.addAll(videosUrls.first.headers ?? {});
+          videoHeaders.addAll(videosUrls.first.headers ?? {});
           isOk = true;
         }
       });
@@ -242,7 +244,7 @@ Future<void> downloadChapter(
       final source = getSource(manga.lang!, manga.source!, manga.sourceId)!;
       final chapterUrl = "${source.baseUrl}${chapter.url!.getUrlWithoutDomain}";
       final cookie = MClient.getCookiesPref(chapterUrl);
-      final headers = htmlHeader;
+      final headers = Map.of(htmlHeaders);
       if (cookie.isNotEmpty) {
         final userAgent = isar.settings.getSync(227)!.userAgent!;
         headers.addAll(cookie);
@@ -286,6 +288,17 @@ Future<void> downloadChapter(
           !htmlFileExist && itemType == ItemType.novel) {
         final mainDirectory = (await storageProvider.getDirectory())!;
         storageProvider.createDirectorySafely(mainDirectory.path);
+
+        final defaultHeaders = (switch (itemType) {
+          ItemType.manga => ref.watch(
+            headersProvider(source: manga.source!, lang: manga.lang!, sourceId: manga.sourceId),
+          ),
+          ItemType.anime => videoHeaders,
+          ItemType.novel => htmlHeaders,
+        }).map((key, value) => MapEntry(key.toLowerCase(), value));
+
+        defaultHeaders.putIfAbsent(HttpHeaders.userAgentHeader, () => isar.settings.first.userAgent!);
+
         for (var index = 0; index < pageUrls.length; index++) {
           if (Platform.isAndroid) {
             if (!(await File(
@@ -295,29 +308,16 @@ Future<void> downloadChapter(
             }
           }
           final page = pageUrls[index];
+
           final cookie = MClient.getCookiesPref(page.url);
-          final headers =
-              itemType == ItemType.manga
-                  ? ref.read(
-                    headersProvider(
-                      source: manga.source!,
-                      lang: manga.lang!,
-                      sourceId: manga.sourceId,
-                    ),
-                  )
-                  : itemType == ItemType.anime
-                  ? videoHeader
-                  : htmlHeader;
+          Map<String, String> headers = Map.of(defaultHeaders);
+
           if (cookie.isNotEmpty) {
-            final userAgent = isar.settings.first.userAgent!;
-            headers[HttpHeaders.userAgentHeader] = userAgent;
             headers.addAll(cookie);
           }
 
-          Map<String, String> pageHeaders = Map.of(headers);
-
           if (page.headers != null) {
-            pageHeaders.addAll(page.headers!);
+            headers.addAll(page.headers!);
           }
 
           if (itemType == ItemType.manga) {
@@ -328,7 +328,7 @@ Future<void> downloadChapter(
               pages.add(
                 PageUrl(
                   page.url.trim(),
-                  headers: pageHeaders,
+                  headers: headers,
                   fileName: p.join(
                     chapterDirectory.path,
                     "${padIndex(index)}.jpg",
@@ -344,7 +344,7 @@ Future<void> downloadChapter(
               pages.add(
                 PageUrl(
                   page.url.trim(),
-                  headers: pageHeaders,
+                  headers: headers,
                   fileName: p.join(mangaMainDirectory.path, "$chapterName.mp4"),
                 ),
               );

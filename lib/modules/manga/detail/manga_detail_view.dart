@@ -637,8 +637,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                                     value: 0,
                                     child: Text(l10n.refresh),
                                   ),
-                                if (widget.manga.favorite! &&
-                                    checkCategoryList)
+                                if (widget.manga.favorite! && checkCategoryList)
                                   PopupMenuItem<int>(
                                     value: 1,
                                     child: Text(l10n.set_categories),
@@ -730,8 +729,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                                               headersProvider(
                                                 source: widget.manga.source!,
                                                 lang: widget.manga.lang!,
-                                                sourceId:
-                                                    widget.manga.sourceId,
+                                                sourceId: widget.manga.sourceId,
                                               ),
                                             );
                                       final imageUrl = toImgUrl(
@@ -1015,8 +1013,11 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                         ],
                       ),
                       onPressed: () {
-                        final allChapters = chapterList;
-                        int index = allChapters.indexOf(chap.first);
+                        final allChapters = chapters
+                            .expand((g) => g.chapters)
+                            .toList();
+                        final currentChapter = chap.first;
+                        int index = allChapters.indexOf(currentChapter);
                         final List<Chapter> updatedChapters = [];
                         final now = DateTime.now().millisecondsSinceEpoch;
                         if (index + 1 < allChapters.length) {
@@ -1219,9 +1220,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                       ? l10n.unread
                       : l10n.unwatched,
                   type: ref.watch(
-                    chapterFilterUnreadStateProvider(
-                      mangaId: widget.manga.id,
-                    ),
+                    chapterFilterUnreadStateProvider(mangaId: widget.manga.id),
                   ),
                   onTap: () {
                     ref

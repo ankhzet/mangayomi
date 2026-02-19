@@ -687,7 +687,6 @@ void Function() botToast(
   double? fontSize,
   double alignX = 0,
   double alignY = 0.99,
-  bool hasCloudFlare = false,
   String? url,
   int animationDuration = 200,
   List<DismissDirection> dismissDirections = const [
@@ -721,7 +720,7 @@ void Function() botToast(
             : null,
     title: (_) => Text(title, style: TextStyle(fontSize: fontSize)),
     trailing:
-        hasCloudFlare
+        url != null
             ? (_) => OutlinedButton.icon(
               style: OutlinedButton.styleFrom(elevation: 10),
               onPressed: () {

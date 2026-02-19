@@ -1,7 +1,8 @@
 import 'package:d4rt/d4rt.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mangayomi/eval/dart/bridge/registrer.dart';
-import 'package:mangayomi/eval/model/filter.dart';
 import 'package:mangayomi/eval/javascript/http.dart';
+import 'package:mangayomi/eval/model/filter.dart';
 import 'package:mangayomi/eval/model/m_manga.dart';
 import 'package:mangayomi/eval/model/m_pages.dart';
 import 'package:mangayomi/eval/model/source_preference.dart';
@@ -37,9 +38,12 @@ class DartExtensionService implements ExtensionService {
       return _interpreter!.invoke('headers', []) as Map<String, String>;
     } catch (_) {
       try {
-        return _interpreter!.invoke('getHeader', [source.baseUrl!])
-            as Map<String, String>;
-      } catch (_) {
+        return _interpreter!.invoke('getHeader', [source.baseUrl!]) as Map<String, String>;
+      } catch (e, trace) {
+        if (kDebugMode) {
+          print(e);
+          print(trace);
+        }
         return {};
       }
     }
@@ -65,26 +69,18 @@ class DartExtensionService implements ExtensionService {
   }
 
   @override
-  Future<MPages> getPopular(int page) async =>
-      await _interpreter!.invoke('getPopular', [page]) as MPages;
+  Future<MPages> getPopular(int page) async => await _interpreter!.invoke('getPopular', [page]) as MPages;
 
   @override
-  Future<MPages> getLatestUpdates(int page) async =>
-      await _interpreter!.invoke('getLatestUpdates', [page]) as MPages;
+  Future<MPages> getLatestUpdates(int page) async => await _interpreter!.invoke('getLatestUpdates', [page]) as MPages;
 
   @override
   Future<MPages> search(String query, int page, List<dynamic> filters) async {
-    return await _interpreter!.invoke('search', [
-          query,
-          page,
-          FilterList(filters),
-        ])
-        as MPages;
+    return await _interpreter!.invoke('search', [query, page, FilterList(filters)]) as MPages;
   }
 
   @override
-  Future<MManga> getDetail(String url) async =>
-      await _interpreter!.invoke('getDetail', [url]) as MManga;
+  Future<MManga> getDetail(String url) async => await _interpreter!.invoke('getDetail', [url]) as MManga;
 
   @override
   Future<List<PageUrl>> getPageList(String url) async {
@@ -123,21 +119,9 @@ class DartExtensionService implements ExtensionService {
         e = e.nativeObject;
       }
       if (e is SelectFilter) {
-        return SelectFilter(
-          e.type,
-          e.name,
-          e.state,
-          _toValueList(e.values),
-          e.typeName,
-        );
+        return SelectFilter(e.type, e.name, e.state, _toValueList(e.values), e.typeName);
       } else if (e is SortFilter) {
-        return SortFilter(
-          e.type,
-          e.name,
-          e.state,
-          _toValueList(e.values),
-          e.typeName,
-        );
+        return SortFilter(e.type, e.name, e.state, _toValueList(e.values), e.typeName);
       } else if (e is GroupFilter) {
         return GroupFilter(e.type, e.name, _toValueList(e.state), e.typeName);
       }

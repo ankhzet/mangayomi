@@ -1148,7 +1148,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String updating_library(Object cur, Object failed, Object max) {
-    return 'Updating library ($cur / $max) - Failed: $failed';
+    return 'Updating library: $cur / $max ($failed failed)';
   }
 
   @override

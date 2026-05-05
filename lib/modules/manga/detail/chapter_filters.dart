@@ -18,7 +18,7 @@ class ChapterFilters extends ConsumerStatefulWidget {
 class _ChapterFiltersState extends ConsumerState<ChapterFilters> {
   late final manga = widget.manga;
   late final int mangaId;
-  late final isLocalArchive;
+  late final bool isLocalArchive;
 
   @override
   void initState() {

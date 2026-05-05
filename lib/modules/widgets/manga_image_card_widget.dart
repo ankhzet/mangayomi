@@ -396,7 +396,7 @@ Future<void> pushToMangaReaderDetail({
                         ? true
                         : element.sourceId == sourceId,
               )
-              .id!;
+              .id;
     } else {
       mangaId = archiveId;
     }

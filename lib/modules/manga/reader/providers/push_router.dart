@@ -27,13 +27,13 @@ Future<void> pushMangaReaderView({
   if (sourceExist || chapter.manga.value!.isLocalArchive!) {
     switch (chapter.manga.value!.itemType) {
       case ItemType.manga:
-        await context.push('/mangaReaderView', extra: chapter.id!);
+        await context.push('/mangaReaderView', extra: chapter.id);
         break;
       case ItemType.anime:
-        await context.push('/animePlayerView', extra: chapter.id!);
+        await context.push('/animePlayerView', extra: chapter.id);
         break;
       case ItemType.novel:
-        await context.push('/novelReaderView', extra: chapter.id!);
+        await context.push('/novelReaderView', extra: chapter.id);
         break;
     }
   }
@@ -45,13 +45,13 @@ void pushReplacementMangaReaderView({
 }) {
   switch (chapter.manga.value!.itemType) {
     case ItemType.manga:
-      context.pushReplacement('/mangaReaderView', extra: chapter.id!);
+      context.pushReplacement('/mangaReaderView', extra: chapter.id);
       break;
     case ItemType.anime:
-      context.pushReplacement('/animePlayerView', extra: chapter.id!);
+      context.pushReplacement('/animePlayerView', extra: chapter.id);
       break;
     case ItemType.novel:
-      context.pushReplacement('/novelReaderView', extra: chapter.id!);
+      context.pushReplacement('/novelReaderView', extra: chapter.id);
       break;
   }
 }

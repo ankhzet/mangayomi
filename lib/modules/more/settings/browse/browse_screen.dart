@@ -434,7 +434,7 @@ void _showCleanNonLibraryDialog(BuildContext context, dynamic l10n) {
                               false,
                             );
                           }
-                          isar.chapters.deleteSync(chapter.id!);
+                          isar.chapters.deleteSync(chapter.id);
                           provider.addChangedPart(
                             ActionType.removeChapter,
                             chapter.id,
@@ -442,7 +442,7 @@ void _showCleanNonLibraryDialog(BuildContext context, dynamic l10n) {
                             false,
                           );
                         }
-                        isar.mangas.deleteSync(manga.id!);
+                        isar.mangas.deleteSync(manga.id);
                         provider.addChangedPart(
                           ActionType.removeItem,
                           manga.id,
@@ -568,7 +568,7 @@ void _showClearLibraryDialog(BuildContext context, WidgetRef ref) {
                                       false,
                                     );
                                   }
-                                  isar.chapters.deleteSync(chapter.id!);
+                                  isar.chapters.deleteSync(chapter.id);
                                   provider.addChangedPart(
                                     ActionType.removeChapter,
                                     chapter.id,
@@ -576,7 +576,7 @@ void _showClearLibraryDialog(BuildContext context, WidgetRef ref) {
                                     false,
                                   );
                                 }
-                                isar.mangas.deleteSync(manga.id!);
+                                isar.mangas.deleteSync(manga.id);
                                 provider.addChangedPart(
                                   ActionType.removeItem,
                                   manga.id,

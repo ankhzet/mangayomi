@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:draggable_menu/draggable_menu.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -243,10 +242,10 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
     if (sortChapter == 0) {
       chapters = chapterList
         ..sort((a, b) {
-          final scanlator_cmp = (a.scanlator ?? '').compareTo(
+          final scanlatorCmp = (a.scanlator ?? '').compareTo(
             b.scanlator ?? '',
           );
-          if (scanlator_cmp != 0) return scanlator_cmp;
+          if (scanlatorCmp != 0) return scanlatorCmp;
           return multiplier * a.order.compareTo(b.order);
         });
     } else if (sortChapter == 1) {

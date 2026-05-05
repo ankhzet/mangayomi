@@ -226,7 +226,7 @@ class MangaFilterState {
     };
   }
 
-  update() {
+  int update() {
     return setValue((value + 1) % 3);
   }
 }

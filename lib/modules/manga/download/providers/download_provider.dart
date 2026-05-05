@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:d4rt/d4rt.dart';
 import 'package:flutter/widgets.dart';
 import 'package:isar_community/isar.dart';
 import 'package:mangayomi/eval/lib.dart';
@@ -38,7 +37,7 @@ part 'download_provider.g.dart';
 
 @riverpod
 Future<void> addDownloadToQueue(Ref ref, {required Chapter chapter}) async {
-  final download = isar.downloads.getSync(chapter.id!);
+  final download = isar.downloads.getSync(chapter.id);
   if (download == null) {
     final download = Download(
       id: chapter.id,
@@ -128,7 +127,7 @@ Future<void> downloadChapter(
       if (progress.isCompleted && itemType == ItemType.manga) {
         await processConvert();
       }
-      final download = isar.downloads.getSync(chapter.id!);
+      final download = isar.downloads.getSync(chapter.id);
       if (download == null) {
         final download = Download(
           id: chapter.id,
@@ -145,7 +144,7 @@ Future<void> downloadChapter(
           isar.downloads.putSync(download..chapter.value = chapter);
         });
       } else {
-        final download = isar.downloads.getSync(chapter.id!);
+        final download = isar.downloads.getSync(chapter.id);
         if (download != null && progress.total != 0) {
           isar.writeTxnSync(() {
             isar.downloads.putSync(
@@ -246,7 +245,7 @@ Future<void> downloadChapter(
       final cookie = MClient.getCookiesPref(chapterUrl);
       final headers = Map.of(htmlHeaders);
       if (cookie.isNotEmpty) {
-        final userAgent = isar.settings.getSync(227)!.userAgent!;
+        final userAgent = isar.settings.first.userAgent!;
         headers.addAll(cookie);
         headers[HttpHeaders.userAgentHeader] = userAgent;
       }

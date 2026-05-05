@@ -21,10 +21,18 @@ class DartExtensionService implements ExtensionService {
     _interpreter = D4rt();
     RegistrerBridge.registerBridge(_interpreter!);
 
-    _interpreter!.execute(
-      source: source.sourceCode!.replaceAll('Client(source)', 'Client()'),
-      positionalArgs: [source.toMSource()],
-    );
+    try {
+      _interpreter!.execute(
+        source: source.sourceCode!.replaceAll('Client(source)', 'Client()'),
+        positionalArgs: [source.toMSource()],
+      );
+    } catch (e, trace) {
+      if (kDebugMode) {
+        print("Failed to load extension for ${source.name}");
+        print(e);
+        print(trace);
+      }
+    }
   }
 
   @override

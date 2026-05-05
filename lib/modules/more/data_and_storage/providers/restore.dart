@@ -407,7 +407,7 @@ void restoreTachiBkBackup(Ref ref, String path, BackupType bkType) {
       History? history;
       for (var tempChapter in tempManga.chapters) {
         final chapter = Chapter(
-          mangaId: manga.id!,
+          mangaId: manga.id,
           name: tempChapter.name,
           dateUpload: bkType != BackupType.neko
               ? "${tempChapter.dateUpload * 1000}"
@@ -484,7 +484,7 @@ void restoreTachiBkBackup(Ref ref, String path, BackupType bkType) {
         History? history;
         for (var tempEpisode in tempAnime.episodes) {
           final episode = Chapter(
-            mangaId: anime.id!,
+            mangaId: anime.id,
             name: tempEpisode.name,
             dateUpload: "${tempEpisode.dateUpload * 1000}",
             isBookmarked: tempEpisode.bookmark,

@@ -239,7 +239,7 @@ class ReaderController extends _$ReaderController {
   }
 
   bool getChapterBookmarked() {
-    return isar.chapters.getSync(chapter.id!)!.isBookmarked!;
+    return isar.chapters.getSync(chapter.id)!.isBookmarked!;
   }
 
   (int, bool) getPrevChapterIndex() {
@@ -416,7 +416,7 @@ extension ChapterExtensions on Chapter {
             .filter()
             .idIsNotNull()
             .itemTypeEqualTo(manga.itemType)
-            .mangaIdEqualTo(manga.id!)
+            .mangaIdEqualTo(manga.id)
             .findAllSync();
 
     if (tracks.isEmpty) return;

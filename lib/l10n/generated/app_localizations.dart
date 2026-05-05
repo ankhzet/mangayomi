@@ -2270,7 +2270,7 @@ abstract class AppLocalizations {
   /// No description provided for @updating_library.
   ///
   /// In en, this message translates to:
-  /// **'Updating library ({cur} / {max}) - Failed: {failed}'**
+  /// **'Updating library: {cur} / {max} ({failed} failed)'**
   String updating_library(Object cur, Object failed, Object max);
 
   /// No description provided for @next_chapter.

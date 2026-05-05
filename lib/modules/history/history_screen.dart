@@ -354,12 +354,12 @@ class _HistoryTabState extends ConsumerState<HistoryTab>
     isar.writeTxnSync(() {
       isar.historys.deleteSync(deleteId!);
       for (var chapter in chapters) {
-        isar.chapters.deleteSync(chapter.id!);
+        isar.chapters.deleteSync(chapter.id);
         ref
             .read(synchingProvider(syncId: 1).notifier)
             .addChangedPart(ActionType.removeChapter, chapter.id, "{}", false);
       }
-      isar.mangas.deleteSync(manga.id!);
+      isar.mangas.deleteSync(manga.id);
       ref
           .read(synchingProvider(syncId: 1).notifier)
           .addChangedPart(ActionType.removeHistory, deleteId, "{}", false);

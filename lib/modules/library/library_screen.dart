@@ -81,14 +81,28 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen>
   }
 
   Future<void> _updateLibrary(List<Manga> mangaList) async {
-    final cancel = botToast(
-      context.l10n.updating_library("0", "0", "${mangaList.length}"),
+    final total = mangaList.length;
+    final textNotifier = ValueNotifier<String>(context.l10n.updating_library(0, 0, total));
+    final cancel = botToast(null,
+      builder: (_) {
+        return ValueListenableBuilder<String>(
+          valueListenable: textNotifier,
+          builder: (_, value, _) {
+            return Container(
+              padding: EdgeInsets.all(12),
+              child: Text(value, style: TextStyle(fontSize: 13)),
+            );
+          },
+        );
+      },
       fontSize: 13,
-      second: 1600,
+      second: null,
       alignY: !context.isTablet ? 0.85 : 1,
     );
     final interval = const Duration(milliseconds: 100);
     final Set<String> errors = {};
+    int updated = 0;
+    int failed = 0;
 
     for (var manga in mangaList) {
       await interval.waitFor(() async {
@@ -97,19 +111,30 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen>
         }
 
         try {
-          return await ref.read(
+          final success = await ref.read(
             updateMangaDetailProvider(mangaId: manga.id, isInit: false).future,
           );
+
+          if (success == true) {
+            updated++;
+          } else {
+            failed++;
+          }
         } catch (e) {
           errors.add(e.toString());
+          failed++;
+        } finally {
+          textNotifier.value = context.l10n.updating_library(updated + failed, failed, total);
         }
       });
     }
 
-    cancel();
-
     if (errors.isNotEmpty) {
+      cancel();
       botToast(errors.join('\n'));
+    } else {
+      await Duration(milliseconds: 1500).wait();
+      cancel();
     }
   }
 

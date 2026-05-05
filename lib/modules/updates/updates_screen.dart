@@ -5,7 +5,6 @@ import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/dto/update_group.dart';
 import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/widgets/base_library_tab_screen.dart';
-import 'package:mangayomi/modules/widgets/custom_sliver_grouped_list_view.dart';
 import 'package:isar_community/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
@@ -232,7 +231,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab>
       ),
     );
 
-    String _getTimePeriodKey(String? timestampStr) {
+    String getTimePeriodKey(String? timestampStr) {
       if (timestampStr == null || timestampStr.isEmpty) return 'unknown';
       final timestamp = int.tryParse(timestampStr);
       if (timestamp == null) return 'unknown';
@@ -247,7 +246,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab>
       return 'older';
     }
 
-    String _getTimePeriodLabel(String key) {
+    String getTimePeriodLabel(String key) {
       switch (key) {
         case 'today':
           return 'Today';
@@ -272,7 +271,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab>
           data: (entries) {
             final groupedByPeriod = <String, List<Update>>{};
             for (var entry in entries) {
-              final periodKey = _getTimePeriodKey(entry.date);
+              final periodKey = getTimePeriodKey(entry.date);
               groupedByPeriod.putIfAbsent(periodKey, () => []).add(entry);
             }
 
@@ -331,7 +330,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab>
                             ),
                             sliver: SliverList(
                               delegate: SliverChildListDelegate.fixed([
-                                Text(_getTimePeriodLabel(periodKey)),
+                                Text(getTimePeriodLabel(periodKey)),
                               ]),
                             ),
                           ),

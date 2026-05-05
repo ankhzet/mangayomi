@@ -682,8 +682,9 @@ final List<String> _dateFormats = [
 ];
 
 void Function() botToast(
-  String title, {
-  int second = 10,
+  String? title, {
+  ToastBuilder? builder,
+  int? second = 10,
   double? fontSize,
   double alignX = 0,
   double alignY = 0.99,
@@ -706,7 +707,7 @@ void Function() botToast(
     onlyOne: onlyOne,
     dismissDirections: dismissDirections,
     align: Alignment(alignX, alignY),
-    duration: Duration(seconds: second),
+    duration: second != null ? Duration(seconds: second) : null,
     animationDuration: Duration(milliseconds: animationDuration),
     animationReverseDuration: Duration(milliseconds: animationDuration),
     leading:
@@ -718,7 +719,7 @@ void Function() botToast(
               height: 25,
             )
             : null,
-    title: (_) => Text(title, style: TextStyle(fontSize: fontSize)),
+    title: builder ?? ((_) => Text(title!, style: TextStyle(fontSize: fontSize))),
     trailing:
         url != null
             ? (_) => OutlinedButton.icon(

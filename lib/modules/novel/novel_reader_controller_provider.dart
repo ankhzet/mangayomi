@@ -127,7 +127,7 @@ class NovelReaderController extends _$NovelReaderController {
   }
 
   bool getChapterBookmarked() {
-    return isar.chapters.getSync(chapter.id!)!.isBookmarked!;
+    return isar.chapters.getSync(chapter.id)!.isBookmarked!;
   }
 
   (int, bool) getPrevChapterIndex() {

@@ -21,7 +21,7 @@ class UpdateGroup<T> {
 
     for (var update in updates) {
       final chapter = update.chapter.value;
-      if (chapter == null) continue;
+      if (chapter == null || chapter.isRead == true) continue;
 
       final mangaId = chapter.mangaId!;
       final group = groupBy(update);

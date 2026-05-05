@@ -661,7 +661,7 @@ class _MigrationMangaGlobalImageCardState
             .mangaIdEqualTo(chapter.mangaId)
             .chapterNameEqualTo(chapter.name)
             .deleteAllSync();
-        isar.chapters.deleteSync(chapter.id!);
+        isar.chapters.deleteSync(chapter.id);
         ref
             .read(synchingProvider(syncId: 1).notifier)
             .addChangedPart(ActionType.removeChapter, chapter.id, "{}", false);
@@ -722,7 +722,7 @@ class _MigrationMangaGlobalImageCardState
         );
       }
     });
-    ref.invalidate(getMangaDetailStreamProvider(mangaId: widget.oldManga.id!));
+    ref.invalidate(getMangaDetailStreamProvider(mangaId: widget.oldManga.id));
   }
 
   String? _extractChapterNumber(String chapterName) {

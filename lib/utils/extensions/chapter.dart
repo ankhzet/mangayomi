@@ -36,7 +36,7 @@ extension ChapterExtension on Chapter {
     isolateChapsSendPorts.remove('$id');
 
     isar.writeTxnSync(() {
-      isar.downloads.deleteSync(id!);
+      isar.downloads.deleteSync(id);
       if (downloadId != null) {
         isar.downloads.deleteSync(downloadId);
       }

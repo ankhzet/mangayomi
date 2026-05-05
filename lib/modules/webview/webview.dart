@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:d4rt/d4rt.dart';
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -134,6 +135,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context);
+    final spamProtection = {};
     return (!isNotWebviewWindow && Platform.isLinux)
         ? Scaffold(
           appBar: AppBar(
@@ -296,6 +298,19 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                           navigationAction,
                         ) async {
                           var uri = navigationAction.request.url!;
+                          final timestamp = spamProtection.get(uri.toString());
+                          final now = DateTime.now();
+
+                          if (timestamp != null) {
+                            final delta = now.difference(timestamp);
+
+                            if (delta.inSeconds <= 1) {
+                              return NavigationActionPolicy.CANCEL;
+                            }
+                          }
+
+                          spamProtection[uri.toString()] = now;
+
                           if (![
                             "http",
                             "https",

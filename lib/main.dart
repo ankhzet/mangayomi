@@ -70,6 +70,9 @@ void main(List<String> args) async {
       webViewEnvironment = await WebViewEnvironment.create(
         settings: WebViewEnvironmentSettings(
           userDataFolder: p.join(document.path, 'flutter_inappwebview'),
+          areBrowserExtensionsEnabled: false,
+          automationAllowed: false,
+          enableTrackingPrevention: true,
         ),
       );
     }

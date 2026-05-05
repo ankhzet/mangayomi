@@ -171,8 +171,8 @@ class MClient {
   }
 
   static Future<void> deleteAllCookies(String url) async {
-    final settings = await isar.settings.get(227);
-    final oldCookies = settings!.cookiesList ?? [];
+    final settings = isar.settings.first;
+    final oldCookies = settings.cookiesList ?? [];
     final host = Uri.parse(url).host;
     settings.cookiesList = removeCookiesForHost(oldCookies, host);
     await isar.writeTxn(() => isar.settings.put(settings));
@@ -192,7 +192,15 @@ class MCookieManager extends InterceptorContract {
       if (request.headers[HttpHeaders.cookieHeader] == null) {
         request.headers.addAll(cookie);
       }
+
+      if (request.headers[HttpHeaders.refererHeader] == null) {
+        request.headers[HttpHeaders.refererHeader] = request.url.origin;
+      }
     }
+
+    request.headers[HttpHeaders.acceptHeader] = '*/*';
+    request.headers[HttpHeaders.acceptLanguageHeader] = 'en-GB,en;q=0.9';
+    request.headers[HttpHeaders.connectionHeader] = 'keep-alive';
 
     if (request.headers[HttpHeaders.userAgentHeader] != userAgent) {
       request.headers[HttpHeaders.userAgentHeader] = userAgent;
@@ -396,7 +404,7 @@ void _handleResolveCf(HttpRequest request) async {
           url: flutter_inappwebview.WebUri(url),
         ),
         shouldInterceptRequest: (controller, request) {
-          if (request.url.toString().contains(RegExp('ads|admatic|3lift|dsp-service|beacon|report'))) {
+          if (request.url.toString().contains(RegExp('ads|admatic|3lift|dsp-service|beacon|report|nel.cloudflare'))) {
             return flutter_inappwebview.WebResourceResponse(
               reasonPhrase: "Not found",
               statusCode: 404,
@@ -411,7 +419,7 @@ void _handleResolveCf(HttpRequest request) async {
               return false;
             }
 
-            await Future.delayed(Duration(milliseconds: 300));
+            await Future.delayed(Duration(milliseconds: 600));
 
             if (isCloudFlare) {
               isCloudFlare = await isChallengePresent(controller);
@@ -421,9 +429,12 @@ void _handleResolveCf(HttpRequest request) async {
           });
 
           if (!isCloudFlare) {
-            final ua = await controller.evaluateJavascript(source: "navigator.userAgent");
+            try {
+              final ua = await controller.evaluateJavascript(source: "navigator.userAgent");
 
-            await MClient.setCookie(url.toString(), ua ?? "", controller);
+              await MClient.setCookie(url.toString(), ua ?? "", controller);
+            } catch (_) {
+            }
           }
         },
       );
@@ -451,7 +462,7 @@ void _handleResolveCf(HttpRequest request) async {
 
     request.response
       ..headers.contentType = ContentType.json
-      ..write(jsonEncode({'result': isCloudFlare}))
+      ..write(jsonEncode({'result': !isCloudFlare}))
       ..close();
   } catch (e) {
     request.response

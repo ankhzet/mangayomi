@@ -172,7 +172,7 @@ extension Sorted<T> on Iterable<T> {
 }
 
 extension Waiting on Duration {
-  Future<T> waitFor<T>(Future<T> Function() callback) {
+  Future<T?> waitFor<T>(Future<T> Function() callback) {
     bool isReady = false;
     T? value;
 
@@ -183,7 +183,13 @@ extension Waiting on Duration {
 
     return Future.doWhile(
       () => Future.delayed(this, () => !isReady),
-    ).then((void _) => value!);
+    ).then((void _) => value);
+  }
+
+  Future wait() {
+    return waitFor(() async {
+      return true;
+    });
   }
 }
 

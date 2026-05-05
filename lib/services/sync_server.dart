@@ -317,7 +317,7 @@ class SyncServer extends _$SyncServer {
           }
           mangas.remove(temp);
         } else {
-          await isar.mangas.delete(manga.id!);
+          await isar.mangas.delete(manga.id);
         }
       }
       for (var manga in mangas) {
@@ -348,7 +348,7 @@ class SyncServer extends _$SyncServer {
           }
           chapters.remove(temp);
         } else {
-          await isar.chapters.delete(chapter.id!);
+          await isar.chapters.delete(chapter.id);
         }
       }
       for (var chapter in chapters) {

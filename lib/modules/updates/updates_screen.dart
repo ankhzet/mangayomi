@@ -316,7 +316,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab>
                       .expand((periodKey) {
                         final updatesForPeriod = groupedByPeriod[periodKey]!;
                         final groupedByManga = UpdateGroup.groupUpdates<int?>(
-                          updatesForPeriod,
+                          updatesForPeriod.where((u) => u.chapter.value?.isRead != true),
                           (update) => update.chapter.value?.mangaId,
                         );
                         groupedByManga.sort((a, b) => b.compareTo(a));

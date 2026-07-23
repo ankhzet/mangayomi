@@ -288,8 +288,7 @@ Future<void> _scanDirectory(Ref ref, Directory? dir) async {
   final mangaByName = {for (var m in processedMangas) p.basename(m.link!): m};
 
   // iterate through newChapters elements, which are: ["full_path/to/chapter1", "true"]
-  for (var pathBool in newChapters) {
-    final chapterPath = pathBool[0];
+  for (var [chapterPath, chapterIsFile] in newChapters) {
     // pathBool[0] = first element of list (path)
     // dirname = remove last part of path (chapter name), = "full_path/to"
     // basename = remove everything except last (manga name) = "to"
@@ -319,7 +318,7 @@ Future<void> _scanDirectory(Ref ref, Directory? dir) async {
         final chap = Chapter(
           mangaId: manga.id,
           name:
-              pathBool[1] // If Chapter is an image folder or archive/video
+              chapterIsFile // If Chapter is an image folder or archive/video
                   ? p.basename(chapterPath)
                   : p.basenameWithoutExtension(chapterPath),
           dateUpload: dateNow.toString(),

@@ -17,6 +17,7 @@ Future<MPages?> search(
   required String query,
   required int page,
   required List<dynamic> filterList,
+  bool? useLogger,
 }) async {
   if (source.name == "local" && source.lang == "") {
     final result =
@@ -46,5 +47,6 @@ Future<MPages?> search(
     page: page,
     serviceType: 'search',
     proxyServer: ref.read(androidProxyServerStateProvider),
+    useLogger: useLogger,
   );
 }

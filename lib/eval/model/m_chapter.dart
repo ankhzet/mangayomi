@@ -19,6 +19,10 @@ class MChapter {
   /// video duration
   String? duration;
 
+  String? uid;
+
+  String? legacyUrl;
+
   MChapter({
     this.name,
     this.url,
@@ -29,6 +33,8 @@ class MChapter {
     this.description,
     this.downloadSize,
     this.duration,
+    this.uid,
+    this.legacyUrl,
   });
   factory MChapter.fromJson(Map<String, dynamic> json) {
     return MChapter(
@@ -41,6 +47,8 @@ class MChapter {
       description: json['description'],
       downloadSize: json['downloadSize'],
       duration: json['duration'],
+      uid: json['uid'],
+      legacyUrl: json['legacyUrl'],
     );
   }
   Map<String, dynamic> toJson() => {
@@ -53,5 +61,7 @@ class MChapter {
     'description': description,
     'downloadSize': downloadSize,
     'duration': duration,
+    'uid': uid,
+    'legacyUrl': legacyUrl,
   };
 }

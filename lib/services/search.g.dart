@@ -17,7 +17,13 @@ final class SearchProvider
     with $FutureModifier<MPages?>, $FutureProvider<MPages?> {
   SearchProvider._({
     required SearchFamily super.from,
-    required ({Source source, String query, int page, List<dynamic> filterList})
+    required ({
+      Source source,
+      String query,
+      int page,
+      List<dynamic> filterList,
+      bool? useLogger,
+    })
     super.argument,
   }) : super(
          retry: null,
@@ -51,6 +57,7 @@ final class SearchProvider
               String query,
               int page,
               List<dynamic> filterList,
+              bool? useLogger,
             });
     return search(
       ref,
@@ -58,6 +65,7 @@ final class SearchProvider
       query: argument.query,
       page: argument.page,
       filterList: argument.filterList,
+      useLogger: argument.useLogger,
     );
   }
 
@@ -72,13 +80,19 @@ final class SearchProvider
   }
 }
 
-String _$searchHash() => r'03bfee6172b386c53aee05fe2429a10ce5915b18';
+String _$searchHash() => r'c1306b3507c91f3dedf80cd1a1944b51b8ae7342';
 
 final class SearchFamily extends $Family
     with
         $FunctionalFamilyOverride<
           FutureOr<MPages?>,
-          ({Source source, String query, int page, List<dynamic> filterList})
+          ({
+            Source source,
+            String query,
+            int page,
+            List<dynamic> filterList,
+            bool? useLogger,
+          })
         > {
   SearchFamily._()
     : super(
@@ -94,12 +108,14 @@ final class SearchFamily extends $Family
     required String query,
     required int page,
     required List<dynamic> filterList,
+    bool? useLogger,
   }) => SearchProvider._(
     argument: (
       source: source,
       query: query,
       page: page,
       filterList: filterList,
+      useLogger: useLogger,
     ),
     from: this,
   );

@@ -15,6 +15,7 @@ import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/video.dart';
 
 import '../interface.dart';
+import './js_polyfills.dart';
 
 class JsExtensionService implements ExtensionService {
   late JavascriptRuntime runtime;
@@ -28,6 +29,7 @@ class JsExtensionService implements ExtensionService {
   void _init() {
     if (_isInitialized) return;
     runtime = getJavascriptRuntime();
+    JsPolyfills(runtime).init();
     JsHttpClient(runtime).init();
     _jsDomSelector = JsDomSelector(runtime)..init();
     JsUtils(runtime).init();
@@ -80,7 +82,7 @@ async function jsonStringify(fn) {
     return JSON.stringify(await fn());
 }
 ''');
-    runtime.evaluate('''${source.sourceCode}
+    runtime.evaluate('''${source.sourceCode};
 var extention = new DefaultExtension();
 ''');
     _isInitialized = true;

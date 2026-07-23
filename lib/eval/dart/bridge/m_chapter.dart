@@ -13,10 +13,12 @@ class MChapterBridge {
           dateUpload: namedArgs.get<String?>('dateUpload'),
           scanlator: namedArgs.get<String?>('scanlator'),
           isFiller: namedArgs.get<bool?>('isFiller'),
-          thumbnailUrl: namedArgs.get<String?>('scanlator'),
-          description: namedArgs.get<String?>('scanlator'),
-          downloadSize: namedArgs.get<String?>('scanlator'),
-          duration: namedArgs.get<String?>('scanlator'),
+          thumbnailUrl: namedArgs.get<String?>('thumbnailUrl'),
+          description: namedArgs.get<String?>('description'),
+          downloadSize: namedArgs.get<String?>('downloadSize'),
+          duration: namedArgs.get<String?>('duration'),
+          uid: namedArgs.get<String?>('uid'),
+          legacyUrl: namedArgs.get<String?>('legacyUrl'),
         );
       },
     },
@@ -30,6 +32,8 @@ class MChapterBridge {
       'description': (visitor, target) => (target as MChapter).description,
       'downloadSize': (visitor, target) => (target as MChapter).downloadSize,
       'duration': (visitor, target) => (target as MChapter).duration,
+      'uid': (visitor, target) => (target as MChapter).uid,
+      'legacyUrl': (visitor, target) => (target as MChapter).legacyUrl,
     },
     setters: {
       'name':
@@ -59,6 +63,12 @@ class MChapterBridge {
       'duration':
           (visitor, target, value) =>
               (target as MChapter).duration = value as String?,
+      'uid':
+          (visitor, target, value) =>
+              (target as MChapter).uid = value as String?,
+      'legacyUrl':
+          (visitor, target, value) =>
+              (target as MChapter).legacyUrl = value as String?,
     },
   );
   void registerBridgedClasses(D4rt interpreter) {

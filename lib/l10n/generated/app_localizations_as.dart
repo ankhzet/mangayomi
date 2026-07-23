@@ -69,19 +69,12 @@ class AppLocalizationsAs extends AppLocalizations {
   String get last_update_check => 'শেষ আপডেট পৰীক্ষা';
 
   @override
-  String last_entry_delete_warning(
-    num count,
-    Object entryType,
-    Object entryTypePlural,
-    Object mediaType,
-  ) {
+  String last_entry_delete_warning(num count, Object entryType, Object entryTypePlural, Object mediaType) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          'আপুনি এই $mediaTypeৰ সকলো $count $entryTypePlural আপোনাৰ পুথিভঁৰালৰ পৰা আঁতৰাইছে।',
-      one:
-          'আপুনি এই $mediaTypeৰ একমাত্ৰ $entryType আপোনাৰ পুথিভঁৰালৰ পৰা আঁতৰাইছে।',
+      other: 'আপুনি এই $mediaTypeৰ সকলো $count $entryTypePlural আপোনাৰ পুথিভঁৰালৰ পৰা আঁতৰাইছে।',
+      one: 'আপুনি এই $mediaTypeৰ একমাত্ৰ $entryType আপোনাৰ পুথিভঁৰালৰ পৰা আঁতৰাইছে।',
     );
     return '$_temp0\nইয়াৰ ফলত সম্পূৰ্ণ $mediaTypeও আপোনাৰ পুথিভঁৰালৰ পৰা আঁতৰোৱা হ\'ব।\n\nটোকা: ফাইলসমূহ নিজে মচা নহ\'ব।';
   }
@@ -153,12 +146,10 @@ class AppLocalizationsAs extends AppLocalizations {
   String get other => 'অন্যান্য';
 
   @override
-  String get show_continue_reading_buttons =>
-      'পঢ়া অব্যাহত ৰখাৰ বুটাম দেখুৱাওক';
+  String get show_continue_reading_buttons => 'পঢ়া অব্যাহত ৰখাৰ বুটাম দেখুৱাওক';
 
   @override
-  String get show_continue_watching_buttons =>
-      'চোৱা অব্যাহত ৰাখক বুটাম দেখুৱাওক';
+  String get show_continue_watching_buttons => 'চোৱা অব্যাহত ৰাখক বুটাম দেখুৱাওক';
 
   @override
   String get empty_library => 'খালী পুথিভঁৰাল';
@@ -188,8 +179,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get remove => 'আঁতৰাওক';
 
   @override
-  String get remove_history_msg =>
-      'ইয়ে এই অধ্যায়ৰ পঢ়া তাৰিখ আঁতৰাব। আপুনি নিশ্চিত নে?';
+  String get remove_history_msg => 'ইয়ে এই অধ্যায়ৰ পঢ়া তাৰিখ আঁতৰাব। আপুনি নিশ্চিত নে?';
 
   @override
   String get last_used => 'শেষবাৰ ব্যৱহৃত';
@@ -227,8 +217,7 @@ class AppLocalizationsAs extends AppLocalizations {
   }
 
   @override
-  String get clean_database_desc =>
-      'এইটোৱে পুথিভঁৰালত যোগ নকৰা সকলো বস্তু আঁতৰাব!';
+  String get clean_database_desc => 'এইটোৱে পুথিভঁৰালত যোগ নকৰা সকলো বস্তু আঁতৰাব!';
 
   @override
   String get incognito_mode => 'গোপন মোড';
@@ -240,8 +229,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get downloaded_only => 'কেৱল ডাউনলোড কৰা';
 
   @override
-  String get downloaded_only_description =>
-      'আপোনাৰ পুথিভঁৰালত কেৱল ডাউনলোড কৰা এণ্ট্ৰিসমূহ দেখুৱাওক';
+  String get downloaded_only_description => 'আপোনাৰ পুথিভঁৰালত কেৱল ডাউনলোড কৰা এণ্ট্ৰিসমূহ দেখুৱাওক';
 
   @override
   String get download_queue => 'ডাউনলোড শাৰী';
@@ -268,8 +256,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get edit_categories => 'শ্ৰেণী সম্পাদনা';
 
   @override
-  String get edit_categories_description =>
-      'আপোনাৰ কোনো শ্ৰেণী নাই। পুথিভঁৰাল সংগঠিত কৰিবলৈ প্লাছ বুটামত টেপ কৰক';
+  String get edit_categories_description => 'আপোনাৰ কোনো শ্ৰেণী নাই। পুথিভঁৰাল সংগঠিত কৰিবলৈ প্লাছ বুটামত টেপ কৰক';
 
   @override
   String get add => 'যোগ কৰক';
@@ -727,15 +714,13 @@ class AppLocalizationsAs extends AppLocalizations {
   String get sync_button_upload => 'কেৱল আপলোড কৰক';
 
   @override
-  String get sync_button_upload_info =>
-      'এই অপাৰেশনে ৰিম\'ট ডাটা সম্পূৰ্ণৰূপে ল\'কেল ডাটাৰ সৈতে প্ৰতিস্থাপন কৰিব!';
+  String get sync_button_upload_info => 'এই অপাৰেশনে ৰিম\'ট ডাটা সম্পূৰ্ণৰূপে ল\'কেল ডাটাৰ সৈতে প্ৰতিস্থাপন কৰিব!';
 
   @override
   String get sync_button_download => 'কেৱল ডাউনলোড কৰক';
 
   @override
-  String get sync_button_download_info =>
-      'এই অপাৰেশনে ল\'কেল ডাটা সম্পূৰ্ণৰূপে ৰিম\'ট ডাটাৰ সৈতে প্ৰতিস্থাপন কৰিব!';
+  String get sync_button_download_info => 'এই অপাৰেশনে ল\'কেল ডাটা সম্পূৰ্ণৰূপে ৰিম\'ট ডাটাৰ সৈতে প্ৰতিস্থাপন কৰিব!';
 
   @override
   String get sync_on => 'সিংক সক্ষম কৰক';
@@ -744,8 +729,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get sync_auto => 'স্বয়ংক্ৰিয় সিংক';
 
   @override
-  String get sync_auto_warning =>
-      'স্বয়ংক্ৰিয় সিংক বৰ্তমান এক পৰীক্ষামূলক বৈশিষ্ট্য!';
+  String get sync_auto_warning => 'স্বয়ংক্ৰিয় সিংক বৰ্তমান এক পৰীক্ষামূলক বৈশিষ্ট্য!';
 
   @override
   String get sync_auto_off => 'বন্ধ';
@@ -784,15 +768,13 @@ class AppLocalizationsAs extends AppLocalizations {
   String get reorder_navigation => 'নেভিগেশ্বন কাষ্টমাইজ কৰক';
 
   @override
-  String get reorder_navigation_description =>
-      'আপোনাৰ প্ৰয়োজন অনুসৰি প্ৰতিটো নেভিগেশ্বন পুনৰ্বিন্যাস আৰু টগল কৰক।';
+  String get reorder_navigation_description => 'আপোনাৰ প্ৰয়োজন অনুসৰি প্ৰতিটো নেভিগেশ্বন পুনৰ্বিন্যাস আৰু টগল কৰক।';
 
   @override
   String get full_screen_player => 'সম্পূৰ্ণ স্ক্ৰীন ব্যৱহাৰ কৰক';
 
   @override
-  String get full_screen_player_info =>
-      'ভিডিঅ\' চলাওঁতে স্বয়ংক্ৰিয়ভাৱে সম্পূৰ্ণ স্ক্ৰীন ব্যৱহাৰ কৰক।';
+  String get full_screen_player_info => 'ভিডিঅ\' চলাওঁতে স্বয়ংক্ৰিয়ভাৱে সম্পূৰ্ণ স্ক্ৰীন ব্যৱহাৰ কৰক।';
 
   @override
   String episode_progress(Object n) {
@@ -927,8 +909,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get auto_extensions_updates => 'স্বয়ংক্ৰিয় এক্সটেনশন আপডেট';
 
   @override
-  String get auto_extensions_updates_subtitle =>
-      'নতুন সংস্কৰণ উপলব্ধ হ’লে এক্সটেনশন স্বয়ংক্ৰিয়ভাৱে আপডেট কৰিব।';
+  String get auto_extensions_updates_subtitle => 'নতুন সংস্কৰণ উপলব্ধ হ’লে এক্সটেনশন স্বয়ংক্ৰিয়ভাৱে আপডেট কৰিব।';
 
   @override
   String get check_for_app_updates => 'ষ্টাৰ্টআপত এপ আপডেট পৰীক্ষা কৰক';
@@ -1001,15 +982,13 @@ class AppLocalizationsAs extends AppLocalizations {
   String get create_backup_dialog_title => 'আপুনি কি বেকআপ কৰিব বিচাৰে?';
 
   @override
-  String get create_backup_subtitle =>
-      'বৰ্তমানৰ পুথিভঁৰাল পুনৰুদ্ধাৰৰ বাবে ব্যৱহাৰ কৰিব পাৰি';
+  String get create_backup_subtitle => 'বৰ্তমানৰ পুথিভঁৰাল পুনৰুদ্ধাৰৰ বাবে ব্যৱহাৰ কৰিব পাৰি';
 
   @override
   String get restore_backup => 'বেকআপ পুনৰুদ্ধাৰ';
 
   @override
-  String get restore_backup_subtitle =>
-      'বেকআপ ফাইলৰ পৰা পুথিভঁৰাল পুনৰুদ্ধাৰ কৰক';
+  String get restore_backup_subtitle => 'বেকআপ ফাইলৰ পৰা পুথিভঁৰাল পুনৰুদ্ধাৰ কৰক';
 
   @override
   String get automatic_backups => 'স্বয়ংক্ৰিয় বেকআপ';
@@ -1030,8 +1009,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get backup_options_subtitle => 'বেকআপ ফাইলত কি তথ্য অন্তৰ্ভুক্ত কৰিব';
 
   @override
-  String get backup_and_restore_warning_info =>
-      'আপুনি বেকআপৰ কপি অন্য ঠাইতো ৰাখিব লাগে';
+  String get backup_and_restore_warning_info => 'আপুনি বেকআপৰ কপি অন্য ঠাইতো ৰাখিব লাগে';
 
   @override
   String get library_entries => 'পুথিভঁৰালৰ এণ্ট্ৰি';
@@ -1099,8 +1077,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get player => 'প্লেয়াৰ';
 
   @override
-  String get markEpisodeAsSeenSetting =>
-      'খণ্ডটো কেতিয়া দেখা বুলি চিহ্নিত কৰিব';
+  String get markEpisodeAsSeenSetting => 'খণ্ডটো কেতিয়া দেখা বুলি চিহ্নিত কৰিব';
 
   @override
   String get default_skip_intro_length => 'ডিফল্ট ইনট্ৰ\' এৰি দিয়াৰ দৈৰ্ঘ্য';
@@ -1118,12 +1095,10 @@ class AppLocalizationsAs extends AppLocalizations {
   String get show_extensions => 'এক্সটেনশন দেখুৱাওক';
 
   @override
-  String get default_skip_forward_skip_length =>
-      'ডিফল্ট স্কিপ ফৰৱাৰ্ড স্কিপ দৈৰ্ঘ্য';
+  String get default_skip_forward_skip_length => 'ডিফল্ট স্কিপ ফৰৱাৰ্ড স্কিপ দৈৰ্ঘ্য';
 
   @override
-  String get aniskip_requires_info =>
-      'AniSkip কাম কৰিবলৈ এনিমে MAL বা Anilistৰ সৈতে ট্ৰেক কৰা হ\'ব লাগিব।';
+  String get aniskip_requires_info => 'AniSkip কাম কৰিবলৈ এনিমে MAL বা Anilistৰ সৈতে ট্ৰেক কৰা হ\'ব লাগিব।';
 
   @override
   String get enable_aniskip => 'AniSkip সক্ষম কৰক';
@@ -1272,8 +1247,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get background => 'পটভূমি';
 
   @override
-  String get no_subtite_warning_message =>
-      'এই ভিডিঅ\'ত কোনো উপশিৰোনাম ট্ৰেক নাই সেয়েহে কোনো প্ৰভাৱ নাই';
+  String get no_subtite_warning_message => 'এই ভিডিঅ\'ত কোনো উপশিৰোনাম ট্ৰেক নাই সেয়েহে কোনো প্ৰভাৱ নাই';
 
   @override
   String get grid_size => 'গ্ৰিড আকাৰ';
@@ -1293,8 +1267,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get use_libass => 'libass সক্ষম কৰক';
 
   @override
-  String get use_libass_info =>
-      'নেটিভ বেকএণ্ডৰ বাবে libass ভিত্তিক উপশিৰোনাম ৰেণ্ডাৰিং ব্যৱহাৰ কৰক।';
+  String get use_libass_info => 'নেটিভ বেকএণ্ডৰ বাবে libass ভিত্তিক উপশিৰোনাম ৰেণ্ডাৰিং ব্যৱহাৰ কৰক।';
 
   @override
   String get libass_not_disable_message =>
@@ -1371,15 +1344,13 @@ class AppLocalizationsAs extends AppLocalizations {
   String get storage => 'সংৰক্ষণ';
 
   @override
-  String get clear_chapter_and_episode_cache =>
-      'অধ্যায় আৰু খণ্ড কেচ পৰিষ্কাৰ কৰক';
+  String get clear_chapter_and_episode_cache => 'অধ্যায় আৰু খণ্ড কেচ পৰিষ্কাৰ কৰক';
 
   @override
   String get cache_cleared => 'কেচ পৰিষ্কাৰ হ\'ল';
 
   @override
-  String get clear_chapter_or_episode_cache_on_app_launch =>
-      'এপ লঞ্চত অধ্যায়/খণ্ড কেচ পৰিষ্কাৰ কৰক';
+  String get clear_chapter_or_episode_cache_on_app_launch => 'এপ লঞ্চত অধ্যায়/খণ্ড কেচ পৰিষ্কাৰ কৰক';
 
   @override
   String get app_settings => 'এপ ছেটিংছ';
@@ -1388,8 +1359,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get sources_settings => 'উৎস ছেটিংছ';
 
   @override
-  String get include_sensitive_settings =>
-      'সংবেদনশীল ছেটিংছ অন্তৰ্ভুক্ত কৰক (যেনে, ট্ৰেকাৰ লগইন টোকেন)';
+  String get include_sensitive_settings => 'সংবেদনশীল ছেটিংছ অন্তৰ্ভুক্ত কৰক (যেনে, ট্ৰেকাৰ লগইন টোকেন)';
 
   @override
   String get create => 'সৃষ্টি কৰক';
@@ -1443,8 +1413,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get undefined => 'অপৰিভাষিত';
 
   @override
-  String get empty_extensions_repo =>
-      'আপোনাৰ ইয়াত কোনো ৰিপজিটৰী URL নাই। এটা যোগ কৰিবলৈ প্লাছ বুটামত ক্লিক কৰক!';
+  String get empty_extensions_repo => 'আপোনাৰ ইয়াত কোনো ৰিপজিটৰী URL নাই। এটা যোগ কৰিবলৈ প্লাছ বুটামত ক্লিক কৰক!';
 
   @override
   String get add_extensions_repo => 'ৰিপ\' URL যোগ কৰক';
@@ -1520,8 +1489,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get chapter_completed => 'অধ্যায় সম্পূৰ্ণ';
 
   @override
-  String get continue_to_next_chapter =>
-      'পৰৱৰ্তী অধ্যায় পঢ়িবলৈ স্ক্ৰ\'ল কৰি থাকক';
+  String get continue_to_next_chapter => 'পৰৱৰ্তী অধ্যায় পঢ়িবলৈ স্ক্ৰ\'ল কৰি থাকক';
 
   @override
   String get no_next_chapter => 'কোনো পৰৱৰ্তী অধ্যায় নাই';
@@ -1530,8 +1498,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get you_have_finished_reading => 'আপুনি পঢ়া শেষ কৰিলে';
 
   @override
-  String get return_to_the_list_of_chapters =>
-      'অধ্যায়সমূহৰ তালিকালৈ উভতি যাওক';
+  String get return_to_the_list_of_chapters => 'অধ্যায়সমূহৰ তালিকালৈ উভতি যাওক';
 
   @override
   String get hwdec => 'হাৰ্ডৱেৰ ডিক\'ডাৰ';
@@ -1540,8 +1507,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get enable_hardware_accel => 'হাৰ্ডৱেৰ ত্বৰণ';
 
   @override
-  String get enable_hardware_accel_info =>
-      'যদি আপুনি বাগ বা ক্ৰেশৰ সন্মুখীন হৈছে তেন্তে ইয়াক চালু/বন্ধ কৰক';
+  String get enable_hardware_accel_info => 'যদি আপুনি বাগ বা ক্ৰেশৰ সন্মুখীন হৈছে তেন্তে ইয়াক চালু/বন্ধ কৰক';
 
   @override
   String get track_library_navigate => 'বৰ্তমান স্থানীয় এণ্ট্ৰিলৈ যাওক';
@@ -1550,12 +1516,10 @@ class AppLocalizationsAs extends AppLocalizations {
   String get track_library_add => 'স্থানীয় পুথিভঁৰালত যোগ কৰক';
 
   @override
-  String get track_library_add_confirm =>
-      'ট্ৰেক কৰা আইটেম স্থানীয় পুথিভঁৰালত যোগ কৰক';
+  String get track_library_add_confirm => 'ট্ৰেক কৰা আইটেম স্থানীয় পুথিভঁৰালত যোগ কৰক';
 
   @override
-  String get track_library_not_logged =>
-      'এই বৈশিষ্ট্য ব্যৱহাৰ কৰিবলৈ সংশ্লিষ্ট ট্ৰেকাৰত লগইন কৰক!';
+  String get track_library_not_logged => 'এই বৈশিষ্ট্য ব্যৱহাৰ কৰিবলৈ সংশ্লিষ্ট ট্ৰেকাৰত লগইন কৰক!';
 
   @override
   String get track_library_switch => 'অন্য ট্ৰেকাৰলৈ সলনি কৰক';
@@ -1564,19 +1528,16 @@ class AppLocalizationsAs extends AppLocalizations {
   String get go_back => 'উভতি যাওক';
 
   @override
-  String get merge_library_nav_mobile =>
-      'মোবাইলত পুথিভঁৰাল নেভিগেশ্বন মাৰ্জ কৰক';
+  String get merge_library_nav_mobile => 'মোবাইলত পুথিভঁৰাল নেভিগেশ্বন মাৰ্জ কৰক';
 
   @override
   String get enable_discord_rpc => 'Discord RPC সক্ষম কৰক';
 
   @override
-  String get hide_discord_rpc_incognito =>
-      'ইনকগনিট\' ম\'ডত Discord RPC লুকুৱাওক';
+  String get hide_discord_rpc_incognito => 'ইনকগনিট\' ম\'ডত Discord RPC লুকুৱাওক';
 
   @override
-  String get rpc_show_reading_watching_progress =>
-      'Discordত বৰ্তমান অধ্যায় দেখুৱাওক (পুনৰাৰম্ভৰ প্ৰয়োজন)';
+  String get rpc_show_reading_watching_progress => 'Discordত বৰ্তমান অধ্যায় দেখুৱাওক (পুনৰাৰম্ভৰ প্ৰয়োজন)';
 
   @override
   String get rpc_show_title => 'Discordত বৰ্তমান শিৰোনাম দেখুৱাওক';
@@ -1603,12 +1564,10 @@ class AppLocalizationsAs extends AppLocalizations {
   String get mpv_redownload => 'mpv কনফিগ ফাইলসমূহ পুনৰ ডাউনলোড কৰক';
 
   @override
-  String get mpv_redownload_info =>
-      'পুৰণি কনফিগ ফাইলসমূহ নতুনৰ সৈতে প্ৰতিস্থাপন কৰে!';
+  String get mpv_redownload_info => 'পুৰণি কনফিগ ফাইলসমূহ নতুনৰ সৈতে প্ৰতিস্থাপন কৰে!';
 
   @override
-  String get mpv_download =>
-      'MPV কনফিগ ফাইলসমূহ প্ৰয়োজনীয়!\nএতিয়াই ডাউনলোড কৰিবনে?';
+  String get mpv_download => 'MPV কনফিগ ফাইলসমূহ প্ৰয়োজনীয়!\nএতিয়াই ডাউনলোড কৰিবনে?';
 
   @override
   String get custom_buttons => 'কাষ্টম বুটাম';
@@ -1732,8 +1691,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get clear_library => 'পুথিভঁৰাল পৰিষ্কাৰ কৰক';
 
   @override
-  String get clear_library_desc =>
-      'সকলো মাংগা, এনিমে আৰু/বা উপন্যাস এণ্ট্ৰিসমূহ পৰিষ্কাৰ কৰিবলৈ নিৰ্বাচন কৰক';
+  String get clear_library_desc => 'সকলো মাংগা, এনিমে আৰু/বা উপন্যাস এণ্ট্ৰিসমূহ পৰিষ্কাৰ কৰিবলৈ নিৰ্বাচন কৰক';
 
   @override
   String get clear_library_input =>
@@ -1758,8 +1716,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get add_local_folder => 'স্থানীয় ফ\'ল্ডাৰ যোগ কৰক';
 
   @override
-  String get rescan_local_folder =>
-      'সকলো স্থানীয় ফ\'ল্ডাৰ এতিয়াই পুনৰ স্কেন কৰক';
+  String get rescan_local_folder => 'সকলো স্থানীয় ফ\'ল্ডাৰ এতিয়াই পুনৰ স্কেন কৰক';
 
   @override
   String get export_metadata => 'মেটাডাটা ৰপ্তানি কৰক';
@@ -1780,8 +1737,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get show_scroll_percentage => 'স্ক্ৰ\'ল শতাংশ দেখুৱাওক';
 
   @override
-  String get remove_extra_paragraph_spacing =>
-      'অতিৰিক্ত অনুচ্ছেদ স্পেছিং আঁতৰাওক';
+  String get remove_extra_paragraph_spacing => 'অতিৰিক্ত অনুচ্ছেদ স্পেছিং আঁতৰাওক';
 
   @override
   String select_label_color(Object label) {
@@ -1795,8 +1751,7 @@ class AppLocalizationsAs extends AppLocalizations {
   String get forceLandscapeMode => 'Force landscape mode';
 
   @override
-  String get forceLandscapeModeSubtitle =>
-      'Force the player to use landscape orientation.';
+  String get forceLandscapeModeSubtitle => 'Force the player to use landscape orientation.';
 
   @override
   String get dns_over_https => 'DNS-over-HTTPS (DoH)';

@@ -110,12 +110,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                         isExtended: !isExtended,
                         label: buttonLabel,
                         onPressed: () {
-                          widget.manga.chapters
-                              .toList()
-                              .reversed
-                              .toList()
-                              .last
-                              .pushToReaderView(context);
+                          widget.manga.chapters.first.pushToReaderView(context);
                         },
                       );
                     }
@@ -123,12 +118,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                       isExtended: !isExtended,
                       label: buttonLabel,
                       onPressed: () {
-                        widget.manga.chapters
-                            .toList()
-                            .reversed
-                            .toList()
-                            .last
-                            .pushToReaderView(context);
+                        widget.manga.chapters.first.pushToReaderView(context);
                       },
                     );
                   },

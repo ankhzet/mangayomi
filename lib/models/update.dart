@@ -7,6 +7,7 @@ part 'update.g.dart';
 class Update {
   Id? id;
 
+  @Index(name: "mangaId")
   int? mangaId;
 
   String? chapterName;

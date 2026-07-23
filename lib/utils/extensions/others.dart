@@ -201,7 +201,7 @@ extension IterableExtension<T> on Iterable<T> {
     return null;
   }
 
-  Iterable<T> toUnique({bool growable = false}) {
+  List<T> toUnique({bool growable = false}) {
     return toList().toSet().toList(growable: growable);
   }
 }

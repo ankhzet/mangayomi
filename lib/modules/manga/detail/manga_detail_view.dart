@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:draggable_menu/draggable_menu.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,7 @@ import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/models/track_search.dart';
+import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/modules/library/library_screen.dart';
 import 'package:mangayomi/modules/library/providers/local_archive.dart';
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
@@ -401,42 +403,23 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                           actions: [
                             IconButton(
                               onPressed: () {
+                                var state = ref.read(chaptersListStateProvider.notifier);
+
                                 for (var group in chapters) {
-                                  for (var chapter in group.chapters) {
-                                    ref
-                                        .read(
-                                          chaptersListStateProvider.notifier,
-                                        )
-                                        .selectAll(chapter);
-                                  }
+                                  state.selectAll(group.chapters);
                                 }
                               },
                               icon: const Icon(Icons.select_all),
                             ),
                             IconButton(
                               onPressed: () {
-                                if (chapters.length == chapterList.length) {
-                                  for (var group in chapters) {
-                                    for (var chapter in group.chapters) {
-                                      ref
-                                          .read(
-                                            chaptersListStateProvider.notifier,
-                                          )
-                                          .selectSome(chapter);
-                                    }
-                                  }
-                                  ref
-                                      .read(isLongPressedStateProvider.notifier)
-                                      .update(false);
+                                var state = ref.read(chaptersListStateProvider.notifier);
+
+                                if (chapters.length == chapterList.length) { // all selected
+                                  state.clear();
                                 } else {
                                   for (var group in chapters) {
-                                    for (var chapter in group.chapters) {
-                                      ref
-                                          .read(
-                                            chaptersListStateProvider.notifier,
-                                          )
-                                          .selectSome(chapter);
-                                    }
+                                    state.toggleGroup(group.chapters);
                                   }
                                 }
                               },
@@ -995,53 +978,75 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView>
                       ref.read(chaptersListStateProvider.notifier).clear();
                     },
                   ),
-                  if (getLength1)
-                    BottomSelectButton(
-                      icon: Stack(
-                        children: [
-                          Icon(Icons.done_outlined, color: color),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Icon(
-                              Icons.arrow_downward_outlined,
-                              size: 11,
-                              color: color,
-                            ),
+                  BottomSelectButton(
+                    icon: Stack(
+                      children: [
+                        Icon(Icons.done_outlined, color: color),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Icon(
+                            Icons.arrow_downward_outlined,
+                            size: 11,
+                            color: color,
                           ),
-                        ],
-                      ),
-                      onPressed: () {
-                        final allChapters = chapters
-                            .expand((g) => g.chapters)
-                            .toList();
-                        final currentChapter = chap.first;
-                        int index = allChapters.indexOf(currentChapter);
-                        final List<Chapter> updatedChapters = [];
-                        final now = DateTime.now().millisecondsSinceEpoch;
-                        if (index < allChapters.length) {
-                          allChapters[index].updateTrackChapterRead(ref);
+                        ),
+                      ],
+                    ),
+                    onPressed: () {
+                      final allChapters = chapters.expand((g) => g.chapters);
+                      final List<Chapter> updatedChapters = [];
+                      final now = DateTime.now().millisecondsSinceEpoch;
+                      var mark = false;
+
+                      for (var chapter in allChapters) {
+                        if (!mark && chap.contains(chapter)) {
+                          mark = true;
+                          chapter.updateTrackChapterRead(ref);
                         }
-                        for (var i = index; i < allChapters.length; i++) {
-                          final chapter = allChapters[i];
-                          if (!chapter.isRead!) {
-                            chapter.isRead = true;
-                            chapter.lastPageRead = "1";
-                            chapter.updatedAt = now;
-                            chapter.manga.value = widget.manga;
-                            updatedChapters.add(chapter);
+
+                        if (mark) {
+                          if (chapter.isRead == true) {
+                            continue;
                           }
+
+                          chapter.isRead = true;
+                          chapter.lastPageRead = "1";
+                          chapter.updatedAt = now;
+                          chapter.manga.value = widget.manga;
+                          updatedChapters.add(chapter);
                         }
+                      }
+
+                      if (updatedChapters.isNotEmpty) {
+                        final updates = isar.updates.where().mangaIdEqualTo(widget.manga.id).findAllSync();
+
                         isar.writeTxnSync(() {
                           isar.chapters.putAllSync(updatedChapters);
                           isar.mangas.putSync(widget.manga);
+
+                          final obsolete = updates.where((update) {
+                            final chapter = update.chapter.value!;
+
+                            return updatedChapters.any((updated) => (
+                              updated.isSameNumber(chapter)
+                            ));
+                          });
+
+                          if (obsolete.isNotEmpty) {
+                            final ids = obsolete.map((update) => update.id).whereType<Id>().toList();
+                            isar.updates.deleteAllSync(ids);
+
+                            if (kDebugMode) {
+                              debugPrint("Deleted ${ids.length} obsolete update records");
+                            }
+                          }
                         });
-                        ref
-                            .read(isLongPressedStateProvider.notifier)
-                            .update(false);
-                        ref.read(chaptersListStateProvider.notifier).clear();
-                      },
-                    ),
+                      }
+
+                      ref.read(chaptersListStateProvider.notifier).clear();
+                    },
+                  ),
                   if (!isLocalArchive)
                     BottomSelectButton(
                       icon: Icon(Icons.download_outlined, color: color),

@@ -69,12 +69,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get last_update_check => '最后更新检查';
 
   @override
-  String last_entry_delete_warning(
-    num count,
-    Object entryType,
-    Object entryTypePlural,
-    Object mediaType,
-  ) {
+  String last_entry_delete_warning(num count, Object entryType, Object entryTypePlural, Object mediaType) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -684,8 +679,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get sync_logged => '登录成功';
 
   @override
-  String get syncing_subtitle =>
-      '通过自托管的 \n服务器在多个设备上同步你的进度。查看我们的 discord 服务器，了解更多信息！';
+  String get syncing_subtitle => '通过自托管的 \n服务器在多个设备上同步你的进度。查看我们的 discord 服务器，了解更多信息！';
 
   @override
   String get last_sync_manga => '最新漫画同步于: ';
@@ -891,8 +885,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get page_preload_amount => '页面预加载量';
 
   @override
-  String get page_preload_amount_subtitle =>
-      '阅读时预加载的页面数量。更高的值将导致更顺畅的阅读体验，但会增加缓存和网络使用。';
+  String get page_preload_amount_subtitle => '阅读时预加载的页面数量。更高的值将导致更顺畅的阅读体验，但会增加缓存和网络使用。';
 
   @override
   String get image_loading_error => '无法加载此图片';
@@ -1299,8 +1292,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get use_native_http_client => '使用本地 HTTP 客户端';
 
   @override
-  String get use_native_http_client_info =>
-      '它自动支持平台特性，如 VPN，支持更多 HTTP 特性，如 HTTP/3 和自定义重定向处理';
+  String get use_native_http_client_info => '它自动支持平台特性，如 VPN，支持更多 HTTP 特性，如 HTTP/3 和自定义重定向处理';
 
   @override
   String n_hour_ago(Object hour) {
@@ -1634,8 +1626,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get audio_preferred_languages => '首选语言';
 
   @override
-  String get audio_preferred_languages_info =>
-      '在具有多个音频流的视频上默认选择的音频语言，2/3 字母语言代码（例如：zh、en、ja）。多个值可以用逗号分隔。';
+  String get audio_preferred_languages_info => '在具有多个音频流的视频上默认选择的音频语言，2/3 字母语言代码（例如：zh、en、ja）。多个值可以用逗号分隔。';
 
   @override
   String get enable_audio_pitch_correction => '启用音频音调校正';
@@ -1690,8 +1681,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get clear_library_desc => '选择清除所有漫画、动画和/或小说条目';
 
   @override
-  String get clear_library_input =>
-      '输入 \'manga\'、\'anime\' 和/或 \'novel\'（用逗号分隔）以删除所有相关条目';
+  String get clear_library_input => '输入 \'manga\'、\'anime\' 和/或 \'novel\'（用逗号分隔）以删除所有相关条目';
 
   @override
   String get watch_order => '观看顺序';

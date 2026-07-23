@@ -198,11 +198,15 @@ class MCookieManager extends InterceptorContract {
       }
     }
 
-    request.headers[HttpHeaders.acceptHeader] = '*/*';
+    request.headers[HttpHeaders.acceptHeader] ??= '*/*';
     request.headers[HttpHeaders.acceptLanguageHeader] = 'en-GB,en;q=0.9';
     request.headers[HttpHeaders.connectionHeader] = 'keep-alive';
 
-    if (request.headers[HttpHeaders.userAgentHeader] != userAgent) {
+    final hasAgent = request.headers[HttpHeaders.userAgentHeader];
+
+    if (hasAgent?.isEmpty == true) {
+      request.headers.remove(HttpHeaders.userAgentHeader);
+    } else if (hasAgent != userAgent) {
       request.headers[HttpHeaders.userAgentHeader] = userAgent;
     }
 

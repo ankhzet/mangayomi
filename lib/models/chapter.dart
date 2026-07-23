@@ -17,6 +17,10 @@ extension CompositeUtils on ChapterCompositeNumber {
     return chapter +
         fraction.toDouble() / pow(10, (log(fraction) * log10e).floor() + 1);
   }
+
+  bool isSame(ChapterCompositeNumber other) {
+    return 0 == compareComposite(this, other);
+  }
 }
 
 int compareComposite(ChapterCompositeNumber a, ChapterCompositeNumber b) {
@@ -114,6 +118,8 @@ class Chapter {
 
   int? updatedAt;
 
+  String? uid;
+
   final manga = IsarLink<Manga>();
 
   @ignore
@@ -140,7 +146,7 @@ class Chapter {
   }
 
   ChapterCompositeNumber calculateOrder() {
-    if ((_name ?? '').isNotEmpty) {
+    if (_name?.isNotEmpty == true) {
       final match = numberRegexp.firstMatch(_name!);
 
       if (match != null) {
@@ -195,6 +201,7 @@ class Chapter {
     this.downloadSize,
     this.duration,
     this.updatedAt = 0,
+    this.uid,
   }) : _name = name;
 
   Chapter.fromJson(Map<String, dynamic> json) {
@@ -214,6 +221,7 @@ class Chapter {
     downloadSize = json['downloadSize'];
     duration = json['duration'];
     updatedAt = json['updatedAt'];
+    uid = json['uid'];
   }
 
   Map<String, dynamic> toJson() => {
@@ -233,5 +241,6 @@ class Chapter {
     'downloadSize': downloadSize,
     'duration': duration,
     'updatedAt': updatedAt ?? 0,
+    'uid': uid,
   };
 }

@@ -69,19 +69,12 @@ class AppLocalizationsHi extends AppLocalizations {
   String get last_update_check => 'आखिरी अपडेट जांच';
 
   @override
-  String last_entry_delete_warning(
-    num count,
-    Object entryType,
-    Object entryTypePlural,
-    Object mediaType,
-  ) {
+  String last_entry_delete_warning(num count, Object entryType, Object entryTypePlural, Object mediaType) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          'आप इस $mediaType के सभी $count $entryTypePlural को अपनी लाइब्रेरी से हटा रहे हैं।',
-      one:
-          'आप इस $mediaType की एकमात्र $entryType को अपनी लाइब्रेरी से हटा रहे हैं।',
+      other: 'आप इस $mediaType के सभी $count $entryTypePlural को अपनी लाइब्रेरी से हटा रहे हैं।',
+      one: 'आप इस $mediaType की एकमात्र $entryType को अपनी लाइब्रेरी से हटा रहे हैं।',
     );
     return '$_temp0\nइससे पूरी $mediaType भी आपकी लाइब्रेरी से हट जाएगी।\n\nनोट: फ़ाइलें स्वयं हटाई नहीं जाएंगी।';
   }
@@ -171,12 +164,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get remove_everything => 'सब कुछ हटाएँ';
 
   @override
-  String get remove_everything_msg =>
-      'क्या आप निश्चित हैं? सारा इतिहास खो जाएगा';
+  String get remove_everything_msg => 'क्या आप निश्चित हैं? सारा इतिहास खो जाएगा';
 
   @override
-  String get remove_all_update_msg =>
-      'क्या आप सुनिश्चित हैं? सभी अपडेट साफ़ हो जाएंगे';
+  String get remove_all_update_msg => 'क्या आप सुनिश्चित हैं? सभी अपडेट साफ़ हो जाएंगे';
 
   @override
   String get ok => 'ठीक है';
@@ -188,8 +179,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get remove => 'हटाएँ';
 
   @override
-  String get remove_history_msg =>
-      'यह इस अध्याय की पढ़ने की तारीख को हटा देगा। क्या आप निश्चित हैं?';
+  String get remove_history_msg => 'यह इस अध्याय की पढ़ने की तारीख को हटा देगा। क्या आप निश्चित हैं?';
 
   @override
   String get last_used => 'आखिरी बार उपयोग';
@@ -227,8 +217,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get clean_database_desc =>
-      'यह उन सभी आइटम को हटा देगा जो लाइब्रेरी में नहीं जोड़े गए हैं!';
+  String get clean_database_desc => 'यह उन सभी आइटम को हटा देगा जो लाइब्रेरी में नहीं जोड़े गए हैं!';
 
   @override
   String get incognito_mode => 'गुप्त मोड';
@@ -240,8 +229,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get downloaded_only => 'केवल डाउनलोड किए गए';
 
   @override
-  String get downloaded_only_description =>
-      'अपनी लाइब्रेरी में केवल डाउनलोड की गई प्रविष्टियाँ दिखाएँ';
+  String get downloaded_only_description => 'अपनी लाइब्रेरी में केवल डाउनलोड की गई प्रविष्टियाँ दिखाएँ';
 
   @override
   String get download_queue => 'डाउनलोड कतार';
@@ -727,15 +715,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sync_button_upload => 'केवल अपलोड करें';
 
   @override
-  String get sync_button_upload_info =>
-      'यह ऑपरेशन रिमोट डेटा को पूरी तरह से लोकल डेटा से बदल देगा!';
+  String get sync_button_upload_info => 'यह ऑपरेशन रिमोट डेटा को पूरी तरह से लोकल डेटा से बदल देगा!';
 
   @override
   String get sync_button_download => 'केवल डाउनलोड करें';
 
   @override
-  String get sync_button_download_info =>
-      'यह ऑपरेशन लोकल डेटा को पूरी तरह से रिमोट डेटा से बदल देगा!';
+  String get sync_button_download_info => 'यह ऑपरेशन लोकल डेटा को पूरी तरह से रिमोट डेटा से बदल देगा!';
 
   @override
   String get sync_on => 'सिंक सक्षम करें';
@@ -744,8 +730,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sync_auto => 'स्वचालित सिंक';
 
   @override
-  String get sync_auto_warning =>
-      'स्वचालित सिंक वर्तमान में एक प्रयोगात्मक सुविधा है!';
+  String get sync_auto_warning => 'स्वचालित सिंक वर्तमान में एक प्रयोगात्मक सुविधा है!';
 
   @override
   String get sync_auto_off => 'बंद';
@@ -791,8 +776,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get full_screen_player => 'पूर्ण स्क्रीन का उपयोग करें';
 
   @override
-  String get full_screen_player_info =>
-      'वीडियो चलाते समय स्वचालित रूप से पूर्ण स्क्रीन का उपयोग करें।';
+  String get full_screen_player_info => 'वीडियो चलाते समय स्वचालित रूप से पूर्ण स्क्रीन का उपयोग करें।';
 
   @override
   String episode_progress(Object n) {
@@ -1001,15 +985,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get create_backup_dialog_title => 'आप क्या बैकअप करना चाहते हैं?';
 
   @override
-  String get create_backup_subtitle =>
-      'वर्तमान पुस्तकालय को पुनर्स्थापित करने के लिए उपयोग किया जा सकता है';
+  String get create_backup_subtitle => 'वर्तमान पुस्तकालय को पुनर्स्थापित करने के लिए उपयोग किया जा सकता है';
 
   @override
   String get restore_backup => 'बैकअप पुनर्स्थापित करें';
 
   @override
-  String get restore_backup_subtitle =>
-      'बैकअप फ़ाइल से पुस्तकालय पुनर्स्थापित करें';
+  String get restore_backup_subtitle => 'बैकअप फ़ाइल से पुस्तकालय पुनर्स्थापित करें';
 
   @override
   String get automatic_backups => 'स्वचालित बैकअप';
@@ -1027,12 +1009,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get backup_options_dialog_title => 'आप क्या बैकअप करना चाहते हैं?';
 
   @override
-  String get backup_options_subtitle =>
-      'बैकअप फ़ाइल में क्या जानकारी शामिल करनी है';
+  String get backup_options_subtitle => 'बैकअप फ़ाइल में क्या जानकारी शामिल करनी है';
 
   @override
-  String get backup_and_restore_warning_info =>
-      'आपको बैकअप की प्रतियां अन्य स्थानों पर भी रखनी चाहिए';
+  String get backup_and_restore_warning_info => 'आपको बैकअप की प्रतियां अन्य स्थानों पर भी रखनी चाहिए';
 
   @override
   String get library_entries => 'पुस्तकालय प्रविष्टियाँ';
@@ -1100,8 +1080,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get player => 'प्लेयर';
 
   @override
-  String get markEpisodeAsSeenSetting =>
-      'एपिसोड को कब देखा गया के रूप में चिह्नित करना है';
+  String get markEpisodeAsSeenSetting => 'एपिसोड को कब देखा गया के रूप में चिह्नित करना है';
 
   @override
   String get default_skip_intro_length => 'डिफ़ॉल्ट परिचय छोड़ने की अवधि';
@@ -1119,8 +1098,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get show_extensions => 'एक्सटेंशन दिखाएँ';
 
   @override
-  String get default_skip_forward_skip_length =>
-      'डिफ़ॉल्ट स्किप फॉरवर्ड स्किप लंबाई';
+  String get default_skip_forward_skip_length => 'डिफ़ॉल्ट स्किप फॉरवर्ड स्किप लंबाई';
 
   @override
   String get aniskip_requires_info =>
@@ -1273,8 +1251,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get background => 'पृष्ठभूमि';
 
   @override
-  String get no_subtite_warning_message =>
-      'इस वीडियो में कोई उपशीर्षक ट्रैक नहीं है इसलिए कोई प्रभाव नहीं है';
+  String get no_subtite_warning_message => 'इस वीडियो में कोई उपशीर्षक ट्रैक नहीं है इसलिए कोई प्रभाव नहीं है';
 
   @override
   String get grid_size => 'ग्रिड आकार';
@@ -1294,8 +1271,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get use_libass => 'libass सक्षम करें';
 
   @override
-  String get use_libass_info =>
-      'नेटिव बैकएंड के लिए libass आधारित उपशीर्षक रेंडरिंग का उपयोग करें।';
+  String get use_libass_info => 'नेटिव बैकएंड के लिए libass आधारित उपशीर्षक रेंडरिंग का उपयोग करें।';
 
   @override
   String get libass_not_disable_message =>
@@ -1366,22 +1342,19 @@ class AppLocalizationsHi extends AppLocalizations {
   String get data_and_storage => 'डेटा और स्टोरेज';
 
   @override
-  String get download_location_info =>
-      'अध्याय डाउनलोड के लिए उपयोग किया जाता है';
+  String get download_location_info => 'अध्याय डाउनलोड के लिए उपयोग किया जाता है';
 
   @override
   String get storage => 'स्टोरेज';
 
   @override
-  String get clear_chapter_and_episode_cache =>
-      'अध्याय और एपिसोड कैश साफ़ करें';
+  String get clear_chapter_and_episode_cache => 'अध्याय और एपिसोड कैश साफ़ करें';
 
   @override
   String get cache_cleared => 'कैश साफ़ हो गया';
 
   @override
-  String get clear_chapter_or_episode_cache_on_app_launch =>
-      'ऐप लॉन्च पर अध्याय/एपिसोड कैश साफ़ करें';
+  String get clear_chapter_or_episode_cache_on_app_launch => 'ऐप लॉन्च पर अध्याय/एपिसोड कैश साफ़ करें';
 
   @override
   String get app_settings => 'ऐप सेटिंग्स';
@@ -1390,8 +1363,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sources_settings => 'स्रोत सेटिंग्स';
 
   @override
-  String get include_sensitive_settings =>
-      'संवेदनशील सेटिंग्स शामिल करें (जैसे, ट्रैकर लॉगिन टोकन)';
+  String get include_sensitive_settings => 'संवेदनशील सेटिंग्स शामिल करें (जैसे, ट्रैकर लॉगिन टोकन)';
 
   @override
   String get create => 'बनाएं';
@@ -1430,8 +1402,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get novel_extensions_repo => 'उपन्यास एक्सटेंशन रेपो';
 
   @override
-  String get custom_dns =>
-      'कस्टम DNS (सिस्टम DNS का उपयोग करने के लिए खाली छोड़ें)';
+  String get custom_dns => 'कस्टम DNS (सिस्टम DNS का उपयोग करने के लिए खाली छोड़ें)';
 
   @override
   String get android_proxy_server => 'Android प्रॉक्सी सर्वर (ApkBridge)';
@@ -1523,8 +1494,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get chapter_completed => 'अध्याय पूर्ण';
 
   @override
-  String get continue_to_next_chapter =>
-      'अगला अध्याय पढ़ने के लिए स्क्रॉल करना जारी रखें';
+  String get continue_to_next_chapter => 'अगला अध्याय पढ़ने के लिए स्क्रॉल करना जारी रखें';
 
   @override
   String get no_next_chapter => 'कोई अगला अध्याय नहीं';
@@ -1542,8 +1512,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get enable_hardware_accel => 'हार्डवेयर त्वरण';
 
   @override
-  String get enable_hardware_accel_info =>
-      'यदि आप बग या क्रैश का सामना कर रहे हैं तो इसे चालू/बंद करें';
+  String get enable_hardware_accel_info => 'यदि आप बग या क्रैश का सामना कर रहे हैं तो इसे चालू/बंद करें';
 
   @override
   String get track_library_navigate => 'मौजूदा लोकल एंट्री पर जाएं';
@@ -1552,12 +1521,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get track_library_add => 'लोकल लाइब्रेरी में जोड़ें';
 
   @override
-  String get track_library_add_confirm =>
-      'ट्रैक की गई आइटम को लोकल लाइब्रेरी में जोड़ें';
+  String get track_library_add_confirm => 'ट्रैक की गई आइटम को लोकल लाइब्रेरी में जोड़ें';
 
   @override
-  String get track_library_not_logged =>
-      'इस सुविधा का उपयोग करने के लिए संबंधित ट्रैकर में लॉगिन करें!';
+  String get track_library_not_logged => 'इस सुविधा का उपयोग करने के लिए संबंधित ट्रैकर में लॉगिन करें!';
 
   @override
   String get track_library_switch => 'किसी अन्य ट्रैकर पर स्विच करें';
@@ -1566,8 +1533,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get go_back => 'वापस जाएं';
 
   @override
-  String get merge_library_nav_mobile =>
-      'मोबाइल पर लाइब्रेरी नेविगेशन मर्ज करें';
+  String get merge_library_nav_mobile => 'मोबाइल पर लाइब्रेरी नेविगेशन मर्ज करें';
 
   @override
   String get enable_discord_rpc => 'Discord RPC सक्षम करें';
@@ -1576,8 +1542,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get hide_discord_rpc_incognito => 'गुप्त मोड में Discord RPC छिपाएं';
 
   @override
-  String get rpc_show_reading_watching_progress =>
-      'Discord में वर्तमान अध्याय दिखाएं (पुनरारंभ की आवश्यकता है)';
+  String get rpc_show_reading_watching_progress => 'Discord में वर्तमान अध्याय दिखाएं (पुनरारंभ की आवश्यकता है)';
 
   @override
   String get rpc_show_title => 'Discord में वर्तमान शीर्षक दिखाएं';
@@ -1604,12 +1569,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get mpv_redownload => 'mpv कॉन्फ़िग फ़ाइलें फिर से डाउनलोड करें';
 
   @override
-  String get mpv_redownload_info =>
-      'पुरानी कॉन्फ़िग फ़ाइलों को नई से बदल देता है!';
+  String get mpv_redownload_info => 'पुरानी कॉन्फ़िग फ़ाइलों को नई से बदल देता है!';
 
   @override
-  String get mpv_download =>
-      'MPV कॉन्फ़िग फ़ाइलें आवश्यक हैं!\nअभी डाउनलोड करें?';
+  String get mpv_download => 'MPV कॉन्फ़िग फ़ाइलें आवश्यक हैं!\nअभी डाउनलोड करें?';
 
   @override
   String get custom_buttons => 'कस्टम बटन';
@@ -1733,8 +1696,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get clear_library => 'लाइब्रेरी साफ़ करें';
 
   @override
-  String get clear_library_desc =>
-      'सभी मंगा, एनीमे और/या उपन्यास प्रविष्टियों को साफ़ करने का चयन करें';
+  String get clear_library_desc => 'सभी मंगा, एनीमे और/या उपन्यास प्रविष्टियों को साफ़ करने का चयन करें';
 
   @override
   String get clear_library_input =>
@@ -1780,8 +1742,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get show_scroll_percentage => 'स्क्रॉल प्रतिशत दिखाएं';
 
   @override
-  String get remove_extra_paragraph_spacing =>
-      'अतिरिक्त पैराग्राफ स्पेसिंग हटाएं';
+  String get remove_extra_paragraph_spacing => 'अतिरिक्त पैराग्राफ स्पेसिंग हटाएं';
 
   @override
   String select_label_color(Object label) {
@@ -1795,8 +1756,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get forceLandscapeMode => 'Force landscape mode';
 
   @override
-  String get forceLandscapeModeSubtitle =>
-      'Force the player to use landscape orientation.';
+  String get forceLandscapeModeSubtitle => 'Force the player to use landscape orientation.';
 
   @override
   String get dns_over_https => 'DNS-over-HTTPS (DoH)';

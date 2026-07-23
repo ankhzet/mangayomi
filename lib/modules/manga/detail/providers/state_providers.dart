@@ -15,6 +15,14 @@ class ChaptersListState extends _$ChaptersListState {
     return [];
   }
 
+  void setState(List<Chapter> newState) {
+    state = newState;
+
+    if (state.isEmpty) {
+      ref.read(isLongPressedStateProvider.notifier).update(false);
+    }
+  }
+
   void update(Chapter value) {
     var newList = state.reversed.toList();
     if (newList.contains(value)) {
@@ -22,53 +30,58 @@ class ChaptersListState extends _$ChaptersListState {
     } else {
       newList.add(value);
     }
-    if (newList.isEmpty) {
-      ref.read(isLongPressedStateProvider.notifier).update(false);
-    }
-    state = newList;
+
+    setState(newList);
   }
 
-  void selectAll(Chapter value) {
-    var newList = state.reversed.toList();
-    if (!newList.contains(value)) {
-      newList.add(value);
-    }
-
-    state = newList;
+  void selectAll(Iterable<Chapter> list) {
+    setState(state.reversed.followedBy(list).toSet().toList());
   }
 
   void selectSome(Chapter value) {
     var newList = state.reversed.toList();
+
     if (newList.contains(value)) {
       newList.remove(value);
     } else {
       newList.add(value);
     }
-    state = newList;
+
+    setState(newList);
   }
 
   void updateAll(List<Chapter> chapters) {
+    var changed = chapters.isNotEmpty;
+
+    if (!changed) {
+      return;
+    }
+
     var newList = state.reversed.toList();
-    bool changed = false;
+
     for (var chapter in chapters) {
       if (newList.contains(chapter)) {
         newList.remove(chapter);
-        changed = true;
       } else {
         newList.add(chapter);
-        changed = true;
       }
     }
-    if (newList.isEmpty) {
-      ref.read(isLongPressedStateProvider.notifier).update(false);
-    }
-    if (changed) {
-      state = newList;
+
+    setState(newList);
+  }
+
+  void toggleGroup(List<Chapter> chapters) {
+    var included = chapters.any((chapter) => state.contains(chapter));
+
+    if (included) {
+      setState(state.reversed.followedBy(chapters).toSet().toList());
+    } else {
+      setState(state.reversed.where((chapter) => !chapters.contains(chapter)).toList());
     }
   }
 
   void clear() {
-    state = [];
+    setState([]);
   }
 }
 

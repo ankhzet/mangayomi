@@ -69,17 +69,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get last_update_check => 'آخر فحص للتحديثات';
 
   @override
-  String last_entry_delete_warning(
-    num count,
-    Object entryType,
-    Object entryTypePlural,
-    Object mediaType,
-  ) {
+  String last_entry_delete_warning(num count, Object entryType, Object entryTypePlural, Object mediaType) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          'أنت بتحذف كل الـ$count $entryTypePlural من هذا الـ$mediaType من المكتبة.',
+      other: 'أنت بتحذف كل الـ$count $entryTypePlural من هذا الـ$mediaType من المكتبة.',
       one: 'أنت بتحذف الـ$entryType الوحيد من هذا الـ$mediaType من المكتبة.',
     );
     return '$_temp0\nهذا كمان هيشيل الـ$mediaType بالكامل من مكتبتك.\n\nملاحظة: الملفات نفسها مش هتتحذف.';
@@ -152,8 +146,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get other => 'آخر';
 
   @override
-  String get show_continue_reading_buttons =>
-      'إظهار أزرار الاستمرار في القراءة';
+  String get show_continue_reading_buttons => 'إظهار أزرار الاستمرار في القراءة';
 
   @override
   String get show_continue_watching_buttons => 'إظهار أزرار المتابعة';
@@ -186,8 +179,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get remove => 'إزالة';
 
   @override
-  String get remove_history_msg =>
-      'سيتم إزالة تاريخ القراءة لهذا الفصل. هل أنت متأكد؟';
+  String get remove_history_msg => 'سيتم إزالة تاريخ القراءة لهذا الفصل. هل أنت متأكد؟';
 
   @override
   String get last_used => 'آخر استخدام';
@@ -225,8 +217,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get clean_database_desc =>
-      'سيؤدي هذا إلى إزالة جميع العناصر التي لم تتم إضافتها إلى المكتبة!';
+  String get clean_database_desc => 'سيؤدي هذا إلى إزالة جميع العناصر التي لم تتم إضافتها إلى المكتبة!';
 
   @override
   String get incognito_mode => 'وضع التخفي';
@@ -238,8 +229,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get downloaded_only => 'المحملة فقط';
 
   @override
-  String get downloaded_only_description =>
-      'إظهار الإدخالات المحملة فقط في مكتبتك';
+  String get downloaded_only_description => 'إظهار الإدخالات المحملة فقط في مكتبتك';
 
   @override
   String get download_queue => 'قائمة الانتظار للتحميل';
@@ -266,8 +256,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get edit_categories => 'تحرير الفئات';
 
   @override
-  String get edit_categories_description =>
-      'ليس لديك أي فئات. اضغط على زر الإضافة لإنشاء واحدة لتنظيم مكتبتك';
+  String get edit_categories_description => 'ليس لديك أي فئات. اضغط على زر الإضافة لإنشاء واحدة لتنظيم مكتبتك';
 
   @override
   String get add => 'إضافة';
@@ -725,15 +714,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sync_button_upload => 'رفع فقط';
 
   @override
-  String get sync_button_upload_info =>
-      'ستستبدل هذه العملية البيانات البعيدة بالكامل بالبيانات المحلية!';
+  String get sync_button_upload_info => 'ستستبدل هذه العملية البيانات البعيدة بالكامل بالبيانات المحلية!';
 
   @override
   String get sync_button_download => 'تنزيل فقط';
 
   @override
-  String get sync_button_download_info =>
-      'ستستبدل هذه العملية البيانات المحلية بالكامل بالبيانات البعيدة!';
+  String get sync_button_download_info => 'ستستبدل هذه العملية البيانات المحلية بالكامل بالبيانات البعيدة!';
 
   @override
   String get sync_on => 'تمكين المزامنة';
@@ -781,15 +768,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get reorder_navigation => 'تخصيص التنقل';
 
   @override
-  String get reorder_navigation_description =>
-      'أعد ترتيب وتبديل كل تنقل حسب احتياجاتك.';
+  String get reorder_navigation_description => 'أعد ترتيب وتبديل كل تنقل حسب احتياجاتك.';
 
   @override
   String get full_screen_player => 'استخدام الشاشة الكاملة';
 
   @override
-  String get full_screen_player_info =>
-      'استخدام الشاشة الكاملة تلقائيًا عند تشغيل الفيديو.';
+  String get full_screen_player_info => 'استخدام الشاشة الكاملة تلقائيًا عند تشغيل الفيديو.';
 
   @override
   String episode_progress(Object n) {
@@ -924,8 +909,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get auto_extensions_updates => 'تحديثات الامتداد التلقائية';
 
   @override
-  String get auto_extensions_updates_subtitle =>
-      'سيتم تحديث الامتداد تلقائياً عند توفر إصدار جديد.';
+  String get auto_extensions_updates_subtitle => 'سيتم تحديث الامتداد تلقائياً عند توفر إصدار جديد.';
 
   @override
   String get check_for_app_updates => 'تحقق من تحديثات التطبيق عند بدء التشغيل';
@@ -995,19 +979,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get create_backup => 'إنشاء نسخة احتياطية';
 
   @override
-  String get create_backup_dialog_title =>
-      'ما الذي ترغب في أخذ نسخة احتياطية منه؟';
+  String get create_backup_dialog_title => 'ما الذي ترغب في أخذ نسخة احتياطية منه؟';
 
   @override
-  String get create_backup_subtitle =>
-      'يمكن استخدامها لاستعادة المكتبة الحالية';
+  String get create_backup_subtitle => 'يمكن استخدامها لاستعادة المكتبة الحالية';
 
   @override
   String get restore_backup => 'استعادة النسخة الاحتياطية';
 
   @override
-  String get restore_backup_subtitle =>
-      'استعادة المكتبة من ملف النسخة الاحتياطية';
+  String get restore_backup_subtitle => 'استعادة المكتبة من ملف النسخة الاحتياطية';
 
   @override
   String get automatic_backups => 'النسخ الاحتياطي التلقائي';
@@ -1022,16 +1003,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get backup_options => 'خيارات النسخ الاحتياطي';
 
   @override
-  String get backup_options_dialog_title =>
-      'ما الذي ترغب في أخذ نسخة احتياطية منه؟';
+  String get backup_options_dialog_title => 'ما الذي ترغب في أخذ نسخة احتياطية منه؟';
 
   @override
-  String get backup_options_subtitle =>
-      'المعلومات التي يجب تضمينها في ملف النسخة الاحتياطية';
+  String get backup_options_subtitle => 'المعلومات التي يجب تضمينها في ملف النسخة الاحتياطية';
 
   @override
-  String get backup_and_restore_warning_info =>
-      'يجب الاحتفاظ بنسخ من النسخ الاحتياطية في أماكن أخرى كذلك';
+  String get backup_and_restore_warning_info => 'يجب الاحتفاظ بنسخ من النسخ الاحتياطية في أماكن أخرى كذلك';
 
   @override
   String get library_entries => 'مدخلات المكتبة';
@@ -1093,15 +1071,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get video_audio => 'الصوت';
 
   @override
-  String get video_audio_info =>
-      'اللغات المفضلة، تصحيح طبقة الصوت، قنوات الصوت';
+  String get video_audio_info => 'اللغات المفضلة، تصحيح طبقة الصوت، قنوات الصوت';
 
   @override
   String get player => 'لاعب';
 
   @override
-  String get markEpisodeAsSeenSetting =>
-      'في أي نقطة لوضع علامة على الحلقة كمشاهدة';
+  String get markEpisodeAsSeenSetting => 'في أي نقطة لوضع علامة على الحلقة كمشاهدة';
 
   @override
   String get default_skip_intro_length => 'طول تخطي المقدمة الافتراضي';
@@ -1122,8 +1098,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get default_skip_forward_skip_length => 'طول التخطي الافتراضي للأمام';
 
   @override
-  String get aniskip_requires_info =>
-      'AniSkip يتطلب تتبع الأنمي باستخدام MAL أو Anilist للعمل.';
+  String get aniskip_requires_info => 'AniSkip يتطلب تتبع الأنمي باستخدام MAL أو Anilist للعمل.';
 
   @override
   String get enable_aniskip => 'تمكين AniSkip';
@@ -1272,8 +1247,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get background => 'الخلفية';
 
   @override
-  String get no_subtite_warning_message =>
-      'لا تؤثر لأنه لا توجد مسارات ترجمة في هذا الفيديو';
+  String get no_subtite_warning_message => 'لا تؤثر لأنه لا توجد مسارات ترجمة في هذا الفيديو';
 
   @override
   String get grid_size => 'حجم الشبكة';
@@ -1293,12 +1267,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get use_libass => 'تفعيل libass';
 
   @override
-  String get use_libass_info =>
-      'استخدام عرض الترجمة المستندة إلى libass للواجهة الخلفية الأصلية.';
+  String get use_libass_info => 'استخدام عرض الترجمة المستندة إلى libass للواجهة الخلفية الأصلية.';
 
   @override
-  String get libass_not_disable_message =>
-      'عطل `استخدام libass` في إعدادات المشغل لتتمكن من تخصيص الترجمة.';
+  String get libass_not_disable_message => 'عطل `استخدام libass` في إعدادات المشغل لتتمكن من تخصيص الترجمة.';
 
   @override
   String get torrent_stream => 'بث التورنت';
@@ -1371,15 +1343,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get storage => 'التخزين';
 
   @override
-  String get clear_chapter_and_episode_cache =>
-      'مسح ذاكرة التخزين المؤقت للفصول والحلقات';
+  String get clear_chapter_and_episode_cache => 'مسح ذاكرة التخزين المؤقت للفصول والحلقات';
 
   @override
   String get cache_cleared => 'تم مسح ذاكرة التخزين المؤقت';
 
   @override
-  String get clear_chapter_or_episode_cache_on_app_launch =>
-      'مسح ذاكرة التخزين المؤقت للفصول/الحلقات عند فتح التطبيق';
+  String get clear_chapter_or_episode_cache_on_app_launch => 'مسح ذاكرة التخزين المؤقت للفصول/الحلقات عند فتح التطبيق';
 
   @override
   String get app_settings => 'إعدادات التطبيق';
@@ -1388,8 +1358,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sources_settings => 'إعدادات المصادر';
 
   @override
-  String get include_sensitive_settings =>
-      'تضمين الإعدادات الحساسة (مثل رموز تسجيل الدخول للمتعقب)';
+  String get include_sensitive_settings => 'تضمين الإعدادات الحساسة (مثل رموز تسجيل الدخول للمتعقب)';
 
   @override
   String get create => 'إنشاء';
@@ -1443,8 +1412,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get undefined => 'غير محدد';
 
   @override
-  String get empty_extensions_repo =>
-      'ليس لديك أي عناوين URL للمستودع هنا. انقر على زر الإضافة لإضافة واحد!';
+  String get empty_extensions_repo => 'ليس لديك أي عناوين URL للمستودع هنا. انقر على زر الإضافة لإضافة واحد!';
 
   @override
   String get add_extensions_repo => 'إضافة عنوان URL للمستودع';
@@ -1477,8 +1445,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get clear_all_sources => 'مسح جميع المصادر';
 
   @override
-  String get clear_all_sources_msg =>
-      'سيؤدي هذا إلى مسح جميع مصادر التطبيق تمامًا. هل أنت متأكد أنك تريد المتابعة؟';
+  String get clear_all_sources_msg => 'سيؤدي هذا إلى مسح جميع مصادر التطبيق تمامًا. هل أنت متأكد أنك تريد المتابعة؟';
 
   @override
   String get sources_cleared => 'تم مسح المصادر!!!';
@@ -1510,8 +1477,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get unsupported_repo =>
-      'لقد حاولت إضافة مستودع غير مدعوم. يرجى التحقق من خادم الخلاف للحصول على الدعم!';
+  String get unsupported_repo => 'لقد حاولت إضافة مستودع غير مدعوم. يرجى التحقق من خادم الخلاف للحصول على الدعم!';
 
   @override
   String get end_of_chapter => 'نهاية الفصل';
@@ -1538,8 +1504,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enable_hardware_accel => 'تسريع الأجهزة';
 
   @override
-  String get enable_hardware_accel_info =>
-      'قم بتشغيله/إيقافه إذا كنت تواجه أخطاء أو أعطال';
+  String get enable_hardware_accel_info => 'قم بتشغيله/إيقافه إذا كنت تواجه أخطاء أو أعطال';
 
   @override
   String get track_library_navigate => 'انتقل إلى الإدخال المحلي الموجود';
@@ -1548,12 +1513,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get track_library_add => 'أضف إلى المكتبة المحلية';
 
   @override
-  String get track_library_add_confirm =>
-      'إضافة العنصر المتتبع إلى المكتبة المحلية';
+  String get track_library_add_confirm => 'إضافة العنصر المتتبع إلى المكتبة المحلية';
 
   @override
-  String get track_library_not_logged =>
-      'قم بتسجيل الدخول إلى المتتبع المقابل لاستخدام هذه الميزة!';
+  String get track_library_not_logged => 'قم بتسجيل الدخول إلى المتتبع المقابل لاستخدام هذه الميزة!';
 
   @override
   String get track_library_switch => 'التبديل إلى متتبع آخر';
@@ -1562,8 +1525,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get go_back => 'العودة';
 
   @override
-  String get merge_library_nav_mobile =>
-      'دمج التنقل في المكتبة على الهاتف المحمول';
+  String get merge_library_nav_mobile => 'دمج التنقل في المكتبة على الهاتف المحمول';
 
   @override
   String get enable_discord_rpc => 'تمكين Discord RPC';
@@ -1572,8 +1534,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get hide_discord_rpc_incognito => 'إخفاء Discord RPC في وضع التخفي';
 
   @override
-  String get rpc_show_reading_watching_progress =>
-      'إظهار الفصل الحالي في Discord (يتطلب إعادة التشغيل)';
+  String get rpc_show_reading_watching_progress => 'إظهار الفصل الحالي في Discord (يتطلب إعادة التشغيل)';
 
   @override
   String get rpc_show_title => 'إظهار العنوان الحالي في Discord';
@@ -1679,8 +1640,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enable_audio_pitch_correction => 'تمكين تصحيح طبقة الصوت';
 
   @override
-  String get enable_audio_pitch_correction_info =>
-      'يمنع الصوت من أن يصبح حادًا بسرعات أسرع وعميقًا بسرعات أبطأ';
+  String get enable_audio_pitch_correction_info => 'يمنع الصوت من أن يصبح حادًا بسرعات أسرع وعميقًا بسرعات أبطأ';
 
   @override
   String get audio_channels => 'قنوات الصوت';
@@ -1727,8 +1687,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get clear_library => 'مسح المكتبة';
 
   @override
-  String get clear_library_desc =>
-      'اختر مسح جميع إدخالات المانجا والأنمي و/أو الرواية';
+  String get clear_library_desc => 'اختر مسح جميع إدخالات المانجا والأنمي و/أو الرواية';
 
   @override
   String get clear_library_input =>
@@ -1774,8 +1733,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get show_scroll_percentage => 'إظهار نسبة التمرير';
 
   @override
-  String get remove_extra_paragraph_spacing =>
-      'إزالة المسافات الإضافية بين الفقرات';
+  String get remove_extra_paragraph_spacing => 'إزالة المسافات الإضافية بين الفقرات';
 
   @override
   String select_label_color(Object label) {
@@ -1789,8 +1747,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get forceLandscapeMode => 'Force landscape mode';
 
   @override
-  String get forceLandscapeModeSubtitle =>
-      'Force the player to use landscape orientation.';
+  String get forceLandscapeModeSubtitle => 'Force the player to use landscape orientation.';
 
   @override
   String get dns_over_https => 'DNS-over-HTTPS (DoH)';

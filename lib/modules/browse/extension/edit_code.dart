@@ -683,6 +683,7 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                                                 query: _query,
                                                 page: _page,
                                                 filterList: filters,
+                                                useLogger: true,
                                               ).future,
                                             );
                                             result = getManga!.toJson();

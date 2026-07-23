@@ -69,19 +69,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get last_update_check => 'Pemeriksaan Pembaruan Terakhir';
 
   @override
-  String last_entry_delete_warning(
-    num count,
-    Object entryType,
-    Object entryTypePlural,
-    Object mediaType,
-  ) {
+  String last_entry_delete_warning(num count, Object entryType, Object entryTypePlural, Object mediaType) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          'Kamu sedang menghapus semua $count $entryTypePlural dari $mediaType ini di perpustakaan kamu.',
-      one:
-          'Kamu sedang menghapus satu-satunya $entryType dari $mediaType ini di perpustakaan kamu.',
+      other: 'Kamu sedang menghapus semua $count $entryTypePlural dari $mediaType ini di perpustakaan kamu.',
+      one: 'Kamu sedang menghapus satu-satunya $entryType dari $mediaType ini di perpustakaan kamu.',
     );
     return '$_temp0\nIni juga akan menghapus seluruh $mediaType dari perpustakaanmu.\n\nCatatan: File-nya sendiri tidak akan dihapus.';
   }
@@ -153,12 +146,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get other => 'Lainnya';
 
   @override
-  String get show_continue_reading_buttons =>
-      'Tampilkan Tombol Lanjutkan Membaca';
+  String get show_continue_reading_buttons => 'Tampilkan Tombol Lanjutkan Membaca';
 
   @override
-  String get show_continue_watching_buttons =>
-      'Tampilkan tombol lanjut menonton';
+  String get show_continue_watching_buttons => 'Tampilkan tombol lanjut menonton';
 
   @override
   String get empty_library => 'Perpustakaan Kosong';
@@ -173,12 +164,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get remove_everything => 'Hapus Semua';
 
   @override
-  String get remove_everything_msg =>
-      'Apakah Anda yakin? Semua riwayat akan hilang';
+  String get remove_everything_msg => 'Apakah Anda yakin? Semua riwayat akan hilang';
 
   @override
-  String get remove_all_update_msg =>
-      'Apakah Anda yakin? Seluruh pembaruan akan dihapus';
+  String get remove_all_update_msg => 'Apakah Anda yakin? Seluruh pembaruan akan dihapus';
 
   @override
   String get ok => 'Baik';
@@ -190,8 +179,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get remove => 'Hapus';
 
   @override
-  String get remove_history_msg =>
-      'Riwayat bacaan untuk bab ini akan dihapus. Apakah Anda yakin?';
+  String get remove_history_msg => 'Riwayat bacaan untuk bab ini akan dihapus. Apakah Anda yakin?';
 
   @override
   String get last_used => 'Terakhir Digunakan';
@@ -229,8 +217,7 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get clean_database_desc =>
-      'Ini akan menghapus semua item yang tidak ditambahkan ke perpustakaan!';
+  String get clean_database_desc => 'Ini akan menghapus semua item yang tidak ditambahkan ke perpustakaan!';
 
   @override
   String get incognito_mode => 'Mode Incognito';
@@ -242,8 +229,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get downloaded_only => 'Hanya yang diunduh';
 
   @override
-  String get downloaded_only_description =>
-      'Hanya tampilkan entri yang diunduh di perpustakaan Anda';
+  String get downloaded_only_description => 'Hanya tampilkan entri yang diunduh di perpustakaan Anda';
 
   @override
   String get download_queue => 'Antrian Unduhan';
@@ -345,8 +331,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get relative_timestamp_short => 'Singkat (Hari Ini, Kemarin)';
 
   @override
-  String get relative_timestamp_long =>
-      'Panjang (Singkat+, Beberapa Hari Lalu)';
+  String get relative_timestamp_long => 'Panjang (Singkat+, Beberapa Hari Lalu)';
 
   @override
   String get date_format => 'Format Tanggal';
@@ -424,8 +409,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get browse_subtitle => 'Sumber, Pencarian Umum';
 
   @override
-  String get only_include_pinned_sources =>
-      'Hanya Sertakan Sumber yang Ditandai';
+  String get only_include_pinned_sources => 'Hanya Sertakan Sumber yang Ditandai';
 
   @override
   String get nsfw_sources => 'Sumber NSFW (+18)';
@@ -731,15 +715,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get sync_button_upload => 'Hanya unggah';
 
   @override
-  String get sync_button_upload_info =>
-      'Operasi ini akan sepenuhnya menggantikan data jarak jauh dengan data lokal!';
+  String get sync_button_upload_info => 'Operasi ini akan sepenuhnya menggantikan data jarak jauh dengan data lokal!';
 
   @override
   String get sync_button_download => 'Hanya unduh';
 
   @override
-  String get sync_button_download_info =>
-      'Operasi ini akan sepenuhnya menggantikan data lokal dengan data jarak jauh!';
+  String get sync_button_download_info => 'Operasi ini akan sepenuhnya menggantikan data lokal dengan data jarak jauh!';
 
   @override
   String get sync_on => 'Aktifkan sinkronisasi';
@@ -748,8 +730,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get sync_auto => 'Sinkronisasi otomatis';
 
   @override
-  String get sync_auto_warning =>
-      'Sinkronisasi otomatis saat ini adalah fitur eksperimental!';
+  String get sync_auto_warning => 'Sinkronisasi otomatis saat ini adalah fitur eksperimental!';
 
   @override
   String get sync_auto_off => 'Mati';
@@ -788,15 +769,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get reorder_navigation => 'Sesuaikan navigasi';
 
   @override
-  String get reorder_navigation_description =>
-      'Atur ulang dan sesuaikan setiap navigasi sesuai kebutuhan Anda.';
+  String get reorder_navigation_description => 'Atur ulang dan sesuaikan setiap navigasi sesuai kebutuhan Anda.';
 
   @override
   String get full_screen_player => 'Gunakan Layar Penuh';
 
   @override
-  String get full_screen_player_info =>
-      'Otomatis gunakan layar penuh saat memutar video.';
+  String get full_screen_player_info => 'Otomatis gunakan layar penuh saat memutar video.';
 
   @override
   String episode_progress(Object n) {
@@ -1005,15 +984,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get create_backup_dialog_title => 'Apa yang ingin Anda cadangkan?';
 
   @override
-  String get create_backup_subtitle =>
-      'Dapat digunakan untuk memulihkan perpustakaan saat ini';
+  String get create_backup_subtitle => 'Dapat digunakan untuk memulihkan perpustakaan saat ini';
 
   @override
   String get restore_backup => 'Pulihkan cadangan';
 
   @override
-  String get restore_backup_subtitle =>
-      'Pulihkan perpustakaan dari berkas cadangan';
+  String get restore_backup_subtitle => 'Pulihkan perpustakaan dari berkas cadangan';
 
   @override
   String get automatic_backups => 'Cadangan otomatis';
@@ -1031,12 +1008,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get backup_options_dialog_title => 'Apa yang ingin Anda cadangkan?';
 
   @override
-  String get backup_options_subtitle =>
-      'Informasi apa yang akan disertakan dalam berkas cadangan';
+  String get backup_options_subtitle => 'Informasi apa yang akan disertakan dalam berkas cadangan';
 
   @override
-  String get backup_and_restore_warning_info =>
-      'Anda harus menyimpan salinan cadangan di tempat lain juga';
+  String get backup_and_restore_warning_info => 'Anda harus menyimpan salinan cadangan di tempat lain juga';
 
   @override
   String get library_entries => 'Entri perpustakaan';
@@ -1104,15 +1079,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get player => 'Pemain';
 
   @override
-  String get markEpisodeAsSeenSetting =>
-      'Pada titik mana menandai episode sebagai terlihat';
+  String get markEpisodeAsSeenSetting => 'Pada titik mana menandai episode sebagai terlihat';
 
   @override
   String get default_skip_intro_length => 'Panjang lewati intro default';
 
   @override
-  String get default_playback_speed_length =>
-      'Panjang kecepatan pemutaran default';
+  String get default_playback_speed_length => 'Panjang kecepatan pemutaran default';
 
   @override
   String get updateProgressAfterReading => 'Perbarui kemajuan setelah membaca';
@@ -1124,8 +1097,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get show_extensions => 'Tampilkan ekstensi';
 
   @override
-  String get default_skip_forward_skip_length =>
-      'Panjang lompatan maju default';
+  String get default_skip_forward_skip_length => 'Panjang lompatan maju default';
 
   @override
   String get aniskip_requires_info =>
@@ -1278,8 +1250,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get background => 'Latar Belakang';
 
   @override
-  String get no_subtite_warning_message =>
-      'Tidak berpengaruh karena tidak ada trek subtitle dalam video ini';
+  String get no_subtite_warning_message => 'Tidak berpengaruh karena tidak ada trek subtitle dalam video ini';
 
   @override
   String get grid_size => 'Ukuran Grid';
@@ -1299,8 +1270,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get use_libass => 'Aktifkan libass';
 
   @override
-  String get use_libass_info =>
-      'Gunakan rendering subtitle berbasis libass untuk backend asli.';
+  String get use_libass_info => 'Gunakan rendering subtitle berbasis libass untuk backend asli.';
 
   @override
   String get libass_not_disable_message =>
@@ -1383,8 +1353,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get cache_cleared => 'Cache dihapus';
 
   @override
-  String get clear_chapter_or_episode_cache_on_app_launch =>
-      'Hapus cache bab/episode saat aplikasi dibuka';
+  String get clear_chapter_or_episode_cache_on_app_launch => 'Hapus cache bab/episode saat aplikasi dibuka';
 
   @override
   String get app_settings => 'Pengaturan aplikasi';
@@ -1393,15 +1362,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get sources_settings => 'Pengaturan sumber';
 
   @override
-  String get include_sensitive_settings =>
-      'Sertakan pengaturan sensitif (misalnya, token login pelacak)';
+  String get include_sensitive_settings => 'Sertakan pengaturan sensitif (misalnya, token login pelacak)';
 
   @override
   String get create => 'Buat';
 
   @override
-  String get downloads_are_limited_to_wifi =>
-      'Unduhan dibatasi hanya untuk Wi-Fi';
+  String get downloads_are_limited_to_wifi => 'Unduhan dibatasi hanya untuk Wi-Fi';
 
   @override
   String get recommendations => 'Rekomendasi';
@@ -1434,8 +1401,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get novel_extensions_repo => 'Repositori ekstensi novel';
 
   @override
-  String get custom_dns =>
-      'DNS kustom (biarkan kosong untuk menggunakan DNS sistem)';
+  String get custom_dns => 'DNS kustom (biarkan kosong untuk menggunakan DNS sistem)';
 
   @override
   String get android_proxy_server => 'Server Proxy Android (ApkBridge)';
@@ -1527,8 +1493,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get chapter_completed => 'Bab selesai';
 
   @override
-  String get continue_to_next_chapter =>
-      'Lanjutkan gulir untuk membaca bab berikutnya';
+  String get continue_to_next_chapter => 'Lanjutkan gulir untuk membaca bab berikutnya';
 
   @override
   String get no_next_chapter => 'Tidak ada bab berikutnya';
@@ -1546,8 +1511,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get enable_hardware_accel => 'Akselerasi perangkat keras';
 
   @override
-  String get enable_hardware_accel_info =>
-      'Aktifkan/nonaktifkan jika Anda mengalami bug atau crash';
+  String get enable_hardware_accel_info => 'Aktifkan/nonaktifkan jika Anda mengalami bug atau crash';
 
   @override
   String get track_library_navigate => 'Pergi ke entri lokal yang ada';
@@ -1556,12 +1520,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get track_library_add => 'Tambahkan ke perpustakaan lokal';
 
   @override
-  String get track_library_add_confirm =>
-      'Tambahkan item yang dilacak ke perpustakaan lokal';
+  String get track_library_add_confirm => 'Tambahkan item yang dilacak ke perpustakaan lokal';
 
   @override
-  String get track_library_not_logged =>
-      'Masuk ke pelacak yang sesuai untuk menggunakan fitur ini!';
+  String get track_library_not_logged => 'Masuk ke pelacak yang sesuai untuk menggunakan fitur ini!';
 
   @override
   String get track_library_switch => 'Beralih ke pelacak lain';
@@ -1570,26 +1532,22 @@ class AppLocalizationsId extends AppLocalizations {
   String get go_back => 'Kembali';
 
   @override
-  String get merge_library_nav_mobile =>
-      'Gabungkan navigasi perpustakaan di ponsel';
+  String get merge_library_nav_mobile => 'Gabungkan navigasi perpustakaan di ponsel';
 
   @override
   String get enable_discord_rpc => 'Aktifkan Discord RPC';
 
   @override
-  String get hide_discord_rpc_incognito =>
-      'Sembunyikan Discord RPC saat Inkognito';
+  String get hide_discord_rpc_incognito => 'Sembunyikan Discord RPC saat Inkognito';
 
   @override
-  String get rpc_show_reading_watching_progress =>
-      'Tampilkan bab saat ini di Discord (memerlukan restart)';
+  String get rpc_show_reading_watching_progress => 'Tampilkan bab saat ini di Discord (memerlukan restart)';
 
   @override
   String get rpc_show_title => 'Tampilkan judul saat ini di Discord';
 
   @override
-  String get rpc_show_cover_image =>
-      'Tampilkan gambar sampul saat ini di Discord';
+  String get rpc_show_cover_image => 'Tampilkan gambar sampul saat ini di Discord';
 
   @override
   String get sync_enable_histories => 'Sinkronkan data riwayat';
@@ -1610,12 +1568,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get mpv_redownload => 'Unduh ulang file konfigurasi mpv';
 
   @override
-  String get mpv_redownload_info =>
-      'Mengganti file konfigurasi lama dengan yang baru!';
+  String get mpv_redownload_info => 'Mengganti file konfigurasi lama dengan yang baru!';
 
   @override
-  String get mpv_download =>
-      'File konfigurasi MPV diperlukan!\nUnduh sekarang?';
+  String get mpv_download => 'File konfigurasi MPV diperlukan!\nUnduh sekarang?';
 
   @override
   String get custom_buttons => 'Tombol kustom';
@@ -1662,8 +1618,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get decoder => 'Dekoder';
 
   @override
-  String get decoder_info =>
-      'Dekoding perangkat keras, format piksel, debanding';
+  String get decoder_info => 'Dekoding perangkat keras, format piksel, debanding';
 
   @override
   String get enable_gpu_next => 'Aktifkan gpu-next (khusus Android)';
@@ -1740,8 +1695,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get clear_library => 'Bersihkan perpustakaan';
 
   @override
-  String get clear_library_desc =>
-      'Pilih untuk menghapus semua entri manga, anime dan/atau novel';
+  String get clear_library_desc => 'Pilih untuk menghapus semua entri manga, anime dan/atau novel';
 
   @override
   String get clear_library_input =>
@@ -1801,8 +1755,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get forceLandscapeMode => 'Force landscape mode';
 
   @override
-  String get forceLandscapeModeSubtitle =>
-      'Force the player to use landscape orientation.';
+  String get forceLandscapeModeSubtitle => 'Force the player to use landscape orientation.';
 
   @override
   String get dns_over_https => 'DNS-over-HTTPS (DoH)';

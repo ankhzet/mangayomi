@@ -16,7 +16,7 @@ import '../interface.dart';
 import 'js_cheerio.dart';
 import 'js_htmlparser.dart';
 import 'js_libs.dart';
-import 'js_polyfills.dart';
+import '../javascript/js_polyfills.dart';
 
 JavascriptRuntime getJavascriptRuntime({
   Map<String, dynamic>? extraArgs = const {},

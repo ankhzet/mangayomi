@@ -186,7 +186,7 @@ class _TvAnimeHomeViewState extends ConsumerState<TvAnimeHomeView> {
   /// Synchronous read matching getAllMangaStreamProvider(categoryId: null) —
   /// used to seed the first frame so the spinner never flashes for local data.
   List<Manga> _favoriteAnimeSync() =>
-      isar.mangas.filter().idIsNotNull().favoriteEqualTo(true).and().itemTypeEqualTo(ItemType.anime).findAllSync();
+      isar.mangas.filter().favoriteEqualTo(true).and().itemTypeEqualTo(ItemType.anime).findAllSync();
 
   @override
   Widget build(BuildContext context) {

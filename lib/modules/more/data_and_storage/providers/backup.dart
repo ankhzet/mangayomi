@@ -39,7 +39,6 @@ Future<void> doBackUp(
     if (list.contains(0)) {
       final res = isar.mangas
           .filter()
-          .idIsNotNull()
           .favoriteEqualTo(true)
           .isLocalArchiveEqualTo(false)
           .findAllSync()
@@ -52,7 +51,7 @@ Future<void> doBackUp(
       datas.addAll({"categories": res});
     }
     if (list.contains(2)) {
-      final res = isar.chapters.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
+      final res = isar.chapters.where().findAllSync().map((e) => e.toJson()).toList();
       datas.addAll({"chapters": res});
       final res_ = isar.downloads.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
       datas.addAll({"downloads": res_});

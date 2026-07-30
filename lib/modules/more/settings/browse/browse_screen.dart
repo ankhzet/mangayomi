@@ -474,8 +474,9 @@ void _showClearLibraryDialog(BuildContext context, WidgetRef ref) {
                                           "novel" => ItemType.novel,
                                           _ => null,
                                         },
-                                      ),
-                                  (q, element) => element == null ? q.idIsNull() : q.itemTypeEqualTo(element),
+                                      )
+                                      .whereType<ItemType>(),
+                                  (q, element) => q.itemTypeEqualTo(element),
                                 )
                                 .findAllSync();
                             final provider = ref.read(

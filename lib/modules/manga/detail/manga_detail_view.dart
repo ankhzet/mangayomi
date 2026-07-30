@@ -365,9 +365,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                           actions: [
                             IconButton(
                               onPressed: () {
-                                for (var chapter in chapters) {
-                                  ref.read(chaptersListStateProvider.notifier).selectAll(chapter);
-                                }
+                                ref.read(chaptersListStateProvider.notifier).selectAll(chapters);
                               },
                               icon: const Icon(Icons.select_all),
                             ),
@@ -516,7 +514,6 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                       .toList();
                                   isar.chapters
                                       .filter()
-                                      .idIsNotNull()
                                       .mangaIdEqualTo(widget.manga!.id!)
                                       .isReadEqualTo(false)
                                       .findAllSync();

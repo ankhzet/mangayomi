@@ -298,7 +298,7 @@ class SyncServer extends _$SyncServer {
   ) async {
     final mangas = (jsonData["manga"] as List?)?.map((e) => Manga.fromJson(e)).toList() ?? [];
     await isar.writeTxn(() async {
-      for (var manga in await isar.mangas.filter().idIsNotNull().findAll()) {
+      for (var manga in await isar.mangas.where().findAll()) {
         final temp = mangas.firstWhereOrNull((e) => e.id == manga.id);
         if (temp != null) {
           if ((manga.updatedAt ?? 0) < (temp.updatedAt ?? 1)) {
@@ -322,7 +322,7 @@ class SyncServer extends _$SyncServer {
   ) async {
     final chapters = (jsonData["chapters"] as List?)?.map((e) => Chapter.fromJson(e)).toList() ?? [];
     await isar.writeTxn(() async {
-      for (var chapter in await isar.chapters.filter().idIsNotNull().findAll()) {
+      for (var chapter in await isar.chapters.where().findAll()) {
         final temp = chapters.firstWhereOrNull((e) => e.id == chapter.id);
         if (temp != null) {
           final manga = await isar.mangas.get(temp.mangaId!);
@@ -511,7 +511,7 @@ class SyncServer extends _$SyncServer {
   }
 
   List<Map<String, dynamic>> _getManga() {
-    return isar.mangas.filter().idIsNotNull().findAllSync().map((e) => (e..customCoverImage = null).toJson()).toList();
+    return isar.mangas.where().findAllSync().map((e) => (e..customCoverImage = null).toJson()).toList();
   }
 
   List<Map<String, dynamic>> _getCategories() {
@@ -519,7 +519,7 @@ class SyncServer extends _$SyncServer {
   }
 
   List<Map<String, dynamic>> _getChapters() {
-    return isar.chapters.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
+    return isar.chapters.where().findAllSync().map((e) => e.toJson()).toList();
   }
 
   List<Map<String, dynamic>> _getTracks() {

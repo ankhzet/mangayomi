@@ -118,7 +118,6 @@ class _UpdatesScreenState extends BaseLibraryTabScreenState<UpdatesScreen> {
       final itemType = getCurrentItemType();
       final mangaList = await isar.mangas
           .filter()
-          .idIsNotNull()
           .favoriteEqualTo(true)
           .itemTypeEqualTo(itemType)
           .isLocalArchiveEqualTo(false)

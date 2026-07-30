@@ -181,7 +181,7 @@ void restoreBackup(Ref ref, Map<String, dynamic> backup, {bool full = true}) {
 
             isar.updates.clearSync();
             if (updates != null) {
-              final tempChapters = isar.chapters.filter().idIsNotNull().findAllSync().toList();
+              final tempChapters = isar.chapters.where().findAllSync().toList();
               for (var update in updates) {
                 final matchingChapter = tempChapters
                     .where(

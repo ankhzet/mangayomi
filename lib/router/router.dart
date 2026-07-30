@@ -135,7 +135,7 @@ class RouterNotifier extends ChangeNotifier {
         ),
         _genericRoute<String?>(
           name: "trackerLibrary",
-          builder: (id) => TrackerLibraryScreen(presetInput: id),
+          builder: (_) => const TrackerLibraryScreen(),
         ),
         _genericRoute(name: "history", child: const HistoryScreen()),
         _genericRoute(name: "updates", child: const UpdatesScreen()),

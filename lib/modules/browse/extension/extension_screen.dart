@@ -12,6 +12,7 @@ import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/services/fetch_sources_list.dart';
 import 'package:mangayomi/utils/language.dart';
 import 'package:mangayomi/modules/browse/extension/widgets/extension_list_tile_widget.dart';
+import 'package:mangayomi/utils/platform_utils.dart';
 
 class ExtensionScreen extends ConsumerStatefulWidget {
   final ItemType itemType;
@@ -71,13 +72,19 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
     final repositories = ref.watch(
       extensionsRepoStateProvider(widget.itemType),
     );
+    final showNSFW = ref.watch(showNSFWStateProvider);
 
     final l10n = l10nLocalizations(context)!;
 
     return RefreshIndicator(
       onRefresh: _refreshSources,
       child: Padding(
-        padding: const EdgeInsets.only(top: 10),
+        // Match the sources tab's inset so the two Browse tabs line up on TV.
+        padding: EdgeInsets.only(
+          top: 10,
+          left: isTv ? 8 : 0,
+          right: isTv ? 8 : 0,
+        ),
         child: streamExtensions.when(
           data: (data) {
             final filteredData = widget.query.isEmpty
@@ -98,6 +105,9 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
 
             for (var element in filteredData) {
               if (repositories.firstWhereOrNull((e) => e == element.repo)?.hidden ?? false) {
+                continue;
+              }
+              if (!showNSFW && (element.isNsfw ?? false)) {
                 continue;
               }
               final isLatestVersion = element.version == element.versionLast;
@@ -172,16 +182,16 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
                               await _updateSource(source);
                             }
                           } finally {
-                            setState(() => isUpdating = false);
+                            if (context.mounted) {
+                              setState(() => isUpdating = false);
+                            }
                           }
                         },
                   child: isUpdating
                       ? const SizedBox(
                           width: 16,
                           height: 16,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                          ),
+                          child: CircularProgressIndicator(strokeWidth: 2),
                         )
                       : Text(l10n.update_all),
                 ),
@@ -190,7 +200,9 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
           );
         },
       ),
-      itemBuilder: (context, Source element) => ref.watch(extensionListTileWidget(element)),
+      itemBuilder: (context, Source element) => Consumer(
+        builder: (context, ref, _) => ref.watch(extensionListTileWidget(element)),
+      ),
       groupComparator: (group1, group2) => group1.compareTo(group2),
       itemComparator: (item1, item2) => item1.name?.compareTo(item2.name ?? '') ?? 0,
       order: GroupedListOrder.ASC,
@@ -208,7 +220,9 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
         ),
       ),
-      itemBuilder: (context, Source element) => ref.watch(extensionListTileWidget(element)),
+      itemBuilder: (context, Source element) => Consumer(
+        builder: (context, ref, _) => ref.watch(extensionListTileWidget(element)),
+      ),
       groupComparator: (group1, group2) => group1.compareTo(group2),
       itemComparator: (item1, item2) => item1.name?.compareTo(item2.name ?? '') ?? 0,
       order: GroupedListOrder.ASC,
@@ -226,7 +240,9 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
         ),
       ),
-      itemBuilder: (context, Source element) => ref.watch(extensionListTileWidget(element)),
+      itemBuilder: (context, Source element) => Consumer(
+        builder: (context, ref, _) => ref.watch(extensionListTileWidget(element)),
+      ),
       groupComparator: (group1, group2) => group1.compareTo(group2),
       itemComparator: (item1, item2) => item1.name?.compareTo(item2.name ?? '') ?? 0,
       order: GroupedListOrder.ASC,

@@ -16,11 +16,10 @@ Stream<List<History>> getAllHistoryStream(
   yield* isar.historys
       .filter()
       .idIsNotNull()
-      .and()
-      .chapter((q) => q.manga((q) => q.itemTypeEqualTo(itemType)))
-      .and()
       .chapter(
-        (q) => q.manga((q) => q.nameContains(search, caseSensitive: false)),
+        (q) => q.manga(
+          (q) => q.itemTypeEqualTo(itemType).and().nameContains(search, caseSensitive: false),
+        ),
       )
       .watch(fireImmediately: true);
 }
@@ -34,11 +33,10 @@ Stream<List<Update>> getAllUpdateStream(
   yield* isar.updates
       .filter()
       .idIsNotNull()
-      .and()
-      .chapter((q) => q.manga((q) => q.itemTypeEqualTo(itemType)))
-      .and()
       .chapter(
-        (q) => q.manga((q) => q.nameContains(search, caseSensitive: false)),
+        (q) => q.manga(
+          (q) => q.itemTypeEqualTo(itemType).and().nameContains(search, caseSensitive: false),
+        ),
       )
       .watch(fireImmediately: true);
 }

@@ -1,4 +1,5 @@
-import 'dart:io';
+import 'package:mangayomi/utils/platform_utils.dart';
+import 'package:mangayomi/modules/main_view/providers/tv_mode_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar_community/isar.dart';
@@ -30,7 +31,12 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> with Ticker
   @override
   void initState() {
     super.initState();
-    _visibleTabTypes = hiddenItemTypes(ref.read(hideItemsStateProvider));
+    var types = hiddenItemTypes(ref.read(hideItemsStateProvider));
+    // Anime-only layout: only manage anime categories.
+    if (ref.read(animeOnlyTvModeProvider)) {
+      types = types.where((t) => t == ItemType.anime).toList();
+    }
+    _visibleTabTypes = types;
     _tabBarController = TabController(
       length: _visibleTabTypes.length,
       vsync: this,
@@ -112,15 +118,13 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> with SingleTicker
     super.dispose();
   }
 
-  final bool _isDesktop = Platform.isMacOS || Platform.isLinux || Platform.isWindows;
-
   /// Moves a category from `index` to `newIndex` in the list,
   /// swaps their positions in memory, and persists the change in Isar.
   Future<void> _moveCategory(int index, int newIndex) async {
     // Prevent invalid moves (out of bounds)
     if (newIndex < 0 || newIndex >= _entries.length) return;
 
-    if (_isDesktop && mounted) {
+    if (isDesktop && mounted) {
       setState(() {
         _animatingFromIndex = index;
         _animatingToIndex = newIndex;
@@ -182,7 +186,7 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> with SingleTicker
 
               Widget itemWidget = _buildCategoryCard(context, category, index);
 
-              if (_isDesktop && _animatingFromIndex != null && _animatingToIndex != null) {
+              if (isDesktop && _animatingFromIndex != null && _animatingToIndex != null) {
                 if (index == _animatingFromIndex || index == _animatingToIndex) {
                   final isMovingDown = _animatingFromIndex! < _animatingToIndex!;
                   final offset = index == _animatingFromIndex

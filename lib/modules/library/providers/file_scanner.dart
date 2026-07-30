@@ -279,7 +279,8 @@ Future<void> _scanDirectory(Ref ref, Directory? dir) async {
   final mangaByName = {for (var m in processedMangas) p.basename(m.link!): m};
 
   // iterate through newChapters elements, which are: ["full_path/to/chapter1", "true"]
-  for (var [chapterPath, chapterIsFile] in newChapters) {
+  for (var pathBool in newChapters) {
+    final chapterPath = pathBool[0];
     // pathBool[0] = first element of list (path)
     // dirname = remove last part of path (chapter name), = "full_path/to"
     // basename = remove everything except last (manga name) = "to"
@@ -289,27 +290,43 @@ Future<void> _scanDirectory(Ref ref, Directory? dir) async {
       if (manga.itemType == ItemType.novel) {
         final book = await parseEpubFromPath(
           epubPath: chapterPath,
-          fullData: false,
+          fullData: true,
         );
 
         if (book.cover != null) {
           manga.customCoverImage = book.cover!.getCoverImage;
           saveManga++;
         }
-        chaptersToSave.add(
-          Chapter(
-            mangaId: manga.id,
-            name: book.name,
-            archivePath: chapterPath,
-            downloadSize: null,
-          )..manga.value = manga,
-        );
+        final chaps = book.chapters;
+        if (chaps.isNotEmpty) {
+          for (int i = 0; i < chaps.length; i++) {
+            final epubChapter = chaps[i];
+            chaptersToSave.add(
+              Chapter(
+                mangaId: manga.id,
+                name: epubChapter.name,
+                archivePath: chapterPath,
+                url: epubChapter.path,
+                downloadSize: null,
+              )..manga.value = manga,
+            );
+          }
+        } else {
+          chaptersToSave.add(
+            Chapter(
+              mangaId: manga.id,
+              name: book.name,
+              archivePath: chapterPath,
+              downloadSize: null,
+            )..manga.value = manga,
+          );
+        }
       } else {
         final chapterFile = File(chapterPath);
         final chap = Chapter(
           mangaId: manga.id,
           name:
-              chapterIsFile // If Chapter is an image folder or archive/video
+              pathBool[1] // If Chapter is an image folder or archive/video
               ? p.basename(chapterPath)
               : p.basenameWithoutExtension(chapterPath),
           dateUpload: dateNow.toString(),

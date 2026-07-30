@@ -1,6 +1,7 @@
-import 'dart:io';
+import 'package:mangayomi/utils/platform_utils.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
@@ -15,6 +16,7 @@ import 'package:mangayomi/modules/browse/extension/widgets/create_extension.dart
 import 'package:mangayomi/modules/browse/sources/sources_filter_screen.dart';
 import 'package:mangayomi/modules/calendar/calendar_screen.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/migrate_screen.dart';
+import 'package:mangayomi/modules/mass_migration/mass_migration_source_selection_screen.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/recommendation_screen.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/watch_order_screen.dart';
 import 'package:mangayomi/modules/more/data_and_storage/create_backup.dart';
@@ -53,9 +55,11 @@ import 'package:mangayomi/modules/more/download_queue/download_queue_screen.dart
 import 'package:mangayomi/modules/more/more_screen.dart';
 import 'package:mangayomi/modules/more/settings/appearance/appearance_screen.dart';
 import 'package:mangayomi/modules/more/settings/browse/browse_screen.dart';
+import 'package:mangayomi/modules/more/settings/browse/extension_server_screen.dart';
 import 'package:mangayomi/modules/more/settings/general/general_screen.dart';
 import 'package:mangayomi/modules/more/settings/reader/reader_screen.dart';
 import 'package:mangayomi/modules/more/settings/settings_screen.dart';
+import 'package:mangayomi/modules/more/settings/security/security_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/cupertino.dart';
 part 'router.g.dart';
@@ -83,6 +87,7 @@ class RouterCurrentLocationState extends _$RouterCurrentLocationState {
   bool _didSubscribe = false;
   @override
   String? build() {
+    ref.keepAlive();
     // Delay listener‐registration until after the first frame.
     if (!_didSubscribe) {
       _didSubscribe = true;
@@ -118,19 +123,19 @@ class RouterNotifier extends ChangeNotifier {
       routes: [
         _genericRoute<String?>(
           name: "MangaLibrary",
-          builder: (id) => LibraryScreen(itemType: ItemType.manga),
+          builder: (id) => LibraryScreen(itemType: ItemType.manga, presetInput: id),
         ),
         _genericRoute<String?>(
           name: "AnimeLibrary",
-          builder: (id) => LibraryScreen(itemType: ItemType.anime),
+          builder: (id) => LibraryScreen(itemType: ItemType.anime, presetInput: id),
         ),
         _genericRoute<String?>(
           name: "NovelLibrary",
-          builder: (id) => LibraryScreen(itemType: ItemType.novel),
+          builder: (id) => LibraryScreen(itemType: ItemType.novel, presetInput: id),
         ),
         _genericRoute<String?>(
           name: "trackerLibrary",
-          builder: (id) => TrackerLibraryScreen(),
+          builder: (id) => TrackerLibraryScreen(presetInput: id),
         ),
         _genericRoute(name: "history", child: const HistoryScreen()),
         _genericRoute(name: "updates", child: const UpdatesScreen()),
@@ -192,12 +197,17 @@ class RouterNotifier extends ChangeNotifier {
     _genericRoute(name: "general", child: const GeneralScreen()),
     _genericRoute(name: "readerMode", child: const ReaderScreen()),
     _genericRoute(name: "browseS", child: const BrowseSScreen()),
+    _genericRoute(
+      name: "extensionServer",
+      child: const ExtensionServerScreen(),
+    ),
     _genericRoute<ItemType>(
       name: "SourceRepositories",
       builder: (itemType) => SourceRepositories(itemType: itemType),
     ),
     _genericRoute(name: "downloads", child: const DownloadsScreen()),
     _genericRoute(name: "dataAndStorage", child: const DataAndStorage()),
+    _genericRoute(name: "security", child: const SecurityScreen()),
     _genericRoute(name: "manageTrackers", child: const ManageTrackersScreen()),
     _genericRoute<TrackPreference>(
       name: "trackingDetail",
@@ -236,6 +246,13 @@ class RouterNotifier extends ChangeNotifier {
       name: "migrate",
       builder: (manga) => MigrationScreen(manga: manga),
     ),
+    _genericRoute<(ItemType, Manga?)>(
+      name: "massMigration",
+      builder: (data) => MassMigrationSourceSelectionScreen(
+        itemType: data.$1,
+        prioritizedManga: data.$2,
+      ),
+    ),
     _genericRoute<(Manga, TrackSearch)>(
       name: "migrate/tracker",
       builder: (data) => MigrationScreen(manga: data.$1, trackSearch: data.$2),
@@ -271,34 +288,20 @@ class RouterNotifier extends ChangeNotifier {
           return child!;
         }
       },
-      pageBuilder: (context, state) {
-        final pageChild = builder != null ? builder(state.extra as T) : child!;
-        return transitionPage(key: state.pageKey, child: pageChild);
-      },
+      pageBuilder: isApple
+          ? (context, state) {
+              final pageChild = builder != null ? builder(state.extra as T) : child!;
+              return transitionPage(key: state.pageKey, child: pageChild);
+            }
+          : null,
     );
   }
 }
 
 Page transitionPage({required LocalKey key, required child}) {
-  return Platform.isIOS ? CupertinoPage(key: key, child: child) : CustomTransition(child: child, key: key);
-}
-
-class CustomTransition extends CustomTransitionPage {
-  CustomTransition({required LocalKey super.key, required super.child})
-    : super(
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return FadeTransition(opacity: animation, child: child);
-        },
-      );
+  return CupertinoPage(key: key, child: child);
 }
 
 Route createRoute({required Widget page}) {
-  return Platform.isIOS
-      ? CupertinoPageRoute(builder: (context) => page)
-      : PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => page,
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(opacity: animation, child: child);
-          },
-        );
+  return isApple ? CupertinoPageRoute(builder: (context) => page) : MaterialPageRoute(builder: (context) => page);
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mangayomi/modules/main_view/providers/tv_mode_provider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/appearance_screen.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
@@ -25,8 +26,18 @@ class _CustomNavigationSettingsState extends ConsumerState<CustomNavigationSetti
         child: ReorderableListView.builder(
           header: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Stack(
+            child: Column(
               children: [
+                SwitchListTile(
+                  value: ref.watch(animeOnlyTvModeProvider),
+                  title: const Text('Anime-only TV layout'),
+                  subtitle: const Text(
+                    'Hide the manga & novel libraries (on by default on TV)',
+                  ),
+                  onChanged: (value) {
+                    ref.read(animeOnlyTvModeProvider.notifier).set(value);
+                  },
+                ),
                 SwitchListTile(
                   value: mergeLibraryNavMobile,
                   title: Text(context.l10n.merge_library_nav_mobile),
@@ -74,7 +85,7 @@ class _CustomNavigationSettingsState extends ConsumerState<CustomNavigationSetti
               ],
             );
           },
-          onReorder: (oldIndex, newIndex) {
+          onReorderItem: (oldIndex, newIndex) {
             if (oldIndex < newIndex) {
               final draggedItem = navigationOrder[oldIndex];
               for (var i = oldIndex; i < newIndex - 1; i++) {

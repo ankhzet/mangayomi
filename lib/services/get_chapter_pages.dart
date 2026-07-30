@@ -16,7 +16,6 @@ import 'package:mangayomi/utils/utils.dart';
 import 'package:mangayomi/utils/reg_exp_matcher.dart';
 import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 part 'get_chapter_pages.g.dart';
 
 class GetChapterPagesModel {
@@ -25,7 +24,6 @@ class GetChapterPagesModel {
   List<bool> isLocaleList = [];
   List<Uint8List?> archiveImages = [];
   List<UChapDataPreload> uChapDataPreload;
-
   GetChapterPagesModel({
     required this.path,
     required this.pageUrls,
@@ -36,10 +34,12 @@ class GetChapterPagesModel {
 }
 
 @riverpod
-Future<GetChapterPagesModel> getChapterPages(Ref ref, {required Chapter chapter}) async {
+Future<GetChapterPagesModel> getChapterPages(
+  Ref ref, {
+  required Chapter chapter,
+}) async {
   final keepAlive = ref.keepAlive();
   try {
-    List<UChapDataPreload> uChapDataPreloadp = [];
     Directory? path;
     List<PageUrl> pageUrls = [];
     List<bool> isLocaleList = [];
@@ -49,7 +49,10 @@ Future<GetChapterPagesModel> getChapterPages(Ref ref, {required Chapter chapter}
     final incognitoMode = ref.read(incognitoModeStateProvider);
     final storageProvider = StorageProvider();
     final mangaDirectory = await storageProvider.getMangaMainDirectory(chapter);
-    path = await storageProvider.getMangaChapterDirectory(chapter, mangaMainDirectory: mangaDirectory);
+    path = await storageProvider.getMangaChapterDirectory(
+      chapter,
+      mangaMainDirectory: mangaDirectory,
+    );
 
     List<Uint8List?> archiveImages = [];
     final isLocalArchive = (chapter.archivePath ?? '').isNotEmpty;
@@ -77,10 +80,23 @@ Future<GetChapterPagesModel> getChapterPages(Ref ref, {required Chapter chapter}
       }
     }
 
+    final chapterModel = GetChapterPagesModel(
+      path: path,
+      pageUrls: pageUrls,
+      isLocaleList: isLocaleList,
+      archiveImages: archiveImages,
+      uChapDataPreload: [],
+    );
+
     if (pageUrls.isNotEmpty || isLocalArchive) {
-      if (await File(p.join(mangaDirectory!.path, "${chapter.name}.cbz")).exists() || isLocalArchive) {
+      if (await File(
+            p.join(mangaDirectory!.path, "${chapter.name}.cbz"),
+          ).exists() ||
+          isLocalArchive) {
         final path = isLocalArchive ? chapter.archivePath : p.join(mangaDirectory.path, "${chapter.name}.cbz");
-        final local = await ref.read(getArchiveDataFromFileProvider(path!).future);
+        final local = await ref.read(
+          getArchiveDataFromFileProvider(path!).future,
+        );
         for (var image in local.images!) {
           archiveImages.add(image.image!);
           isLocaleList.add(true);
@@ -124,7 +140,7 @@ Future<GetChapterPagesModel> getChapterPages(Ref ref, {required Chapter chapter}
         });
       }
       for (var i = 0; i < pageUrls.length; i++) {
-        uChapDataPreloadp.add(
+        chapterModel.uChapDataPreload.add(
           UChapDataPreload(
             chapter,
             path,
@@ -132,26 +148,14 @@ Future<GetChapterPagesModel> getChapterPages(Ref ref, {required Chapter chapter}
             isLocaleList[i],
             archiveImages[i],
             i,
-            GetChapterPagesModel(
-              path: path,
-              pageUrls: pageUrls,
-              isLocaleList: isLocaleList,
-              archiveImages: archiveImages,
-              uChapDataPreload: uChapDataPreloadp,
-            ),
+            chapterModel,
             i,
           ),
         );
       }
     }
     keepAlive.close();
-    return GetChapterPagesModel(
-      path: path,
-      pageUrls: pageUrls,
-      isLocaleList: isLocaleList,
-      archiveImages: archiveImages,
-      uChapDataPreload: uChapDataPreloadp,
-    );
+    return chapterModel;
   } catch (e) {
     keepAlive.close();
     rethrow;

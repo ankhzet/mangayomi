@@ -13,10 +13,10 @@ import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/video.dart';
 
 import '../interface.dart';
-import '../javascript/js_polyfills.dart';
 import 'js_cheerio.dart';
 import 'js_htmlparser.dart';
 import 'js_libs.dart';
+import 'js_polyfills.dart';
 
 JavascriptRuntime getJavascriptRuntime({
   Map<String, dynamic>? extraArgs = const {},
@@ -153,30 +153,45 @@ const extension = exports.default;
 
   @override
   Future<MPages> search(String query, int page, List<dynamic> filters) async {
-    final items = ((await _extensionCallAsync('searchNovels("$query",$page)', [])))
-        .map((e) => NovelItem.fromJson(e))
-        .map(
-          (e) => MManga(
-            name: e.name,
-            imageUrl: e.cover,
-            link: e.path,
-            chapters: [],
-          ),
-        )
-        .toList();
+    final items =
+        ((await _extensionCallAsync(
+              'searchNovels(${jsonEncode(query)},$page)',
+              [],
+            )))
+            .map((e) => NovelItem.fromJson(e))
+            .map(
+              (e) => MManga(
+                name: e.name,
+                imageUrl: e.cover,
+                link: e.path,
+                chapters: [],
+              ),
+            )
+            .toList();
     return MPages(list: items, hasNextPage: true);
   }
 
   @override
   Future<MManga> getDetail(String url) async {
+    List<ChapterItem>? chapters = [];
     final item = SourceNovel.fromJson(
-      await _extensionCallAsync('parseNovel(`$url`)', {}),
+      await _extensionCallAsync('parseNovel(${jsonEncode(url)})', {}),
     );
-    final chapters = SourcePage.fromJson(
-      await _extensionCallAsync('parsePage(`${item.path}`, `1`)', {}),
-    );
+    chapters = item.chapters;
+    if (chapters?.isEmpty ?? true) {
+      final sourcePage = SourcePage.fromJson(
+        await _extensionCallAsync(
+          'parsePage(${jsonEncode(item.path)}, ${jsonEncode('1')})',
+          {},
+        ),
+      );
+      if (sourcePage.chapters.isNotEmpty) {
+        chapters = sourcePage.chapters;
+      }
+    }
+
     final chaps =
-        ((chapters.chapters.isNotEmpty ? chapters.chapters : item.chapters)
+        chapters
             ?.map(
               (e) => MChapter(
                 name: e.name,
@@ -191,7 +206,7 @@ const extension = exports.default;
               ),
             )
             .toList() ??
-        []);
+        [];
     return MManga(
       name: item.name,
       imageUrl: item.cover,
@@ -224,7 +239,7 @@ const extension = exports.default;
     _init();
     final res = (await runtime.handlePromise(
       await runtime.evaluateAsync(
-        'jsonStringify(() => extension.parseChapter(`$url`))',
+        'jsonStringify(() => extension.parseChapter(${jsonEncode(url)}))',
       ),
     )).stringResult;
     return res;

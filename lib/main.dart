@@ -8,6 +8,7 @@ import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -20,8 +21,8 @@ import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/track.dart' as track;
 import 'package:mangayomi/models/track_preference.dart';
+import 'package:mangayomi/models/track_search.dart';
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
-import 'package:mangayomi/modules/manga/reader/providers/crop_borders_provider.dart';
 import 'package:mangayomi/modules/more/data_and_storage/providers/storage_usage.dart';
 import 'package:mangayomi/modules/more/settings/browse/providers/browse_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/general/providers/general_state_provider.dart';
@@ -37,64 +38,158 @@ import 'package:mangayomi/services/download_manager/m_downloader.dart';
 import 'package:mangayomi/src/rust/frb_generated.dart';
 import 'package:mangayomi/utils/discord_rpc.dart';
 import 'package:mangayomi/utils/log/logger.dart';
+import 'package:mangayomi/utils/platform_utils.dart';
 import 'package:mangayomi/utils/url_protocol/api.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/theme_provider.dart';
 import 'package:mangayomi/modules/library/providers/file_scanner.dart';
+import 'package:mangayomi/modules/more/settings/security/providers/security_state_provider.dart';
+import 'package:mangayomi/modules/more/settings/security/app_lock_screen.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:path/path.dart' as p;
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show rootBundle, LogicalKeyboardKey;
+import 'package:mangayomi/utils/window_geometry.dart';
+import 'package:mangayomi/modules/manga/reader/subsampling_scale_image_view/subsampling_scale_image_view.dart';
+import 'package:mangayomi/modules/widgets/app_ui_scale.dart';
+import 'package:mangayomi/modules/more/settings/appearance/providers/app_ui_scale_state_provider.dart';
 
 late Isar isar;
 DiscordRPC? discordRpc;
 WebViewEnvironment? webViewEnvironment;
 String? customDns;
 void main(List<String> args) async {
-  WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.isLinux && runWebViewTitleBarWidget(args)) return;
-  MediaKit.ensureInitialized();
-  await RustLib.init();
-  await imgCropIsolate.start();
-  await getIsolateService.start();
-  if (!(Platform.isAndroid || Platform.isIOS)) {
-    await windowManager.ensureInitialized();
-  }
-  if (Platform.isWindows) {
-    registerProtocolHandler("mangayomi");
-  }
-  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
-    final availableVersion = await WebViewEnvironment.getAvailableVersion();
-    if (availableVersion != null) {
-      final document = await getApplicationDocumentsDirectory();
-      webViewEnvironment = await WebViewEnvironment.create(
-        settings: WebViewEnvironmentSettings(
-          userDataFolder: p.join(document.path, 'flutter_inappwebview'),
-          areBrowserExtensionsEnabled: false,
-          automationAllowed: false,
-          enableTrackingPrevention: true,
-        ),
+  // Zone-level catch-all for anything that slips through both layers
+  runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      if (Platform.isLinux && runWebViewTitleBarWidget(args)) return;
+
+      // Cap the decoded image cache so a large library grid can't fill the
+      // default 100 MB ceiling with full-resolution covers and OOM constrained
+      // mobile heaps. Mobile gets a tight 64 MB; desktop keeps 256 MB. The
+      // encoded-bytes LRU in CustomExtendedNetworkImageProvider (50 MB) is a
+      // separate cache and is not affected by this setting.
+      PaintingBinding.instance.imageCache.maximumSizeBytes = isMobile ? 64 << 20 : 256 << 20;
+
+      // Widget-layer errors (build / layout / paint)
+      FlutterError.onError = (FlutterErrorDetails details) {
+        FlutterError.presentError(details); // keep default red-screen in debug
+        AppLogger.log(
+          'FlutterError: ${details.exceptionAsString()}\n${details.stack}',
+          logLevel: LogLevel.error,
+        );
+      };
+
+      // Async errors that escape the Flutter framework (PlatformDispatcher)
+      PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
+        AppLogger.log(
+          'PlatformDispatcher error: $error\n$stack',
+          logLevel: LogLevel.error,
+        );
+        return true; // handled — prevent app termination
+      };
+
+      MediaKit.ensureInitialized();
+      await RustLib.init();
+      // Detect Android TV / leanback so the UI can branch on form factor.
+      // No-op on other platforms. See #729.
+      await initIsTv();
+      await getIsolateService.start();
+      await ffiImageDecoder.start();
+      if (!isMobile) {
+        await windowManager.ensureInitialized();
+        await WindowGeometry.restore();
+      }
+      if (Platform.isWindows) {
+        registerProtocolHandler("mangayomi");
+      }
+      if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
+        final availableVersion = await WebViewEnvironment.getAvailableVersion();
+        if (availableVersion != null) {
+          final document = await getApplicationDocumentsDirectory();
+          webViewEnvironment = await WebViewEnvironment.create(
+            settings: WebViewEnvironmentSettings(
+              userDataFolder: p.join(document.path, 'flutter_inappwebview'),
+            ),
+          );
+        }
+      }
+      final storage = StorageProvider();
+      // Don't force the Android "all files access" (MANAGE_EXTERNAL_STORAGE)
+      // prompt at launch. The database lives in scoped app storage, so the app
+      // can start, browse and read online without it. The permission is still
+      // requested lazily by `createDirectorySafely` / `initDB` the first time a
+      // public path actually needs to be written (e.g. a download). See #740.
+      Object? startupError;
+      try {
+        isar = await storage.initDB(null, inspector: kDebugMode);
+      } catch (e, st) {
+        AppLogger.log('DB init failed: $e\n$st', logLevel: LogLevel.error);
+        startupError = e;
+      }
+      runApp(
+        startupError != null
+            ? _StartupErrorApp(error: startupError.toString())
+            : ProviderScope(child: MyApp(), retry: (retryCount, error) => null),
       );
-    }
+      if (startupError == null) unawaited(_postLaunchInit(storage));
+    },
+    (Object error, StackTrace stack) {
+      AppLogger.log(
+        'runZonedGuarded error: $error\n$stack',
+        logLevel: LogLevel.error,
+      );
+    },
+  );
+}
+
+class _StartupErrorApp extends StatelessWidget {
+  final String error;
+  const _StartupErrorApp({required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.error_outline, size: 64, color: Colors.red),
+                const SizedBox(height: 16),
+                const Text(
+                  'Failed to start Mangayomi',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                SelectableText(
+                  error,
+                  style: const TextStyle(fontFamily: 'monospace', fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
-  final storage = StorageProvider();
-  await storage.requestPermission();
-  isar = await storage.initDB(null, inspector: kDebugMode);
-  runApp(ProviderScope(child: MyApp(), retry: (retryCount, error) => null));
-  unawaited(_postLaunchInit(storage)); // Defer non-essential async operations
 }
 
 Future<void> _postLaunchInit(StorageProvider storage) async {
   await AppLogger.init();
   unawaited(MDownloader.initializeIsolatePool(poolSize: 6));
-  final hivePath = (Platform.isIOS || Platform.isMacOS) ? "databases" : p.join("Mangayomi", "databases");
+  final hivePath = isApple ? "databases" : p.join("Mangayomi", "databases");
   await Hive.initFlutter(Platform.isAndroid ? "" : hivePath);
-  if (Platform.isMacOS || Platform.isLinux || Platform.isWindows) {
+  Hive.registerAdapter(TrackSearchAdapter());
+  if (isDesktop && !kDebugMode) {
     discordRpc = DiscordRPC(applicationId: "1395040506677039157");
     await discordRpc?.initialize();
   }
   await storage.deleteBtDirectory();
-  await cfResolutionWebviewServer();
+  await webviewServer();
 }
 
 class MyApp extends ConsumerStatefulWidget {
@@ -104,7 +199,7 @@ class MyApp extends ConsumerStatefulWidget {
   ConsumerState<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends ConsumerState<MyApp> {
+class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, WindowListener {
   late AppLinks _appLinks;
   StreamSubscription<Uri>? _linkSubscription;
   Uri? lastUri;
@@ -112,6 +207,8 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    if (!isMobile) windowManager.addListener(this);
     initializeDateFormatting();
     customDns = ref.read(customDnsStateProvider);
     _checkTrackerRefresh();
@@ -130,6 +227,21 @@ class _MyAppState extends ConsumerState<MyApp> {
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.hidden) {
+      if (Platform.isLinux) {
+        return;
+      }
+      // Lock the app when going to background (if lock is enabled)
+      final lockEnabled = isar.settings.getSync(227)!.appLockEnabled ?? false;
+      if (lockEnabled) {
+        ref.read(appUnlockedStateProvider.notifier).lock();
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final followSystem = ref.watch(followSystemThemeStateProvider);
     final forcedDark = ref.watch(themeModeStateProvider);
@@ -145,7 +257,43 @@ class _MyAppState extends ConsumerState<MyApp> {
       locale: locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      builder: BotToastInit(),
+      builder: (context, child) {
+        Widget content = child ?? const SizedBox.shrink();
+        // On TV, a single-line text field consumes Up/Down for the text cursor,
+        // trapping focus so the remote can't reach the surrounding buttons (a
+        // dialog's Cancel/Add, etc.). Remap Up/Down to move focus app-wide: a
+        // no-op everywhere except inside a text field, where it frees the field.
+        if (isTv) {
+          content = Shortcuts(
+            shortcuts: const <ShortcutActivator, Intent>{
+              SingleActivator(LogicalKeyboardKey.arrowDown): DirectionalFocusIntent(TraversalDirection.down),
+              SingleActivator(LogicalKeyboardKey.arrowUp): DirectionalFocusIntent(TraversalDirection.up),
+            },
+            child: content,
+          );
+        }
+        // Normalize the TV UI to a fixed reference width so it looks consistent
+        // across TVs regardless of the density the device reports. No-op off-TV.
+        final scaledChild = AppUiScale(
+          scale: ref.watch(appUiScaleStateProvider),
+          child: content,
+        );
+        final base = BotToastInit()(context, scaledChild);
+        final withBackHandler = !isMobile ? _MouseBackButtonHandler(router: router, child: base) : base;
+
+        if (!Platform.isLinux) {
+          final isUnlocked = ref.watch(appUnlockedStateProvider);
+          final lockEnabled = ref.watch(appLockEnabledStateProvider);
+          if (lockEnabled && !isUnlocked) {
+            return Stack(
+              fit: StackFit.expand,
+              children: [withBackHandler, const AppLockScreen()],
+            );
+          }
+        }
+
+        return withBackHandler;
+      },
       routeInformationParser: router.routeInformationParser,
       routerDelegate: router.routerDelegate,
       routeInformationProvider: router.routeInformationProvider,
@@ -156,12 +304,30 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    if (!isMobile) {
+      windowManager.removeListener(this);
+      WindowGeometry.save();
+    }
     MExtensionServerPlatform(ref).stopServer();
     _linkSubscription?.cancel();
     discordRpc?.destroy();
-    stopCfResolutionWebviewServer();
+    stopwebviewServer();
     AppLogger.dispose();
     super.dispose();
+  }
+
+  @override
+  void onWindowResized() => WindowGeometry.save();
+
+  @override
+  void onWindowMoved() => WindowGeometry.save();
+
+  @override
+  void onWindowClose() {
+    WindowGeometry.save();
+    // Workaround for libepoxy error when closing app; caused by media-kit
+    if (Platform.isLinux) exit(0);
   }
 
   Future<void> _initDeepLinks() async {
@@ -322,31 +488,39 @@ class _MyAppState extends ConsumerState<MyApp> {
   }
 
   Future<void> _setupMpvConfig() async {
-    final provider = StorageProvider();
-    final dir = await provider.getMpvDirectory();
-    final mpvFile = File('${dir!.path}/mpv.conf');
-    final inputFile = File('${dir.path}/input.conf');
-    final filesMissing = !(await mpvFile.exists()) && !(await inputFile.exists());
-    if (filesMissing) {
-      final bytes = await rootBundle.load("assets/mangayomi_mpv.zip");
-      final archive = ZipDecoder().decodeBytes(bytes.buffer.asUint8List());
-      String shadersDir = p.join(dir.path, 'shaders');
-      await Directory(shadersDir).create(recursive: true);
-      String scriptsDir = p.join(dir.path, 'scripts');
-      await Directory(scriptsDir).create(recursive: true);
-      for (final file in archive.files) {
-        if (file.name == "mpv.conf") {
-          await mpvFile.writeAsBytes(file.content);
-        } else if (file.name == "input.conf") {
-          await inputFile.writeAsBytes(file.content);
-        } else if (file.name.startsWith("shaders/") && file.name.endsWith(".glsl")) {
-          final shaderFile = File('$shadersDir/${file.name.split("/").last}');
-          await shaderFile.writeAsBytes(file.content);
-        } else if (file.name.startsWith("scripts/") && (file.name.endsWith(".js") || file.name.endsWith(".lua"))) {
-          final scriptFile = File('$scriptsDir/${file.name.split("/").last}');
-          await scriptFile.writeAsBytes(file.content);
+    try {
+      final provider = StorageProvider();
+      final dir = await provider.getMpvDirectory();
+      final mpvFile = File('${dir!.path}/mpv.conf');
+      final inputFile = File('${dir.path}/input.conf');
+      final filesMissing = !(await mpvFile.exists()) && !(await inputFile.exists());
+      if (filesMissing) {
+        final bytes = await rootBundle.load("assets/mangayomi_mpv.zip");
+        final archive = ZipDecoder().decodeBytes(bytes.buffer.asUint8List());
+        String shadersDir = p.join(dir.path, 'shaders');
+        await Directory(shadersDir).create(recursive: true);
+        String scriptsDir = p.join(dir.path, 'scripts');
+        await Directory(scriptsDir).create(recursive: true);
+        for (final file in archive.files) {
+          if (file.name == "mpv.conf") {
+            await mpvFile.writeAsBytes(file.content);
+          } else if (file.name == "input.conf") {
+            await inputFile.writeAsBytes(file.content);
+          } else if (file.name.startsWith("shaders/") && file.name.endsWith(".glsl")) {
+            final shaderFile = File('$shadersDir/${file.name.split("/").last}');
+            await shaderFile.writeAsBytes(file.content);
+          } else if (file.name.startsWith("scripts/") && (file.name.endsWith(".js") || file.name.endsWith(".lua"))) {
+            final scriptFile = File('$scriptsDir/${file.name.split("/").last}');
+            await scriptFile.writeAsBytes(file.content);
+          }
         }
       }
+    } catch (e) {
+      // Best-effort: on Android the mpv config dir is in shared storage, which
+      // may not be writable until the all-files permission is granted (now
+      // requested lazily, not forced at launch). Skip setup rather than throw;
+      // it's retried on a later launch once the directory is writable. See #740.
+      if (kDebugMode) debugPrint('mpv config setup skipped: $e');
     }
   }
 
@@ -367,6 +541,25 @@ class _MyAppState extends ConsumerState<MyApp> {
           )
           .checkRefresh();
     }
+  }
+}
+
+class _MouseBackButtonHandler extends StatelessWidget {
+  final GoRouter router;
+  final Widget child;
+
+  const _MouseBackButtonHandler({required this.router, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Listener(
+      onPointerDown: (event) {
+        if (event.buttons & kBackMouseButton != 0) {
+          if (router.canPop()) router.pop();
+        }
+      },
+      child: child,
+    );
   }
 }
 

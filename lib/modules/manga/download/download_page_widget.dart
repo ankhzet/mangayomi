@@ -9,7 +9,7 @@ import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/modules/manga/download/providers/download_provider.dart';
-import 'package:mangayomi/utils/extensions/chapter.dart';
+import 'package:mangayomi/utils/extensions/chapter_extensions.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/global_style.dart';
 import 'package:share_plus/share_plus.dart';
@@ -64,43 +64,6 @@ class ChapterPageDownload extends ConsumerWidget {
     }
   }
 
-  void _deleteFile(int downloadId) async {
-    final storageProvider = StorageProvider();
-    final mangaDir = await storageProvider.getMangaMainDirectory(chapter);
-    final path = await storageProvider.getMangaChapterDirectory(
-      chapter,
-      mangaMainDirectory: mangaDir,
-    );
-
-    try {
-      try {
-        final cbzFile = File(p.join(mangaDir!.path, "${chapter.name}.cbz"));
-        if (cbzFile.existsSync()) {
-          cbzFile.deleteSync();
-        }
-      } catch (_) {}
-      try {
-        final mp4File = File(
-          p.join(
-            mangaDir!.path,
-            "${chapter.name!.replaceForbiddenCharacters(' ')}.mp4",
-          ),
-        );
-        if (mp4File.existsSync()) {
-          mp4File.deleteSync();
-        }
-      } catch (_) {}
-      try {
-        final htmlFile = File(p.join(mangaDir!.path, "${chapter.name}.html"));
-        if (htmlFile.existsSync()) {
-          htmlFile.deleteSync();
-        }
-      } catch (_) {}
-      path!.deleteSync(recursive: true);
-    } catch (_) {}
-    chapter.cancelDownloads(downloadId);
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = l10nLocalizations(context)!;
@@ -129,7 +92,7 @@ class ChapterPageDownload extends ConsumerWidget {
                         if (value == 0) {
                           _sendFile(context);
                         } else if (value == 1) {
-                          _deleteFile(download.id!);
+                          chapter.deleteDownloadedFiles();
                         }
                       },
                       itemBuilder: (context) => [
@@ -213,10 +176,10 @@ class ChapterPageDownload extends ConsumerWidget {
                           }
                         },
                         itemBuilder: (context) => [
-                          PopupMenuItem(
-                            value: 1,
-                            child: Text(l10n.start_downloading),
-                          ),
+                          // This download already has progress, so the action is
+                          // a restart, not a start — label it Retry (matches the
+                          // stalled/no-progress state below).
+                          PopupMenuItem(value: 1, child: Text(l10n.retry)),
                           PopupMenuItem(value: 0, child: Text(l10n.cancel)),
                         ],
                       ),
@@ -226,7 +189,7 @@ class ChapterPageDownload extends ConsumerWidget {
                       onPressed: () {
                         _startDownload(null, download.id, ref);
                       },
-                      icon: Icon(
+                      icon: FaIcon(
                         FontAwesomeIcons.circleDown,
                         color: Theme.of(
                           context,

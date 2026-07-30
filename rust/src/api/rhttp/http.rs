@@ -227,14 +227,18 @@ async fn make_http_request_helper(
     };
 
     let request = {
-        let mut request = client.client.request(
-            method.to_method(),
-            Url::parse(&url).map_err(|e| RhttpError::RhttpUnknownError(e.to_string()))?,
-        );
+        let mut url = Url::parse(&url).map_err(|e| RhttpError::RhttpUnknownError(e.to_string()))?;
 
+        // Add query parameters to URL
         if let Some(query) = query {
-            request = request.query(&query);
+            let mut pairs = url.query_pairs_mut();
+            for (k, v) in query {
+                pairs.append_pair(&k, &v);
+            }
+            drop(pairs);
         }
+
+        let mut request = client.client.request(method.to_method(), url);
 
         match headers {
             Some(HttpHeaders::Map(map)) => {
@@ -326,7 +330,10 @@ async fn make_http_request_helper(
 fn header_to_vec(headers: &reqwest::header::HeaderMap) -> Vec<(String, String)> {
     headers
         .iter()
-        .map(|(k, v)| (k.as_str().to_string(), v.to_str().unwrap().to_string()))
+        .filter_map(|(k, v)| match v.to_str() {
+            Ok(v_str) => Some((k.as_str().to_string(), v_str.to_string())),
+            Err(_) => None,
+        })
         .collect()
 }
 

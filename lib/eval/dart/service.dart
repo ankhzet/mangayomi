@@ -1,8 +1,8 @@
 import 'package:d4rt/d4rt.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mangayomi/eval/dart/bridge/registrer.dart';
-import 'package:mangayomi/eval/javascript/http.dart';
 import 'package:mangayomi/eval/model/filter.dart';
+import 'package:mangayomi/eval/javascript/http.dart';
 import 'package:mangayomi/eval/model/m_manga.dart';
 import 'package:mangayomi/eval/model/m_pages.dart';
 import 'package:mangayomi/eval/model/source_preference.dart';
@@ -21,18 +21,10 @@ class DartExtensionService implements ExtensionService {
     _interpreter = D4rt();
     RegistrerBridge.registerBridge(_interpreter!);
 
-    try {
-      _interpreter!.execute(
-        source: source.sourceCode!.replaceAll('Client(source)', 'Client()'),
-        positionalArgs: [source.toMSource()],
-      );
-    } catch (e, trace) {
-      if (kDebugMode) {
-        print("Failed to load extension for ${source.name}");
-        print(e);
-        print(trace);
-      }
-    }
+    _interpreter!.execute(
+      source: source.sourceCode!.replaceAll('Client(source)', 'Client()'),
+      positionalArgs: [source.toMSource()],
+    );
   }
 
   @override
@@ -43,15 +35,11 @@ class DartExtensionService implements ExtensionService {
   @override
   Map<String, String> getHeaders() {
     try {
-      return _interpreter!.invoke('headers', []) as Map<String, String>;
+      return (_interpreter!.invoke('headers', []) as Map).cast<String, String>();
     } catch (_) {
       try {
-        return _interpreter!.invoke('getHeader', [source.baseUrl!]) as Map<String, String>;
-      } catch (e, trace) {
-        if (kDebugMode) {
-          print(e);
-          print(trace);
-        }
+        return (_interpreter!.invoke('getHeader', [source.baseUrl!]) as Map).cast<String, String>();
+      } catch (_) {
         return {};
       }
     }
@@ -84,7 +72,12 @@ class DartExtensionService implements ExtensionService {
 
   @override
   Future<MPages> search(String query, int page, List<dynamic> filters) async {
-    return await _interpreter!.invoke('search', [query, page, FilterList(filters)]) as MPages;
+    return await _interpreter!.invoke('search', [
+          query,
+          page,
+          FilterList(filters),
+        ])
+        as MPages;
   }
 
   @override
@@ -116,7 +109,11 @@ class DartExtensionService implements ExtensionService {
     List<dynamic> list = [];
     try {
       list = _interpreter!.invoke('getFilterList', []) as List;
-    } catch (_) {}
+    } catch (e, st) {
+      if (kDebugMode) {
+        print('[DartExtensionService] getFilterList failed: $e\n$st');
+      }
+    }
 
     return FilterList(_toValueList(list));
   }
@@ -127,9 +124,21 @@ class DartExtensionService implements ExtensionService {
         e = e.nativeObject;
       }
       if (e is SelectFilter) {
-        return SelectFilter(e.type, e.name, e.state, _toValueList(e.values), e.typeName);
+        return SelectFilter(
+          e.type,
+          e.name,
+          e.state,
+          _toValueList(e.values),
+          e.typeName,
+        );
       } else if (e is SortFilter) {
-        return SortFilter(e.type, e.name, e.state, _toValueList(e.values), e.typeName);
+        return SortFilter(
+          e.type,
+          e.name,
+          e.state,
+          _toValueList(e.values),
+          e.typeName,
+        );
       } else if (e is GroupFilter) {
         return GroupFilter(e.type, e.name, _toValueList(e.state), e.typeName);
       }

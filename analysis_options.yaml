@@ -10,6 +10,7 @@
 analyzer:
   exclude:
     - "**/.pub-cache/**"
+    - rust_builder/**
   errors:
     unintended_html_in_doc_comment: ignore
 include: package:flutter_lints/flutter.yaml

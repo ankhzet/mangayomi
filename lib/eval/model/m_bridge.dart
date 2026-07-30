@@ -1,7 +1,7 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
 import 'package:html/dom.dart' hide Text;
 import 'package:intl/date_symbol_data_local.dart';
@@ -9,7 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:js_packer/js_packer.dart';
 import 'package:mangayomi/eval/model/document.dart';
 import 'package:mangayomi/eval/javascript/http.dart';
-import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/router/router.dart';
 import 'package:mangayomi/services/anime_extractors/dood_extractor.dart';
@@ -35,6 +34,7 @@ import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/reg_exp_matcher.dart';
 import 'package:xpath_selector_html_parser/xpath_selector_html_parser.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
+import 'package:convert/convert.dart' show hex;
 import 'package:mangayomi/services/anime_extractors/quarkuc_extractor.dart';
 
 class WordSet {
@@ -562,6 +562,43 @@ class MBridge {
     );
   }
 
+  /// AES-GCM decryption for extensions (parity with Java's
+  /// `Cipher.getInstance("AES/GCM/NoPadding")`).
+  ///
+  /// - [encrypted] : base64 ciphertext. If the 16-byte GCM auth tag is already
+  ///                 appended to it (as Java's `Cipher.doFinal` produces),
+  ///                 pass an empty [tagHex].
+  /// - [keyHex]    : hex-encoded key (16/24/32 bytes → AES-128/192/256)
+  /// - [ivHex]     : hex-encoded IV / nonce (typically 12 bytes for GCM)
+  /// - [tagHex]    : hex-encoded auth tag (usually 16 bytes), appended to the
+  ///                 ciphertext before decryption; empty if already appended
+  ///
+  /// Returns the decrypted UTF-8 string, or the original [encrypted] input if
+  /// decryption/authentication fails (mirrors [cryptoHandler]'s behavior).
+  static String decryptAESGCM(
+    String encrypted,
+    String keyHex,
+    String ivHex,
+    String tagHex,
+  ) {
+    try {
+      final key = encrypt.Key(Uint8List.fromList(hex.decode(keyHex)));
+      final iv = encrypt.IV(Uint8List.fromList(hex.decode(ivHex)));
+      // PointyCastle's GCM (and Java's AES/GCM/NoPadding) expect the 128-bit
+      // auth tag appended to the ciphertext, so concatenate the two.
+      final dataWithTag = Uint8List.fromList([
+        ...base64.decode(encrypted),
+        ...hex.decode(tagHex),
+      ]);
+      final encrypter = encrypt.Encrypter(
+        encrypt.AES(key, mode: encrypt.AESMode.gcm),
+      );
+      return encrypter.decrypt(encrypt.Encrypted(dataWithTag), iv: iv);
+    } catch (_) {
+      return encrypted;
+    }
+  }
+
   static String cryptoHandler(
     String text,
     String iv,
@@ -581,56 +618,6 @@ class MBridge {
     } catch (_) {
       return text;
     }
-  }
-
-  static Future<String> evaluateJavascriptViaWebview(
-    String url,
-    Map<String, String> headers,
-    List<String> scripts, {
-    int time = 30,
-  }) async {
-    int t = 0;
-    bool timeOut = false;
-    bool isOk = false;
-    String response = "";
-    HeadlessInAppWebView? headlessWebView;
-    try {
-      headlessWebView = HeadlessInAppWebView(
-        webViewEnvironment: webViewEnvironment,
-        onWebViewCreated: (controller) {
-          controller.addJavaScriptHandler(
-            handlerName: 'setResponse',
-            callback: (args) {
-              response = args[0] as String;
-              isOk = true;
-            },
-          );
-        },
-        initialUrlRequest: URLRequest(url: WebUri(url), headers: headers),
-        onLoadStop: (controller, url) async {
-          for (var script in scripts) {
-            await controller.platform.evaluateJavascript(source: script);
-          }
-        },
-      );
-
-      await headlessWebView.run();
-
-      await Future.doWhile(() async {
-        timeOut = time == t;
-        if (timeOut || isOk) {
-          return false;
-        }
-        await Future.delayed(const Duration(seconds: 1));
-        t++;
-        return true;
-      });
-    } finally {
-      try {
-        await headlessWebView?.dispose();
-      } catch (_) {}
-    }
-    return response;
   }
 }
 
@@ -674,12 +661,12 @@ final List<String> _dateFormats = [
 ];
 
 void Function() botToast(
-  String? title, {
-  ToastBuilder? builder,
-  int? second = 10,
+  String title, {
+  int second = 10,
   double? fontSize,
   double alignX = 0,
   double alignY = 0.99,
+  bool hasCloudFlare = false,
   String? url,
   int animationDuration = 200,
   List<DismissDirection> dismissDirections = const [
@@ -699,7 +686,7 @@ void Function() botToast(
     onlyOne: onlyOne,
     dismissDirections: dismissDirections,
     align: Alignment(alignX, alignY),
-    duration: second != null ? Duration(seconds: second) : null,
+    duration: Duration(seconds: second),
     animationDuration: Duration(milliseconds: animationDuration),
     animationReverseDuration: Duration(milliseconds: animationDuration),
     leading: showIcon
@@ -708,8 +695,8 @@ void Function() botToast(
             height: 25,
           )
         : null,
-    title: builder ?? ((_) => Text(title!, style: TextStyle(fontSize: fontSize))),
-    trailing: url != null
+    title: (_) => Text(title, style: TextStyle(fontSize: fontSize)),
+    trailing: hasCloudFlare
         ? (_) => OutlinedButton.icon(
             style: OutlinedButton.styleFrom(elevation: 10),
             onPressed: () {

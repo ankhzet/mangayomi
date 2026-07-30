@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:mangayomi/utils/platform_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/manga.dart';
@@ -37,7 +36,8 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
   late List<TrackSearch>? tracks = [];
   String? _errorMsg;
   Future<void> _init() async {
-    await Future.delayed(const Duration(microseconds: 100));
+    // Yield to microtask queue so initState completes before async work
+    await Future(() {});
     try {
       tracks = await ref
           .read(
@@ -75,7 +75,7 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
         bottomLeft: Radius.circular(20),
         bottomRight: Radius.circular(20),
       ),
-      clipBehavior: Clip.antiAliasWithSaveLayer,
+      clipBehavior: Clip.antiAlias,
       child: _isLoading
           ? SizedBox(
               height: context.height(0.3),
@@ -118,7 +118,7 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                                             5,
                                           ),
                                           color: Colors.transparent,
-                                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                                          clipBehavior: Clip.antiAlias,
                                           child: Ink.image(
                                             height: 120,
                                             width: 80,
@@ -192,20 +192,16 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                               ),
                             );
                           },
-                          separatorBuilder:
-                              (
-                                BuildContext context,
-                                int index,
-                              ) {
-                                return const Divider();
-                              },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const Divider();
+                          },
                         ),
                       ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: TextFormField(
                         onTap: () {
-                          if (Platform.isAndroid || Platform.isIOS) {
+                          if (isMobile) {
                             setState(() {
                               hide = true;
                             });
@@ -258,19 +254,13 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                                   icon: const Icon(Icons.clear),
                                 ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: context.primaryColor,
-                            ),
+                            borderSide: BorderSide(color: context.primaryColor),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: context.primaryColor,
-                            ),
+                            borderSide: BorderSide(color: context.primaryColor),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: context.primaryColor,
-                            ),
+                            borderSide: BorderSide(color: context.primaryColor),
                           ),
                         ),
                       ),

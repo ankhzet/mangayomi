@@ -1,15 +1,19 @@
 import 'dart:io';
+import 'package:archive/archive.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/modules/more/data_and_storage/providers/auto_backup.dart';
+import 'package:mangayomi/modules/more/data_and_storage/providers/backup_compression.dart';
 import 'package:mangayomi/modules/more/data_and_storage/providers/restore.dart';
 import 'package:mangayomi/modules/more/data_and_storage/providers/storage_usage.dart';
 import 'package:mangayomi/modules/more/settings/downloads/providers/downloads_state_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
+import 'package:mangayomi/modules/widgets/tv_escapable_slider.dart';
+import 'package:mangayomi/utils/platform_utils.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 
 class DataAndStorage extends ConsumerWidget {
@@ -25,6 +29,7 @@ class DataAndStorage extends ConsumerWidget {
       clearChapterCacheOnAppLaunchStateProvider,
     );
     final l10n = l10nLocalizations(context)!;
+    final compression = ref.watch(backupCompressionLevelProvider);
     return Scaffold(
       appBar: AppBar(title: Text(l10n.data_and_storage)),
       body: SingleChildScrollView(
@@ -48,7 +53,7 @@ class DataAndStorage extends ConsumerWidget {
                               ref.read(downloadLocationStateProvider.notifier).set("");
                               Navigator.pop(context);
                             } else {
-                              String? result = await FilePicker.platform.getDirectoryPath();
+                              String? result = await FilePicker.getDirectoryPath();
 
                               if (result != null) {
                                 ref
@@ -215,7 +220,7 @@ class DataAndStorage extends ConsumerWidget {
                                       TextButton(
                                         onPressed: () async {
                                           try {
-                                            FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                            FilePickerResult? result = await FilePicker.pickFiles(
                                               allowMultiple: false,
                                             );
 
@@ -312,10 +317,45 @@ class DataAndStorage extends ConsumerWidget {
                 style: TextStyle(fontSize: 11, color: context.secondaryColor),
               ),
             ),
+            ListTile(
+              title: Text(l10n.compression_level),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.compression_info(DeflateLevel.defaultCompression),
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: context.secondaryColor,
+                    ),
+                  ),
+                  TvEscapableSlider(
+                    enabled: isTv,
+                    onDecrease: () =>
+                        ref.read(backupCompressionLevelProvider.notifier).set((compression - 1).clamp(0, 9)),
+                    onIncrease: () =>
+                        ref.read(backupCompressionLevelProvider.notifier).set((compression + 1).clamp(0, 9)),
+                    child: Slider(
+                      min: 0,
+                      max: 9,
+                      divisions: 9,
+                      value: compression.toDouble(),
+                      label: compression.toString(),
+                      onChanged: (value) {
+                        ref.read(backupCompressionLevelProvider.notifier).update(value.round());
+                      },
+                      onChangeEnd: (value) {
+                        ref.read(backupCompressionLevelProvider.notifier).set(value.round());
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
             if (!Platform.isIOS)
               ListTile(
                 onTap: () async {
-                  String? result = await FilePicker.platform.getDirectoryPath();
+                  String? result = await FilePicker.getDirectoryPath();
 
                   if (result != null) {
                     ref.read(autoBackupLocationStateProvider.notifier).set(result);

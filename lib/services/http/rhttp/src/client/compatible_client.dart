@@ -1,7 +1,5 @@
 import 'package:http/http.dart';
-import 'package:mangayomi/services/http/rhttp/src/client/rhttp_client.dart';
-import 'package:mangayomi/services/http/rhttp/src/model/exception.dart';
-import 'package:mangayomi/services/http/rhttp/src/model/settings.dart';
+import 'package:mangayomi/services/http/rhttp/rhttp.dart';
 import 'package:mangayomi/src/rust/api/rhttp/http.dart' as rust;
 
 /// An HTTP client that is compatible with the `http` package.
@@ -36,6 +34,17 @@ class RhttpCompatibleClient with BaseClient {
 
   @override
   Future<StreamedResponse> send(BaseRequest request) async {
+    final CancelToken? cancelToken;
+    switch (request) {
+      case Abortable(abortTrigger: final trigger?):
+        cancelToken = CancelToken();
+        trigger.then((_) {
+          cancelToken?.cancel();
+        });
+        break;
+      case _:
+        cancelToken = null;
+    }
     try {
       final response = await client.requestStream(
         method: switch (request.method) {
@@ -53,12 +62,30 @@ class RhttpCompatibleClient with BaseClient {
         url: request.url.toString(),
         headers: rust.HttpHeaders.map(request.headers),
         body: await request.finalize().toBytes(),
+        cancelToken: cancelToken,
       );
 
       final responseHeaderMap = response.headerMap;
 
       return StreamedResponse(
-        response.body,
+        response.body.handleError((e, st) {
+          if (e is RhttpException) {
+            if (e is RhttpCancelException) {
+              Error.throwWithStackTrace(
+                RhttpWrappedRequestAbortedException(request.url, e),
+                st,
+              );
+            }
+            Error.throwWithStackTrace(
+              RhttpWrappedClientException(e.toString(), request.url, e),
+              st,
+            );
+          }
+          Error.throwWithStackTrace(
+            ClientException(e.toString(), request.url),
+            st,
+          );
+        }),
         response.statusCode,
         contentLength: switch (responseHeaderMap['content-length']) {
           String s => int.parse(s),
@@ -71,6 +98,12 @@ class RhttpCompatibleClient with BaseClient {
         reasonPhrase: null,
       );
     } on RhttpException catch (e, st) {
+      if (e is RhttpCancelException) {
+        Error.throwWithStackTrace(
+          RhttpWrappedRequestAbortedException(request.url, e),
+          st,
+        );
+      }
       Error.throwWithStackTrace(
         RhttpWrappedClientException(e.toString(), request.url, e),
         st,
@@ -93,6 +126,16 @@ class RhttpWrappedClientException extends ClientException {
   final RhttpException rhttpException;
 
   RhttpWrappedClientException(super.message, super.uri, this.rhttpException);
+
+  @override
+  String toString() => rhttpException.toString();
+}
+
+class RhttpWrappedRequestAbortedException extends RequestAbortedException {
+  /// The original exception that was thrown by rhttp.
+  final RhttpException rhttpException;
+
+  RhttpWrappedRequestAbortedException(super.uri, this.rhttpException);
 
   @override
   String toString() => rhttpException.toString();

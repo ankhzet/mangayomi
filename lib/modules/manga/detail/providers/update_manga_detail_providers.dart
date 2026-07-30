@@ -1,45 +1,47 @@
-import 'dart:math';
-
-import 'package:isar_community/isar.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
-import 'package:mangayomi/eval/model/m_chapter.dart';
-import 'package:mangayomi/eval/model/m_manga.dart';
+import 'package:mangayomi/utils/chapter_recognition.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/update.dart';
+import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/services/get_detail.dart';
-import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
+import 'package:mangayomi/utils/fetch_interval.dart';
 import 'package:mangayomi/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 part 'update_manga_detail_providers.g.dart';
 
 @riverpod
-Future<dynamic> updateMangaDetail(Ref ref, {required int? mangaId, required bool isInit, bool showToast = true}) async {
+Future<dynamic> updateMangaDetail(
+  Ref ref, {
+  required int? mangaId,
+  required bool isInit,
+  bool showToast = true,
+}) async {
   try {
     final manga = isar.mangas.getSync(mangaId!);
+    if (manga == null) return;
 
-    if ((manga!.isLocalArchive ?? false) || (manga.chapters.isNotEmpty && isInit)) {
+    // loadSync() so .isNotEmpty is reliable (IsarLinks are lazy by default).
+    manga.chapters.loadSync();
+
+    if ((manga.isLocalArchive ?? false) || (manga.chapters.isNotEmpty && isInit)) {
       return;
     }
+    final source = getSource(
+      manga.lang!,
+      manga.source!,
+      manga.sourceId,
+      installedOnly: true,
+    );
+    if (source == null) return;
 
-    final source = getSource(manga.lang!, manga.source!, manga.sourceId, installedOnly: true);
+    final getManga = await ref.read(
+      getDetailProvider(url: manga.link!, source: source).future,
+    );
 
-    if (source == null || source.isActive != true) {
-      return;
-    }
+    final genre = getManga.genre?.map((e) => e.toString().trim()).toList().toSet().toList() ?? [];
 
-    MManga getManga = await ref.read(getDetailProvider(url: manga.link!, source: source).future);
-
-    final shouldBail = isInit && isar.chapters.where().mangaIdEqualTo(mangaId).isNotEmptySync();
-
-    if (shouldBail) {
-      return;
-    }
-
-    final genre = getManga.genre?.map((e) => e.trim()).toUnique();
     final imgUrl = getManga.imageUrl.trimmedOrDefault(manga.imageUrl);
     final now = DateTime.now().millisecondsSinceEpoch;
 
@@ -50,7 +52,7 @@ Future<dynamic> updateMangaDetail(Ref ref, {required int? mangaId, required bool
           ? imgUrl
           : '${source.baseUrl ?? ''}/${imgUrl.getUrlWithoutDomain}'
       ..name = getManga.name.trimmedOrDefault(manga.name)
-      ..genre = (genre?.isNotEmpty == true ? genre : manga.genre) ?? []
+      ..genre = (genre.isEmpty ? null : genre) ?? manga.genre ?? []
       ..author = getManga.author.trimmedOrDefault(manga.author) ?? ""
       ..artist = getManga.artist.trimmedOrDefault(manga.artist) ?? ""
       ..status = getManga.status == Status.unknown ? manga.status : getManga.status ?? Status.unknown
@@ -62,187 +64,150 @@ Future<dynamic> updateMangaDetail(Ref ref, {required int? mangaId, required bool
       ..lastUpdate = now
       ..updatedAt = now;
 
-    return isar.writeTxnSync(() {
-      final mangaId = isar.mangas.putSync(manga);
-      final wasEmpty = manga.chapters.isEmpty;
-      final chaps = getManga.chapters ?? [];
+    final chaps = getManga.chapters;
 
-      manga.lastUpdate = now;
+    await isar.writeTxn(() async {
+      // Persist updated manga metadata.
+      final savedMangaId = await isar.mangas.put(manga);
 
-      List<Chapter> added = [];
-      List<Chapter> updated = [];
+      if (chaps == null || chaps.isEmpty) return;
 
-      if (chaps.isNotEmpty) {
-        if (wasEmpty) {
-          added = chaps.map((fetched) => fetched.toChapter(mangaId, manga)).toList(growable: false);
+      // loadSync() was called before the transaction; the set is still valid
+      // here because we haven't written to chapters yet.
+      final existingChapters = manga.chapters.toList();
+      // Match by the domain-less URL (path + query), not the full URL. Sources
+      // (anime ones especially) migrate domains, so the stored URL keeps the old
+      // host while a fresh fetch returns the new one — matching on the full URL
+      // then misses and re-adds every chapter each update, which is how episodes
+      // ended up duplicated/tripled.
+      final existingByUrl = <String, Chapter>{};
+      // IDs of pre-existing duplicates (same domain-less URL) to remove, so the
+      // list stops showing copies created before this fix. The read/started copy
+      // is the one kept.
+      final duplicateIds = <int>[];
+      for (final c in existingChapters) {
+        final u = c.url?.trim();
+        if (u == null || u.isEmpty) continue;
+        final key = u.getUrlWithoutDomain;
+        final prior = existingByUrl[key];
+        if (prior == null) {
+          existingByUrl[key] = c;
         } else {
-          void fallbackMatch() {
-            // try to reconcile based on chapter number
-            List<Chapter> existing = manga.chapters.toList();
-
-            for (var fetched in chaps.reversed) {
-              final candidate = fetched.toChapter(mangaId, manga);
-              final found = existing.where((chapter) => chapter.isSameNumber(candidate));
-              final resolved = switch (found.length) {
-                0 => null,
-                1 => found.first,
-                _ => (() {
-                  // multiple scanlators or chapter number collision
-                  final match = found.firstWhereOrNull(
-                    (chapter) => (fetched.url == chapter.url) || (fetched.legacyUrl == chapter.url),
-                  );
-                  final resolved = match ?? found.first;
-
-                  existing.remove(resolved);
-
-                  return resolved;
-                })(),
-              };
-
-              if (resolved != null) {
-                if (resolved.apply(candidate)) {
-                  updated.add(resolved);
-                }
-              } else {
-                added.add(candidate);
-              }
-            }
-          }
-
-          final hasUids = chaps.any((chapter) => chapter.hasUid());
-
-          if (hasUids) {
-            final bool storedUids = manga.chapters.any((chapter) => chapter.hasUid());
-
-            if (storedUids) {
-              // already uid-ed
-              for (var fetched in chaps.reversed) {
-                final candidate = fetched.toChapter(mangaId, manga);
-                final uid = fetched.uid;
-                final found = manga.chapters.where((chapter) => chapter.uid == uid);
-
-                if (found.isNotEmpty) {
-                  final resolved = found.first;
-
-                  if (resolved.apply(candidate)) {
-                    updated.add(resolved);
-                  }
-
-                  if (found.length > 1) {
-                    isar.chapters.deleteAllSync(found.skip(1).map((i) => i.id).toList());
-                  }
-
-                  final candidates = manga.chapters.where((chapter) => chapter.isSameNumber(candidate));
-
-                  if (candidates.isNotEmpty) {
-                    final duplicates = candidates
-                        .map(
-                          (chapter) => ({
-                            chapter.scanlator: [chapter],
-                          }),
-                        )
-                        .reduce((acc, map) {
-                          final MapEntry(:key, :value) = map.entries.first;
-                          final bucket = acc[key];
-
-                          if (bucket == null) {
-                            acc[key] = value;
-                          } else {
-                            bucket.addAll(value);
-                          }
-
-                          return acc;
-                        })
-                        .values
-                        .where((list) => list.length > 1);
-
-                    for (final chapters in duplicates) {
-                      isar.chapters.deleteAllSync(chapters.skip(1).map((i) => i.id).toList());
-                    }
-                  }
-                } else {
-                  added.add(candidate);
-                }
-              }
-            } else {
-              fallbackMatch();
-            }
-          } else {
-            fallbackMatch();
-          }
+          // Keep the copy with reading state; drop the other.
+          final priorHasState = (prior.isRead ?? false) || (prior.lastPageRead ?? '').isNotEmpty;
+          final keep = priorHasState ? prior : c;
+          final drop = identical(keep, prior) ? c : prior;
+          existingByUrl[key] = keep;
+          if (drop.id != null) duplicateIds.add(drop.id!);
         }
       }
 
-      final allChanged = updated.followedBy(added).toList();
-      isar.chapters.putAllSync(allChanged);
-
-      for (var chapter in added) {
-        chapter.manga.saveSync();
-      }
-
-      if (!wasEmpty) {
-        final date = now.toString();
-        // skip creating updates if:
-        final skip = manga.chapters
-            // 1. chapter already read
-            .where((chapter) => chapter.isRead == true)
-            // 2. update already registered
-            .followedBy(
-              isar.updates
-                  .where()
-                  .mangaIdEqualTo(mangaId)
-                  .findAllSync()
-                  .map((update) => update.chapter.value)
-                  .whereType<Chapter>(),
-            )
-            .toSet();
-
-        final updates = added.reversed
-            .where((chapter) => !skip.any((other) => other.isSameNumber(chapter)))
-            .map(
-              (chapter) =>
-                  (Update(mangaId: mangaId, chapterName: chapter.name, date: date, updatedAt: now)
-                    ..chapter.value = chapter),
-            )
-            .toList(growable: false);
-
-        isar.updates.putAllSync(updates);
-
-        for (var update in updates) {
-          update.chapter.saveSync();
+      // Build a chapterNumber -> isRead map so that when a new scanlator covers
+      // a chapter the user has already read, the new entry is pre-marked read.
+      // The value is true if ANY existing chapter at that number is read.
+      final recognition = ChapterRecognition();
+      final readByNumber = <int, bool>{};
+      for (final c in existingChapters) {
+        if (c.name == null) continue;
+        final num = recognition.parseChapterNumber(manga.name ?? '', c.name!);
+        if (num > 0) {
+          readByNumber[num] = (readByNumber[num] ?? false) || (c.isRead ?? false);
         }
       }
 
-      if (allChanged.isNotEmpty) {
-        // no need to recalculate if nothing changed
-        final withDates = chaps.where((chapter) => chapter.dateUpload != null);
-        final intervals = withDates.length - 1;
+      final newChapters = <Chapter>[];
+      // Guards against a source repeating the same episode within one fetch.
+      final seenKeys = <String>{};
 
-        if (intervals > 0) {
-          final dates = withDates
-              .map((chapter) => int.parse(chapter.dateUpload!))
-              .sorted()
-              .map((timestamp) => DateTime.fromMillisecondsSinceEpoch(timestamp))
-              .toList(growable: false);
-          final daysBetweenUploads = dates.take(intervals).indexed.map((i) => -i.$2.difference(dates[i.$1 + 1]).inDays);
+      for (final chap in chaps) {
+        final url = chap.url?.trim();
+        if (url == null || url.isEmpty) continue;
+        final key = url.getUrlWithoutDomain;
+        if (!seenKeys.add(key)) continue;
+        final existing = existingByUrl[key];
 
-          if (daysBetweenUploads.isNotEmpty) {
-            final diffs = daysBetweenUploads.toList(growable: false);
-            final median = diffs.median();
-            final smartUpdateDays = max(median, diffs.arithmeticMean());
+        if (existing == null) {
+          // Determine whether this chapter number has already been read under
+          // a different scanlator, so we don't show it as unread to the user.
+          final chapNum = chap.name != null ? recognition.parseChapterNumber(manga.name!, chap.name!) : 0;
+          final alreadyRead = chapNum > 0 && (readByNumber[chapNum] ?? false);
 
-            if (manga.smartUpdateDays != smartUpdateDays) {
-              isar.mangas.putSync(
-                manga
-                  ..id = mangaId
-                  ..smartUpdateDays = smartUpdateDays,
-              );
-            }
+          final newChapter = Chapter(
+            name: chap.name!,
+            url: url,
+            dateUpload: chap.dateUpload == null ? now.toString() : chap.dateUpload.toString(),
+            scanlator: chap.scanlator ?? '',
+            mangaId: savedMangaId,
+            updatedAt: now,
+            isFiller: chap.isFiller,
+            thumbnailUrl: chap.thumbnailUrl,
+            description: chap.description,
+            downloadSize: chap.downloadSize,
+            duration: chap.duration,
+          )..manga.value = manga;
+
+          // Carry over read state if another scanlator's version was read.
+          if (alreadyRead) {
+            newChapter.isRead = alreadyRead;
+            newChapter.lastPageRead = "1";
+          }
+
+          newChapters.add(newChapter);
+        } else {
+          // Existing chapter - refresh metadata only.
+          existing
+            ..name = chap.name
+            ..scanlator = chap.scanlator
+            ..updatedAt = now
+            ..isFiller = chap.isFiller
+            ..thumbnailUrl = chap.thumbnailUrl
+            ..description = chap.description
+            ..downloadSize = chap.downloadSize
+            ..duration = chap.duration;
+          await isar.chapters.put(existing);
+        }
+      }
+
+      // Insert new chapters oldest-first (API typically returns newest-first).
+      if (newChapters.isNotEmpty) {
+        final hasExisting = existingChapters.isNotEmpty;
+        for (final chap in newChapters.reversed) {
+          await isar.chapters.put(chap);
+          await chap.manga.save();
+
+          // Only create an Update entry for genuinely new (unread) chapters,
+          // so that pre-read cross-scanlator chapters don't spam the updates feed.
+          if (hasExisting && !(chap.isRead ?? false)) {
+            final update = Update(
+              mangaId: savedMangaId,
+              chapterName: chap.name,
+              date: now.toString(),
+              updatedAt: now,
+            )..chapter.value = chap;
+            await isar.updates.put(update);
+            await update.chapter.save();
           }
         }
       }
+      // Remove pre-existing duplicate chapters (from before the domain-less
+      // match), keeping the read/started copy chosen above.
+      for (final id in duplicateIds) {
+        await isar.chapters.delete(id);
+      }
 
-      return true;
+      // Calculate fetch interval:
+      // median of gaps between recent distinct chapter dates, clamped [1, 28].
+      final dedupedExisting = duplicateIds.isEmpty
+          ? existingChapters
+          : existingChapters.where((c) => c.id == null || !duplicateIds.contains(c.id)).toList();
+      final allChapters = newChapters.isEmpty ? dedupedExisting : [...dedupedExisting, ...newChapters];
+      if (allChapters.isNotEmpty) {
+        final interval = FetchInterval.calculateInterval(allChapters);
+        manga
+          ..id = savedMangaId
+          ..smartUpdateDays = interval;
+        await isar.mangas.put(manga);
+      }
     });
   } catch (e, s) {
     if (showToast) {
@@ -250,77 +215,5 @@ Future<dynamic> updateMangaDetail(Ref ref, {required int? mangaId, required bool
     } else {
       rethrow;
     }
-
-    return;
-  }
-}
-
-extension DefaultValueExtension on String? {
-  String? trimmedOrDefault(String? defaultValue) {
-    final trimmed = this?.trim();
-
-    return trimmed?.isNotEmpty == true ? trimmed : defaultValue;
-  }
-}
-
-extension MUidUtils on MChapter {
-  bool hasUid() {
-    return uid?.isNotEmpty == true;
-  }
-
-  Chapter toChapter(int mangaId, Manga manga) {
-    return Chapter(
-      name: name!,
-      url: url!.trim(),
-      dateUpload: dateUpload == null ? DateTime.now().millisecondsSinceEpoch.toString() : dateUpload.toString(),
-      scanlator: scanlator ?? '',
-      mangaId: mangaId,
-      updatedAt: DateTime.now().millisecondsSinceEpoch,
-      isFiller: isFiller,
-      thumbnailUrl: thumbnailUrl,
-      description: description,
-      downloadSize: downloadSize,
-      duration: duration,
-      uid: uid ?? '',
-    )..manga.value = manga;
-  }
-}
-
-extension ChapterUtils on Chapter {
-  bool hasUid() {
-    return uid?.isNotEmpty == true;
-  }
-
-  bool isNotEqual(Chapter other) {
-    return (name != other.name ||
-        url != other.url ||
-        scanlator != other.scanlator ||
-        dateUpload != other.dateUpload ||
-        (isFiller ?? false) != (other.isFiller ?? false) ||
-        thumbnailUrl != other.thumbnailUrl ||
-        description != other.description ||
-        downloadSize != other.downloadSize ||
-        duration != other.duration ||
-        uid != other.uid);
-  }
-
-  bool apply(Chapter update) {
-    if (isNotEqual(update)) {
-      name = update.name;
-      url = update.url;
-      scanlator = update.scanlator;
-      dateUpload = update.dateUpload;
-      isFiller = update.isFiller;
-      thumbnailUrl = update.thumbnailUrl;
-      description = update.description;
-      downloadSize = update.downloadSize;
-      duration = update.duration;
-      uid = update.uid;
-      updatedAt = DateTime.now().millisecondsSinceEpoch;
-
-      return true;
-    }
-
-    return false;
   }
 }

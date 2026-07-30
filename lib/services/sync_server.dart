@@ -47,7 +47,7 @@ class SyncServer extends _$SyncServer {
     try {
       var response = await http.post(
         Uri.parse('$server$_loginUrl'),
-        headers: {'content-type': 'application/json'},
+        headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': username, 'password': password}),
       );
       var cookieHeader = response.headers["set-cookie"];
@@ -144,8 +144,8 @@ class SyncServer extends _$SyncServer {
     var response = await http.post(
       Uri.parse('${_getServer()}$_syncMangaUrl'),
       headers: {
-        'content-type': 'application/json',
-        'cookie': 'id=$accessToken',
+        'Content-Type': 'application/json',
+        'Cookie': 'id=$accessToken',
       },
       body: mangaData,
     );
@@ -185,8 +185,8 @@ class SyncServer extends _$SyncServer {
     var response = await http.post(
       Uri.parse('${_getServer()}$_syncHistoryUrl'),
       headers: {
-        'content-type': 'application/json',
-        'cookie': 'id=$accessToken',
+        'Content-Type': 'application/json',
+        'Cookie': 'id=$accessToken',
       },
       body: historyData,
     );
@@ -218,8 +218,8 @@ class SyncServer extends _$SyncServer {
     var response = await http.post(
       Uri.parse('${_getServer()}$_syncUpdateUrl'),
       headers: {
-        'content-type': 'application/json',
-        'cookie': 'id=$accessToken',
+        'Content-Type': 'application/json',
+        'Cookie': 'id=$accessToken',
       },
       body: updateData,
     );
@@ -250,8 +250,8 @@ class SyncServer extends _$SyncServer {
     var response = await http.post(
       Uri.parse('${_getServer()}$_syncSettingsUrl'),
       headers: {
-        'content-type': 'application/json',
-        'cookie': 'id=$accessToken',
+        'Content-Type': 'application/json',
+        'Cookie': 'id=$accessToken',
       },
       body: settingsData,
     );
@@ -298,7 +298,7 @@ class SyncServer extends _$SyncServer {
   ) async {
     final mangas = (jsonData["manga"] as List?)?.map((e) => Manga.fromJson(e)).toList() ?? [];
     await isar.writeTxn(() async {
-      for (var manga in await isar.mangas.where().findAll()) {
+      for (var manga in await isar.mangas.filter().idIsNotNull().findAll()) {
         final temp = mangas.firstWhereOrNull((e) => e.id == manga.id);
         if (temp != null) {
           if ((manga.updatedAt ?? 0) < (temp.updatedAt ?? 1)) {
@@ -306,7 +306,7 @@ class SyncServer extends _$SyncServer {
           }
           mangas.remove(temp);
         } else {
-          await isar.mangas.delete(manga.id);
+          await isar.mangas.delete(manga.id!);
         }
       }
       for (var manga in mangas) {
@@ -322,7 +322,7 @@ class SyncServer extends _$SyncServer {
   ) async {
     final chapters = (jsonData["chapters"] as List?)?.map((e) => Chapter.fromJson(e)).toList() ?? [];
     await isar.writeTxn(() async {
-      for (var chapter in await isar.chapters.where().findAll()) {
+      for (var chapter in await isar.chapters.filter().idIsNotNull().findAll()) {
         final temp = chapters.firstWhereOrNull((e) => e.id == chapter.id);
         if (temp != null) {
           final manga = await isar.mangas.get(temp.mangaId!);
@@ -332,7 +332,7 @@ class SyncServer extends _$SyncServer {
           }
           chapters.remove(temp);
         } else {
-          await isar.chapters.delete(chapter.id);
+          await isar.chapters.delete(chapter.id!);
         }
       }
       for (var chapter in chapters) {
@@ -511,7 +511,7 @@ class SyncServer extends _$SyncServer {
   }
 
   List<Map<String, dynamic>> _getManga() {
-    return isar.mangas.where().findAllSync().map((e) => (e..customCoverImage = null).toJson()).toList();
+    return isar.mangas.filter().idIsNotNull().findAllSync().map((e) => (e..customCoverImage = null).toJson()).toList();
   }
 
   List<Map<String, dynamic>> _getCategories() {
@@ -519,7 +519,7 @@ class SyncServer extends _$SyncServer {
   }
 
   List<Map<String, dynamic>> _getChapters() {
-    return isar.chapters.where().findAllSync().map((e) => e.toJson()).toList();
+    return isar.chapters.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
   }
 
   List<Map<String, dynamic>> _getTracks() {

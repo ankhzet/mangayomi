@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mangayomi/utils/platform_utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar_community/isar.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
@@ -440,7 +441,7 @@ class SyncScreen extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: TextFormField(
                       controller: serverController,
-                      autofocus: true,
+                      autofocus: !isTv,
                       onChanged: (value) => setState(() {
                         server = value;
                       }),
@@ -468,7 +469,7 @@ class SyncScreen extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: TextFormField(
                       controller: emailController,
-                      autofocus: true,
+                      autofocus: !isTv,
                       onChanged: (value) => setState(() {
                         email = value;
                       }),

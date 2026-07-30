@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 
-/// Manages gesture detection zones and tap handling for the reader.
+/// Navigation layout variants matching Mihon.
 ///
-/// The reader screen is divided into zones:
+///  0 = Default  – current three-column + top/bottom zones
+///  1 = L-shaped – top-left = prev, bottom-right = next, rest = UI
+///  2 = Kindle   – top = UI, bottom split left = prev / right = next
+///  3 = Edge     – thin side strips for prev/next, rest = UI
+///  4 = Right & Left – simple two-zone left = prev / right = next
+///  5 = Disabled – full screen = toggle UI
 ///
-/// For horizontal reading (LTR):
+/// For horizontal reading (LTR), the default layout is:
 /// ```
 /// ┌─────────────────────────┐
 /// │     TOP (prev page)     │
@@ -30,6 +35,12 @@ class ReaderGestureHandler extends StatelessWidget {
 
   /// Whether the reader is in continuous scroll mode
   final bool isContinuousMode;
+
+  /// Navigation layout index (0-5), see class docs.
+  final int navigationLayout;
+
+  /// Tapping zone inversion mode (0 = None, 1 = Horizontal, 2 = Vertical, 3 = Both)
+  final int tappingInversion;
 
   /// Callback when UI should be toggled
   final VoidCallback onToggleUI;
@@ -61,6 +72,8 @@ class ReaderGestureHandler extends StatelessWidget {
     required this.onToggleUI,
     required this.onPreviousPage,
     required this.onNextPage,
+    this.navigationLayout = 0,
+    this.tappingInversion = 0,
     this.onDoubleTapDown,
     this.onDoubleTap,
     this.onSecondaryTapDown,
@@ -69,123 +82,186 @@ class ReaderGestureHandler extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return switch (navigationLayout) {
+      1 => _buildLShaped(context),
+      2 => _buildKindle(context),
+      3 => _buildEdge(context),
+      4 => _buildRightAndLeft(context),
+      5 => _buildDisabled(context),
+      _ => _buildDefault(context),
+    };
+  }
+
+  // ── helpers ──
+
+  bool get _shouldInvertHorizontal => tappingInversion == 1 || tappingInversion == 3;
+  bool get _shouldInvertVertical => tappingInversion == 2 || tappingInversion == 3;
+
+  VoidCallback _prev() => isRTL ? onNextPage : onPreviousPage;
+  VoidCallback _next() => isRTL ? onPreviousPage : onNextPage;
+
+  _ZoneGestureDetector _zone(VoidCallback onTap) => _ZoneGestureDetector(
+    onTap: usePageTapZones ? onTap : onToggleUI,
+    onDoubleTapDown: isContinuousMode ? onDoubleTapDown : null,
+    onDoubleTap: isContinuousMode ? onDoubleTap : null,
+    onSecondaryTapDown: isContinuousMode ? onSecondaryTapDown : null,
+    onSecondaryTap: isContinuousMode ? onSecondaryTap : null,
+  );
+
+  _ZoneGestureDetector _uiZone() => _ZoneGestureDetector(
+    onTap: onToggleUI,
+    onDoubleTapDown: isContinuousMode ? onDoubleTapDown : null,
+    onDoubleTap: isContinuousMode ? onDoubleTap : null,
+    onSecondaryTapDown: isContinuousMode ? onSecondaryTapDown : null,
+    onSecondaryTap: isContinuousMode ? onSecondaryTap : null,
+  );
+
+  // ── Layout 0: Default (original 3-col + top/bottom) ──
+
+  Widget _buildDefault(BuildContext context) {
     return Stack(
       children: [
-        // Horizontal zones (left, center, right)
-        _buildHorizontalZones(context),
-
-        // Vertical zones (top, center, bottom)
-        _buildVerticalZones(context),
+        _buildDefaultHorizontalZones(context),
+        _buildDefaultVerticalZones(context),
       ],
     );
   }
 
-  Widget _buildHorizontalZones(BuildContext context) {
+  Widget _buildDefaultHorizontalZones(BuildContext context) {
+    final leftAction = _shouldInvertHorizontal ? _next() : _prev();
+    final rightAction = _shouldInvertHorizontal ? _prev() : _next();
     return Row(
       children: [
-        // Left zone
+        Expanded(flex: 2, child: _zone(leftAction)),
         Expanded(
           flex: 2,
-          child: _ZoneGestureDetector(
-            onTap: () {
-              if (usePageTapZones) {
-                isRTL ? onNextPage() : onPreviousPage();
-              } else {
-                onToggleUI();
-              }
-            },
-            onDoubleTapDown: isContinuousMode ? onDoubleTapDown : null,
-            onDoubleTap: isContinuousMode ? onDoubleTap : null,
-            onSecondaryTapDown: isContinuousMode ? onSecondaryTapDown : null,
-            onSecondaryTap: isContinuousMode ? onSecondaryTap : null,
+          child: hasImageError ? SizedBox(width: context.width(1), height: context.height(0.7)) : _uiZone(),
+        ),
+        Expanded(flex: 2, child: _zone(rightAction)),
+      ],
+    );
+  }
+
+  Widget _buildDefaultVerticalZones(BuildContext context) {
+    final topAction = _shouldInvertVertical ? onNextPage : onPreviousPage;
+    final bottomAction = _shouldInvertVertical ? onPreviousPage : onNextPage;
+    return Column(
+      children: [
+        Expanded(flex: 2, child: _zone(hasImageError ? onToggleUI : topAction)),
+        const Expanded(flex: 5, child: SizedBox.shrink()),
+        Expanded(
+          flex: 2,
+          child: _zone(hasImageError ? onToggleUI : bottomAction),
+        ),
+      ],
+    );
+  }
+
+  // ── Layout 1: L-shaped ──
+  // ┌───────┬───────────────┐
+  // │ PREV  │               │
+  // ├───────┘               │
+  // │          UI           │
+  // │               ┌───────┤
+  // │               │ NEXT  │
+  // └───────────────┴───────┘
+
+  Widget _buildLShaped(BuildContext context) {
+    final action1 = (_shouldInvertHorizontal ^ _shouldInvertVertical) ? _next() : _prev();
+    final action2 = (_shouldInvertHorizontal ^ _shouldInvertVertical) ? _prev() : _next();
+    return Column(
+      children: [
+        Expanded(
+          flex: 1,
+          child: Row(
+            children: [
+              Expanded(flex: 1, child: _zone(action1)),
+              Expanded(flex: 2, child: _uiZone()),
+            ],
           ),
         ),
-
-        // Center zone
+        Expanded(flex: 2, child: _uiZone()),
         Expanded(
-          flex: 2,
-          child: hasImageError
-              ? SizedBox(
-                  width: context.width(1),
-                  height: context.height(0.7),
-                )
-              : _ZoneGestureDetector(
-                  onTap: onToggleUI,
-                  onDoubleTapDown: isContinuousMode ? onDoubleTapDown : null,
-                  onDoubleTap: isContinuousMode ? onDoubleTap : null,
-                  onSecondaryTapDown: isContinuousMode ? onSecondaryTapDown : null,
-                  onSecondaryTap: isContinuousMode ? onSecondaryTap : null,
-                ),
-        ),
-
-        // Right zone
-        Expanded(
-          flex: 2,
-          child: _ZoneGestureDetector(
-            onTap: () {
-              if (usePageTapZones) {
-                isRTL ? onPreviousPage() : onNextPage();
-              } else {
-                onToggleUI();
-              }
-            },
-            onDoubleTapDown: isContinuousMode ? onDoubleTapDown : null,
-            onDoubleTap: isContinuousMode ? onDoubleTap : null,
-            onSecondaryTapDown: isContinuousMode ? onSecondaryTapDown : null,
-            onSecondaryTap: isContinuousMode ? onSecondaryTap : null,
+          flex: 1,
+          child: Row(
+            children: [
+              Expanded(flex: 2, child: _uiZone()),
+              Expanded(flex: 1, child: _zone(action2)),
+            ],
           ),
         ),
       ],
     );
   }
 
-  Widget _buildVerticalZones(BuildContext context) {
+  // ── Layout 2: Kindle ──
+  // ┌───────────────────────┐
+  // │       UI (toggle)     │
+  // ├───────────┬───────────┤
+  // │   PREV    │   NEXT    │
+  // └───────────┴───────────┘
+
+  Widget _buildKindle(BuildContext context) {
+    final leftAction = _shouldInvertHorizontal ? _next() : _prev();
+    final rightAction = _shouldInvertHorizontal ? _prev() : _next();
     return Column(
       children: [
-        // Top zone
+        Expanded(flex: 1, child: _uiZone()),
         Expanded(
-          flex: 2,
-          child: _ZoneGestureDetector(
-            onTap: () {
-              if (hasImageError) {
-                onToggleUI();
-              } else if (usePageTapZones) {
-                onPreviousPage();
-              } else {
-                onToggleUI();
-              }
-            },
-            onDoubleTapDown: isContinuousMode ? onDoubleTapDown : null,
-            onDoubleTap: isContinuousMode ? onDoubleTap : null,
-            onSecondaryTapDown: isContinuousMode ? onSecondaryTapDown : null,
-            onSecondaryTap: isContinuousMode ? onSecondaryTap : null,
-          ),
-        ),
-
-        // Center zone (transparent, handled by horizontal zones)
-        const Expanded(flex: 5, child: SizedBox.shrink()),
-
-        // Bottom zone
-        Expanded(
-          flex: 2,
-          child: _ZoneGestureDetector(
-            onTap: () {
-              if (hasImageError) {
-                onToggleUI();
-              } else if (usePageTapZones) {
-                onNextPage();
-              } else {
-                onToggleUI();
-              }
-            },
-            onDoubleTapDown: isContinuousMode ? onDoubleTapDown : null,
-            onDoubleTap: isContinuousMode ? onDoubleTap : null,
-            onSecondaryTapDown: isContinuousMode ? onSecondaryTapDown : null,
-            onSecondaryTap: isContinuousMode ? onSecondaryTap : null,
+          flex: 3,
+          child: Row(
+            children: [
+              Expanded(child: _zone(leftAction)),
+              Expanded(child: _zone(rightAction)),
+            ],
           ),
         ),
       ],
     );
+  }
+
+  // ── Layout 3: Edge ──
+  // ┌──┬──────────────┬──┐
+  // │P │              │N │
+  // │R │     UI       │E │
+  // │E │   (toggle)   │X │
+  // │V │              │T │
+  // └──┴──────────────┴──┘
+
+  Widget _buildEdge(BuildContext context) {
+    final leftAction = _shouldInvertHorizontal ? _next() : _prev();
+    final rightAction = _shouldInvertHorizontal ? _prev() : _next();
+    return Row(
+      children: [
+        Expanded(flex: 1, child: _zone(leftAction)),
+        Expanded(flex: 5, child: _uiZone()),
+        Expanded(flex: 1, child: _zone(rightAction)),
+      ],
+    );
+  }
+
+  // ── Layout 4: Right and Left ──
+  // ┌───────────┬───────────┐
+  // │           │           │
+  // │   PREV    │   NEXT    │
+  // │           │           │
+  // └───────────┴───────────┘
+
+  Widget _buildRightAndLeft(BuildContext context) {
+    final leftAction = _shouldInvertHorizontal ? _next() : _prev();
+    final rightAction = _shouldInvertHorizontal ? _prev() : _next();
+    return Row(
+      children: [
+        Expanded(child: _zone(leftAction)),
+        Expanded(child: _zone(rightAction)),
+      ],
+    );
+  }
+
+  // ── Layout 5: Disabled ──
+
+  Widget _buildDisabled(BuildContext context) {
+    return SizedBox.expand(child: _uiZone());
   }
 }
 

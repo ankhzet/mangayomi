@@ -255,7 +255,7 @@ class LoggerInterceptor extends InterceptorContract {
   }) async {
     bool cloudflare = isCloudflare(response);
     final content =
-        "<- ${response.request?.method}: ${response.request?.url}, statusCode: ${response.statusCode} ${cloudflare ? "Failed to bypass Cloudflare" : ""}";
+        "<- ${response.request?.method}: ${response.request?.url}, statusCode: ${response.statusCode} ${cloudflare ? "Failed to bypass Cloudflare" : ""}\nheaders: ${response.headers.toString()}";
 
     // ignore: avoid_print
     print(content);
@@ -275,18 +275,11 @@ class ClaudflareInterceptor extends InterceptorContract {
   Future<BaseResponse> interceptResponse({
     required BaseResponse response,
   }) async {
-      if (isCloudflare(response)) {
-        try {
-          botToast(
-            "${response.statusCode} Failed to bypass Cloudflare",
-            url: response.request!.url.toString(),
-          );
-        } catch (e) {
-          throw "Failed to bypass Cloudflare.\n\n\nYou can try to bypass it manually in the webview \n\n\nstatusCode: ${response.statusCode}";
-          //
-        }
-      }
-
+    // Do NOT throw here — response interceptors run before the retry policy,
+    // so throwing prevents ResolveCloudFlareChallenge from retrying.
+    // Do NOT call botToast here — this interceptor runs inside the extension
+    // isolate where navigatorKey has no state; the toast is shown instead from
+    // _handleResolveCf which runs on the main isolate.
     return response;
   }
 }
@@ -301,31 +294,38 @@ class ResolveCloudFlareChallenge extends RetryPolicy {
   ResolveCloudFlareChallenge(this.showCloudFlareError);
   @override
   int get maxRetryAttempts => 1;
+
+  Future<bool> _resolve(String url) async {
+    if (cfPort == 0) return false;
+    try {
+      final res = await http.post(
+        Uri.parse('http://localhost:$cfPort/resolve_cf'),
+        headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+        body: jsonEncode({'url': url}),
+      );
+      if (res.statusCode == 200) {
+        final data = jsonDecode(res.body) as Map<String, dynamic>;
+        return data['result'] as bool? ?? false;
+      }
+    } catch (_) {}
+    return false;
+  }
+
   @override
   Future<bool> shouldAttemptRetryOnResponse(BaseResponse response) async {
-    bool cloudflare = isCloudflare(response);
+    if (!isCloudflare(response)) return false;
+    // Ask the CF resolution server to open a headless WebView at the origin.
+    return _resolve(response.request!.url.toString());
+  }
 
-    if (cloudflare) {
-      try {
-        return http
-            .post(
-              Uri.parse('http://localhost:$cfPort/resolve_cf'),
-              headers: {HttpHeaders.contentTypeHeader: 'application/json'},
-              body: jsonEncode({'url': response.request!.url.toString()}),
-            )
-            .then((res) {
-              if (res.statusCode == 200) {
-                final data = jsonDecode(res.body) as Map<String, dynamic>;
-                return data['result'] as bool;
-              }
-              return false;
-            });
-      } catch (e) {
-        return false;
-      }
-    }
-
-    return false;
+  @override
+  Future<bool> shouldAttemptRetryOnException(
+      Exception reason, BaseRequest request) async {
+    // rhttp (Rust TLS) may throw a connection/TLS exception instead of
+    // returning a 403 HTTP response when Cloudflare rejects the handshake.
+    // Attempt CF resolution for any network exception so the retry can
+    // fire with a fresh cf_clearance cookie.
+    return _resolve(request.url.toString());
   }
 }
 
@@ -401,11 +401,19 @@ void _handleResolveCf(HttpRequest request) async {
 
     flutter_inappwebview.HeadlessInAppWebView? headlessWebView;
 
+    // This handler runs on the main isolate — safe to call botToast here.
+    final resolveHost = Uri.parse(url!).host;
+    botToast("Resolving Cloudflare for $resolveHost…", second: 15);
+
     try {
+      // Navigate to the origin (HTML page), not the failing API URL.
+      // API endpoints return JSON — no Cloudflare JS challenge fires there,
+      // so the WebView can never obtain a cf_clearance cookie from them.
+      final resolveUrl = Uri.parse(url).origin;
       headlessWebView = flutter_inappwebview.HeadlessInAppWebView(
         webViewEnvironment: webViewEnvironment,
         initialUrlRequest: flutter_inappwebview.URLRequest(
-          url: flutter_inappwebview.WebUri(url),
+          url: flutter_inappwebview.WebUri(resolveUrl),
         ),
         shouldInterceptRequest: (controller, request) {
           if (request.url.toString().contains(RegExp('ads|admatic|3lift|dsp-service|beacon|report|nel.cloudflare'))) {
@@ -436,7 +444,7 @@ void _handleResolveCf(HttpRequest request) async {
             try {
               final ua = await controller.evaluateJavascript(source: "navigator.userAgent");
 
-              await MClient.setCookie(url.toString(), ua ?? "", controller);
+              await MClient.setCookie(resolveUrl, ua ?? "", controller);
             } catch (_) {
             }
           }
@@ -464,9 +472,21 @@ void _handleResolveCf(HttpRequest request) async {
       }
     }
 
+    final resolved = !isCloudFlare;
+    if (resolved) {
+      botToast("Cloudflare bypassed for $resolveHost ✓", second: 4);
+    } else {
+      botToast(
+        "Failed to bypass Cloudflare for $resolveHost\n"
+        "Try opening the webview manually.",
+        second: 8,
+        url: url,
+      );
+    }
+
     request.response
       ..headers.contentType = ContentType.json
-      ..write(jsonEncode({'result': !isCloudFlare}))
+      ..write(jsonEncode({'result': resolved}))
       ..close();
   } catch (e) {
     request.response

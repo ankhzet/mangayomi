@@ -12,7 +12,8 @@ part of 'get_latest_updates.dart';
 @ProviderFor(getLatestUpdates)
 final getLatestUpdatesProvider = GetLatestUpdatesFamily._();
 
-final class GetLatestUpdatesProvider extends $FunctionalProvider<AsyncValue<MPages?>, MPages?, FutureOr<MPages?>>
+final class GetLatestUpdatesProvider
+    extends $FunctionalProvider<AsyncValue<MPages?>, MPages?, FutureOr<MPages?>>
     with $FutureModifier<MPages?>, $FutureProvider<MPages?> {
   GetLatestUpdatesProvider._({
     required GetLatestUpdatesFamily super.from,
@@ -37,7 +38,8 @@ final class GetLatestUpdatesProvider extends $FunctionalProvider<AsyncValue<MPag
 
   @$internal
   @override
-  $FutureProviderElement<MPages?> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
+  $FutureProviderElement<MPages?> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
 
   @override
   FutureOr<MPages?> create(Ref ref) {
@@ -59,7 +61,11 @@ final class GetLatestUpdatesProvider extends $FunctionalProvider<AsyncValue<MPag
 String _$getLatestUpdatesHash() => r'6f99dfe1d4aa950b6852110ec23f92b5c73c413c';
 
 final class GetLatestUpdatesFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<MPages?>, ({Source source, int page})> {
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<MPages?>,
+          ({Source source, int page})
+        > {
   GetLatestUpdatesFamily._()
     : super(
         retry: null,
@@ -69,10 +75,11 @@ final class GetLatestUpdatesFamily extends $Family
         isAutoDispose: true,
       );
 
-  GetLatestUpdatesProvider call({required Source source, required int page}) => GetLatestUpdatesProvider._(
-    argument: (source: source, page: page),
-    from: this,
-  );
+  GetLatestUpdatesProvider call({required Source source, required int page}) =>
+      GetLatestUpdatesProvider._(
+        argument: (source: source, page: page),
+        from: this,
+      );
 
   @override
   String toString() => r'getLatestUpdatesProvider';

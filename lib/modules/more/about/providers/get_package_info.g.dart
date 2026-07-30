@@ -13,7 +13,12 @@ part of 'get_package_info.dart';
 final getPackageInfoProvider = GetPackageInfoProvider._();
 
 final class GetPackageInfoProvider
-    extends $FunctionalProvider<AsyncValue<PackageInfo>, PackageInfo, FutureOr<PackageInfo>>
+    extends
+        $FunctionalProvider<
+          AsyncValue<PackageInfo>,
+          PackageInfo,
+          FutureOr<PackageInfo>
+        >
     with $FutureModifier<PackageInfo>, $FutureProvider<PackageInfo> {
   GetPackageInfoProvider._()
     : super(

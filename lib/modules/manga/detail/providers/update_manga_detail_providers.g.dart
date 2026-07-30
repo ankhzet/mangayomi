@@ -12,7 +12,8 @@ part of 'update_manga_detail_providers.dart';
 @ProviderFor(updateMangaDetail)
 final updateMangaDetailProvider = UpdateMangaDetailFamily._();
 
-final class UpdateMangaDetailProvider extends $FunctionalProvider<AsyncValue<dynamic>, dynamic, FutureOr<dynamic>>
+final class UpdateMangaDetailProvider
+    extends $FunctionalProvider<AsyncValue<dynamic>, dynamic, FutureOr<dynamic>>
     with $FutureModifier<dynamic>, $FutureProvider<dynamic> {
   UpdateMangaDetailProvider._({
     required UpdateMangaDetailFamily super.from,
@@ -37,11 +38,13 @@ final class UpdateMangaDetailProvider extends $FunctionalProvider<AsyncValue<dyn
 
   @$internal
   @override
-  $FutureProviderElement<dynamic> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
+  $FutureProviderElement<dynamic> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
 
   @override
   FutureOr<dynamic> create(Ref ref) {
-    final argument = this.argument as ({int? mangaId, bool isInit, bool showToast});
+    final argument =
+        this.argument as ({int? mangaId, bool isInit, bool showToast});
     return updateMangaDetail(
       ref,
       mangaId: argument.mangaId,
@@ -61,10 +64,14 @@ final class UpdateMangaDetailProvider extends $FunctionalProvider<AsyncValue<dyn
   }
 }
 
-String _$updateMangaDetailHash() => r'ad3316a3c0fe4e7cb39cb9f1bf2194e32641cb77';
+String _$updateMangaDetailHash() => r'44eba7f0a8128ed6da26ad1125d7db805abb5ff1';
 
 final class UpdateMangaDetailFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<dynamic>, ({int? mangaId, bool isInit, bool showToast})> {
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<dynamic>,
+          ({int? mangaId, bool isInit, bool showToast})
+        > {
   UpdateMangaDetailFamily._()
     : super(
         retry: null,

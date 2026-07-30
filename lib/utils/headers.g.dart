@@ -12,7 +12,13 @@ part of 'headers.dart';
 @ProviderFor(headers)
 final headersProvider = HeadersFamily._();
 
-final class HeadersProvider extends $FunctionalProvider<Map<String, String>, Map<String, String>, Map<String, String>>
+final class HeadersProvider
+    extends
+        $FunctionalProvider<
+          Map<String, String>,
+          Map<String, String>,
+          Map<String, String>
+        >
     with $Provider<Map<String, String>> {
   HeadersProvider._({
     required HeadersFamily super.from,
@@ -85,7 +91,7 @@ final class HeadersProvider extends $FunctionalProvider<Map<String, String>, Map
   }
 }
 
-String _$headersHash() => r'6d6fd92c9b4137f0c7189ed29a8730fecea6fc99';
+String _$headersHash() => r'35df3bf8876e8be44fa4a8fbe57097f1329601b7';
 
 final class HeadersFamily extends $Family
     with

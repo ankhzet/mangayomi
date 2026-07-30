@@ -12,7 +12,8 @@ part of 'downloads_state_provider.dart';
 @ProviderFor(OnlyOnWifiState)
 final onlyOnWifiStateProvider = OnlyOnWifiStateProvider._();
 
-final class OnlyOnWifiStateProvider extends $NotifierProvider<OnlyOnWifiState, bool> {
+final class OnlyOnWifiStateProvider
+    extends $NotifierProvider<OnlyOnWifiState, bool> {
   OnlyOnWifiStateProvider._()
     : super(
         from: null,
@@ -48,7 +49,14 @@ abstract class _$OnlyOnWifiState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -56,7 +64,8 @@ abstract class _$OnlyOnWifiState extends $Notifier<bool> {
 @ProviderFor(SaveAsCBZArchiveState)
 final saveAsCBZArchiveStateProvider = SaveAsCBZArchiveStateProvider._();
 
-final class SaveAsCBZArchiveStateProvider extends $NotifierProvider<SaveAsCBZArchiveState, bool> {
+final class SaveAsCBZArchiveStateProvider
+    extends $NotifierProvider<SaveAsCBZArchiveState, bool> {
   SaveAsCBZArchiveStateProvider._()
     : super(
         from: null,
@@ -84,7 +93,8 @@ final class SaveAsCBZArchiveStateProvider extends $NotifierProvider<SaveAsCBZArc
   }
 }
 
-String _$saveAsCBZArchiveStateHash() => r'836e8cce08b3d307c58d2a850a7dcb3c9d739fc1';
+String _$saveAsCBZArchiveStateHash() =>
+    r'836e8cce08b3d307c58d2a850a7dcb3c9d739fc1';
 
 abstract class _$SaveAsCBZArchiveState extends $Notifier<bool> {
   bool build();
@@ -92,7 +102,68 @@ abstract class _$SaveAsCBZArchiveState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(DeleteDownloadAfterReadingState)
+final deleteDownloadAfterReadingStateProvider =
+    DeleteDownloadAfterReadingStateProvider._();
+
+final class DeleteDownloadAfterReadingStateProvider
+    extends $NotifierProvider<DeleteDownloadAfterReadingState, bool> {
+  DeleteDownloadAfterReadingStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'deleteDownloadAfterReadingStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$deleteDownloadAfterReadingStateHash();
+
+  @$internal
+  @override
+  DeleteDownloadAfterReadingState create() => DeleteDownloadAfterReadingState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$deleteDownloadAfterReadingStateHash() =>
+    r'23f5d5e4a51a1cb6ae78db5a015ca5e1cc6e98e3';
+
+abstract class _$DeleteDownloadAfterReadingState extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<bool, bool>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -100,7 +171,8 @@ abstract class _$SaveAsCBZArchiveState extends $Notifier<bool> {
 @ProviderFor(DownloadLocationState)
 final downloadLocationStateProvider = DownloadLocationStateProvider._();
 
-final class DownloadLocationStateProvider extends $NotifierProvider<DownloadLocationState, (String, String)> {
+final class DownloadLocationStateProvider
+    extends $NotifierProvider<DownloadLocationState, (String, String)> {
   DownloadLocationStateProvider._()
     : super(
         from: null,
@@ -128,7 +200,8 @@ final class DownloadLocationStateProvider extends $NotifierProvider<DownloadLoca
   }
 }
 
-String _$downloadLocationStateHash() => r'75e2679930508fdd5e1b59baca632e03aace598e';
+String _$downloadLocationStateHash() =>
+    r'75e2679930508fdd5e1b59baca632e03aace598e';
 
 abstract class _$DownloadLocationState extends $Notifier<(String, String)> {
   (String, String) build();
@@ -151,7 +224,8 @@ abstract class _$DownloadLocationState extends $Notifier<(String, String)> {
 @ProviderFor(ConcurrentDownloadsState)
 final concurrentDownloadsStateProvider = ConcurrentDownloadsStateProvider._();
 
-final class ConcurrentDownloadsStateProvider extends $NotifierProvider<ConcurrentDownloadsState, int> {
+final class ConcurrentDownloadsStateProvider
+    extends $NotifierProvider<ConcurrentDownloadsState, int> {
   ConcurrentDownloadsStateProvider._()
     : super(
         from: null,
@@ -179,7 +253,8 @@ final class ConcurrentDownloadsStateProvider extends $NotifierProvider<Concurren
   }
 }
 
-String _$concurrentDownloadsStateHash() => r'1b2df8d425fb0f0697883e9a121eace99fd4f5e4';
+String _$concurrentDownloadsStateHash() =>
+    r'1b2df8d425fb0f0697883e9a121eace99fd4f5e4';
 
 abstract class _$ConcurrentDownloadsState extends $Notifier<int> {
   int build();
@@ -187,7 +262,121 @@ abstract class _$ConcurrentDownloadsState extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<int, int>,
+              int,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(AllowConcurrentDownloadsState)
+final allowConcurrentDownloadsStateProvider =
+    AllowConcurrentDownloadsStateProvider._();
+
+final class AllowConcurrentDownloadsStateProvider
+    extends $NotifierProvider<AllowConcurrentDownloadsState, bool> {
+  AllowConcurrentDownloadsStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'allowConcurrentDownloadsStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$allowConcurrentDownloadsStateHash();
+
+  @$internal
+  @override
+  AllowConcurrentDownloadsState create() => AllowConcurrentDownloadsState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$allowConcurrentDownloadsStateHash() =>
+    r'2d71d79e343a17be62684c9b5b99539243519754';
+
+abstract class _$AllowConcurrentDownloadsState extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<bool, bool>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(DownloadDelaySecondsState)
+final downloadDelaySecondsStateProvider = DownloadDelaySecondsStateProvider._();
+
+final class DownloadDelaySecondsStateProvider
+    extends $NotifierProvider<DownloadDelaySecondsState, int> {
+  DownloadDelaySecondsStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'downloadDelaySecondsStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$downloadDelaySecondsStateHash();
+
+  @$internal
+  @override
+  DownloadDelaySecondsState create() => DownloadDelaySecondsState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(int value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<int>(value),
+    );
+  }
+}
+
+String _$downloadDelaySecondsStateHash() =>
+    r'eb97bd41f669e2e1bd27ca32a98b1a470f3d50c4';
+
+abstract class _$DownloadDelaySecondsState extends $Notifier<int> {
+  int build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<int, int>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<int, int>,
+              int,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

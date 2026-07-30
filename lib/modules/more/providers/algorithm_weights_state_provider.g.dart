@@ -12,7 +12,8 @@ part of 'algorithm_weights_state_provider.dart';
 @ProviderFor(AlgorithmWeightsState)
 final algorithmWeightsStateProvider = AlgorithmWeightsStateProvider._();
 
-final class AlgorithmWeightsStateProvider extends $NotifierProvider<AlgorithmWeightsState, AlgorithmWeights> {
+final class AlgorithmWeightsStateProvider
+    extends $NotifierProvider<AlgorithmWeightsState, AlgorithmWeights> {
   AlgorithmWeightsStateProvider._()
     : super(
         from: null,
@@ -40,7 +41,8 @@ final class AlgorithmWeightsStateProvider extends $NotifierProvider<AlgorithmWei
   }
 }
 
-String _$algorithmWeightsStateHash() => r'5c20cb9b195a73161b485e082ad024b138c3da9c';
+String _$algorithmWeightsStateHash() =>
+    r'5c20cb9b195a73161b485e082ad024b138c3da9c';
 
 abstract class _$AlgorithmWeightsState extends $Notifier<AlgorithmWeights> {
   AlgorithmWeights build();

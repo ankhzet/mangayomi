@@ -253,7 +253,9 @@ Manga _mangaDeserialize(
     imageUrl: reader.readStringOrNull(offsets[9]),
     isLocalArchive: reader.readBoolOrNull(offsets[10]),
     isManga: reader.readBoolOrNull(offsets[11]),
-    itemType: _MangaitemTypeValueEnumMap[reader.readByteOrNull(offsets[12])] ?? ItemType.manga,
+    itemType:
+        _MangaitemTypeValueEnumMap[reader.readByteOrNull(offsets[12])] ??
+        ItemType.manga,
     lang: reader.readStringOrNull(offsets[13]),
     lastRead: reader.readLongOrNull(offsets[14]),
     lastUpdate: reader.readLongOrNull(offsets[15]),
@@ -262,7 +264,9 @@ Manga _mangaDeserialize(
     smartUpdateDays: reader.readLongOrNull(offsets[18]),
     source: reader.readStringOrNull(offsets[19]),
     sourceId: reader.readLongOrNull(offsets[20]),
-    status: _MangastatusValueEnumMap[reader.readByteOrNull(offsets[21])] ?? Status.ongoing,
+    status:
+        _MangastatusValueEnumMap[reader.readByteOrNull(offsets[21])] ??
+        Status.ongoing,
     updatedAt: reader.readLongOrNull(offsets[22]),
   );
   return object;
@@ -300,7 +304,9 @@ P _mangaDeserializeProp<P>(
     case 11:
       return (reader.readBoolOrNull(offset)) as P;
     case 12:
-      return (_MangaitemTypeValueEnumMap[reader.readByteOrNull(offset)] ?? ItemType.manga) as P;
+      return (_MangaitemTypeValueEnumMap[reader.readByteOrNull(offset)] ??
+              ItemType.manga)
+          as P;
     case 13:
       return (reader.readStringOrNull(offset)) as P;
     case 14:
@@ -318,7 +324,9 @@ P _mangaDeserializeProp<P>(
     case 20:
       return (reader.readLongOrNull(offset)) as P;
     case 21:
-      return (_MangastatusValueEnumMap[reader.readByteOrNull(offset)] ?? Status.ongoing) as P;
+      return (_MangastatusValueEnumMap[reader.readByteOrNull(offset)] ??
+              Status.ongoing)
+          as P;
     case 22:
       return (reader.readLongOrNull(offset)) as P;
     default:
@@ -791,7 +799,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> categoriesElementGreaterThan(int value, {bool include = false}) {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  categoriesElementGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -892,7 +901,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverFromTrackerIsNull() {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverFromTrackerIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'customCoverFromTracker'),
@@ -900,7 +910,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverFromTrackerIsNotNull() {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverFromTrackerIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'customCoverFromTracker'),
@@ -908,10 +919,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverFromTrackerEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverFromTrackerEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -923,7 +932,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverFromTrackerGreaterThan(
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverFromTrackerGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -940,7 +950,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverFromTrackerLessThan(
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverFromTrackerLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -957,7 +968,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverFromTrackerBetween(
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverFromTrackerBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -978,10 +990,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverFromTrackerStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverFromTrackerStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -993,10 +1003,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverFromTrackerEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverFromTrackerEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -1008,10 +1016,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverFromTrackerContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverFromTrackerContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -1023,10 +1029,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverFromTrackerMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverFromTrackerMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -1038,7 +1042,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverFromTrackerIsEmpty() {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverFromTrackerIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'customCoverFromTracker', value: ''),
@@ -1046,7 +1051,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverFromTrackerIsNotEmpty() {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverFromTrackerIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -1065,7 +1071,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverImageIsNotNull() {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverImageIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'customCoverImage'),
@@ -1073,7 +1080,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverImageElementEqualTo(int value) {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverImageElementEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'customCoverImage', value: value),
@@ -1081,10 +1089,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverImageElementGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverImageElementGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -1096,7 +1102,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverImageElementLessThan(int value, {bool include = false}) {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverImageElementLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -1108,7 +1115,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverImageElementBetween(
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverImageElementBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -1127,7 +1135,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverImageLengthEqualTo(int length) {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverImageLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'customCoverImage', length, true, length, true);
     });
@@ -1139,22 +1148,22 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverImageIsNotEmpty() {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverImageIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'customCoverImage', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverImageLengthLessThan(int length, {bool include = false}) {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverImageLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'customCoverImage', 0, true, length, include);
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverImageLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverImageLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'customCoverImage',
@@ -1166,7 +1175,8 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverImageLengthBetween(
+  QueryBuilder<Manga, Manga, QAfterFilterCondition>
+  customCoverImageLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -3825,7 +3835,8 @@ extension MangaQueryProperty on QueryBuilder<Manga, Manga, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Manga, String?, QQueryOperations> customCoverFromTrackerProperty() {
+  QueryBuilder<Manga, String?, QQueryOperations>
+  customCoverFromTrackerProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'customCoverFromTracker');
     });

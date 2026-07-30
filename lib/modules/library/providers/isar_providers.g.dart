@@ -13,7 +13,12 @@ part of 'isar_providers.dart';
 final getAllMangaStreamProvider = GetAllMangaStreamFamily._();
 
 final class GetAllMangaStreamProvider
-    extends $FunctionalProvider<AsyncValue<List<Manga>>, List<Manga>, Stream<List<Manga>>>
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<Manga>>,
+          List<Manga>,
+          Stream<List<Manga>>
+        >
     with $FutureModifier<List<Manga>>, $StreamProvider<List<Manga>> {
   GetAllMangaStreamProvider._({
     required GetAllMangaStreamFamily super.from,
@@ -63,10 +68,14 @@ final class GetAllMangaStreamProvider
   }
 }
 
-String _$getAllMangaStreamHash() => r'56d7ee62fa76f0383c30f40d436bebc0f3b4438f';
+String _$getAllMangaStreamHash() => r'5e86a22a68ca1a52aefa9c0bc675d284369beac5';
 
 final class GetAllMangaStreamFamily extends $Family
-    with $FunctionalFamilyOverride<Stream<List<Manga>>, ({int? categoryId, ItemType itemType})> {
+    with
+        $FunctionalFamilyOverride<
+          Stream<List<Manga>>,
+          ({int? categoryId, ItemType itemType})
+        > {
   GetAllMangaStreamFamily._()
     : super(
         retry: null,
@@ -89,10 +98,16 @@ final class GetAllMangaStreamFamily extends $Family
 }
 
 @ProviderFor(getAllMangaWithoutCategoriesStream)
-final getAllMangaWithoutCategoriesStreamProvider = GetAllMangaWithoutCategoriesStreamFamily._();
+final getAllMangaWithoutCategoriesStreamProvider =
+    GetAllMangaWithoutCategoriesStreamFamily._();
 
 final class GetAllMangaWithoutCategoriesStreamProvider
-    extends $FunctionalProvider<AsyncValue<List<Manga>>, List<Manga>, Stream<List<Manga>>>
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<Manga>>,
+          List<Manga>,
+          Stream<List<Manga>>
+        >
     with $FutureModifier<List<Manga>>, $StreamProvider<List<Manga>> {
   GetAllMangaWithoutCategoriesStreamProvider._({
     required GetAllMangaWithoutCategoriesStreamFamily super.from,
@@ -106,7 +121,8 @@ final class GetAllMangaWithoutCategoriesStreamProvider
        );
 
   @override
-  String debugGetCreateSourceHash() => _$getAllMangaWithoutCategoriesStreamHash();
+  String debugGetCreateSourceHash() =>
+      _$getAllMangaWithoutCategoriesStreamHash();
 
   @override
   String toString() {
@@ -129,7 +145,8 @@ final class GetAllMangaWithoutCategoriesStreamProvider
 
   @override
   bool operator ==(Object other) {
-    return other is GetAllMangaWithoutCategoriesStreamProvider && other.argument == argument;
+    return other is GetAllMangaWithoutCategoriesStreamProvider &&
+        other.argument == argument;
   }
 
   @override
@@ -138,7 +155,8 @@ final class GetAllMangaWithoutCategoriesStreamProvider
   }
 }
 
-String _$getAllMangaWithoutCategoriesStreamHash() => r'd330e69b9f0a503afa283f4f0cec03879fe63d25';
+String _$getAllMangaWithoutCategoriesStreamHash() =>
+    r'61ea54070c7e87a45aeabce5fd21366faaf4ae6d';
 
 final class GetAllMangaWithoutCategoriesStreamFamily extends $Family
     with $FunctionalFamilyOverride<Stream<List<Manga>>, ItemType> {
@@ -166,7 +184,12 @@ final class GetAllMangaWithoutCategoriesStreamFamily extends $Family
 final getSettingsStreamProvider = GetSettingsStreamProvider._();
 
 final class GetSettingsStreamProvider
-    extends $FunctionalProvider<AsyncValue<List<Settings>>, List<Settings>, Stream<List<Settings>>>
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<Settings>>,
+          List<Settings>,
+          Stream<List<Settings>>
+        >
     with $FutureModifier<List<Settings>>, $StreamProvider<List<Settings>> {
   GetSettingsStreamProvider._()
     : super(
@@ -194,4 +217,4 @@ final class GetSettingsStreamProvider
   }
 }
 
-String _$getSettingsStreamHash() => r'28e428aedc32c07d00aae3498ba78a04681271cb';
+String _$getSettingsStreamHash() => r'c5a51e0e3473b25d2365025832a27ed2cc029b27';

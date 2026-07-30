@@ -76,7 +76,9 @@ ChangedPart _changedPartDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = ChangedPart(
-    actionType: _ChangedPartactionTypeValueEnumMap[reader.readByteOrNull(offsets[0])] ?? ActionType.removeItem,
+    actionType:
+        _ChangedPartactionTypeValueEnumMap[reader.readByteOrNull(offsets[0])] ??
+        ActionType.removeItem,
     clientDate: reader.readLong(offsets[1]),
     data: reader.readString(offsets[2]),
     id: id,
@@ -144,7 +146,8 @@ void _changedPartAttach(
   object.id = id;
 }
 
-extension ChangedPartQueryWhereSort on QueryBuilder<ChangedPart, ChangedPart, QWhere> {
+extension ChangedPartQueryWhereSort
+    on QueryBuilder<ChangedPart, ChangedPart, QWhere> {
   QueryBuilder<ChangedPart, ChangedPart, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
@@ -152,7 +155,8 @@ extension ChangedPartQueryWhereSort on QueryBuilder<ChangedPart, ChangedPart, QW
   }
 }
 
-extension ChangedPartQueryWhere on QueryBuilder<ChangedPart, ChangedPart, QWhereClause> {
+extension ChangedPartQueryWhere
+    on QueryBuilder<ChangedPart, ChangedPart, QWhereClause> {
   QueryBuilder<ChangedPart, ChangedPart, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(lower: id, upper: id));
@@ -224,8 +228,10 @@ extension ChangedPartQueryWhere on QueryBuilder<ChangedPart, ChangedPart, QWhere
   }
 }
 
-extension ChangedPartQueryFilter on QueryBuilder<ChangedPart, ChangedPart, QFilterCondition> {
-  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition> actionTypeEqualTo(ActionType value) {
+extension ChangedPartQueryFilter
+    on QueryBuilder<ChangedPart, ChangedPart, QFilterCondition> {
+  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition>
+  actionTypeEqualTo(ActionType value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'actionType', value: value),
@@ -233,10 +239,8 @@ extension ChangedPartQueryFilter on QueryBuilder<ChangedPart, ChangedPart, QFilt
     });
   }
 
-  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition> actionTypeGreaterThan(
-    ActionType value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition>
+  actionTypeGreaterThan(ActionType value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -248,10 +252,8 @@ extension ChangedPartQueryFilter on QueryBuilder<ChangedPart, ChangedPart, QFilt
     });
   }
 
-  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition> actionTypeLessThan(
-    ActionType value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition>
+  actionTypeLessThan(ActionType value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -263,7 +265,8 @@ extension ChangedPartQueryFilter on QueryBuilder<ChangedPart, ChangedPart, QFilt
     });
   }
 
-  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition> actionTypeBetween(
+  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition>
+  actionTypeBetween(
     ActionType lower,
     ActionType upper, {
     bool includeLower = true,
@@ -282,7 +285,8 @@ extension ChangedPartQueryFilter on QueryBuilder<ChangedPart, ChangedPart, QFilt
     });
   }
 
-  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition> clientDateEqualTo(int value) {
+  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition>
+  clientDateEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'clientDate', value: value),
@@ -290,10 +294,8 @@ extension ChangedPartQueryFilter on QueryBuilder<ChangedPart, ChangedPart, QFilt
     });
   }
 
-  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition> clientDateGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition>
+  clientDateGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -305,7 +307,8 @@ extension ChangedPartQueryFilter on QueryBuilder<ChangedPart, ChangedPart, QFilt
     });
   }
 
-  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition> clientDateLessThan(int value, {bool include = false}) {
+  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition>
+  clientDateLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -317,7 +320,8 @@ extension ChangedPartQueryFilter on QueryBuilder<ChangedPart, ChangedPart, QFilt
     });
   }
 
-  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition> clientDateBetween(
+  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition>
+  clientDateBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -474,7 +478,8 @@ extension ChangedPartQueryFilter on QueryBuilder<ChangedPart, ChangedPart, QFilt
     });
   }
 
-  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition> dataIsNotEmpty() {
+  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition>
+  dataIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'data', value: ''),
@@ -565,7 +570,8 @@ extension ChangedPartQueryFilter on QueryBuilder<ChangedPart, ChangedPart, QFilt
     });
   }
 
-  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition> isarIdIsNotNull() {
+  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition>
+  isarIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'isarId'),
@@ -583,7 +589,8 @@ extension ChangedPartQueryFilter on QueryBuilder<ChangedPart, ChangedPart, QFilt
     });
   }
 
-  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition> isarIdGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition>
+  isarIdGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -630,11 +637,14 @@ extension ChangedPartQueryFilter on QueryBuilder<ChangedPart, ChangedPart, QFilt
   }
 }
 
-extension ChangedPartQueryObject on QueryBuilder<ChangedPart, ChangedPart, QFilterCondition> {}
+extension ChangedPartQueryObject
+    on QueryBuilder<ChangedPart, ChangedPart, QFilterCondition> {}
 
-extension ChangedPartQueryLinks on QueryBuilder<ChangedPart, ChangedPart, QFilterCondition> {}
+extension ChangedPartQueryLinks
+    on QueryBuilder<ChangedPart, ChangedPart, QFilterCondition> {}
 
-extension ChangedPartQuerySortBy on QueryBuilder<ChangedPart, ChangedPart, QSortBy> {
+extension ChangedPartQuerySortBy
+    on QueryBuilder<ChangedPart, ChangedPart, QSortBy> {
   QueryBuilder<ChangedPart, ChangedPart, QAfterSortBy> sortByActionType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'actionType', Sort.asc);
@@ -684,7 +694,8 @@ extension ChangedPartQuerySortBy on QueryBuilder<ChangedPart, ChangedPart, QSort
   }
 }
 
-extension ChangedPartQuerySortThenBy on QueryBuilder<ChangedPart, ChangedPart, QSortThenBy> {
+extension ChangedPartQuerySortThenBy
+    on QueryBuilder<ChangedPart, ChangedPart, QSortThenBy> {
   QueryBuilder<ChangedPart, ChangedPart, QAfterSortBy> thenByActionType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'actionType', Sort.asc);
@@ -746,7 +757,8 @@ extension ChangedPartQuerySortThenBy on QueryBuilder<ChangedPart, ChangedPart, Q
   }
 }
 
-extension ChangedPartQueryWhereDistinct on QueryBuilder<ChangedPart, ChangedPart, QDistinct> {
+extension ChangedPartQueryWhereDistinct
+    on QueryBuilder<ChangedPart, ChangedPart, QDistinct> {
   QueryBuilder<ChangedPart, ChangedPart, QDistinct> distinctByActionType() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'actionType');
@@ -774,7 +786,8 @@ extension ChangedPartQueryWhereDistinct on QueryBuilder<ChangedPart, ChangedPart
   }
 }
 
-extension ChangedPartQueryProperty on QueryBuilder<ChangedPart, ChangedPart, QQueryProperty> {
+extension ChangedPartQueryProperty
+    on QueryBuilder<ChangedPart, ChangedPart, QQueryProperty> {
   QueryBuilder<ChangedPart, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');

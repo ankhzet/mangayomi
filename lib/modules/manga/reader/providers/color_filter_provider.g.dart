@@ -12,7 +12,8 @@ part of 'color_filter_provider.dart';
 @ProviderFor(CustomColorFilterState)
 final customColorFilterStateProvider = CustomColorFilterStateProvider._();
 
-final class CustomColorFilterStateProvider extends $NotifierProvider<CustomColorFilterState, CustomColorFilter?> {
+final class CustomColorFilterStateProvider
+    extends $NotifierProvider<CustomColorFilterState, CustomColorFilter?> {
   CustomColorFilterStateProvider._()
     : super(
         from: null,
@@ -40,7 +41,8 @@ final class CustomColorFilterStateProvider extends $NotifierProvider<CustomColor
   }
 }
 
-String _$customColorFilterStateHash() => r'e83ed3712f2f69c6ad15b2b3b10ff17cf8bb2898';
+String _$customColorFilterStateHash() =>
+    r'e83ed3712f2f69c6ad15b2b3b10ff17cf8bb2898';
 
 abstract class _$CustomColorFilterState extends $Notifier<CustomColorFilter?> {
   CustomColorFilter? build();
@@ -61,9 +63,11 @@ abstract class _$CustomColorFilterState extends $Notifier<CustomColorFilter?> {
 }
 
 @ProviderFor(EnableCustomColorFilterState)
-final enableCustomColorFilterStateProvider = EnableCustomColorFilterStateProvider._();
+final enableCustomColorFilterStateProvider =
+    EnableCustomColorFilterStateProvider._();
 
-final class EnableCustomColorFilterStateProvider extends $NotifierProvider<EnableCustomColorFilterState, bool> {
+final class EnableCustomColorFilterStateProvider
+    extends $NotifierProvider<EnableCustomColorFilterState, bool> {
   EnableCustomColorFilterStateProvider._()
     : super(
         from: null,
@@ -91,7 +95,8 @@ final class EnableCustomColorFilterStateProvider extends $NotifierProvider<Enabl
   }
 }
 
-String _$enableCustomColorFilterStateHash() => r'20579f0101c7f64051d63ea85813aeb068fdb3c9';
+String _$enableCustomColorFilterStateHash() =>
+    r'20579f0101c7f64051d63ea85813aeb068fdb3c9';
 
 abstract class _$EnableCustomColorFilterState extends $Notifier<bool> {
   bool build();
@@ -99,7 +104,14 @@ abstract class _$EnableCustomColorFilterState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -136,9 +148,11 @@ final class ColorFilterBlendModeStateProvider
   }
 }
 
-String _$colorFilterBlendModeStateHash() => r'92e84b352b519dd32d1c418d7477a10a8921bc19';
+String _$colorFilterBlendModeStateHash() =>
+    r'92e84b352b519dd32d1c418d7477a10a8921bc19';
 
-abstract class _$ColorFilterBlendModeState extends $Notifier<ColorFilterBlendMode> {
+abstract class _$ColorFilterBlendModeState
+    extends $Notifier<ColorFilterBlendMode> {
   ColorFilterBlendMode build();
   @$mustCallSuper
   @override

@@ -12,7 +12,9 @@ part of 'router.dart';
 @ProviderFor(router)
 final routerProvider = RouterProvider._();
 
-final class RouterProvider extends $FunctionalProvider<GoRouter, GoRouter, GoRouter> with $Provider<GoRouter> {
+final class RouterProvider
+    extends $FunctionalProvider<GoRouter, GoRouter, GoRouter>
+    with $Provider<GoRouter> {
   RouterProvider._()
     : super(
         from: null,
@@ -29,7 +31,8 @@ final class RouterProvider extends $FunctionalProvider<GoRouter, GoRouter, GoRou
 
   @$internal
   @override
-  $ProviderElement<GoRouter> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
+  $ProviderElement<GoRouter> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
   GoRouter create(Ref ref) {
@@ -48,9 +51,11 @@ final class RouterProvider extends $FunctionalProvider<GoRouter, GoRouter, GoRou
 String _$routerHash() => r'fe1b18b9e03bd3df71cf66eabd78f0da3ac36247';
 
 @ProviderFor(RouterCurrentLocationState)
-final routerCurrentLocationStateProvider = RouterCurrentLocationStateProvider._();
+final routerCurrentLocationStateProvider =
+    RouterCurrentLocationStateProvider._();
 
-final class RouterCurrentLocationStateProvider extends $NotifierProvider<RouterCurrentLocationState, String?> {
+final class RouterCurrentLocationStateProvider
+    extends $NotifierProvider<RouterCurrentLocationState, String?> {
   RouterCurrentLocationStateProvider._()
     : super(
         from: null,
@@ -78,7 +83,8 @@ final class RouterCurrentLocationStateProvider extends $NotifierProvider<RouterC
   }
 }
 
-String _$routerCurrentLocationStateHash() => r'e3248e9cbfd34a1c0576b28d9bcc01a07f644cb9';
+String _$routerCurrentLocationStateHash() =>
+    r'6c20e95ab83af48f3fa42b33a27db7d2835ddd94';
 
 abstract class _$RouterCurrentLocationState extends $Notifier<String?> {
   String? build();
@@ -86,7 +92,14 @@ abstract class _$RouterCurrentLocationState extends $Notifier<String?> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String?, String?>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<String?, String?>, String?, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<String?, String?>,
+              String?,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

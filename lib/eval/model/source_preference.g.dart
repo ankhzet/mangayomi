@@ -216,11 +216,12 @@ SourcePreference _sourcePreferenceDeserialize(
       ListPreferenceSchema.deserialize,
       allOffsets,
     ),
-    multiSelectListPreference: reader.readObjectOrNull<MultiSelectListPreference>(
-      offsets[4],
-      MultiSelectListPreferenceSchema.deserialize,
-      allOffsets,
-    ),
+    multiSelectListPreference: reader
+        .readObjectOrNull<MultiSelectListPreference>(
+          offsets[4],
+          MultiSelectListPreferenceSchema.deserialize,
+          allOffsets,
+        ),
     sourceId: reader.readLongOrNull(offsets[5]),
     switchPreferenceCompat: reader.readObjectOrNull<SwitchPreferenceCompat>(
       offsets[6],
@@ -298,7 +299,8 @@ void _sourcePreferenceAttach(
   object.id = id;
 }
 
-extension SourcePreferenceQueryWhereSort on QueryBuilder<SourcePreference, SourcePreference, QWhere> {
+extension SourcePreferenceQueryWhereSort
+    on QueryBuilder<SourcePreference, SourcePreference, QWhere> {
   QueryBuilder<SourcePreference, SourcePreference, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
@@ -306,7 +308,8 @@ extension SourcePreferenceQueryWhereSort on QueryBuilder<SourcePreference, Sourc
   }
 }
 
-extension SourcePreferenceQueryWhere on QueryBuilder<SourcePreference, SourcePreference, QWhereClause> {
+extension SourcePreferenceQueryWhere
+    on QueryBuilder<SourcePreference, SourcePreference, QWhereClause> {
   QueryBuilder<SourcePreference, SourcePreference, QAfterWhereClause> idEqualTo(
     Id id,
   ) {
@@ -315,7 +318,8 @@ extension SourcePreferenceQueryWhere on QueryBuilder<SourcePreference, SourcePre
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterWhereClause>
+  idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -337,7 +341,8 @@ extension SourcePreferenceQueryWhere on QueryBuilder<SourcePreference, SourcePre
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterWhereClause> idGreaterThan(Id id, {bool include = false}) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterWhereClause>
+  idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -345,7 +350,8 @@ extension SourcePreferenceQueryWhere on QueryBuilder<SourcePreference, SourcePre
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterWhereClause> idLessThan(Id id, {bool include = false}) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterWhereClause>
+  idLessThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -372,8 +378,10 @@ extension SourcePreferenceQueryWhere on QueryBuilder<SourcePreference, SourcePre
   }
 }
 
-extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePreference, QFilterCondition> {
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> checkBoxPreferenceIsNull() {
+extension SourcePreferenceQueryFilter
+    on QueryBuilder<SourcePreference, SourcePreference, QFilterCondition> {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  checkBoxPreferenceIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'checkBoxPreference'),
@@ -381,7 +389,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> checkBoxPreferenceIsNotNull() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  checkBoxPreferenceIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'checkBoxPreference'),
@@ -389,7 +398,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> editTextPreferenceIsNull() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  editTextPreferenceIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'editTextPreference'),
@@ -397,7 +407,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> editTextPreferenceIsNotNull() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  editTextPreferenceIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'editTextPreference'),
@@ -405,7 +416,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> idIsNull() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  idIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'id'),
@@ -413,7 +425,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> idIsNotNull() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  idIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'id'),
@@ -421,7 +434,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> idEqualTo(Id? value) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  idEqualTo(Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'id', value: value),
@@ -429,10 +443,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> idGreaterThan(
-    Id? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  idGreaterThan(Id? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -444,10 +456,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> idLessThan(
-    Id? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  idLessThan(Id? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -459,7 +469,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> idBetween(
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  idBetween(
     Id? lower,
     Id? upper, {
     bool includeLower = true,
@@ -478,7 +489,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> keyIsNull() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  keyIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'key'),
@@ -486,7 +498,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> keyIsNotNull() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  keyIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'key'),
@@ -494,10 +507,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> keyEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  keyEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -509,7 +520,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> keyGreaterThan(
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  keyGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -526,7 +538,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> keyLessThan(
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  keyLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -543,7 +556,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> keyBetween(
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  keyBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -564,10 +578,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> keyStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  keyStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -579,10 +591,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> keyEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  keyEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -594,10 +604,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> keyContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  keyContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -609,10 +617,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> keyMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  keyMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -624,7 +630,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> keyIsEmpty() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  keyIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'key', value: ''),
@@ -632,7 +639,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> keyIsNotEmpty() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  keyIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'key', value: ''),
@@ -640,7 +648,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> listPreferenceIsNull() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  listPreferenceIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'listPreference'),
@@ -648,7 +657,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> listPreferenceIsNotNull() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  listPreferenceIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'listPreference'),
@@ -656,7 +666,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> multiSelectListPreferenceIsNull() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  multiSelectListPreferenceIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'multiSelectListPreference'),
@@ -664,7 +675,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> multiSelectListPreferenceIsNotNull() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  multiSelectListPreferenceIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'multiSelectListPreference'),
@@ -672,7 +684,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> sourceIdIsNull() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  sourceIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'sourceId'),
@@ -680,7 +693,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> sourceIdIsNotNull() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  sourceIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'sourceId'),
@@ -688,7 +702,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> sourceIdEqualTo(int? value) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  sourceIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'sourceId', value: value),
@@ -696,10 +711,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> sourceIdGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  sourceIdGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -711,10 +724,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> sourceIdLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  sourceIdLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -726,7 +737,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> sourceIdBetween(
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  sourceIdBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -745,7 +757,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> switchPreferenceCompatIsNull() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  switchPreferenceCompatIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'switchPreferenceCompat'),
@@ -753,7 +766,8 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> switchPreferenceCompatIsNotNull() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  switchPreferenceCompatIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'switchPreferenceCompat'),
@@ -762,84 +776,87 @@ extension SourcePreferenceQueryFilter on QueryBuilder<SourcePreference, SourcePr
   }
 }
 
-extension SourcePreferenceQueryObject on QueryBuilder<SourcePreference, SourcePreference, QFilterCondition> {
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> checkBoxPreference(
-    FilterQuery<CheckBoxPreference> q,
-  ) {
+extension SourcePreferenceQueryObject
+    on QueryBuilder<SourcePreference, SourcePreference, QFilterCondition> {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  checkBoxPreference(FilterQuery<CheckBoxPreference> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'checkBoxPreference');
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> editTextPreference(
-    FilterQuery<EditTextPreference> q,
-  ) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  editTextPreference(FilterQuery<EditTextPreference> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'editTextPreference');
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> listPreference(
-    FilterQuery<ListPreference> q,
-  ) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  listPreference(FilterQuery<ListPreference> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'listPreference');
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> multiSelectListPreference(
-    FilterQuery<MultiSelectListPreference> q,
-  ) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  multiSelectListPreference(FilterQuery<MultiSelectListPreference> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'multiSelectListPreference');
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition> switchPreferenceCompat(
-    FilterQuery<SwitchPreferenceCompat> q,
-  ) {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterFilterCondition>
+  switchPreferenceCompat(FilterQuery<SwitchPreferenceCompat> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'switchPreferenceCompat');
     });
   }
 }
 
-extension SourcePreferenceQueryLinks on QueryBuilder<SourcePreference, SourcePreference, QFilterCondition> {}
+extension SourcePreferenceQueryLinks
+    on QueryBuilder<SourcePreference, SourcePreference, QFilterCondition> {}
 
-extension SourcePreferenceQuerySortBy on QueryBuilder<SourcePreference, SourcePreference, QSortBy> {
+extension SourcePreferenceQuerySortBy
+    on QueryBuilder<SourcePreference, SourcePreference, QSortBy> {
   QueryBuilder<SourcePreference, SourcePreference, QAfterSortBy> sortByKey() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'key', Sort.asc);
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterSortBy> sortByKeyDesc() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterSortBy>
+  sortByKeyDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'key', Sort.desc);
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterSortBy> sortBySourceId() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterSortBy>
+  sortBySourceId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sourceId', Sort.asc);
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterSortBy> sortBySourceIdDesc() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterSortBy>
+  sortBySourceIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sourceId', Sort.desc);
     });
   }
 }
 
-extension SourcePreferenceQuerySortThenBy on QueryBuilder<SourcePreference, SourcePreference, QSortThenBy> {
+extension SourcePreferenceQuerySortThenBy
+    on QueryBuilder<SourcePreference, SourcePreference, QSortThenBy> {
   QueryBuilder<SourcePreference, SourcePreference, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterSortBy>
+  thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
@@ -851,26 +868,30 @@ extension SourcePreferenceQuerySortThenBy on QueryBuilder<SourcePreference, Sour
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterSortBy> thenByKeyDesc() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterSortBy>
+  thenByKeyDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'key', Sort.desc);
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterSortBy> thenBySourceId() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterSortBy>
+  thenBySourceId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sourceId', Sort.asc);
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QAfterSortBy> thenBySourceIdDesc() {
+  QueryBuilder<SourcePreference, SourcePreference, QAfterSortBy>
+  thenBySourceIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sourceId', Sort.desc);
     });
   }
 }
 
-extension SourcePreferenceQueryWhereDistinct on QueryBuilder<SourcePreference, SourcePreference, QDistinct> {
+extension SourcePreferenceQueryWhereDistinct
+    on QueryBuilder<SourcePreference, SourcePreference, QDistinct> {
   QueryBuilder<SourcePreference, SourcePreference, QDistinct> distinctByKey({
     bool caseSensitive = true,
   }) {
@@ -879,27 +900,31 @@ extension SourcePreferenceQueryWhereDistinct on QueryBuilder<SourcePreference, S
     });
   }
 
-  QueryBuilder<SourcePreference, SourcePreference, QDistinct> distinctBySourceId() {
+  QueryBuilder<SourcePreference, SourcePreference, QDistinct>
+  distinctBySourceId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'sourceId');
     });
   }
 }
 
-extension SourcePreferenceQueryProperty on QueryBuilder<SourcePreference, SourcePreference, QQueryProperty> {
+extension SourcePreferenceQueryProperty
+    on QueryBuilder<SourcePreference, SourcePreference, QQueryProperty> {
   QueryBuilder<SourcePreference, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<SourcePreference, CheckBoxPreference?, QQueryOperations> checkBoxPreferenceProperty() {
+  QueryBuilder<SourcePreference, CheckBoxPreference?, QQueryOperations>
+  checkBoxPreferenceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'checkBoxPreference');
     });
   }
 
-  QueryBuilder<SourcePreference, EditTextPreference?, QQueryOperations> editTextPreferenceProperty() {
+  QueryBuilder<SourcePreference, EditTextPreference?, QQueryOperations>
+  editTextPreferenceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'editTextPreference');
     });
@@ -911,13 +936,15 @@ extension SourcePreferenceQueryProperty on QueryBuilder<SourcePreference, Source
     });
   }
 
-  QueryBuilder<SourcePreference, ListPreference?, QQueryOperations> listPreferenceProperty() {
+  QueryBuilder<SourcePreference, ListPreference?, QQueryOperations>
+  listPreferenceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'listPreference');
     });
   }
 
-  QueryBuilder<SourcePreference, MultiSelectListPreference?, QQueryOperations> multiSelectListPreferenceProperty() {
+  QueryBuilder<SourcePreference, MultiSelectListPreference?, QQueryOperations>
+  multiSelectListPreferenceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'multiSelectListPreference');
     });
@@ -929,7 +956,8 @@ extension SourcePreferenceQueryProperty on QueryBuilder<SourcePreference, Source
     });
   }
 
-  QueryBuilder<SourcePreference, SwitchPreferenceCompat?, QQueryOperations> switchPreferenceCompatProperty() {
+  QueryBuilder<SourcePreference, SwitchPreferenceCompat?, QQueryOperations>
+  switchPreferenceCompatProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'switchPreferenceCompat');
     });
@@ -940,7 +968,8 @@ extension SourcePreferenceQueryProperty on QueryBuilder<SourcePreference, Source
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
 extension GetSourcePreferenceStringValueCollection on Isar {
-  IsarCollection<SourcePreferenceStringValue> get sourcePreferenceStringValues => this.collection();
+  IsarCollection<SourcePreferenceStringValue>
+  get sourcePreferenceStringValues => this.collection();
 }
 
 const SourcePreferenceStringValueSchema = CollectionSchema(
@@ -1051,8 +1080,18 @@ void _sourcePreferenceStringValueAttach(
 }
 
 extension SourcePreferenceStringValueQueryWhereSort
-    on QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QWhere> {
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterWhere> anyId() {
+    on
+        QueryBuilder<
+          SourcePreferenceStringValue,
+          SourcePreferenceStringValue,
+          QWhere
+        > {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterWhere
+  >
+  anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
@@ -1060,14 +1099,29 @@ extension SourcePreferenceStringValueQueryWhereSort
 }
 
 extension SourcePreferenceStringValueQueryWhere
-    on QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QWhereClause> {
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterWhereClause> idEqualTo(Id id) {
+    on
+        QueryBuilder<
+          SourcePreferenceStringValue,
+          SourcePreferenceStringValue,
+          QWhereClause
+        > {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterWhereClause
+  >
+  idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(lower: id, upper: id));
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterWhereClause> idNotEqualTo(Id id) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterWhereClause
+  >
+  idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -1089,10 +1143,12 @@ extension SourcePreferenceStringValueQueryWhere
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterWhereClause> idGreaterThan(
-    Id id, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterWhereClause
+  >
+  idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -1100,10 +1156,12 @@ extension SourcePreferenceStringValueQueryWhere
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterWhereClause> idLessThan(
-    Id id, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterWhereClause
+  >
+  idLessThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -1111,7 +1169,12 @@ extension SourcePreferenceStringValueQueryWhere
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterWhereClause> idBetween(
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterWhereClause
+  >
+  idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -1131,8 +1194,18 @@ extension SourcePreferenceStringValueQueryWhere
 }
 
 extension SourcePreferenceStringValueQueryFilter
-    on QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QFilterCondition> {
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> idEqualTo(Id value) {
+    on
+        QueryBuilder<
+          SourcePreferenceStringValue,
+          SourcePreferenceStringValue,
+          QFilterCondition
+        > {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'id', value: value),
@@ -1140,10 +1213,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> idGreaterThan(
-    Id value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  idGreaterThan(Id value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -1155,10 +1230,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> idLessThan(
-    Id value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  idLessThan(Id value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -1170,7 +1247,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> idBetween(
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -1189,7 +1271,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> keyIsNull() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  keyIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'key'),
@@ -1197,7 +1284,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> keyIsNotNull() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  keyIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'key'),
@@ -1205,10 +1297,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> keyEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  keyEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -1220,7 +1314,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> keyGreaterThan(
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  keyGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1237,7 +1336,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> keyLessThan(
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  keyLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1254,7 +1358,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> keyBetween(
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  keyBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -1275,10 +1384,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> keyStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  keyStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -1290,10 +1401,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> keyEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  keyEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -1305,10 +1418,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> keyContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  keyContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -1320,10 +1435,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> keyMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  keyMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -1335,7 +1452,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> keyIsEmpty() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  keyIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'key', value: ''),
@@ -1343,7 +1465,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> keyIsNotEmpty() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  keyIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'key', value: ''),
@@ -1351,7 +1478,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> sourceIdIsNull() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  sourceIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'sourceId'),
@@ -1359,7 +1491,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> sourceIdIsNotNull() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  sourceIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'sourceId'),
@@ -1367,9 +1504,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> sourceIdEqualTo(
-    int? value,
-  ) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  sourceIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'sourceId', value: value),
@@ -1377,10 +1517,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> sourceIdGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  sourceIdGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -1392,10 +1534,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> sourceIdLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  sourceIdLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -1407,7 +1551,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> sourceIdBetween(
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  sourceIdBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -1426,7 +1575,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> valueIsNull() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  valueIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'value'),
@@ -1434,7 +1588,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> valueIsNotNull() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  valueIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'value'),
@@ -1442,10 +1601,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> valueEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  valueEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -1457,7 +1618,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> valueGreaterThan(
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  valueGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1474,7 +1640,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> valueLessThan(
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  valueLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1491,7 +1662,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> valueBetween(
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  valueBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -1512,10 +1688,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> valueStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  valueStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -1527,10 +1705,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> valueEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  valueEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -1542,10 +1722,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> valueContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  valueContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -1557,10 +1739,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> valueMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  valueMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -1572,7 +1756,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> valueIsEmpty() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  valueIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'value', value: ''),
@@ -1580,7 +1769,12 @@ extension SourcePreferenceStringValueQueryFilter
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterFilterCondition> valueIsNotEmpty() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterFilterCondition
+  >
+  valueIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'value', value: ''),
@@ -1590,44 +1784,89 @@ extension SourcePreferenceStringValueQueryFilter
 }
 
 extension SourcePreferenceStringValueQueryObject
-    on QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QFilterCondition> {}
+    on
+        QueryBuilder<
+          SourcePreferenceStringValue,
+          SourcePreferenceStringValue,
+          QFilterCondition
+        > {}
 
 extension SourcePreferenceStringValueQueryLinks
-    on QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QFilterCondition> {}
+    on
+        QueryBuilder<
+          SourcePreferenceStringValue,
+          SourcePreferenceStringValue,
+          QFilterCondition
+        > {}
 
 extension SourcePreferenceStringValueQuerySortBy
-    on QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QSortBy> {
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterSortBy> sortByKey() {
+    on
+        QueryBuilder<
+          SourcePreferenceStringValue,
+          SourcePreferenceStringValue,
+          QSortBy
+        > {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterSortBy
+  >
+  sortByKey() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'key', Sort.asc);
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterSortBy> sortByKeyDesc() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterSortBy
+  >
+  sortByKeyDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'key', Sort.desc);
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterSortBy> sortBySourceId() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterSortBy
+  >
+  sortBySourceId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sourceId', Sort.asc);
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterSortBy> sortBySourceIdDesc() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterSortBy
+  >
+  sortBySourceIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sourceId', Sort.desc);
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterSortBy> sortByValue() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterSortBy
+  >
+  sortByValue() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'value', Sort.asc);
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterSortBy> sortByValueDesc() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterSortBy
+  >
+  sortByValueDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'value', Sort.desc);
     });
@@ -1635,50 +1874,95 @@ extension SourcePreferenceStringValueQuerySortBy
 }
 
 extension SourcePreferenceStringValueQuerySortThenBy
-    on QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QSortThenBy> {
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterSortBy> thenById() {
+    on
+        QueryBuilder<
+          SourcePreferenceStringValue,
+          SourcePreferenceStringValue,
+          QSortThenBy
+        > {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterSortBy
+  >
+  thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterSortBy
+  >
+  thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterSortBy> thenByKey() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterSortBy
+  >
+  thenByKey() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'key', Sort.asc);
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterSortBy> thenByKeyDesc() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterSortBy
+  >
+  thenByKeyDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'key', Sort.desc);
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterSortBy> thenBySourceId() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterSortBy
+  >
+  thenBySourceId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sourceId', Sort.asc);
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterSortBy> thenBySourceIdDesc() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterSortBy
+  >
+  thenBySourceIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sourceId', Sort.desc);
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterSortBy> thenByValue() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterSortBy
+  >
+  thenByValue() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'value', Sort.asc);
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QAfterSortBy> thenByValueDesc() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QAfterSortBy
+  >
+  thenByValueDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'value', Sort.desc);
     });
@@ -1686,24 +1970,40 @@ extension SourcePreferenceStringValueQuerySortThenBy
 }
 
 extension SourcePreferenceStringValueQueryWhereDistinct
-    on QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QDistinct> {
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QDistinct> distinctByKey({
-    bool caseSensitive = true,
-  }) {
+    on
+        QueryBuilder<
+          SourcePreferenceStringValue,
+          SourcePreferenceStringValue,
+          QDistinct
+        > {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QDistinct
+  >
+  distinctByKey({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'key', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QDistinct> distinctBySourceId() {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QDistinct
+  >
+  distinctBySourceId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'sourceId');
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QDistinct> distinctByValue({
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SourcePreferenceStringValue,
+    SourcePreferenceStringValue,
+    QDistinct
+  >
+  distinctByValue({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'value', caseSensitive: caseSensitive);
     });
@@ -1711,26 +2011,35 @@ extension SourcePreferenceStringValueQueryWhereDistinct
 }
 
 extension SourcePreferenceStringValueQueryProperty
-    on QueryBuilder<SourcePreferenceStringValue, SourcePreferenceStringValue, QQueryProperty> {
-  QueryBuilder<SourcePreferenceStringValue, int, QQueryOperations> idProperty() {
+    on
+        QueryBuilder<
+          SourcePreferenceStringValue,
+          SourcePreferenceStringValue,
+          QQueryProperty
+        > {
+  QueryBuilder<SourcePreferenceStringValue, int, QQueryOperations>
+  idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, String?, QQueryOperations> keyProperty() {
+  QueryBuilder<SourcePreferenceStringValue, String?, QQueryOperations>
+  keyProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'key');
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, int?, QQueryOperations> sourceIdProperty() {
+  QueryBuilder<SourcePreferenceStringValue, int?, QQueryOperations>
+  sourceIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'sourceId');
     });
   }
 
-  QueryBuilder<SourcePreferenceStringValue, String?, QQueryOperations> valueProperty() {
+  QueryBuilder<SourcePreferenceStringValue, String?, QQueryOperations>
+  valueProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'value');
     });
@@ -1823,8 +2132,10 @@ P _checkBoxPreferenceDeserializeProp<P>(
   }
 }
 
-extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, CheckBoxPreference, QFilterCondition> {
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> summaryIsNull() {
+extension CheckBoxPreferenceQueryFilter
+    on QueryBuilder<CheckBoxPreference, CheckBoxPreference, QFilterCondition> {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  summaryIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'summary'),
@@ -1832,7 +2143,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> summaryIsNotNull() {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  summaryIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'summary'),
@@ -1840,10 +2152,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> summaryEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  summaryEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -1855,7 +2165,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> summaryGreaterThan(
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  summaryGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1872,7 +2183,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> summaryLessThan(
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  summaryLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1889,7 +2201,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> summaryBetween(
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  summaryBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -1910,10 +2223,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> summaryStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  summaryStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -1925,10 +2236,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> summaryEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  summaryEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -1940,10 +2249,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> summaryContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  summaryContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -1955,10 +2262,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> summaryMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  summaryMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -1970,7 +2275,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> summaryIsEmpty() {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  summaryIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'summary', value: ''),
@@ -1978,7 +2284,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> summaryIsNotEmpty() {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  summaryIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'summary', value: ''),
@@ -1986,7 +2293,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> titleIsNull() {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  titleIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'title'),
@@ -1994,7 +2302,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> titleIsNotNull() {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  titleIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'title'),
@@ -2002,10 +2311,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> titleEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  titleEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -2017,7 +2324,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> titleGreaterThan(
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  titleGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -2034,7 +2342,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> titleLessThan(
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  titleLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -2051,7 +2360,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> titleBetween(
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  titleBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -2072,10 +2382,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> titleStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  titleStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -2087,10 +2395,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> titleEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  titleEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -2102,10 +2408,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> titleContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  titleContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -2117,10 +2421,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> titleMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  titleMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -2132,7 +2434,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> titleIsEmpty() {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  titleIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'title', value: ''),
@@ -2140,7 +2443,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> titleIsNotEmpty() {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  titleIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'title', value: ''),
@@ -2148,7 +2452,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> valueIsNull() {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  valueIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'value'),
@@ -2156,7 +2461,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> valueIsNotNull() {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  valueIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'value'),
@@ -2164,7 +2470,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
     });
   }
 
-  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition> valueEqualTo(bool? value) {
+  QueryBuilder<CheckBoxPreference, CheckBoxPreference, QAfterFilterCondition>
+  valueEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'value', value: value),
@@ -2173,7 +2480,8 @@ extension CheckBoxPreferenceQueryFilter on QueryBuilder<CheckBoxPreference, Chec
   }
 }
 
-extension CheckBoxPreferenceQueryObject on QueryBuilder<CheckBoxPreference, CheckBoxPreference, QFilterCondition> {}
+extension CheckBoxPreferenceQueryObject
+    on QueryBuilder<CheckBoxPreference, CheckBoxPreference, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -2258,8 +2566,18 @@ P _switchPreferenceCompatDeserializeProp<P>(
 }
 
 extension SwitchPreferenceCompatQueryFilter
-    on QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QFilterCondition> {
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> summaryIsNull() {
+    on
+        QueryBuilder<
+          SwitchPreferenceCompat,
+          SwitchPreferenceCompat,
+          QFilterCondition
+        > {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  summaryIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'summary'),
@@ -2267,7 +2585,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> summaryIsNotNull() {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  summaryIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'summary'),
@@ -2275,10 +2598,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> summaryEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  summaryEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -2290,7 +2615,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> summaryGreaterThan(
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  summaryGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -2307,7 +2637,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> summaryLessThan(
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  summaryLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -2324,7 +2659,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> summaryBetween(
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  summaryBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -2345,10 +2685,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> summaryStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  summaryStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -2360,10 +2702,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> summaryEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  summaryEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -2375,10 +2719,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> summaryContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  summaryContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -2390,10 +2736,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> summaryMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  summaryMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -2405,7 +2753,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> summaryIsEmpty() {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  summaryIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'summary', value: ''),
@@ -2413,7 +2766,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> summaryIsNotEmpty() {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  summaryIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'summary', value: ''),
@@ -2421,7 +2779,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> titleIsNull() {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  titleIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'title'),
@@ -2429,7 +2792,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> titleIsNotNull() {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  titleIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'title'),
@@ -2437,10 +2805,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> titleEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  titleEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -2452,7 +2822,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> titleGreaterThan(
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  titleGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -2469,7 +2844,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> titleLessThan(
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  titleLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -2486,7 +2866,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> titleBetween(
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  titleBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -2507,10 +2892,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> titleStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  titleStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -2522,10 +2909,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> titleEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  titleEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -2537,10 +2926,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> titleContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  titleContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -2552,10 +2943,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> titleMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  titleMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -2567,7 +2960,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> titleIsEmpty() {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  titleIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'title', value: ''),
@@ -2575,7 +2973,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> titleIsNotEmpty() {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  titleIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'title', value: ''),
@@ -2583,7 +2986,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> valueIsNull() {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  valueIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'value'),
@@ -2591,7 +2999,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> valueIsNotNull() {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  valueIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'value'),
@@ -2599,7 +3012,12 @@ extension SwitchPreferenceCompatQueryFilter
     });
   }
 
-  QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QAfterFilterCondition> valueEqualTo(bool? value) {
+  QueryBuilder<
+    SwitchPreferenceCompat,
+    SwitchPreferenceCompat,
+    QAfterFilterCondition
+  >
+  valueEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'value', value: value),
@@ -2609,7 +3027,12 @@ extension SwitchPreferenceCompatQueryFilter
 }
 
 extension SwitchPreferenceCompatQueryObject
-    on QueryBuilder<SwitchPreferenceCompat, SwitchPreferenceCompat, QFilterCondition> {}
+    on
+        QueryBuilder<
+          SwitchPreferenceCompat,
+          SwitchPreferenceCompat,
+          QFilterCondition
+        > {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -2739,8 +3162,10 @@ P _listPreferenceDeserializeProp<P>(
   }
 }
 
-extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreference, QFilterCondition> {
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesIsNull() {
+extension ListPreferenceQueryFilter
+    on QueryBuilder<ListPreference, ListPreference, QFilterCondition> {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'entries'),
@@ -2748,7 +3173,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesIsNotNull() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'entries'),
@@ -2756,10 +3182,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesElementEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -2771,7 +3195,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesElementGreaterThan(
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesElementGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -2788,7 +3213,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesElementLessThan(
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -2805,7 +3231,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesElementBetween(
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -2826,10 +3253,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesElementStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -2841,10 +3266,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesElementEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -2856,10 +3279,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesElementContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -2871,10 +3292,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesElementMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -2886,7 +3305,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesElementIsEmpty() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'entries', value: ''),
@@ -2894,7 +3314,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesElementIsNotEmpty() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'entries', value: ''),
@@ -2902,43 +3323,43 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesLengthEqualTo(int length) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entries', length, true, length, true);
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesIsEmpty() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entries', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesIsNotEmpty() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entries', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entries', 0, true, length, include);
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entries', length, include, 999999, true);
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entriesLengthBetween(
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entriesLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -2955,7 +3376,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesIsNull() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'entryValues'),
@@ -2963,7 +3385,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesIsNotNull() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'entryValues'),
@@ -2971,10 +3394,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesElementEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -2986,7 +3407,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesElementGreaterThan(
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesElementGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -3003,7 +3425,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesElementLessThan(
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -3020,7 +3443,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesElementBetween(
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -3041,10 +3465,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesElementStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -3056,10 +3478,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesElementEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -3071,10 +3491,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesElementContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -3086,10 +3504,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesElementMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -3101,7 +3517,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesElementIsEmpty() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'entryValues', value: ''),
@@ -3109,7 +3526,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesElementIsNotEmpty() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'entryValues', value: ''),
@@ -3117,43 +3535,43 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesLengthEqualTo(int length) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entryValues', length, true, length, true);
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesIsEmpty() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entryValues', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesIsNotEmpty() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entryValues', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entryValues', 0, true, length, include);
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entryValues', length, include, 999999, true);
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> entryValuesLengthBetween(
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  entryValuesLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -3170,7 +3588,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> summaryIsNull() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  summaryIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'summary'),
@@ -3178,7 +3597,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> summaryIsNotNull() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  summaryIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'summary'),
@@ -3186,10 +3606,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> summaryEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  summaryEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -3201,7 +3619,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> summaryGreaterThan(
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  summaryGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -3218,7 +3637,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> summaryLessThan(
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  summaryLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -3235,7 +3655,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> summaryBetween(
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  summaryBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -3256,10 +3677,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> summaryStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  summaryStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -3271,10 +3690,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> summaryEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  summaryEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -3286,10 +3703,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> summaryContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  summaryContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -3301,10 +3716,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> summaryMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  summaryMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -3316,7 +3729,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> summaryIsEmpty() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  summaryIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'summary', value: ''),
@@ -3324,7 +3738,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> summaryIsNotEmpty() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  summaryIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'summary', value: ''),
@@ -3332,7 +3747,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> titleIsNull() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  titleIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'title'),
@@ -3340,7 +3756,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> titleIsNotNull() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  titleIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'title'),
@@ -3348,10 +3765,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> titleEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  titleEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -3363,7 +3778,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> titleGreaterThan(
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  titleGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -3380,7 +3796,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> titleLessThan(
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  titleLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -3397,7 +3814,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> titleBetween(
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  titleBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -3418,10 +3836,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> titleStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  titleStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -3433,10 +3849,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> titleEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  titleEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -3448,10 +3862,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> titleContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  titleContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -3463,10 +3875,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> titleMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  titleMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -3478,7 +3888,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> titleIsEmpty() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  titleIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'title', value: ''),
@@ -3486,7 +3897,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> titleIsNotEmpty() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  titleIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'title', value: ''),
@@ -3494,7 +3906,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> valueIndexIsNull() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  valueIndexIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'valueIndex'),
@@ -3502,7 +3915,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> valueIndexIsNotNull() {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  valueIndexIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'valueIndex'),
@@ -3510,7 +3924,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> valueIndexEqualTo(int? value) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  valueIndexEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'valueIndex', value: value),
@@ -3518,10 +3933,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> valueIndexGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  valueIndexGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -3533,10 +3946,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> valueIndexLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  valueIndexLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -3548,7 +3959,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
     });
   }
 
-  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition> valueIndexBetween(
+  QueryBuilder<ListPreference, ListPreference, QAfterFilterCondition>
+  valueIndexBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -3568,7 +3980,8 @@ extension ListPreferenceQueryFilter on QueryBuilder<ListPreference, ListPreferen
   }
 }
 
-extension ListPreferenceQueryObject on QueryBuilder<ListPreference, ListPreference, QFilterCondition> {}
+extension ListPreferenceQueryObject
+    on QueryBuilder<ListPreference, ListPreference, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -3711,8 +4124,18 @@ P _multiSelectListPreferenceDeserializeProp<P>(
 }
 
 extension MultiSelectListPreferenceQueryFilter
-    on QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QFilterCondition> {
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesIsNull() {
+    on
+        QueryBuilder<
+          MultiSelectListPreference,
+          MultiSelectListPreference,
+          QFilterCondition
+        > {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'entries'),
@@ -3720,7 +4143,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesIsNotNull() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'entries'),
@@ -3728,10 +4156,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesElementEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -3743,7 +4173,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesElementGreaterThan(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesElementGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -3760,7 +4195,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesElementLessThan(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -3777,7 +4217,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesElementBetween(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -3798,10 +4243,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesElementStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -3813,10 +4260,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesElementEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -3828,10 +4277,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesElementContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -3843,10 +4294,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesElementMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -3858,7 +4311,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesElementIsEmpty() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'entries', value: ''),
@@ -3866,7 +4324,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesElementIsNotEmpty() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'entries', value: ''),
@@ -3874,45 +4337,67 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesLengthEqualTo(
-    int length,
-  ) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entries', length, true, length, true);
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesIsEmpty() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entries', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesIsNotEmpty() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entries', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entries', 0, true, length, include);
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entries', length, include, 999999, true);
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entriesLengthBetween(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entriesLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -3929,7 +4414,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entryValuesIsNull() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entryValuesIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'entryValues'),
@@ -3937,7 +4427,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entryValuesIsNotNull() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entryValuesIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'entryValues'),
@@ -3945,10 +4440,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entryValuesElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entryValuesElementEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -3960,7 +4457,11 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition>
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
   entryValuesElementGreaterThan(
     String value, {
     bool include = false,
@@ -3978,7 +4479,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entryValuesElementLessThan(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entryValuesElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -3995,7 +4501,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entryValuesElementBetween(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entryValuesElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -4016,7 +4527,11 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition>
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
   entryValuesElementStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -4029,10 +4544,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entryValuesElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entryValuesElementEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -4044,10 +4561,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entryValuesElementContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entryValuesElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -4059,10 +4578,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entryValuesElementMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entryValuesElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -4074,7 +4595,11 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition>
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
   entryValuesElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -4083,7 +4608,11 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition>
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
   entryValuesElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -4092,43 +4621,67 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entryValuesLengthEqualTo(
-    int length,
-  ) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entryValuesLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entryValues', length, true, length, true);
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entryValuesIsEmpty() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entryValuesIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entryValues', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entryValuesIsNotEmpty() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entryValuesIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entryValues', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entryValuesLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entryValuesLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entryValues', 0, true, length, include);
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition>
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
   entryValuesLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'entryValues', length, include, 999999, true);
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> entryValuesLengthBetween(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  entryValuesLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -4145,7 +4698,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> summaryIsNull() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  summaryIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'summary'),
@@ -4153,7 +4711,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> summaryIsNotNull() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  summaryIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'summary'),
@@ -4161,10 +4724,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> summaryEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  summaryEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -4176,7 +4741,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> summaryGreaterThan(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  summaryGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -4193,7 +4763,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> summaryLessThan(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  summaryLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -4210,7 +4785,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> summaryBetween(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  summaryBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -4231,10 +4811,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> summaryStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  summaryStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -4246,10 +4828,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> summaryEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  summaryEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -4261,10 +4845,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> summaryContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  summaryContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -4276,10 +4862,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> summaryMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  summaryMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -4291,7 +4879,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> summaryIsEmpty() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  summaryIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'summary', value: ''),
@@ -4299,7 +4892,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> summaryIsNotEmpty() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  summaryIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'summary', value: ''),
@@ -4307,7 +4905,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> titleIsNull() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  titleIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'title'),
@@ -4315,7 +4918,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> titleIsNotNull() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  titleIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'title'),
@@ -4323,10 +4931,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> titleEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  titleEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -4338,7 +4948,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> titleGreaterThan(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  titleGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -4355,7 +4970,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> titleLessThan(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  titleLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -4372,7 +4992,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> titleBetween(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  titleBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -4393,10 +5018,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> titleStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  titleStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -4408,10 +5035,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> titleEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  titleEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -4423,10 +5052,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> titleContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  titleContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -4438,10 +5069,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> titleMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  titleMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -4453,7 +5086,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> titleIsEmpty() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  titleIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'title', value: ''),
@@ -4461,7 +5099,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> titleIsNotEmpty() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  titleIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'title', value: ''),
@@ -4469,7 +5112,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesIsNull() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'values'),
@@ -4477,7 +5125,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesIsNotNull() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'values'),
@@ -4485,10 +5138,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesElementEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -4500,7 +5155,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesElementGreaterThan(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesElementGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -4517,7 +5177,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesElementLessThan(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -4534,7 +5199,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesElementBetween(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -4555,10 +5225,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesElementStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -4570,10 +5242,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesElementEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -4585,10 +5259,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesElementContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -4600,10 +5276,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesElementMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -4615,7 +5293,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesElementIsEmpty() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'values', value: ''),
@@ -4623,7 +5306,12 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesElementIsNotEmpty() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'values', value: ''),
@@ -4631,45 +5319,67 @@ extension MultiSelectListPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesLengthEqualTo(
-    int length,
-  ) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'values', length, true, length, true);
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesIsEmpty() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'values', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesIsNotEmpty() {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'values', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'values', 0, true, length, include);
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'values', length, include, 999999, true);
     });
   }
 
-  QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QAfterFilterCondition> valuesLengthBetween(
+  QueryBuilder<
+    MultiSelectListPreference,
+    MultiSelectListPreference,
+    QAfterFilterCondition
+  >
+  valuesLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -4688,7 +5398,12 @@ extension MultiSelectListPreferenceQueryFilter
 }
 
 extension MultiSelectListPreferenceQueryObject
-    on QueryBuilder<MultiSelectListPreference, MultiSelectListPreference, QFilterCondition> {}
+    on
+        QueryBuilder<
+          MultiSelectListPreference,
+          MultiSelectListPreference,
+          QFilterCondition
+        > {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -4819,8 +5534,10 @@ P _editTextPreferenceDeserializeProp<P>(
   }
 }
 
-extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, EditTextPreference, QFilterCondition> {
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogMessageIsNull() {
+extension EditTextPreferenceQueryFilter
+    on QueryBuilder<EditTextPreference, EditTextPreference, QFilterCondition> {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogMessageIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'dialogMessage'),
@@ -4828,7 +5545,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogMessageIsNotNull() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogMessageIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'dialogMessage'),
@@ -4836,10 +5554,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogMessageEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogMessageEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -4851,7 +5567,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogMessageGreaterThan(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogMessageGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -4868,7 +5585,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogMessageLessThan(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogMessageLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -4885,7 +5603,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogMessageBetween(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogMessageBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -4906,10 +5625,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogMessageStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogMessageStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -4921,10 +5638,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogMessageEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogMessageEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -4936,10 +5651,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogMessageContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogMessageContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -4951,10 +5664,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogMessageMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogMessageMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -4966,7 +5677,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogMessageIsEmpty() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogMessageIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'dialogMessage', value: ''),
@@ -4974,7 +5686,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogMessageIsNotEmpty() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogMessageIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'dialogMessage', value: ''),
@@ -4982,7 +5695,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogTitleIsNull() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogTitleIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'dialogTitle'),
@@ -4990,7 +5704,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogTitleIsNotNull() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogTitleIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'dialogTitle'),
@@ -4998,10 +5713,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogTitleEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogTitleEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -5013,7 +5726,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogTitleGreaterThan(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogTitleGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -5030,7 +5744,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogTitleLessThan(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogTitleLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -5047,7 +5762,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogTitleBetween(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogTitleBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -5068,10 +5784,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogTitleStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogTitleStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -5083,10 +5797,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogTitleEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogTitleEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -5098,10 +5810,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogTitleContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogTitleContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -5113,10 +5823,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogTitleMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogTitleMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -5128,7 +5836,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogTitleIsEmpty() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogTitleIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'dialogTitle', value: ''),
@@ -5136,7 +5845,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> dialogTitleIsNotEmpty() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  dialogTitleIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'dialogTitle', value: ''),
@@ -5144,7 +5854,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> summaryIsNull() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  summaryIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'summary'),
@@ -5152,7 +5863,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> summaryIsNotNull() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  summaryIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'summary'),
@@ -5160,10 +5872,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> summaryEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  summaryEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -5175,7 +5885,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> summaryGreaterThan(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  summaryGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -5192,7 +5903,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> summaryLessThan(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  summaryLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -5209,7 +5921,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> summaryBetween(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  summaryBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -5230,10 +5943,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> summaryStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  summaryStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -5245,10 +5956,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> summaryEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  summaryEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -5260,10 +5969,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> summaryContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  summaryContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -5275,10 +5982,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> summaryMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  summaryMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -5290,7 +5995,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> summaryIsEmpty() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  summaryIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'summary', value: ''),
@@ -5298,7 +6004,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> summaryIsNotEmpty() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  summaryIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'summary', value: ''),
@@ -5306,7 +6013,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> textIsNull() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  textIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'text'),
@@ -5314,7 +6022,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> textIsNotNull() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  textIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'text'),
@@ -5322,10 +6031,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> textEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  textEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -5337,7 +6044,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> textGreaterThan(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  textGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -5354,7 +6062,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> textLessThan(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  textLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -5371,7 +6080,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> textBetween(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  textBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -5392,10 +6102,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> textStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  textStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -5407,10 +6115,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> textEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  textEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -5422,10 +6128,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> textContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  textContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -5437,10 +6141,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> textMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  textMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -5452,7 +6154,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> textIsEmpty() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  textIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'text', value: ''),
@@ -5460,7 +6163,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> textIsNotEmpty() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  textIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'text', value: ''),
@@ -5468,7 +6172,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> titleIsNull() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  titleIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'title'),
@@ -5476,7 +6181,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> titleIsNotNull() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  titleIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'title'),
@@ -5484,10 +6190,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> titleEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  titleEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -5499,7 +6203,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> titleGreaterThan(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  titleGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -5516,7 +6221,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> titleLessThan(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  titleLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -5533,7 +6239,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> titleBetween(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  titleBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -5554,10 +6261,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> titleStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  titleStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -5569,10 +6274,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> titleEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  titleEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -5584,10 +6287,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> titleContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  titleContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -5599,10 +6300,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> titleMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  titleMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -5614,7 +6313,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> titleIsEmpty() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  titleIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'title', value: ''),
@@ -5622,7 +6322,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> titleIsNotEmpty() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  titleIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'title', value: ''),
@@ -5630,7 +6331,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> valueIsNull() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  valueIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'value'),
@@ -5638,7 +6340,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> valueIsNotNull() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  valueIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'value'),
@@ -5646,10 +6349,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> valueEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  valueEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -5661,7 +6362,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> valueGreaterThan(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  valueGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -5678,7 +6380,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> valueLessThan(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  valueLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -5695,7 +6398,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> valueBetween(
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  valueBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -5716,10 +6420,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> valueStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  valueStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -5731,10 +6433,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> valueEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  valueEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -5746,10 +6446,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> valueContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  valueContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -5761,10 +6459,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> valueMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  valueMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -5776,7 +6472,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> valueIsEmpty() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  valueIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'value', value: ''),
@@ -5784,7 +6481,8 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
     });
   }
 
-  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition> valueIsNotEmpty() {
+  QueryBuilder<EditTextPreference, EditTextPreference, QAfterFilterCondition>
+  valueIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'value', value: ''),
@@ -5793,4 +6491,5 @@ extension EditTextPreferenceQueryFilter on QueryBuilder<EditTextPreference, Edit
   }
 }
 
-extension EditTextPreferenceQueryObject on QueryBuilder<EditTextPreference, EditTextPreference, QFilterCondition> {}
+extension EditTextPreferenceQueryObject
+    on QueryBuilder<EditTextPreference, EditTextPreference, QFilterCondition> {}

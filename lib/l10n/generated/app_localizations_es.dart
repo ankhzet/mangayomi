@@ -42,6 +42,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get unread => 'Sin leer';
 
   @override
+  String get unread_chapters => 'Unread chapters';
+
+  @override
   String get unwatched => 'No visto';
 
   @override
@@ -66,12 +69,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get last_update_check => 'Última verificación de actualización';
 
   @override
-  String last_entry_delete_warning(
-    num count,
-    Object entryType,
-    Object entryTypePlural,
-    Object mediaType,
-  ) {
+  String last_entry_delete_warning(num count, Object entryType, Object entryTypePlural, Object mediaType) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -2498,12 +2496,7 @@ class AppLocalizationsEs419 extends AppLocalizationsEs {
   String get last_update_check => 'Última verificación de actualización';
 
   @override
-  String last_entry_delete_warning(
-    num count,
-    Object entryType,
-    Object entryTypePlural,
-    Object mediaType,
-  ) {
+  String last_entry_delete_warning(num count, Object entryType, Object entryTypePlural, Object mediaType) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,

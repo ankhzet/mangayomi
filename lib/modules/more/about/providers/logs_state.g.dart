@@ -12,7 +12,8 @@ part of 'logs_state.dart';
 @ProviderFor(logsState)
 final logsStateProvider = LogsStateProvider._();
 
-final class LogsStateProvider extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
+final class LogsStateProvider extends $FunctionalProvider<bool, bool, bool>
+    with $Provider<bool> {
   LogsStateProvider._()
     : super(
         from: null,
@@ -29,7 +30,8 @@ final class LogsStateProvider extends $FunctionalProvider<bool, bool, bool> with
 
   @$internal
   @override
-  $ProviderElement<bool> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
+  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
   bool create(Ref ref) {

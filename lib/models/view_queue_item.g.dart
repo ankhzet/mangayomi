@@ -82,7 +82,7 @@ const ViewQueueItemSchema = CollectionSchema(
   getId: _viewQueueItemGetId,
   getLinks: _viewQueueItemGetLinks,
   attach: _viewQueueItemAttach,
-  version: '3.3.0',
+  version: '3.3.2',
 );
 
 int _viewQueueItemEstimateSize(
@@ -154,7 +154,8 @@ void _viewQueueItemAttach(
   object.id = id;
 }
 
-extension ViewQueueItemQueryWhereSort on QueryBuilder<ViewQueueItem, ViewQueueItem, QWhere> {
+extension ViewQueueItemQueryWhereSort
+    on QueryBuilder<ViewQueueItem, ViewQueueItem, QWhere> {
   QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
@@ -186,7 +187,8 @@ extension ViewQueueItemQueryWhereSort on QueryBuilder<ViewQueueItem, ViewQueueIt
   }
 }
 
-extension ViewQueueItemQueryWhere on QueryBuilder<ViewQueueItem, ViewQueueItem, QWhereClause> {
+extension ViewQueueItemQueryWhere
+    on QueryBuilder<ViewQueueItem, ViewQueueItem, QWhereClause> {
   QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause> idEqualTo(
     Id id,
   ) {
@@ -269,7 +271,8 @@ extension ViewQueueItemQueryWhere on QueryBuilder<ViewQueueItem, ViewQueueItem, 
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause> mangaIdNotEqualTo(int mangaId) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause>
+  mangaIdNotEqualTo(int mangaId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -311,10 +314,8 @@ extension ViewQueueItemQueryWhere on QueryBuilder<ViewQueueItem, ViewQueueItem, 
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause> mangaIdGreaterThan(
-    int mangaId, {
-    bool include = false,
-  }) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause>
+  mangaIdGreaterThan(int mangaId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.between(
@@ -362,7 +363,8 @@ extension ViewQueueItemQueryWhere on QueryBuilder<ViewQueueItem, ViewQueueItem, 
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause> chapterIdEqualTo(int chapterId) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause>
+  chapterIdEqualTo(int chapterId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.equalTo(indexName: r'chapterId', value: [chapterId]),
@@ -370,7 +372,8 @@ extension ViewQueueItemQueryWhere on QueryBuilder<ViewQueueItem, ViewQueueItem, 
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause> chapterIdNotEqualTo(int chapterId) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause>
+  chapterIdNotEqualTo(int chapterId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -412,10 +415,8 @@ extension ViewQueueItemQueryWhere on QueryBuilder<ViewQueueItem, ViewQueueItem, 
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause> chapterIdGreaterThan(
-    int chapterId, {
-    bool include = false,
-  }) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause>
+  chapterIdGreaterThan(int chapterId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.between(
@@ -428,10 +429,8 @@ extension ViewQueueItemQueryWhere on QueryBuilder<ViewQueueItem, ViewQueueItem, 
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause> chapterIdLessThan(
-    int chapterId, {
-    bool include = false,
-  }) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause>
+  chapterIdLessThan(int chapterId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.between(
@@ -444,7 +443,8 @@ extension ViewQueueItemQueryWhere on QueryBuilder<ViewQueueItem, ViewQueueItem, 
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause> chapterIdBetween(
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause>
+  chapterIdBetween(
     int lowerChapterId,
     int upperChapterId, {
     bool includeLower = true,
@@ -463,7 +463,8 @@ extension ViewQueueItemQueryWhere on QueryBuilder<ViewQueueItem, ViewQueueItem, 
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause> timestampEqualTo(int timestamp) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause>
+  timestampEqualTo(int timestamp) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.equalTo(indexName: r'timestamp', value: [timestamp]),
@@ -471,7 +472,8 @@ extension ViewQueueItemQueryWhere on QueryBuilder<ViewQueueItem, ViewQueueItem, 
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause> timestampNotEqualTo(int timestamp) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause>
+  timestampNotEqualTo(int timestamp) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -513,10 +515,8 @@ extension ViewQueueItemQueryWhere on QueryBuilder<ViewQueueItem, ViewQueueItem, 
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause> timestampGreaterThan(
-    int timestamp, {
-    bool include = false,
-  }) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause>
+  timestampGreaterThan(int timestamp, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.between(
@@ -529,10 +529,8 @@ extension ViewQueueItemQueryWhere on QueryBuilder<ViewQueueItem, ViewQueueItem, 
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause> timestampLessThan(
-    int timestamp, {
-    bool include = false,
-  }) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause>
+  timestampLessThan(int timestamp, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.between(
@@ -545,7 +543,8 @@ extension ViewQueueItemQueryWhere on QueryBuilder<ViewQueueItem, ViewQueueItem, 
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause> timestampBetween(
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterWhereClause>
+  timestampBetween(
     int lowerTimestamp,
     int upperTimestamp, {
     bool includeLower = true,
@@ -565,8 +564,10 @@ extension ViewQueueItemQueryWhere on QueryBuilder<ViewQueueItem, ViewQueueItem, 
   }
 }
 
-extension ViewQueueItemQueryFilter on QueryBuilder<ViewQueueItem, ViewQueueItem, QFilterCondition> {
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition> chapterIdEqualTo(int value) {
+extension ViewQueueItemQueryFilter
+    on QueryBuilder<ViewQueueItem, ViewQueueItem, QFilterCondition> {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition>
+  chapterIdEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'chapterId', value: value),
@@ -574,10 +575,8 @@ extension ViewQueueItemQueryFilter on QueryBuilder<ViewQueueItem, ViewQueueItem,
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition> chapterIdGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition>
+  chapterIdGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -589,10 +588,8 @@ extension ViewQueueItemQueryFilter on QueryBuilder<ViewQueueItem, ViewQueueItem,
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition> chapterIdLessThan(
-    int value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition>
+  chapterIdLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -604,7 +601,8 @@ extension ViewQueueItemQueryFilter on QueryBuilder<ViewQueueItem, ViewQueueItem,
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition> chapterIdBetween(
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition>
+  chapterIdBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -633,7 +631,8 @@ extension ViewQueueItemQueryFilter on QueryBuilder<ViewQueueItem, ViewQueueItem,
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition> idGreaterThan(Id value, {bool include = false}) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition>
+  idGreaterThan(Id value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -679,7 +678,8 @@ extension ViewQueueItemQueryFilter on QueryBuilder<ViewQueueItem, ViewQueueItem,
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition> mangaIdEqualTo(int value) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition>
+  mangaIdEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'mangaId', value: value),
@@ -687,10 +687,8 @@ extension ViewQueueItemQueryFilter on QueryBuilder<ViewQueueItem, ViewQueueItem,
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition> mangaIdGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition>
+  mangaIdGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -702,7 +700,8 @@ extension ViewQueueItemQueryFilter on QueryBuilder<ViewQueueItem, ViewQueueItem,
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition> mangaIdLessThan(int value, {bool include = false}) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition>
+  mangaIdLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -714,7 +713,8 @@ extension ViewQueueItemQueryFilter on QueryBuilder<ViewQueueItem, ViewQueueItem,
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition> mangaIdBetween(
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition>
+  mangaIdBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -733,7 +733,8 @@ extension ViewQueueItemQueryFilter on QueryBuilder<ViewQueueItem, ViewQueueItem,
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition> timestampEqualTo(int value) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition>
+  timestampEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'timestamp', value: value),
@@ -741,10 +742,8 @@ extension ViewQueueItemQueryFilter on QueryBuilder<ViewQueueItem, ViewQueueItem,
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition> timestampGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition>
+  timestampGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -756,10 +755,8 @@ extension ViewQueueItemQueryFilter on QueryBuilder<ViewQueueItem, ViewQueueItem,
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition> timestampLessThan(
-    int value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition>
+  timestampLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -771,7 +768,8 @@ extension ViewQueueItemQueryFilter on QueryBuilder<ViewQueueItem, ViewQueueItem,
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition> timestampBetween(
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterFilterCondition>
+  timestampBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -791,18 +789,22 @@ extension ViewQueueItemQueryFilter on QueryBuilder<ViewQueueItem, ViewQueueItem,
   }
 }
 
-extension ViewQueueItemQueryObject on QueryBuilder<ViewQueueItem, ViewQueueItem, QFilterCondition> {}
+extension ViewQueueItemQueryObject
+    on QueryBuilder<ViewQueueItem, ViewQueueItem, QFilterCondition> {}
 
-extension ViewQueueItemQueryLinks on QueryBuilder<ViewQueueItem, ViewQueueItem, QFilterCondition> {}
+extension ViewQueueItemQueryLinks
+    on QueryBuilder<ViewQueueItem, ViewQueueItem, QFilterCondition> {}
 
-extension ViewQueueItemQuerySortBy on QueryBuilder<ViewQueueItem, ViewQueueItem, QSortBy> {
+extension ViewQueueItemQuerySortBy
+    on QueryBuilder<ViewQueueItem, ViewQueueItem, QSortBy> {
   QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterSortBy> sortByChapterId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'chapterId', Sort.asc);
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterSortBy> sortByChapterIdDesc() {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterSortBy>
+  sortByChapterIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'chapterId', Sort.desc);
     });
@@ -826,21 +828,24 @@ extension ViewQueueItemQuerySortBy on QueryBuilder<ViewQueueItem, ViewQueueItem,
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterSortBy> sortByTimestampDesc() {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterSortBy>
+  sortByTimestampDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timestamp', Sort.desc);
     });
   }
 }
 
-extension ViewQueueItemQuerySortThenBy on QueryBuilder<ViewQueueItem, ViewQueueItem, QSortThenBy> {
+extension ViewQueueItemQuerySortThenBy
+    on QueryBuilder<ViewQueueItem, ViewQueueItem, QSortThenBy> {
   QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterSortBy> thenByChapterId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'chapterId', Sort.asc);
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterSortBy> thenByChapterIdDesc() {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterSortBy>
+  thenByChapterIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'chapterId', Sort.desc);
     });
@@ -876,14 +881,16 @@ extension ViewQueueItemQuerySortThenBy on QueryBuilder<ViewQueueItem, ViewQueueI
     });
   }
 
-  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterSortBy> thenByTimestampDesc() {
+  QueryBuilder<ViewQueueItem, ViewQueueItem, QAfterSortBy>
+  thenByTimestampDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'timestamp', Sort.desc);
     });
   }
 }
 
-extension ViewQueueItemQueryWhereDistinct on QueryBuilder<ViewQueueItem, ViewQueueItem, QDistinct> {
+extension ViewQueueItemQueryWhereDistinct
+    on QueryBuilder<ViewQueueItem, ViewQueueItem, QDistinct> {
   QueryBuilder<ViewQueueItem, ViewQueueItem, QDistinct> distinctByChapterId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'chapterId');
@@ -903,7 +910,8 @@ extension ViewQueueItemQueryWhereDistinct on QueryBuilder<ViewQueueItem, ViewQue
   }
 }
 
-extension ViewQueueItemQueryProperty on QueryBuilder<ViewQueueItem, ViewQueueItem, QQueryProperty> {
+extension ViewQueueItemQueryProperty
+    on QueryBuilder<ViewQueueItem, ViewQueueItem, QQueryProperty> {
   QueryBuilder<ViewQueueItem, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');

@@ -12,7 +12,8 @@ part of 'get_detail.dart';
 @ProviderFor(getDetail)
 final getDetailProvider = GetDetailFamily._();
 
-final class GetDetailProvider extends $FunctionalProvider<AsyncValue<MManga>, MManga, FutureOr<MManga>>
+final class GetDetailProvider
+    extends $FunctionalProvider<AsyncValue<MManga>, MManga, FutureOr<MManga>>
     with $FutureModifier<MManga>, $FutureProvider<MManga> {
   GetDetailProvider._({
     required GetDetailFamily super.from,
@@ -37,7 +38,8 @@ final class GetDetailProvider extends $FunctionalProvider<AsyncValue<MManga>, MM
 
   @$internal
   @override
-  $FutureProviderElement<MManga> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
+  $FutureProviderElement<MManga> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
 
   @override
   FutureOr<MManga> create(Ref ref) {
@@ -59,7 +61,11 @@ final class GetDetailProvider extends $FunctionalProvider<AsyncValue<MManga>, MM
 String _$getDetailHash() => r'7eab7d00e6ad61a9bafaee855eae1f49b127af9f';
 
 final class GetDetailFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<MManga>, ({String url, Source source})> {
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<MManga>,
+          ({String url, Source source})
+        > {
   GetDetailFamily._()
     : super(
         retry: null,

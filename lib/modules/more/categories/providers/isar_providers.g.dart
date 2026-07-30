@@ -13,7 +13,12 @@ part of 'isar_providers.dart';
 final getMangaCategorieStreamProvider = GetMangaCategorieStreamFamily._();
 
 final class GetMangaCategorieStreamProvider
-    extends $FunctionalProvider<AsyncValue<List<Category>>, List<Category>, Stream<List<Category>>>
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<Category>>,
+          List<Category>,
+          Stream<List<Category>>
+        >
     with $FutureModifier<List<Category>>, $StreamProvider<List<Category>> {
   GetMangaCategorieStreamProvider._({
     required GetMangaCategorieStreamFamily super.from,
@@ -50,7 +55,8 @@ final class GetMangaCategorieStreamProvider
 
   @override
   bool operator ==(Object other) {
-    return other is GetMangaCategorieStreamProvider && other.argument == argument;
+    return other is GetMangaCategorieStreamProvider &&
+        other.argument == argument;
   }
 
   @override
@@ -59,7 +65,8 @@ final class GetMangaCategorieStreamProvider
   }
 }
 
-String _$getMangaCategorieStreamHash() => r'1dcf15018a6467eef7a26c1728b9e531ebd984d0';
+String _$getMangaCategorieStreamHash() =>
+    r'1dcf15018a6467eef7a26c1728b9e531ebd984d0';
 
 final class GetMangaCategorieStreamFamily extends $Family
     with $FunctionalFamilyOverride<Stream<List<Category>>, ItemType> {

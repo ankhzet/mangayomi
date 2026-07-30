@@ -24,72 +24,72 @@ const SettingsSchema = CollectionSchema(
 
       target: r'AlgorithmWeights',
     ),
-    r'androidProxyServer': PropertySchema(
+    r'allowConcurrentDownloads': PropertySchema(
       id: 1,
+      name: r'allowConcurrentDownloads',
+      type: IsarType.bool,
+    ),
+    r'androidProxyServer': PropertySchema(
+      id: 2,
       name: r'androidProxyServer',
       type: IsarType.string,
     ),
     r'aniSkipTimeoutLength': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'aniSkipTimeoutLength',
       type: IsarType.long,
     ),
     r'animatePageTransitions': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'animatePageTransitions',
       type: IsarType.bool,
     ),
     r'animeDisplayType': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'animeDisplayType',
       type: IsarType.byte,
       enumMap: _SettingsanimeDisplayTypeEnumValueMap,
     ),
     r'animeExtensionsRepo': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'animeExtensionsRepo',
       type: IsarType.objectList,
 
       target: r'Repo',
     ),
     r'animeGridSize': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'animeGridSize',
       type: IsarType.long,
     ),
     r'animeLibraryDownloadedChapters': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'animeLibraryDownloadedChapters',
       type: IsarType.bool,
     ),
     r'animeLibraryLocalSource': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'animeLibraryLocalSource',
       type: IsarType.bool,
     ),
     r'animeLibraryShowCategoryTabs': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'animeLibraryShowCategoryTabs',
       type: IsarType.bool,
     ),
     r'animeLibraryShowContinueReadingButton': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'animeLibraryShowContinueReadingButton',
       type: IsarType.bool,
     ),
     r'animeLibraryShowLanguage': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'animeLibraryShowLanguage',
       type: IsarType.bool,
     ),
     r'animeLibraryShowNumbersOfItems': PropertySchema(
-      id: 12,
-      name: r'animeLibraryShowNumbersOfItems',
-      type: IsarType.bool,
-    ),
-    r'animeLibraryUnreadChapters': PropertySchema(
       id: 13,
-      name: r'animeLibraryUnreadChapters',
+      name: r'animeLibraryShowNumbersOfItems',
       type: IsarType.bool,
     ),
     r'appFontFamily': PropertySchema(
@@ -97,655 +97,985 @@ const SettingsSchema = CollectionSchema(
       name: r'appFontFamily',
       type: IsarType.string,
     ),
-    r'audioChannels': PropertySchema(
+    r'appLockEnabled': PropertySchema(
       id: 15,
+      name: r'appLockEnabled',
+      type: IsarType.bool,
+    ),
+    r'appUiScale': PropertySchema(
+      id: 16,
+      name: r'appUiScale',
+      type: IsarType.double,
+    ),
+    r'audioChannels': PropertySchema(
+      id: 17,
       name: r'audioChannels',
       type: IsarType.byte,
       enumMap: _SettingsaudioChannelsEnumValueMap,
     ),
     r'audioPreferredLanguages': PropertySchema(
-      id: 16,
+      id: 18,
       name: r'audioPreferredLanguages',
       type: IsarType.string,
     ),
     r'autoBackupLocation': PropertySchema(
-      id: 17,
+      id: 19,
       name: r'autoBackupLocation',
       type: IsarType.string,
     ),
     r'autoExtensionsUpdates': PropertySchema(
-      id: 18,
+      id: 20,
       name: r'autoExtensionsUpdates',
       type: IsarType.bool,
     ),
+    r'autoPlayNextEpisode': PropertySchema(
+      id: 21,
+      name: r'autoPlayNextEpisode',
+      type: IsarType.bool,
+    ),
+    r'autoReadDuplicateChapters': PropertySchema(
+      id: 22,
+      name: r'autoReadDuplicateChapters',
+      type: IsarType.bool,
+    ),
     r'autoScrollPages': PropertySchema(
-      id: 19,
+      id: 23,
       name: r'autoScrollPages',
       type: IsarType.objectList,
 
       target: r'AutoScrollPages',
     ),
+    r'automaticBackground': PropertySchema(
+      id: 24,
+      name: r'automaticBackground',
+      type: IsarType.bool,
+    ),
     r'backgroundColor': PropertySchema(
-      id: 20,
+      id: 25,
       name: r'backgroundColor',
       type: IsarType.byte,
       enumMap: _SettingsbackgroundColorEnumValueMap,
     ),
+    r'backupCompressionLevel': PropertySchema(
+      id: 26,
+      name: r'backupCompressionLevel',
+      type: IsarType.long,
+    ),
     r'backupFrequency': PropertySchema(
-      id: 21,
+      id: 27,
       name: r'backupFrequency',
       type: IsarType.long,
     ),
     r'backupListOptions': PropertySchema(
-      id: 22,
+      id: 28,
       name: r'backupListOptions',
       type: IsarType.longList,
     ),
     r'btServerAddress': PropertySchema(
-      id: 23,
+      id: 29,
       name: r'btServerAddress',
       type: IsarType.string,
     ),
     r'btServerPort': PropertySchema(
-      id: 24,
+      id: 30,
       name: r'btServerPort',
       type: IsarType.long,
     ),
+    r'cfProxyUrl': PropertySchema(
+      id: 31,
+      name: r'cfProxyUrl',
+      type: IsarType.string,
+    ),
     r'chapterFilterBookmarkedList': PropertySchema(
-      id: 25,
+      id: 32,
       name: r'chapterFilterBookmarkedList',
       type: IsarType.objectList,
 
       target: r'ChapterFilterBookmarked',
     ),
     r'chapterFilterDownloadedList': PropertySchema(
-      id: 26,
+      id: 33,
       name: r'chapterFilterDownloadedList',
       type: IsarType.objectList,
 
       target: r'ChapterFilterDownloaded',
     ),
     r'chapterFilterUnreadList': PropertySchema(
-      id: 27,
+      id: 34,
       name: r'chapterFilterUnreadList',
       type: IsarType.objectList,
 
       target: r'ChapterFilterUnread',
     ),
     r'chapterPageIndexList': PropertySchema(
-      id: 28,
+      id: 35,
       name: r'chapterPageIndexList',
       type: IsarType.objectList,
 
       target: r'ChapterPageIndex',
     ),
     r'chapterPageUrlsList': PropertySchema(
-      id: 29,
+      id: 36,
       name: r'chapterPageUrlsList',
       type: IsarType.objectList,
 
       target: r'ChapterPageurls',
     ),
     r'checkForAppUpdates': PropertySchema(
-      id: 30,
+      id: 37,
       name: r'checkForAppUpdates',
       type: IsarType.bool,
     ),
     r'checkForExtensionUpdates': PropertySchema(
-      id: 31,
+      id: 38,
       name: r'checkForExtensionUpdates',
       type: IsarType.bool,
     ),
     r'clearChapterCacheOnAppLaunch': PropertySchema(
-      id: 32,
+      id: 39,
       name: r'clearChapterCacheOnAppLaunch',
       type: IsarType.bool,
     ),
     r'colorFilterBlendMode': PropertySchema(
-      id: 33,
+      id: 40,
       name: r'colorFilterBlendMode',
       type: IsarType.byte,
       enumMap: _SettingscolorFilterBlendModeEnumValueMap,
     ),
     r'concurrentDownloads': PropertySchema(
-      id: 34,
+      id: 41,
       name: r'concurrentDownloads',
       type: IsarType.long,
     ),
     r'cookiesList': PropertySchema(
-      id: 35,
+      id: 42,
       name: r'cookiesList',
       type: IsarType.objectList,
 
       target: r'MCookie',
     ),
     r'cropBorders': PropertySchema(
-      id: 36,
+      id: 43,
       name: r'cropBorders',
       type: IsarType.bool,
     ),
     r'customColorFilter': PropertySchema(
-      id: 37,
+      id: 44,
       name: r'customColorFilter',
       type: IsarType.object,
 
       target: r'CustomColorFilter',
     ),
     r'customDns': PropertySchema(
-      id: 38,
+      id: 45,
       name: r'customDns',
       type: IsarType.string,
     ),
+    r'customDohUrl': PropertySchema(
+      id: 46,
+      name: r'customDohUrl',
+      type: IsarType.string,
+    ),
     r'dateFormat': PropertySchema(
-      id: 39,
+      id: 47,
       name: r'dateFormat',
       type: IsarType.string,
     ),
     r'debandingType': PropertySchema(
-      id: 40,
+      id: 48,
       name: r'debandingType',
       type: IsarType.byte,
       enumMap: _SettingsdebandingTypeEnumValueMap,
     ),
     r'defaultDoubleTapToSkipLength': PropertySchema(
-      id: 41,
+      id: 49,
       name: r'defaultDoubleTapToSkipLength',
       type: IsarType.long,
     ),
     r'defaultPlayBackSpeed': PropertySchema(
-      id: 42,
+      id: 50,
       name: r'defaultPlayBackSpeed',
       type: IsarType.double,
     ),
     r'defaultReaderMode': PropertySchema(
-      id: 43,
+      id: 51,
       name: r'defaultReaderMode',
       type: IsarType.byte,
       enumMap: _SettingsdefaultReaderModeEnumValueMap,
     ),
     r'defaultSkipIntroLength': PropertySchema(
-      id: 44,
+      id: 52,
       name: r'defaultSkipIntroLength',
       type: IsarType.long,
     ),
     r'defaultSubtitleLang': PropertySchema(
-      id: 45,
+      id: 53,
       name: r'defaultSubtitleLang',
       type: IsarType.object,
 
       target: r'L10nLocale',
     ),
+    r'deleteDownloadAfterReading': PropertySchema(
+      id: 54,
+      name: r'deleteDownloadAfterReading',
+      type: IsarType.bool,
+    ),
     r'disableSectionType': PropertySchema(
-      id: 46,
+      id: 55,
       name: r'disableSectionType',
       type: IsarType.byte,
       enumMap: _SettingsdisableSectionTypeEnumValueMap,
     ),
     r'displayType': PropertySchema(
-      id: 47,
+      id: 56,
       name: r'displayType',
       type: IsarType.byte,
       enumMap: _SettingsdisplayTypeEnumValueMap,
     ),
     r'doHEnabled': PropertySchema(
-      id: 48,
+      id: 57,
       name: r'doHEnabled',
       type: IsarType.bool,
     ),
     r'doHProviderId': PropertySchema(
-      id: 49,
+      id: 58,
       name: r'doHProviderId',
       type: IsarType.long,
     ),
     r'doubleTapAnimationSpeed': PropertySchema(
-      id: 50,
+      id: 59,
       name: r'doubleTapAnimationSpeed',
       type: IsarType.long,
     ),
+    r'downloadDelaySeconds': PropertySchema(
+      id: 60,
+      name: r'downloadDelaySeconds',
+      type: IsarType.long,
+    ),
     r'downloadLocation': PropertySchema(
-      id: 51,
+      id: 61,
       name: r'downloadLocation',
       type: IsarType.string,
     ),
     r'downloadOnlyOnWifi': PropertySchema(
-      id: 52,
+      id: 62,
       name: r'downloadOnlyOnWifi',
       type: IsarType.bool,
     ),
+    r'downloadQueueOrder': PropertySchema(
+      id: 63,
+      name: r'downloadQueueOrder',
+      type: IsarType.longList,
+    ),
     r'downloadedOnlyMode': PropertySchema(
-      id: 53,
+      id: 64,
       name: r'downloadedOnlyMode',
       type: IsarType.bool,
     ),
+    r'dualPageInvert': PropertySchema(
+      id: 65,
+      name: r'dualPageInvert',
+      type: IsarType.bool,
+    ),
+    r'dualPageRotateToFit': PropertySchema(
+      id: 66,
+      name: r'dualPageRotateToFit',
+      type: IsarType.bool,
+    ),
+    r'dualPageRotateToFitInvert': PropertySchema(
+      id: 67,
+      name: r'dualPageRotateToFitInvert',
+      type: IsarType.bool,
+    ),
     r'enableAniSkip': PropertySchema(
-      id: 54,
+      id: 68,
       name: r'enableAniSkip',
       type: IsarType.bool,
     ),
     r'enableAudioPitchCorrection': PropertySchema(
-      id: 55,
+      id: 69,
       name: r'enableAudioPitchCorrection',
       type: IsarType.bool,
     ),
     r'enableAutoSkip': PropertySchema(
-      id: 56,
+      id: 70,
       name: r'enableAutoSkip',
       type: IsarType.bool,
     ),
     r'enableCustomColorFilter': PropertySchema(
-      id: 57,
+      id: 71,
       name: r'enableCustomColorFilter',
       type: IsarType.bool,
     ),
     r'enableDiscordRpc': PropertySchema(
-      id: 58,
+      id: 72,
       name: r'enableDiscordRpc',
       type: IsarType.bool,
     ),
     r'enableGpuNext': PropertySchema(
-      id: 59,
+      id: 73,
       name: r'enableGpuNext',
       type: IsarType.bool,
     ),
     r'enableHardwareAcceleration': PropertySchema(
-      id: 60,
+      id: 74,
       name: r'enableHardwareAcceleration',
       type: IsarType.bool,
     ),
     r'enableLogs': PropertySchema(
-      id: 61,
+      id: 75,
       name: r'enableLogs',
       type: IsarType.bool,
     ),
+    r'extensionServerPath': PropertySchema(
+      id: 76,
+      name: r'extensionServerPath',
+      type: IsarType.string,
+    ),
     r'filterScanlatorList': PropertySchema(
-      id: 62,
+      id: 77,
       name: r'filterScanlatorList',
       type: IsarType.objectList,
 
       target: r'FilterScanlator',
     ),
+    r'flashColor': PropertySchema(
+      id: 78,
+      name: r'flashColor',
+      type: IsarType.long,
+    ),
+    r'flashDuration': PropertySchema(
+      id: 79,
+      name: r'flashDuration',
+      type: IsarType.long,
+    ),
+    r'flashInterval': PropertySchema(
+      id: 80,
+      name: r'flashInterval',
+      type: IsarType.long,
+    ),
+    r'flashOnPageChange': PropertySchema(
+      id: 81,
+      name: r'flashOnPageChange',
+      type: IsarType.bool,
+    ),
     r'flexColorSchemeBlendLevel': PropertySchema(
-      id: 63,
+      id: 82,
       name: r'flexColorSchemeBlendLevel',
       type: IsarType.double,
     ),
     r'flexSchemeColorIndex': PropertySchema(
-      id: 64,
+      id: 83,
       name: r'flexSchemeColorIndex',
       type: IsarType.long,
     ),
     r'followSystemTheme': PropertySchema(
-      id: 65,
+      id: 84,
       name: r'followSystemTheme',
       type: IsarType.bool,
     ),
     r'forceLandscapePlayer': PropertySchema(
-      id: 66,
+      id: 85,
       name: r'forceLandscapePlayer',
       type: IsarType.bool,
     ),
     r'fullScreenPlayer': PropertySchema(
-      id: 67,
+      id: 86,
       name: r'fullScreenPlayer',
       type: IsarType.bool,
     ),
     r'fullScreenReader': PropertySchema(
-      id: 68,
+      id: 87,
       name: r'fullScreenReader',
       type: IsarType.bool,
     ),
+    r'grayscale': PropertySchema(
+      id: 88,
+      name: r'grayscale',
+      type: IsarType.bool,
+    ),
     r'hideDiscordRpcInIncognito': PropertySchema(
-      id: 69,
+      id: 89,
       name: r'hideDiscordRpcInIncognito',
       type: IsarType.bool,
     ),
     r'hideItems': PropertySchema(
-      id: 70,
+      id: 90,
       name: r'hideItems',
       type: IsarType.stringList,
     ),
     r'hwdecMode': PropertySchema(
-      id: 71,
+      id: 91,
       name: r'hwdecMode',
       type: IsarType.string,
     ),
     r'incognitoMode': PropertySchema(
-      id: 72,
+      id: 92,
       name: r'incognitoMode',
       type: IsarType.bool,
     ),
+    r'invertColors': PropertySchema(
+      id: 93,
+      name: r'invertColors',
+      type: IsarType.bool,
+    ),
+    r'jrePath': PropertySchema(id: 94, name: r'jrePath', type: IsarType.string),
+    r'keepScreenOnReader': PropertySchema(
+      id: 95,
+      name: r'keepScreenOnReader',
+      type: IsarType.bool,
+    ),
+    r'landscapeZoom': PropertySchema(
+      id: 96,
+      name: r'landscapeZoom',
+      type: IsarType.bool,
+    ),
     r'lastTrackerLibraryLocation': PropertySchema(
-      id: 73,
+      id: 97,
       name: r'lastTrackerLibraryLocation',
       type: IsarType.string,
     ),
     r'libraryDownloadedChapters': PropertySchema(
-      id: 74,
+      id: 98,
       name: r'libraryDownloadedChapters',
       type: IsarType.bool,
     ),
+    r'libraryFilterAnimeBookMarkedType': PropertySchema(
+      id: 99,
+      name: r'libraryFilterAnimeBookMarkedType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterAnimeCompletedType': PropertySchema(
+      id: 100,
+      name: r'libraryFilterAnimeCompletedType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterAnimeDownloadType': PropertySchema(
+      id: 101,
+      name: r'libraryFilterAnimeDownloadType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterAnimeStartedType': PropertySchema(
+      id: 102,
+      name: r'libraryFilterAnimeStartedType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterAnimeTrackingType': PropertySchema(
+      id: 103,
+      name: r'libraryFilterAnimeTrackingType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterAnimeUnreadType': PropertySchema(
+      id: 104,
+      name: r'libraryFilterAnimeUnreadType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterMangasBookMarkedType': PropertySchema(
+      id: 105,
+      name: r'libraryFilterMangasBookMarkedType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterMangasCompletedType': PropertySchema(
+      id: 106,
+      name: r'libraryFilterMangasCompletedType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterMangasDownloadType': PropertySchema(
+      id: 107,
+      name: r'libraryFilterMangasDownloadType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterMangasStartedType': PropertySchema(
+      id: 108,
+      name: r'libraryFilterMangasStartedType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterMangasTrackingType': PropertySchema(
+      id: 109,
+      name: r'libraryFilterMangasTrackingType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterMangasUnreadType': PropertySchema(
+      id: 110,
+      name: r'libraryFilterMangasUnreadType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterNovelBookMarkedType': PropertySchema(
+      id: 111,
+      name: r'libraryFilterNovelBookMarkedType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterNovelCompletedType': PropertySchema(
+      id: 112,
+      name: r'libraryFilterNovelCompletedType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterNovelDownloadType': PropertySchema(
+      id: 113,
+      name: r'libraryFilterNovelDownloadType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterNovelStartedType': PropertySchema(
+      id: 114,
+      name: r'libraryFilterNovelStartedType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterNovelTrackingType': PropertySchema(
+      id: 115,
+      name: r'libraryFilterNovelTrackingType',
+      type: IsarType.long,
+    ),
+    r'libraryFilterNovelUnreadType': PropertySchema(
+      id: 116,
+      name: r'libraryFilterNovelUnreadType',
+      type: IsarType.long,
+    ),
     r'libraryLocalSource': PropertySchema(
-      id: 75,
+      id: 117,
       name: r'libraryLocalSource',
       type: IsarType.bool,
     ),
     r'libraryShowCategoryTabs': PropertySchema(
-      id: 76,
+      id: 118,
       name: r'libraryShowCategoryTabs',
       type: IsarType.bool,
     ),
     r'libraryShowContinueReadingButton': PropertySchema(
-      id: 77,
+      id: 119,
       name: r'libraryShowContinueReadingButton',
       type: IsarType.bool,
     ),
     r'libraryShowLanguage': PropertySchema(
-      id: 78,
+      id: 120,
       name: r'libraryShowLanguage',
       type: IsarType.bool,
     ),
     r'libraryShowNumbersOfItems': PropertySchema(
-      id: 79,
+      id: 121,
       name: r'libraryShowNumbersOfItems',
       type: IsarType.bool,
     ),
-    r'libraryUnreadChapters': PropertySchema(
-      id: 80,
-      name: r'libraryUnreadChapters',
-      type: IsarType.bool,
-    ),
     r'localFolders': PropertySchema(
-      id: 81,
+      id: 122,
       name: r'localFolders',
       type: IsarType.stringList,
     ),
     r'locale': PropertySchema(
-      id: 82,
+      id: 123,
       name: r'locale',
       type: IsarType.object,
 
       target: r'L10nLocale',
     ),
     r'mangaExtensionsRepo': PropertySchema(
-      id: 83,
+      id: 124,
       name: r'mangaExtensionsRepo',
       type: IsarType.objectList,
 
       target: r'Repo',
     ),
     r'mangaGridSize': PropertySchema(
-      id: 84,
+      id: 125,
       name: r'mangaGridSize',
       type: IsarType.long,
     ),
     r'mangaHomeDisplayType': PropertySchema(
-      id: 85,
+      id: 126,
       name: r'mangaHomeDisplayType',
       type: IsarType.byte,
       enumMap: _SettingsmangaHomeDisplayTypeEnumValueMap,
     ),
     r'markEpisodeAsSeenType': PropertySchema(
-      id: 86,
+      id: 127,
       name: r'markEpisodeAsSeenType',
       type: IsarType.long,
     ),
     r'mergeLibraryNavMobile': PropertySchema(
-      id: 87,
+      id: 128,
       name: r'mergeLibraryNavMobile',
       type: IsarType.bool,
     ),
+    r'navigateToPan': PropertySchema(
+      id: 129,
+      name: r'navigateToPan',
+      type: IsarType.bool,
+    ),
     r'navigationOrder': PropertySchema(
-      id: 88,
+      id: 130,
       name: r'navigationOrder',
       type: IsarType.stringList,
     ),
     r'novelDisplayType': PropertySchema(
-      id: 89,
+      id: 131,
       name: r'novelDisplayType',
       type: IsarType.byte,
       enumMap: _SettingsnovelDisplayTypeEnumValueMap,
     ),
     r'novelExtensionsRepo': PropertySchema(
-      id: 90,
+      id: 132,
       name: r'novelExtensionsRepo',
       type: IsarType.objectList,
 
       target: r'Repo',
     ),
     r'novelFontSize': PropertySchema(
-      id: 91,
+      id: 133,
       name: r'novelFontSize',
       type: IsarType.long,
     ),
     r'novelGridSize': PropertySchema(
-      id: 92,
+      id: 134,
       name: r'novelGridSize',
       type: IsarType.long,
     ),
     r'novelLibraryDownloadedChapters': PropertySchema(
-      id: 93,
+      id: 135,
       name: r'novelLibraryDownloadedChapters',
       type: IsarType.bool,
     ),
     r'novelLibraryLocalSource': PropertySchema(
-      id: 94,
+      id: 136,
       name: r'novelLibraryLocalSource',
       type: IsarType.bool,
     ),
     r'novelLibraryShowCategoryTabs': PropertySchema(
-      id: 95,
+      id: 137,
       name: r'novelLibraryShowCategoryTabs',
       type: IsarType.bool,
     ),
     r'novelLibraryShowContinueReadingButton': PropertySchema(
-      id: 96,
+      id: 138,
       name: r'novelLibraryShowContinueReadingButton',
       type: IsarType.bool,
     ),
     r'novelLibraryShowLanguage': PropertySchema(
-      id: 97,
+      id: 139,
       name: r'novelLibraryShowLanguage',
       type: IsarType.bool,
     ),
     r'novelLibraryShowNumbersOfItems': PropertySchema(
-      id: 98,
+      id: 140,
       name: r'novelLibraryShowNumbersOfItems',
       type: IsarType.bool,
     ),
-    r'novelLibraryUnreadChapters': PropertySchema(
-      id: 99,
-      name: r'novelLibraryUnreadChapters',
-      type: IsarType.bool,
-    ),
     r'novelReaderLineHeight': PropertySchema(
-      id: 100,
+      id: 141,
       name: r'novelReaderLineHeight',
       type: IsarType.double,
     ),
     r'novelReaderPadding': PropertySchema(
-      id: 101,
+      id: 142,
       name: r'novelReaderPadding',
       type: IsarType.long,
     ),
     r'novelReaderTextColor': PropertySchema(
-      id: 102,
+      id: 143,
       name: r'novelReaderTextColor',
       type: IsarType.string,
     ),
     r'novelReaderTheme': PropertySchema(
-      id: 103,
+      id: 144,
       name: r'novelReaderTheme',
       type: IsarType.string,
     ),
     r'novelRemoveExtraParagraphSpacing': PropertySchema(
-      id: 104,
+      id: 145,
       name: r'novelRemoveExtraParagraphSpacing',
       type: IsarType.bool,
     ),
     r'novelShowScrollPercentage': PropertySchema(
-      id: 105,
+      id: 146,
       name: r'novelShowScrollPercentage',
       type: IsarType.bool,
     ),
     r'novelTapToScroll': PropertySchema(
-      id: 106,
+      id: 147,
       name: r'novelTapToScroll',
       type: IsarType.bool,
     ),
     r'novelTextAlign': PropertySchema(
-      id: 107,
+      id: 148,
       name: r'novelTextAlign',
       type: IsarType.byte,
       enumMap: _SettingsnovelTextAlignEnumValueMap,
     ),
     r'onlyIncludePinnedSources': PropertySchema(
-      id: 108,
+      id: 149,
       name: r'onlyIncludePinnedSources',
       type: IsarType.bool,
     ),
     r'pagePreloadAmount': PropertySchema(
-      id: 109,
+      id: 150,
       name: r'pagePreloadAmount',
       type: IsarType.long,
     ),
     r'personalPageModeList': PropertySchema(
-      id: 110,
+      id: 151,
       name: r'personalPageModeList',
       type: IsarType.objectList,
 
       target: r'PersonalPageMode',
     ),
     r'personalReaderModeList': PropertySchema(
-      id: 111,
+      id: 152,
       name: r'personalReaderModeList',
       type: IsarType.objectList,
 
       target: r'PersonalReaderMode',
     ),
     r'playerSubtitleSettings': PropertySchema(
-      id: 112,
+      id: 153,
       name: r'playerSubtitleSettings',
       type: IsarType.object,
 
       target: r'PlayerSubtitleSettings',
     ),
     r'pureBlackDarkMode': PropertySchema(
-      id: 113,
+      id: 154,
       name: r'pureBlackDarkMode',
       type: IsarType.bool,
     ),
+    r'readerBrightness': PropertySchema(
+      id: 155,
+      name: r'readerBrightness',
+      type: IsarType.double,
+    ),
+    r'readerContrast': PropertySchema(
+      id: 156,
+      name: r'readerContrast',
+      type: IsarType.double,
+    ),
+    r'readerHideThreshold': PropertySchema(
+      id: 157,
+      name: r'readerHideThreshold',
+      type: IsarType.long,
+    ),
+    r'readerNavigationLayout': PropertySchema(
+      id: 158,
+      name: r'readerNavigationLayout',
+      type: IsarType.long,
+    ),
+    r'readerSaturation': PropertySchema(
+      id: 159,
+      name: r'readerSaturation',
+      type: IsarType.double,
+    ),
     r'relativeTimesTamps': PropertySchema(
-      id: 114,
+      id: 160,
       name: r'relativeTimesTamps',
       type: IsarType.long,
     ),
     r'rpcShowCoverImage': PropertySchema(
-      id: 115,
+      id: 161,
       name: r'rpcShowCoverImage',
       type: IsarType.bool,
     ),
     r'rpcShowReadingWatchingProgress': PropertySchema(
-      id: 116,
+      id: 162,
       name: r'rpcShowReadingWatchingProgress',
       type: IsarType.bool,
     ),
     r'rpcShowTitle': PropertySchema(
-      id: 117,
+      id: 163,
       name: r'rpcShowTitle',
       type: IsarType.bool,
     ),
     r'saveAsCBZArchive': PropertySchema(
-      id: 118,
+      id: 164,
       name: r'saveAsCBZArchive',
       type: IsarType.bool,
     ),
+    r'savedSearchesList': PropertySchema(
+      id: 165,
+      name: r'savedSearchesList',
+      type: IsarType.objectList,
+
+      target: r'SavedSearch',
+    ),
     r'scaleType': PropertySchema(
-      id: 119,
+      id: 166,
       name: r'scaleType',
       type: IsarType.byte,
       enumMap: _SettingsscaleTypeEnumValueMap,
     ),
+    r'showNSFW': PropertySchema(
+      id: 167,
+      name: r'showNSFW',
+      type: IsarType.bool,
+    ),
+    r'showNavigationOverlayOnStart': PropertySchema(
+      id: 168,
+      name: r'showNavigationOverlayOnStart',
+      type: IsarType.bool,
+    ),
+    r'showPageGaps': PropertySchema(
+      id: 169,
+      name: r'showPageGaps',
+      type: IsarType.bool,
+    ),
     r'showPagesNumber': PropertySchema(
-      id: 120,
+      id: 170,
       name: r'showPagesNumber',
       type: IsarType.bool,
     ),
+    r'showSourceBadge': PropertySchema(
+      id: 171,
+      name: r'showSourceBadge',
+      type: IsarType.bool,
+    ),
     r'sortChapterList': PropertySchema(
-      id: 121,
+      id: 172,
       name: r'sortChapterList',
       type: IsarType.objectList,
 
       target: r'SortChapter',
     ),
     r'sortLibraryAnime': PropertySchema(
-      id: 122,
+      id: 173,
       name: r'sortLibraryAnime',
       type: IsarType.object,
 
       target: r'SortLibraryManga',
     ),
     r'sortLibraryManga': PropertySchema(
-      id: 123,
+      id: 174,
       name: r'sortLibraryManga',
       type: IsarType.object,
 
       target: r'SortLibraryManga',
     ),
     r'sortLibraryNovel': PropertySchema(
-      id: 124,
+      id: 175,
       name: r'sortLibraryNovel',
       type: IsarType.object,
 
       target: r'SortLibraryManga',
     ),
+    r'splitWidePages': PropertySchema(
+      id: 176,
+      name: r'splitWidePages',
+      type: IsarType.bool,
+    ),
     r'startDatebackup': PropertySchema(
-      id: 125,
+      id: 177,
       name: r'startDatebackup',
       type: IsarType.long,
     ),
+    r'tappingInversion': PropertySchema(
+      id: 178,
+      name: r'tappingInversion',
+      type: IsarType.long,
+    ),
     r'themeIsDark': PropertySchema(
-      id: 126,
+      id: 179,
       name: r'themeIsDark',
       type: IsarType.bool,
     ),
+    r'ttsLanguage': PropertySchema(
+      id: 180,
+      name: r'ttsLanguage',
+      type: IsarType.string,
+    ),
+    r'ttsPitch': PropertySchema(
+      id: 181,
+      name: r'ttsPitch',
+      type: IsarType.double,
+    ),
+    r'ttsSpeechRate': PropertySchema(
+      id: 182,
+      name: r'ttsSpeechRate',
+      type: IsarType.double,
+    ),
+    r'ttsVoice': PropertySchema(
+      id: 183,
+      name: r'ttsVoice',
+      type: IsarType.string,
+    ),
+    r'tvAnimeOnlyOverride': PropertySchema(
+      id: 184,
+      name: r'tvAnimeOnlyOverride',
+      type: IsarType.bool,
+    ),
+    r'tvHomeGenreRows': PropertySchema(
+      id: 185,
+      name: r'tvHomeGenreRows',
+      type: IsarType.bool,
+    ),
+    r'tvHomeStyle': PropertySchema(
+      id: 186,
+      name: r'tvHomeStyle',
+      type: IsarType.bool,
+    ),
+    r'tvPlayerStyle': PropertySchema(
+      id: 187,
+      name: r'tvPlayerStyle',
+      type: IsarType.bool,
+    ),
+    r'updateErrorsList': PropertySchema(
+      id: 188,
+      name: r'updateErrorsList',
+      type: IsarType.objectList,
+
+      target: r'UpdateError',
+    ),
     r'updateProgressAfterReading': PropertySchema(
-      id: 127,
+      id: 189,
       name: r'updateProgressAfterReading',
       type: IsarType.bool,
     ),
     r'updatedAt': PropertySchema(
-      id: 128,
+      id: 190,
       name: r'updatedAt',
       type: IsarType.long,
     ),
     r'useLibass': PropertySchema(
-      id: 129,
+      id: 191,
       name: r'useLibass',
       type: IsarType.bool,
     ),
     r'useMpvConfig': PropertySchema(
-      id: 130,
+      id: 192,
       name: r'useMpvConfig',
       type: IsarType.bool,
     ),
     r'usePageTapZones': PropertySchema(
-      id: 131,
+      id: 193,
       name: r'usePageTapZones',
       type: IsarType.bool,
     ),
     r'useYUV420P': PropertySchema(
-      id: 132,
+      id: 194,
       name: r'useYUV420P',
       type: IsarType.bool,
     ),
     r'userAgent': PropertySchema(
-      id: 133,
+      id: 195,
       name: r'userAgent',
       type: IsarType.string,
     ),
     r'volumeBoostCap': PropertySchema(
-      id: 134,
+      id: 196,
       name: r'volumeBoostCap',
+      type: IsarType.long,
+    ),
+    r'webtoonDisableZoomOut': PropertySchema(
+      id: 197,
+      name: r'webtoonDisableZoomOut',
+      type: IsarType.bool,
+    ),
+    r'webtoonDoubleTapZoomEnabled': PropertySchema(
+      id: 198,
+      name: r'webtoonDoubleTapZoomEnabled',
+      type: IsarType.bool,
+    ),
+    r'webtoonSidePadding': PropertySchema(
+      id: 199,
+      name: r'webtoonSidePadding',
+      type: IsarType.long,
+    ),
+    r'zoomStartPosition': PropertySchema(
+      id: 200,
+      name: r'zoomStartPosition',
       type: IsarType.long,
     ),
   },
@@ -773,6 +1103,8 @@ const SettingsSchema = CollectionSchema(
     r'ChapterPageurls': ChapterPageurlsSchema,
     r'ChapterPageIndex': ChapterPageIndexSchema,
     r'MCookie': MCookieSchema,
+    r'UpdateError': UpdateErrorSchema,
+    r'SavedSearch': SavedSearchSchema,
     r'PersonalReaderMode': PersonalReaderModeSchema,
     r'FilterScanlator': FilterScanlatorSchema,
     r'L10nLocale': L10nLocaleSchema,
@@ -787,7 +1119,7 @@ const SettingsSchema = CollectionSchema(
   getId: _settingsGetId,
   getLinks: _settingsGetLinks,
   attach: _settingsAttach,
-  version: '3.3.0',
+  version: '3.3.2',
 );
 
 int _settingsEstimateSize(
@@ -870,6 +1202,12 @@ int _settingsEstimateSize(
   }
   {
     final value = object.btServerAddress;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.cfProxyUrl;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -991,6 +1329,12 @@ int _settingsEstimateSize(
     }
   }
   {
+    final value = object.customDohUrl;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
     final value = object.dateFormat;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -1010,6 +1354,18 @@ int _settingsEstimateSize(
   }
   {
     final value = object.downloadLocation;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.downloadQueueOrder;
+    if (value != null) {
+      bytesCount += 3 + value.length * 8;
+    }
+  }
+  {
+    final value = object.extensionServerPath;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -1045,6 +1401,12 @@ int _settingsEstimateSize(
   }
   {
     final value = object.hwdecMode;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.jrePath;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -1176,6 +1538,23 @@ int _settingsEstimateSize(
     }
   }
   {
+    final list = object.savedSearchesList;
+    if (list != null) {
+      bytesCount += 3 + list.length * 3;
+      {
+        final offsets = allOffsets[SavedSearch]!;
+        for (var i = 0; i < list.length; i++) {
+          final value = list[i];
+          bytesCount += SavedSearchSchema.estimateSize(
+            value,
+            offsets,
+            allOffsets,
+          );
+        }
+      }
+    }
+  }
+  {
     final list = object.sortChapterList;
     if (list != null) {
       bytesCount += 3 + list.length * 3;
@@ -1229,6 +1608,35 @@ int _settingsEstimateSize(
     }
   }
   {
+    final value = object.ttsLanguage;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.ttsVoice;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final list = object.updateErrorsList;
+    if (list != null) {
+      bytesCount += 3 + list.length * 3;
+      {
+        final offsets = allOffsets[UpdateError]!;
+        for (var i = 0; i < list.length; i++) {
+          final value = list[i];
+          bytesCount += UpdateErrorSchema.estimateSize(
+            value,
+            offsets,
+            allOffsets,
+          );
+        }
+      }
+    }
+  }
+  {
     final value = object.userAgent;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -1249,245 +1657,321 @@ void _settingsSerialize(
     AlgorithmWeightsSchema.serialize,
     object.algorithmWeights,
   );
-  writer.writeString(offsets[1], object.androidProxyServer);
-  writer.writeLong(offsets[2], object.aniSkipTimeoutLength);
-  writer.writeBool(offsets[3], object.animatePageTransitions);
-  writer.writeByte(offsets[4], object.animeDisplayType.index);
+  writer.writeBool(offsets[1], object.allowConcurrentDownloads);
+  writer.writeString(offsets[2], object.androidProxyServer);
+  writer.writeLong(offsets[3], object.aniSkipTimeoutLength);
+  writer.writeBool(offsets[4], object.animatePageTransitions);
+  writer.writeByte(offsets[5], object.animeDisplayType.index);
   writer.writeObjectList<Repo>(
-    offsets[5],
+    offsets[6],
     allOffsets,
     RepoSchema.serialize,
     object.animeExtensionsRepo,
   );
-  writer.writeLong(offsets[6], object.animeGridSize);
-  writer.writeBool(offsets[7], object.animeLibraryDownloadedChapters);
-  writer.writeBool(offsets[8], object.animeLibraryLocalSource);
-  writer.writeBool(offsets[9], object.animeLibraryShowCategoryTabs);
-  writer.writeBool(offsets[10], object.animeLibraryShowContinueReadingButton);
-  writer.writeBool(offsets[11], object.animeLibraryShowLanguage);
-  writer.writeBool(offsets[12], object.animeLibraryShowNumbersOfItems);
-  writer.writeBool(offsets[13], object.animeLibraryUnreadChapters);
+  writer.writeLong(offsets[7], object.animeGridSize);
+  writer.writeBool(offsets[8], object.animeLibraryDownloadedChapters);
+  writer.writeBool(offsets[9], object.animeLibraryLocalSource);
+  writer.writeBool(offsets[10], object.animeLibraryShowCategoryTabs);
+  writer.writeBool(offsets[11], object.animeLibraryShowContinueReadingButton);
+  writer.writeBool(offsets[12], object.animeLibraryShowLanguage);
+  writer.writeBool(offsets[13], object.animeLibraryShowNumbersOfItems);
   writer.writeString(offsets[14], object.appFontFamily);
-  writer.writeByte(offsets[15], object.audioChannels.index);
-  writer.writeString(offsets[16], object.audioPreferredLanguages);
-  writer.writeString(offsets[17], object.autoBackupLocation);
-  writer.writeBool(offsets[18], object.autoExtensionsUpdates);
+  writer.writeBool(offsets[15], object.appLockEnabled);
+  writer.writeDouble(offsets[16], object.appUiScale);
+  writer.writeByte(offsets[17], object.audioChannels.index);
+  writer.writeString(offsets[18], object.audioPreferredLanguages);
+  writer.writeString(offsets[19], object.autoBackupLocation);
+  writer.writeBool(offsets[20], object.autoExtensionsUpdates);
+  writer.writeBool(offsets[21], object.autoPlayNextEpisode);
+  writer.writeBool(offsets[22], object.autoReadDuplicateChapters);
   writer.writeObjectList<AutoScrollPages>(
-    offsets[19],
+    offsets[23],
     allOffsets,
     AutoScrollPagesSchema.serialize,
     object.autoScrollPages,
   );
-  writer.writeByte(offsets[20], object.backgroundColor.index);
-  writer.writeLong(offsets[21], object.backupFrequency);
-  writer.writeLongList(offsets[22], object.backupListOptions);
-  writer.writeString(offsets[23], object.btServerAddress);
-  writer.writeLong(offsets[24], object.btServerPort);
+  writer.writeBool(offsets[24], object.automaticBackground);
+  writer.writeByte(offsets[25], object.backgroundColor.index);
+  writer.writeLong(offsets[26], object.backupCompressionLevel);
+  writer.writeLong(offsets[27], object.backupFrequency);
+  writer.writeLongList(offsets[28], object.backupListOptions);
+  writer.writeString(offsets[29], object.btServerAddress);
+  writer.writeLong(offsets[30], object.btServerPort);
+  writer.writeString(offsets[31], object.cfProxyUrl);
   writer.writeObjectList<ChapterFilterBookmarked>(
-    offsets[25],
+    offsets[32],
     allOffsets,
     ChapterFilterBookmarkedSchema.serialize,
     object.chapterFilterBookmarkedList,
   );
   writer.writeObjectList<ChapterFilterDownloaded>(
-    offsets[26],
+    offsets[33],
     allOffsets,
     ChapterFilterDownloadedSchema.serialize,
     object.chapterFilterDownloadedList,
   );
   writer.writeObjectList<ChapterFilterUnread>(
-    offsets[27],
+    offsets[34],
     allOffsets,
     ChapterFilterUnreadSchema.serialize,
     object.chapterFilterUnreadList,
   );
   writer.writeObjectList<ChapterPageIndex>(
-    offsets[28],
+    offsets[35],
     allOffsets,
     ChapterPageIndexSchema.serialize,
     object.chapterPageIndexList,
   );
   writer.writeObjectList<ChapterPageurls>(
-    offsets[29],
+    offsets[36],
     allOffsets,
     ChapterPageurlsSchema.serialize,
     object.chapterPageUrlsList,
   );
-  writer.writeBool(offsets[30], object.checkForAppUpdates);
-  writer.writeBool(offsets[31], object.checkForExtensionUpdates);
-  writer.writeBool(offsets[32], object.clearChapterCacheOnAppLaunch);
-  writer.writeByte(offsets[33], object.colorFilterBlendMode.index);
-  writer.writeLong(offsets[34], object.concurrentDownloads);
+  writer.writeBool(offsets[37], object.checkForAppUpdates);
+  writer.writeBool(offsets[38], object.checkForExtensionUpdates);
+  writer.writeBool(offsets[39], object.clearChapterCacheOnAppLaunch);
+  writer.writeByte(offsets[40], object.colorFilterBlendMode.index);
+  writer.writeLong(offsets[41], object.concurrentDownloads);
   writer.writeObjectList<MCookie>(
-    offsets[35],
+    offsets[42],
     allOffsets,
     MCookieSchema.serialize,
     object.cookiesList,
   );
-  writer.writeBool(offsets[36], object.cropBorders);
+  writer.writeBool(offsets[43], object.cropBorders);
   writer.writeObject<CustomColorFilter>(
-    offsets[37],
+    offsets[44],
     allOffsets,
     CustomColorFilterSchema.serialize,
     object.customColorFilter,
   );
-  writer.writeString(offsets[38], object.customDns);
-  writer.writeString(offsets[39], object.dateFormat);
-  writer.writeByte(offsets[40], object.debandingType.index);
-  writer.writeLong(offsets[41], object.defaultDoubleTapToSkipLength);
-  writer.writeDouble(offsets[42], object.defaultPlayBackSpeed);
-  writer.writeByte(offsets[43], object.defaultReaderMode.index);
-  writer.writeLong(offsets[44], object.defaultSkipIntroLength);
+  writer.writeString(offsets[45], object.customDns);
+  writer.writeString(offsets[46], object.customDohUrl);
+  writer.writeString(offsets[47], object.dateFormat);
+  writer.writeByte(offsets[48], object.debandingType.index);
+  writer.writeLong(offsets[49], object.defaultDoubleTapToSkipLength);
+  writer.writeDouble(offsets[50], object.defaultPlayBackSpeed);
+  writer.writeByte(offsets[51], object.defaultReaderMode.index);
+  writer.writeLong(offsets[52], object.defaultSkipIntroLength);
   writer.writeObject<L10nLocale>(
-    offsets[45],
+    offsets[53],
     allOffsets,
     L10nLocaleSchema.serialize,
     object.defaultSubtitleLang,
   );
-  writer.writeByte(offsets[46], object.disableSectionType.index);
-  writer.writeByte(offsets[47], object.displayType.index);
-  writer.writeBool(offsets[48], object.doHEnabled);
-  writer.writeLong(offsets[49], object.doHProviderId);
-  writer.writeLong(offsets[50], object.doubleTapAnimationSpeed);
-  writer.writeString(offsets[51], object.downloadLocation);
-  writer.writeBool(offsets[52], object.downloadOnlyOnWifi);
-  writer.writeBool(offsets[53], object.downloadedOnlyMode);
-  writer.writeBool(offsets[54], object.enableAniSkip);
-  writer.writeBool(offsets[55], object.enableAudioPitchCorrection);
-  writer.writeBool(offsets[56], object.enableAutoSkip);
-  writer.writeBool(offsets[57], object.enableCustomColorFilter);
-  writer.writeBool(offsets[58], object.enableDiscordRpc);
-  writer.writeBool(offsets[59], object.enableGpuNext);
-  writer.writeBool(offsets[60], object.enableHardwareAcceleration);
-  writer.writeBool(offsets[61], object.enableLogs);
+  writer.writeBool(offsets[54], object.deleteDownloadAfterReading);
+  writer.writeByte(offsets[55], object.disableSectionType.index);
+  writer.writeByte(offsets[56], object.displayType.index);
+  writer.writeBool(offsets[57], object.doHEnabled);
+  writer.writeLong(offsets[58], object.doHProviderId);
+  writer.writeLong(offsets[59], object.doubleTapAnimationSpeed);
+  writer.writeLong(offsets[60], object.downloadDelaySeconds);
+  writer.writeString(offsets[61], object.downloadLocation);
+  writer.writeBool(offsets[62], object.downloadOnlyOnWifi);
+  writer.writeLongList(offsets[63], object.downloadQueueOrder);
+  writer.writeBool(offsets[64], object.downloadedOnlyMode);
+  writer.writeBool(offsets[65], object.dualPageInvert);
+  writer.writeBool(offsets[66], object.dualPageRotateToFit);
+  writer.writeBool(offsets[67], object.dualPageRotateToFitInvert);
+  writer.writeBool(offsets[68], object.enableAniSkip);
+  writer.writeBool(offsets[69], object.enableAudioPitchCorrection);
+  writer.writeBool(offsets[70], object.enableAutoSkip);
+  writer.writeBool(offsets[71], object.enableCustomColorFilter);
+  writer.writeBool(offsets[72], object.enableDiscordRpc);
+  writer.writeBool(offsets[73], object.enableGpuNext);
+  writer.writeBool(offsets[74], object.enableHardwareAcceleration);
+  writer.writeBool(offsets[75], object.enableLogs);
+  writer.writeString(offsets[76], object.extensionServerPath);
   writer.writeObjectList<FilterScanlator>(
-    offsets[62],
+    offsets[77],
     allOffsets,
     FilterScanlatorSchema.serialize,
     object.filterScanlatorList,
   );
-  writer.writeDouble(offsets[63], object.flexColorSchemeBlendLevel);
-  writer.writeLong(offsets[64], object.flexSchemeColorIndex);
-  writer.writeBool(offsets[65], object.followSystemTheme);
-  writer.writeBool(offsets[66], object.forceLandscapePlayer);
-  writer.writeBool(offsets[67], object.fullScreenPlayer);
-  writer.writeBool(offsets[68], object.fullScreenReader);
-  writer.writeBool(offsets[69], object.hideDiscordRpcInIncognito);
-  writer.writeStringList(offsets[70], object.hideItems);
-  writer.writeString(offsets[71], object.hwdecMode);
-  writer.writeBool(offsets[72], object.incognitoMode);
-  writer.writeString(offsets[73], object.lastTrackerLibraryLocation);
-  writer.writeBool(offsets[74], object.libraryDownloadedChapters);
-  writer.writeBool(offsets[75], object.libraryLocalSource);
-  writer.writeBool(offsets[76], object.libraryShowCategoryTabs);
-  writer.writeBool(offsets[77], object.libraryShowContinueReadingButton);
-  writer.writeBool(offsets[78], object.libraryShowLanguage);
-  writer.writeBool(offsets[79], object.libraryShowNumbersOfItems);
-  writer.writeBool(offsets[80], object.libraryUnreadChapters);
-  writer.writeStringList(offsets[81], object.localFolders);
+  writer.writeLong(offsets[78], object.flashColor);
+  writer.writeLong(offsets[79], object.flashDuration);
+  writer.writeLong(offsets[80], object.flashInterval);
+  writer.writeBool(offsets[81], object.flashOnPageChange);
+  writer.writeDouble(offsets[82], object.flexColorSchemeBlendLevel);
+  writer.writeLong(offsets[83], object.flexSchemeColorIndex);
+  writer.writeBool(offsets[84], object.followSystemTheme);
+  writer.writeBool(offsets[85], object.forceLandscapePlayer);
+  writer.writeBool(offsets[86], object.fullScreenPlayer);
+  writer.writeBool(offsets[87], object.fullScreenReader);
+  writer.writeBool(offsets[88], object.grayscale);
+  writer.writeBool(offsets[89], object.hideDiscordRpcInIncognito);
+  writer.writeStringList(offsets[90], object.hideItems);
+  writer.writeString(offsets[91], object.hwdecMode);
+  writer.writeBool(offsets[92], object.incognitoMode);
+  writer.writeBool(offsets[93], object.invertColors);
+  writer.writeString(offsets[94], object.jrePath);
+  writer.writeBool(offsets[95], object.keepScreenOnReader);
+  writer.writeBool(offsets[96], object.landscapeZoom);
+  writer.writeString(offsets[97], object.lastTrackerLibraryLocation);
+  writer.writeBool(offsets[98], object.libraryDownloadedChapters);
+  writer.writeLong(offsets[99], object.libraryFilterAnimeBookMarkedType);
+  writer.writeLong(offsets[100], object.libraryFilterAnimeCompletedType);
+  writer.writeLong(offsets[101], object.libraryFilterAnimeDownloadType);
+  writer.writeLong(offsets[102], object.libraryFilterAnimeStartedType);
+  writer.writeLong(offsets[103], object.libraryFilterAnimeTrackingType);
+  writer.writeLong(offsets[104], object.libraryFilterAnimeUnreadType);
+  writer.writeLong(offsets[105], object.libraryFilterMangasBookMarkedType);
+  writer.writeLong(offsets[106], object.libraryFilterMangasCompletedType);
+  writer.writeLong(offsets[107], object.libraryFilterMangasDownloadType);
+  writer.writeLong(offsets[108], object.libraryFilterMangasStartedType);
+  writer.writeLong(offsets[109], object.libraryFilterMangasTrackingType);
+  writer.writeLong(offsets[110], object.libraryFilterMangasUnreadType);
+  writer.writeLong(offsets[111], object.libraryFilterNovelBookMarkedType);
+  writer.writeLong(offsets[112], object.libraryFilterNovelCompletedType);
+  writer.writeLong(offsets[113], object.libraryFilterNovelDownloadType);
+  writer.writeLong(offsets[114], object.libraryFilterNovelStartedType);
+  writer.writeLong(offsets[115], object.libraryFilterNovelTrackingType);
+  writer.writeLong(offsets[116], object.libraryFilterNovelUnreadType);
+  writer.writeBool(offsets[117], object.libraryLocalSource);
+  writer.writeBool(offsets[118], object.libraryShowCategoryTabs);
+  writer.writeBool(offsets[119], object.libraryShowContinueReadingButton);
+  writer.writeBool(offsets[120], object.libraryShowLanguage);
+  writer.writeBool(offsets[121], object.libraryShowNumbersOfItems);
+  writer.writeStringList(offsets[122], object.localFolders);
   writer.writeObject<L10nLocale>(
-    offsets[82],
+    offsets[123],
     allOffsets,
     L10nLocaleSchema.serialize,
     object.locale,
   );
   writer.writeObjectList<Repo>(
-    offsets[83],
+    offsets[124],
     allOffsets,
     RepoSchema.serialize,
     object.mangaExtensionsRepo,
   );
-  writer.writeLong(offsets[84], object.mangaGridSize);
-  writer.writeByte(offsets[85], object.mangaHomeDisplayType.index);
-  writer.writeLong(offsets[86], object.markEpisodeAsSeenType);
-  writer.writeBool(offsets[87], object.mergeLibraryNavMobile);
-  writer.writeStringList(offsets[88], object.navigationOrder);
-  writer.writeByte(offsets[89], object.novelDisplayType.index);
+  writer.writeLong(offsets[125], object.mangaGridSize);
+  writer.writeByte(offsets[126], object.mangaHomeDisplayType.index);
+  writer.writeLong(offsets[127], object.markEpisodeAsSeenType);
+  writer.writeBool(offsets[128], object.mergeLibraryNavMobile);
+  writer.writeBool(offsets[129], object.navigateToPan);
+  writer.writeStringList(offsets[130], object.navigationOrder);
+  writer.writeByte(offsets[131], object.novelDisplayType.index);
   writer.writeObjectList<Repo>(
-    offsets[90],
+    offsets[132],
     allOffsets,
     RepoSchema.serialize,
     object.novelExtensionsRepo,
   );
-  writer.writeLong(offsets[91], object.novelFontSize);
-  writer.writeLong(offsets[92], object.novelGridSize);
-  writer.writeBool(offsets[93], object.novelLibraryDownloadedChapters);
-  writer.writeBool(offsets[94], object.novelLibraryLocalSource);
-  writer.writeBool(offsets[95], object.novelLibraryShowCategoryTabs);
-  writer.writeBool(offsets[96], object.novelLibraryShowContinueReadingButton);
-  writer.writeBool(offsets[97], object.novelLibraryShowLanguage);
-  writer.writeBool(offsets[98], object.novelLibraryShowNumbersOfItems);
-  writer.writeBool(offsets[99], object.novelLibraryUnreadChapters);
-  writer.writeDouble(offsets[100], object.novelReaderLineHeight);
-  writer.writeLong(offsets[101], object.novelReaderPadding);
-  writer.writeString(offsets[102], object.novelReaderTextColor);
-  writer.writeString(offsets[103], object.novelReaderTheme);
-  writer.writeBool(offsets[104], object.novelRemoveExtraParagraphSpacing);
-  writer.writeBool(offsets[105], object.novelShowScrollPercentage);
-  writer.writeBool(offsets[106], object.novelTapToScroll);
-  writer.writeByte(offsets[107], object.novelTextAlign.index);
-  writer.writeBool(offsets[108], object.onlyIncludePinnedSources);
-  writer.writeLong(offsets[109], object.pagePreloadAmount);
+  writer.writeLong(offsets[133], object.novelFontSize);
+  writer.writeLong(offsets[134], object.novelGridSize);
+  writer.writeBool(offsets[135], object.novelLibraryDownloadedChapters);
+  writer.writeBool(offsets[136], object.novelLibraryLocalSource);
+  writer.writeBool(offsets[137], object.novelLibraryShowCategoryTabs);
+  writer.writeBool(offsets[138], object.novelLibraryShowContinueReadingButton);
+  writer.writeBool(offsets[139], object.novelLibraryShowLanguage);
+  writer.writeBool(offsets[140], object.novelLibraryShowNumbersOfItems);
+  writer.writeDouble(offsets[141], object.novelReaderLineHeight);
+  writer.writeLong(offsets[142], object.novelReaderPadding);
+  writer.writeString(offsets[143], object.novelReaderTextColor);
+  writer.writeString(offsets[144], object.novelReaderTheme);
+  writer.writeBool(offsets[145], object.novelRemoveExtraParagraphSpacing);
+  writer.writeBool(offsets[146], object.novelShowScrollPercentage);
+  writer.writeBool(offsets[147], object.novelTapToScroll);
+  writer.writeByte(offsets[148], object.novelTextAlign.index);
+  writer.writeBool(offsets[149], object.onlyIncludePinnedSources);
+  writer.writeLong(offsets[150], object.pagePreloadAmount);
   writer.writeObjectList<PersonalPageMode>(
-    offsets[110],
+    offsets[151],
     allOffsets,
     PersonalPageModeSchema.serialize,
     object.personalPageModeList,
   );
   writer.writeObjectList<PersonalReaderMode>(
-    offsets[111],
+    offsets[152],
     allOffsets,
     PersonalReaderModeSchema.serialize,
     object.personalReaderModeList,
   );
   writer.writeObject<PlayerSubtitleSettings>(
-    offsets[112],
+    offsets[153],
     allOffsets,
     PlayerSubtitleSettingsSchema.serialize,
     object.playerSubtitleSettings,
   );
-  writer.writeBool(offsets[113], object.pureBlackDarkMode);
-  writer.writeLong(offsets[114], object.relativeTimesTamps);
-  writer.writeBool(offsets[115], object.rpcShowCoverImage);
-  writer.writeBool(offsets[116], object.rpcShowReadingWatchingProgress);
-  writer.writeBool(offsets[117], object.rpcShowTitle);
-  writer.writeBool(offsets[118], object.saveAsCBZArchive);
-  writer.writeByte(offsets[119], object.scaleType.index);
-  writer.writeBool(offsets[120], object.showPagesNumber);
+  writer.writeBool(offsets[154], object.pureBlackDarkMode);
+  writer.writeDouble(offsets[155], object.readerBrightness);
+  writer.writeDouble(offsets[156], object.readerContrast);
+  writer.writeLong(offsets[157], object.readerHideThreshold);
+  writer.writeLong(offsets[158], object.readerNavigationLayout);
+  writer.writeDouble(offsets[159], object.readerSaturation);
+  writer.writeLong(offsets[160], object.relativeTimesTamps);
+  writer.writeBool(offsets[161], object.rpcShowCoverImage);
+  writer.writeBool(offsets[162], object.rpcShowReadingWatchingProgress);
+  writer.writeBool(offsets[163], object.rpcShowTitle);
+  writer.writeBool(offsets[164], object.saveAsCBZArchive);
+  writer.writeObjectList<SavedSearch>(
+    offsets[165],
+    allOffsets,
+    SavedSearchSchema.serialize,
+    object.savedSearchesList,
+  );
+  writer.writeByte(offsets[166], object.scaleType.index);
+  writer.writeBool(offsets[167], object.showNSFW);
+  writer.writeBool(offsets[168], object.showNavigationOverlayOnStart);
+  writer.writeBool(offsets[169], object.showPageGaps);
+  writer.writeBool(offsets[170], object.showPagesNumber);
+  writer.writeBool(offsets[171], object.showSourceBadge);
   writer.writeObjectList<SortChapter>(
-    offsets[121],
+    offsets[172],
     allOffsets,
     SortChapterSchema.serialize,
     object.sortChapterList,
   );
   writer.writeObject<SortLibraryManga>(
-    offsets[122],
+    offsets[173],
     allOffsets,
     SortLibraryMangaSchema.serialize,
     object.sortLibraryAnime,
   );
   writer.writeObject<SortLibraryManga>(
-    offsets[123],
+    offsets[174],
     allOffsets,
     SortLibraryMangaSchema.serialize,
     object.sortLibraryManga,
   );
   writer.writeObject<SortLibraryManga>(
-    offsets[124],
+    offsets[175],
     allOffsets,
     SortLibraryMangaSchema.serialize,
     object.sortLibraryNovel,
   );
-  writer.writeLong(offsets[125], object.startDatebackup);
-  writer.writeBool(offsets[126], object.themeIsDark);
-  writer.writeBool(offsets[127], object.updateProgressAfterReading);
-  writer.writeLong(offsets[128], object.updatedAt);
-  writer.writeBool(offsets[129], object.useLibass);
-  writer.writeBool(offsets[130], object.useMpvConfig);
-  writer.writeBool(offsets[131], object.usePageTapZones);
-  writer.writeBool(offsets[132], object.useYUV420P);
-  writer.writeString(offsets[133], object.userAgent);
-  writer.writeLong(offsets[134], object.volumeBoostCap);
+  writer.writeBool(offsets[176], object.splitWidePages);
+  writer.writeLong(offsets[177], object.startDatebackup);
+  writer.writeLong(offsets[178], object.tappingInversion);
+  writer.writeBool(offsets[179], object.themeIsDark);
+  writer.writeString(offsets[180], object.ttsLanguage);
+  writer.writeDouble(offsets[181], object.ttsPitch);
+  writer.writeDouble(offsets[182], object.ttsSpeechRate);
+  writer.writeString(offsets[183], object.ttsVoice);
+  writer.writeBool(offsets[184], object.tvAnimeOnlyOverride);
+  writer.writeBool(offsets[185], object.tvHomeGenreRows);
+  writer.writeBool(offsets[186], object.tvHomeStyle);
+  writer.writeBool(offsets[187], object.tvPlayerStyle);
+  writer.writeObjectList<UpdateError>(
+    offsets[188],
+    allOffsets,
+    UpdateErrorSchema.serialize,
+    object.updateErrorsList,
+  );
+  writer.writeBool(offsets[189], object.updateProgressAfterReading);
+  writer.writeLong(offsets[190], object.updatedAt);
+  writer.writeBool(offsets[191], object.useLibass);
+  writer.writeBool(offsets[192], object.useMpvConfig);
+  writer.writeBool(offsets[193], object.usePageTapZones);
+  writer.writeBool(offsets[194], object.useYUV420P);
+  writer.writeString(offsets[195], object.userAgent);
+  writer.writeLong(offsets[196], object.volumeBoostCap);
+  writer.writeBool(offsets[197], object.webtoonDisableZoomOut);
+  writer.writeBool(offsets[198], object.webtoonDoubleTapZoomEnabled);
+  writer.writeLong(offsets[199], object.webtoonSidePadding);
+  writer.writeLong(offsets[200], object.zoomStartPosition);
 }
 
 Settings _settingsDeserialize(
@@ -1502,280 +1986,361 @@ Settings _settingsDeserialize(
       AlgorithmWeightsSchema.deserialize,
       allOffsets,
     ),
-    androidProxyServer: reader.readStringOrNull(offsets[1]),
-    aniSkipTimeoutLength: reader.readLongOrNull(offsets[2]),
-    animatePageTransitions: reader.readBoolOrNull(offsets[3]),
+    allowConcurrentDownloads: reader.readBoolOrNull(offsets[1]),
+    androidProxyServer: reader.readStringOrNull(offsets[2]),
+    aniSkipTimeoutLength: reader.readLongOrNull(offsets[3]),
+    animatePageTransitions: reader.readBoolOrNull(offsets[4]),
     animeDisplayType:
         _SettingsanimeDisplayTypeValueEnumMap[reader.readByteOrNull(
-          offsets[4],
+          offsets[5],
         )] ??
         DisplayType.compactGrid,
     animeExtensionsRepo: reader.readObjectList<Repo>(
-      offsets[5],
+      offsets[6],
       RepoSchema.deserialize,
       allOffsets,
       Repo(),
     ),
-    animeGridSize: reader.readLongOrNull(offsets[6]),
-    animeLibraryDownloadedChapters: reader.readBoolOrNull(offsets[7]),
-    animeLibraryLocalSource: reader.readBoolOrNull(offsets[8]),
-    animeLibraryShowCategoryTabs: reader.readBoolOrNull(offsets[9]),
-    animeLibraryShowContinueReadingButton: reader.readBoolOrNull(offsets[10]),
-    animeLibraryShowLanguage: reader.readBoolOrNull(offsets[11]),
-    animeLibraryShowNumbersOfItems: reader.readBoolOrNull(offsets[12]),
+    animeGridSize: reader.readLongOrNull(offsets[7]),
+    animeLibraryDownloadedChapters: reader.readBoolOrNull(offsets[8]),
+    animeLibraryLocalSource: reader.readBoolOrNull(offsets[9]),
+    animeLibraryShowCategoryTabs: reader.readBoolOrNull(offsets[10]),
+    animeLibraryShowContinueReadingButton: reader.readBoolOrNull(offsets[11]),
+    animeLibraryShowLanguage: reader.readBoolOrNull(offsets[12]),
+    animeLibraryShowNumbersOfItems: reader.readBoolOrNull(offsets[13]),
     appFontFamily: reader.readStringOrNull(offsets[14]),
+    appLockEnabled: reader.readBoolOrNull(offsets[15]),
+    appUiScale: reader.readDoubleOrNull(offsets[16]),
     audioChannels:
         _SettingsaudioChannelsValueEnumMap[reader.readByteOrNull(
-          offsets[15],
+          offsets[17],
         )] ??
         AudioChannel.autoSafe,
-    audioPreferredLanguages: reader.readStringOrNull(offsets[16]),
-    autoBackupLocation: reader.readStringOrNull(offsets[17]),
-    autoExtensionsUpdates: reader.readBoolOrNull(offsets[18]),
+    audioPreferredLanguages: reader.readStringOrNull(offsets[18]),
+    autoBackupLocation: reader.readStringOrNull(offsets[19]),
+    autoExtensionsUpdates: reader.readBoolOrNull(offsets[20]),
+    autoPlayNextEpisode: reader.readBoolOrNull(offsets[21]),
+    autoReadDuplicateChapters: reader.readBoolOrNull(offsets[22]),
     autoScrollPages: reader.readObjectList<AutoScrollPages>(
-      offsets[19],
+      offsets[23],
       AutoScrollPagesSchema.deserialize,
       allOffsets,
       AutoScrollPages(),
     ),
+    automaticBackground: reader.readBoolOrNull(offsets[24]),
     backgroundColor:
         _SettingsbackgroundColorValueEnumMap[reader.readByteOrNull(
-          offsets[20],
+          offsets[25],
         )] ??
         BackgroundColor.black,
-    backupFrequency: reader.readLongOrNull(offsets[21]),
-    backupListOptions: reader.readLongList(offsets[22]),
-    btServerAddress: reader.readStringOrNull(offsets[23]),
-    btServerPort: reader.readLongOrNull(offsets[24]),
+    backupCompressionLevel: reader.readLongOrNull(offsets[26]),
+    backupFrequency: reader.readLongOrNull(offsets[27]),
+    backupListOptions: reader.readLongList(offsets[28]),
+    btServerAddress: reader.readStringOrNull(offsets[29]),
+    btServerPort: reader.readLongOrNull(offsets[30]),
+    cfProxyUrl: reader.readStringOrNull(offsets[31]),
     chapterFilterDownloadedList: reader.readObjectList<ChapterFilterDownloaded>(
-      offsets[26],
+      offsets[33],
       ChapterFilterDownloadedSchema.deserialize,
       allOffsets,
       ChapterFilterDownloaded(),
     ),
     chapterPageIndexList: reader.readObjectList<ChapterPageIndex>(
-      offsets[28],
+      offsets[35],
       ChapterPageIndexSchema.deserialize,
       allOffsets,
       ChapterPageIndex(),
     ),
     chapterPageUrlsList: reader.readObjectList<ChapterPageurls>(
-      offsets[29],
+      offsets[36],
       ChapterPageurlsSchema.deserialize,
       allOffsets,
       ChapterPageurls(),
     ),
-    checkForAppUpdates: reader.readBoolOrNull(offsets[30]),
-    checkForExtensionUpdates: reader.readBoolOrNull(offsets[31]),
-    clearChapterCacheOnAppLaunch: reader.readBoolOrNull(offsets[32]),
+    checkForAppUpdates: reader.readBoolOrNull(offsets[37]),
+    checkForExtensionUpdates: reader.readBoolOrNull(offsets[38]),
+    clearChapterCacheOnAppLaunch: reader.readBoolOrNull(offsets[39]),
     colorFilterBlendMode:
         _SettingscolorFilterBlendModeValueEnumMap[reader.readByteOrNull(
-          offsets[33],
+          offsets[40],
         )] ??
         ColorFilterBlendMode.none,
-    concurrentDownloads: reader.readLongOrNull(offsets[34]),
+    concurrentDownloads: reader.readLongOrNull(offsets[41]),
     cookiesList: reader.readObjectList<MCookie>(
-      offsets[35],
+      offsets[42],
       MCookieSchema.deserialize,
       allOffsets,
       MCookie(),
     ),
-    cropBorders: reader.readBoolOrNull(offsets[36]),
+    cropBorders: reader.readBoolOrNull(offsets[43]),
     customColorFilter: reader.readObjectOrNull<CustomColorFilter>(
-      offsets[37],
+      offsets[44],
       CustomColorFilterSchema.deserialize,
       allOffsets,
     ),
-    customDns: reader.readStringOrNull(offsets[38]),
-    dateFormat: reader.readStringOrNull(offsets[39]),
+    customDns: reader.readStringOrNull(offsets[45]),
+    customDohUrl: reader.readStringOrNull(offsets[46]),
+    dateFormat: reader.readStringOrNull(offsets[47]),
     debandingType:
         _SettingsdebandingTypeValueEnumMap[reader.readByteOrNull(
-          offsets[40],
+          offsets[48],
         )] ??
         DebandingType.none,
-    defaultDoubleTapToSkipLength: reader.readLongOrNull(offsets[41]),
-    defaultPlayBackSpeed: reader.readDoubleOrNull(offsets[42]),
+    defaultDoubleTapToSkipLength: reader.readLongOrNull(offsets[49]),
+    defaultPlayBackSpeed: reader.readDoubleOrNull(offsets[50]),
     defaultReaderMode:
         _SettingsdefaultReaderModeValueEnumMap[reader.readByteOrNull(
-          offsets[43],
+          offsets[51],
         )] ??
         ReaderMode.vertical,
-    defaultSkipIntroLength: reader.readLongOrNull(offsets[44]),
+    defaultSkipIntroLength: reader.readLongOrNull(offsets[52]),
+    deleteDownloadAfterReading: reader.readBoolOrNull(offsets[54]),
     disableSectionType:
         _SettingsdisableSectionTypeValueEnumMap[reader.readByteOrNull(
-          offsets[46],
+          offsets[55],
         )] ??
         SectionType.all,
-    displayType: _SettingsdisplayTypeValueEnumMap[reader.readByteOrNull(offsets[47])] ?? DisplayType.compactGrid,
-    doHEnabled: reader.readBoolOrNull(offsets[48]),
-    doHProviderId: reader.readLongOrNull(offsets[49]),
-    doubleTapAnimationSpeed: reader.readLongOrNull(offsets[50]),
-    downloadLocation: reader.readStringOrNull(offsets[51]),
-    downloadOnlyOnWifi: reader.readBoolOrNull(offsets[52]),
-    downloadedOnlyMode: reader.readBoolOrNull(offsets[53]),
-    enableAniSkip: reader.readBoolOrNull(offsets[54]),
-    enableAudioPitchCorrection: reader.readBoolOrNull(offsets[55]),
-    enableAutoSkip: reader.readBoolOrNull(offsets[56]),
-    enableCustomColorFilter: reader.readBoolOrNull(offsets[57]),
-    enableDiscordRpc: reader.readBoolOrNull(offsets[58]),
-    enableGpuNext: reader.readBoolOrNull(offsets[59]),
-    enableHardwareAcceleration: reader.readBoolOrNull(offsets[60]),
-    enableLogs: reader.readBoolOrNull(offsets[61]),
-    flexColorSchemeBlendLevel: reader.readDoubleOrNull(offsets[63]),
-    flexSchemeColorIndex: reader.readLongOrNull(offsets[64]),
-    followSystemTheme: reader.readBoolOrNull(offsets[65]),
-    forceLandscapePlayer: reader.readBoolOrNull(offsets[66]),
-    fullScreenPlayer: reader.readBoolOrNull(offsets[67]),
-    fullScreenReader: reader.readBoolOrNull(offsets[68]),
-    hideDiscordRpcInIncognito: reader.readBoolOrNull(offsets[69]),
-    hideItems: reader.readStringList(offsets[70]),
-    hwdecMode: reader.readStringOrNull(offsets[71]),
+    displayType:
+        _SettingsdisplayTypeValueEnumMap[reader.readByteOrNull(offsets[56])] ??
+        DisplayType.compactGrid,
+    doHEnabled: reader.readBoolOrNull(offsets[57]),
+    doHProviderId: reader.readLongOrNull(offsets[58]),
+    doubleTapAnimationSpeed: reader.readLongOrNull(offsets[59]),
+    downloadDelaySeconds: reader.readLongOrNull(offsets[60]),
+    downloadLocation: reader.readStringOrNull(offsets[61]),
+    downloadOnlyOnWifi: reader.readBoolOrNull(offsets[62]),
+    downloadQueueOrder: reader.readLongList(offsets[63]),
+    downloadedOnlyMode: reader.readBoolOrNull(offsets[64]),
+    dualPageInvert: reader.readBoolOrNull(offsets[65]),
+    dualPageRotateToFit: reader.readBoolOrNull(offsets[66]),
+    dualPageRotateToFitInvert: reader.readBoolOrNull(offsets[67]),
+    enableAniSkip: reader.readBoolOrNull(offsets[68]),
+    enableAudioPitchCorrection: reader.readBoolOrNull(offsets[69]),
+    enableAutoSkip: reader.readBoolOrNull(offsets[70]),
+    enableCustomColorFilter: reader.readBoolOrNull(offsets[71]),
+    enableDiscordRpc: reader.readBoolOrNull(offsets[72]),
+    enableGpuNext: reader.readBoolOrNull(offsets[73]),
+    enableHardwareAcceleration: reader.readBoolOrNull(offsets[74]),
+    enableLogs: reader.readBoolOrNull(offsets[75]),
+    extensionServerPath: reader.readStringOrNull(offsets[76]),
+    flashColor: reader.readLongOrNull(offsets[78]),
+    flashDuration: reader.readLongOrNull(offsets[79]),
+    flashInterval: reader.readLongOrNull(offsets[80]),
+    flashOnPageChange: reader.readBoolOrNull(offsets[81]),
+    flexColorSchemeBlendLevel: reader.readDoubleOrNull(offsets[82]),
+    flexSchemeColorIndex: reader.readLongOrNull(offsets[83]),
+    followSystemTheme: reader.readBoolOrNull(offsets[84]),
+    forceLandscapePlayer: reader.readBoolOrNull(offsets[85]),
+    fullScreenPlayer: reader.readBoolOrNull(offsets[86]),
+    fullScreenReader: reader.readBoolOrNull(offsets[87]),
+    grayscale: reader.readBoolOrNull(offsets[88]),
+    hideDiscordRpcInIncognito: reader.readBoolOrNull(offsets[89]),
+    hideItems: reader.readStringList(offsets[90]),
+    hwdecMode: reader.readStringOrNull(offsets[91]),
     id: id,
-    incognitoMode: reader.readBoolOrNull(offsets[72]),
-    lastTrackerLibraryLocation: reader.readStringOrNull(offsets[73]),
-    libraryDownloadedChapters: reader.readBoolOrNull(offsets[74]),
-    libraryLocalSource: reader.readBoolOrNull(offsets[75]),
-    libraryShowCategoryTabs: reader.readBoolOrNull(offsets[76]),
-    libraryShowContinueReadingButton: reader.readBoolOrNull(offsets[77]),
-    libraryShowLanguage: reader.readBoolOrNull(offsets[78]),
-    libraryShowNumbersOfItems: reader.readBoolOrNull(offsets[79]),
-    localFolders: reader.readStringList(offsets[81]),
+    incognitoMode: reader.readBoolOrNull(offsets[92]),
+    invertColors: reader.readBoolOrNull(offsets[93]),
+    jrePath: reader.readStringOrNull(offsets[94]),
+    keepScreenOnReader: reader.readBoolOrNull(offsets[95]),
+    landscapeZoom: reader.readBoolOrNull(offsets[96]),
+    lastTrackerLibraryLocation: reader.readStringOrNull(offsets[97]),
+    libraryDownloadedChapters: reader.readBoolOrNull(offsets[98]),
+    libraryFilterAnimeBookMarkedType: reader.readLongOrNull(offsets[99]),
+    libraryFilterAnimeCompletedType: reader.readLongOrNull(offsets[100]),
+    libraryFilterAnimeDownloadType: reader.readLongOrNull(offsets[101]),
+    libraryFilterAnimeStartedType: reader.readLongOrNull(offsets[102]),
+    libraryFilterAnimeTrackingType: reader.readLongOrNull(offsets[103]),
+    libraryFilterAnimeUnreadType: reader.readLongOrNull(offsets[104]),
+    libraryFilterMangasBookMarkedType: reader.readLongOrNull(offsets[105]),
+    libraryFilterMangasCompletedType: reader.readLongOrNull(offsets[106]),
+    libraryFilterMangasDownloadType: reader.readLongOrNull(offsets[107]),
+    libraryFilterMangasStartedType: reader.readLongOrNull(offsets[108]),
+    libraryFilterMangasTrackingType: reader.readLongOrNull(offsets[109]),
+    libraryFilterMangasUnreadType: reader.readLongOrNull(offsets[110]),
+    libraryFilterNovelBookMarkedType: reader.readLongOrNull(offsets[111]),
+    libraryFilterNovelCompletedType: reader.readLongOrNull(offsets[112]),
+    libraryFilterNovelDownloadType: reader.readLongOrNull(offsets[113]),
+    libraryFilterNovelStartedType: reader.readLongOrNull(offsets[114]),
+    libraryFilterNovelTrackingType: reader.readLongOrNull(offsets[115]),
+    libraryFilterNovelUnreadType: reader.readLongOrNull(offsets[116]),
+    libraryLocalSource: reader.readBoolOrNull(offsets[117]),
+    libraryShowCategoryTabs: reader.readBoolOrNull(offsets[118]),
+    libraryShowContinueReadingButton: reader.readBoolOrNull(offsets[119]),
+    libraryShowLanguage: reader.readBoolOrNull(offsets[120]),
+    libraryShowNumbersOfItems: reader.readBoolOrNull(offsets[121]),
+    localFolders: reader.readStringList(offsets[122]),
     mangaExtensionsRepo: reader.readObjectList<Repo>(
-      offsets[83],
+      offsets[124],
       RepoSchema.deserialize,
       allOffsets,
       Repo(),
     ),
-    mangaGridSize: reader.readLongOrNull(offsets[84]),
+    mangaGridSize: reader.readLongOrNull(offsets[125]),
     mangaHomeDisplayType:
         _SettingsmangaHomeDisplayTypeValueEnumMap[reader.readByteOrNull(
-          offsets[85],
+          offsets[126],
         )] ??
         DisplayType.comfortableGrid,
-    markEpisodeAsSeenType: reader.readLongOrNull(offsets[86]),
-    mergeLibraryNavMobile: reader.readBoolOrNull(offsets[87]),
-    navigationOrder: reader.readStringList(offsets[88]),
+    markEpisodeAsSeenType: reader.readLongOrNull(offsets[127]),
+    mergeLibraryNavMobile: reader.readBoolOrNull(offsets[128]),
+    navigateToPan: reader.readBoolOrNull(offsets[129]),
+    navigationOrder: reader.readStringList(offsets[130]),
     novelDisplayType:
         _SettingsnovelDisplayTypeValueEnumMap[reader.readByteOrNull(
-          offsets[89],
+          offsets[131],
         )] ??
         DisplayType.comfortableGrid,
     novelExtensionsRepo: reader.readObjectList<Repo>(
-      offsets[90],
+      offsets[132],
       RepoSchema.deserialize,
       allOffsets,
       Repo(),
     ),
-    novelFontSize: reader.readLongOrNull(offsets[91]),
-    novelLibraryDownloadedChapters: reader.readBoolOrNull(offsets[93]),
-    novelLibraryLocalSource: reader.readBoolOrNull(offsets[94]),
-    novelLibraryShowCategoryTabs: reader.readBoolOrNull(offsets[95]),
-    novelLibraryShowContinueReadingButton: reader.readBoolOrNull(offsets[96]),
-    novelLibraryShowLanguage: reader.readBoolOrNull(offsets[97]),
-    novelLibraryShowNumbersOfItems: reader.readBoolOrNull(offsets[98]),
-    novelReaderLineHeight: reader.readDoubleOrNull(offsets[100]),
-    novelReaderPadding: reader.readLongOrNull(offsets[101]),
-    novelReaderTextColor: reader.readStringOrNull(offsets[102]),
-    novelReaderTheme: reader.readStringOrNull(offsets[103]),
-    novelRemoveExtraParagraphSpacing: reader.readBoolOrNull(offsets[104]),
-    novelShowScrollPercentage: reader.readBoolOrNull(offsets[105]),
-    novelTapToScroll: reader.readBoolOrNull(offsets[106]),
+    novelFontSize: reader.readLongOrNull(offsets[133]),
+    novelLibraryDownloadedChapters: reader.readBoolOrNull(offsets[135]),
+    novelLibraryLocalSource: reader.readBoolOrNull(offsets[136]),
+    novelLibraryShowCategoryTabs: reader.readBoolOrNull(offsets[137]),
+    novelLibraryShowContinueReadingButton: reader.readBoolOrNull(offsets[138]),
+    novelLibraryShowLanguage: reader.readBoolOrNull(offsets[139]),
+    novelLibraryShowNumbersOfItems: reader.readBoolOrNull(offsets[140]),
+    novelReaderLineHeight: reader.readDoubleOrNull(offsets[141]),
+    novelReaderPadding: reader.readLongOrNull(offsets[142]),
+    novelReaderTextColor: reader.readStringOrNull(offsets[143]),
+    novelReaderTheme: reader.readStringOrNull(offsets[144]),
+    novelRemoveExtraParagraphSpacing: reader.readBoolOrNull(offsets[145]),
+    novelShowScrollPercentage: reader.readBoolOrNull(offsets[146]),
+    novelTapToScroll: reader.readBoolOrNull(offsets[147]),
     novelTextAlign:
         _SettingsnovelTextAlignValueEnumMap[reader.readByteOrNull(
-          offsets[107],
+          offsets[148],
         )] ??
         NovelTextAlign.left,
-    onlyIncludePinnedSources: reader.readBoolOrNull(offsets[108]),
-    pagePreloadAmount: reader.readLongOrNull(offsets[109]),
+    onlyIncludePinnedSources: reader.readBoolOrNull(offsets[149]),
+    pagePreloadAmount: reader.readLongOrNull(offsets[150]),
     personalPageModeList: reader.readObjectList<PersonalPageMode>(
-      offsets[110],
+      offsets[151],
       PersonalPageModeSchema.deserialize,
       allOffsets,
       PersonalPageMode(),
     ),
     personalReaderModeList: reader.readObjectList<PersonalReaderMode>(
-      offsets[111],
+      offsets[152],
       PersonalReaderModeSchema.deserialize,
       allOffsets,
       PersonalReaderMode(),
     ),
     playerSubtitleSettings: reader.readObjectOrNull<PlayerSubtitleSettings>(
-      offsets[112],
+      offsets[153],
       PlayerSubtitleSettingsSchema.deserialize,
       allOffsets,
     ),
-    pureBlackDarkMode: reader.readBoolOrNull(offsets[113]),
-    relativeTimesTamps: reader.readLongOrNull(offsets[114]),
-    rpcShowCoverImage: reader.readBoolOrNull(offsets[115]),
-    rpcShowReadingWatchingProgress: reader.readBoolOrNull(offsets[116]),
-    rpcShowTitle: reader.readBoolOrNull(offsets[117]),
-    saveAsCBZArchive: reader.readBoolOrNull(offsets[118]),
-    scaleType: _SettingsscaleTypeValueEnumMap[reader.readByteOrNull(offsets[119])] ?? ScaleType.fitScreen,
-    showPagesNumber: reader.readBoolOrNull(offsets[120]),
+    pureBlackDarkMode: reader.readBoolOrNull(offsets[154]),
+    readerBrightness: reader.readDoubleOrNull(offsets[155]),
+    readerContrast: reader.readDoubleOrNull(offsets[156]),
+    readerHideThreshold: reader.readLongOrNull(offsets[157]),
+    readerNavigationLayout: reader.readLongOrNull(offsets[158]),
+    readerSaturation: reader.readDoubleOrNull(offsets[159]),
+    relativeTimesTamps: reader.readLongOrNull(offsets[160]),
+    rpcShowCoverImage: reader.readBoolOrNull(offsets[161]),
+    rpcShowReadingWatchingProgress: reader.readBoolOrNull(offsets[162]),
+    rpcShowTitle: reader.readBoolOrNull(offsets[163]),
+    saveAsCBZArchive: reader.readBoolOrNull(offsets[164]),
+    savedSearchesList: reader.readObjectList<SavedSearch>(
+      offsets[165],
+      SavedSearchSchema.deserialize,
+      allOffsets,
+      SavedSearch(),
+    ),
+    scaleType:
+        _SettingsscaleTypeValueEnumMap[reader.readByteOrNull(offsets[166])] ??
+        ScaleType.fitScreen,
+    showNSFW: reader.readBoolOrNull(offsets[167]),
+    showNavigationOverlayOnStart: reader.readBoolOrNull(offsets[168]),
+    showPageGaps: reader.readBoolOrNull(offsets[169]),
+    showPagesNumber: reader.readBoolOrNull(offsets[170]),
+    showSourceBadge: reader.readBoolOrNull(offsets[171]),
     sortChapterList: reader.readObjectList<SortChapter>(
-      offsets[121],
+      offsets[172],
       SortChapterSchema.deserialize,
       allOffsets,
       SortChapter(),
     ),
     sortLibraryAnime: reader.readObjectOrNull<SortLibraryManga>(
-      offsets[122],
+      offsets[173],
       SortLibraryMangaSchema.deserialize,
       allOffsets,
     ),
     sortLibraryManga: reader.readObjectOrNull<SortLibraryManga>(
-      offsets[123],
+      offsets[174],
       SortLibraryMangaSchema.deserialize,
       allOffsets,
     ),
     sortLibraryNovel: reader.readObjectOrNull<SortLibraryManga>(
-      offsets[124],
+      offsets[175],
       SortLibraryMangaSchema.deserialize,
       allOffsets,
     ),
-    startDatebackup: reader.readLongOrNull(offsets[125]),
-    themeIsDark: reader.readBoolOrNull(offsets[126]),
-    updateProgressAfterReading: reader.readBoolOrNull(offsets[127]),
-    updatedAt: reader.readLongOrNull(offsets[128]),
-    useLibass: reader.readBoolOrNull(offsets[129]),
-    useMpvConfig: reader.readBoolOrNull(offsets[130]),
-    usePageTapZones: reader.readBoolOrNull(offsets[131]),
-    useYUV420P: reader.readBoolOrNull(offsets[132]),
-    userAgent: reader.readStringOrNull(offsets[133]),
-    volumeBoostCap: reader.readLongOrNull(offsets[134]),
+    splitWidePages: reader.readBoolOrNull(offsets[176]),
+    startDatebackup: reader.readLongOrNull(offsets[177]),
+    tappingInversion: reader.readLongOrNull(offsets[178]),
+    themeIsDark: reader.readBoolOrNull(offsets[179]),
+    ttsLanguage: reader.readStringOrNull(offsets[180]),
+    ttsPitch: reader.readDoubleOrNull(offsets[181]),
+    ttsSpeechRate: reader.readDoubleOrNull(offsets[182]),
+    ttsVoice: reader.readStringOrNull(offsets[183]),
+    tvAnimeOnlyOverride: reader.readBoolOrNull(offsets[184]),
+    tvHomeGenreRows: reader.readBoolOrNull(offsets[185]),
+    tvHomeStyle: reader.readBoolOrNull(offsets[186]),
+    tvPlayerStyle: reader.readBoolOrNull(offsets[187]),
+    updateErrorsList: reader.readObjectList<UpdateError>(
+      offsets[188],
+      UpdateErrorSchema.deserialize,
+      allOffsets,
+      UpdateError(),
+    ),
+    updateProgressAfterReading: reader.readBoolOrNull(offsets[189]),
+    updatedAt: reader.readLongOrNull(offsets[190]),
+    useLibass: reader.readBoolOrNull(offsets[191]),
+    useMpvConfig: reader.readBoolOrNull(offsets[192]),
+    usePageTapZones: reader.readBoolOrNull(offsets[193]),
+    useYUV420P: reader.readBoolOrNull(offsets[194]),
+    userAgent: reader.readStringOrNull(offsets[195]),
+    volumeBoostCap: reader.readLongOrNull(offsets[196]),
+    webtoonDisableZoomOut: reader.readBoolOrNull(offsets[197]),
+    webtoonDoubleTapZoomEnabled: reader.readBoolOrNull(offsets[198]),
+    webtoonSidePadding: reader.readLongOrNull(offsets[199]),
+    zoomStartPosition: reader.readLongOrNull(offsets[200]),
   );
-  object.animeLibraryUnreadChapters = reader.readBoolOrNull(offsets[13]);
-  object.chapterFilterBookmarkedList = reader.readObjectList<ChapterFilterBookmarked>(
-    offsets[25],
-    ChapterFilterBookmarkedSchema.deserialize,
-    allOffsets,
-    ChapterFilterBookmarked(),
-  );
+  object.chapterFilterBookmarkedList = reader
+      .readObjectList<ChapterFilterBookmarked>(
+        offsets[32],
+        ChapterFilterBookmarkedSchema.deserialize,
+        allOffsets,
+        ChapterFilterBookmarked(),
+      );
   object.chapterFilterUnreadList = reader.readObjectList<ChapterFilterUnread>(
-    offsets[27],
+    offsets[34],
     ChapterFilterUnreadSchema.deserialize,
     allOffsets,
     ChapterFilterUnread(),
   );
   object.defaultSubtitleLang = reader.readObjectOrNull<L10nLocale>(
-    offsets[45],
+    offsets[53],
     L10nLocaleSchema.deserialize,
     allOffsets,
   );
   object.filterScanlatorList = reader.readObjectList<FilterScanlator>(
-    offsets[62],
+    offsets[77],
     FilterScanlatorSchema.deserialize,
     allOffsets,
     FilterScanlator(),
   );
-  object.libraryUnreadChapters = reader.readBoolOrNull(offsets[80]);
   object.locale = reader.readObjectOrNull<L10nLocale>(
-    offsets[82],
+    offsets[123],
     L10nLocaleSchema.deserialize,
     allOffsets,
   );
-  object.novelGridSize = reader.readLongOrNull(offsets[92]);
-  object.novelLibraryUnreadChapters = reader.readBoolOrNull(offsets[99]);
+  object.novelGridSize = reader.readLongOrNull(offsets[134]);
   return object;
 }
 
@@ -1794,18 +2359,20 @@ P _settingsDeserializeProp<P>(
           ))
           as P;
     case 1:
-      return (reader.readStringOrNull(offset)) as P;
-    case 2:
-      return (reader.readLongOrNull(offset)) as P;
-    case 3:
       return (reader.readBoolOrNull(offset)) as P;
+    case 2:
+      return (reader.readStringOrNull(offset)) as P;
+    case 3:
+      return (reader.readLongOrNull(offset)) as P;
     case 4:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 5:
       return (_SettingsanimeDisplayTypeValueEnumMap[reader.readByteOrNull(
                 offset,
               )] ??
               DisplayType.compactGrid)
           as P;
-    case 5:
+    case 6:
       return (reader.readObjectList<Repo>(
             offset,
             RepoSchema.deserialize,
@@ -1813,10 +2380,8 @@ P _settingsDeserializeProp<P>(
             Repo(),
           ))
           as P;
-    case 6:
-      return (reader.readLongOrNull(offset)) as P;
     case 7:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 8:
       return (reader.readBoolOrNull(offset)) as P;
     case 9:
@@ -1832,18 +2397,26 @@ P _settingsDeserializeProp<P>(
     case 14:
       return (reader.readStringOrNull(offset)) as P;
     case 15:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 16:
+      return (reader.readDoubleOrNull(offset)) as P;
+    case 17:
       return (_SettingsaudioChannelsValueEnumMap[reader.readByteOrNull(
                 offset,
               )] ??
               AudioChannel.autoSafe)
           as P;
-    case 16:
-      return (reader.readStringOrNull(offset)) as P;
-    case 17:
-      return (reader.readStringOrNull(offset)) as P;
     case 18:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 19:
+      return (reader.readStringOrNull(offset)) as P;
+    case 20:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 21:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 22:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 23:
       return (reader.readObjectList<AutoScrollPages>(
             offset,
             AutoScrollPagesSchema.deserialize,
@@ -1851,21 +2424,27 @@ P _settingsDeserializeProp<P>(
             AutoScrollPages(),
           ))
           as P;
-    case 20:
+    case 24:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 25:
       return (_SettingsbackgroundColorValueEnumMap[reader.readByteOrNull(
                 offset,
               )] ??
               BackgroundColor.black)
           as P;
-    case 21:
+    case 26:
       return (reader.readLongOrNull(offset)) as P;
-    case 22:
+    case 27:
+      return (reader.readLongOrNull(offset)) as P;
+    case 28:
       return (reader.readLongList(offset)) as P;
-    case 23:
+    case 29:
       return (reader.readStringOrNull(offset)) as P;
-    case 24:
+    case 30:
       return (reader.readLongOrNull(offset)) as P;
-    case 25:
+    case 31:
+      return (reader.readStringOrNull(offset)) as P;
+    case 32:
       return (reader.readObjectList<ChapterFilterBookmarked>(
             offset,
             ChapterFilterBookmarkedSchema.deserialize,
@@ -1873,7 +2452,7 @@ P _settingsDeserializeProp<P>(
             ChapterFilterBookmarked(),
           ))
           as P;
-    case 26:
+    case 33:
       return (reader.readObjectList<ChapterFilterDownloaded>(
             offset,
             ChapterFilterDownloadedSchema.deserialize,
@@ -1881,7 +2460,7 @@ P _settingsDeserializeProp<P>(
             ChapterFilterDownloaded(),
           ))
           as P;
-    case 27:
+    case 34:
       return (reader.readObjectList<ChapterFilterUnread>(
             offset,
             ChapterFilterUnreadSchema.deserialize,
@@ -1889,7 +2468,7 @@ P _settingsDeserializeProp<P>(
             ChapterFilterUnread(),
           ))
           as P;
-    case 28:
+    case 35:
       return (reader.readObjectList<ChapterPageIndex>(
             offset,
             ChapterPageIndexSchema.deserialize,
@@ -1897,7 +2476,7 @@ P _settingsDeserializeProp<P>(
             ChapterPageIndex(),
           ))
           as P;
-    case 29:
+    case 36:
       return (reader.readObjectList<ChapterPageurls>(
             offset,
             ChapterPageurlsSchema.deserialize,
@@ -1905,21 +2484,21 @@ P _settingsDeserializeProp<P>(
             ChapterPageurls(),
           ))
           as P;
-    case 30:
+    case 37:
       return (reader.readBoolOrNull(offset)) as P;
-    case 31:
+    case 38:
       return (reader.readBoolOrNull(offset)) as P;
-    case 32:
+    case 39:
       return (reader.readBoolOrNull(offset)) as P;
-    case 33:
+    case 40:
       return (_SettingscolorFilterBlendModeValueEnumMap[reader.readByteOrNull(
                 offset,
               )] ??
               ColorFilterBlendMode.none)
           as P;
-    case 34:
+    case 41:
       return (reader.readLongOrNull(offset)) as P;
-    case 35:
+    case 42:
       return (reader.readObjectList<MCookie>(
             offset,
             MCookieSchema.deserialize,
@@ -1927,92 +2506,74 @@ P _settingsDeserializeProp<P>(
             MCookie(),
           ))
           as P;
-    case 36:
+    case 43:
       return (reader.readBoolOrNull(offset)) as P;
-    case 37:
+    case 44:
       return (reader.readObjectOrNull<CustomColorFilter>(
             offset,
             CustomColorFilterSchema.deserialize,
             allOffsets,
           ))
           as P;
-    case 38:
+    case 45:
       return (reader.readStringOrNull(offset)) as P;
-    case 39:
+    case 46:
       return (reader.readStringOrNull(offset)) as P;
-    case 40:
+    case 47:
+      return (reader.readStringOrNull(offset)) as P;
+    case 48:
       return (_SettingsdebandingTypeValueEnumMap[reader.readByteOrNull(
                 offset,
               )] ??
               DebandingType.none)
           as P;
-    case 41:
+    case 49:
       return (reader.readLongOrNull(offset)) as P;
-    case 42:
+    case 50:
       return (reader.readDoubleOrNull(offset)) as P;
-    case 43:
+    case 51:
       return (_SettingsdefaultReaderModeValueEnumMap[reader.readByteOrNull(
                 offset,
               )] ??
               ReaderMode.vertical)
           as P;
-    case 44:
+    case 52:
       return (reader.readLongOrNull(offset)) as P;
-    case 45:
+    case 53:
       return (reader.readObjectOrNull<L10nLocale>(
             offset,
             L10nLocaleSchema.deserialize,
             allOffsets,
           ))
           as P;
-    case 46:
+    case 54:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 55:
       return (_SettingsdisableSectionTypeValueEnumMap[reader.readByteOrNull(
                 offset,
               )] ??
               SectionType.all)
           as P;
-    case 47:
-      return (_SettingsdisplayTypeValueEnumMap[reader.readByteOrNull(offset)] ?? DisplayType.compactGrid) as P;
-    case 48:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 49:
-      return (reader.readLongOrNull(offset)) as P;
-    case 50:
-      return (reader.readLongOrNull(offset)) as P;
-    case 51:
-      return (reader.readStringOrNull(offset)) as P;
-    case 52:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 53:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 54:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 55:
-      return (reader.readBoolOrNull(offset)) as P;
     case 56:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (_SettingsdisplayTypeValueEnumMap[reader.readByteOrNull(offset)] ??
+              DisplayType.compactGrid)
+          as P;
     case 57:
       return (reader.readBoolOrNull(offset)) as P;
     case 58:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 59:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 60:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 61:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 62:
-      return (reader.readObjectList<FilterScanlator>(
-            offset,
-            FilterScanlatorSchema.deserialize,
-            allOffsets,
-            FilterScanlator(),
-          ))
-          as P;
-    case 63:
-      return (reader.readDoubleOrNull(offset)) as P;
-    case 64:
       return (reader.readLongOrNull(offset)) as P;
+    case 59:
+      return (reader.readLongOrNull(offset)) as P;
+    case 60:
+      return (reader.readLongOrNull(offset)) as P;
+    case 61:
+      return (reader.readStringOrNull(offset)) as P;
+    case 62:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 63:
+      return (reader.readLongList(offset)) as P;
+    case 64:
+      return (reader.readBoolOrNull(offset)) as P;
     case 65:
       return (reader.readBoolOrNull(offset)) as P;
     case 66:
@@ -2024,37 +2585,125 @@ P _settingsDeserializeProp<P>(
     case 69:
       return (reader.readBoolOrNull(offset)) as P;
     case 70:
-      return (reader.readStringList(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 71:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 72:
       return (reader.readBoolOrNull(offset)) as P;
     case 73:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 74:
       return (reader.readBoolOrNull(offset)) as P;
     case 75:
       return (reader.readBoolOrNull(offset)) as P;
     case 76:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 77:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readObjectList<FilterScanlator>(
+            offset,
+            FilterScanlatorSchema.deserialize,
+            allOffsets,
+            FilterScanlator(),
+          ))
+          as P;
     case 78:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 79:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 80:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 81:
-      return (reader.readStringList(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 82:
+      return (reader.readDoubleOrNull(offset)) as P;
+    case 83:
+      return (reader.readLongOrNull(offset)) as P;
+    case 84:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 85:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 86:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 87:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 88:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 89:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 90:
+      return (reader.readStringList(offset)) as P;
+    case 91:
+      return (reader.readStringOrNull(offset)) as P;
+    case 92:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 93:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 94:
+      return (reader.readStringOrNull(offset)) as P;
+    case 95:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 96:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 97:
+      return (reader.readStringOrNull(offset)) as P;
+    case 98:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 99:
+      return (reader.readLongOrNull(offset)) as P;
+    case 100:
+      return (reader.readLongOrNull(offset)) as P;
+    case 101:
+      return (reader.readLongOrNull(offset)) as P;
+    case 102:
+      return (reader.readLongOrNull(offset)) as P;
+    case 103:
+      return (reader.readLongOrNull(offset)) as P;
+    case 104:
+      return (reader.readLongOrNull(offset)) as P;
+    case 105:
+      return (reader.readLongOrNull(offset)) as P;
+    case 106:
+      return (reader.readLongOrNull(offset)) as P;
+    case 107:
+      return (reader.readLongOrNull(offset)) as P;
+    case 108:
+      return (reader.readLongOrNull(offset)) as P;
+    case 109:
+      return (reader.readLongOrNull(offset)) as P;
+    case 110:
+      return (reader.readLongOrNull(offset)) as P;
+    case 111:
+      return (reader.readLongOrNull(offset)) as P;
+    case 112:
+      return (reader.readLongOrNull(offset)) as P;
+    case 113:
+      return (reader.readLongOrNull(offset)) as P;
+    case 114:
+      return (reader.readLongOrNull(offset)) as P;
+    case 115:
+      return (reader.readLongOrNull(offset)) as P;
+    case 116:
+      return (reader.readLongOrNull(offset)) as P;
+    case 117:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 118:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 119:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 120:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 121:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 122:
+      return (reader.readStringList(offset)) as P;
+    case 123:
       return (reader.readObjectOrNull<L10nLocale>(
             offset,
             L10nLocaleSchema.deserialize,
             allOffsets,
           ))
           as P;
-    case 83:
+    case 124:
       return (reader.readObjectList<Repo>(
             offset,
             RepoSchema.deserialize,
@@ -2062,27 +2711,29 @@ P _settingsDeserializeProp<P>(
             Repo(),
           ))
           as P;
-    case 84:
+    case 125:
       return (reader.readLongOrNull(offset)) as P;
-    case 85:
+    case 126:
       return (_SettingsmangaHomeDisplayTypeValueEnumMap[reader.readByteOrNull(
                 offset,
               )] ??
               DisplayType.comfortableGrid)
           as P;
-    case 86:
+    case 127:
       return (reader.readLongOrNull(offset)) as P;
-    case 87:
+    case 128:
       return (reader.readBoolOrNull(offset)) as P;
-    case 88:
+    case 129:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 130:
       return (reader.readStringList(offset)) as P;
-    case 89:
+    case 131:
       return (_SettingsnovelDisplayTypeValueEnumMap[reader.readByteOrNull(
                 offset,
               )] ??
               DisplayType.comfortableGrid)
           as P;
-    case 90:
+    case 132:
       return (reader.readObjectList<Repo>(
             offset,
             RepoSchema.deserialize,
@@ -2090,49 +2741,47 @@ P _settingsDeserializeProp<P>(
             Repo(),
           ))
           as P;
-    case 91:
+    case 133:
       return (reader.readLongOrNull(offset)) as P;
-    case 92:
+    case 134:
       return (reader.readLongOrNull(offset)) as P;
-    case 93:
+    case 135:
       return (reader.readBoolOrNull(offset)) as P;
-    case 94:
+    case 136:
       return (reader.readBoolOrNull(offset)) as P;
-    case 95:
+    case 137:
       return (reader.readBoolOrNull(offset)) as P;
-    case 96:
+    case 138:
       return (reader.readBoolOrNull(offset)) as P;
-    case 97:
+    case 139:
       return (reader.readBoolOrNull(offset)) as P;
-    case 98:
+    case 140:
       return (reader.readBoolOrNull(offset)) as P;
-    case 99:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 100:
+    case 141:
       return (reader.readDoubleOrNull(offset)) as P;
-    case 101:
+    case 142:
       return (reader.readLongOrNull(offset)) as P;
-    case 102:
+    case 143:
       return (reader.readStringOrNull(offset)) as P;
-    case 103:
+    case 144:
       return (reader.readStringOrNull(offset)) as P;
-    case 104:
+    case 145:
       return (reader.readBoolOrNull(offset)) as P;
-    case 105:
+    case 146:
       return (reader.readBoolOrNull(offset)) as P;
-    case 106:
+    case 147:
       return (reader.readBoolOrNull(offset)) as P;
-    case 107:
+    case 148:
       return (_SettingsnovelTextAlignValueEnumMap[reader.readByteOrNull(
                 offset,
               )] ??
               NovelTextAlign.left)
           as P;
-    case 108:
+    case 149:
       return (reader.readBoolOrNull(offset)) as P;
-    case 109:
+    case 150:
       return (reader.readLongOrNull(offset)) as P;
-    case 110:
+    case 151:
       return (reader.readObjectList<PersonalPageMode>(
             offset,
             PersonalPageModeSchema.deserialize,
@@ -2140,7 +2789,7 @@ P _settingsDeserializeProp<P>(
             PersonalPageMode(),
           ))
           as P;
-    case 111:
+    case 152:
       return (reader.readObjectList<PersonalReaderMode>(
             offset,
             PersonalReaderModeSchema.deserialize,
@@ -2148,30 +2797,58 @@ P _settingsDeserializeProp<P>(
             PersonalReaderMode(),
           ))
           as P;
-    case 112:
+    case 153:
       return (reader.readObjectOrNull<PlayerSubtitleSettings>(
             offset,
             PlayerSubtitleSettingsSchema.deserialize,
             allOffsets,
           ))
           as P;
-    case 113:
+    case 154:
       return (reader.readBoolOrNull(offset)) as P;
-    case 114:
+    case 155:
+      return (reader.readDoubleOrNull(offset)) as P;
+    case 156:
+      return (reader.readDoubleOrNull(offset)) as P;
+    case 157:
       return (reader.readLongOrNull(offset)) as P;
-    case 115:
+    case 158:
+      return (reader.readLongOrNull(offset)) as P;
+    case 159:
+      return (reader.readDoubleOrNull(offset)) as P;
+    case 160:
+      return (reader.readLongOrNull(offset)) as P;
+    case 161:
       return (reader.readBoolOrNull(offset)) as P;
-    case 116:
+    case 162:
       return (reader.readBoolOrNull(offset)) as P;
-    case 117:
+    case 163:
       return (reader.readBoolOrNull(offset)) as P;
-    case 118:
+    case 164:
       return (reader.readBoolOrNull(offset)) as P;
-    case 119:
-      return (_SettingsscaleTypeValueEnumMap[reader.readByteOrNull(offset)] ?? ScaleType.fitScreen) as P;
-    case 120:
+    case 165:
+      return (reader.readObjectList<SavedSearch>(
+            offset,
+            SavedSearchSchema.deserialize,
+            allOffsets,
+            SavedSearch(),
+          ))
+          as P;
+    case 166:
+      return (_SettingsscaleTypeValueEnumMap[reader.readByteOrNull(offset)] ??
+              ScaleType.fitScreen)
+          as P;
+    case 167:
       return (reader.readBoolOrNull(offset)) as P;
-    case 121:
+    case 168:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 169:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 170:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 171:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 172:
       return (reader.readObjectList<SortChapter>(
             offset,
             SortChapterSchema.deserialize,
@@ -2179,46 +2856,82 @@ P _settingsDeserializeProp<P>(
             SortChapter(),
           ))
           as P;
-    case 122:
+    case 173:
       return (reader.readObjectOrNull<SortLibraryManga>(
             offset,
             SortLibraryMangaSchema.deserialize,
             allOffsets,
           ))
           as P;
-    case 123:
+    case 174:
       return (reader.readObjectOrNull<SortLibraryManga>(
             offset,
             SortLibraryMangaSchema.deserialize,
             allOffsets,
           ))
           as P;
-    case 124:
+    case 175:
       return (reader.readObjectOrNull<SortLibraryManga>(
             offset,
             SortLibraryMangaSchema.deserialize,
             allOffsets,
           ))
           as P;
-    case 125:
+    case 176:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 177:
       return (reader.readLongOrNull(offset)) as P;
-    case 126:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 127:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 128:
+    case 178:
       return (reader.readLongOrNull(offset)) as P;
-    case 129:
+    case 179:
       return (reader.readBoolOrNull(offset)) as P;
-    case 130:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 131:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 132:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 133:
+    case 180:
       return (reader.readStringOrNull(offset)) as P;
-    case 134:
+    case 181:
+      return (reader.readDoubleOrNull(offset)) as P;
+    case 182:
+      return (reader.readDoubleOrNull(offset)) as P;
+    case 183:
+      return (reader.readStringOrNull(offset)) as P;
+    case 184:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 185:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 186:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 187:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 188:
+      return (reader.readObjectList<UpdateError>(
+            offset,
+            UpdateErrorSchema.deserialize,
+            allOffsets,
+            UpdateError(),
+          ))
+          as P;
+    case 189:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 190:
+      return (reader.readLongOrNull(offset)) as P;
+    case 191:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 192:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 193:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 194:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 195:
+      return (reader.readStringOrNull(offset)) as P;
+    case 196:
+      return (reader.readLongOrNull(offset)) as P;
+    case 197:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 198:
+      return (reader.readBoolOrNull(offset)) as P;
+    case 199:
+      return (reader.readLongOrNull(offset)) as P;
+    case 200:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -2306,6 +3019,7 @@ const _SettingsdefaultReaderModeEnumValueMap = {
   'verticalContinuous': 3,
   'webtoon': 4,
   'horizontalContinuous': 5,
+  'horizontalContinuousRTL': 6,
 };
 const _SettingsdefaultReaderModeValueEnumMap = {
   0: ReaderMode.vertical,
@@ -2314,6 +3028,7 @@ const _SettingsdefaultReaderModeValueEnumMap = {
   3: ReaderMode.verticalContinuous,
   4: ReaderMode.webtoon,
   5: ReaderMode.horizontalContinuous,
+  6: ReaderMode.horizontalContinuousRTL,
 };
 const _SettingsdisableSectionTypeEnumValueMap = {
   'all': 0,
@@ -2481,8 +3196,10 @@ extension SettingsQueryWhere on QueryBuilder<Settings, Settings, QWhereClause> {
   }
 }
 
-extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterCondition> {
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> algorithmWeightsIsNull() {
+extension SettingsQueryFilter
+    on QueryBuilder<Settings, Settings, QFilterCondition> {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  algorithmWeightsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'algorithmWeights'),
@@ -2490,7 +3207,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> algorithmWeightsIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  algorithmWeightsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'algorithmWeights'),
@@ -2498,7 +3216,38 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> androidProxyServerIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  allowConcurrentDownloadsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'allowConcurrentDownloads'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  allowConcurrentDownloadsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'allowConcurrentDownloads'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  allowConcurrentDownloadsEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'allowConcurrentDownloads',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  androidProxyServerIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'androidProxyServer'),
@@ -2506,7 +3255,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> androidProxyServerIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  androidProxyServerIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'androidProxyServer'),
@@ -2514,10 +3264,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> androidProxyServerEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  androidProxyServerEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -2529,7 +3277,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> androidProxyServerGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  androidProxyServerGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -2546,7 +3295,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> androidProxyServerLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  androidProxyServerLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -2563,7 +3313,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> androidProxyServerBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  androidProxyServerBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -2584,10 +3335,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> androidProxyServerStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  androidProxyServerStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -2599,10 +3348,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> androidProxyServerEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  androidProxyServerEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -2614,10 +3361,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> androidProxyServerContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  androidProxyServerContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -2629,10 +3374,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> androidProxyServerMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  androidProxyServerMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -2644,7 +3387,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> androidProxyServerIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  androidProxyServerIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'androidProxyServer', value: ''),
@@ -2652,7 +3396,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> androidProxyServerIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  androidProxyServerIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'androidProxyServer', value: ''),
@@ -2660,7 +3405,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> aniSkipTimeoutLengthIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  aniSkipTimeoutLengthIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'aniSkipTimeoutLength'),
@@ -2668,7 +3414,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> aniSkipTimeoutLengthIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  aniSkipTimeoutLengthIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'aniSkipTimeoutLength'),
@@ -2676,7 +3423,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> aniSkipTimeoutLengthEqualTo(int? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  aniSkipTimeoutLengthEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -2687,10 +3435,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> aniSkipTimeoutLengthGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  aniSkipTimeoutLengthGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -2702,10 +3448,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> aniSkipTimeoutLengthLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  aniSkipTimeoutLengthLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -2717,7 +3461,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> aniSkipTimeoutLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  aniSkipTimeoutLengthBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -2736,7 +3481,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animatePageTransitionsIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animatePageTransitionsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'animatePageTransitions'),
@@ -2744,7 +3490,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animatePageTransitionsIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animatePageTransitionsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'animatePageTransitions'),
@@ -2752,7 +3499,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animatePageTransitionsEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animatePageTransitionsEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -2763,7 +3511,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeDisplayTypeEqualTo(DisplayType value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeDisplayTypeEqualTo(DisplayType value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'animeDisplayType', value: value),
@@ -2771,10 +3520,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeDisplayTypeGreaterThan(
-    DisplayType value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeDisplayTypeGreaterThan(DisplayType value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -2786,10 +3533,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeDisplayTypeLessThan(
-    DisplayType value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeDisplayTypeLessThan(DisplayType value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -2801,7 +3546,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeDisplayTypeBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeDisplayTypeBetween(
     DisplayType lower,
     DisplayType upper, {
     bool includeLower = true,
@@ -2820,7 +3566,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeExtensionsRepoIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeExtensionsRepoIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'animeExtensionsRepo'),
@@ -2828,7 +3575,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeExtensionsRepoIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeExtensionsRepoIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'animeExtensionsRepo'),
@@ -2836,7 +3584,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeExtensionsRepoLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeExtensionsRepoLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'animeExtensionsRepo',
@@ -2848,31 +3597,29 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeExtensionsRepoIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeExtensionsRepoIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'animeExtensionsRepo', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeExtensionsRepoIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeExtensionsRepoIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'animeExtensionsRepo', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeExtensionsRepoLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeExtensionsRepoLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'animeExtensionsRepo', 0, true, length, include);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeExtensionsRepoLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeExtensionsRepoLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'animeExtensionsRepo',
@@ -2884,7 +3631,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeExtensionsRepoLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeExtensionsRepoLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -2901,7 +3649,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeGridSizeIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeGridSizeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'animeGridSize'),
@@ -2909,7 +3658,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeGridSizeIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeGridSizeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'animeGridSize'),
@@ -2927,7 +3677,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeGridSizeGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeGridSizeGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -2973,7 +3724,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryDownloadedChaptersIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryDownloadedChaptersIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(
@@ -2983,7 +3735,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryDownloadedChaptersIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryDownloadedChaptersIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -2993,7 +3746,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryDownloadedChaptersEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryDownloadedChaptersEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -3004,7 +3758,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryLocalSourceIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryLocalSourceIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'animeLibraryLocalSource'),
@@ -3012,7 +3767,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryLocalSourceIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryLocalSourceIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'animeLibraryLocalSource'),
@@ -3020,7 +3776,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryLocalSourceEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryLocalSourceEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -3031,7 +3788,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryShowCategoryTabsIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryShowCategoryTabsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'animeLibraryShowCategoryTabs'),
@@ -3039,7 +3797,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryShowCategoryTabsIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryShowCategoryTabsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -3049,7 +3808,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryShowCategoryTabsEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryShowCategoryTabsEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -3060,7 +3820,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryShowContinueReadingButtonIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryShowContinueReadingButtonIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(
@@ -3070,7 +3831,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryShowContinueReadingButtonIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryShowContinueReadingButtonIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -3080,7 +3842,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryShowContinueReadingButtonEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryShowContinueReadingButtonEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -3091,7 +3854,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryShowLanguageIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryShowLanguageIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'animeLibraryShowLanguage'),
@@ -3099,7 +3863,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryShowLanguageIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryShowLanguageIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'animeLibraryShowLanguage'),
@@ -3107,7 +3872,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryShowLanguageEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryShowLanguageEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -3118,7 +3884,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryShowNumbersOfItemsIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryShowNumbersOfItemsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(
@@ -3128,7 +3895,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryShowNumbersOfItemsIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryShowNumbersOfItemsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -3138,7 +3906,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryShowNumbersOfItemsEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeLibraryShowNumbersOfItemsEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -3149,36 +3918,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryUnreadChaptersIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(property: r'animeLibraryUnreadChapters'),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryUnreadChaptersIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(
-          property: r'animeLibraryUnreadChapters',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeLibraryUnreadChaptersEqualTo(bool? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'animeLibraryUnreadChapters',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> appFontFamilyIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  appFontFamilyIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'appFontFamily'),
@@ -3186,7 +3927,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> appFontFamilyIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  appFontFamilyIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'appFontFamily'),
@@ -3209,7 +3951,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> appFontFamilyGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  appFontFamilyGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -3264,10 +4007,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> appFontFamilyStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  appFontFamilyStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -3324,7 +4065,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> appFontFamilyIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  appFontFamilyIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'appFontFamily', value: ''),
@@ -3332,10 +4074,130 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> appFontFamilyIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  appFontFamilyIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'appFontFamily', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  appLockEnabledIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'appLockEnabled'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  appLockEnabledIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'appLockEnabled'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> appLockEnabledEqualTo(
+    bool? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'appLockEnabled', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> appUiScaleIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'appUiScale'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  appUiScaleIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'appUiScale'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> appUiScaleEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'appUiScale',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> appUiScaleGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'appUiScale',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> appUiScaleLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'appUiScale',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> appUiScaleBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'appUiScale',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+
+          epsilon: epsilon,
+        ),
       );
     });
   }
@@ -3350,10 +4212,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> audioChannelsGreaterThan(
-    AudioChannel value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  audioChannelsGreaterThan(AudioChannel value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -3399,7 +4259,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> audioPreferredLanguagesIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  audioPreferredLanguagesIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'audioPreferredLanguages'),
@@ -3407,7 +4268,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> audioPreferredLanguagesIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  audioPreferredLanguagesIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'audioPreferredLanguages'),
@@ -3415,10 +4277,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> audioPreferredLanguagesEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  audioPreferredLanguagesEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -3430,7 +4290,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> audioPreferredLanguagesGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  audioPreferredLanguagesGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -3447,7 +4308,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> audioPreferredLanguagesLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  audioPreferredLanguagesLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -3464,7 +4326,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> audioPreferredLanguagesBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  audioPreferredLanguagesBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -3485,10 +4348,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> audioPreferredLanguagesStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  audioPreferredLanguagesStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -3500,10 +4361,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> audioPreferredLanguagesEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  audioPreferredLanguagesEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -3515,10 +4374,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> audioPreferredLanguagesContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  audioPreferredLanguagesContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -3530,10 +4387,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> audioPreferredLanguagesMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  audioPreferredLanguagesMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -3545,7 +4400,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> audioPreferredLanguagesIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  audioPreferredLanguagesIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -3556,7 +4412,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> audioPreferredLanguagesIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  audioPreferredLanguagesIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -3567,7 +4424,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoBackupLocationIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoBackupLocationIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'autoBackupLocation'),
@@ -3575,7 +4433,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoBackupLocationIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoBackupLocationIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'autoBackupLocation'),
@@ -3583,10 +4442,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoBackupLocationEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoBackupLocationEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -3598,7 +4455,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoBackupLocationGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoBackupLocationGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -3615,7 +4473,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoBackupLocationLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoBackupLocationLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -3632,7 +4491,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoBackupLocationBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoBackupLocationBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -3653,10 +4513,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoBackupLocationStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoBackupLocationStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -3668,10 +4526,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoBackupLocationEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoBackupLocationEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -3683,10 +4539,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoBackupLocationContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoBackupLocationContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -3698,10 +4552,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoBackupLocationMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoBackupLocationMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -3713,7 +4565,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoBackupLocationIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoBackupLocationIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'autoBackupLocation', value: ''),
@@ -3721,7 +4574,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoBackupLocationIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoBackupLocationIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'autoBackupLocation', value: ''),
@@ -3729,7 +4583,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoExtensionsUpdatesIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoExtensionsUpdatesIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'autoExtensionsUpdates'),
@@ -3737,7 +4592,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoExtensionsUpdatesIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoExtensionsUpdatesIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'autoExtensionsUpdates'),
@@ -3745,7 +4601,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoExtensionsUpdatesEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoExtensionsUpdatesEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -3756,7 +4613,65 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoScrollPagesIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoPlayNextEpisodeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'autoPlayNextEpisode'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoPlayNextEpisodeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'autoPlayNextEpisode'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoPlayNextEpisodeEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'autoPlayNextEpisode', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoReadDuplicateChaptersIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'autoReadDuplicateChapters'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoReadDuplicateChaptersIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'autoReadDuplicateChapters'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoReadDuplicateChaptersEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'autoReadDuplicateChapters',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoScrollPagesIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'autoScrollPages'),
@@ -3764,7 +4679,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoScrollPagesIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoScrollPagesIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'autoScrollPages'),
@@ -3772,37 +4688,36 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoScrollPagesLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoScrollPagesLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'autoScrollPages', length, true, length, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoScrollPagesIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoScrollPagesIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'autoScrollPages', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoScrollPagesIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoScrollPagesIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'autoScrollPages', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoScrollPagesLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoScrollPagesLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'autoScrollPages', 0, true, length, include);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoScrollPagesLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoScrollPagesLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'autoScrollPages',
@@ -3814,7 +4729,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoScrollPagesLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoScrollPagesLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -3831,7 +4747,35 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backgroundColorEqualTo(BackgroundColor value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  automaticBackgroundIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'automaticBackground'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  automaticBackgroundIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'automaticBackground'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  automaticBackgroundEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'automaticBackground', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backgroundColorEqualTo(BackgroundColor value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'backgroundColor', value: value),
@@ -3839,10 +4783,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backgroundColorGreaterThan(
-    BackgroundColor value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backgroundColorGreaterThan(BackgroundColor value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -3854,10 +4796,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backgroundColorLessThan(
-    BackgroundColor value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backgroundColorLessThan(BackgroundColor value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -3869,7 +4809,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backgroundColorBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backgroundColorBetween(
     BackgroundColor lower,
     BackgroundColor upper, {
     bool includeLower = true,
@@ -3888,7 +4829,84 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupFrequencyIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupCompressionLevelIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'backupCompressionLevel'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupCompressionLevelIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'backupCompressionLevel'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupCompressionLevelEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'backupCompressionLevel',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupCompressionLevelGreaterThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'backupCompressionLevel',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupCompressionLevelLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'backupCompressionLevel',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupCompressionLevelBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'backupCompressionLevel',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupFrequencyIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'backupFrequency'),
@@ -3896,7 +4914,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupFrequencyIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupFrequencyIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'backupFrequency'),
@@ -3904,7 +4923,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupFrequencyEqualTo(int? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupFrequencyEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'backupFrequency', value: value),
@@ -3912,10 +4932,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupFrequencyGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupFrequencyGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -3927,7 +4945,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupFrequencyLessThan(int? value, {bool include = false}) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupFrequencyLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -3939,7 +4958,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupFrequencyBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupFrequencyBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -3958,7 +4978,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupListOptionsIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupListOptionsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'backupListOptions'),
@@ -3966,7 +4987,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupListOptionsIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupListOptionsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'backupListOptions'),
@@ -3974,7 +4996,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupListOptionsElementEqualTo(int value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupListOptionsElementEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'backupListOptions', value: value),
@@ -3982,10 +5005,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupListOptionsElementGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupListOptionsElementGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -3997,10 +5018,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupListOptionsElementLessThan(
-    int value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupListOptionsElementLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -4012,7 +5031,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupListOptionsElementBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupListOptionsElementBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -4031,37 +5051,36 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupListOptionsLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupListOptionsLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'backupListOptions', length, true, length, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupListOptionsIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupListOptionsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'backupListOptions', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupListOptionsIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupListOptionsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'backupListOptions', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupListOptionsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupListOptionsLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'backupListOptions', 0, true, length, include);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupListOptionsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupListOptionsLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'backupListOptions',
@@ -4073,7 +5092,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> backupListOptionsLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  backupListOptionsLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -4090,7 +5110,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> btServerAddressIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  btServerAddressIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'btServerAddress'),
@@ -4098,7 +5119,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> btServerAddressIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  btServerAddressIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'btServerAddress'),
@@ -4106,10 +5128,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> btServerAddressEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  btServerAddressEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -4121,7 +5141,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> btServerAddressGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  btServerAddressGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -4138,7 +5159,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> btServerAddressLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  btServerAddressLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -4155,7 +5177,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> btServerAddressBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  btServerAddressBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -4176,10 +5199,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> btServerAddressStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  btServerAddressStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -4191,10 +5212,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> btServerAddressEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  btServerAddressEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -4206,10 +5225,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> btServerAddressContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  btServerAddressContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -4221,10 +5238,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> btServerAddressMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  btServerAddressMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -4236,7 +5251,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> btServerAddressIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  btServerAddressIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'btServerAddress', value: ''),
@@ -4244,7 +5260,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> btServerAddressIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  btServerAddressIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'btServerAddress', value: ''),
@@ -4260,7 +5277,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> btServerPortIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  btServerPortIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'btServerPort'),
@@ -4278,7 +5296,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> btServerPortGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  btServerPortGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -4324,7 +5343,172 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterBookmarkedListIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> cfProxyUrlIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'cfProxyUrl'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  cfProxyUrlIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'cfProxyUrl'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> cfProxyUrlEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'cfProxyUrl',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> cfProxyUrlGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'cfProxyUrl',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> cfProxyUrlLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'cfProxyUrl',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> cfProxyUrlBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'cfProxyUrl',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> cfProxyUrlStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'cfProxyUrl',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> cfProxyUrlEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'cfProxyUrl',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> cfProxyUrlContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'cfProxyUrl',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> cfProxyUrlMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'cfProxyUrl',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> cfProxyUrlIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'cfProxyUrl', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  cfProxyUrlIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'cfProxyUrl', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterBookmarkedListIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'chapterFilterBookmarkedList'),
@@ -4332,7 +5516,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterBookmarkedListIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterBookmarkedListIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -4342,7 +5527,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterBookmarkedListLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterBookmarkedListLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'chapterFilterBookmarkedList',
@@ -4354,13 +5540,15 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterBookmarkedListIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterBookmarkedListIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'chapterFilterBookmarkedList', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterBookmarkedListIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterBookmarkedListIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'chapterFilterBookmarkedList',
@@ -4372,7 +5560,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterBookmarkedListLengthLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterBookmarkedListLengthLessThan(
     int length, {
     bool include = false,
   }) {
@@ -4387,7 +5576,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterBookmarkedListLengthGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterBookmarkedListLengthGreaterThan(
     int length, {
     bool include = false,
   }) {
@@ -4402,7 +5592,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterBookmarkedListLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterBookmarkedListLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -4419,7 +5610,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterDownloadedListIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterDownloadedListIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'chapterFilterDownloadedList'),
@@ -4427,7 +5619,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterDownloadedListIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterDownloadedListIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -4437,7 +5630,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterDownloadedListLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterDownloadedListLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'chapterFilterDownloadedList',
@@ -4449,13 +5643,15 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterDownloadedListIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterDownloadedListIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'chapterFilterDownloadedList', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterDownloadedListIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterDownloadedListIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'chapterFilterDownloadedList',
@@ -4467,7 +5663,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterDownloadedListLengthLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterDownloadedListLengthLessThan(
     int length, {
     bool include = false,
   }) {
@@ -4482,7 +5679,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterDownloadedListLengthGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterDownloadedListLengthGreaterThan(
     int length, {
     bool include = false,
   }) {
@@ -4497,7 +5695,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterDownloadedListLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterDownloadedListLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -4514,7 +5713,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterUnreadListIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterUnreadListIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'chapterFilterUnreadList'),
@@ -4522,7 +5722,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterUnreadListIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterUnreadListIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'chapterFilterUnreadList'),
@@ -4530,7 +5731,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterUnreadListLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterUnreadListLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'chapterFilterUnreadList',
@@ -4542,13 +5744,15 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterUnreadListIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterUnreadListIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'chapterFilterUnreadList', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterUnreadListIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterUnreadListIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'chapterFilterUnreadList',
@@ -4560,10 +5764,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterUnreadListLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterUnreadListLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'chapterFilterUnreadList',
@@ -4575,10 +5777,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterUnreadListLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterUnreadListLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'chapterFilterUnreadList',
@@ -4590,7 +5790,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterUnreadListLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterUnreadListLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -4607,7 +5808,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageIndexListIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageIndexListIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'chapterPageIndexList'),
@@ -4615,7 +5817,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageIndexListIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageIndexListIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'chapterPageIndexList'),
@@ -4623,7 +5826,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageIndexListLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageIndexListLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'chapterPageIndexList',
@@ -4635,22 +5839,22 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageIndexListIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageIndexListIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'chapterPageIndexList', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageIndexListIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageIndexListIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'chapterPageIndexList', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageIndexListLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageIndexListLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'chapterPageIndexList',
@@ -4662,10 +5866,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageIndexListLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageIndexListLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'chapterPageIndexList',
@@ -4677,7 +5879,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageIndexListLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageIndexListLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -4694,7 +5897,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageUrlsListIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageUrlsListIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'chapterPageUrlsList'),
@@ -4702,7 +5906,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageUrlsListIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageUrlsListIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'chapterPageUrlsList'),
@@ -4710,7 +5915,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageUrlsListLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageUrlsListLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'chapterPageUrlsList',
@@ -4722,31 +5928,29 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageUrlsListIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageUrlsListIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'chapterPageUrlsList', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageUrlsListIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageUrlsListIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'chapterPageUrlsList', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageUrlsListLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageUrlsListLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'chapterPageUrlsList', 0, true, length, include);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageUrlsListLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageUrlsListLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'chapterPageUrlsList',
@@ -4758,7 +5962,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageUrlsListLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageUrlsListLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -4775,7 +5980,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> checkForAppUpdatesIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  checkForAppUpdatesIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'checkForAppUpdates'),
@@ -4783,7 +5989,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> checkForAppUpdatesIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  checkForAppUpdatesIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'checkForAppUpdates'),
@@ -4791,7 +5998,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> checkForAppUpdatesEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  checkForAppUpdatesEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'checkForAppUpdates', value: value),
@@ -4799,7 +6007,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> checkForExtensionUpdatesIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  checkForExtensionUpdatesIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'checkForExtensionUpdates'),
@@ -4807,7 +6016,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> checkForExtensionUpdatesIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  checkForExtensionUpdatesIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'checkForExtensionUpdates'),
@@ -4815,7 +6025,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> checkForExtensionUpdatesEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  checkForExtensionUpdatesEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -4826,7 +6037,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> clearChapterCacheOnAppLaunchIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  clearChapterCacheOnAppLaunchIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'clearChapterCacheOnAppLaunch'),
@@ -4834,7 +6046,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> clearChapterCacheOnAppLaunchIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  clearChapterCacheOnAppLaunchIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -4844,7 +6057,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> clearChapterCacheOnAppLaunchEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  clearChapterCacheOnAppLaunchEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -4855,7 +6069,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> colorFilterBlendModeEqualTo(ColorFilterBlendMode value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  colorFilterBlendModeEqualTo(ColorFilterBlendMode value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -4866,7 +6081,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> colorFilterBlendModeGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  colorFilterBlendModeGreaterThan(
     ColorFilterBlendMode value, {
     bool include = false,
   }) {
@@ -4881,7 +6097,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> colorFilterBlendModeLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  colorFilterBlendModeLessThan(
     ColorFilterBlendMode value, {
     bool include = false,
   }) {
@@ -4896,7 +6113,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> colorFilterBlendModeBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  colorFilterBlendModeBetween(
     ColorFilterBlendMode lower,
     ColorFilterBlendMode upper, {
     bool includeLower = true,
@@ -4915,7 +6133,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> concurrentDownloadsIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  concurrentDownloadsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'concurrentDownloads'),
@@ -4923,7 +6142,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> concurrentDownloadsIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  concurrentDownloadsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'concurrentDownloads'),
@@ -4931,7 +6151,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> concurrentDownloadsEqualTo(int? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  concurrentDownloadsEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'concurrentDownloads', value: value),
@@ -4939,10 +6160,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> concurrentDownloadsGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  concurrentDownloadsGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -4954,10 +6173,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> concurrentDownloadsLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  concurrentDownloadsLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -4969,7 +6186,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> concurrentDownloadsBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  concurrentDownloadsBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -4996,7 +6214,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> cookiesListIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  cookiesListIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'cookiesList'),
@@ -5004,7 +6223,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> cookiesListLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  cookiesListLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'cookiesList', length, true, length, true);
     });
@@ -5016,31 +6236,29 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> cookiesListIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  cookiesListIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'cookiesList', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> cookiesListLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  cookiesListLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'cookiesList', 0, true, length, include);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> cookiesListLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  cookiesListLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'cookiesList', length, include, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> cookiesListLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  cookiesListLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -5065,7 +6283,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> cropBordersIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  cropBordersIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'cropBorders'),
@@ -5083,7 +6302,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> customColorFilterIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  customColorFilterIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'customColorFilter'),
@@ -5091,7 +6311,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> customColorFilterIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  customColorFilterIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'customColorFilter'),
@@ -5253,10 +6474,175 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> customDnsIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  customDnsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'customDns', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> customDohUrlIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'customDohUrl'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  customDohUrlIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'customDohUrl'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> customDohUrlEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'customDohUrl',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  customDohUrlGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'customDohUrl',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> customDohUrlLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'customDohUrl',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> customDohUrlBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'customDohUrl',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  customDohUrlStartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'customDohUrl',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> customDohUrlEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'customDohUrl',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> customDohUrlContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'customDohUrl',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> customDohUrlMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'customDohUrl',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  customDohUrlIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'customDohUrl', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  customDohUrlIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'customDohUrl', value: ''),
       );
     });
   }
@@ -5269,7 +6655,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> dateFormatIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  dateFormatIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'dateFormat'),
@@ -5415,7 +6802,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> dateFormatIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  dateFormatIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'dateFormat', value: ''),
@@ -5433,10 +6821,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> debandingTypeGreaterThan(
-    DebandingType value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  debandingTypeGreaterThan(DebandingType value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -5482,7 +6868,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultDoubleTapToSkipLengthIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultDoubleTapToSkipLengthIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'defaultDoubleTapToSkipLength'),
@@ -5490,7 +6877,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultDoubleTapToSkipLengthIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultDoubleTapToSkipLengthIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -5500,7 +6888,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultDoubleTapToSkipLengthEqualTo(int? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultDoubleTapToSkipLengthEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -5511,10 +6900,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultDoubleTapToSkipLengthGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultDoubleTapToSkipLengthGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -5526,10 +6913,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultDoubleTapToSkipLengthLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultDoubleTapToSkipLengthLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -5541,7 +6926,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultDoubleTapToSkipLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultDoubleTapToSkipLengthBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -5560,7 +6946,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultPlayBackSpeedIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultPlayBackSpeedIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'defaultPlayBackSpeed'),
@@ -5568,7 +6955,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultPlayBackSpeedIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultPlayBackSpeedIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'defaultPlayBackSpeed'),
@@ -5576,10 +6964,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultPlayBackSpeedEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultPlayBackSpeedEqualTo(double? value, {double epsilon = Query.epsilon}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -5592,7 +6978,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultPlayBackSpeedGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultPlayBackSpeedGreaterThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -5610,7 +6997,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultPlayBackSpeedLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultPlayBackSpeedLessThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -5628,7 +7016,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultPlayBackSpeedBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultPlayBackSpeedBetween(
     double? lower,
     double? upper, {
     bool includeLower = true,
@@ -5650,7 +7039,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultReaderModeEqualTo(ReaderMode value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultReaderModeEqualTo(ReaderMode value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'defaultReaderMode', value: value),
@@ -5658,10 +7048,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultReaderModeGreaterThan(
-    ReaderMode value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultReaderModeGreaterThan(ReaderMode value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -5673,10 +7061,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultReaderModeLessThan(
-    ReaderMode value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultReaderModeLessThan(ReaderMode value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -5688,7 +7074,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultReaderModeBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultReaderModeBetween(
     ReaderMode lower,
     ReaderMode upper, {
     bool includeLower = true,
@@ -5707,7 +7094,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultSkipIntroLengthIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultSkipIntroLengthIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'defaultSkipIntroLength'),
@@ -5715,7 +7103,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultSkipIntroLengthIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultSkipIntroLengthIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'defaultSkipIntroLength'),
@@ -5723,7 +7112,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultSkipIntroLengthEqualTo(int? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultSkipIntroLengthEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -5734,10 +7124,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultSkipIntroLengthGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultSkipIntroLengthGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -5749,10 +7137,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultSkipIntroLengthLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultSkipIntroLengthLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -5764,7 +7150,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultSkipIntroLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultSkipIntroLengthBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -5783,7 +7170,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultSubtitleLangIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultSubtitleLangIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'defaultSubtitleLang'),
@@ -5791,7 +7179,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> defaultSubtitleLangIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  defaultSubtitleLangIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'defaultSubtitleLang'),
@@ -5799,7 +7188,40 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> disableSectionTypeEqualTo(SectionType value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  deleteDownloadAfterReadingIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'deleteDownloadAfterReading'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  deleteDownloadAfterReadingIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'deleteDownloadAfterReading',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  deleteDownloadAfterReadingEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'deleteDownloadAfterReading',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  disableSectionTypeEqualTo(SectionType value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'disableSectionType', value: value),
@@ -5807,10 +7229,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> disableSectionTypeGreaterThan(
-    SectionType value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  disableSectionTypeGreaterThan(SectionType value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -5822,10 +7242,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> disableSectionTypeLessThan(
-    SectionType value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  disableSectionTypeLessThan(SectionType value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -5837,7 +7255,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> disableSectionTypeBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  disableSectionTypeBetween(
     SectionType lower,
     SectionType upper, {
     bool includeLower = true,
@@ -5866,10 +7285,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> displayTypeGreaterThan(
-    DisplayType value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  displayTypeGreaterThan(DisplayType value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -5923,7 +7340,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> doHEnabledIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  doHEnabledIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'doHEnabled'),
@@ -5941,7 +7359,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> doHProviderIdIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  doHProviderIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'doHProviderId'),
@@ -5949,7 +7368,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> doHProviderIdIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  doHProviderIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'doHProviderId'),
@@ -5967,7 +7387,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> doHProviderIdGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  doHProviderIdGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -6013,7 +7434,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> doubleTapAnimationSpeedIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  doubleTapAnimationSpeedIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'doubleTapAnimationSpeed'),
@@ -6021,7 +7443,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> doubleTapAnimationSpeedIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  doubleTapAnimationSpeedIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'doubleTapAnimationSpeed'),
@@ -6029,7 +7452,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> doubleTapAnimationSpeedEqualTo(int? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  doubleTapAnimationSpeedEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -6040,10 +7464,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> doubleTapAnimationSpeedGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  doubleTapAnimationSpeedGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -6055,10 +7477,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> doubleTapAnimationSpeedLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  doubleTapAnimationSpeedLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -6070,7 +7490,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> doubleTapAnimationSpeedBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  doubleTapAnimationSpeedBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -6089,7 +7510,84 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadLocationIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadDelaySecondsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'downloadDelaySeconds'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadDelaySecondsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'downloadDelaySeconds'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadDelaySecondsEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'downloadDelaySeconds',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadDelaySecondsGreaterThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'downloadDelaySeconds',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadDelaySecondsLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'downloadDelaySeconds',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadDelaySecondsBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'downloadDelaySeconds',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadLocationIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'downloadLocation'),
@@ -6097,7 +7595,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadLocationIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadLocationIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'downloadLocation'),
@@ -6105,10 +7604,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadLocationEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadLocationEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -6120,7 +7617,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadLocationGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadLocationGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -6137,7 +7635,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadLocationLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadLocationLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -6154,7 +7653,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadLocationBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadLocationBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -6175,10 +7675,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadLocationStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadLocationStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -6190,10 +7688,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadLocationEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadLocationEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -6205,10 +7701,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadLocationContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadLocationContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -6220,10 +7714,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadLocationMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadLocationMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -6235,7 +7727,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadLocationIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadLocationIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'downloadLocation', value: ''),
@@ -6243,7 +7736,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadLocationIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadLocationIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'downloadLocation', value: ''),
@@ -6251,7 +7745,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadOnlyOnWifiIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadOnlyOnWifiIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'downloadOnlyOnWifi'),
@@ -6259,7 +7754,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadOnlyOnWifiIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadOnlyOnWifiIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'downloadOnlyOnWifi'),
@@ -6267,7 +7763,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadOnlyOnWifiEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadOnlyOnWifiEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'downloadOnlyOnWifi', value: value),
@@ -6275,7 +7772,146 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadedOnlyModeIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadQueueOrderIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'downloadQueueOrder'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadQueueOrderIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'downloadQueueOrder'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadQueueOrderElementEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'downloadQueueOrder', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadQueueOrderElementGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'downloadQueueOrder',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadQueueOrderElementLessThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'downloadQueueOrder',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadQueueOrderElementBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'downloadQueueOrder',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadQueueOrderLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'downloadQueueOrder',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadQueueOrderIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'downloadQueueOrder', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadQueueOrderIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'downloadQueueOrder', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadQueueOrderLengthLessThan(int length, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'downloadQueueOrder', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadQueueOrderLengthGreaterThan(int length, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'downloadQueueOrder',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadQueueOrderLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'downloadQueueOrder',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadedOnlyModeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'downloadedOnlyMode'),
@@ -6283,7 +7919,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadedOnlyModeIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadedOnlyModeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'downloadedOnlyMode'),
@@ -6291,7 +7928,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> downloadedOnlyModeEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  downloadedOnlyModeEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'downloadedOnlyMode', value: value),
@@ -6299,7 +7937,93 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableAniSkipIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  dualPageInvertIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'dualPageInvert'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  dualPageInvertIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'dualPageInvert'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> dualPageInvertEqualTo(
+    bool? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'dualPageInvert', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  dualPageRotateToFitIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'dualPageRotateToFit'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  dualPageRotateToFitIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'dualPageRotateToFit'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  dualPageRotateToFitEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'dualPageRotateToFit', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  dualPageRotateToFitInvertIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'dualPageRotateToFitInvert'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  dualPageRotateToFitInvertIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'dualPageRotateToFitInvert'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  dualPageRotateToFitInvertEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'dualPageRotateToFitInvert',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableAniSkipIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'enableAniSkip'),
@@ -6307,7 +8031,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableAniSkipIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableAniSkipIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'enableAniSkip'),
@@ -6325,7 +8050,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableAudioPitchCorrectionIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableAudioPitchCorrectionIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'enableAudioPitchCorrection'),
@@ -6333,7 +8059,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableAudioPitchCorrectionIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableAudioPitchCorrectionIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -6343,7 +8070,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableAudioPitchCorrectionEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableAudioPitchCorrectionEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -6354,7 +8082,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableAutoSkipIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableAutoSkipIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'enableAutoSkip'),
@@ -6362,7 +8091,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableAutoSkipIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableAutoSkipIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'enableAutoSkip'),
@@ -6380,7 +8110,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableCustomColorFilterIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableCustomColorFilterIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'enableCustomColorFilter'),
@@ -6388,7 +8119,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableCustomColorFilterIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableCustomColorFilterIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'enableCustomColorFilter'),
@@ -6396,7 +8128,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableCustomColorFilterEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableCustomColorFilterEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -6407,7 +8140,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableDiscordRpcIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableDiscordRpcIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'enableDiscordRpc'),
@@ -6415,7 +8149,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableDiscordRpcIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableDiscordRpcIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'enableDiscordRpc'),
@@ -6423,7 +8158,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableDiscordRpcEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableDiscordRpcEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'enableDiscordRpc', value: value),
@@ -6431,7 +8167,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableGpuNextIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableGpuNextIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'enableGpuNext'),
@@ -6439,7 +8176,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableGpuNextIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableGpuNextIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'enableGpuNext'),
@@ -6457,7 +8195,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableHardwareAccelerationIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableHardwareAccelerationIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'enableHardwareAcceleration'),
@@ -6465,7 +8204,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableHardwareAccelerationIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableHardwareAccelerationIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -6475,7 +8215,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableHardwareAccelerationEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableHardwareAccelerationEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -6494,7 +8235,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> enableLogsIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  enableLogsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'enableLogs'),
@@ -6512,7 +8254,170 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> filterScanlatorListIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  extensionServerPathIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'extensionServerPath'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  extensionServerPathIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'extensionServerPath'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  extensionServerPathEqualTo(String? value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'extensionServerPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  extensionServerPathGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'extensionServerPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  extensionServerPathLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'extensionServerPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  extensionServerPathBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'extensionServerPath',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  extensionServerPathStartsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'extensionServerPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  extensionServerPathEndsWith(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'extensionServerPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  extensionServerPathContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'extensionServerPath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  extensionServerPathMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'extensionServerPath',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  extensionServerPathIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'extensionServerPath', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  extensionServerPathIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          property: r'extensionServerPath',
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  filterScanlatorListIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'filterScanlatorList'),
@@ -6520,7 +8425,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> filterScanlatorListIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  filterScanlatorListIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'filterScanlatorList'),
@@ -6528,7 +8434,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> filterScanlatorListLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  filterScanlatorListLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'filterScanlatorList',
@@ -6540,31 +8447,29 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> filterScanlatorListIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  filterScanlatorListIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'filterScanlatorList', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> filterScanlatorListIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  filterScanlatorListIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'filterScanlatorList', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> filterScanlatorListLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  filterScanlatorListLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'filterScanlatorList', 0, true, length, include);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> filterScanlatorListLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  filterScanlatorListLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'filterScanlatorList',
@@ -6576,7 +8481,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> filterScanlatorListLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  filterScanlatorListLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -6593,7 +8499,261 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> flexColorSchemeBlendLevelIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> flashColorIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'flashColor'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flashColorIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'flashColor'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> flashColorEqualTo(
+    int? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'flashColor', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> flashColorGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'flashColor',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> flashColorLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'flashColor',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> flashColorBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'flashColor',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flashDurationIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'flashDuration'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flashDurationIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'flashDuration'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> flashDurationEqualTo(
+    int? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'flashDuration', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flashDurationGreaterThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'flashDuration',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> flashDurationLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'flashDuration',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> flashDurationBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'flashDuration',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flashIntervalIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'flashInterval'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flashIntervalIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'flashInterval'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> flashIntervalEqualTo(
+    int? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'flashInterval', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flashIntervalGreaterThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'flashInterval',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> flashIntervalLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'flashInterval',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> flashIntervalBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'flashInterval',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flashOnPageChangeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'flashOnPageChange'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flashOnPageChangeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'flashOnPageChange'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flashOnPageChangeEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'flashOnPageChange', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flexColorSchemeBlendLevelIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'flexColorSchemeBlendLevel'),
@@ -6601,7 +8761,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> flexColorSchemeBlendLevelIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flexColorSchemeBlendLevelIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'flexColorSchemeBlendLevel'),
@@ -6609,7 +8770,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> flexColorSchemeBlendLevelEqualTo(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flexColorSchemeBlendLevelEqualTo(
     double? value, {
     double epsilon = Query.epsilon,
   }) {
@@ -6625,7 +8787,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> flexColorSchemeBlendLevelGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flexColorSchemeBlendLevelGreaterThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -6643,7 +8806,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> flexColorSchemeBlendLevelLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flexColorSchemeBlendLevelLessThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -6661,7 +8825,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> flexColorSchemeBlendLevelBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flexColorSchemeBlendLevelBetween(
     double? lower,
     double? upper, {
     bool includeLower = true,
@@ -6683,7 +8848,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> flexSchemeColorIndexIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flexSchemeColorIndexIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'flexSchemeColorIndex'),
@@ -6691,7 +8857,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> flexSchemeColorIndexIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flexSchemeColorIndexIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'flexSchemeColorIndex'),
@@ -6699,7 +8866,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> flexSchemeColorIndexEqualTo(int? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flexSchemeColorIndexEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -6710,10 +8878,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> flexSchemeColorIndexGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flexSchemeColorIndexGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -6725,10 +8891,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> flexSchemeColorIndexLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flexSchemeColorIndexLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -6740,7 +8904,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> flexSchemeColorIndexBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  flexSchemeColorIndexBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -6759,7 +8924,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> followSystemThemeIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  followSystemThemeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'followSystemTheme'),
@@ -6767,7 +8933,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> followSystemThemeIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  followSystemThemeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'followSystemTheme'),
@@ -6775,7 +8942,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> followSystemThemeEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  followSystemThemeEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'followSystemTheme', value: value),
@@ -6783,7 +8951,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> forceLandscapePlayerIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  forceLandscapePlayerIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'forceLandscapePlayer'),
@@ -6791,7 +8960,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> forceLandscapePlayerIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  forceLandscapePlayerIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'forceLandscapePlayer'),
@@ -6799,7 +8969,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> forceLandscapePlayerEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  forceLandscapePlayerEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -6810,7 +8981,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> fullScreenPlayerIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  fullScreenPlayerIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'fullScreenPlayer'),
@@ -6818,7 +8990,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> fullScreenPlayerIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  fullScreenPlayerIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'fullScreenPlayer'),
@@ -6826,7 +8999,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> fullScreenPlayerEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  fullScreenPlayerEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'fullScreenPlayer', value: value),
@@ -6834,7 +9008,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> fullScreenReaderIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  fullScreenReaderIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'fullScreenReader'),
@@ -6842,7 +9017,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> fullScreenReaderIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  fullScreenReaderIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'fullScreenReader'),
@@ -6850,7 +9026,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> fullScreenReaderEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  fullScreenReaderEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'fullScreenReader', value: value),
@@ -6858,7 +9035,34 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideDiscordRpcInIncognitoIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> grayscaleIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'grayscale'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> grayscaleIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'grayscale'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> grayscaleEqualTo(
+    bool? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'grayscale', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideDiscordRpcInIncognitoIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'hideDiscordRpcInIncognito'),
@@ -6866,7 +9070,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideDiscordRpcInIncognitoIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideDiscordRpcInIncognitoIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'hideDiscordRpcInIncognito'),
@@ -6874,7 +9079,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideDiscordRpcInIncognitoEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideDiscordRpcInIncognitoEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -6901,10 +9107,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideItemsElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideItemsElementEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -6916,7 +9120,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideItemsElementGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideItemsElementGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -6933,7 +9138,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideItemsElementLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideItemsElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -6950,7 +9156,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideItemsElementBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideItemsElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -6971,10 +9178,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideItemsElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideItemsElementStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -6986,10 +9191,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideItemsElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideItemsElementEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -7001,10 +9204,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideItemsElementContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideItemsElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -7016,10 +9217,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideItemsElementMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideItemsElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -7031,7 +9230,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideItemsElementIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideItemsElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'hideItems', value: ''),
@@ -7039,7 +9239,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideItemsElementIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideItemsElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'hideItems', value: ''),
@@ -7047,7 +9248,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideItemsLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideItemsLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'hideItems', length, true, length, true);
     });
@@ -7059,28 +9261,29 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideItemsIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideItemsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'hideItems', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideItemsLengthLessThan(int length, {bool include = false}) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideItemsLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'hideItems', 0, true, length, include);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideItemsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideItemsLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'hideItems', length, include, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hideItemsLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hideItemsLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -7251,7 +9454,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> hwdecModeIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  hwdecModeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'hwdecMode', value: ''),
@@ -7332,7 +9536,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> incognitoModeIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  incognitoModeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'incognitoMode'),
@@ -7340,7 +9545,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> incognitoModeIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  incognitoModeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'incognitoMode'),
@@ -7358,7 +9564,252 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> lastTrackerLibraryLocationIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> invertColorsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'invertColors'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  invertColorsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'invertColors'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> invertColorsEqualTo(
+    bool? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'invertColors', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> jrePathIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'jrePath'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> jrePathIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'jrePath'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> jrePathEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'jrePath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> jrePathGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'jrePath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> jrePathLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'jrePath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> jrePathBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'jrePath',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> jrePathStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'jrePath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> jrePathEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'jrePath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> jrePathContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'jrePath',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> jrePathMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'jrePath',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> jrePathIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'jrePath', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> jrePathIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'jrePath', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  keepScreenOnReaderIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'keepScreenOnReader'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  keepScreenOnReaderIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'keepScreenOnReader'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  keepScreenOnReaderEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'keepScreenOnReader', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  landscapeZoomIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'landscapeZoom'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  landscapeZoomIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'landscapeZoom'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> landscapeZoomEqualTo(
+    bool? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'landscapeZoom', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  lastTrackerLibraryLocationIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'lastTrackerLibraryLocation'),
@@ -7366,7 +9817,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> lastTrackerLibraryLocationIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  lastTrackerLibraryLocationIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -7376,7 +9828,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> lastTrackerLibraryLocationEqualTo(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  lastTrackerLibraryLocationEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -7391,7 +9844,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> lastTrackerLibraryLocationGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  lastTrackerLibraryLocationGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -7408,7 +9862,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> lastTrackerLibraryLocationLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  lastTrackerLibraryLocationLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -7425,7 +9880,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> lastTrackerLibraryLocationBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  lastTrackerLibraryLocationBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -7446,7 +9902,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> lastTrackerLibraryLocationStartsWith(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  lastTrackerLibraryLocationStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -7461,7 +9918,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> lastTrackerLibraryLocationEndsWith(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  lastTrackerLibraryLocationEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -7476,7 +9934,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> lastTrackerLibraryLocationContains(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  lastTrackerLibraryLocationContains(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -7491,7 +9950,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> lastTrackerLibraryLocationMatches(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  lastTrackerLibraryLocationMatches(
     String pattern, {
     bool caseSensitive = true,
   }) {
@@ -7506,7 +9966,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> lastTrackerLibraryLocationIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  lastTrackerLibraryLocationIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -7517,7 +9978,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> lastTrackerLibraryLocationIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  lastTrackerLibraryLocationIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -7528,7 +9990,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryDownloadedChaptersIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryDownloadedChaptersIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'libraryDownloadedChapters'),
@@ -7536,7 +9999,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryDownloadedChaptersIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryDownloadedChaptersIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'libraryDownloadedChapters'),
@@ -7544,7 +10008,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryDownloadedChaptersEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryDownloadedChaptersEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -7555,7 +10020,1486 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryLocalSourceIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeBookMarkedTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterAnimeBookMarkedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeBookMarkedTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterAnimeBookMarkedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeBookMarkedTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterAnimeBookMarkedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeBookMarkedTypeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterAnimeBookMarkedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeBookMarkedTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterAnimeBookMarkedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeBookMarkedTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterAnimeBookMarkedType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeCompletedTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterAnimeCompletedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeCompletedTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterAnimeCompletedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeCompletedTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterAnimeCompletedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeCompletedTypeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterAnimeCompletedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeCompletedTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterAnimeCompletedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeCompletedTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterAnimeCompletedType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeDownloadTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterAnimeDownloadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeDownloadTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterAnimeDownloadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeDownloadTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterAnimeDownloadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeDownloadTypeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterAnimeDownloadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeDownloadTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterAnimeDownloadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeDownloadTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterAnimeDownloadType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeStartedTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterAnimeStartedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeStartedTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterAnimeStartedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeStartedTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterAnimeStartedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeStartedTypeGreaterThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterAnimeStartedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeStartedTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterAnimeStartedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeStartedTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterAnimeStartedType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeTrackingTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterAnimeTrackingType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeTrackingTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterAnimeTrackingType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeTrackingTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterAnimeTrackingType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeTrackingTypeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterAnimeTrackingType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeTrackingTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterAnimeTrackingType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeTrackingTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterAnimeTrackingType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeUnreadTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'libraryFilterAnimeUnreadType'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeUnreadTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterAnimeUnreadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeUnreadTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterAnimeUnreadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeUnreadTypeGreaterThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterAnimeUnreadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeUnreadTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterAnimeUnreadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterAnimeUnreadTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterAnimeUnreadType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasBookMarkedTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterMangasBookMarkedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasBookMarkedTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterMangasBookMarkedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasBookMarkedTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterMangasBookMarkedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasBookMarkedTypeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterMangasBookMarkedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasBookMarkedTypeLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterMangasBookMarkedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasBookMarkedTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterMangasBookMarkedType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasCompletedTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterMangasCompletedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasCompletedTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterMangasCompletedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasCompletedTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterMangasCompletedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasCompletedTypeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterMangasCompletedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasCompletedTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterMangasCompletedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasCompletedTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterMangasCompletedType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasDownloadTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterMangasDownloadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasDownloadTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterMangasDownloadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasDownloadTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterMangasDownloadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasDownloadTypeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterMangasDownloadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasDownloadTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterMangasDownloadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasDownloadTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterMangasDownloadType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasStartedTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterMangasStartedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasStartedTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterMangasStartedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasStartedTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterMangasStartedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasStartedTypeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterMangasStartedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasStartedTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterMangasStartedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasStartedTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterMangasStartedType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasTrackingTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterMangasTrackingType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasTrackingTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterMangasTrackingType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasTrackingTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterMangasTrackingType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasTrackingTypeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterMangasTrackingType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasTrackingTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterMangasTrackingType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasTrackingTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterMangasTrackingType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasUnreadTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterMangasUnreadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasUnreadTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterMangasUnreadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasUnreadTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterMangasUnreadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasUnreadTypeGreaterThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterMangasUnreadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasUnreadTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterMangasUnreadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterMangasUnreadTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterMangasUnreadType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelBookMarkedTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterNovelBookMarkedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelBookMarkedTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterNovelBookMarkedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelBookMarkedTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterNovelBookMarkedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelBookMarkedTypeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterNovelBookMarkedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelBookMarkedTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterNovelBookMarkedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelBookMarkedTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterNovelBookMarkedType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelCompletedTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterNovelCompletedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelCompletedTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterNovelCompletedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelCompletedTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterNovelCompletedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelCompletedTypeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterNovelCompletedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelCompletedTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterNovelCompletedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelCompletedTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterNovelCompletedType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelDownloadTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterNovelDownloadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelDownloadTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterNovelDownloadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelDownloadTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterNovelDownloadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelDownloadTypeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterNovelDownloadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelDownloadTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterNovelDownloadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelDownloadTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterNovelDownloadType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelStartedTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterNovelStartedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelStartedTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterNovelStartedType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelStartedTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterNovelStartedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelStartedTypeGreaterThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterNovelStartedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelStartedTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterNovelStartedType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelStartedTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterNovelStartedType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelTrackingTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(
+          property: r'libraryFilterNovelTrackingType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelTrackingTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterNovelTrackingType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelTrackingTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterNovelTrackingType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelTrackingTypeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterNovelTrackingType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelTrackingTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterNovelTrackingType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelTrackingTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterNovelTrackingType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelUnreadTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'libraryFilterNovelUnreadType'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelUnreadTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'libraryFilterNovelUnreadType',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelUnreadTypeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'libraryFilterNovelUnreadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelUnreadTypeGreaterThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'libraryFilterNovelUnreadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelUnreadTypeLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'libraryFilterNovelUnreadType',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryFilterNovelUnreadTypeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'libraryFilterNovelUnreadType',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryLocalSourceIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'libraryLocalSource'),
@@ -7563,7 +11507,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryLocalSourceIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryLocalSourceIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'libraryLocalSource'),
@@ -7571,7 +11516,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryLocalSourceEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryLocalSourceEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'libraryLocalSource', value: value),
@@ -7579,7 +11525,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryShowCategoryTabsIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryShowCategoryTabsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'libraryShowCategoryTabs'),
@@ -7587,7 +11534,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryShowCategoryTabsIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryShowCategoryTabsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'libraryShowCategoryTabs'),
@@ -7595,7 +11543,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryShowCategoryTabsEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryShowCategoryTabsEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -7606,7 +11555,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryShowContinueReadingButtonIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryShowContinueReadingButtonIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(
@@ -7616,7 +11566,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryShowContinueReadingButtonIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryShowContinueReadingButtonIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -7626,7 +11577,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryShowContinueReadingButtonEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryShowContinueReadingButtonEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -7637,7 +11589,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryShowLanguageIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryShowLanguageIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'libraryShowLanguage'),
@@ -7645,7 +11598,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryShowLanguageIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryShowLanguageIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'libraryShowLanguage'),
@@ -7653,7 +11607,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryShowLanguageEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryShowLanguageEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'libraryShowLanguage', value: value),
@@ -7661,7 +11616,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryShowNumbersOfItemsIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryShowNumbersOfItemsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'libraryShowNumbersOfItems'),
@@ -7669,7 +11625,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryShowNumbersOfItemsIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryShowNumbersOfItemsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'libraryShowNumbersOfItems'),
@@ -7677,38 +11634,12 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryShowNumbersOfItemsEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  libraryShowNumbersOfItemsEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
           property: r'libraryShowNumbersOfItems',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryUnreadChaptersIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(property: r'libraryUnreadChapters'),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryUnreadChaptersIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(property: r'libraryUnreadChapters'),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> libraryUnreadChaptersEqualTo(bool? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'libraryUnreadChapters',
           value: value,
         ),
       );
@@ -7723,7 +11654,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'localFolders'),
@@ -7731,10 +11663,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersElementEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -7746,7 +11676,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersElementGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersElementGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -7763,7 +11694,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersElementLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -7780,7 +11712,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersElementBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -7801,10 +11734,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersElementStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -7816,10 +11747,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersElementEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -7831,10 +11760,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersElementContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -7846,10 +11773,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersElementMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -7861,7 +11786,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersElementIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'localFolders', value: ''),
@@ -7869,7 +11795,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersElementIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'localFolders', value: ''),
@@ -7877,43 +11804,43 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'localFolders', length, true, length, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'localFolders', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'localFolders', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'localFolders', 0, true, length, include);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'localFolders', length, include, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> localFoldersLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  localFoldersLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -7946,7 +11873,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mangaExtensionsRepoIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mangaExtensionsRepoIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'mangaExtensionsRepo'),
@@ -7954,7 +11882,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mangaExtensionsRepoIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mangaExtensionsRepoIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'mangaExtensionsRepo'),
@@ -7962,7 +11891,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mangaExtensionsRepoLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mangaExtensionsRepoLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'mangaExtensionsRepo',
@@ -7974,31 +11904,29 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mangaExtensionsRepoIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mangaExtensionsRepoIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'mangaExtensionsRepo', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mangaExtensionsRepoIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mangaExtensionsRepoIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'mangaExtensionsRepo', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mangaExtensionsRepoLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mangaExtensionsRepoLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'mangaExtensionsRepo', 0, true, length, include);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mangaExtensionsRepoLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mangaExtensionsRepoLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'mangaExtensionsRepo',
@@ -8010,7 +11938,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mangaExtensionsRepoLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mangaExtensionsRepoLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -8027,7 +11956,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mangaGridSizeIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mangaGridSizeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'mangaGridSize'),
@@ -8035,7 +11965,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mangaGridSizeIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mangaGridSizeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'mangaGridSize'),
@@ -8053,7 +11984,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mangaGridSizeGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mangaGridSizeGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -8099,7 +12031,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mangaHomeDisplayTypeEqualTo(DisplayType value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mangaHomeDisplayTypeEqualTo(DisplayType value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8110,10 +12043,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mangaHomeDisplayTypeGreaterThan(
-    DisplayType value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mangaHomeDisplayTypeGreaterThan(DisplayType value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -8125,10 +12056,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mangaHomeDisplayTypeLessThan(
-    DisplayType value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mangaHomeDisplayTypeLessThan(DisplayType value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -8140,7 +12069,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mangaHomeDisplayTypeBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mangaHomeDisplayTypeBetween(
     DisplayType lower,
     DisplayType upper, {
     bool includeLower = true,
@@ -8159,7 +12089,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> markEpisodeAsSeenTypeIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  markEpisodeAsSeenTypeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'markEpisodeAsSeenType'),
@@ -8167,7 +12098,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> markEpisodeAsSeenTypeIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  markEpisodeAsSeenTypeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'markEpisodeAsSeenType'),
@@ -8175,7 +12107,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> markEpisodeAsSeenTypeEqualTo(int? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  markEpisodeAsSeenTypeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8186,10 +12119,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> markEpisodeAsSeenTypeGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  markEpisodeAsSeenTypeGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -8201,10 +12132,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> markEpisodeAsSeenTypeLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  markEpisodeAsSeenTypeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -8216,7 +12145,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> markEpisodeAsSeenTypeBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  markEpisodeAsSeenTypeBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -8235,7 +12165,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mergeLibraryNavMobileIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mergeLibraryNavMobileIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'mergeLibraryNavMobile'),
@@ -8243,7 +12174,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mergeLibraryNavMobileIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mergeLibraryNavMobileIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'mergeLibraryNavMobile'),
@@ -8251,7 +12183,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mergeLibraryNavMobileEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mergeLibraryNavMobileEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8262,7 +12195,36 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigateToPanIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'navigateToPan'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigateToPanIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'navigateToPan'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigateToPanEqualTo(
+    bool? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'navigateToPan', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'navigationOrder'),
@@ -8270,7 +12232,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'navigationOrder'),
@@ -8278,10 +12241,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderElementEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8293,7 +12254,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderElementGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderElementGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -8310,7 +12272,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderElementLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -8327,7 +12290,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderElementBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -8348,10 +12312,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderElementStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -8363,10 +12325,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderElementEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -8378,10 +12338,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderElementContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -8393,10 +12351,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderElementMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -8408,7 +12364,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderElementIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'navigationOrder', value: ''),
@@ -8416,7 +12373,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderElementIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'navigationOrder', value: ''),
@@ -8424,37 +12382,36 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'navigationOrder', length, true, length, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'navigationOrder', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'navigationOrder', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'navigationOrder', 0, true, length, include);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'navigationOrder',
@@ -8466,7 +12423,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> navigationOrderLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  navigationOrderLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -8483,7 +12441,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelDisplayTypeEqualTo(DisplayType value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelDisplayTypeEqualTo(DisplayType value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'novelDisplayType', value: value),
@@ -8491,10 +12450,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelDisplayTypeGreaterThan(
-    DisplayType value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelDisplayTypeGreaterThan(DisplayType value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -8506,10 +12463,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelDisplayTypeLessThan(
-    DisplayType value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelDisplayTypeLessThan(DisplayType value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -8521,7 +12476,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelDisplayTypeBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelDisplayTypeBetween(
     DisplayType lower,
     DisplayType upper, {
     bool includeLower = true,
@@ -8540,7 +12496,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelExtensionsRepoIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelExtensionsRepoIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'novelExtensionsRepo'),
@@ -8548,7 +12505,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelExtensionsRepoIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelExtensionsRepoIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'novelExtensionsRepo'),
@@ -8556,7 +12514,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelExtensionsRepoLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelExtensionsRepoLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'novelExtensionsRepo',
@@ -8568,31 +12527,29 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelExtensionsRepoIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelExtensionsRepoIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'novelExtensionsRepo', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelExtensionsRepoIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelExtensionsRepoIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'novelExtensionsRepo', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelExtensionsRepoLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelExtensionsRepoLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'novelExtensionsRepo', 0, true, length, include);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelExtensionsRepoLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelExtensionsRepoLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'novelExtensionsRepo',
@@ -8604,7 +12561,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelExtensionsRepoLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelExtensionsRepoLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -8621,7 +12579,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelFontSizeIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelFontSizeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'novelFontSize'),
@@ -8629,7 +12588,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelFontSizeIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelFontSizeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'novelFontSize'),
@@ -8647,7 +12607,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelFontSizeGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelFontSizeGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -8693,7 +12654,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelGridSizeIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelGridSizeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'novelGridSize'),
@@ -8701,7 +12663,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelGridSizeIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelGridSizeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'novelGridSize'),
@@ -8719,7 +12682,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelGridSizeGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelGridSizeGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -8765,7 +12729,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryDownloadedChaptersIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryDownloadedChaptersIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(
@@ -8775,7 +12740,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryDownloadedChaptersIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryDownloadedChaptersIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -8785,7 +12751,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryDownloadedChaptersEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryDownloadedChaptersEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8796,7 +12763,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryLocalSourceIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryLocalSourceIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'novelLibraryLocalSource'),
@@ -8804,7 +12772,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryLocalSourceIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryLocalSourceIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'novelLibraryLocalSource'),
@@ -8812,7 +12781,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryLocalSourceEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryLocalSourceEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8823,7 +12793,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryShowCategoryTabsIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryShowCategoryTabsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'novelLibraryShowCategoryTabs'),
@@ -8831,7 +12802,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryShowCategoryTabsIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryShowCategoryTabsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -8841,7 +12813,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryShowCategoryTabsEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryShowCategoryTabsEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8852,7 +12825,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryShowContinueReadingButtonIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryShowContinueReadingButtonIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(
@@ -8862,7 +12836,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryShowContinueReadingButtonIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryShowContinueReadingButtonIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -8872,7 +12847,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryShowContinueReadingButtonEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryShowContinueReadingButtonEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8883,7 +12859,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryShowLanguageIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryShowLanguageIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'novelLibraryShowLanguage'),
@@ -8891,7 +12868,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryShowLanguageIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryShowLanguageIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'novelLibraryShowLanguage'),
@@ -8899,7 +12877,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryShowLanguageEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryShowLanguageEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8910,7 +12889,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryShowNumbersOfItemsIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryShowNumbersOfItemsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(
@@ -8920,7 +12900,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryShowNumbersOfItemsIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryShowNumbersOfItemsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -8930,7 +12911,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryShowNumbersOfItemsEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelLibraryShowNumbersOfItemsEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -8941,36 +12923,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryUnreadChaptersIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(property: r'novelLibraryUnreadChapters'),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryUnreadChaptersIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(
-          property: r'novelLibraryUnreadChapters',
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelLibraryUnreadChaptersEqualTo(bool? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'novelLibraryUnreadChapters',
-          value: value,
-        ),
-      );
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderLineHeightIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderLineHeightIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'novelReaderLineHeight'),
@@ -8978,7 +12932,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderLineHeightIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderLineHeightIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'novelReaderLineHeight'),
@@ -8986,7 +12941,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderLineHeightEqualTo(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderLineHeightEqualTo(
     double? value, {
     double epsilon = Query.epsilon,
   }) {
@@ -9002,7 +12958,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderLineHeightGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderLineHeightGreaterThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -9020,7 +12977,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderLineHeightLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderLineHeightLessThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -9038,7 +12996,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderLineHeightBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderLineHeightBetween(
     double? lower,
     double? upper, {
     bool includeLower = true,
@@ -9060,7 +13019,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderPaddingIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderPaddingIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'novelReaderPadding'),
@@ -9068,7 +13028,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderPaddingIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderPaddingIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'novelReaderPadding'),
@@ -9076,7 +13037,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderPaddingEqualTo(int? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderPaddingEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'novelReaderPadding', value: value),
@@ -9084,10 +13046,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderPaddingGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderPaddingGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -9099,10 +13059,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderPaddingLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderPaddingLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -9114,7 +13072,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderPaddingBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderPaddingBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -9133,7 +13092,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderTextColorIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderTextColorIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'novelReaderTextColor'),
@@ -9141,7 +13101,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderTextColorIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderTextColorIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'novelReaderTextColor'),
@@ -9149,10 +13110,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderTextColorEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderTextColorEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -9164,7 +13123,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderTextColorGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderTextColorGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -9181,7 +13141,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderTextColorLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderTextColorLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -9198,7 +13159,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderTextColorBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderTextColorBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -9219,10 +13181,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderTextColorStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderTextColorStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -9234,10 +13194,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderTextColorEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderTextColorEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -9249,10 +13207,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderTextColorContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderTextColorContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -9264,10 +13220,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderTextColorMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderTextColorMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -9279,7 +13233,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderTextColorIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderTextColorIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'novelReaderTextColor', value: ''),
@@ -9287,7 +13242,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderTextColorIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderTextColorIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -9298,7 +13254,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderThemeIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderThemeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'novelReaderTheme'),
@@ -9306,7 +13263,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderThemeIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderThemeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'novelReaderTheme'),
@@ -9314,10 +13272,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderThemeEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderThemeEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -9329,7 +13285,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderThemeGreaterThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderThemeGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -9346,7 +13303,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderThemeLessThan(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderThemeLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -9363,7 +13321,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderThemeBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderThemeBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -9384,10 +13343,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderThemeStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderThemeStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -9399,10 +13356,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderThemeEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderThemeEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -9414,10 +13369,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderThemeContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderThemeContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -9429,10 +13382,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderThemeMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderThemeMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -9444,7 +13395,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderThemeIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderThemeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'novelReaderTheme', value: ''),
@@ -9452,7 +13404,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelReaderThemeIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelReaderThemeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'novelReaderTheme', value: ''),
@@ -9460,7 +13413,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelRemoveExtraParagraphSpacingIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelRemoveExtraParagraphSpacingIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(
@@ -9470,7 +13424,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelRemoveExtraParagraphSpacingIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelRemoveExtraParagraphSpacingIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -9480,7 +13435,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelRemoveExtraParagraphSpacingEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelRemoveExtraParagraphSpacingEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -9491,7 +13447,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelShowScrollPercentageIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelShowScrollPercentageIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'novelShowScrollPercentage'),
@@ -9499,7 +13456,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelShowScrollPercentageIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelShowScrollPercentageIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'novelShowScrollPercentage'),
@@ -9507,7 +13465,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelShowScrollPercentageEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelShowScrollPercentageEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -9518,7 +13477,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelTapToScrollIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelTapToScrollIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'novelTapToScroll'),
@@ -9526,7 +13486,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelTapToScrollIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelTapToScrollIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'novelTapToScroll'),
@@ -9534,7 +13495,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelTapToScrollEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelTapToScrollEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'novelTapToScroll', value: value),
@@ -9552,10 +13514,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelTextAlignGreaterThan(
-    NovelTextAlign value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelTextAlignGreaterThan(NovelTextAlign value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -9567,10 +13527,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelTextAlignLessThan(
-    NovelTextAlign value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelTextAlignLessThan(NovelTextAlign value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -9601,7 +13559,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> onlyIncludePinnedSourcesIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  onlyIncludePinnedSourcesIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'onlyIncludePinnedSources'),
@@ -9609,7 +13568,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> onlyIncludePinnedSourcesIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  onlyIncludePinnedSourcesIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'onlyIncludePinnedSources'),
@@ -9617,7 +13577,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> onlyIncludePinnedSourcesEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  onlyIncludePinnedSourcesEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -9628,7 +13589,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> pagePreloadAmountIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  pagePreloadAmountIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'pagePreloadAmount'),
@@ -9636,7 +13598,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> pagePreloadAmountIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  pagePreloadAmountIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'pagePreloadAmount'),
@@ -9644,7 +13607,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> pagePreloadAmountEqualTo(int? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  pagePreloadAmountEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'pagePreloadAmount', value: value),
@@ -9652,10 +13616,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> pagePreloadAmountGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  pagePreloadAmountGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -9667,10 +13629,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> pagePreloadAmountLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  pagePreloadAmountLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -9682,7 +13642,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> pagePreloadAmountBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  pagePreloadAmountBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -9701,7 +13662,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalPageModeListIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalPageModeListIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'personalPageModeList'),
@@ -9709,7 +13671,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalPageModeListIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalPageModeListIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'personalPageModeList'),
@@ -9717,7 +13680,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalPageModeListLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalPageModeListLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'personalPageModeList',
@@ -9729,22 +13693,22 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalPageModeListIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalPageModeListIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'personalPageModeList', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalPageModeListIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalPageModeListIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'personalPageModeList', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalPageModeListLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalPageModeListLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'personalPageModeList',
@@ -9756,10 +13720,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalPageModeListLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalPageModeListLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'personalPageModeList',
@@ -9771,7 +13733,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalPageModeListLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalPageModeListLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -9788,7 +13751,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalReaderModeListIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalReaderModeListIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'personalReaderModeList'),
@@ -9796,7 +13760,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalReaderModeListIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalReaderModeListIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'personalReaderModeList'),
@@ -9804,7 +13769,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalReaderModeListLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalReaderModeListLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'personalReaderModeList',
@@ -9816,13 +13782,15 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalReaderModeListIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalReaderModeListIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'personalReaderModeList', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalReaderModeListIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalReaderModeListIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'personalReaderModeList',
@@ -9834,10 +13802,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalReaderModeListLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalReaderModeListLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'personalReaderModeList',
@@ -9849,10 +13815,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalReaderModeListLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalReaderModeListLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'personalReaderModeList',
@@ -9864,7 +13828,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalReaderModeListLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalReaderModeListLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -9881,7 +13846,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> playerSubtitleSettingsIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  playerSubtitleSettingsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'playerSubtitleSettings'),
@@ -9889,7 +13855,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> playerSubtitleSettingsIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  playerSubtitleSettingsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'playerSubtitleSettings'),
@@ -9897,7 +13864,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> pureBlackDarkModeIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  pureBlackDarkModeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'pureBlackDarkMode'),
@@ -9905,7 +13873,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> pureBlackDarkModeIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  pureBlackDarkModeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'pureBlackDarkMode'),
@@ -9913,7 +13882,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> pureBlackDarkModeEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  pureBlackDarkModeEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'pureBlackDarkMode', value: value),
@@ -9921,7 +13891,437 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> relativeTimesTampsIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerBrightnessIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'readerBrightness'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerBrightnessIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'readerBrightness'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerBrightnessEqualTo(double? value, {double epsilon = Query.epsilon}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'readerBrightness',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerBrightnessGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'readerBrightness',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerBrightnessLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'readerBrightness',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerBrightnessBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'readerBrightness',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerContrastIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'readerContrast'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerContrastIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'readerContrast'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> readerContrastEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'readerContrast',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerContrastGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'readerContrast',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerContrastLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'readerContrast',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> readerContrastBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'readerContrast',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerHideThresholdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'readerHideThreshold'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerHideThresholdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'readerHideThreshold'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerHideThresholdEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'readerHideThreshold', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerHideThresholdGreaterThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'readerHideThreshold',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerHideThresholdLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'readerHideThreshold',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerHideThresholdBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'readerHideThreshold',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerNavigationLayoutIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'readerNavigationLayout'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerNavigationLayoutIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'readerNavigationLayout'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerNavigationLayoutEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'readerNavigationLayout',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerNavigationLayoutGreaterThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'readerNavigationLayout',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerNavigationLayoutLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'readerNavigationLayout',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerNavigationLayoutBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'readerNavigationLayout',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerSaturationIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'readerSaturation'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerSaturationIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'readerSaturation'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerSaturationEqualTo(double? value, {double epsilon = Query.epsilon}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'readerSaturation',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerSaturationGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'readerSaturation',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerSaturationLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'readerSaturation',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  readerSaturationBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'readerSaturation',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  relativeTimesTampsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'relativeTimesTamps'),
@@ -9929,7 +14329,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> relativeTimesTampsIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  relativeTimesTampsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'relativeTimesTamps'),
@@ -9937,7 +14338,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> relativeTimesTampsEqualTo(int? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  relativeTimesTampsEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'relativeTimesTamps', value: value),
@@ -9945,10 +14347,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> relativeTimesTampsGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  relativeTimesTampsGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -9960,10 +14360,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> relativeTimesTampsLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  relativeTimesTampsLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -9975,7 +14373,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> relativeTimesTampsBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  relativeTimesTampsBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -9994,7 +14393,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> rpcShowCoverImageIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  rpcShowCoverImageIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'rpcShowCoverImage'),
@@ -10002,7 +14402,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> rpcShowCoverImageIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  rpcShowCoverImageIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'rpcShowCoverImage'),
@@ -10010,7 +14411,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> rpcShowCoverImageEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  rpcShowCoverImageEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'rpcShowCoverImage', value: value),
@@ -10018,7 +14420,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> rpcShowReadingWatchingProgressIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  rpcShowReadingWatchingProgressIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(
@@ -10028,7 +14431,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> rpcShowReadingWatchingProgressIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  rpcShowReadingWatchingProgressIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -10038,7 +14442,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> rpcShowReadingWatchingProgressEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  rpcShowReadingWatchingProgressEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -10057,7 +14462,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> rpcShowTitleIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  rpcShowTitleIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'rpcShowTitle'),
@@ -10075,7 +14481,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> saveAsCBZArchiveIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  saveAsCBZArchiveIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'saveAsCBZArchive'),
@@ -10083,7 +14490,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> saveAsCBZArchiveIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  saveAsCBZArchiveIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'saveAsCBZArchive'),
@@ -10091,10 +14499,88 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> saveAsCBZArchiveEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  saveAsCBZArchiveEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'saveAsCBZArchive', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  savedSearchesListIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'savedSearchesList'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  savedSearchesListIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'savedSearchesList'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  savedSearchesListLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'savedSearchesList', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  savedSearchesListIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'savedSearchesList', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  savedSearchesListIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'savedSearchesList', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  savedSearchesListLengthLessThan(int length, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'savedSearchesList', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  savedSearchesListLengthGreaterThan(int length, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'savedSearchesList',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  savedSearchesListLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'savedSearchesList',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
       );
     });
   }
@@ -10158,7 +14644,93 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> showPagesNumberIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> showNSFWIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'showNSFW'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> showNSFWIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'showNSFW'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> showNSFWEqualTo(
+    bool? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'showNSFW', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  showNavigationOverlayOnStartIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'showNavigationOverlayOnStart'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  showNavigationOverlayOnStartIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'showNavigationOverlayOnStart',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  showNavigationOverlayOnStartEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'showNavigationOverlayOnStart',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> showPageGapsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'showPageGaps'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  showPageGapsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'showPageGaps'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> showPageGapsEqualTo(
+    bool? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'showPageGaps', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  showPagesNumberIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'showPagesNumber'),
@@ -10166,7 +14738,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> showPagesNumberIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  showPagesNumberIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'showPagesNumber'),
@@ -10174,7 +14747,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> showPagesNumberEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  showPagesNumberEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'showPagesNumber', value: value),
@@ -10182,7 +14756,35 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> sortChapterListIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  showSourceBadgeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'showSourceBadge'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  showSourceBadgeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'showSourceBadge'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  showSourceBadgeEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'showSourceBadge', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  sortChapterListIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'sortChapterList'),
@@ -10190,7 +14792,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> sortChapterListIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  sortChapterListIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'sortChapterList'),
@@ -10198,37 +14801,36 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> sortChapterListLengthEqualTo(int length) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  sortChapterListLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'sortChapterList', length, true, length, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> sortChapterListIsEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  sortChapterListIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'sortChapterList', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> sortChapterListIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  sortChapterListIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'sortChapterList', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> sortChapterListLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  sortChapterListLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'sortChapterList', 0, true, length, include);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> sortChapterListLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  sortChapterListLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
         r'sortChapterList',
@@ -10240,7 +14842,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> sortChapterListLengthBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  sortChapterListLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -10257,7 +14860,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> sortLibraryAnimeIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  sortLibraryAnimeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'sortLibraryAnime'),
@@ -10265,7 +14869,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> sortLibraryAnimeIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  sortLibraryAnimeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'sortLibraryAnime'),
@@ -10273,7 +14878,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> sortLibraryMangaIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  sortLibraryMangaIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'sortLibraryManga'),
@@ -10281,7 +14887,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> sortLibraryMangaIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  sortLibraryMangaIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'sortLibraryManga'),
@@ -10289,7 +14896,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> sortLibraryNovelIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  sortLibraryNovelIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'sortLibraryNovel'),
@@ -10297,7 +14905,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> sortLibraryNovelIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  sortLibraryNovelIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'sortLibraryNovel'),
@@ -10305,7 +14914,36 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> startDatebackupIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  splitWidePagesIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'splitWidePages'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  splitWidePagesIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'splitWidePages'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> splitWidePagesEqualTo(
+    bool? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'splitWidePages', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  startDatebackupIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'startDatebackup'),
@@ -10313,7 +14951,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> startDatebackupIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  startDatebackupIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'startDatebackup'),
@@ -10321,7 +14960,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> startDatebackupEqualTo(int? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  startDatebackupEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'startDatebackup', value: value),
@@ -10329,10 +14969,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> startDatebackupGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  startDatebackupGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -10344,7 +14982,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> startDatebackupLessThan(int? value, {bool include = false}) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  startDatebackupLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -10356,7 +14995,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> startDatebackupBetween(
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  startDatebackupBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -10375,6 +15015,79 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  tappingInversionIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'tappingInversion'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  tappingInversionIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'tappingInversion'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  tappingInversionEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'tappingInversion', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  tappingInversionGreaterThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'tappingInversion',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  tappingInversionLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'tappingInversion',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  tappingInversionBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'tappingInversion',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterFilterCondition> themeIsDarkIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -10383,7 +15096,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> themeIsDarkIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  themeIsDarkIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'themeIsDark'),
@@ -10401,7 +15115,704 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> updateProgressAfterReadingIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsLanguageIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'ttsLanguage'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  ttsLanguageIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'ttsLanguage'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsLanguageEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'ttsLanguage',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  ttsLanguageGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'ttsLanguage',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsLanguageLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'ttsLanguage',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsLanguageBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'ttsLanguage',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsLanguageStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'ttsLanguage',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsLanguageEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'ttsLanguage',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsLanguageContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'ttsLanguage',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsLanguageMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'ttsLanguage',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsLanguageIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'ttsLanguage', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  ttsLanguageIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'ttsLanguage', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsPitchIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'ttsPitch'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsPitchIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'ttsPitch'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsPitchEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'ttsPitch',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsPitchGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'ttsPitch',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsPitchLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'ttsPitch',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsPitchBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'ttsPitch',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  ttsSpeechRateIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'ttsSpeechRate'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  ttsSpeechRateIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'ttsSpeechRate'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsSpeechRateEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'ttsSpeechRate',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  ttsSpeechRateGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'ttsSpeechRate',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsSpeechRateLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'ttsSpeechRate',
+          value: value,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsSpeechRateBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'ttsSpeechRate',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+
+          epsilon: epsilon,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsVoiceIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'ttsVoice'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsVoiceIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'ttsVoice'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsVoiceEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'ttsVoice',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsVoiceGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'ttsVoice',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsVoiceLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'ttsVoice',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsVoiceBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'ttsVoice',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsVoiceStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'ttsVoice',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsVoiceEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'ttsVoice',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsVoiceContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'ttsVoice',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsVoiceMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'ttsVoice',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsVoiceIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'ttsVoice', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> ttsVoiceIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'ttsVoice', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  tvAnimeOnlyOverrideIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'tvAnimeOnlyOverride'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  tvAnimeOnlyOverrideIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'tvAnimeOnlyOverride'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  tvAnimeOnlyOverrideEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'tvAnimeOnlyOverride', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  tvHomeGenreRowsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'tvHomeGenreRows'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  tvHomeGenreRowsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'tvHomeGenreRows'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  tvHomeGenreRowsEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'tvHomeGenreRows', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> tvHomeStyleIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'tvHomeStyle'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  tvHomeStyleIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'tvHomeStyle'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> tvHomeStyleEqualTo(
+    bool? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'tvHomeStyle', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  tvPlayerStyleIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'tvPlayerStyle'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  tvPlayerStyleIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'tvPlayerStyle'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> tvPlayerStyleEqualTo(
+    bool? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'tvPlayerStyle', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  updateErrorsListIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'updateErrorsList'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  updateErrorsListIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'updateErrorsList'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  updateErrorsListLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'updateErrorsList', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  updateErrorsListIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'updateErrorsList', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  updateErrorsListIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'updateErrorsList', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  updateErrorsListLengthLessThan(int length, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(r'updateErrorsList', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  updateErrorsListLengthGreaterThan(int length, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'updateErrorsList',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  updateErrorsListLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'updateErrorsList',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  updateProgressAfterReadingIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'updateProgressAfterReading'),
@@ -10409,7 +15820,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> updateProgressAfterReadingIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  updateProgressAfterReadingIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(
@@ -10419,7 +15831,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> updateProgressAfterReadingEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  updateProgressAfterReadingEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -10539,7 +15952,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> useMpvConfigIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  useMpvConfigIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'useMpvConfig'),
@@ -10557,7 +15971,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> usePageTapZonesIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  usePageTapZonesIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'usePageTapZones'),
@@ -10565,7 +15980,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> usePageTapZonesIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  usePageTapZonesIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'usePageTapZones'),
@@ -10573,7 +15989,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> usePageTapZonesEqualTo(bool? value) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  usePageTapZonesEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'usePageTapZones', value: value),
@@ -10589,7 +16006,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> useYUV420PIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  useYUV420PIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'useYUV420P'),
@@ -10761,7 +16179,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> userAgentIsNotEmpty() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  userAgentIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'userAgent', value: ''),
@@ -10769,7 +16188,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> volumeBoostCapIsNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  volumeBoostCapIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'volumeBoostCap'),
@@ -10777,7 +16197,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> volumeBoostCapIsNotNull() {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  volumeBoostCapIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'volumeBoostCap'),
@@ -10795,10 +16216,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> volumeBoostCapGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  volumeBoostCapGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -10810,7 +16229,8 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> volumeBoostCapLessThan(int? value, {bool include = false}) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  volumeBoostCapLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -10840,9 +16260,218 @@ extension SettingsQueryFilter on QueryBuilder<Settings, Settings, QFilterConditi
       );
     });
   }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  webtoonDisableZoomOutIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'webtoonDisableZoomOut'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  webtoonDisableZoomOutIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'webtoonDisableZoomOut'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  webtoonDisableZoomOutEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'webtoonDisableZoomOut',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  webtoonDoubleTapZoomEnabledIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'webtoonDoubleTapZoomEnabled'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  webtoonDoubleTapZoomEnabledIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(
+          property: r'webtoonDoubleTapZoomEnabled',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  webtoonDoubleTapZoomEnabledEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'webtoonDoubleTapZoomEnabled',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  webtoonSidePaddingIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'webtoonSidePadding'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  webtoonSidePaddingIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'webtoonSidePadding'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  webtoonSidePaddingEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'webtoonSidePadding', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  webtoonSidePaddingGreaterThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'webtoonSidePadding',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  webtoonSidePaddingLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'webtoonSidePadding',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  webtoonSidePaddingBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'webtoonSidePadding',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  zoomStartPositionIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'zoomStartPosition'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  zoomStartPositionIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'zoomStartPosition'),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  zoomStartPositionEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'zoomStartPosition', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  zoomStartPositionGreaterThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'zoomStartPosition',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  zoomStartPositionLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'zoomStartPosition',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  zoomStartPositionBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'zoomStartPosition',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
 }
 
-extension SettingsQueryObject on QueryBuilder<Settings, Settings, QFilterCondition> {
+extension SettingsQueryObject
+    on QueryBuilder<Settings, Settings, QFilterCondition> {
   QueryBuilder<Settings, Settings, QAfterFilterCondition> algorithmWeights(
     FilterQuery<AlgorithmWeights> q,
   ) {
@@ -10851,49 +16480,50 @@ extension SettingsQueryObject on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> animeExtensionsRepoElement(FilterQuery<Repo> q) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  animeExtensionsRepoElement(FilterQuery<Repo> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'animeExtensionsRepo');
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> autoScrollPagesElement(FilterQuery<AutoScrollPages> q) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  autoScrollPagesElement(FilterQuery<AutoScrollPages> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'autoScrollPages');
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterBookmarkedListElement(
-    FilterQuery<ChapterFilterBookmarked> q,
-  ) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterBookmarkedListElement(FilterQuery<ChapterFilterBookmarked> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'chapterFilterBookmarkedList');
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterDownloadedListElement(
-    FilterQuery<ChapterFilterDownloaded> q,
-  ) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterDownloadedListElement(FilterQuery<ChapterFilterDownloaded> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'chapterFilterDownloadedList');
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterFilterUnreadListElement(
-    FilterQuery<ChapterFilterUnread> q,
-  ) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterFilterUnreadListElement(FilterQuery<ChapterFilterUnread> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'chapterFilterUnreadList');
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageIndexListElement(FilterQuery<ChapterPageIndex> q) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageIndexListElement(FilterQuery<ChapterPageIndex> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'chapterPageIndexList');
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> chapterPageUrlsListElement(FilterQuery<ChapterPageurls> q) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  chapterPageUrlsListElement(FilterQuery<ChapterPageurls> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'chapterPageUrlsList');
     });
@@ -10923,7 +16553,8 @@ extension SettingsQueryObject on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> filterScanlatorListElement(FilterQuery<FilterScanlator> q) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  filterScanlatorListElement(FilterQuery<FilterScanlator> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'filterScanlatorList');
     });
@@ -10937,41 +16568,50 @@ extension SettingsQueryObject on QueryBuilder<Settings, Settings, QFilterConditi
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> mangaExtensionsRepoElement(FilterQuery<Repo> q) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  mangaExtensionsRepoElement(FilterQuery<Repo> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'mangaExtensionsRepo');
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> novelExtensionsRepoElement(FilterQuery<Repo> q) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  novelExtensionsRepoElement(FilterQuery<Repo> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'novelExtensionsRepo');
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalPageModeListElement(FilterQuery<PersonalPageMode> q) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalPageModeListElement(FilterQuery<PersonalPageMode> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'personalPageModeList');
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> personalReaderModeListElement(
-    FilterQuery<PersonalReaderMode> q,
-  ) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  personalReaderModeListElement(FilterQuery<PersonalReaderMode> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'personalReaderModeList');
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> playerSubtitleSettings(
-    FilterQuery<PlayerSubtitleSettings> q,
-  ) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  playerSubtitleSettings(FilterQuery<PlayerSubtitleSettings> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'playerSubtitleSettings');
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> sortChapterListElement(FilterQuery<SortChapter> q) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  savedSearchesListElement(FilterQuery<SavedSearch> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'savedSearchesList');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  sortChapterListElement(FilterQuery<SortChapter> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'sortChapterList');
     });
@@ -11000,9 +16640,17 @@ extension SettingsQueryObject on QueryBuilder<Settings, Settings, QFilterConditi
       return query.object(q, r'sortLibraryNovel');
     });
   }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  updateErrorsListElement(FilterQuery<UpdateError> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'updateErrorsList');
+    });
+  }
 }
 
-extension SettingsQueryLinks on QueryBuilder<Settings, Settings, QFilterCondition> {
+extension SettingsQueryLinks
+    on QueryBuilder<Settings, Settings, QFilterCondition> {
   QueryBuilder<Settings, Settings, QAfterFilterCondition> sources(
     FilterQuery<Source> q,
   ) {
@@ -11040,7 +16688,8 @@ extension SettingsQueryLinks on QueryBuilder<Settings, Settings, QFilterConditio
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> sourcesLengthGreaterThan(int length, {bool include = false}) {
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+  sourcesLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'sources', length, include, 999999, true);
     });
@@ -11065,13 +16714,28 @@ extension SettingsQueryLinks on QueryBuilder<Settings, Settings, QFilterConditio
 }
 
 extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAllowConcurrentDownloads() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'allowConcurrentDownloads', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAllowConcurrentDownloadsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'allowConcurrentDownloads', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> sortByAndroidProxyServer() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'androidProxyServer', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAndroidProxyServerDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAndroidProxyServerDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'androidProxyServer', Sort.desc);
     });
@@ -11083,19 +16747,22 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAniSkipTimeoutLengthDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAniSkipTimeoutLengthDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'aniSkipTimeoutLength', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAnimatePageTransitions() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAnimatePageTransitions() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animatePageTransitions', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAnimatePageTransitionsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAnimatePageTransitionsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animatePageTransitions', Sort.desc);
     });
@@ -11125,43 +16792,50 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAnimeLibraryDownloadedChapters() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAnimeLibraryDownloadedChapters() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryDownloadedChapters', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAnimeLibraryDownloadedChaptersDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAnimeLibraryDownloadedChaptersDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryDownloadedChapters', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAnimeLibraryLocalSource() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAnimeLibraryLocalSource() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryLocalSource', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAnimeLibraryLocalSourceDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAnimeLibraryLocalSourceDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryLocalSource', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAnimeLibraryShowCategoryTabs() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAnimeLibraryShowCategoryTabs() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryShowCategoryTabs', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAnimeLibraryShowCategoryTabsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAnimeLibraryShowCategoryTabsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryShowCategoryTabs', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAnimeLibraryShowContinueReadingButton() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAnimeLibraryShowContinueReadingButton() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
         r'animeLibraryShowContinueReadingButton',
@@ -11170,7 +16844,8 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAnimeLibraryShowContinueReadingButtonDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAnimeLibraryShowContinueReadingButtonDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
         r'animeLibraryShowContinueReadingButton',
@@ -11179,39 +16854,31 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAnimeLibraryShowLanguage() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAnimeLibraryShowLanguage() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryShowLanguage', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAnimeLibraryShowLanguageDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAnimeLibraryShowLanguageDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryShowLanguage', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAnimeLibraryShowNumbersOfItems() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAnimeLibraryShowNumbersOfItems() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryShowNumbersOfItems', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAnimeLibraryShowNumbersOfItemsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAnimeLibraryShowNumbersOfItemsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryShowNumbersOfItems', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAnimeLibraryUnreadChapters() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'animeLibraryUnreadChapters', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAnimeLibraryUnreadChaptersDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'animeLibraryUnreadChapters', Sort.desc);
     });
   }
 
@@ -11227,6 +16894,30 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAppLockEnabled() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'appLockEnabled', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAppLockEnabledDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'appLockEnabled', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAppUiScale() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'appUiScale', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAppUiScaleDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'appUiScale', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> sortByAudioChannels() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'audioChannels', Sort.asc);
@@ -11239,13 +16930,15 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAudioPreferredLanguages() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAudioPreferredLanguages() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'audioPreferredLanguages', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAudioPreferredLanguagesDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAudioPreferredLanguagesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'audioPreferredLanguages', Sort.desc);
     });
@@ -11257,7 +16950,8 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAutoBackupLocationDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAutoBackupLocationDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'autoBackupLocation', Sort.desc);
     });
@@ -11269,9 +16963,50 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAutoExtensionsUpdatesDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAutoExtensionsUpdatesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'autoExtensionsUpdates', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAutoPlayNextEpisode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'autoPlayNextEpisode', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAutoPlayNextEpisodeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'autoPlayNextEpisode', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAutoReadDuplicateChapters() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'autoReadDuplicateChapters', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAutoReadDuplicateChaptersDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'autoReadDuplicateChapters', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByAutomaticBackground() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'automaticBackground', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByAutomaticBackgroundDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'automaticBackground', Sort.desc);
     });
   }
 
@@ -11284,6 +17019,20 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
   QueryBuilder<Settings, Settings, QAfterSortBy> sortByBackgroundColorDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'backgroundColor', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByBackupCompressionLevel() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'backupCompressionLevel', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByBackupCompressionLevelDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'backupCompressionLevel', Sort.desc);
     });
   }
 
@@ -11323,37 +17072,54 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByCfProxyUrl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'cfProxyUrl', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByCfProxyUrlDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'cfProxyUrl', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> sortByCheckForAppUpdates() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'checkForAppUpdates', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByCheckForAppUpdatesDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByCheckForAppUpdatesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'checkForAppUpdates', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByCheckForExtensionUpdates() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByCheckForExtensionUpdates() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'checkForExtensionUpdates', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByCheckForExtensionUpdatesDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByCheckForExtensionUpdatesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'checkForExtensionUpdates', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByClearChapterCacheOnAppLaunch() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByClearChapterCacheOnAppLaunch() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'clearChapterCacheOnAppLaunch', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByClearChapterCacheOnAppLaunchDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByClearChapterCacheOnAppLaunchDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'clearChapterCacheOnAppLaunch', Sort.desc);
     });
@@ -11365,7 +17131,8 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByColorFilterBlendModeDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByColorFilterBlendModeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'colorFilterBlendMode', Sort.desc);
     });
@@ -11377,7 +17144,8 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByConcurrentDownloadsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByConcurrentDownloadsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'concurrentDownloads', Sort.desc);
     });
@@ -11407,6 +17175,18 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByCustomDohUrl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'customDohUrl', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByCustomDohUrlDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'customDohUrl', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> sortByDateFormat() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dateFormat', Sort.asc);
@@ -11431,13 +17211,15 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByDefaultDoubleTapToSkipLength() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByDefaultDoubleTapToSkipLength() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'defaultDoubleTapToSkipLength', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByDefaultDoubleTapToSkipLengthDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByDefaultDoubleTapToSkipLengthDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'defaultDoubleTapToSkipLength', Sort.desc);
     });
@@ -11449,7 +17231,8 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByDefaultPlayBackSpeedDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByDefaultPlayBackSpeedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'defaultPlayBackSpeed', Sort.desc);
     });
@@ -11467,15 +17250,31 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByDefaultSkipIntroLength() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByDefaultSkipIntroLength() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'defaultSkipIntroLength', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByDefaultSkipIntroLengthDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByDefaultSkipIntroLengthDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'defaultSkipIntroLength', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByDeleteDownloadAfterReading() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'deleteDownloadAfterReading', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByDeleteDownloadAfterReadingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'deleteDownloadAfterReading', Sort.desc);
     });
   }
 
@@ -11485,7 +17284,8 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByDisableSectionTypeDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByDisableSectionTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'disableSectionType', Sort.desc);
     });
@@ -11527,15 +17327,30 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByDoubleTapAnimationSpeed() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByDoubleTapAnimationSpeed() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'doubleTapAnimationSpeed', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByDoubleTapAnimationSpeedDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByDoubleTapAnimationSpeedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'doubleTapAnimationSpeed', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByDownloadDelaySeconds() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'downloadDelaySeconds', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByDownloadDelaySecondsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'downloadDelaySeconds', Sort.desc);
     });
   }
 
@@ -11557,7 +17372,8 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByDownloadOnlyOnWifiDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByDownloadOnlyOnWifiDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'downloadOnlyOnWifi', Sort.desc);
     });
@@ -11569,9 +17385,49 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByDownloadedOnlyModeDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByDownloadedOnlyModeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'downloadedOnlyMode', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByDualPageInvert() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dualPageInvert', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByDualPageInvertDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dualPageInvert', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByDualPageRotateToFit() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dualPageRotateToFit', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByDualPageRotateToFitDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dualPageRotateToFit', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByDualPageRotateToFitInvert() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dualPageRotateToFitInvert', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByDualPageRotateToFitInvertDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dualPageRotateToFitInvert', Sort.desc);
     });
   }
 
@@ -11587,13 +17443,15 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByEnableAudioPitchCorrection() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByEnableAudioPitchCorrection() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'enableAudioPitchCorrection', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByEnableAudioPitchCorrectionDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByEnableAudioPitchCorrectionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'enableAudioPitchCorrection', Sort.desc);
     });
@@ -11611,13 +17469,15 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByEnableCustomColorFilter() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByEnableCustomColorFilter() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'enableCustomColorFilter', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByEnableCustomColorFilterDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByEnableCustomColorFilterDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'enableCustomColorFilter', Sort.desc);
     });
@@ -11647,13 +17507,15 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByEnableHardwareAcceleration() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByEnableHardwareAcceleration() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'enableHardwareAcceleration', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByEnableHardwareAccelerationDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByEnableHardwareAccelerationDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'enableHardwareAcceleration', Sort.desc);
     });
@@ -11671,13 +17533,76 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByFlexColorSchemeBlendLevel() {
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByExtensionServerPath() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'extensionServerPath', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByExtensionServerPathDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'extensionServerPath', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByFlashColor() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flashColor', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByFlashColorDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flashColor', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByFlashDuration() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flashDuration', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByFlashDurationDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flashDuration', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByFlashInterval() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flashInterval', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByFlashIntervalDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flashInterval', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByFlashOnPageChange() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flashOnPageChange', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByFlashOnPageChangeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flashOnPageChange', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByFlexColorSchemeBlendLevel() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'flexColorSchemeBlendLevel', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByFlexColorSchemeBlendLevelDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByFlexColorSchemeBlendLevelDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'flexColorSchemeBlendLevel', Sort.desc);
     });
@@ -11689,7 +17614,8 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByFlexSchemeColorIndexDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByFlexSchemeColorIndexDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'flexSchemeColorIndex', Sort.desc);
     });
@@ -11713,7 +17639,8 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByForceLandscapePlayerDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByForceLandscapePlayerDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'forceLandscapePlayer', Sort.desc);
     });
@@ -11743,13 +17670,27 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByHideDiscordRpcInIncognito() {
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByGrayscale() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'grayscale', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByGrayscaleDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'grayscale', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByHideDiscordRpcInIncognito() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hideDiscordRpcInIncognito', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByHideDiscordRpcInIncognitoDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByHideDiscordRpcInIncognitoDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hideDiscordRpcInIncognito', Sort.desc);
     });
@@ -11779,27 +17720,332 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByLastTrackerLibraryLocation() {
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByInvertColors() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'invertColors', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByInvertColorsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'invertColors', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByJrePath() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'jrePath', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByJrePathDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'jrePath', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByKeepScreenOnReader() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'keepScreenOnReader', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByKeepScreenOnReaderDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'keepScreenOnReader', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByLandscapeZoom() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'landscapeZoom', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByLandscapeZoomDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'landscapeZoom', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLastTrackerLibraryLocation() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastTrackerLibraryLocation', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByLastTrackerLibraryLocationDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLastTrackerLibraryLocationDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastTrackerLibraryLocation', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByLibraryDownloadedChapters() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryDownloadedChapters() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryDownloadedChapters', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByLibraryDownloadedChaptersDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryDownloadedChaptersDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryDownloadedChapters', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterAnimeBookMarkedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeBookMarkedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterAnimeBookMarkedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeBookMarkedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterAnimeCompletedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeCompletedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterAnimeCompletedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeCompletedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterAnimeDownloadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeDownloadType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterAnimeDownloadTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeDownloadType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterAnimeStartedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeStartedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterAnimeStartedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeStartedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterAnimeTrackingType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeTrackingType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterAnimeTrackingTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeTrackingType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterAnimeUnreadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeUnreadType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterAnimeUnreadTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeUnreadType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterMangasBookMarkedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasBookMarkedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterMangasBookMarkedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasBookMarkedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterMangasCompletedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasCompletedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterMangasCompletedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasCompletedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterMangasDownloadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasDownloadType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterMangasDownloadTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasDownloadType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterMangasStartedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasStartedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterMangasStartedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasStartedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterMangasTrackingType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasTrackingType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterMangasTrackingTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasTrackingType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterMangasUnreadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasUnreadType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterMangasUnreadTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasUnreadType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterNovelBookMarkedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelBookMarkedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterNovelBookMarkedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelBookMarkedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterNovelCompletedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelCompletedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterNovelCompletedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelCompletedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterNovelDownloadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelDownloadType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterNovelDownloadTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelDownloadType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterNovelStartedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelStartedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterNovelStartedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelStartedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterNovelTrackingType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelTrackingType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterNovelTrackingTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelTrackingType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterNovelUnreadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelUnreadType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryFilterNovelUnreadTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelUnreadType', Sort.desc);
     });
   }
 
@@ -11809,31 +18055,36 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByLibraryLocalSourceDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryLocalSourceDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryLocalSource', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByLibraryShowCategoryTabs() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryShowCategoryTabs() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryShowCategoryTabs', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByLibraryShowCategoryTabsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryShowCategoryTabsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryShowCategoryTabs', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByLibraryShowContinueReadingButton() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryShowContinueReadingButton() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryShowContinueReadingButton', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByLibraryShowContinueReadingButtonDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryShowContinueReadingButtonDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryShowContinueReadingButton', Sort.desc);
     });
@@ -11845,33 +18096,24 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByLibraryShowLanguageDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryShowLanguageDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryShowLanguage', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByLibraryShowNumbersOfItems() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryShowNumbersOfItems() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryShowNumbersOfItems', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByLibraryShowNumbersOfItemsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByLibraryShowNumbersOfItemsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryShowNumbersOfItems', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByLibraryUnreadChapters() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryUnreadChapters', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByLibraryUnreadChaptersDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryUnreadChapters', Sort.desc);
     });
   }
 
@@ -11893,7 +18135,8 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByMangaHomeDisplayTypeDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByMangaHomeDisplayTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'mangaHomeDisplayType', Sort.desc);
     });
@@ -11905,7 +18148,8 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByMarkEpisodeAsSeenTypeDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByMarkEpisodeAsSeenTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'markEpisodeAsSeenType', Sort.desc);
     });
@@ -11917,9 +18161,22 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByMergeLibraryNavMobileDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByMergeLibraryNavMobileDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'mergeLibraryNavMobile', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNavigateToPan() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'navigateToPan', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNavigateToPanDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'navigateToPan', Sort.desc);
     });
   }
 
@@ -11959,43 +18216,50 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelLibraryDownloadedChapters() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelLibraryDownloadedChapters() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryDownloadedChapters', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelLibraryDownloadedChaptersDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelLibraryDownloadedChaptersDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryDownloadedChapters', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelLibraryLocalSource() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelLibraryLocalSource() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryLocalSource', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelLibraryLocalSourceDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelLibraryLocalSourceDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryLocalSource', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelLibraryShowCategoryTabs() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelLibraryShowCategoryTabs() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryShowCategoryTabs', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelLibraryShowCategoryTabsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelLibraryShowCategoryTabsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryShowCategoryTabs', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelLibraryShowContinueReadingButton() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelLibraryShowContinueReadingButton() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
         r'novelLibraryShowContinueReadingButton',
@@ -12004,7 +18268,8 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelLibraryShowContinueReadingButtonDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelLibraryShowContinueReadingButtonDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
         r'novelLibraryShowContinueReadingButton',
@@ -12013,39 +18278,31 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelLibraryShowLanguage() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelLibraryShowLanguage() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryShowLanguage', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelLibraryShowLanguageDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelLibraryShowLanguageDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryShowLanguage', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelLibraryShowNumbersOfItems() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelLibraryShowNumbersOfItems() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryShowNumbersOfItems', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelLibraryShowNumbersOfItemsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelLibraryShowNumbersOfItemsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryShowNumbersOfItems', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelLibraryUnreadChapters() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'novelLibraryUnreadChapters', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelLibraryUnreadChaptersDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'novelLibraryUnreadChapters', Sort.desc);
     });
   }
 
@@ -12055,7 +18312,8 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelReaderLineHeightDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelReaderLineHeightDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelReaderLineHeight', Sort.desc);
     });
@@ -12067,7 +18325,8 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelReaderPaddingDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelReaderPaddingDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelReaderPadding', Sort.desc);
     });
@@ -12079,7 +18338,8 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelReaderTextColorDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelReaderTextColorDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelReaderTextColor', Sort.desc);
     });
@@ -12097,25 +18357,29 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelRemoveExtraParagraphSpacing() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelRemoveExtraParagraphSpacing() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelRemoveExtraParagraphSpacing', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelRemoveExtraParagraphSpacingDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelRemoveExtraParagraphSpacingDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelRemoveExtraParagraphSpacing', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelShowScrollPercentage() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelShowScrollPercentage() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelShowScrollPercentage', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByNovelShowScrollPercentageDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByNovelShowScrollPercentageDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelShowScrollPercentage', Sort.desc);
     });
@@ -12145,13 +18409,15 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByOnlyIncludePinnedSources() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByOnlyIncludePinnedSources() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'onlyIncludePinnedSources', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByOnlyIncludePinnedSourcesDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByOnlyIncludePinnedSourcesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'onlyIncludePinnedSources', Sort.desc);
     });
@@ -12181,13 +18447,77 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByReaderBrightness() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerBrightness', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByReaderBrightnessDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerBrightness', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByReaderContrast() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerContrast', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByReaderContrastDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerContrast', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByReaderHideThreshold() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerHideThreshold', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByReaderHideThresholdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerHideThreshold', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByReaderNavigationLayout() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerNavigationLayout', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByReaderNavigationLayoutDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerNavigationLayout', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByReaderSaturation() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerSaturation', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByReaderSaturationDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerSaturation', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> sortByRelativeTimesTamps() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'relativeTimesTamps', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByRelativeTimesTampsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByRelativeTimesTampsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'relativeTimesTamps', Sort.desc);
     });
@@ -12205,13 +18535,15 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByRpcShowReadingWatchingProgress() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByRpcShowReadingWatchingProgress() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'rpcShowReadingWatchingProgress', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByRpcShowReadingWatchingProgressDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByRpcShowReadingWatchingProgressDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'rpcShowReadingWatchingProgress', Sort.desc);
     });
@@ -12253,6 +18585,44 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByShowNSFW() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showNSFW', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByShowNSFWDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showNSFW', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByShowNavigationOverlayOnStart() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showNavigationOverlayOnStart', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByShowNavigationOverlayOnStartDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showNavigationOverlayOnStart', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByShowPageGaps() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showPageGaps', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByShowPageGapsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showPageGaps', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> sortByShowPagesNumber() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'showPagesNumber', Sort.asc);
@@ -12262,6 +18632,30 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
   QueryBuilder<Settings, Settings, QAfterSortBy> sortByShowPagesNumberDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'showPagesNumber', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByShowSourceBadge() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showSourceBadge', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByShowSourceBadgeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showSourceBadge', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortBySplitWidePages() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'splitWidePages', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortBySplitWidePagesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'splitWidePages', Sort.desc);
     });
   }
 
@@ -12277,6 +18671,18 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTappingInversion() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tappingInversion', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTappingInversionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tappingInversion', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> sortByThemeIsDark() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'themeIsDark', Sort.asc);
@@ -12289,13 +18695,112 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByUpdateProgressAfterReading() {
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTtsLanguage() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttsLanguage', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTtsLanguageDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttsLanguage', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTtsPitch() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttsPitch', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTtsPitchDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttsPitch', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTtsSpeechRate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttsSpeechRate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTtsSpeechRateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttsSpeechRate', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTtsVoice() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttsVoice', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTtsVoiceDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttsVoice', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTvAnimeOnlyOverride() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tvAnimeOnlyOverride', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByTvAnimeOnlyOverrideDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tvAnimeOnlyOverride', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTvHomeGenreRows() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tvHomeGenreRows', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTvHomeGenreRowsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tvHomeGenreRows', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTvHomeStyle() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tvHomeStyle', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTvHomeStyleDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tvHomeStyle', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTvPlayerStyle() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tvPlayerStyle', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTvPlayerStyleDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tvPlayerStyle', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByUpdateProgressAfterReading() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'updateProgressAfterReading', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> sortByUpdateProgressAfterReadingDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByUpdateProgressAfterReadingDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'updateProgressAfterReading', Sort.desc);
     });
@@ -12384,16 +18889,84 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
       return query.addSortBy(r'volumeBoostCap', Sort.desc);
     });
   }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByWebtoonDisableZoomOut() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'webtoonDisableZoomOut', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByWebtoonDisableZoomOutDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'webtoonDisableZoomOut', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByWebtoonDoubleTapZoomEnabled() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'webtoonDoubleTapZoomEnabled', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByWebtoonDoubleTapZoomEnabledDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'webtoonDoubleTapZoomEnabled', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByWebtoonSidePadding() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'webtoonSidePadding', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  sortByWebtoonSidePaddingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'webtoonSidePadding', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByZoomStartPosition() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zoomStartPosition', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByZoomStartPositionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zoomStartPosition', Sort.desc);
+    });
+  }
 }
 
-extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenBy> {
+extension SettingsQuerySortThenBy
+    on QueryBuilder<Settings, Settings, QSortThenBy> {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAllowConcurrentDownloads() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'allowConcurrentDownloads', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAllowConcurrentDownloadsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'allowConcurrentDownloads', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> thenByAndroidProxyServer() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'androidProxyServer', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAndroidProxyServerDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAndroidProxyServerDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'androidProxyServer', Sort.desc);
     });
@@ -12405,19 +18978,22 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAniSkipTimeoutLengthDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAniSkipTimeoutLengthDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'aniSkipTimeoutLength', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAnimatePageTransitions() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAnimatePageTransitions() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animatePageTransitions', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAnimatePageTransitionsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAnimatePageTransitionsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animatePageTransitions', Sort.desc);
     });
@@ -12447,43 +19023,50 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAnimeLibraryDownloadedChapters() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAnimeLibraryDownloadedChapters() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryDownloadedChapters', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAnimeLibraryDownloadedChaptersDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAnimeLibraryDownloadedChaptersDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryDownloadedChapters', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAnimeLibraryLocalSource() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAnimeLibraryLocalSource() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryLocalSource', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAnimeLibraryLocalSourceDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAnimeLibraryLocalSourceDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryLocalSource', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAnimeLibraryShowCategoryTabs() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAnimeLibraryShowCategoryTabs() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryShowCategoryTabs', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAnimeLibraryShowCategoryTabsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAnimeLibraryShowCategoryTabsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryShowCategoryTabs', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAnimeLibraryShowContinueReadingButton() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAnimeLibraryShowContinueReadingButton() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
         r'animeLibraryShowContinueReadingButton',
@@ -12492,7 +19075,8 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAnimeLibraryShowContinueReadingButtonDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAnimeLibraryShowContinueReadingButtonDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
         r'animeLibraryShowContinueReadingButton',
@@ -12501,39 +19085,31 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAnimeLibraryShowLanguage() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAnimeLibraryShowLanguage() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryShowLanguage', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAnimeLibraryShowLanguageDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAnimeLibraryShowLanguageDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryShowLanguage', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAnimeLibraryShowNumbersOfItems() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAnimeLibraryShowNumbersOfItems() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryShowNumbersOfItems', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAnimeLibraryShowNumbersOfItemsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAnimeLibraryShowNumbersOfItemsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'animeLibraryShowNumbersOfItems', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAnimeLibraryUnreadChapters() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'animeLibraryUnreadChapters', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAnimeLibraryUnreadChaptersDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'animeLibraryUnreadChapters', Sort.desc);
     });
   }
 
@@ -12549,6 +19125,30 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAppLockEnabled() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'appLockEnabled', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAppLockEnabledDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'appLockEnabled', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAppUiScale() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'appUiScale', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAppUiScaleDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'appUiScale', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> thenByAudioChannels() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'audioChannels', Sort.asc);
@@ -12561,13 +19161,15 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAudioPreferredLanguages() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAudioPreferredLanguages() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'audioPreferredLanguages', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAudioPreferredLanguagesDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAudioPreferredLanguagesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'audioPreferredLanguages', Sort.desc);
     });
@@ -12579,7 +19181,8 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAutoBackupLocationDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAutoBackupLocationDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'autoBackupLocation', Sort.desc);
     });
@@ -12591,9 +19194,50 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAutoExtensionsUpdatesDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAutoExtensionsUpdatesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'autoExtensionsUpdates', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAutoPlayNextEpisode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'autoPlayNextEpisode', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAutoPlayNextEpisodeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'autoPlayNextEpisode', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAutoReadDuplicateChapters() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'autoReadDuplicateChapters', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAutoReadDuplicateChaptersDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'autoReadDuplicateChapters', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByAutomaticBackground() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'automaticBackground', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByAutomaticBackgroundDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'automaticBackground', Sort.desc);
     });
   }
 
@@ -12606,6 +19250,20 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
   QueryBuilder<Settings, Settings, QAfterSortBy> thenByBackgroundColorDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'backgroundColor', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByBackupCompressionLevel() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'backupCompressionLevel', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByBackupCompressionLevelDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'backupCompressionLevel', Sort.desc);
     });
   }
 
@@ -12645,37 +19303,54 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByCfProxyUrl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'cfProxyUrl', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByCfProxyUrlDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'cfProxyUrl', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> thenByCheckForAppUpdates() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'checkForAppUpdates', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByCheckForAppUpdatesDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByCheckForAppUpdatesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'checkForAppUpdates', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByCheckForExtensionUpdates() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByCheckForExtensionUpdates() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'checkForExtensionUpdates', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByCheckForExtensionUpdatesDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByCheckForExtensionUpdatesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'checkForExtensionUpdates', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByClearChapterCacheOnAppLaunch() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByClearChapterCacheOnAppLaunch() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'clearChapterCacheOnAppLaunch', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByClearChapterCacheOnAppLaunchDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByClearChapterCacheOnAppLaunchDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'clearChapterCacheOnAppLaunch', Sort.desc);
     });
@@ -12687,7 +19362,8 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByColorFilterBlendModeDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByColorFilterBlendModeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'colorFilterBlendMode', Sort.desc);
     });
@@ -12699,7 +19375,8 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByConcurrentDownloadsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByConcurrentDownloadsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'concurrentDownloads', Sort.desc);
     });
@@ -12729,6 +19406,18 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByCustomDohUrl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'customDohUrl', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByCustomDohUrlDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'customDohUrl', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> thenByDateFormat() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dateFormat', Sort.asc);
@@ -12753,13 +19442,15 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByDefaultDoubleTapToSkipLength() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByDefaultDoubleTapToSkipLength() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'defaultDoubleTapToSkipLength', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByDefaultDoubleTapToSkipLengthDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByDefaultDoubleTapToSkipLengthDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'defaultDoubleTapToSkipLength', Sort.desc);
     });
@@ -12771,7 +19462,8 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByDefaultPlayBackSpeedDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByDefaultPlayBackSpeedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'defaultPlayBackSpeed', Sort.desc);
     });
@@ -12789,15 +19481,31 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByDefaultSkipIntroLength() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByDefaultSkipIntroLength() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'defaultSkipIntroLength', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByDefaultSkipIntroLengthDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByDefaultSkipIntroLengthDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'defaultSkipIntroLength', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByDeleteDownloadAfterReading() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'deleteDownloadAfterReading', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByDeleteDownloadAfterReadingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'deleteDownloadAfterReading', Sort.desc);
     });
   }
 
@@ -12807,7 +19515,8 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByDisableSectionTypeDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByDisableSectionTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'disableSectionType', Sort.desc);
     });
@@ -12849,15 +19558,30 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByDoubleTapAnimationSpeed() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByDoubleTapAnimationSpeed() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'doubleTapAnimationSpeed', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByDoubleTapAnimationSpeedDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByDoubleTapAnimationSpeedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'doubleTapAnimationSpeed', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByDownloadDelaySeconds() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'downloadDelaySeconds', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByDownloadDelaySecondsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'downloadDelaySeconds', Sort.desc);
     });
   }
 
@@ -12879,7 +19603,8 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByDownloadOnlyOnWifiDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByDownloadOnlyOnWifiDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'downloadOnlyOnWifi', Sort.desc);
     });
@@ -12891,9 +19616,49 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByDownloadedOnlyModeDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByDownloadedOnlyModeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'downloadedOnlyMode', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByDualPageInvert() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dualPageInvert', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByDualPageInvertDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dualPageInvert', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByDualPageRotateToFit() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dualPageRotateToFit', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByDualPageRotateToFitDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dualPageRotateToFit', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByDualPageRotateToFitInvert() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dualPageRotateToFitInvert', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByDualPageRotateToFitInvertDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dualPageRotateToFitInvert', Sort.desc);
     });
   }
 
@@ -12909,13 +19674,15 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByEnableAudioPitchCorrection() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByEnableAudioPitchCorrection() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'enableAudioPitchCorrection', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByEnableAudioPitchCorrectionDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByEnableAudioPitchCorrectionDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'enableAudioPitchCorrection', Sort.desc);
     });
@@ -12933,13 +19700,15 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByEnableCustomColorFilter() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByEnableCustomColorFilter() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'enableCustomColorFilter', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByEnableCustomColorFilterDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByEnableCustomColorFilterDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'enableCustomColorFilter', Sort.desc);
     });
@@ -12969,13 +19738,15 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByEnableHardwareAcceleration() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByEnableHardwareAcceleration() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'enableHardwareAcceleration', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByEnableHardwareAccelerationDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByEnableHardwareAccelerationDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'enableHardwareAcceleration', Sort.desc);
     });
@@ -12993,13 +19764,76 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByFlexColorSchemeBlendLevel() {
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByExtensionServerPath() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'extensionServerPath', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByExtensionServerPathDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'extensionServerPath', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByFlashColor() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flashColor', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByFlashColorDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flashColor', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByFlashDuration() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flashDuration', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByFlashDurationDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flashDuration', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByFlashInterval() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flashInterval', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByFlashIntervalDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flashInterval', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByFlashOnPageChange() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flashOnPageChange', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByFlashOnPageChangeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flashOnPageChange', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByFlexColorSchemeBlendLevel() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'flexColorSchemeBlendLevel', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByFlexColorSchemeBlendLevelDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByFlexColorSchemeBlendLevelDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'flexColorSchemeBlendLevel', Sort.desc);
     });
@@ -13011,7 +19845,8 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByFlexSchemeColorIndexDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByFlexSchemeColorIndexDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'flexSchemeColorIndex', Sort.desc);
     });
@@ -13035,7 +19870,8 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByForceLandscapePlayerDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByForceLandscapePlayerDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'forceLandscapePlayer', Sort.desc);
     });
@@ -13065,13 +19901,27 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByHideDiscordRpcInIncognito() {
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByGrayscale() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'grayscale', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByGrayscaleDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'grayscale', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByHideDiscordRpcInIncognito() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hideDiscordRpcInIncognito', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByHideDiscordRpcInIncognitoDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByHideDiscordRpcInIncognitoDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'hideDiscordRpcInIncognito', Sort.desc);
     });
@@ -13113,27 +19963,332 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByLastTrackerLibraryLocation() {
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByInvertColors() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'invertColors', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByInvertColorsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'invertColors', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByJrePath() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'jrePath', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByJrePathDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'jrePath', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByKeepScreenOnReader() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'keepScreenOnReader', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByKeepScreenOnReaderDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'keepScreenOnReader', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByLandscapeZoom() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'landscapeZoom', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByLandscapeZoomDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'landscapeZoom', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLastTrackerLibraryLocation() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastTrackerLibraryLocation', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByLastTrackerLibraryLocationDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLastTrackerLibraryLocationDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastTrackerLibraryLocation', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByLibraryDownloadedChapters() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryDownloadedChapters() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryDownloadedChapters', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByLibraryDownloadedChaptersDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryDownloadedChaptersDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryDownloadedChapters', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterAnimeBookMarkedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeBookMarkedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterAnimeBookMarkedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeBookMarkedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterAnimeCompletedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeCompletedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterAnimeCompletedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeCompletedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterAnimeDownloadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeDownloadType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterAnimeDownloadTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeDownloadType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterAnimeStartedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeStartedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterAnimeStartedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeStartedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterAnimeTrackingType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeTrackingType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterAnimeTrackingTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeTrackingType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterAnimeUnreadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeUnreadType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterAnimeUnreadTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterAnimeUnreadType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterMangasBookMarkedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasBookMarkedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterMangasBookMarkedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasBookMarkedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterMangasCompletedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasCompletedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterMangasCompletedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasCompletedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterMangasDownloadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasDownloadType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterMangasDownloadTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasDownloadType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterMangasStartedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasStartedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterMangasStartedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasStartedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterMangasTrackingType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasTrackingType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterMangasTrackingTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasTrackingType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterMangasUnreadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasUnreadType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterMangasUnreadTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterMangasUnreadType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterNovelBookMarkedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelBookMarkedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterNovelBookMarkedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelBookMarkedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterNovelCompletedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelCompletedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterNovelCompletedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelCompletedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterNovelDownloadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelDownloadType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterNovelDownloadTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelDownloadType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterNovelStartedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelStartedType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterNovelStartedTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelStartedType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterNovelTrackingType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelTrackingType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterNovelTrackingTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelTrackingType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterNovelUnreadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelUnreadType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryFilterNovelUnreadTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'libraryFilterNovelUnreadType', Sort.desc);
     });
   }
 
@@ -13143,31 +20298,36 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByLibraryLocalSourceDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryLocalSourceDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryLocalSource', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByLibraryShowCategoryTabs() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryShowCategoryTabs() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryShowCategoryTabs', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByLibraryShowCategoryTabsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryShowCategoryTabsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryShowCategoryTabs', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByLibraryShowContinueReadingButton() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryShowContinueReadingButton() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryShowContinueReadingButton', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByLibraryShowContinueReadingButtonDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryShowContinueReadingButtonDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryShowContinueReadingButton', Sort.desc);
     });
@@ -13179,33 +20339,24 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByLibraryShowLanguageDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryShowLanguageDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryShowLanguage', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByLibraryShowNumbersOfItems() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryShowNumbersOfItems() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryShowNumbersOfItems', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByLibraryShowNumbersOfItemsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByLibraryShowNumbersOfItemsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'libraryShowNumbersOfItems', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByLibraryUnreadChapters() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryUnreadChapters', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByLibraryUnreadChaptersDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'libraryUnreadChapters', Sort.desc);
     });
   }
 
@@ -13227,7 +20378,8 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByMangaHomeDisplayTypeDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByMangaHomeDisplayTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'mangaHomeDisplayType', Sort.desc);
     });
@@ -13239,7 +20391,8 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByMarkEpisodeAsSeenTypeDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByMarkEpisodeAsSeenTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'markEpisodeAsSeenType', Sort.desc);
     });
@@ -13251,9 +20404,22 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByMergeLibraryNavMobileDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByMergeLibraryNavMobileDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'mergeLibraryNavMobile', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNavigateToPan() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'navigateToPan', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNavigateToPanDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'navigateToPan', Sort.desc);
     });
   }
 
@@ -13293,43 +20459,50 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelLibraryDownloadedChapters() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelLibraryDownloadedChapters() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryDownloadedChapters', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelLibraryDownloadedChaptersDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelLibraryDownloadedChaptersDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryDownloadedChapters', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelLibraryLocalSource() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelLibraryLocalSource() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryLocalSource', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelLibraryLocalSourceDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelLibraryLocalSourceDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryLocalSource', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelLibraryShowCategoryTabs() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelLibraryShowCategoryTabs() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryShowCategoryTabs', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelLibraryShowCategoryTabsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelLibraryShowCategoryTabsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryShowCategoryTabs', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelLibraryShowContinueReadingButton() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelLibraryShowContinueReadingButton() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
         r'novelLibraryShowContinueReadingButton',
@@ -13338,7 +20511,8 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelLibraryShowContinueReadingButtonDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelLibraryShowContinueReadingButtonDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
         r'novelLibraryShowContinueReadingButton',
@@ -13347,39 +20521,31 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelLibraryShowLanguage() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelLibraryShowLanguage() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryShowLanguage', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelLibraryShowLanguageDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelLibraryShowLanguageDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryShowLanguage', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelLibraryShowNumbersOfItems() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelLibraryShowNumbersOfItems() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryShowNumbersOfItems', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelLibraryShowNumbersOfItemsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelLibraryShowNumbersOfItemsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelLibraryShowNumbersOfItems', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelLibraryUnreadChapters() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'novelLibraryUnreadChapters', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelLibraryUnreadChaptersDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'novelLibraryUnreadChapters', Sort.desc);
     });
   }
 
@@ -13389,7 +20555,8 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelReaderLineHeightDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelReaderLineHeightDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelReaderLineHeight', Sort.desc);
     });
@@ -13401,7 +20568,8 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelReaderPaddingDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelReaderPaddingDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelReaderPadding', Sort.desc);
     });
@@ -13413,7 +20581,8 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelReaderTextColorDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelReaderTextColorDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelReaderTextColor', Sort.desc);
     });
@@ -13431,25 +20600,29 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelRemoveExtraParagraphSpacing() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelRemoveExtraParagraphSpacing() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelRemoveExtraParagraphSpacing', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelRemoveExtraParagraphSpacingDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelRemoveExtraParagraphSpacingDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelRemoveExtraParagraphSpacing', Sort.desc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelShowScrollPercentage() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelShowScrollPercentage() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelShowScrollPercentage', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByNovelShowScrollPercentageDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByNovelShowScrollPercentageDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'novelShowScrollPercentage', Sort.desc);
     });
@@ -13479,13 +20652,15 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByOnlyIncludePinnedSources() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByOnlyIncludePinnedSources() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'onlyIncludePinnedSources', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByOnlyIncludePinnedSourcesDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByOnlyIncludePinnedSourcesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'onlyIncludePinnedSources', Sort.desc);
     });
@@ -13515,13 +20690,77 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByReaderBrightness() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerBrightness', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByReaderBrightnessDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerBrightness', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByReaderContrast() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerContrast', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByReaderContrastDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerContrast', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByReaderHideThreshold() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerHideThreshold', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByReaderHideThresholdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerHideThreshold', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByReaderNavigationLayout() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerNavigationLayout', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByReaderNavigationLayoutDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerNavigationLayout', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByReaderSaturation() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerSaturation', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByReaderSaturationDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'readerSaturation', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> thenByRelativeTimesTamps() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'relativeTimesTamps', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByRelativeTimesTampsDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByRelativeTimesTampsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'relativeTimesTamps', Sort.desc);
     });
@@ -13539,13 +20778,15 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByRpcShowReadingWatchingProgress() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByRpcShowReadingWatchingProgress() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'rpcShowReadingWatchingProgress', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByRpcShowReadingWatchingProgressDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByRpcShowReadingWatchingProgressDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'rpcShowReadingWatchingProgress', Sort.desc);
     });
@@ -13587,6 +20828,44 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByShowNSFW() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showNSFW', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByShowNSFWDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showNSFW', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByShowNavigationOverlayOnStart() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showNavigationOverlayOnStart', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByShowNavigationOverlayOnStartDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showNavigationOverlayOnStart', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByShowPageGaps() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showPageGaps', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByShowPageGapsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showPageGaps', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> thenByShowPagesNumber() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'showPagesNumber', Sort.asc);
@@ -13596,6 +20875,30 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
   QueryBuilder<Settings, Settings, QAfterSortBy> thenByShowPagesNumberDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'showPagesNumber', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByShowSourceBadge() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showSourceBadge', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByShowSourceBadgeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'showSourceBadge', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenBySplitWidePages() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'splitWidePages', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenBySplitWidePagesDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'splitWidePages', Sort.desc);
     });
   }
 
@@ -13611,6 +20914,18 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTappingInversion() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tappingInversion', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTappingInversionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tappingInversion', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> thenByThemeIsDark() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'themeIsDark', Sort.asc);
@@ -13623,13 +20938,112 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByUpdateProgressAfterReading() {
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTtsLanguage() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttsLanguage', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTtsLanguageDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttsLanguage', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTtsPitch() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttsPitch', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTtsPitchDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttsPitch', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTtsSpeechRate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttsSpeechRate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTtsSpeechRateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttsSpeechRate', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTtsVoice() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttsVoice', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTtsVoiceDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ttsVoice', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTvAnimeOnlyOverride() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tvAnimeOnlyOverride', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByTvAnimeOnlyOverrideDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tvAnimeOnlyOverride', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTvHomeGenreRows() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tvHomeGenreRows', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTvHomeGenreRowsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tvHomeGenreRows', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTvHomeStyle() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tvHomeStyle', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTvHomeStyleDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tvHomeStyle', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTvPlayerStyle() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tvPlayerStyle', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTvPlayerStyleDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tvPlayerStyle', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByUpdateProgressAfterReading() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'updateProgressAfterReading', Sort.asc);
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterSortBy> thenByUpdateProgressAfterReadingDesc() {
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByUpdateProgressAfterReadingDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'updateProgressAfterReading', Sort.desc);
     });
@@ -13718,9 +21132,69 @@ extension SettingsQuerySortThenBy on QueryBuilder<Settings, Settings, QSortThenB
       return query.addSortBy(r'volumeBoostCap', Sort.desc);
     });
   }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByWebtoonDisableZoomOut() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'webtoonDisableZoomOut', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByWebtoonDisableZoomOutDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'webtoonDisableZoomOut', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByWebtoonDoubleTapZoomEnabled() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'webtoonDoubleTapZoomEnabled', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByWebtoonDoubleTapZoomEnabledDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'webtoonDoubleTapZoomEnabled', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByWebtoonSidePadding() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'webtoonSidePadding', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy>
+  thenByWebtoonSidePaddingDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'webtoonSidePadding', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByZoomStartPosition() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zoomStartPosition', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByZoomStartPositionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'zoomStartPosition', Sort.desc);
+    });
+  }
 }
 
-extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistinct> {
+extension SettingsQueryWhereDistinct
+    on QueryBuilder<Settings, Settings, QDistinct> {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByAllowConcurrentDownloads() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'allowConcurrentDownloads');
+    });
+  }
+
   QueryBuilder<Settings, Settings, QDistinct> distinctByAndroidProxyServer({
     bool caseSensitive = true,
   }) {
@@ -13738,7 +21212,8 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByAnimatePageTransitions() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByAnimatePageTransitions() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'animatePageTransitions');
     });
@@ -13756,45 +21231,45 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByAnimeLibraryDownloadedChapters() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByAnimeLibraryDownloadedChapters() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'animeLibraryDownloadedChapters');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByAnimeLibraryLocalSource() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByAnimeLibraryLocalSource() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'animeLibraryLocalSource');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByAnimeLibraryShowCategoryTabs() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByAnimeLibraryShowCategoryTabs() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'animeLibraryShowCategoryTabs');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByAnimeLibraryShowContinueReadingButton() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByAnimeLibraryShowContinueReadingButton() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'animeLibraryShowContinueReadingButton');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByAnimeLibraryShowLanguage() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByAnimeLibraryShowLanguage() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'animeLibraryShowLanguage');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByAnimeLibraryShowNumbersOfItems() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByAnimeLibraryShowNumbersOfItems() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'animeLibraryShowNumbersOfItems');
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QDistinct> distinctByAnimeLibraryUnreadChapters() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'animeLibraryUnreadChapters');
     });
   }
 
@@ -13809,13 +21284,26 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
+  QueryBuilder<Settings, Settings, QDistinct> distinctByAppLockEnabled() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'appLockEnabled');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByAppUiScale() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'appUiScale');
+    });
+  }
+
   QueryBuilder<Settings, Settings, QDistinct> distinctByAudioChannels() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'audioChannels');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByAudioPreferredLanguages({bool caseSensitive = true}) {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByAudioPreferredLanguages({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(
         r'audioPreferredLanguages',
@@ -13835,15 +21323,42 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByAutoExtensionsUpdates() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByAutoExtensionsUpdates() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'autoExtensionsUpdates');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByAutoPlayNextEpisode() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'autoPlayNextEpisode');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByAutoReadDuplicateChapters() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'autoReadDuplicateChapters');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByAutomaticBackground() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'automaticBackground');
     });
   }
 
   QueryBuilder<Settings, Settings, QDistinct> distinctByBackgroundColor() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'backgroundColor');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByBackupCompressionLevel() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'backupCompressionLevel');
     });
   }
 
@@ -13876,19 +21391,29 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
+  QueryBuilder<Settings, Settings, QDistinct> distinctByCfProxyUrl({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'cfProxyUrl', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QDistinct> distinctByCheckForAppUpdates() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'checkForAppUpdates');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByCheckForExtensionUpdates() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByCheckForExtensionUpdates() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'checkForExtensionUpdates');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByClearChapterCacheOnAppLaunch() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByClearChapterCacheOnAppLaunch() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'clearChapterCacheOnAppLaunch');
     });
@@ -13920,6 +21445,14 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
+  QueryBuilder<Settings, Settings, QDistinct> distinctByCustomDohUrl({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'customDohUrl', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QDistinct> distinctByDateFormat({
     bool caseSensitive = true,
   }) {
@@ -13934,7 +21467,8 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByDefaultDoubleTapToSkipLength() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByDefaultDoubleTapToSkipLength() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'defaultDoubleTapToSkipLength');
     });
@@ -13952,9 +21486,17 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByDefaultSkipIntroLength() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByDefaultSkipIntroLength() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'defaultSkipIntroLength');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByDeleteDownloadAfterReading() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'deleteDownloadAfterReading');
     });
   }
 
@@ -13982,9 +21524,16 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByDoubleTapAnimationSpeed() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByDoubleTapAnimationSpeed() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'doubleTapAnimationSpeed');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByDownloadDelaySeconds() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'downloadDelaySeconds');
     });
   }
 
@@ -14005,9 +21554,34 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
+  QueryBuilder<Settings, Settings, QDistinct> distinctByDownloadQueueOrder() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'downloadQueueOrder');
+    });
+  }
+
   QueryBuilder<Settings, Settings, QDistinct> distinctByDownloadedOnlyMode() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'downloadedOnlyMode');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByDualPageInvert() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dualPageInvert');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByDualPageRotateToFit() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dualPageRotateToFit');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByDualPageRotateToFitInvert() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dualPageRotateToFitInvert');
     });
   }
 
@@ -14017,7 +21591,8 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByEnableAudioPitchCorrection() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByEnableAudioPitchCorrection() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'enableAudioPitchCorrection');
     });
@@ -14029,7 +21604,8 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByEnableCustomColorFilter() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByEnableCustomColorFilter() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'enableCustomColorFilter');
     });
@@ -14047,7 +21623,8 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByEnableHardwareAcceleration() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByEnableHardwareAcceleration() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'enableHardwareAcceleration');
     });
@@ -14059,7 +21636,43 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByFlexColorSchemeBlendLevel() {
+  QueryBuilder<Settings, Settings, QDistinct> distinctByExtensionServerPath({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(
+        r'extensionServerPath',
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByFlashColor() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'flashColor');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByFlashDuration() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'flashDuration');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByFlashInterval() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'flashInterval');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByFlashOnPageChange() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'flashOnPageChange');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByFlexColorSchemeBlendLevel() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'flexColorSchemeBlendLevel');
     });
@@ -14095,7 +21708,14 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByHideDiscordRpcInIncognito() {
+  QueryBuilder<Settings, Settings, QDistinct> distinctByGrayscale() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'grayscale');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByHideDiscordRpcInIncognito() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'hideDiscordRpcInIncognito');
     });
@@ -14121,7 +21741,34 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByLastTrackerLibraryLocation({bool caseSensitive = true}) {
+  QueryBuilder<Settings, Settings, QDistinct> distinctByInvertColors() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'invertColors');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByJrePath({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'jrePath', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByKeepScreenOnReader() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'keepScreenOnReader');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByLandscapeZoom() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'landscapeZoom');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLastTrackerLibraryLocation({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(
         r'lastTrackerLibraryLocation',
@@ -14130,9 +21777,136 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByLibraryDownloadedChapters() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryDownloadedChapters() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'libraryDownloadedChapters');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterAnimeBookMarkedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterAnimeBookMarkedType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterAnimeCompletedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterAnimeCompletedType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterAnimeDownloadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterAnimeDownloadType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterAnimeStartedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterAnimeStartedType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterAnimeTrackingType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterAnimeTrackingType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterAnimeUnreadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterAnimeUnreadType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterMangasBookMarkedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterMangasBookMarkedType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterMangasCompletedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterMangasCompletedType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterMangasDownloadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterMangasDownloadType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterMangasStartedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterMangasStartedType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterMangasTrackingType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterMangasTrackingType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterMangasUnreadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterMangasUnreadType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterNovelBookMarkedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterNovelBookMarkedType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterNovelCompletedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterNovelCompletedType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterNovelDownloadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterNovelDownloadType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterNovelStartedType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterNovelStartedType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterNovelTrackingType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterNovelTrackingType');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryFilterNovelUnreadType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'libraryFilterNovelUnreadType');
     });
   }
 
@@ -14142,13 +21916,15 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByLibraryShowCategoryTabs() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryShowCategoryTabs() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'libraryShowCategoryTabs');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByLibraryShowContinueReadingButton() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryShowContinueReadingButton() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'libraryShowContinueReadingButton');
     });
@@ -14160,15 +21936,10 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByLibraryShowNumbersOfItems() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByLibraryShowNumbersOfItems() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'libraryShowNumbersOfItems');
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QDistinct> distinctByLibraryUnreadChapters() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'libraryUnreadChapters');
     });
   }
 
@@ -14190,15 +21961,23 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByMarkEpisodeAsSeenType() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByMarkEpisodeAsSeenType() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'markEpisodeAsSeenType');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByMergeLibraryNavMobile() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByMergeLibraryNavMobile() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'mergeLibraryNavMobile');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByNavigateToPan() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'navigateToPan');
     });
   }
 
@@ -14226,49 +22005,50 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByNovelLibraryDownloadedChapters() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByNovelLibraryDownloadedChapters() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'novelLibraryDownloadedChapters');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByNovelLibraryLocalSource() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByNovelLibraryLocalSource() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'novelLibraryLocalSource');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByNovelLibraryShowCategoryTabs() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByNovelLibraryShowCategoryTabs() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'novelLibraryShowCategoryTabs');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByNovelLibraryShowContinueReadingButton() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByNovelLibraryShowContinueReadingButton() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'novelLibraryShowContinueReadingButton');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByNovelLibraryShowLanguage() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByNovelLibraryShowLanguage() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'novelLibraryShowLanguage');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByNovelLibraryShowNumbersOfItems() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByNovelLibraryShowNumbersOfItems() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'novelLibraryShowNumbersOfItems');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByNovelLibraryUnreadChapters() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'novelLibraryUnreadChapters');
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QDistinct> distinctByNovelReaderLineHeight() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByNovelReaderLineHeight() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'novelReaderLineHeight');
     });
@@ -14302,13 +22082,15 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByNovelRemoveExtraParagraphSpacing() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByNovelRemoveExtraParagraphSpacing() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'novelRemoveExtraParagraphSpacing');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByNovelShowScrollPercentage() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByNovelShowScrollPercentage() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'novelShowScrollPercentage');
     });
@@ -14326,7 +22108,8 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByOnlyIncludePinnedSources() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByOnlyIncludePinnedSources() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'onlyIncludePinnedSources');
     });
@@ -14344,6 +22127,37 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
+  QueryBuilder<Settings, Settings, QDistinct> distinctByReaderBrightness() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'readerBrightness');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByReaderContrast() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'readerContrast');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByReaderHideThreshold() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'readerHideThreshold');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByReaderNavigationLayout() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'readerNavigationLayout');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByReaderSaturation() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'readerSaturation');
+    });
+  }
+
   QueryBuilder<Settings, Settings, QDistinct> distinctByRelativeTimesTamps() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'relativeTimesTamps');
@@ -14356,7 +22170,8 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByRpcShowReadingWatchingProgress() {
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByRpcShowReadingWatchingProgress() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'rpcShowReadingWatchingProgress');
     });
@@ -14380,9 +22195,40 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
+  QueryBuilder<Settings, Settings, QDistinct> distinctByShowNSFW() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'showNSFW');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByShowNavigationOverlayOnStart() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'showNavigationOverlayOnStart');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByShowPageGaps() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'showPageGaps');
+    });
+  }
+
   QueryBuilder<Settings, Settings, QDistinct> distinctByShowPagesNumber() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'showPagesNumber');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByShowSourceBadge() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'showSourceBadge');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctBySplitWidePages() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'splitWidePages');
     });
   }
 
@@ -14392,13 +22238,72 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
     });
   }
 
+  QueryBuilder<Settings, Settings, QDistinct> distinctByTappingInversion() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'tappingInversion');
+    });
+  }
+
   QueryBuilder<Settings, Settings, QDistinct> distinctByThemeIsDark() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'themeIsDark');
     });
   }
 
-  QueryBuilder<Settings, Settings, QDistinct> distinctByUpdateProgressAfterReading() {
+  QueryBuilder<Settings, Settings, QDistinct> distinctByTtsLanguage({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'ttsLanguage', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByTtsPitch() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'ttsPitch');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByTtsSpeechRate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'ttsSpeechRate');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByTtsVoice({
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'ttsVoice', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByTvAnimeOnlyOverride() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'tvAnimeOnlyOverride');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByTvHomeGenreRows() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'tvHomeGenreRows');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByTvHomeStyle() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'tvHomeStyle');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByTvPlayerStyle() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'tvPlayerStyle');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByUpdateProgressAfterReading() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'updateProgressAfterReading');
     });
@@ -14447,46 +22352,86 @@ extension SettingsQueryWhereDistinct on QueryBuilder<Settings, Settings, QDistin
       return query.addDistinctBy(r'volumeBoostCap');
     });
   }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByWebtoonDisableZoomOut() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'webtoonDisableZoomOut');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct>
+  distinctByWebtoonDoubleTapZoomEnabled() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'webtoonDoubleTapZoomEnabled');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByWebtoonSidePadding() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'webtoonSidePadding');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByZoomStartPosition() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'zoomStartPosition');
+    });
+  }
 }
 
-extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProperty> {
+extension SettingsQueryProperty
+    on QueryBuilder<Settings, Settings, QQueryProperty> {
   QueryBuilder<Settings, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<Settings, AlgorithmWeights?, QQueryOperations> algorithmWeightsProperty() {
+  QueryBuilder<Settings, AlgorithmWeights?, QQueryOperations>
+  algorithmWeightsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'algorithmWeights');
     });
   }
 
-  QueryBuilder<Settings, String?, QQueryOperations> androidProxyServerProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  allowConcurrentDownloadsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'allowConcurrentDownloads');
+    });
+  }
+
+  QueryBuilder<Settings, String?, QQueryOperations>
+  androidProxyServerProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'androidProxyServer');
     });
   }
 
-  QueryBuilder<Settings, int?, QQueryOperations> aniSkipTimeoutLengthProperty() {
+  QueryBuilder<Settings, int?, QQueryOperations>
+  aniSkipTimeoutLengthProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'aniSkipTimeoutLength');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> animatePageTransitionsProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  animatePageTransitionsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'animatePageTransitions');
     });
   }
 
-  QueryBuilder<Settings, DisplayType, QQueryOperations> animeDisplayTypeProperty() {
+  QueryBuilder<Settings, DisplayType, QQueryOperations>
+  animeDisplayTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'animeDisplayType');
     });
   }
 
-  QueryBuilder<Settings, List<Repo>?, QQueryOperations> animeExtensionsRepoProperty() {
+  QueryBuilder<Settings, List<Repo>?, QQueryOperations>
+  animeExtensionsRepoProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'animeExtensionsRepo');
     });
@@ -14498,45 +22443,45 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> animeLibraryDownloadedChaptersProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  animeLibraryDownloadedChaptersProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'animeLibraryDownloadedChapters');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> animeLibraryLocalSourceProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  animeLibraryLocalSourceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'animeLibraryLocalSource');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> animeLibraryShowCategoryTabsProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  animeLibraryShowCategoryTabsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'animeLibraryShowCategoryTabs');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> animeLibraryShowContinueReadingButtonProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  animeLibraryShowContinueReadingButtonProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'animeLibraryShowContinueReadingButton');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> animeLibraryShowLanguageProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  animeLibraryShowLanguageProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'animeLibraryShowLanguage');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> animeLibraryShowNumbersOfItemsProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  animeLibraryShowNumbersOfItemsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'animeLibraryShowNumbersOfItems');
-    });
-  }
-
-  QueryBuilder<Settings, bool?, QQueryOperations> animeLibraryUnreadChaptersProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'animeLibraryUnreadChapters');
     });
   }
 
@@ -14546,39 +22491,85 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, AudioChannel, QQueryOperations> audioChannelsProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations> appLockEnabledProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'appLockEnabled');
+    });
+  }
+
+  QueryBuilder<Settings, double?, QQueryOperations> appUiScaleProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'appUiScale');
+    });
+  }
+
+  QueryBuilder<Settings, AudioChannel, QQueryOperations>
+  audioChannelsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'audioChannels');
     });
   }
 
-  QueryBuilder<Settings, String?, QQueryOperations> audioPreferredLanguagesProperty() {
+  QueryBuilder<Settings, String?, QQueryOperations>
+  audioPreferredLanguagesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'audioPreferredLanguages');
     });
   }
 
-  QueryBuilder<Settings, String?, QQueryOperations> autoBackupLocationProperty() {
+  QueryBuilder<Settings, String?, QQueryOperations>
+  autoBackupLocationProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'autoBackupLocation');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> autoExtensionsUpdatesProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  autoExtensionsUpdatesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'autoExtensionsUpdates');
     });
   }
 
-  QueryBuilder<Settings, List<AutoScrollPages>?, QQueryOperations> autoScrollPagesProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  autoPlayNextEpisodeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'autoPlayNextEpisode');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  autoReadDuplicateChaptersProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'autoReadDuplicateChapters');
+    });
+  }
+
+  QueryBuilder<Settings, List<AutoScrollPages>?, QQueryOperations>
+  autoScrollPagesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'autoScrollPages');
     });
   }
 
-  QueryBuilder<Settings, BackgroundColor, QQueryOperations> backgroundColorProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  automaticBackgroundProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'automaticBackground');
+    });
+  }
+
+  QueryBuilder<Settings, BackgroundColor, QQueryOperations>
+  backgroundColorProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'backgroundColor');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  backupCompressionLevelProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'backupCompressionLevel');
     });
   }
 
@@ -14588,7 +22579,8 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, List<int>?, QQueryOperations> backupListOptionsProperty() {
+  QueryBuilder<Settings, List<int>?, QQueryOperations>
+  backupListOptionsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'backupListOptions');
     });
@@ -14606,31 +22598,42 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, List<ChapterFilterBookmarked>?, QQueryOperations> chapterFilterBookmarkedListProperty() {
+  QueryBuilder<Settings, String?, QQueryOperations> cfProxyUrlProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'cfProxyUrl');
+    });
+  }
+
+  QueryBuilder<Settings, List<ChapterFilterBookmarked>?, QQueryOperations>
+  chapterFilterBookmarkedListProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'chapterFilterBookmarkedList');
     });
   }
 
-  QueryBuilder<Settings, List<ChapterFilterDownloaded>?, QQueryOperations> chapterFilterDownloadedListProperty() {
+  QueryBuilder<Settings, List<ChapterFilterDownloaded>?, QQueryOperations>
+  chapterFilterDownloadedListProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'chapterFilterDownloadedList');
     });
   }
 
-  QueryBuilder<Settings, List<ChapterFilterUnread>?, QQueryOperations> chapterFilterUnreadListProperty() {
+  QueryBuilder<Settings, List<ChapterFilterUnread>?, QQueryOperations>
+  chapterFilterUnreadListProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'chapterFilterUnreadList');
     });
   }
 
-  QueryBuilder<Settings, List<ChapterPageIndex>?, QQueryOperations> chapterPageIndexListProperty() {
+  QueryBuilder<Settings, List<ChapterPageIndex>?, QQueryOperations>
+  chapterPageIndexListProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'chapterPageIndexList');
     });
   }
 
-  QueryBuilder<Settings, List<ChapterPageurls>?, QQueryOperations> chapterPageUrlsListProperty() {
+  QueryBuilder<Settings, List<ChapterPageurls>?, QQueryOperations>
+  chapterPageUrlsListProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'chapterPageUrlsList');
     });
@@ -14642,19 +22645,22 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> checkForExtensionUpdatesProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  checkForExtensionUpdatesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'checkForExtensionUpdates');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> clearChapterCacheOnAppLaunchProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  clearChapterCacheOnAppLaunchProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'clearChapterCacheOnAppLaunch');
     });
   }
 
-  QueryBuilder<Settings, ColorFilterBlendMode, QQueryOperations> colorFilterBlendModeProperty() {
+  QueryBuilder<Settings, ColorFilterBlendMode, QQueryOperations>
+  colorFilterBlendModeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'colorFilterBlendMode');
     });
@@ -14666,7 +22672,8 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, List<MCookie>?, QQueryOperations> cookiesListProperty() {
+  QueryBuilder<Settings, List<MCookie>?, QQueryOperations>
+  cookiesListProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'cookiesList');
     });
@@ -14678,7 +22685,8 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, CustomColorFilter?, QQueryOperations> customColorFilterProperty() {
+  QueryBuilder<Settings, CustomColorFilter?, QQueryOperations>
+  customColorFilterProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'customColorFilter');
     });
@@ -14690,49 +22698,69 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
+  QueryBuilder<Settings, String?, QQueryOperations> customDohUrlProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'customDohUrl');
+    });
+  }
+
   QueryBuilder<Settings, String?, QQueryOperations> dateFormatProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'dateFormat');
     });
   }
 
-  QueryBuilder<Settings, DebandingType, QQueryOperations> debandingTypeProperty() {
+  QueryBuilder<Settings, DebandingType, QQueryOperations>
+  debandingTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'debandingType');
     });
   }
 
-  QueryBuilder<Settings, int?, QQueryOperations> defaultDoubleTapToSkipLengthProperty() {
+  QueryBuilder<Settings, int?, QQueryOperations>
+  defaultDoubleTapToSkipLengthProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'defaultDoubleTapToSkipLength');
     });
   }
 
-  QueryBuilder<Settings, double?, QQueryOperations> defaultPlayBackSpeedProperty() {
+  QueryBuilder<Settings, double?, QQueryOperations>
+  defaultPlayBackSpeedProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'defaultPlayBackSpeed');
     });
   }
 
-  QueryBuilder<Settings, ReaderMode, QQueryOperations> defaultReaderModeProperty() {
+  QueryBuilder<Settings, ReaderMode, QQueryOperations>
+  defaultReaderModeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'defaultReaderMode');
     });
   }
 
-  QueryBuilder<Settings, int?, QQueryOperations> defaultSkipIntroLengthProperty() {
+  QueryBuilder<Settings, int?, QQueryOperations>
+  defaultSkipIntroLengthProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'defaultSkipIntroLength');
     });
   }
 
-  QueryBuilder<Settings, L10nLocale?, QQueryOperations> defaultSubtitleLangProperty() {
+  QueryBuilder<Settings, L10nLocale?, QQueryOperations>
+  defaultSubtitleLangProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'defaultSubtitleLang');
     });
   }
 
-  QueryBuilder<Settings, SectionType, QQueryOperations> disableSectionTypeProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  deleteDownloadAfterReadingProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'deleteDownloadAfterReading');
+    });
+  }
+
+  QueryBuilder<Settings, SectionType, QQueryOperations>
+  disableSectionTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'disableSectionType');
     });
@@ -14756,9 +22784,17 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, int?, QQueryOperations> doubleTapAnimationSpeedProperty() {
+  QueryBuilder<Settings, int?, QQueryOperations>
+  doubleTapAnimationSpeedProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'doubleTapAnimationSpeed');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  downloadDelaySecondsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'downloadDelaySeconds');
     });
   }
 
@@ -14774,9 +22810,36 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
+  QueryBuilder<Settings, List<int>?, QQueryOperations>
+  downloadQueueOrderProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'downloadQueueOrder');
+    });
+  }
+
   QueryBuilder<Settings, bool?, QQueryOperations> downloadedOnlyModeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'downloadedOnlyMode');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations> dualPageInvertProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'dualPageInvert');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  dualPageRotateToFitProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'dualPageRotateToFit');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  dualPageRotateToFitInvertProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'dualPageRotateToFitInvert');
     });
   }
 
@@ -14786,7 +22849,8 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> enableAudioPitchCorrectionProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  enableAudioPitchCorrectionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'enableAudioPitchCorrection');
     });
@@ -14798,7 +22862,8 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> enableCustomColorFilterProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  enableCustomColorFilterProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'enableCustomColorFilter');
     });
@@ -14816,7 +22881,8 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> enableHardwareAccelerationProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  enableHardwareAccelerationProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'enableHardwareAcceleration');
     });
@@ -14828,19 +22894,53 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, List<FilterScanlator>?, QQueryOperations> filterScanlatorListProperty() {
+  QueryBuilder<Settings, String?, QQueryOperations>
+  extensionServerPathProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'extensionServerPath');
+    });
+  }
+
+  QueryBuilder<Settings, List<FilterScanlator>?, QQueryOperations>
+  filterScanlatorListProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'filterScanlatorList');
     });
   }
 
-  QueryBuilder<Settings, double?, QQueryOperations> flexColorSchemeBlendLevelProperty() {
+  QueryBuilder<Settings, int?, QQueryOperations> flashColorProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'flashColor');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations> flashDurationProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'flashDuration');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations> flashIntervalProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'flashInterval');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations> flashOnPageChangeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'flashOnPageChange');
+    });
+  }
+
+  QueryBuilder<Settings, double?, QQueryOperations>
+  flexColorSchemeBlendLevelProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'flexColorSchemeBlendLevel');
     });
   }
 
-  QueryBuilder<Settings, int?, QQueryOperations> flexSchemeColorIndexProperty() {
+  QueryBuilder<Settings, int?, QQueryOperations>
+  flexSchemeColorIndexProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'flexSchemeColorIndex');
     });
@@ -14852,7 +22952,8 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> forceLandscapePlayerProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  forceLandscapePlayerProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'forceLandscapePlayer');
     });
@@ -14870,7 +22971,14 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> hideDiscordRpcInIncognitoProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations> grayscaleProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'grayscale');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  hideDiscordRpcInIncognitoProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'hideDiscordRpcInIncognito');
     });
@@ -14894,15 +23002,167 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, String?, QQueryOperations> lastTrackerLibraryLocationProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations> invertColorsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'invertColors');
+    });
+  }
+
+  QueryBuilder<Settings, String?, QQueryOperations> jrePathProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'jrePath');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations> keepScreenOnReaderProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'keepScreenOnReader');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations> landscapeZoomProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'landscapeZoom');
+    });
+  }
+
+  QueryBuilder<Settings, String?, QQueryOperations>
+  lastTrackerLibraryLocationProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastTrackerLibraryLocation');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> libraryDownloadedChaptersProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  libraryDownloadedChaptersProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryDownloadedChapters');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterAnimeBookMarkedTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterAnimeBookMarkedType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterAnimeCompletedTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterAnimeCompletedType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterAnimeDownloadTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterAnimeDownloadType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterAnimeStartedTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterAnimeStartedType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterAnimeTrackingTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterAnimeTrackingType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterAnimeUnreadTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterAnimeUnreadType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterMangasBookMarkedTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterMangasBookMarkedType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterMangasCompletedTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterMangasCompletedType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterMangasDownloadTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterMangasDownloadType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterMangasStartedTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterMangasStartedType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterMangasTrackingTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterMangasTrackingType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterMangasUnreadTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterMangasUnreadType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterNovelBookMarkedTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterNovelBookMarkedType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterNovelCompletedTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterNovelCompletedType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterNovelDownloadTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterNovelDownloadType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterNovelStartedTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterNovelStartedType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterNovelTrackingTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterNovelTrackingType');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  libraryFilterNovelUnreadTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'libraryFilterNovelUnreadType');
     });
   }
 
@@ -14912,37 +23172,36 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> libraryShowCategoryTabsProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  libraryShowCategoryTabsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryShowCategoryTabs');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> libraryShowContinueReadingButtonProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  libraryShowContinueReadingButtonProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryShowContinueReadingButton');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> libraryShowLanguageProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  libraryShowLanguageProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryShowLanguage');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> libraryShowNumbersOfItemsProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  libraryShowNumbersOfItemsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'libraryShowNumbersOfItems');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> libraryUnreadChaptersProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'libraryUnreadChapters');
-    });
-  }
-
-  QueryBuilder<Settings, List<String>?, QQueryOperations> localFoldersProperty() {
+  QueryBuilder<Settings, List<String>?, QQueryOperations>
+  localFoldersProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'localFolders');
     });
@@ -14954,7 +23213,8 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, List<Repo>?, QQueryOperations> mangaExtensionsRepoProperty() {
+  QueryBuilder<Settings, List<Repo>?, QQueryOperations>
+  mangaExtensionsRepoProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'mangaExtensionsRepo');
     });
@@ -14966,37 +23226,49 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, DisplayType, QQueryOperations> mangaHomeDisplayTypeProperty() {
+  QueryBuilder<Settings, DisplayType, QQueryOperations>
+  mangaHomeDisplayTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'mangaHomeDisplayType');
     });
   }
 
-  QueryBuilder<Settings, int?, QQueryOperations> markEpisodeAsSeenTypeProperty() {
+  QueryBuilder<Settings, int?, QQueryOperations>
+  markEpisodeAsSeenTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'markEpisodeAsSeenType');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> mergeLibraryNavMobileProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  mergeLibraryNavMobileProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'mergeLibraryNavMobile');
     });
   }
 
-  QueryBuilder<Settings, List<String>?, QQueryOperations> navigationOrderProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations> navigateToPanProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'navigateToPan');
+    });
+  }
+
+  QueryBuilder<Settings, List<String>?, QQueryOperations>
+  navigationOrderProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'navigationOrder');
     });
   }
 
-  QueryBuilder<Settings, DisplayType, QQueryOperations> novelDisplayTypeProperty() {
+  QueryBuilder<Settings, DisplayType, QQueryOperations>
+  novelDisplayTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'novelDisplayType');
     });
   }
 
-  QueryBuilder<Settings, List<Repo>?, QQueryOperations> novelExtensionsRepoProperty() {
+  QueryBuilder<Settings, List<Repo>?, QQueryOperations>
+  novelExtensionsRepoProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'novelExtensionsRepo');
     });
@@ -15014,49 +23286,50 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> novelLibraryDownloadedChaptersProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  novelLibraryDownloadedChaptersProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'novelLibraryDownloadedChapters');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> novelLibraryLocalSourceProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  novelLibraryLocalSourceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'novelLibraryLocalSource');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> novelLibraryShowCategoryTabsProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  novelLibraryShowCategoryTabsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'novelLibraryShowCategoryTabs');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> novelLibraryShowContinueReadingButtonProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  novelLibraryShowContinueReadingButtonProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'novelLibraryShowContinueReadingButton');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> novelLibraryShowLanguageProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  novelLibraryShowLanguageProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'novelLibraryShowLanguage');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> novelLibraryShowNumbersOfItemsProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  novelLibraryShowNumbersOfItemsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'novelLibraryShowNumbersOfItems');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> novelLibraryUnreadChaptersProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'novelLibraryUnreadChapters');
-    });
-  }
-
-  QueryBuilder<Settings, double?, QQueryOperations> novelReaderLineHeightProperty() {
+  QueryBuilder<Settings, double?, QQueryOperations>
+  novelReaderLineHeightProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'novelReaderLineHeight');
     });
@@ -15068,7 +23341,8 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, String?, QQueryOperations> novelReaderTextColorProperty() {
+  QueryBuilder<Settings, String?, QQueryOperations>
+  novelReaderTextColorProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'novelReaderTextColor');
     });
@@ -15080,13 +23354,15 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> novelRemoveExtraParagraphSpacingProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  novelRemoveExtraParagraphSpacingProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'novelRemoveExtraParagraphSpacing');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> novelShowScrollPercentageProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  novelShowScrollPercentageProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'novelShowScrollPercentage');
     });
@@ -15098,13 +23374,15 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, NovelTextAlign, QQueryOperations> novelTextAlignProperty() {
+  QueryBuilder<Settings, NovelTextAlign, QQueryOperations>
+  novelTextAlignProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'novelTextAlign');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> onlyIncludePinnedSourcesProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  onlyIncludePinnedSourcesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'onlyIncludePinnedSources');
     });
@@ -15116,19 +23394,22 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, List<PersonalPageMode>?, QQueryOperations> personalPageModeListProperty() {
+  QueryBuilder<Settings, List<PersonalPageMode>?, QQueryOperations>
+  personalPageModeListProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'personalPageModeList');
     });
   }
 
-  QueryBuilder<Settings, List<PersonalReaderMode>?, QQueryOperations> personalReaderModeListProperty() {
+  QueryBuilder<Settings, List<PersonalReaderMode>?, QQueryOperations>
+  personalReaderModeListProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'personalReaderModeList');
     });
   }
 
-  QueryBuilder<Settings, PlayerSubtitleSettings?, QQueryOperations> playerSubtitleSettingsProperty() {
+  QueryBuilder<Settings, PlayerSubtitleSettings?, QQueryOperations>
+  playerSubtitleSettingsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'playerSubtitleSettings');
     });
@@ -15137,6 +23418,37 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
   QueryBuilder<Settings, bool?, QQueryOperations> pureBlackDarkModeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'pureBlackDarkMode');
+    });
+  }
+
+  QueryBuilder<Settings, double?, QQueryOperations> readerBrightnessProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'readerBrightness');
+    });
+  }
+
+  QueryBuilder<Settings, double?, QQueryOperations> readerContrastProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'readerContrast');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations> readerHideThresholdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'readerHideThreshold');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations>
+  readerNavigationLayoutProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'readerNavigationLayout');
+    });
+  }
+
+  QueryBuilder<Settings, double?, QQueryOperations> readerSaturationProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'readerSaturation');
     });
   }
 
@@ -15152,7 +23464,8 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> rpcShowReadingWatchingProgressProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  rpcShowReadingWatchingProgressProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'rpcShowReadingWatchingProgress');
     });
@@ -15170,9 +23483,35 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
+  QueryBuilder<Settings, List<SavedSearch>?, QQueryOperations>
+  savedSearchesListProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'savedSearchesList');
+    });
+  }
+
   QueryBuilder<Settings, ScaleType, QQueryOperations> scaleTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'scaleType');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations> showNSFWProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'showNSFW');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  showNavigationOverlayOnStartProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'showNavigationOverlayOnStart');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations> showPageGapsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'showPageGaps');
     });
   }
 
@@ -15182,27 +23521,43 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
-  QueryBuilder<Settings, List<SortChapter>?, QQueryOperations> sortChapterListProperty() {
+  QueryBuilder<Settings, bool?, QQueryOperations> showSourceBadgeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'showSourceBadge');
+    });
+  }
+
+  QueryBuilder<Settings, List<SortChapter>?, QQueryOperations>
+  sortChapterListProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'sortChapterList');
     });
   }
 
-  QueryBuilder<Settings, SortLibraryManga?, QQueryOperations> sortLibraryAnimeProperty() {
+  QueryBuilder<Settings, SortLibraryManga?, QQueryOperations>
+  sortLibraryAnimeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'sortLibraryAnime');
     });
   }
 
-  QueryBuilder<Settings, SortLibraryManga?, QQueryOperations> sortLibraryMangaProperty() {
+  QueryBuilder<Settings, SortLibraryManga?, QQueryOperations>
+  sortLibraryMangaProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'sortLibraryManga');
     });
   }
 
-  QueryBuilder<Settings, SortLibraryManga?, QQueryOperations> sortLibraryNovelProperty() {
+  QueryBuilder<Settings, SortLibraryManga?, QQueryOperations>
+  sortLibraryNovelProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'sortLibraryNovel');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations> splitWidePagesProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'splitWidePages');
     });
   }
 
@@ -15212,13 +23567,76 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
     });
   }
 
+  QueryBuilder<Settings, int?, QQueryOperations> tappingInversionProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'tappingInversion');
+    });
+  }
+
   QueryBuilder<Settings, bool?, QQueryOperations> themeIsDarkProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'themeIsDark');
     });
   }
 
-  QueryBuilder<Settings, bool?, QQueryOperations> updateProgressAfterReadingProperty() {
+  QueryBuilder<Settings, String?, QQueryOperations> ttsLanguageProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'ttsLanguage');
+    });
+  }
+
+  QueryBuilder<Settings, double?, QQueryOperations> ttsPitchProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'ttsPitch');
+    });
+  }
+
+  QueryBuilder<Settings, double?, QQueryOperations> ttsSpeechRateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'ttsSpeechRate');
+    });
+  }
+
+  QueryBuilder<Settings, String?, QQueryOperations> ttsVoiceProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'ttsVoice');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  tvAnimeOnlyOverrideProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'tvAnimeOnlyOverride');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations> tvHomeGenreRowsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'tvHomeGenreRows');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations> tvHomeStyleProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'tvHomeStyle');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations> tvPlayerStyleProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'tvPlayerStyle');
+    });
+  }
+
+  QueryBuilder<Settings, List<UpdateError>?, QQueryOperations>
+  updateErrorsListProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'updateErrorsList');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  updateProgressAfterReadingProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'updateProgressAfterReading');
     });
@@ -15265,11 +23683,913 @@ extension SettingsQueryProperty on QueryBuilder<Settings, Settings, QQueryProper
       return query.addPropertyName(r'volumeBoostCap');
     });
   }
+
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  webtoonDisableZoomOutProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'webtoonDisableZoomOut');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations>
+  webtoonDoubleTapZoomEnabledProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'webtoonDoubleTapZoomEnabled');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations> webtoonSidePaddingProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'webtoonSidePadding');
+    });
+  }
+
+  QueryBuilder<Settings, int?, QQueryOperations> zoomStartPositionProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'zoomStartPosition');
+    });
+  }
 }
 
 // **************************************************************************
 // IsarEmbeddedGenerator
 // **************************************************************************
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+
+const UpdateErrorSchema = Schema(
+  name: r'UpdateError',
+  id: -6793279269818166592,
+  properties: {
+    r'error': PropertySchema(id: 0, name: r'error', type: IsarType.string),
+    r'mangaId': PropertySchema(id: 1, name: r'mangaId', type: IsarType.long),
+    r'name': PropertySchema(id: 2, name: r'name', type: IsarType.string),
+  },
+
+  estimateSize: _updateErrorEstimateSize,
+  serialize: _updateErrorSerialize,
+  deserialize: _updateErrorDeserialize,
+  deserializeProp: _updateErrorDeserializeProp,
+);
+
+int _updateErrorEstimateSize(
+  UpdateError object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  bytesCount += 3 + object.error.length * 3;
+  bytesCount += 3 + object.name.length * 3;
+  return bytesCount;
+}
+
+void _updateErrorSerialize(
+  UpdateError object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeString(offsets[0], object.error);
+  writer.writeLong(offsets[1], object.mangaId);
+  writer.writeString(offsets[2], object.name);
+}
+
+UpdateError _updateErrorDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = UpdateError(
+    error: reader.readStringOrNull(offsets[0]) ?? '',
+    mangaId: reader.readLongOrNull(offsets[1]) ?? 0,
+    name: reader.readStringOrNull(offsets[2]) ?? '',
+  );
+  return object;
+}
+
+P _updateErrorDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readStringOrNull(offset) ?? '') as P;
+    case 1:
+      return (reader.readLongOrNull(offset) ?? 0) as P;
+    case 2:
+      return (reader.readStringOrNull(offset) ?? '') as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+extension UpdateErrorQueryFilter
+    on QueryBuilder<UpdateError, UpdateError, QFilterCondition> {
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> errorEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'error',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition>
+  errorGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'error',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> errorLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'error',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> errorBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'error',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> errorStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'error',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> errorEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'error',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> errorContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'error',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> errorMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'error',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> errorIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'error', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition>
+  errorIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'error', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> mangaIdEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'mangaId', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition>
+  mangaIdGreaterThan(int value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'mangaId',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> mangaIdLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'mangaId',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> mangaIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'mangaId',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> nameEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> nameGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> nameLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> nameBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'name',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> nameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> nameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> nameContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> nameMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'name',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition> nameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'name', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<UpdateError, UpdateError, QAfterFilterCondition>
+  nameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'name', value: ''),
+      );
+    });
+  }
+}
+
+extension UpdateErrorQueryObject
+    on QueryBuilder<UpdateError, UpdateError, QFilterCondition> {}
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+
+const SavedSearchSchema = Schema(
+  name: r'SavedSearch',
+  id: -4038919227263572545,
+  properties: {
+    r'name': PropertySchema(id: 0, name: r'name', type: IsarType.string),
+    r'query': PropertySchema(id: 1, name: r'query', type: IsarType.string),
+    r'sourceId': PropertySchema(id: 2, name: r'sourceId', type: IsarType.long),
+  },
+
+  estimateSize: _savedSearchEstimateSize,
+  serialize: _savedSearchSerialize,
+  deserialize: _savedSearchDeserialize,
+  deserializeProp: _savedSearchDeserializeProp,
+);
+
+int _savedSearchEstimateSize(
+  SavedSearch object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  bytesCount += 3 + object.name.length * 3;
+  bytesCount += 3 + object.query.length * 3;
+  return bytesCount;
+}
+
+void _savedSearchSerialize(
+  SavedSearch object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeString(offsets[0], object.name);
+  writer.writeString(offsets[1], object.query);
+  writer.writeLong(offsets[2], object.sourceId);
+}
+
+SavedSearch _savedSearchDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = SavedSearch(
+    name: reader.readStringOrNull(offsets[0]) ?? '',
+    query: reader.readStringOrNull(offsets[1]) ?? '',
+    sourceId: reader.readLongOrNull(offsets[2]),
+  );
+  return object;
+}
+
+P _savedSearchDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readStringOrNull(offset) ?? '') as P;
+    case 1:
+      return (reader.readStringOrNull(offset) ?? '') as P;
+    case 2:
+      return (reader.readLongOrNull(offset)) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+extension SavedSearchQueryFilter
+    on QueryBuilder<SavedSearch, SavedSearch, QFilterCondition> {
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> nameEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> nameGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> nameLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> nameBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'name',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> nameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> nameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> nameContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'name',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> nameMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'name',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> nameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'name', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition>
+  nameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'name', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> queryEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'query',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition>
+  queryGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'query',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> queryLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'query',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> queryBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'query',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> queryStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'query',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> queryEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'query',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> queryContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'query',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> queryMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'query',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> queryIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'query', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition>
+  queryIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'query', value: ''),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition>
+  sourceIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'sourceId'),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition>
+  sourceIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'sourceId'),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> sourceIdEqualTo(
+    int? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'sourceId', value: value),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition>
+  sourceIdGreaterThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'sourceId',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition>
+  sourceIdLessThan(int? value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'sourceId',
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<SavedSearch, SavedSearch, QAfterFilterCondition> sourceIdBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'sourceId',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+}
+
+extension SavedSearchQueryObject
+    on QueryBuilder<SavedSearch, SavedSearch, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -15348,7 +24668,8 @@ P _mCookieDeserializeProp<P>(
   }
 }
 
-extension MCookieQueryFilter on QueryBuilder<MCookie, MCookie, QFilterCondition> {
+extension MCookieQueryFilter
+    on QueryBuilder<MCookie, MCookie, QFilterCondition> {
   QueryBuilder<MCookie, MCookie, QAfterFilterCondition> cookieIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -15674,7 +24995,8 @@ extension MCookieQueryFilter on QueryBuilder<MCookie, MCookie, QFilterCondition>
   }
 }
 
-extension MCookieQueryObject on QueryBuilder<MCookie, MCookie, QFilterCondition> {}
+extension MCookieQueryObject
+    on QueryBuilder<MCookie, MCookie, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -15741,8 +25063,10 @@ P _sortLibraryMangaDeserializeProp<P>(
   }
 }
 
-extension SortLibraryMangaQueryFilter on QueryBuilder<SortLibraryManga, SortLibraryManga, QFilterCondition> {
-  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition> indexIsNull() {
+extension SortLibraryMangaQueryFilter
+    on QueryBuilder<SortLibraryManga, SortLibraryManga, QFilterCondition> {
+  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition>
+  indexIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'index'),
@@ -15750,7 +25074,8 @@ extension SortLibraryMangaQueryFilter on QueryBuilder<SortLibraryManga, SortLibr
     });
   }
 
-  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition> indexIsNotNull() {
+  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition>
+  indexIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'index'),
@@ -15758,7 +25083,8 @@ extension SortLibraryMangaQueryFilter on QueryBuilder<SortLibraryManga, SortLibr
     });
   }
 
-  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition> indexEqualTo(int? value) {
+  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition>
+  indexEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'index', value: value),
@@ -15766,10 +25092,8 @@ extension SortLibraryMangaQueryFilter on QueryBuilder<SortLibraryManga, SortLibr
     });
   }
 
-  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition> indexGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition>
+  indexGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -15781,10 +25105,8 @@ extension SortLibraryMangaQueryFilter on QueryBuilder<SortLibraryManga, SortLibr
     });
   }
 
-  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition> indexLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition>
+  indexLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -15796,7 +25118,8 @@ extension SortLibraryMangaQueryFilter on QueryBuilder<SortLibraryManga, SortLibr
     });
   }
 
-  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition> indexBetween(
+  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition>
+  indexBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -15815,7 +25138,8 @@ extension SortLibraryMangaQueryFilter on QueryBuilder<SortLibraryManga, SortLibr
     });
   }
 
-  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition> reverseIsNull() {
+  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition>
+  reverseIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'reverse'),
@@ -15823,7 +25147,8 @@ extension SortLibraryMangaQueryFilter on QueryBuilder<SortLibraryManga, SortLibr
     });
   }
 
-  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition> reverseIsNotNull() {
+  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition>
+  reverseIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'reverse'),
@@ -15831,7 +25156,8 @@ extension SortLibraryMangaQueryFilter on QueryBuilder<SortLibraryManga, SortLibr
     });
   }
 
-  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition> reverseEqualTo(bool? value) {
+  QueryBuilder<SortLibraryManga, SortLibraryManga, QAfterFilterCondition>
+  reverseEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'reverse', value: value),
@@ -15840,7 +25166,8 @@ extension SortLibraryMangaQueryFilter on QueryBuilder<SortLibraryManga, SortLibr
   }
 }
 
-extension SortLibraryMangaQueryObject on QueryBuilder<SortLibraryManga, SortLibraryManga, QFilterCondition> {}
+extension SortLibraryMangaQueryObject
+    on QueryBuilder<SortLibraryManga, SortLibraryManga, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -15912,7 +25239,8 @@ P _sortChapterDeserializeProp<P>(
   }
 }
 
-extension SortChapterQueryFilter on QueryBuilder<SortChapter, SortChapter, QFilterCondition> {
+extension SortChapterQueryFilter
+    on QueryBuilder<SortChapter, SortChapter, QFilterCondition> {
   QueryBuilder<SortChapter, SortChapter, QAfterFilterCondition> indexIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -15921,7 +25249,8 @@ extension SortChapterQueryFilter on QueryBuilder<SortChapter, SortChapter, QFilt
     });
   }
 
-  QueryBuilder<SortChapter, SortChapter, QAfterFilterCondition> indexIsNotNull() {
+  QueryBuilder<SortChapter, SortChapter, QAfterFilterCondition>
+  indexIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'index'),
@@ -15939,7 +25268,8 @@ extension SortChapterQueryFilter on QueryBuilder<SortChapter, SortChapter, QFilt
     });
   }
 
-  QueryBuilder<SortChapter, SortChapter, QAfterFilterCondition> indexGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<SortChapter, SortChapter, QAfterFilterCondition>
+  indexGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -15985,7 +25315,8 @@ extension SortChapterQueryFilter on QueryBuilder<SortChapter, SortChapter, QFilt
     });
   }
 
-  QueryBuilder<SortChapter, SortChapter, QAfterFilterCondition> mangaIdIsNull() {
+  QueryBuilder<SortChapter, SortChapter, QAfterFilterCondition>
+  mangaIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'mangaId'),
@@ -15993,7 +25324,8 @@ extension SortChapterQueryFilter on QueryBuilder<SortChapter, SortChapter, QFilt
     });
   }
 
-  QueryBuilder<SortChapter, SortChapter, QAfterFilterCondition> mangaIdIsNotNull() {
+  QueryBuilder<SortChapter, SortChapter, QAfterFilterCondition>
+  mangaIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'mangaId'),
@@ -16011,7 +25343,8 @@ extension SortChapterQueryFilter on QueryBuilder<SortChapter, SortChapter, QFilt
     });
   }
 
-  QueryBuilder<SortChapter, SortChapter, QAfterFilterCondition> mangaIdGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<SortChapter, SortChapter, QAfterFilterCondition>
+  mangaIdGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -16057,7 +25390,8 @@ extension SortChapterQueryFilter on QueryBuilder<SortChapter, SortChapter, QFilt
     });
   }
 
-  QueryBuilder<SortChapter, SortChapter, QAfterFilterCondition> reverseIsNull() {
+  QueryBuilder<SortChapter, SortChapter, QAfterFilterCondition>
+  reverseIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'reverse'),
@@ -16065,7 +25399,8 @@ extension SortChapterQueryFilter on QueryBuilder<SortChapter, SortChapter, QFilt
     });
   }
 
-  QueryBuilder<SortChapter, SortChapter, QAfterFilterCondition> reverseIsNotNull() {
+  QueryBuilder<SortChapter, SortChapter, QAfterFilterCondition>
+  reverseIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'reverse'),
@@ -16084,7 +25419,8 @@ extension SortChapterQueryFilter on QueryBuilder<SortChapter, SortChapter, QFilt
   }
 }
 
-extension SortChapterQueryObject on QueryBuilder<SortChapter, SortChapter, QFilterCondition> {}
+extension SortChapterQueryObject
+    on QueryBuilder<SortChapter, SortChapter, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -16152,8 +25488,18 @@ P _chapterFilterDownloadedDeserializeProp<P>(
 }
 
 extension ChapterFilterDownloadedQueryFilter
-    on QueryBuilder<ChapterFilterDownloaded, ChapterFilterDownloaded, QFilterCondition> {
-  QueryBuilder<ChapterFilterDownloaded, ChapterFilterDownloaded, QAfterFilterCondition> mangaIdIsNull() {
+    on
+        QueryBuilder<
+          ChapterFilterDownloaded,
+          ChapterFilterDownloaded,
+          QFilterCondition
+        > {
+  QueryBuilder<
+    ChapterFilterDownloaded,
+    ChapterFilterDownloaded,
+    QAfterFilterCondition
+  >
+  mangaIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'mangaId'),
@@ -16161,7 +25507,12 @@ extension ChapterFilterDownloadedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterDownloaded, ChapterFilterDownloaded, QAfterFilterCondition> mangaIdIsNotNull() {
+  QueryBuilder<
+    ChapterFilterDownloaded,
+    ChapterFilterDownloaded,
+    QAfterFilterCondition
+  >
+  mangaIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'mangaId'),
@@ -16169,7 +25520,12 @@ extension ChapterFilterDownloadedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterDownloaded, ChapterFilterDownloaded, QAfterFilterCondition> mangaIdEqualTo(int? value) {
+  QueryBuilder<
+    ChapterFilterDownloaded,
+    ChapterFilterDownloaded,
+    QAfterFilterCondition
+  >
+  mangaIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'mangaId', value: value),
@@ -16177,10 +25533,12 @@ extension ChapterFilterDownloadedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterDownloaded, ChapterFilterDownloaded, QAfterFilterCondition> mangaIdGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    ChapterFilterDownloaded,
+    ChapterFilterDownloaded,
+    QAfterFilterCondition
+  >
+  mangaIdGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -16192,10 +25550,12 @@ extension ChapterFilterDownloadedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterDownloaded, ChapterFilterDownloaded, QAfterFilterCondition> mangaIdLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    ChapterFilterDownloaded,
+    ChapterFilterDownloaded,
+    QAfterFilterCondition
+  >
+  mangaIdLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -16207,7 +25567,12 @@ extension ChapterFilterDownloadedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterDownloaded, ChapterFilterDownloaded, QAfterFilterCondition> mangaIdBetween(
+  QueryBuilder<
+    ChapterFilterDownloaded,
+    ChapterFilterDownloaded,
+    QAfterFilterCondition
+  >
+  mangaIdBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -16226,7 +25591,12 @@ extension ChapterFilterDownloadedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterDownloaded, ChapterFilterDownloaded, QAfterFilterCondition> typeIsNull() {
+  QueryBuilder<
+    ChapterFilterDownloaded,
+    ChapterFilterDownloaded,
+    QAfterFilterCondition
+  >
+  typeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'type'),
@@ -16234,7 +25604,12 @@ extension ChapterFilterDownloadedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterDownloaded, ChapterFilterDownloaded, QAfterFilterCondition> typeIsNotNull() {
+  QueryBuilder<
+    ChapterFilterDownloaded,
+    ChapterFilterDownloaded,
+    QAfterFilterCondition
+  >
+  typeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'type'),
@@ -16242,7 +25617,12 @@ extension ChapterFilterDownloadedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterDownloaded, ChapterFilterDownloaded, QAfterFilterCondition> typeEqualTo(int? value) {
+  QueryBuilder<
+    ChapterFilterDownloaded,
+    ChapterFilterDownloaded,
+    QAfterFilterCondition
+  >
+  typeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'type', value: value),
@@ -16250,10 +25630,12 @@ extension ChapterFilterDownloadedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterDownloaded, ChapterFilterDownloaded, QAfterFilterCondition> typeGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    ChapterFilterDownloaded,
+    ChapterFilterDownloaded,
+    QAfterFilterCondition
+  >
+  typeGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -16265,10 +25647,12 @@ extension ChapterFilterDownloadedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterDownloaded, ChapterFilterDownloaded, QAfterFilterCondition> typeLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    ChapterFilterDownloaded,
+    ChapterFilterDownloaded,
+    QAfterFilterCondition
+  >
+  typeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -16280,7 +25664,12 @@ extension ChapterFilterDownloadedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterDownloaded, ChapterFilterDownloaded, QAfterFilterCondition> typeBetween(
+  QueryBuilder<
+    ChapterFilterDownloaded,
+    ChapterFilterDownloaded,
+    QAfterFilterCondition
+  >
+  typeBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -16301,7 +25690,12 @@ extension ChapterFilterDownloadedQueryFilter
 }
 
 extension ChapterFilterDownloadedQueryObject
-    on QueryBuilder<ChapterFilterDownloaded, ChapterFilterDownloaded, QFilterCondition> {}
+    on
+        QueryBuilder<
+          ChapterFilterDownloaded,
+          ChapterFilterDownloaded,
+          QFilterCondition
+        > {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -16368,8 +25762,15 @@ P _chapterFilterUnreadDeserializeProp<P>(
   }
 }
 
-extension ChapterFilterUnreadQueryFilter on QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QFilterCondition> {
-  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition> mangaIdIsNull() {
+extension ChapterFilterUnreadQueryFilter
+    on
+        QueryBuilder<
+          ChapterFilterUnread,
+          ChapterFilterUnread,
+          QFilterCondition
+        > {
+  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition>
+  mangaIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'mangaId'),
@@ -16377,7 +25778,8 @@ extension ChapterFilterUnreadQueryFilter on QueryBuilder<ChapterFilterUnread, Ch
     });
   }
 
-  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition> mangaIdIsNotNull() {
+  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition>
+  mangaIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'mangaId'),
@@ -16385,7 +25787,8 @@ extension ChapterFilterUnreadQueryFilter on QueryBuilder<ChapterFilterUnread, Ch
     });
   }
 
-  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition> mangaIdEqualTo(int? value) {
+  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition>
+  mangaIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'mangaId', value: value),
@@ -16393,10 +25796,8 @@ extension ChapterFilterUnreadQueryFilter on QueryBuilder<ChapterFilterUnread, Ch
     });
   }
 
-  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition> mangaIdGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition>
+  mangaIdGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -16408,10 +25809,8 @@ extension ChapterFilterUnreadQueryFilter on QueryBuilder<ChapterFilterUnread, Ch
     });
   }
 
-  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition> mangaIdLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition>
+  mangaIdLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -16423,7 +25822,8 @@ extension ChapterFilterUnreadQueryFilter on QueryBuilder<ChapterFilterUnread, Ch
     });
   }
 
-  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition> mangaIdBetween(
+  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition>
+  mangaIdBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -16442,7 +25842,8 @@ extension ChapterFilterUnreadQueryFilter on QueryBuilder<ChapterFilterUnread, Ch
     });
   }
 
-  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition> typeIsNull() {
+  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition>
+  typeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'type'),
@@ -16450,7 +25851,8 @@ extension ChapterFilterUnreadQueryFilter on QueryBuilder<ChapterFilterUnread, Ch
     });
   }
 
-  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition> typeIsNotNull() {
+  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition>
+  typeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'type'),
@@ -16458,7 +25860,8 @@ extension ChapterFilterUnreadQueryFilter on QueryBuilder<ChapterFilterUnread, Ch
     });
   }
 
-  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition> typeEqualTo(int? value) {
+  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition>
+  typeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'type', value: value),
@@ -16466,10 +25869,8 @@ extension ChapterFilterUnreadQueryFilter on QueryBuilder<ChapterFilterUnread, Ch
     });
   }
 
-  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition> typeGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition>
+  typeGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -16481,10 +25882,8 @@ extension ChapterFilterUnreadQueryFilter on QueryBuilder<ChapterFilterUnread, Ch
     });
   }
 
-  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition> typeLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition>
+  typeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -16496,7 +25895,8 @@ extension ChapterFilterUnreadQueryFilter on QueryBuilder<ChapterFilterUnread, Ch
     });
   }
 
-  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition> typeBetween(
+  QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QAfterFilterCondition>
+  typeBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -16516,7 +25916,13 @@ extension ChapterFilterUnreadQueryFilter on QueryBuilder<ChapterFilterUnread, Ch
   }
 }
 
-extension ChapterFilterUnreadQueryObject on QueryBuilder<ChapterFilterUnread, ChapterFilterUnread, QFilterCondition> {}
+extension ChapterFilterUnreadQueryObject
+    on
+        QueryBuilder<
+          ChapterFilterUnread,
+          ChapterFilterUnread,
+          QFilterCondition
+        > {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -16584,8 +25990,18 @@ P _chapterFilterBookmarkedDeserializeProp<P>(
 }
 
 extension ChapterFilterBookmarkedQueryFilter
-    on QueryBuilder<ChapterFilterBookmarked, ChapterFilterBookmarked, QFilterCondition> {
-  QueryBuilder<ChapterFilterBookmarked, ChapterFilterBookmarked, QAfterFilterCondition> mangaIdIsNull() {
+    on
+        QueryBuilder<
+          ChapterFilterBookmarked,
+          ChapterFilterBookmarked,
+          QFilterCondition
+        > {
+  QueryBuilder<
+    ChapterFilterBookmarked,
+    ChapterFilterBookmarked,
+    QAfterFilterCondition
+  >
+  mangaIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'mangaId'),
@@ -16593,7 +26009,12 @@ extension ChapterFilterBookmarkedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterBookmarked, ChapterFilterBookmarked, QAfterFilterCondition> mangaIdIsNotNull() {
+  QueryBuilder<
+    ChapterFilterBookmarked,
+    ChapterFilterBookmarked,
+    QAfterFilterCondition
+  >
+  mangaIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'mangaId'),
@@ -16601,7 +26022,12 @@ extension ChapterFilterBookmarkedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterBookmarked, ChapterFilterBookmarked, QAfterFilterCondition> mangaIdEqualTo(int? value) {
+  QueryBuilder<
+    ChapterFilterBookmarked,
+    ChapterFilterBookmarked,
+    QAfterFilterCondition
+  >
+  mangaIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'mangaId', value: value),
@@ -16609,10 +26035,12 @@ extension ChapterFilterBookmarkedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterBookmarked, ChapterFilterBookmarked, QAfterFilterCondition> mangaIdGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    ChapterFilterBookmarked,
+    ChapterFilterBookmarked,
+    QAfterFilterCondition
+  >
+  mangaIdGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -16624,10 +26052,12 @@ extension ChapterFilterBookmarkedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterBookmarked, ChapterFilterBookmarked, QAfterFilterCondition> mangaIdLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    ChapterFilterBookmarked,
+    ChapterFilterBookmarked,
+    QAfterFilterCondition
+  >
+  mangaIdLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -16639,7 +26069,12 @@ extension ChapterFilterBookmarkedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterBookmarked, ChapterFilterBookmarked, QAfterFilterCondition> mangaIdBetween(
+  QueryBuilder<
+    ChapterFilterBookmarked,
+    ChapterFilterBookmarked,
+    QAfterFilterCondition
+  >
+  mangaIdBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -16658,7 +26093,12 @@ extension ChapterFilterBookmarkedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterBookmarked, ChapterFilterBookmarked, QAfterFilterCondition> typeIsNull() {
+  QueryBuilder<
+    ChapterFilterBookmarked,
+    ChapterFilterBookmarked,
+    QAfterFilterCondition
+  >
+  typeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'type'),
@@ -16666,7 +26106,12 @@ extension ChapterFilterBookmarkedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterBookmarked, ChapterFilterBookmarked, QAfterFilterCondition> typeIsNotNull() {
+  QueryBuilder<
+    ChapterFilterBookmarked,
+    ChapterFilterBookmarked,
+    QAfterFilterCondition
+  >
+  typeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'type'),
@@ -16674,7 +26119,12 @@ extension ChapterFilterBookmarkedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterBookmarked, ChapterFilterBookmarked, QAfterFilterCondition> typeEqualTo(int? value) {
+  QueryBuilder<
+    ChapterFilterBookmarked,
+    ChapterFilterBookmarked,
+    QAfterFilterCondition
+  >
+  typeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'type', value: value),
@@ -16682,10 +26132,12 @@ extension ChapterFilterBookmarkedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterBookmarked, ChapterFilterBookmarked, QAfterFilterCondition> typeGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    ChapterFilterBookmarked,
+    ChapterFilterBookmarked,
+    QAfterFilterCondition
+  >
+  typeGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -16697,10 +26149,12 @@ extension ChapterFilterBookmarkedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterBookmarked, ChapterFilterBookmarked, QAfterFilterCondition> typeLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    ChapterFilterBookmarked,
+    ChapterFilterBookmarked,
+    QAfterFilterCondition
+  >
+  typeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -16712,7 +26166,12 @@ extension ChapterFilterBookmarkedQueryFilter
     });
   }
 
-  QueryBuilder<ChapterFilterBookmarked, ChapterFilterBookmarked, QAfterFilterCondition> typeBetween(
+  QueryBuilder<
+    ChapterFilterBookmarked,
+    ChapterFilterBookmarked,
+    QAfterFilterCondition
+  >
+  typeBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -16733,7 +26192,12 @@ extension ChapterFilterBookmarkedQueryFilter
 }
 
 extension ChapterFilterBookmarkedQueryObject
-    on QueryBuilder<ChapterFilterBookmarked, ChapterFilterBookmarked, QFilterCondition> {}
+    on
+        QueryBuilder<
+          ChapterFilterBookmarked,
+          ChapterFilterBookmarked,
+          QFilterCondition
+        > {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -16852,8 +26316,10 @@ P _chapterPageurlsDeserializeProp<P>(
   }
 }
 
-extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPageurls, QFilterCondition> {
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterIdIsNull() {
+extension ChapterPageurlsQueryFilter
+    on QueryBuilder<ChapterPageurls, ChapterPageurls, QFilterCondition> {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'chapterId'),
@@ -16861,7 +26327,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterIdIsNotNull() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'chapterId'),
@@ -16869,7 +26336,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterIdEqualTo(int? value) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'chapterId', value: value),
@@ -16877,10 +26345,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterIdGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterIdGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -16892,10 +26358,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterIdLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterIdLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -16907,7 +26371,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterIdBetween(
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterIdBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -16926,7 +26391,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterUrlIsNull() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterUrlIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'chapterUrl'),
@@ -16934,7 +26400,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterUrlIsNotNull() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterUrlIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'chapterUrl'),
@@ -16942,10 +26409,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterUrlEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterUrlEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -16957,7 +26422,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterUrlGreaterThan(
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterUrlGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -16974,7 +26440,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterUrlLessThan(
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterUrlLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -16991,7 +26458,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterUrlBetween(
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterUrlBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -17012,10 +26480,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterUrlStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterUrlStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -17027,10 +26493,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterUrlEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterUrlEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -17042,10 +26506,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterUrlContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterUrlContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -17057,10 +26519,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterUrlMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterUrlMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -17072,7 +26532,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterUrlIsEmpty() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterUrlIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'chapterUrl', value: ''),
@@ -17080,7 +26541,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> chapterUrlIsNotEmpty() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  chapterUrlIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'chapterUrl', value: ''),
@@ -17088,7 +26550,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersIsNull() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'headers'),
@@ -17096,7 +26559,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersIsNotNull() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'headers'),
@@ -17104,10 +26568,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersElementEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -17119,7 +26581,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersElementGreaterThan(
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersElementGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -17136,7 +26599,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersElementLessThan(
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -17153,7 +26617,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersElementBetween(
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -17174,10 +26639,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersElementStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -17189,10 +26652,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersElementEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -17204,10 +26665,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersElementContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -17219,10 +26678,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersElementMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -17234,7 +26691,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersElementIsEmpty() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'headers', value: ''),
@@ -17242,7 +26700,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersElementIsNotEmpty() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'headers', value: ''),
@@ -17250,43 +26709,43 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersLengthEqualTo(int length) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'headers', length, true, length, true);
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersIsEmpty() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'headers', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersIsNotEmpty() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'headers', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'headers', 0, true, length, include);
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'headers', length, include, 999999, true);
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> headersLengthBetween(
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  headersLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -17303,7 +26762,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsIsNull() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'urls'),
@@ -17311,7 +26771,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsIsNotNull() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'urls'),
@@ -17319,10 +26780,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsElementEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -17334,7 +26793,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsElementGreaterThan(
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsElementGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -17351,7 +26811,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsElementLessThan(
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -17368,7 +26829,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsElementBetween(
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -17389,10 +26851,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsElementStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -17404,10 +26864,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsElementEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -17419,10 +26877,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsElementContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -17434,10 +26890,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsElementMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -17449,7 +26903,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsElementIsEmpty() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'urls', value: ''),
@@ -17457,7 +26912,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsElementIsNotEmpty() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'urls', value: ''),
@@ -17465,43 +26921,43 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsLengthEqualTo(int length) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'urls', length, true, length, true);
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsIsEmpty() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'urls', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsIsNotEmpty() {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'urls', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'urls', 0, true, length, include);
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'urls', length, include, 999999, true);
     });
   }
 
-  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition> urlsLengthBetween(
+  QueryBuilder<ChapterPageurls, ChapterPageurls, QAfterFilterCondition>
+  urlsLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -17519,7 +26975,8 @@ extension ChapterPageurlsQueryFilter on QueryBuilder<ChapterPageurls, ChapterPag
   }
 }
 
-extension ChapterPageurlsQueryObject on QueryBuilder<ChapterPageurls, ChapterPageurls, QFilterCondition> {}
+extension ChapterPageurlsQueryObject
+    on QueryBuilder<ChapterPageurls, ChapterPageurls, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -17590,8 +27047,10 @@ P _chapterPageIndexDeserializeProp<P>(
   }
 }
 
-extension ChapterPageIndexQueryFilter on QueryBuilder<ChapterPageIndex, ChapterPageIndex, QFilterCondition> {
-  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition> chapterIdIsNull() {
+extension ChapterPageIndexQueryFilter
+    on QueryBuilder<ChapterPageIndex, ChapterPageIndex, QFilterCondition> {
+  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition>
+  chapterIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'chapterId'),
@@ -17599,7 +27058,8 @@ extension ChapterPageIndexQueryFilter on QueryBuilder<ChapterPageIndex, ChapterP
     });
   }
 
-  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition> chapterIdIsNotNull() {
+  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition>
+  chapterIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'chapterId'),
@@ -17607,7 +27067,8 @@ extension ChapterPageIndexQueryFilter on QueryBuilder<ChapterPageIndex, ChapterP
     });
   }
 
-  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition> chapterIdEqualTo(int? value) {
+  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition>
+  chapterIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'chapterId', value: value),
@@ -17615,10 +27076,8 @@ extension ChapterPageIndexQueryFilter on QueryBuilder<ChapterPageIndex, ChapterP
     });
   }
 
-  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition> chapterIdGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition>
+  chapterIdGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -17630,10 +27089,8 @@ extension ChapterPageIndexQueryFilter on QueryBuilder<ChapterPageIndex, ChapterP
     });
   }
 
-  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition> chapterIdLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition>
+  chapterIdLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -17645,7 +27102,8 @@ extension ChapterPageIndexQueryFilter on QueryBuilder<ChapterPageIndex, ChapterP
     });
   }
 
-  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition> chapterIdBetween(
+  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition>
+  chapterIdBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -17664,7 +27122,8 @@ extension ChapterPageIndexQueryFilter on QueryBuilder<ChapterPageIndex, ChapterP
     });
   }
 
-  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition> indexIsNull() {
+  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition>
+  indexIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'index'),
@@ -17672,7 +27131,8 @@ extension ChapterPageIndexQueryFilter on QueryBuilder<ChapterPageIndex, ChapterP
     });
   }
 
-  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition> indexIsNotNull() {
+  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition>
+  indexIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'index'),
@@ -17680,7 +27140,8 @@ extension ChapterPageIndexQueryFilter on QueryBuilder<ChapterPageIndex, ChapterP
     });
   }
 
-  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition> indexEqualTo(int? value) {
+  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition>
+  indexEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'index', value: value),
@@ -17688,10 +27149,8 @@ extension ChapterPageIndexQueryFilter on QueryBuilder<ChapterPageIndex, ChapterP
     });
   }
 
-  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition> indexGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition>
+  indexGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -17703,10 +27162,8 @@ extension ChapterPageIndexQueryFilter on QueryBuilder<ChapterPageIndex, ChapterP
     });
   }
 
-  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition> indexLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition>
+  indexLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -17718,7 +27175,8 @@ extension ChapterPageIndexQueryFilter on QueryBuilder<ChapterPageIndex, ChapterP
     });
   }
 
-  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition> indexBetween(
+  QueryBuilder<ChapterPageIndex, ChapterPageIndex, QAfterFilterCondition>
+  indexBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -17738,7 +27196,8 @@ extension ChapterPageIndexQueryFilter on QueryBuilder<ChapterPageIndex, ChapterP
   }
 }
 
-extension ChapterPageIndexQueryObject on QueryBuilder<ChapterPageIndex, ChapterPageIndex, QFilterCondition> {}
+extension ChapterPageIndexQueryObject
+    on QueryBuilder<ChapterPageIndex, ChapterPageIndex, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -17825,6 +27284,7 @@ const _PersonalReaderModereaderModeEnumValueMap = {
   'verticalContinuous': 3,
   'webtoon': 4,
   'horizontalContinuous': 5,
+  'horizontalContinuousRTL': 6,
 };
 const _PersonalReaderModereaderModeValueEnumMap = {
   0: ReaderMode.vertical,
@@ -17833,10 +27293,13 @@ const _PersonalReaderModereaderModeValueEnumMap = {
   3: ReaderMode.verticalContinuous,
   4: ReaderMode.webtoon,
   5: ReaderMode.horizontalContinuous,
+  6: ReaderMode.horizontalContinuousRTL,
 };
 
-extension PersonalReaderModeQueryFilter on QueryBuilder<PersonalReaderMode, PersonalReaderMode, QFilterCondition> {
-  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition> mangaIdIsNull() {
+extension PersonalReaderModeQueryFilter
+    on QueryBuilder<PersonalReaderMode, PersonalReaderMode, QFilterCondition> {
+  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition>
+  mangaIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'mangaId'),
@@ -17844,7 +27307,8 @@ extension PersonalReaderModeQueryFilter on QueryBuilder<PersonalReaderMode, Pers
     });
   }
 
-  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition> mangaIdIsNotNull() {
+  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition>
+  mangaIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'mangaId'),
@@ -17852,7 +27316,8 @@ extension PersonalReaderModeQueryFilter on QueryBuilder<PersonalReaderMode, Pers
     });
   }
 
-  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition> mangaIdEqualTo(int? value) {
+  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition>
+  mangaIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'mangaId', value: value),
@@ -17860,10 +27325,8 @@ extension PersonalReaderModeQueryFilter on QueryBuilder<PersonalReaderMode, Pers
     });
   }
 
-  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition> mangaIdGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition>
+  mangaIdGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -17875,10 +27338,8 @@ extension PersonalReaderModeQueryFilter on QueryBuilder<PersonalReaderMode, Pers
     });
   }
 
-  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition> mangaIdLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition>
+  mangaIdLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -17890,7 +27351,8 @@ extension PersonalReaderModeQueryFilter on QueryBuilder<PersonalReaderMode, Pers
     });
   }
 
-  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition> mangaIdBetween(
+  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition>
+  mangaIdBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -17909,7 +27371,8 @@ extension PersonalReaderModeQueryFilter on QueryBuilder<PersonalReaderMode, Pers
     });
   }
 
-  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition> readerModeEqualTo(ReaderMode value) {
+  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition>
+  readerModeEqualTo(ReaderMode value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'readerMode', value: value),
@@ -17917,10 +27380,8 @@ extension PersonalReaderModeQueryFilter on QueryBuilder<PersonalReaderMode, Pers
     });
   }
 
-  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition> readerModeGreaterThan(
-    ReaderMode value, {
-    bool include = false,
-  }) {
+  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition>
+  readerModeGreaterThan(ReaderMode value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -17932,10 +27393,8 @@ extension PersonalReaderModeQueryFilter on QueryBuilder<PersonalReaderMode, Pers
     });
   }
 
-  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition> readerModeLessThan(
-    ReaderMode value, {
-    bool include = false,
-  }) {
+  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition>
+  readerModeLessThan(ReaderMode value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -17947,7 +27406,8 @@ extension PersonalReaderModeQueryFilter on QueryBuilder<PersonalReaderMode, Pers
     });
   }
 
-  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition> readerModeBetween(
+  QueryBuilder<PersonalReaderMode, PersonalReaderMode, QAfterFilterCondition>
+  readerModeBetween(
     ReaderMode lower,
     ReaderMode upper, {
     bool includeLower = true,
@@ -17967,7 +27427,8 @@ extension PersonalReaderModeQueryFilter on QueryBuilder<PersonalReaderMode, Pers
   }
 }
 
-extension PersonalReaderModeQueryObject on QueryBuilder<PersonalReaderMode, PersonalReaderMode, QFilterCondition> {}
+extension PersonalReaderModeQueryObject
+    on QueryBuilder<PersonalReaderMode, PersonalReaderMode, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -18047,8 +27508,10 @@ P _autoScrollPagesDeserializeProp<P>(
   }
 }
 
-extension AutoScrollPagesQueryFilter on QueryBuilder<AutoScrollPages, AutoScrollPages, QFilterCondition> {
-  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition> autoScrollIsNull() {
+extension AutoScrollPagesQueryFilter
+    on QueryBuilder<AutoScrollPages, AutoScrollPages, QFilterCondition> {
+  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition>
+  autoScrollIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'autoScroll'),
@@ -18056,7 +27519,8 @@ extension AutoScrollPagesQueryFilter on QueryBuilder<AutoScrollPages, AutoScroll
     });
   }
 
-  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition> autoScrollIsNotNull() {
+  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition>
+  autoScrollIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'autoScroll'),
@@ -18064,7 +27528,8 @@ extension AutoScrollPagesQueryFilter on QueryBuilder<AutoScrollPages, AutoScroll
     });
   }
 
-  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition> autoScrollEqualTo(bool? value) {
+  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition>
+  autoScrollEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'autoScroll', value: value),
@@ -18072,7 +27537,8 @@ extension AutoScrollPagesQueryFilter on QueryBuilder<AutoScrollPages, AutoScroll
     });
   }
 
-  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition> mangaIdIsNull() {
+  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition>
+  mangaIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'mangaId'),
@@ -18080,7 +27546,8 @@ extension AutoScrollPagesQueryFilter on QueryBuilder<AutoScrollPages, AutoScroll
     });
   }
 
-  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition> mangaIdIsNotNull() {
+  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition>
+  mangaIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'mangaId'),
@@ -18088,7 +27555,8 @@ extension AutoScrollPagesQueryFilter on QueryBuilder<AutoScrollPages, AutoScroll
     });
   }
 
-  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition> mangaIdEqualTo(int? value) {
+  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition>
+  mangaIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'mangaId', value: value),
@@ -18096,10 +27564,8 @@ extension AutoScrollPagesQueryFilter on QueryBuilder<AutoScrollPages, AutoScroll
     });
   }
 
-  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition> mangaIdGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition>
+  mangaIdGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -18111,10 +27577,8 @@ extension AutoScrollPagesQueryFilter on QueryBuilder<AutoScrollPages, AutoScroll
     });
   }
 
-  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition> mangaIdLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition>
+  mangaIdLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -18126,7 +27590,8 @@ extension AutoScrollPagesQueryFilter on QueryBuilder<AutoScrollPages, AutoScroll
     });
   }
 
-  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition> mangaIdBetween(
+  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition>
+  mangaIdBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -18145,7 +27610,8 @@ extension AutoScrollPagesQueryFilter on QueryBuilder<AutoScrollPages, AutoScroll
     });
   }
 
-  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition> pageOffsetIsNull() {
+  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition>
+  pageOffsetIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'pageOffset'),
@@ -18153,7 +27619,8 @@ extension AutoScrollPagesQueryFilter on QueryBuilder<AutoScrollPages, AutoScroll
     });
   }
 
-  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition> pageOffsetIsNotNull() {
+  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition>
+  pageOffsetIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'pageOffset'),
@@ -18161,10 +27628,8 @@ extension AutoScrollPagesQueryFilter on QueryBuilder<AutoScrollPages, AutoScroll
     });
   }
 
-  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition> pageOffsetEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
+  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition>
+  pageOffsetEqualTo(double? value, {double epsilon = Query.epsilon}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -18177,7 +27642,8 @@ extension AutoScrollPagesQueryFilter on QueryBuilder<AutoScrollPages, AutoScroll
     });
   }
 
-  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition> pageOffsetGreaterThan(
+  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition>
+  pageOffsetGreaterThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -18195,7 +27661,8 @@ extension AutoScrollPagesQueryFilter on QueryBuilder<AutoScrollPages, AutoScroll
     });
   }
 
-  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition> pageOffsetLessThan(
+  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition>
+  pageOffsetLessThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -18213,7 +27680,8 @@ extension AutoScrollPagesQueryFilter on QueryBuilder<AutoScrollPages, AutoScroll
     });
   }
 
-  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition> pageOffsetBetween(
+  QueryBuilder<AutoScrollPages, AutoScrollPages, QAfterFilterCondition>
+  pageOffsetBetween(
     double? lower,
     double? upper, {
     bool includeLower = true,
@@ -18236,7 +27704,8 @@ extension AutoScrollPagesQueryFilter on QueryBuilder<AutoScrollPages, AutoScroll
   }
 }
 
-extension AutoScrollPagesQueryObject on QueryBuilder<AutoScrollPages, AutoScrollPages, QFilterCondition> {}
+extension AutoScrollPagesQueryObject
+    on QueryBuilder<AutoScrollPages, AutoScrollPages, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -18990,8 +28459,10 @@ const _PersonalPageModepageModeValueEnumMap = {
   1: PageMode.doublePage,
 };
 
-extension PersonalPageModeQueryFilter on QueryBuilder<PersonalPageMode, PersonalPageMode, QFilterCondition> {
-  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition> mangaIdIsNull() {
+extension PersonalPageModeQueryFilter
+    on QueryBuilder<PersonalPageMode, PersonalPageMode, QFilterCondition> {
+  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition>
+  mangaIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'mangaId'),
@@ -18999,7 +28470,8 @@ extension PersonalPageModeQueryFilter on QueryBuilder<PersonalPageMode, Personal
     });
   }
 
-  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition> mangaIdIsNotNull() {
+  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition>
+  mangaIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'mangaId'),
@@ -19007,7 +28479,8 @@ extension PersonalPageModeQueryFilter on QueryBuilder<PersonalPageMode, Personal
     });
   }
 
-  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition> mangaIdEqualTo(int? value) {
+  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition>
+  mangaIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'mangaId', value: value),
@@ -19015,10 +28488,8 @@ extension PersonalPageModeQueryFilter on QueryBuilder<PersonalPageMode, Personal
     });
   }
 
-  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition> mangaIdGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition>
+  mangaIdGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -19030,10 +28501,8 @@ extension PersonalPageModeQueryFilter on QueryBuilder<PersonalPageMode, Personal
     });
   }
 
-  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition> mangaIdLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition>
+  mangaIdLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -19045,7 +28514,8 @@ extension PersonalPageModeQueryFilter on QueryBuilder<PersonalPageMode, Personal
     });
   }
 
-  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition> mangaIdBetween(
+  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition>
+  mangaIdBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -19064,7 +28534,8 @@ extension PersonalPageModeQueryFilter on QueryBuilder<PersonalPageMode, Personal
     });
   }
 
-  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition> pageModeEqualTo(PageMode value) {
+  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition>
+  pageModeEqualTo(PageMode value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'pageMode', value: value),
@@ -19072,10 +28543,8 @@ extension PersonalPageModeQueryFilter on QueryBuilder<PersonalPageMode, Personal
     });
   }
 
-  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition> pageModeGreaterThan(
-    PageMode value, {
-    bool include = false,
-  }) {
+  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition>
+  pageModeGreaterThan(PageMode value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -19087,10 +28556,8 @@ extension PersonalPageModeQueryFilter on QueryBuilder<PersonalPageMode, Personal
     });
   }
 
-  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition> pageModeLessThan(
-    PageMode value, {
-    bool include = false,
-  }) {
+  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition>
+  pageModeLessThan(PageMode value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -19102,7 +28569,8 @@ extension PersonalPageModeQueryFilter on QueryBuilder<PersonalPageMode, Personal
     });
   }
 
-  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition> pageModeBetween(
+  QueryBuilder<PersonalPageMode, PersonalPageMode, QAfterFilterCondition>
+  pageModeBetween(
     PageMode lower,
     PageMode upper, {
     bool includeLower = true,
@@ -19122,7 +28590,8 @@ extension PersonalPageModeQueryFilter on QueryBuilder<PersonalPageMode, Personal
   }
 }
 
-extension PersonalPageModeQueryObject on QueryBuilder<PersonalPageMode, PersonalPageMode, QFilterCondition> {}
+extension PersonalPageModeQueryObject
+    on QueryBuilder<PersonalPageMode, PersonalPageMode, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -19205,8 +28674,10 @@ P _filterScanlatorDeserializeProp<P>(
   }
 }
 
-extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScanlator, QFilterCondition> {
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> mangaIdIsNull() {
+extension FilterScanlatorQueryFilter
+    on QueryBuilder<FilterScanlator, FilterScanlator, QFilterCondition> {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  mangaIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'mangaId'),
@@ -19214,7 +28685,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> mangaIdIsNotNull() {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  mangaIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'mangaId'),
@@ -19222,7 +28694,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> mangaIdEqualTo(int? value) {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  mangaIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'mangaId', value: value),
@@ -19230,10 +28703,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> mangaIdGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  mangaIdGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -19245,10 +28716,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> mangaIdLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  mangaIdLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -19260,7 +28729,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> mangaIdBetween(
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  mangaIdBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -19279,7 +28749,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsIsNull() {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'scanlators'),
@@ -19287,7 +28758,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsIsNotNull() {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'scanlators'),
@@ -19295,10 +28767,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsElementEqualTo(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -19310,7 +28780,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsElementGreaterThan(
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsElementGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -19327,7 +28798,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsElementLessThan(
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -19344,7 +28816,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsElementBetween(
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -19365,10 +28838,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsElementStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -19380,10 +28851,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsElementEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -19395,10 +28864,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsElementContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -19410,10 +28877,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsElementMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -19425,7 +28890,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsElementIsEmpty() {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'scanlators', value: ''),
@@ -19433,7 +28899,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsElementIsNotEmpty() {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'scanlators', value: ''),
@@ -19441,43 +28908,43 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsLengthEqualTo(int length) {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsLengthEqualTo(int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'scanlators', length, true, length, true);
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsIsEmpty() {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'scanlators', 0, true, 0, true);
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsIsNotEmpty() {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'scanlators', 0, false, 999999, true);
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsLengthLessThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'scanlators', 0, true, length, include);
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsLengthGreaterThan(int length, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(r'scanlators', length, include, 999999, true);
     });
   }
 
-  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition> scanlatorsLengthBetween(
+  QueryBuilder<FilterScanlator, FilterScanlator, QAfterFilterCondition>
+  scanlatorsLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -19495,7 +28962,8 @@ extension FilterScanlatorQueryFilter on QueryBuilder<FilterScanlator, FilterScan
   }
 }
 
-extension FilterScanlatorQueryObject on QueryBuilder<FilterScanlator, FilterScanlator, QFilterCondition> {}
+extension FilterScanlatorQueryObject
+    on QueryBuilder<FilterScanlator, FilterScanlator, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -19582,8 +29050,10 @@ P _l10nLocaleDeserializeProp<P>(
   }
 }
 
-extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterCondition> {
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> countryCodeIsNull() {
+extension L10nLocaleQueryFilter
+    on QueryBuilder<L10nLocale, L10nLocale, QFilterCondition> {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  countryCodeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'countryCode'),
@@ -19591,7 +29061,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> countryCodeIsNotNull() {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  countryCodeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'countryCode'),
@@ -19599,10 +29070,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> countryCodeEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  countryCodeEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -19614,7 +29083,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> countryCodeGreaterThan(
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  countryCodeGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -19631,7 +29101,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> countryCodeLessThan(
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  countryCodeLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -19648,7 +29119,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> countryCodeBetween(
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  countryCodeBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -19669,10 +29141,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> countryCodeStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  countryCodeStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -19684,10 +29154,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> countryCodeEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  countryCodeEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -19699,10 +29167,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> countryCodeContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  countryCodeContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -19714,10 +29180,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> countryCodeMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  countryCodeMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -19729,7 +29193,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> countryCodeIsEmpty() {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  countryCodeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'countryCode', value: ''),
@@ -19737,7 +29202,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> countryCodeIsNotEmpty() {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  countryCodeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'countryCode', value: ''),
@@ -19745,7 +29211,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> languageCodeIsNull() {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  languageCodeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'languageCode'),
@@ -19753,7 +29220,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> languageCodeIsNotNull() {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  languageCodeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'languageCode'),
@@ -19761,10 +29229,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> languageCodeEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  languageCodeEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -19776,7 +29242,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> languageCodeGreaterThan(
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  languageCodeGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -19793,7 +29260,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> languageCodeLessThan(
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  languageCodeLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -19810,7 +29278,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> languageCodeBetween(
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  languageCodeBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -19831,10 +29300,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> languageCodeStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  languageCodeStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -19846,10 +29313,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> languageCodeEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  languageCodeEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -19861,10 +29326,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> languageCodeContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  languageCodeContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -19876,10 +29339,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> languageCodeMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  languageCodeMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -19891,7 +29352,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> languageCodeIsEmpty() {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  languageCodeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'languageCode', value: ''),
@@ -19899,7 +29361,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
     });
   }
 
-  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition> languageCodeIsNotEmpty() {
+  QueryBuilder<L10nLocale, L10nLocale, QAfterFilterCondition>
+  languageCodeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'languageCode', value: ''),
@@ -19908,7 +29371,8 @@ extension L10nLocaleQueryFilter on QueryBuilder<L10nLocale, L10nLocale, QFilterC
   }
 }
 
-extension L10nLocaleQueryObject on QueryBuilder<L10nLocale, L10nLocale, QFilterCondition> {}
+extension L10nLocaleQueryObject
+    on QueryBuilder<L10nLocale, L10nLocale, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -19985,8 +29449,10 @@ P _customColorFilterDeserializeProp<P>(
   }
 }
 
-extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, CustomColorFilter, QFilterCondition> {
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> aIsNull() {
+extension CustomColorFilterQueryFilter
+    on QueryBuilder<CustomColorFilter, CustomColorFilter, QFilterCondition> {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  aIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'a'),
@@ -19994,7 +29460,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> aIsNotNull() {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  aIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'a'),
@@ -20002,7 +29469,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> aEqualTo(int? value) {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  aEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'a', value: value),
@@ -20010,10 +29478,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> aGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  aGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -20025,10 +29491,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> aLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  aLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -20040,7 +29504,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> aBetween(
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  aBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -20059,7 +29524,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> bIsNull() {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  bIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'b'),
@@ -20067,7 +29533,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> bIsNotNull() {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  bIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'b'),
@@ -20075,7 +29542,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> bEqualTo(int? value) {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  bEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'b', value: value),
@@ -20083,10 +29551,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> bGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  bGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -20098,10 +29564,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> bLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  bLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -20113,7 +29577,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> bBetween(
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  bBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -20132,7 +29597,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> gIsNull() {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  gIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'g'),
@@ -20140,7 +29606,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> gIsNotNull() {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  gIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'g'),
@@ -20148,7 +29615,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> gEqualTo(int? value) {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  gEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'g', value: value),
@@ -20156,10 +29624,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> gGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  gGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -20171,10 +29637,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> gLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  gLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -20186,7 +29650,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> gBetween(
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  gBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -20205,7 +29670,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> rIsNull() {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  rIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'r'),
@@ -20213,7 +29679,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> rIsNotNull() {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  rIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'r'),
@@ -20221,7 +29688,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> rEqualTo(int? value) {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  rEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'r', value: value),
@@ -20229,10 +29697,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> rGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  rGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -20244,10 +29710,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> rLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  rLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -20259,7 +29723,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
     });
   }
 
-  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition> rBetween(
+  QueryBuilder<CustomColorFilter, CustomColorFilter, QAfterFilterCondition>
+  rBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -20279,7 +29744,8 @@ extension CustomColorFilterQueryFilter on QueryBuilder<CustomColorFilter, Custom
   }
 }
 
-extension CustomColorFilterQueryObject on QueryBuilder<CustomColorFilter, CustomColorFilter, QFilterCondition> {}
+extension CustomColorFilterQueryObject
+    on QueryBuilder<CustomColorFilter, CustomColorFilter, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -20464,8 +29930,18 @@ P _playerSubtitleSettingsDeserializeProp<P>(
 }
 
 extension PlayerSubtitleSettingsQueryFilter
-    on QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QFilterCondition> {
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorAIsNull() {
+    on
+        QueryBuilder<
+          PlayerSubtitleSettings,
+          PlayerSubtitleSettings,
+          QFilterCondition
+        > {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorAIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'backgroundColorA'),
@@ -20473,7 +29949,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorAIsNotNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorAIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'backgroundColorA'),
@@ -20481,9 +29962,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorAEqualTo(
-    int? value,
-  ) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorAEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'backgroundColorA', value: value),
@@ -20491,10 +29975,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorAGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorAGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -20506,10 +29992,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorALessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorALessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -20521,7 +30009,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorABetween(
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorABetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -20540,7 +30033,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorBIsNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorBIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'backgroundColorB'),
@@ -20548,7 +30046,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorBIsNotNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorBIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'backgroundColorB'),
@@ -20556,9 +30059,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorBEqualTo(
-    int? value,
-  ) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorBEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'backgroundColorB', value: value),
@@ -20566,10 +30072,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorBGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorBGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -20581,10 +30089,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorBLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorBLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -20596,7 +30106,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorBBetween(
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorBBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -20615,7 +30130,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorGIsNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorGIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'backgroundColorG'),
@@ -20623,7 +30143,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorGIsNotNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorGIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'backgroundColorG'),
@@ -20631,9 +30156,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorGEqualTo(
-    int? value,
-  ) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorGEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'backgroundColorG', value: value),
@@ -20641,10 +30169,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorGGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorGGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -20656,10 +30186,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorGLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorGLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -20671,7 +30203,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorGBetween(
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorGBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -20690,7 +30227,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorRIsNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorRIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'backgroundColorR'),
@@ -20698,7 +30240,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorRIsNotNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorRIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'backgroundColorR'),
@@ -20706,9 +30253,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorREqualTo(
-    int? value,
-  ) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorREqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'backgroundColorR', value: value),
@@ -20716,10 +30266,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorRGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorRGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -20731,10 +30283,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorRLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorRLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -20746,7 +30300,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> backgroundColorRBetween(
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  backgroundColorRBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -20765,7 +30324,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorAIsNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorAIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'borderColorA'),
@@ -20773,7 +30337,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorAIsNotNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorAIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'borderColorA'),
@@ -20781,7 +30350,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorAEqualTo(int? value) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorAEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'borderColorA', value: value),
@@ -20789,10 +30363,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorAGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorAGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -20804,10 +30380,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorALessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorALessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -20819,7 +30397,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorABetween(
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorABetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -20838,7 +30421,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorBIsNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorBIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'borderColorB'),
@@ -20846,7 +30434,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorBIsNotNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorBIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'borderColorB'),
@@ -20854,7 +30447,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorBEqualTo(int? value) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorBEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'borderColorB', value: value),
@@ -20862,10 +30460,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorBGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorBGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -20877,10 +30477,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorBLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorBLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -20892,7 +30494,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorBBetween(
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorBBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -20911,7 +30518,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorGIsNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorGIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'borderColorG'),
@@ -20919,7 +30531,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorGIsNotNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorGIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'borderColorG'),
@@ -20927,7 +30544,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorGEqualTo(int? value) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorGEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'borderColorG', value: value),
@@ -20935,10 +30557,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorGGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorGGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -20950,10 +30574,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorGLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorGLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -20965,7 +30591,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorGBetween(
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorGBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -20984,7 +30615,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorRIsNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorRIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'borderColorR'),
@@ -20992,7 +30628,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorRIsNotNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorRIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'borderColorR'),
@@ -21000,7 +30641,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorREqualTo(int? value) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorREqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'borderColorR', value: value),
@@ -21008,10 +30654,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorRGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorRGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -21023,10 +30671,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorRLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorRLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -21038,7 +30688,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> borderColorRBetween(
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  borderColorRBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -21057,7 +30712,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> fontSizeIsNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  fontSizeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'fontSize'),
@@ -21065,7 +30725,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> fontSizeIsNotNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  fontSizeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'fontSize'),
@@ -21073,7 +30738,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> fontSizeEqualTo(int? value) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  fontSizeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'fontSize', value: value),
@@ -21081,10 +30751,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> fontSizeGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  fontSizeGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -21096,10 +30768,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> fontSizeLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  fontSizeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -21111,7 +30785,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> fontSizeBetween(
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  fontSizeBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -21130,7 +30809,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorAIsNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorAIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'textColorA'),
@@ -21138,7 +30822,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorAIsNotNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorAIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'textColorA'),
@@ -21146,7 +30835,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorAEqualTo(int? value) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorAEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'textColorA', value: value),
@@ -21154,10 +30848,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorAGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorAGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -21169,10 +30865,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorALessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorALessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -21184,7 +30882,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorABetween(
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorABetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -21203,7 +30906,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorBIsNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorBIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'textColorB'),
@@ -21211,7 +30919,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorBIsNotNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorBIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'textColorB'),
@@ -21219,7 +30932,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorBEqualTo(int? value) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorBEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'textColorB', value: value),
@@ -21227,10 +30945,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorBGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorBGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -21242,10 +30962,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorBLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorBLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -21257,7 +30979,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorBBetween(
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorBBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -21276,7 +31003,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorGIsNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorGIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'textColorG'),
@@ -21284,7 +31016,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorGIsNotNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorGIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'textColorG'),
@@ -21292,7 +31029,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorGEqualTo(int? value) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorGEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'textColorG', value: value),
@@ -21300,10 +31042,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorGGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorGGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -21315,10 +31059,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorGLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorGLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -21330,7 +31076,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorGBetween(
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorGBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -21349,7 +31100,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorRIsNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorRIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'textColorR'),
@@ -21357,7 +31113,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorRIsNotNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorRIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'textColorR'),
@@ -21365,7 +31126,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorREqualTo(int? value) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorREqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'textColorR', value: value),
@@ -21373,10 +31139,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorRGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorRGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -21388,10 +31156,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorRLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorRLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -21403,7 +31173,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> textColorRBetween(
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  textColorRBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -21422,7 +31197,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> useBoldIsNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  useBoldIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'useBold'),
@@ -21430,7 +31210,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> useBoldIsNotNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  useBoldIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'useBold'),
@@ -21438,7 +31223,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> useBoldEqualTo(bool? value) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  useBoldEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'useBold', value: value),
@@ -21446,7 +31236,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> useItalicIsNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  useItalicIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'useItalic'),
@@ -21454,7 +31249,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> useItalicIsNotNull() {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  useItalicIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'useItalic'),
@@ -21462,7 +31262,12 @@ extension PlayerSubtitleSettingsQueryFilter
     });
   }
 
-  QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QAfterFilterCondition> useItalicEqualTo(bool? value) {
+  QueryBuilder<
+    PlayerSubtitleSettings,
+    PlayerSubtitleSettings,
+    QAfterFilterCondition
+  >
+  useItalicEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'useItalic', value: value),
@@ -21472,7 +31277,12 @@ extension PlayerSubtitleSettingsQueryFilter
 }
 
 extension PlayerSubtitleSettingsQueryObject
-    on QueryBuilder<PlayerSubtitleSettings, PlayerSubtitleSettings, QFilterCondition> {}
+    on
+        QueryBuilder<
+          PlayerSubtitleSettings,
+          PlayerSubtitleSettings,
+          QFilterCondition
+        > {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
@@ -21549,8 +31359,10 @@ P _algorithmWeightsDeserializeProp<P>(
   }
 }
 
-extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, AlgorithmWeights, QFilterCondition> {
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> genreIsNull() {
+extension AlgorithmWeightsQueryFilter
+    on QueryBuilder<AlgorithmWeights, AlgorithmWeights, QFilterCondition> {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  genreIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'genre'),
@@ -21558,7 +31370,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> genreIsNotNull() {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  genreIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'genre'),
@@ -21566,7 +31379,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> genreEqualTo(int? value) {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  genreEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'genre', value: value),
@@ -21574,10 +31388,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> genreGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  genreGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -21589,10 +31401,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> genreLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  genreLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -21604,7 +31414,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> genreBetween(
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  genreBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -21623,7 +31434,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> settingIsNull() {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  settingIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'setting'),
@@ -21631,7 +31443,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> settingIsNotNull() {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  settingIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'setting'),
@@ -21639,7 +31452,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> settingEqualTo(int? value) {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  settingEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'setting', value: value),
@@ -21647,10 +31461,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> settingGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  settingGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -21662,10 +31474,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> settingLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  settingLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -21677,7 +31487,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> settingBetween(
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  settingBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -21696,7 +31507,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> synopsisIsNull() {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  synopsisIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'synopsis'),
@@ -21704,7 +31516,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> synopsisIsNotNull() {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  synopsisIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'synopsis'),
@@ -21712,7 +31525,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> synopsisEqualTo(int? value) {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  synopsisEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'synopsis', value: value),
@@ -21720,10 +31534,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> synopsisGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  synopsisGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -21735,10 +31547,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> synopsisLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  synopsisLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -21750,7 +31560,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> synopsisBetween(
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  synopsisBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -21769,7 +31580,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> themeIsNull() {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  themeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'theme'),
@@ -21777,7 +31589,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> themeIsNotNull() {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  themeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'theme'),
@@ -21785,7 +31598,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> themeEqualTo(int? value) {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  themeEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'theme', value: value),
@@ -21793,10 +31607,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> themeGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  themeGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -21808,10 +31620,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> themeLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  themeLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -21823,7 +31633,8 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
     });
   }
 
-  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition> themeBetween(
+  QueryBuilder<AlgorithmWeights, AlgorithmWeights, QAfterFilterCondition>
+  themeBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -21843,4 +31654,5 @@ extension AlgorithmWeightsQueryFilter on QueryBuilder<AlgorithmWeights, Algorith
   }
 }
 
-extension AlgorithmWeightsQueryObject on QueryBuilder<AlgorithmWeights, AlgorithmWeights, QFilterCondition> {}
+extension AlgorithmWeightsQueryObject
+    on QueryBuilder<AlgorithmWeights, AlgorithmWeights, QFilterCondition> {}

@@ -12,7 +12,8 @@ part of 'date_format_state_provider.dart';
 @ProviderFor(DateFormatState)
 final dateFormatStateProvider = DateFormatStateProvider._();
 
-final class DateFormatStateProvider extends $NotifierProvider<DateFormatState, String> {
+final class DateFormatStateProvider
+    extends $NotifierProvider<DateFormatState, String> {
   DateFormatStateProvider._()
     : super(
         from: null,
@@ -48,7 +49,14 @@ abstract class _$DateFormatState extends $Notifier<String> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<String, String>,
+              String,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -56,7 +64,8 @@ abstract class _$DateFormatState extends $Notifier<String> {
 @ProviderFor(RelativeTimesTampsState)
 final relativeTimesTampsStateProvider = RelativeTimesTampsStateProvider._();
 
-final class RelativeTimesTampsStateProvider extends $NotifierProvider<RelativeTimesTampsState, int> {
+final class RelativeTimesTampsStateProvider
+    extends $NotifierProvider<RelativeTimesTampsState, int> {
   RelativeTimesTampsStateProvider._()
     : super(
         from: null,
@@ -84,7 +93,8 @@ final class RelativeTimesTampsStateProvider extends $NotifierProvider<RelativeTi
   }
 }
 
-String _$relativeTimesTampsStateHash() => r'fc39b88871e857dcd363c01df59de9ca174cb1d6';
+String _$relativeTimesTampsStateHash() =>
+    r'fc39b88871e857dcd363c01df59de9ca174cb1d6';
 
 abstract class _$RelativeTimesTampsState extends $Notifier<int> {
   int build();
@@ -92,7 +102,14 @@ abstract class _$RelativeTimesTampsState extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<int, int>,
+              int,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

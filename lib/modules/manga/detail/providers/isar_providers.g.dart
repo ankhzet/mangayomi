@@ -12,7 +12,8 @@ part of 'isar_providers.dart';
 @ProviderFor(getMangaDetailStream)
 final getMangaDetailStreamProvider = GetMangaDetailStreamFamily._();
 
-final class GetMangaDetailStreamProvider extends $FunctionalProvider<AsyncValue<Manga?>, Manga?, Stream<Manga?>>
+final class GetMangaDetailStreamProvider
+    extends $FunctionalProvider<AsyncValue<Manga?>, Manga?, Stream<Manga?>>
     with $FutureModifier<Manga?>, $StreamProvider<Manga?> {
   GetMangaDetailStreamProvider._({
     required GetMangaDetailStreamFamily super.from,
@@ -37,7 +38,8 @@ final class GetMangaDetailStreamProvider extends $FunctionalProvider<AsyncValue<
 
   @$internal
   @override
-  $StreamProviderElement<Manga?> $createElement($ProviderPointer pointer) => $StreamProviderElement(pointer);
+  $StreamProviderElement<Manga?> $createElement($ProviderPointer pointer) =>
+      $StreamProviderElement(pointer);
 
   @override
   Stream<Manga?> create(Ref ref) {
@@ -56,9 +58,11 @@ final class GetMangaDetailStreamProvider extends $FunctionalProvider<AsyncValue<
   }
 }
 
-String _$getMangaDetailStreamHash() => r'6e7c5dc20ee7d32a091e884ac6980e191f698c8c';
+String _$getMangaDetailStreamHash() =>
+    r'6e7c5dc20ee7d32a091e884ac6980e191f698c8c';
 
-final class GetMangaDetailStreamFamily extends $Family with $FunctionalFamilyOverride<Stream<Manga?>, int> {
+final class GetMangaDetailStreamFamily extends $Family
+    with $FunctionalFamilyOverride<Stream<Manga?>, int> {
   GetMangaDetailStreamFamily._()
     : super(
         retry: null,
@@ -79,7 +83,12 @@ final class GetMangaDetailStreamFamily extends $Family with $FunctionalFamilyOve
 final getChaptersStreamProvider = GetChaptersStreamFamily._();
 
 final class GetChaptersStreamProvider
-    extends $FunctionalProvider<AsyncValue<List<Chapter>>, List<Chapter>, Stream<List<Chapter>>>
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<Chapter>>,
+          List<Chapter>,
+          Stream<List<Chapter>>
+        >
     with $FutureModifier<List<Chapter>>, $StreamProvider<List<Chapter>> {
   GetChaptersStreamProvider._({
     required GetChaptersStreamFamily super.from,
@@ -127,7 +136,8 @@ final class GetChaptersStreamProvider
 
 String _$getChaptersStreamHash() => r'0f03db54c5a639c4356a81e4bad50fa8a077ceac';
 
-final class GetChaptersStreamFamily extends $Family with $FunctionalFamilyOverride<Stream<List<Chapter>>, int> {
+final class GetChaptersStreamFamily extends $Family
+    with $FunctionalFamilyOverride<Stream<List<Chapter>>, int> {
   GetChaptersStreamFamily._()
     : super(
         retry: null,
@@ -137,7 +147,8 @@ final class GetChaptersStreamFamily extends $Family with $FunctionalFamilyOverri
         isAutoDispose: true,
       );
 
-  GetChaptersStreamProvider call({required int mangaId}) => GetChaptersStreamProvider._(argument: mangaId, from: this);
+  GetChaptersStreamProvider call({required int mangaId}) =>
+      GetChaptersStreamProvider._(argument: mangaId, from: this);
 
   @override
   String toString() => r'getChaptersStreamProvider';

@@ -106,7 +106,9 @@ History _historyDeserialize(
     date: reader.readStringOrNull(offsets[1]),
     id: id,
     isManga: reader.readBoolOrNull(offsets[2]),
-    itemType: _HistoryitemTypeValueEnumMap[reader.readByteOrNull(offsets[3])] ?? ItemType.manga,
+    itemType:
+        _HistoryitemTypeValueEnumMap[reader.readByteOrNull(offsets[3])] ??
+        ItemType.manga,
     mangaId: reader.readLongOrNull(offsets[4]),
     readingTimeSeconds: reader.readLongOrNull(offsets[5]),
     updatedAt: reader.readLongOrNull(offsets[6]),
@@ -128,7 +130,9 @@ P _historyDeserializeProp<P>(
     case 2:
       return (reader.readBoolOrNull(offset)) as P;
     case 3:
-      return (_HistoryitemTypeValueEnumMap[reader.readByteOrNull(offset)] ?? ItemType.manga) as P;
+      return (_HistoryitemTypeValueEnumMap[reader.readByteOrNull(offset)] ??
+              ItemType.manga)
+          as P;
     case 4:
       return (reader.readLongOrNull(offset)) as P;
     case 5:
@@ -238,7 +242,8 @@ extension HistoryQueryWhere on QueryBuilder<History, History, QWhereClause> {
   }
 }
 
-extension HistoryQueryFilter on QueryBuilder<History, History, QFilterCondition> {
+extension HistoryQueryFilter
+    on QueryBuilder<History, History, QFilterCondition> {
   QueryBuilder<History, History, QAfterFilterCondition> chapterIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -709,7 +714,8 @@ extension HistoryQueryFilter on QueryBuilder<History, History, QFilterCondition>
     });
   }
 
-  QueryBuilder<History, History, QAfterFilterCondition> readingTimeSecondsIsNull() {
+  QueryBuilder<History, History, QAfterFilterCondition>
+  readingTimeSecondsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'readingTimeSeconds'),
@@ -717,7 +723,8 @@ extension HistoryQueryFilter on QueryBuilder<History, History, QFilterCondition>
     });
   }
 
-  QueryBuilder<History, History, QAfterFilterCondition> readingTimeSecondsIsNotNull() {
+  QueryBuilder<History, History, QAfterFilterCondition>
+  readingTimeSecondsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'readingTimeSeconds'),
@@ -725,7 +732,8 @@ extension HistoryQueryFilter on QueryBuilder<History, History, QFilterCondition>
     });
   }
 
-  QueryBuilder<History, History, QAfterFilterCondition> readingTimeSecondsEqualTo(int? value) {
+  QueryBuilder<History, History, QAfterFilterCondition>
+  readingTimeSecondsEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'readingTimeSeconds', value: value),
@@ -733,10 +741,8 @@ extension HistoryQueryFilter on QueryBuilder<History, History, QFilterCondition>
     });
   }
 
-  QueryBuilder<History, History, QAfterFilterCondition> readingTimeSecondsGreaterThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<History, History, QAfterFilterCondition>
+  readingTimeSecondsGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -748,7 +754,8 @@ extension HistoryQueryFilter on QueryBuilder<History, History, QFilterCondition>
     });
   }
 
-  QueryBuilder<History, History, QAfterFilterCondition> readingTimeSecondsLessThan(int? value, {bool include = false}) {
+  QueryBuilder<History, History, QAfterFilterCondition>
+  readingTimeSecondsLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -760,7 +767,8 @@ extension HistoryQueryFilter on QueryBuilder<History, History, QFilterCondition>
     });
   }
 
-  QueryBuilder<History, History, QAfterFilterCondition> readingTimeSecondsBetween(
+  QueryBuilder<History, History, QAfterFilterCondition>
+  readingTimeSecondsBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -855,9 +863,11 @@ extension HistoryQueryFilter on QueryBuilder<History, History, QFilterCondition>
   }
 }
 
-extension HistoryQueryObject on QueryBuilder<History, History, QFilterCondition> {}
+extension HistoryQueryObject
+    on QueryBuilder<History, History, QFilterCondition> {}
 
-extension HistoryQueryLinks on QueryBuilder<History, History, QFilterCondition> {
+extension HistoryQueryLinks
+    on QueryBuilder<History, History, QFilterCondition> {
   QueryBuilder<History, History, QAfterFilterCondition> chapter(
     FilterQuery<Chapter> q,
   ) {
@@ -959,7 +969,8 @@ extension HistoryQuerySortBy on QueryBuilder<History, History, QSortBy> {
   }
 }
 
-extension HistoryQuerySortThenBy on QueryBuilder<History, History, QSortThenBy> {
+extension HistoryQuerySortThenBy
+    on QueryBuilder<History, History, QSortThenBy> {
   QueryBuilder<History, History, QAfterSortBy> thenByChapterId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'chapterId', Sort.asc);
@@ -1057,7 +1068,8 @@ extension HistoryQuerySortThenBy on QueryBuilder<History, History, QSortThenBy> 
   }
 }
 
-extension HistoryQueryWhereDistinct on QueryBuilder<History, History, QDistinct> {
+extension HistoryQueryWhereDistinct
+    on QueryBuilder<History, History, QDistinct> {
   QueryBuilder<History, History, QDistinct> distinctByChapterId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'chapterId');
@@ -1103,7 +1115,8 @@ extension HistoryQueryWhereDistinct on QueryBuilder<History, History, QDistinct>
   }
 }
 
-extension HistoryQueryProperty on QueryBuilder<History, History, QQueryProperty> {
+extension HistoryQueryProperty
+    on QueryBuilder<History, History, QQueryProperty> {
   QueryBuilder<History, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');

@@ -12,7 +12,8 @@ part of 'theme_mode_state_provider.dart';
 @ProviderFor(ThemeModeState)
 final themeModeStateProvider = ThemeModeStateProvider._();
 
-final class ThemeModeStateProvider extends $NotifierProvider<ThemeModeState, bool> {
+final class ThemeModeStateProvider
+    extends $NotifierProvider<ThemeModeState, bool> {
   ThemeModeStateProvider._()
     : super(
         from: null,
@@ -48,7 +49,14 @@ abstract class _$ThemeModeState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -56,7 +64,8 @@ abstract class _$ThemeModeState extends $Notifier<bool> {
 @ProviderFor(FollowSystemThemeState)
 final followSystemThemeStateProvider = FollowSystemThemeStateProvider._();
 
-final class FollowSystemThemeStateProvider extends $NotifierProvider<FollowSystemThemeState, bool> {
+final class FollowSystemThemeStateProvider
+    extends $NotifierProvider<FollowSystemThemeState, bool> {
   FollowSystemThemeStateProvider._()
     : super(
         from: null,
@@ -84,7 +93,8 @@ final class FollowSystemThemeStateProvider extends $NotifierProvider<FollowSyste
   }
 }
 
-String _$followSystemThemeStateHash() => r'07837fff5d56fb0b15b555d203af2bbe94e138f8';
+String _$followSystemThemeStateHash() =>
+    r'07837fff5d56fb0b15b555d203af2bbe94e138f8';
 
 abstract class _$FollowSystemThemeState extends $Notifier<bool> {
   bool build();
@@ -92,7 +102,14 @@ abstract class _$FollowSystemThemeState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

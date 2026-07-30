@@ -13,7 +13,12 @@ part of 'isar_providers.dart';
 final getAllHistoryStreamProvider = GetAllHistoryStreamFamily._();
 
 final class GetAllHistoryStreamProvider
-    extends $FunctionalProvider<AsyncValue<List<History>>, List<History>, Stream<List<History>>>
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<History>>,
+          List<History>,
+          Stream<List<History>>
+        >
     with $FutureModifier<List<History>>, $StreamProvider<List<History>> {
   GetAllHistoryStreamProvider._({
     required GetAllHistoryStreamFamily super.from,
@@ -63,10 +68,15 @@ final class GetAllHistoryStreamProvider
   }
 }
 
-String _$getAllHistoryStreamHash() => r'1ce5bd0046fbbec46e91b7a486523945699d95f3';
+String _$getAllHistoryStreamHash() =>
+    r'0f374dfdb3636b06da2f6786066a1737b645a4b6';
 
 final class GetAllHistoryStreamFamily extends $Family
-    with $FunctionalFamilyOverride<Stream<List<History>>, ({ItemType itemType, String search})> {
+    with
+        $FunctionalFamilyOverride<
+          Stream<List<History>>,
+          ({ItemType itemType, String search})
+        > {
   GetAllHistoryStreamFamily._()
     : super(
         retry: null,
@@ -92,7 +102,12 @@ final class GetAllHistoryStreamFamily extends $Family
 final getAllUpdateStreamProvider = GetAllUpdateStreamFamily._();
 
 final class GetAllUpdateStreamProvider
-    extends $FunctionalProvider<AsyncValue<List<Update>>, List<Update>, Stream<List<Update>>>
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<Update>>,
+          List<Update>,
+          Stream<List<Update>>
+        >
     with $FutureModifier<List<Update>>, $StreamProvider<List<Update>> {
   GetAllUpdateStreamProvider._({
     required GetAllUpdateStreamFamily super.from,
@@ -142,10 +157,15 @@ final class GetAllUpdateStreamProvider
   }
 }
 
-String _$getAllUpdateStreamHash() => r'43369b20d702d12aeae627fcd04ceb61caf0dc74';
+String _$getAllUpdateStreamHash() =>
+    r'd02b3a80d14947681e2684dd4b3c76e2545339aa';
 
 final class GetAllUpdateStreamFamily extends $Family
-    with $FunctionalFamilyOverride<Stream<List<Update>>, ({ItemType itemType, String search})> {
+    with
+        $FunctionalFamilyOverride<
+          Stream<List<Update>>,
+          ({ItemType itemType, String search})
+        > {
   GetAllUpdateStreamFamily._()
     : super(
         retry: null,

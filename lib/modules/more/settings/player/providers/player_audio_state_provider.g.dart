@@ -12,7 +12,8 @@ part of 'player_audio_state_provider.dart';
 @ProviderFor(AudioPreferredLangState)
 final audioPreferredLangStateProvider = AudioPreferredLangStateProvider._();
 
-final class AudioPreferredLangStateProvider extends $NotifierProvider<AudioPreferredLangState, String> {
+final class AudioPreferredLangStateProvider
+    extends $NotifierProvider<AudioPreferredLangState, String> {
   AudioPreferredLangStateProvider._()
     : super(
         from: null,
@@ -40,7 +41,8 @@ final class AudioPreferredLangStateProvider extends $NotifierProvider<AudioPrefe
   }
 }
 
-String _$audioPreferredLangStateHash() => r'9d70ec2677efb51b8e0c174b55114865853f12ea';
+String _$audioPreferredLangStateHash() =>
+    r'9d70ec2677efb51b8e0c174b55114865853f12ea';
 
 abstract class _$AudioPreferredLangState extends $Notifier<String> {
   String build();
@@ -48,15 +50,24 @@ abstract class _$AudioPreferredLangState extends $Notifier<String> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<String, String>,
+              String,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(EnableAudioPitchCorrectionState)
-final enableAudioPitchCorrectionStateProvider = EnableAudioPitchCorrectionStateProvider._();
+final enableAudioPitchCorrectionStateProvider =
+    EnableAudioPitchCorrectionStateProvider._();
 
-final class EnableAudioPitchCorrectionStateProvider extends $NotifierProvider<EnableAudioPitchCorrectionState, bool> {
+final class EnableAudioPitchCorrectionStateProvider
+    extends $NotifierProvider<EnableAudioPitchCorrectionState, bool> {
   EnableAudioPitchCorrectionStateProvider._()
     : super(
         from: null,
@@ -84,7 +95,8 @@ final class EnableAudioPitchCorrectionStateProvider extends $NotifierProvider<En
   }
 }
 
-String _$enableAudioPitchCorrectionStateHash() => r'6614f4b04ff8fe8ef57c9a6f160646d3d25e2f4d';
+String _$enableAudioPitchCorrectionStateHash() =>
+    r'6614f4b04ff8fe8ef57c9a6f160646d3d25e2f4d';
 
 abstract class _$EnableAudioPitchCorrectionState extends $Notifier<bool> {
   bool build();
@@ -92,7 +104,14 @@ abstract class _$EnableAudioPitchCorrectionState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -100,7 +119,8 @@ abstract class _$EnableAudioPitchCorrectionState extends $Notifier<bool> {
 @ProviderFor(AudioChannelState)
 final audioChannelStateProvider = AudioChannelStateProvider._();
 
-final class AudioChannelStateProvider extends $NotifierProvider<AudioChannelState, AudioChannel> {
+final class AudioChannelStateProvider
+    extends $NotifierProvider<AudioChannelState, AudioChannel> {
   AudioChannelStateProvider._()
     : super(
         from: null,
@@ -137,7 +157,13 @@ abstract class _$AudioChannelState extends $Notifier<AudioChannel> {
   void runBuild() {
     final ref = this.ref as $Ref<AudioChannel, AudioChannel>;
     final element =
-        ref.element as $ClassProviderElement<AnyNotifier<AudioChannel, AudioChannel>, AudioChannel, Object?, Object?>;
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AudioChannel, AudioChannel>,
+              AudioChannel,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
@@ -145,7 +171,8 @@ abstract class _$AudioChannelState extends $Notifier<AudioChannel> {
 @ProviderFor(VolumeBoostCapState)
 final volumeBoostCapStateProvider = VolumeBoostCapStateProvider._();
 
-final class VolumeBoostCapStateProvider extends $NotifierProvider<VolumeBoostCapState, int> {
+final class VolumeBoostCapStateProvider
+    extends $NotifierProvider<VolumeBoostCapState, int> {
   VolumeBoostCapStateProvider._()
     : super(
         from: null,
@@ -173,7 +200,8 @@ final class VolumeBoostCapStateProvider extends $NotifierProvider<VolumeBoostCap
   }
 }
 
-String _$volumeBoostCapStateHash() => r'b0f5ad3bbb0e1a798ce229572b363465ad606a06';
+String _$volumeBoostCapStateHash() =>
+    r'b0f5ad3bbb0e1a798ce229572b363465ad606a06';
 
 abstract class _$VolumeBoostCapState extends $Notifier<int> {
   int build();
@@ -181,7 +209,14 @@ abstract class _$VolumeBoostCapState extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<int, int>,
+              int,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

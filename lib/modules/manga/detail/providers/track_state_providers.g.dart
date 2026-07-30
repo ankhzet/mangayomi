@@ -15,7 +15,8 @@ final trackStateProvider = TrackStateFamily._();
 final class TrackStateProvider extends $NotifierProvider<TrackState, Track> {
   TrackStateProvider._({
     required TrackStateFamily super.from,
-    required ({Track? track, ItemType? itemType, dynamic widgetRef}) super.argument,
+    required ({Track? track, ItemType? itemType, dynamic widgetRef})
+    super.argument,
   }) : super(
          retry: null,
          name: r'trackStateProvider',
@@ -61,7 +62,13 @@ String _$trackStateHash() => r'c3e386652db112f64ce5605afeb5e7a49afbc397';
 
 final class TrackStateFamily extends $Family
     with
-        $ClassFamilyOverride<TrackState, Track, Track, Track, ({Track? track, ItemType? itemType, dynamic widgetRef})> {
+        $ClassFamilyOverride<
+          TrackState,
+          Track,
+          Track,
+          Track,
+          ({Track? track, ItemType? itemType, dynamic widgetRef})
+        > {
   TrackStateFamily._()
     : super(
         retry: null,
@@ -85,7 +92,8 @@ final class TrackStateFamily extends $Family
 }
 
 abstract class _$TrackState extends $Notifier<Track> {
-  late final _$args = ref.$arg as ({Track? track, ItemType? itemType, dynamic widgetRef});
+  late final _$args =
+      ref.$arg as ({Track? track, ItemType? itemType, dynamic widgetRef});
   Track? get track => _$args.track;
   ItemType? get itemType => _$args.itemType;
   dynamic get widgetRef => _$args.widgetRef;
@@ -99,7 +107,14 @@ abstract class _$TrackState extends $Notifier<Track> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<Track, Track>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<Track, Track>, Track, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<Track, Track>,
+              Track,
+              Object?,
+              Object?
+            >;
     element.handleCreate(
       ref,
       () => build(
@@ -112,7 +127,8 @@ abstract class _$TrackState extends $Notifier<Track> {
 }
 
 @ProviderFor(LastTrackerLibraryLocationState)
-final lastTrackerLibraryLocationStateProvider = LastTrackerLibraryLocationStateProvider._();
+final lastTrackerLibraryLocationStateProvider =
+    LastTrackerLibraryLocationStateProvider._();
 
 final class LastTrackerLibraryLocationStateProvider
     extends $NotifierProvider<LastTrackerLibraryLocationState, (int, bool)> {
@@ -143,16 +159,24 @@ final class LastTrackerLibraryLocationStateProvider
   }
 }
 
-String _$lastTrackerLibraryLocationStateHash() => r'c09efe7fe4f8dda723c31bc6543dbaa571718342';
+String _$lastTrackerLibraryLocationStateHash() =>
+    r'c09efe7fe4f8dda723c31bc6543dbaa571718342';
 
-abstract class _$LastTrackerLibraryLocationState extends $Notifier<(int, bool)> {
+abstract class _$LastTrackerLibraryLocationState
+    extends $Notifier<(int, bool)> {
   (int, bool) build();
   @$mustCallSuper
   @override
   void runBuild() {
     final ref = this.ref as $Ref<(int, bool), (int, bool)>;
     final element =
-        ref.element as $ClassProviderElement<AnyNotifier<(int, bool), (int, bool)>, (int, bool), Object?, Object?>;
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<(int, bool), (int, bool)>,
+              (int, bool),
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

@@ -45,8 +45,8 @@ final class GetVideoListProvider
 
   @$internal
   @override
-  $FutureProviderElement<(List<Video>, bool, List<String>, Directory?)> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<(List<Video>, bool, List<String>, Directory?)>
+  $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<(List<Video>, bool, List<String>, Directory?)> create(Ref ref) {
@@ -65,10 +65,14 @@ final class GetVideoListProvider
   }
 }
 
-String _$getVideoListHash() => r'd06b503274ab05a1df63064f327de3a3348e6248';
+String _$getVideoListHash() => r'61864a5d6838ac7d42ec70970dd18a502e9ba71e';
 
 final class GetVideoListFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<(List<Video>, bool, List<String>, Directory?)>, Chapter> {
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<(List<Video>, bool, List<String>, Directory?)>,
+          Chapter
+        > {
   GetVideoListFamily._()
     : super(
         retry: null,
@@ -78,7 +82,8 @@ final class GetVideoListFamily extends $Family
         isAutoDispose: true,
       );
 
-  GetVideoListProvider call({required Chapter episode}) => GetVideoListProvider._(argument: episode, from: this);
+  GetVideoListProvider call({required Chapter episode}) =>
+      GetVideoListProvider._(argument: episode, from: this);
 
   @override
   String toString() => r'getVideoListProvider';

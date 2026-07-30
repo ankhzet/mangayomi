@@ -141,14 +141,18 @@ Track _trackDeserialize(
     finishedReadingDate: reader.readLongOrNull(offsets[0]),
     id: id,
     isManga: reader.readBoolOrNull(offsets[1]),
-    itemType: _TrackitemTypeValueEnumMap[reader.readByteOrNull(offsets[2])] ?? ItemType.manga,
+    itemType:
+        _TrackitemTypeValueEnumMap[reader.readByteOrNull(offsets[2])] ??
+        ItemType.manga,
     lastChapterRead: reader.readLongOrNull(offsets[3]),
     libraryId: reader.readLongOrNull(offsets[4]),
     mangaId: reader.readLongOrNull(offsets[5]),
     mediaId: reader.readLongOrNull(offsets[6]),
     score: reader.readLongOrNull(offsets[7]),
     startedReadingDate: reader.readLongOrNull(offsets[8]),
-    status: _TrackstatusValueEnumMap[reader.readByteOrNull(offsets[9])] ?? TrackStatus.reading,
+    status:
+        _TrackstatusValueEnumMap[reader.readByteOrNull(offsets[9])] ??
+        TrackStatus.reading,
     syncId: reader.readLongOrNull(offsets[10]),
     title: reader.readStringOrNull(offsets[11]),
     totalChapter: reader.readLongOrNull(offsets[12]),
@@ -170,7 +174,9 @@ P _trackDeserializeProp<P>(
     case 1:
       return (reader.readBoolOrNull(offset)) as P;
     case 2:
-      return (_TrackitemTypeValueEnumMap[reader.readByteOrNull(offset)] ?? ItemType.manga) as P;
+      return (_TrackitemTypeValueEnumMap[reader.readByteOrNull(offset)] ??
+              ItemType.manga)
+          as P;
     case 3:
       return (reader.readLongOrNull(offset)) as P;
     case 4:
@@ -184,7 +190,9 @@ P _trackDeserializeProp<P>(
     case 8:
       return (reader.readLongOrNull(offset)) as P;
     case 9:
-      return (_TrackstatusValueEnumMap[reader.readByteOrNull(offset)] ?? TrackStatus.reading) as P;
+      return (_TrackstatusValueEnumMap[reader.readByteOrNull(offset)] ??
+              TrackStatus.reading)
+          as P;
     case 10:
       return (reader.readLongOrNull(offset)) as P;
     case 11:
@@ -320,7 +328,8 @@ extension TrackQueryWhere on QueryBuilder<Track, Track, QWhereClause> {
 }
 
 extension TrackQueryFilter on QueryBuilder<Track, Track, QFilterCondition> {
-  QueryBuilder<Track, Track, QAfterFilterCondition> finishedReadingDateIsNull() {
+  QueryBuilder<Track, Track, QAfterFilterCondition>
+  finishedReadingDateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'finishedReadingDate'),
@@ -328,7 +337,8 @@ extension TrackQueryFilter on QueryBuilder<Track, Track, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> finishedReadingDateIsNotNull() {
+  QueryBuilder<Track, Track, QAfterFilterCondition>
+  finishedReadingDateIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'finishedReadingDate'),
@@ -346,7 +356,8 @@ extension TrackQueryFilter on QueryBuilder<Track, Track, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> finishedReadingDateGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<Track, Track, QAfterFilterCondition>
+  finishedReadingDateGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -927,7 +938,8 @@ extension TrackQueryFilter on QueryBuilder<Track, Track, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> startedReadingDateIsNotNull() {
+  QueryBuilder<Track, Track, QAfterFilterCondition>
+  startedReadingDateIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'startedReadingDate'),
@@ -945,7 +957,8 @@ extension TrackQueryFilter on QueryBuilder<Track, Track, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Track, Track, QAfterFilterCondition> startedReadingDateGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<Track, Track, QAfterFilterCondition>
+  startedReadingDateGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(

@@ -235,7 +235,8 @@ int _sourceEstimateSize(
   {
     final value = object.repo;
     if (value != null) {
-      bytesCount += 3 + RepoSchema.estimateSize(value, allOffsets[Repo]!, allOffsets);
+      bytesCount +=
+          3 + RepoSchema.estimateSize(value, allOffsets[Repo]!, allOffsets);
     }
   }
   {
@@ -344,7 +345,9 @@ Source _sourceDeserialize(
     isNsfw: reader.readBoolOrNull(offsets[15]),
     isObsolete: reader.readBoolOrNull(offsets[16]),
     isPinned: reader.readBoolOrNull(offsets[17]),
-    itemType: _SourceitemTypeValueEnumMap[reader.readByteOrNull(offsets[19])] ?? ItemType.manga,
+    itemType:
+        _SourceitemTypeValueEnumMap[reader.readByteOrNull(offsets[19])] ??
+        ItemType.manga,
     lang: reader.readStringOrNull(offsets[20]),
     lastUsed: reader.readBoolOrNull(offsets[21]),
     name: reader.readStringOrNull(offsets[22]),
@@ -417,7 +420,9 @@ P _sourceDeserializeProp<P>(
     case 18:
       return (reader.readBool(offset)) as P;
     case 19:
-      return (_SourceitemTypeValueEnumMap[reader.readByteOrNull(offset)] ?? ItemType.manga) as P;
+      return (_SourceitemTypeValueEnumMap[reader.readByteOrNull(offset)] ??
+              ItemType.manga)
+          as P;
     case 20:
       return (reader.readStringOrNull(offset)) as P;
     case 21:
@@ -578,7 +583,8 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition> additionalParamsIsNotNull() {
+  QueryBuilder<Source, Source, QAfterFilterCondition>
+  additionalParamsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'additionalParams'),
@@ -601,7 +607,8 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition> additionalParamsGreaterThan(
+  QueryBuilder<Source, Source, QAfterFilterCondition>
+  additionalParamsGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -656,10 +663,8 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition> additionalParamsStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Source, Source, QAfterFilterCondition>
+  additionalParamsStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -716,7 +721,8 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition> additionalParamsIsEmpty() {
+  QueryBuilder<Source, Source, QAfterFilterCondition>
+  additionalParamsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'additionalParams', value: ''),
@@ -724,7 +730,8 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition> additionalParamsIsNotEmpty() {
+  QueryBuilder<Source, Source, QAfterFilterCondition>
+  additionalParamsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'additionalParams', value: ''),
@@ -1388,7 +1395,8 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition> dateFormatLocaleIsNotNull() {
+  QueryBuilder<Source, Source, QAfterFilterCondition>
+  dateFormatLocaleIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'dateFormatLocale'),
@@ -1411,7 +1419,8 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition> dateFormatLocaleGreaterThan(
+  QueryBuilder<Source, Source, QAfterFilterCondition>
+  dateFormatLocaleGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1466,10 +1475,8 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition> dateFormatLocaleStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Source, Source, QAfterFilterCondition>
+  dateFormatLocaleStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -1526,7 +1533,8 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition> dateFormatLocaleIsEmpty() {
+  QueryBuilder<Source, Source, QAfterFilterCondition>
+  dateFormatLocaleIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'dateFormatLocale', value: ''),
@@ -1534,7 +1542,8 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition> dateFormatLocaleIsNotEmpty() {
+  QueryBuilder<Source, Source, QAfterFilterCondition>
+  dateFormatLocaleIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'dateFormatLocale', value: ''),
@@ -2924,7 +2933,8 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition> preferenceListIsNotNull() {
+  QueryBuilder<Source, Source, QAfterFilterCondition>
+  preferenceListIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'preferenceList'),
@@ -3070,7 +3080,8 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition> preferenceListIsNotEmpty() {
+  QueryBuilder<Source, Source, QAfterFilterCondition>
+  preferenceListIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'preferenceList', value: ''),
@@ -3266,7 +3277,8 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition> sourceCodeLanguageGreaterThan(
+  QueryBuilder<Source, Source, QAfterFilterCondition>
+  sourceCodeLanguageGreaterThan(
     SourceCodeLanguage value, {
     bool include = false,
   }) {
@@ -3281,10 +3293,8 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition> sourceCodeLanguageLessThan(
-    SourceCodeLanguage value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Source, Source, QAfterFilterCondition>
+  sourceCodeLanguageLessThan(SourceCodeLanguage value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -3469,7 +3479,8 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition> sourceCodeUrlIsNotEmpty() {
+  QueryBuilder<Source, Source, QAfterFilterCondition>
+  sourceCodeUrlIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'sourceCodeUrl', value: ''),
@@ -5302,7 +5313,8 @@ extension SourceQueryProperty on QueryBuilder<Source, Source, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Source, SourceCodeLanguage, QQueryOperations> sourceCodeLanguageProperty() {
+  QueryBuilder<Source, SourceCodeLanguage, QQueryOperations>
+  sourceCodeLanguageProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'sourceCodeLanguage');
     });

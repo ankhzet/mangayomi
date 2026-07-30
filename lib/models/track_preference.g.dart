@@ -137,7 +137,8 @@ void _trackPreferenceAttach(
   object.syncId = id;
 }
 
-extension TrackPreferenceQueryWhereSort on QueryBuilder<TrackPreference, TrackPreference, QWhere> {
+extension TrackPreferenceQueryWhereSort
+    on QueryBuilder<TrackPreference, TrackPreference, QWhere> {
   QueryBuilder<TrackPreference, TrackPreference, QAfterWhere> anySyncId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
@@ -145,8 +146,10 @@ extension TrackPreferenceQueryWhereSort on QueryBuilder<TrackPreference, TrackPr
   }
 }
 
-extension TrackPreferenceQueryWhere on QueryBuilder<TrackPreference, TrackPreference, QWhereClause> {
-  QueryBuilder<TrackPreference, TrackPreference, QAfterWhereClause> syncIdEqualTo(Id syncId) {
+extension TrackPreferenceQueryWhere
+    on QueryBuilder<TrackPreference, TrackPreference, QWhereClause> {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterWhereClause>
+  syncIdEqualTo(Id syncId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.between(lower: syncId, upper: syncId),
@@ -154,7 +157,8 @@ extension TrackPreferenceQueryWhere on QueryBuilder<TrackPreference, TrackPrefer
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterWhereClause> syncIdNotEqualTo(Id syncId) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterWhereClause>
+  syncIdNotEqualTo(Id syncId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -176,10 +180,8 @@ extension TrackPreferenceQueryWhere on QueryBuilder<TrackPreference, TrackPrefer
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterWhereClause> syncIdGreaterThan(
-    Id syncId, {
-    bool include = false,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterWhereClause>
+  syncIdGreaterThan(Id syncId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: syncId, includeLower: include),
@@ -187,7 +189,8 @@ extension TrackPreferenceQueryWhere on QueryBuilder<TrackPreference, TrackPrefer
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterWhereClause> syncIdLessThan(Id syncId, {bool include = false}) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterWhereClause>
+  syncIdLessThan(Id syncId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: syncId, includeUpper: include),
@@ -195,7 +198,8 @@ extension TrackPreferenceQueryWhere on QueryBuilder<TrackPreference, TrackPrefer
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterWhereClause> syncIdBetween(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterWhereClause>
+  syncIdBetween(
     Id lowerSyncId,
     Id upperSyncId, {
     bool includeLower = true,
@@ -214,8 +218,10 @@ extension TrackPreferenceQueryWhere on QueryBuilder<TrackPreference, TrackPrefer
   }
 }
 
-extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPreference, QFilterCondition> {
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> oAuthIsNull() {
+extension TrackPreferenceQueryFilter
+    on QueryBuilder<TrackPreference, TrackPreference, QFilterCondition> {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  oAuthIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'oAuth'),
@@ -223,7 +229,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> oAuthIsNotNull() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  oAuthIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'oAuth'),
@@ -231,10 +238,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> oAuthEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  oAuthEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -246,7 +251,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> oAuthGreaterThan(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  oAuthGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -263,7 +269,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> oAuthLessThan(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  oAuthLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -280,7 +287,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> oAuthBetween(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  oAuthBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -301,10 +309,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> oAuthStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  oAuthStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -316,10 +322,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> oAuthEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  oAuthEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -331,10 +335,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> oAuthContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  oAuthContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -346,10 +348,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> oAuthMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  oAuthMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -361,7 +361,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> oAuthIsEmpty() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  oAuthIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'oAuth', value: ''),
@@ -369,7 +370,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> oAuthIsNotEmpty() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  oAuthIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'oAuth', value: ''),
@@ -377,7 +379,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> prefsIsNull() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  prefsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'prefs'),
@@ -385,7 +388,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> prefsIsNotNull() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  prefsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'prefs'),
@@ -393,10 +397,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> prefsEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  prefsEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -408,7 +410,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> prefsGreaterThan(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  prefsGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -425,7 +428,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> prefsLessThan(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  prefsLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -442,7 +446,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> prefsBetween(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  prefsBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -463,10 +468,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> prefsStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  prefsStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -478,10 +481,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> prefsEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  prefsEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -493,10 +494,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> prefsContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  prefsContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -508,10 +507,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> prefsMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  prefsMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -523,7 +520,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> prefsIsEmpty() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  prefsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'prefs', value: ''),
@@ -531,7 +529,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> prefsIsNotEmpty() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  prefsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'prefs', value: ''),
@@ -539,7 +538,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> refreshingIsNull() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  refreshingIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'refreshing'),
@@ -547,7 +547,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> refreshingIsNotNull() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  refreshingIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'refreshing'),
@@ -555,7 +556,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> refreshingEqualTo(bool? value) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  refreshingEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'refreshing', value: value),
@@ -563,7 +565,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> syncIdIsNull() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  syncIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'syncId'),
@@ -571,7 +574,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> syncIdIsNotNull() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  syncIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'syncId'),
@@ -579,7 +583,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> syncIdEqualTo(Id? value) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  syncIdEqualTo(Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'syncId', value: value),
@@ -587,10 +592,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> syncIdGreaterThan(
-    Id? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  syncIdGreaterThan(Id? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -602,10 +605,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> syncIdLessThan(
-    Id? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  syncIdLessThan(Id? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -617,7 +618,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> syncIdBetween(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  syncIdBetween(
     Id? lower,
     Id? upper, {
     bool includeLower = true,
@@ -636,7 +638,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> usernameIsNull() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  usernameIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'username'),
@@ -644,7 +647,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> usernameIsNotNull() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  usernameIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'username'),
@@ -652,10 +656,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> usernameEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  usernameEqualTo(String? value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -667,7 +669,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> usernameGreaterThan(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  usernameGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -684,7 +687,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> usernameLessThan(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  usernameLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -701,7 +705,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> usernameBetween(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  usernameBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -722,10 +727,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> usernameStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  usernameStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -737,10 +740,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> usernameEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  usernameEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -752,10 +753,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> usernameContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  usernameContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -767,10 +766,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> usernameMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  usernameMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -782,7 +779,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> usernameIsEmpty() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  usernameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'username', value: ''),
@@ -790,7 +788,8 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> usernameIsNotEmpty() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
+  usernameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'username', value: ''),
@@ -799,18 +798,22 @@ extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPrefe
   }
 }
 
-extension TrackPreferenceQueryObject on QueryBuilder<TrackPreference, TrackPreference, QFilterCondition> {}
+extension TrackPreferenceQueryObject
+    on QueryBuilder<TrackPreference, TrackPreference, QFilterCondition> {}
 
-extension TrackPreferenceQueryLinks on QueryBuilder<TrackPreference, TrackPreference, QFilterCondition> {}
+extension TrackPreferenceQueryLinks
+    on QueryBuilder<TrackPreference, TrackPreference, QFilterCondition> {}
 
-extension TrackPreferenceQuerySortBy on QueryBuilder<TrackPreference, TrackPreference, QSortBy> {
+extension TrackPreferenceQuerySortBy
+    on QueryBuilder<TrackPreference, TrackPreference, QSortBy> {
   QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> sortByOAuth() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'oAuth', Sort.asc);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> sortByOAuthDesc() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
+  sortByOAuthDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'oAuth', Sort.desc);
     });
@@ -822,45 +825,52 @@ extension TrackPreferenceQuerySortBy on QueryBuilder<TrackPreference, TrackPrefe
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> sortByPrefsDesc() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
+  sortByPrefsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'prefs', Sort.desc);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> sortByRefreshing() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
+  sortByRefreshing() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'refreshing', Sort.asc);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> sortByRefreshingDesc() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
+  sortByRefreshingDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'refreshing', Sort.desc);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> sortByUsername() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
+  sortByUsername() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'username', Sort.asc);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> sortByUsernameDesc() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
+  sortByUsernameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'username', Sort.desc);
     });
   }
 }
 
-extension TrackPreferenceQuerySortThenBy on QueryBuilder<TrackPreference, TrackPreference, QSortThenBy> {
+extension TrackPreferenceQuerySortThenBy
+    on QueryBuilder<TrackPreference, TrackPreference, QSortThenBy> {
   QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> thenByOAuth() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'oAuth', Sort.asc);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> thenByOAuthDesc() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
+  thenByOAuthDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'oAuth', Sort.desc);
     });
@@ -872,19 +882,22 @@ extension TrackPreferenceQuerySortThenBy on QueryBuilder<TrackPreference, TrackP
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> thenByPrefsDesc() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
+  thenByPrefsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'prefs', Sort.desc);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> thenByRefreshing() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
+  thenByRefreshing() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'refreshing', Sort.asc);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> thenByRefreshingDesc() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
+  thenByRefreshingDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'refreshing', Sort.desc);
     });
@@ -896,26 +909,30 @@ extension TrackPreferenceQuerySortThenBy on QueryBuilder<TrackPreference, TrackP
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> thenBySyncIdDesc() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
+  thenBySyncIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'syncId', Sort.desc);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> thenByUsername() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
+  thenByUsername() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'username', Sort.asc);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> thenByUsernameDesc() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
+  thenByUsernameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'username', Sort.desc);
     });
   }
 }
 
-extension TrackPreferenceQueryWhereDistinct on QueryBuilder<TrackPreference, TrackPreference, QDistinct> {
+extension TrackPreferenceQueryWhereDistinct
+    on QueryBuilder<TrackPreference, TrackPreference, QDistinct> {
   QueryBuilder<TrackPreference, TrackPreference, QDistinct> distinctByOAuth({
     bool caseSensitive = true,
   }) {
@@ -932,7 +949,8 @@ extension TrackPreferenceQueryWhereDistinct on QueryBuilder<TrackPreference, Tra
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QDistinct> distinctByRefreshing() {
+  QueryBuilder<TrackPreference, TrackPreference, QDistinct>
+  distinctByRefreshing() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'refreshing');
     });
@@ -947,7 +965,8 @@ extension TrackPreferenceQueryWhereDistinct on QueryBuilder<TrackPreference, Tra
   }
 }
 
-extension TrackPreferenceQueryProperty on QueryBuilder<TrackPreference, TrackPreference, QQueryProperty> {
+extension TrackPreferenceQueryProperty
+    on QueryBuilder<TrackPreference, TrackPreference, QQueryProperty> {
   QueryBuilder<TrackPreference, int, QQueryOperations> syncIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'syncId');

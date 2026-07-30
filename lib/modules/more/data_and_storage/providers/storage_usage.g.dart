@@ -10,9 +10,11 @@ part of 'storage_usage.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(TotalChapterCacheSizeState)
-final totalChapterCacheSizeStateProvider = TotalChapterCacheSizeStateProvider._();
+final totalChapterCacheSizeStateProvider =
+    TotalChapterCacheSizeStateProvider._();
 
-final class TotalChapterCacheSizeStateProvider extends $NotifierProvider<TotalChapterCacheSizeState, String> {
+final class TotalChapterCacheSizeStateProvider
+    extends $NotifierProvider<TotalChapterCacheSizeState, String> {
   TotalChapterCacheSizeStateProvider._()
     : super(
         from: null,
@@ -40,7 +42,8 @@ final class TotalChapterCacheSizeStateProvider extends $NotifierProvider<TotalCh
   }
 }
 
-String _$totalChapterCacheSizeStateHash() => r'fdecfd853bcd1355217fcef9590d6c69fbd92ce4';
+String _$totalChapterCacheSizeStateHash() =>
+    r'fdecfd853bcd1355217fcef9590d6c69fbd92ce4';
 
 abstract class _$TotalChapterCacheSizeState extends $Notifier<String> {
   String build();
@@ -48,13 +51,21 @@ abstract class _$TotalChapterCacheSizeState extends $Notifier<String> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<String, String>,
+              String,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ClearChapterCacheOnAppLaunchState)
-final clearChapterCacheOnAppLaunchStateProvider = ClearChapterCacheOnAppLaunchStateProvider._();
+final clearChapterCacheOnAppLaunchStateProvider =
+    ClearChapterCacheOnAppLaunchStateProvider._();
 
 final class ClearChapterCacheOnAppLaunchStateProvider
     extends $NotifierProvider<ClearChapterCacheOnAppLaunchState, bool> {
@@ -70,11 +81,13 @@ final class ClearChapterCacheOnAppLaunchStateProvider
       );
 
   @override
-  String debugGetCreateSourceHash() => _$clearChapterCacheOnAppLaunchStateHash();
+  String debugGetCreateSourceHash() =>
+      _$clearChapterCacheOnAppLaunchStateHash();
 
   @$internal
   @override
-  ClearChapterCacheOnAppLaunchState create() => ClearChapterCacheOnAppLaunchState();
+  ClearChapterCacheOnAppLaunchState create() =>
+      ClearChapterCacheOnAppLaunchState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(bool value) {
@@ -85,7 +98,8 @@ final class ClearChapterCacheOnAppLaunchStateProvider
   }
 }
 
-String _$clearChapterCacheOnAppLaunchStateHash() => r'1decadd07db6946a1daaa4ae90e0f082555fab78';
+String _$clearChapterCacheOnAppLaunchStateHash() =>
+    r'1decadd07db6946a1daaa4ae90e0f082555fab78';
 
 abstract class _$ClearChapterCacheOnAppLaunchState extends $Notifier<bool> {
   bool build();
@@ -93,7 +107,14 @@ abstract class _$ClearChapterCacheOnAppLaunchState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, build);
   }
 }

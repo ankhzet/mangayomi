@@ -635,7 +635,8 @@ extension ChapterQueryWhere on QueryBuilder<Chapter, Chapter, QWhereClause> {
   }
 }
 
-extension ChapterQueryFilter on QueryBuilder<Chapter, Chapter, QFilterCondition> {
+extension ChapterQueryFilter
+    on QueryBuilder<Chapter, Chapter, QFilterCondition> {
   QueryBuilder<Chapter, Chapter, QAfterFilterCondition> archivePathIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -790,7 +791,8 @@ extension ChapterQueryFilter on QueryBuilder<Chapter, Chapter, QFilterCondition>
     });
   }
 
-  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> archivePathIsNotEmpty() {
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition>
+  archivePathIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'archivePath', value: ''),
@@ -1114,7 +1116,8 @@ extension ChapterQueryFilter on QueryBuilder<Chapter, Chapter, QFilterCondition>
     });
   }
 
-  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> descriptionIsNotEmpty() {
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition>
+  descriptionIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'description', value: ''),
@@ -1130,7 +1133,8 @@ extension ChapterQueryFilter on QueryBuilder<Chapter, Chapter, QFilterCondition>
     });
   }
 
-  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> downloadSizeIsNotNull() {
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition>
+  downloadSizeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'downloadSize'),
@@ -1276,7 +1280,8 @@ extension ChapterQueryFilter on QueryBuilder<Chapter, Chapter, QFilterCondition>
     });
   }
 
-  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> downloadSizeIsNotEmpty() {
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition>
+  downloadSizeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'downloadSize', value: ''),
@@ -1511,7 +1516,8 @@ extension ChapterQueryFilter on QueryBuilder<Chapter, Chapter, QFilterCondition>
     });
   }
 
-  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> isBookmarkedIsNotNull() {
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition>
+  isBookmarkedIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'isBookmarked'),
@@ -1589,7 +1595,8 @@ extension ChapterQueryFilter on QueryBuilder<Chapter, Chapter, QFilterCondition>
     });
   }
 
-  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> lastPageReadIsNotNull() {
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition>
+  lastPageReadIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'lastPageRead'),
@@ -1735,7 +1742,8 @@ extension ChapterQueryFilter on QueryBuilder<Chapter, Chapter, QFilterCondition>
     });
   }
 
-  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> lastPageReadIsNotEmpty() {
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition>
+  lastPageReadIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'lastPageRead', value: ''),
@@ -2224,7 +2232,8 @@ extension ChapterQueryFilter on QueryBuilder<Chapter, Chapter, QFilterCondition>
     });
   }
 
-  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> thumbnailUrlIsNotNull() {
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition>
+  thumbnailUrlIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'thumbnailUrl'),
@@ -2370,7 +2379,8 @@ extension ChapterQueryFilter on QueryBuilder<Chapter, Chapter, QFilterCondition>
     });
   }
 
-  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> thumbnailUrlIsNotEmpty() {
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition>
+  thumbnailUrlIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'thumbnailUrl', value: ''),
@@ -2778,9 +2788,11 @@ extension ChapterQueryFilter on QueryBuilder<Chapter, Chapter, QFilterCondition>
   }
 }
 
-extension ChapterQueryObject on QueryBuilder<Chapter, Chapter, QFilterCondition> {}
+extension ChapterQueryObject
+    on QueryBuilder<Chapter, Chapter, QFilterCondition> {}
 
-extension ChapterQueryLinks on QueryBuilder<Chapter, Chapter, QFilterCondition> {
+extension ChapterQueryLinks
+    on QueryBuilder<Chapter, Chapter, QFilterCondition> {
   QueryBuilder<Chapter, Chapter, QAfterFilterCondition> manga(
     FilterQuery<Manga> q,
   ) {
@@ -3002,7 +3014,8 @@ extension ChapterQuerySortBy on QueryBuilder<Chapter, Chapter, QSortBy> {
   }
 }
 
-extension ChapterQuerySortThenBy on QueryBuilder<Chapter, Chapter, QSortThenBy> {
+extension ChapterQuerySortThenBy
+    on QueryBuilder<Chapter, Chapter, QSortThenBy> {
   QueryBuilder<Chapter, Chapter, QAfterSortBy> thenByArchivePath() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'archivePath', Sort.asc);
@@ -3220,7 +3233,8 @@ extension ChapterQuerySortThenBy on QueryBuilder<Chapter, Chapter, QSortThenBy> 
   }
 }
 
-extension ChapterQueryWhereDistinct on QueryBuilder<Chapter, Chapter, QDistinct> {
+extension ChapterQueryWhereDistinct
+    on QueryBuilder<Chapter, Chapter, QDistinct> {
   QueryBuilder<Chapter, Chapter, QDistinct> distinctByArchivePath({
     bool caseSensitive = true,
   }) {
@@ -3346,7 +3360,8 @@ extension ChapterQueryWhereDistinct on QueryBuilder<Chapter, Chapter, QDistinct>
   }
 }
 
-extension ChapterQueryProperty on QueryBuilder<Chapter, Chapter, QQueryProperty> {
+extension ChapterQueryProperty
+    on QueryBuilder<Chapter, Chapter, QQueryProperty> {
   QueryBuilder<Chapter, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');

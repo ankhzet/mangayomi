@@ -13,8 +13,15 @@ part of 'get_chapter_pages.dart';
 final getChapterPagesProvider = GetChapterPagesFamily._();
 
 final class GetChapterPagesProvider
-    extends $FunctionalProvider<AsyncValue<GetChapterPagesModel>, GetChapterPagesModel, FutureOr<GetChapterPagesModel>>
-    with $FutureModifier<GetChapterPagesModel>, $FutureProvider<GetChapterPagesModel> {
+    extends
+        $FunctionalProvider<
+          AsyncValue<GetChapterPagesModel>,
+          GetChapterPagesModel,
+          FutureOr<GetChapterPagesModel>
+        >
+    with
+        $FutureModifier<GetChapterPagesModel>,
+        $FutureProvider<GetChapterPagesModel> {
   GetChapterPagesProvider._({
     required GetChapterPagesFamily super.from,
     required Chapter super.argument,
@@ -72,7 +79,8 @@ final class GetChapterPagesFamily extends $Family
         isAutoDispose: true,
       );
 
-  GetChapterPagesProvider call({required Chapter chapter}) => GetChapterPagesProvider._(argument: chapter, from: this);
+  GetChapterPagesProvider call({required Chapter chapter}) =>
+      GetChapterPagesProvider._(argument: chapter, from: this);
 
   @override
   String toString() => r'getChapterPagesProvider';

@@ -49,36 +49,26 @@ class BackupAniyomi extends $pb.GeneratedMessage {
     return $result;
   }
   BackupAniyomi._() : super();
-  factory BackupAniyomi.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupAniyomi.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
-  factory BackupAniyomi.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupAniyomi.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'BackupAniyomi',
-      createEmptyInstance: create)
-    ..pc<$0.BackupManga>(
-        1, _omitFieldNames ? '' : 'backupManga', $pb.PbFieldType.PM,
-        protoName: 'backupManga', subBuilder: $0.BackupManga.create)
-    ..pc<$1.BackupCategory>(
-        2, _omitFieldNames ? '' : 'backupCategories', $pb.PbFieldType.PM,
-        protoName: 'backupCategories', subBuilder: $1.BackupCategory.create)
-    ..pc<$2.BackupAnime>(
-        3, _omitFieldNames ? '' : 'backupAnime', $pb.PbFieldType.PM,
-        protoName: 'backupAnime', subBuilder: $2.BackupAnime.create)
-    ..pc<$1.BackupCategory>(
-        4, _omitFieldNames ? '' : 'backupAnimeCategories', $pb.PbFieldType.PM,
-        protoName: 'backupAnimeCategories',
-        subBuilder: $1.BackupCategory.create)
-    ..pc<$3.BackupSource>(
-        101, _omitFieldNames ? '' : 'backupSources', $pb.PbFieldType.PM,
-        protoName: 'backupSources', subBuilder: $3.BackupSource.create)
-    ..pc<$3.BackupSource>(
-        103, _omitFieldNames ? '' : 'backupAnimeSources', $pb.PbFieldType.PM,
-        protoName: 'backupAnimeSources', subBuilder: $3.BackupSource.create)
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      $pb.BuilderInfo(_omitMessageNames ? '' : 'BackupAniyomi', createEmptyInstance: create)
+        ..pc<$0.BackupManga>(1, _omitFieldNames ? '' : 'backupManga', $pb.PbFieldType.PM,
+            protoName: 'backupManga', subBuilder: $0.BackupManga.create)
+        ..pc<$1.BackupCategory>(2, _omitFieldNames ? '' : 'backupCategories', $pb.PbFieldType.PM,
+            protoName: 'backupCategories', subBuilder: $1.BackupCategory.create)
+        ..pc<$2.BackupAnime>(3, _omitFieldNames ? '' : 'backupAnime', $pb.PbFieldType.PM,
+            protoName: 'backupAnime', subBuilder: $2.BackupAnime.create)
+        ..pc<$1.BackupCategory>(4, _omitFieldNames ? '' : 'backupAnimeCategories', $pb.PbFieldType.PM,
+            protoName: 'backupAnimeCategories', subBuilder: $1.BackupCategory.create)
+        ..pc<$3.BackupSource>(101, _omitFieldNames ? '' : 'backupSources', $pb.PbFieldType.PM,
+            protoName: 'backupSources', subBuilder: $3.BackupSource.create)
+        ..pc<$3.BackupSource>(103, _omitFieldNames ? '' : 'backupAnimeSources', $pb.PbFieldType.PM,
+            protoName: 'backupAnimeSources', subBuilder: $3.BackupSource.create)
+        ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -88,19 +78,16 @@ class BackupAniyomi extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   BackupAniyomi copyWith(void Function(BackupAniyomi) updates) =>
-      super.copyWith((message) => updates(message as BackupAniyomi))
-          as BackupAniyomi;
+      super.copyWith((message) => updates(message as BackupAniyomi)) as BackupAniyomi;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static BackupAniyomi create() => BackupAniyomi._();
   BackupAniyomi createEmptyInstance() => create();
-  static $pb.PbList<BackupAniyomi> createRepeated() =>
-      $pb.PbList<BackupAniyomi>();
+  static $pb.PbList<BackupAniyomi> createRepeated() => $pb.PbList<BackupAniyomi>();
   @$core.pragma('dart2js:noInline')
-  static BackupAniyomi getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<BackupAniyomi>(create);
+  static BackupAniyomi getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BackupAniyomi>(create);
   static BackupAniyomi? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -123,5 +110,4 @@ class BackupAniyomi extends $pb.GeneratedMessage {
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames =
-    $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

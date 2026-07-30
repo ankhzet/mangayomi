@@ -157,6 +157,5 @@ class MDownloaderException implements Exception {
   MDownloaderException(this.message, [this.originalError]);
 
   @override
-  String toString() =>
-      'MDownloaderException: $message${originalError != null ? ' ($originalError)' : ''}';
+  String toString() => 'MDownloaderException: $message${originalError != null ? ' ($originalError)' : ''}';
 }

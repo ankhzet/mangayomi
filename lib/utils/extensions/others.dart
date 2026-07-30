@@ -19,9 +19,7 @@ extension FileFormatter on num {
   String formattedFileSize({bool base1024 = true}) {
     if (this <= 0) return "0.00 B";
     final base = base1024 ? 1024 : 1000;
-    final units = base1024
-        ? ["B", "KiB", "MiB", "GiB", "TiB"]
-        : ["B", "kB", "MB", "GB", "TB"];
+    final units = base1024 ? ["B", "KiB", "MiB", "GiB", "TiB"] : ["B", "kB", "MB", "GB", "TB"];
     int digitGroups = (log(this) / log(base)).floor().clamp(
       0,
       units.length - 1,
@@ -104,8 +102,7 @@ extension UChapDataPreloadExtensions on UChapDataPreload {
     final data = this;
 
     if (data.isTransitionPage) {
-      return const AssetImage('assets/transparent.png')
-          as ImageProvider<Object>;
+      return const AssetImage('assets/transparent.png') as ImageProvider<Object>;
     }
 
     final isLocale = data.isLocale!;
@@ -148,8 +145,7 @@ extension UChapDataPreloadExtensions on UChapDataPreload {
 Future<File?> _getCachedImageFile(String url, {String? cacheKey}) async {
   try {
     final String key = cacheKey ?? keyToMd5(url);
-    final Directory cacheImagesDirectory = await StorageProvider()
-        .getCacheDirectory('cacheimagemanga');
+    final Directory cacheImagesDirectory = await StorageProvider().getCacheDirectory('cacheimagemanga');
     if (cacheImagesDirectory.existsSync()) {
       await for (final FileSystemEntity file in cacheImagesDirectory.list()) {
         if (file.path.endsWith(key)) {

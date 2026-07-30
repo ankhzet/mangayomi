@@ -8,8 +8,7 @@ class UpdateGroup<T> {
   List<Chapter> chapters;
   T group;
 
-  UpdateGroup.fromChapters(this.chapters, this.group)
-    : manga = chapters.first.manga.value!;
+  UpdateGroup.fromChapters(this.chapters, this.group) : manga = chapters.first.manga.value!;
 
   static T groupBy<T>(UpdateGroup<T> element) => element.group;
 
@@ -58,9 +57,7 @@ class UpdateGroup<T> {
     );
   }
 
-  int get lastUpdate =>
-      manga.lastUpdate ??
-      DateTime.fromMicrosecondsSinceEpoch(0).millisecondsSinceEpoch;
+  int get lastUpdate => manga.lastUpdate ?? DateTime.fromMicrosecondsSinceEpoch(0).millisecondsSinceEpoch;
 
   int compareTo(UpdateGroup other) => lastUpdate.compareTo(other.lastUpdate);
 }
@@ -92,11 +89,7 @@ List<(ChapterCompositeNumber, ChapterCompositeNumber)> groupRanges(Iterable<Chap
 String indexToStr((int v, int c, int s) idx) => idx.$3 != 0 ? '${idx.$2}.${idx.$3}' : idx.$2.toString();
 
 String indexesToStr(List<Chapter> chapters) {
-  final groups = groupRanges(
-      chapters
-        .sorted((a, b) => a.compareTo(b))
-        .map((chapter) => chapter.compositeOrder)
-  );
+  final groups = groupRanges(chapters.sorted((a, b) => a.compareTo(b)).map((chapter) => chapter.compositeOrder));
 
   return groups
       .map((group) {

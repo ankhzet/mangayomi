@@ -33,10 +33,7 @@ class _ChapterSortTypeState extends ConsumerState<ChapterSortType> {
     return Consumer(
       builder: (context, ref, child) {
         final sort = ref.watch(sortChapterStateProvider(mangaId: mangaId));
-        final hasScanlators = ref
-            .watch(scanlatorsFilterStateProvider(manga))
-            .$1
-            .isNotEmpty;
+        final hasScanlators = ref.watch(scanlatorsFilterStateProvider(manga)).$1.isNotEmpty;
 
         return Column(
           children: [

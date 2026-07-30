@@ -186,8 +186,7 @@ class _ReadingModeTab extends ConsumerWidget {
                         title: Text(
                           context.l10n.auto_scroll,
                           style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyLarge!.color!
-                                .withValues(alpha: 0.9),
+                            color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.9),
                             fontSize: 14,
                           ),
                         ),
@@ -200,19 +199,18 @@ class _ReadingModeTab extends ConsumerWidget {
                       if (valueT)
                         ValueListenableBuilder(
                           valueListenable: pageOffset,
-                          builder:
-                              (context, value, child) => Slider(
-                                min: 2.0,
-                                max: 30.0,
-                                divisions: max(28, 3),
-                                value: value,
-                                onChanged: (val) {
-                                  pageOffset.value = val;
-                                },
-                                onChangeEnd: (val) {
-                                  onAutoScrollSave(valueT, val);
-                                },
-                              ),
+                          builder: (context, value, child) => Slider(
+                            min: 2.0,
+                            max: 30.0,
+                            divisions: max(28, 3),
+                            value: value,
+                            onChanged: (val) {
+                              pageOffset.value = val;
+                            },
+                            onChangeEnd: (val) {
+                              onAutoScrollSave(valueT, val);
+                            },
+                          ),
                         ),
                     ],
                   );
@@ -265,21 +263,18 @@ class _GeneralTab extends ConsumerWidget {
               label: l10n.scale_type,
               title: getScaleTypeNames(context)[scaleType.index],
               onSelected: (value) {
-                ref
-                    .read(scaleTypeStateProvider.notifier)
-                    .set(ScaleType.values[value.index]);
+                ref.read(scaleTypeStateProvider.notifier).set(ScaleType.values[value.index]);
               },
               value: scaleType,
-              list:
-                  ScaleType.values.where((scale) {
-                    try {
-                      return getScaleTypeNames(
-                        context,
-                      ).contains(getScaleTypeNames(context)[scale.index]);
-                    } catch (_) {
-                      return false;
-                    }
-                  }).toList(),
+              list: ScaleType.values.where((scale) {
+                try {
+                  return getScaleTypeNames(
+                    context,
+                  ).contains(getScaleTypeNames(context)[scale.index]);
+                } catch (_) {
+                  return false;
+                }
+              }).toList(),
               itemText: (scale) => getScaleTypeNames(context)[scale.index],
             ),
 
@@ -330,9 +325,7 @@ class _GeneralTab extends ConsumerWidget {
                 ),
               ),
               onChanged: (value) {
-                ref
-                    .read(animatePageTransitionsStateProvider.notifier)
-                    .set(value);
+                ref.read(animatePageTransitionsStateProvider.notifier).set(value);
               },
             ),
           ],
@@ -379,9 +372,7 @@ class _CustomFilterTab extends ConsumerWidget {
                 ),
               ),
               onChanged: (value) {
-                ref
-                    .read(enableCustomColorFilterStateProvider.notifier)
-                    .set(value);
+                ref.read(enableCustomColorFilterStateProvider.notifier).set(value);
               },
             ),
 
@@ -410,9 +401,7 @@ class _CustomFilterTab extends ConsumerWidget {
                   context,
                 ),
                 onSelected: (value) {
-                  ref
-                      .read(colorFilterBlendModeStateProvider.notifier)
-                      .set(value);
+                  ref.read(colorFilterBlendModeStateProvider.notifier).set(value);
                 },
                 value: colorFilterBlendMode,
                 list: ColorFilterBlendMode.values,

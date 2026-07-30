@@ -196,8 +196,7 @@ void _syncPreferenceAttach(
   object.syncId = id;
 }
 
-extension SyncPreferenceQueryWhereSort
-    on QueryBuilder<SyncPreference, SyncPreference, QWhere> {
+extension SyncPreferenceQueryWhereSort on QueryBuilder<SyncPreference, SyncPreference, QWhere> {
   QueryBuilder<SyncPreference, SyncPreference, QAfterWhere> anySyncId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
@@ -205,8 +204,7 @@ extension SyncPreferenceQueryWhereSort
   }
 }
 
-extension SyncPreferenceQueryWhere
-    on QueryBuilder<SyncPreference, SyncPreference, QWhereClause> {
+extension SyncPreferenceQueryWhere on QueryBuilder<SyncPreference, SyncPreference, QWhereClause> {
   QueryBuilder<SyncPreference, SyncPreference, QAfterWhereClause> syncIdEqualTo(
     Id syncId,
   ) {
@@ -217,8 +215,7 @@ extension SyncPreferenceQueryWhere
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterWhereClause>
-  syncIdNotEqualTo(Id syncId) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterWhereClause> syncIdNotEqualTo(Id syncId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -240,8 +237,7 @@ extension SyncPreferenceQueryWhere
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterWhereClause>
-  syncIdGreaterThan(Id syncId, {bool include = false}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterWhereClause> syncIdGreaterThan(Id syncId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: syncId, includeLower: include),
@@ -249,8 +245,7 @@ extension SyncPreferenceQueryWhere
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterWhereClause>
-  syncIdLessThan(Id syncId, {bool include = false}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterWhereClause> syncIdLessThan(Id syncId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: syncId, includeUpper: include),
@@ -277,10 +272,8 @@ extension SyncPreferenceQueryWhere
   }
 }
 
-extension SyncPreferenceQueryFilter
-    on QueryBuilder<SyncPreference, SyncPreference, QFilterCondition> {
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  authTokenIsNull() {
+extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreference, QFilterCondition> {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> authTokenIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'authToken'),
@@ -288,8 +281,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  authTokenIsNotNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> authTokenIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'authToken'),
@@ -297,8 +289,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  authTokenEqualTo(String? value, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> authTokenEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -310,8 +304,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  authTokenGreaterThan(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> authTokenGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -328,8 +321,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  authTokenLessThan(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> authTokenLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -346,8 +338,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  authTokenBetween(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> authTokenBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -368,8 +359,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  authTokenStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> authTokenStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -381,8 +374,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  authTokenEndsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> authTokenEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -394,8 +389,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  authTokenContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> authTokenContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -407,8 +404,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  authTokenMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> authTokenMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -420,8 +419,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  authTokenIsEmpty() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> authTokenIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'authToken', value: ''),
@@ -429,8 +427,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  authTokenIsNotEmpty() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> authTokenIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'authToken', value: ''),
@@ -438,8 +435,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  autoSyncFrequencyEqualTo(int value) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> autoSyncFrequencyEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'autoSyncFrequency', value: value),
@@ -447,8 +443,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  autoSyncFrequencyGreaterThan(int value, {bool include = false}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> autoSyncFrequencyGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -460,8 +458,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  autoSyncFrequencyLessThan(int value, {bool include = false}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> autoSyncFrequencyLessThan(
+    int value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -473,8 +473,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  autoSyncFrequencyBetween(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> autoSyncFrequencyBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -493,8 +492,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  emailIsNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> emailIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'email'),
@@ -502,8 +500,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  emailIsNotNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> emailIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'email'),
@@ -511,8 +508,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  emailEqualTo(String? value, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> emailEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -524,8 +523,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  emailGreaterThan(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> emailGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -542,8 +540,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  emailLessThan(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> emailLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -560,8 +557,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  emailBetween(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> emailBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -582,8 +578,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  emailStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> emailStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -595,8 +593,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  emailEndsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> emailEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -608,8 +608,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  emailContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> emailContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -621,8 +623,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  emailMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> emailMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -634,8 +638,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  emailIsEmpty() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> emailIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'email', value: ''),
@@ -643,8 +646,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  emailIsNotEmpty() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> emailIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'email', value: ''),
@@ -652,8 +654,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncHistoryIsNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncHistoryIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'lastSyncHistory'),
@@ -661,8 +662,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncHistoryIsNotNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncHistoryIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'lastSyncHistory'),
@@ -670,8 +670,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncHistoryEqualTo(int? value) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncHistoryEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'lastSyncHistory', value: value),
@@ -679,8 +678,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncHistoryGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncHistoryGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -692,8 +693,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncHistoryLessThan(int? value, {bool include = false}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncHistoryLessThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -705,8 +708,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncHistoryBetween(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncHistoryBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -725,8 +727,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncMangaIsNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncMangaIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'lastSyncManga'),
@@ -734,8 +735,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncMangaIsNotNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncMangaIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'lastSyncManga'),
@@ -743,8 +743,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncMangaEqualTo(int? value) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncMangaEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'lastSyncManga', value: value),
@@ -752,8 +751,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncMangaGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncMangaGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -765,8 +766,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncMangaLessThan(int? value, {bool include = false}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncMangaLessThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -778,8 +781,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncMangaBetween(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncMangaBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -798,8 +800,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncUpdateIsNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncUpdateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'lastSyncUpdate'),
@@ -807,8 +808,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncUpdateIsNotNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncUpdateIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'lastSyncUpdate'),
@@ -816,8 +816,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncUpdateEqualTo(int? value) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncUpdateEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'lastSyncUpdate', value: value),
@@ -825,8 +824,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncUpdateGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncUpdateGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -838,8 +839,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncUpdateLessThan(int? value, {bool include = false}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncUpdateLessThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -851,8 +854,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncUpdateBetween(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncUpdateBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -871,8 +873,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  serverIsNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> serverIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'server'),
@@ -880,8 +881,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  serverIsNotNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> serverIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'server'),
@@ -889,8 +889,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  serverEqualTo(String? value, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> serverEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -902,8 +904,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  serverGreaterThan(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> serverGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -920,8 +921,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  serverLessThan(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> serverLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -938,8 +938,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  serverBetween(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> serverBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -960,8 +959,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  serverStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> serverStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -973,8 +974,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  serverEndsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> serverEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -986,8 +989,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  serverContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> serverContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -999,8 +1004,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  serverMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> serverMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -1012,8 +1019,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  serverIsEmpty() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> serverIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'server', value: ''),
@@ -1021,8 +1027,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  serverIsNotEmpty() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> serverIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'server', value: ''),
@@ -1030,8 +1035,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  syncHistoriesEqualTo(bool value) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> syncHistoriesEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'syncHistories', value: value),
@@ -1039,8 +1043,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  syncIdIsNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> syncIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'syncId'),
@@ -1048,8 +1051,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  syncIdIsNotNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> syncIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'syncId'),
@@ -1057,8 +1059,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  syncIdEqualTo(Id? value) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> syncIdEqualTo(Id? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'syncId', value: value),
@@ -1066,8 +1067,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  syncIdGreaterThan(Id? value, {bool include = false}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> syncIdGreaterThan(
+    Id? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -1079,8 +1082,10 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  syncIdLessThan(Id? value, {bool include = false}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> syncIdLessThan(
+    Id? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -1092,8 +1097,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  syncIdBetween(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> syncIdBetween(
     Id? lower,
     Id? upper, {
     bool includeLower = true,
@@ -1112,8 +1116,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  syncOnEqualTo(bool value) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> syncOnEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'syncOn', value: value),
@@ -1121,8 +1124,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  syncSettingsEqualTo(bool value) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> syncSettingsEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'syncSettings', value: value),
@@ -1130,8 +1132,7 @@ extension SyncPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  syncUpdatesEqualTo(bool value) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> syncUpdatesEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'syncUpdates', value: value),
@@ -1140,36 +1141,30 @@ extension SyncPreferenceQueryFilter
   }
 }
 
-extension SyncPreferenceQueryObject
-    on QueryBuilder<SyncPreference, SyncPreference, QFilterCondition> {}
+extension SyncPreferenceQueryObject on QueryBuilder<SyncPreference, SyncPreference, QFilterCondition> {}
 
-extension SyncPreferenceQueryLinks
-    on QueryBuilder<SyncPreference, SyncPreference, QFilterCondition> {}
+extension SyncPreferenceQueryLinks on QueryBuilder<SyncPreference, SyncPreference, QFilterCondition> {}
 
-extension SyncPreferenceQuerySortBy
-    on QueryBuilder<SyncPreference, SyncPreference, QSortBy> {
+extension SyncPreferenceQuerySortBy on QueryBuilder<SyncPreference, SyncPreference, QSortBy> {
   QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortByAuthToken() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'authToken', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortByAuthTokenDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortByAuthTokenDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'authToken', Sort.desc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortByAutoSyncFrequency() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortByAutoSyncFrequency() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'autoSyncFrequency', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortByAutoSyncFrequencyDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortByAutoSyncFrequencyDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'autoSyncFrequency', Sort.desc);
     });
@@ -1187,43 +1182,37 @@ extension SyncPreferenceQuerySortBy
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortByLastSyncHistory() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortByLastSyncHistory() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastSyncHistory', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortByLastSyncHistoryDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortByLastSyncHistoryDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastSyncHistory', Sort.desc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortByLastSyncManga() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortByLastSyncManga() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastSyncManga', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortByLastSyncMangaDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortByLastSyncMangaDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastSyncManga', Sort.desc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortByLastSyncUpdate() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortByLastSyncUpdate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastSyncUpdate', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortByLastSyncUpdateDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortByLastSyncUpdateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastSyncUpdate', Sort.desc);
     });
@@ -1235,22 +1224,19 @@ extension SyncPreferenceQuerySortBy
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortByServerDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortByServerDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'server', Sort.desc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortBySyncHistories() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortBySyncHistories() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'syncHistories', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortBySyncHistoriesDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortBySyncHistoriesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'syncHistories', Sort.desc);
     });
@@ -1262,66 +1248,57 @@ extension SyncPreferenceQuerySortBy
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortBySyncOnDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortBySyncOnDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'syncOn', Sort.desc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortBySyncSettings() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortBySyncSettings() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'syncSettings', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortBySyncSettingsDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortBySyncSettingsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'syncSettings', Sort.desc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortBySyncUpdates() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortBySyncUpdates() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'syncUpdates', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortBySyncUpdatesDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortBySyncUpdatesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'syncUpdates', Sort.desc);
     });
   }
 }
 
-extension SyncPreferenceQuerySortThenBy
-    on QueryBuilder<SyncPreference, SyncPreference, QSortThenBy> {
+extension SyncPreferenceQuerySortThenBy on QueryBuilder<SyncPreference, SyncPreference, QSortThenBy> {
   QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenByAuthToken() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'authToken', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenByAuthTokenDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenByAuthTokenDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'authToken', Sort.desc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenByAutoSyncFrequency() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenByAutoSyncFrequency() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'autoSyncFrequency', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenByAutoSyncFrequencyDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenByAutoSyncFrequencyDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'autoSyncFrequency', Sort.desc);
     });
@@ -1339,43 +1316,37 @@ extension SyncPreferenceQuerySortThenBy
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenByLastSyncHistory() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenByLastSyncHistory() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastSyncHistory', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenByLastSyncHistoryDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenByLastSyncHistoryDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastSyncHistory', Sort.desc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenByLastSyncManga() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenByLastSyncManga() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastSyncManga', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenByLastSyncMangaDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenByLastSyncMangaDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastSyncManga', Sort.desc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenByLastSyncUpdate() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenByLastSyncUpdate() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastSyncUpdate', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenByLastSyncUpdateDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenByLastSyncUpdateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastSyncUpdate', Sort.desc);
     });
@@ -1387,22 +1358,19 @@ extension SyncPreferenceQuerySortThenBy
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenByServerDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenByServerDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'server', Sort.desc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenBySyncHistories() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenBySyncHistories() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'syncHistories', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenBySyncHistoriesDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenBySyncHistoriesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'syncHistories', Sort.desc);
     });
@@ -1414,8 +1382,7 @@ extension SyncPreferenceQuerySortThenBy
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenBySyncIdDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenBySyncIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'syncId', Sort.desc);
     });
@@ -1427,44 +1394,38 @@ extension SyncPreferenceQuerySortThenBy
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenBySyncOnDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenBySyncOnDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'syncOn', Sort.desc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenBySyncSettings() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenBySyncSettings() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'syncSettings', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenBySyncSettingsDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenBySyncSettingsDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'syncSettings', Sort.desc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenBySyncUpdates() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenBySyncUpdates() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'syncUpdates', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenBySyncUpdatesDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenBySyncUpdatesDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'syncUpdates', Sort.desc);
     });
   }
 }
 
-extension SyncPreferenceQueryWhereDistinct
-    on QueryBuilder<SyncPreference, SyncPreference, QDistinct> {
+extension SyncPreferenceQueryWhereDistinct on QueryBuilder<SyncPreference, SyncPreference, QDistinct> {
   QueryBuilder<SyncPreference, SyncPreference, QDistinct> distinctByAuthToken({
     bool caseSensitive = true,
   }) {
@@ -1473,8 +1434,7 @@ extension SyncPreferenceQueryWhereDistinct
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QDistinct>
-  distinctByAutoSyncFrequency() {
+  QueryBuilder<SyncPreference, SyncPreference, QDistinct> distinctByAutoSyncFrequency() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'autoSyncFrequency');
     });
@@ -1488,22 +1448,19 @@ extension SyncPreferenceQueryWhereDistinct
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QDistinct>
-  distinctByLastSyncHistory() {
+  QueryBuilder<SyncPreference, SyncPreference, QDistinct> distinctByLastSyncHistory() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastSyncHistory');
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QDistinct>
-  distinctByLastSyncManga() {
+  QueryBuilder<SyncPreference, SyncPreference, QDistinct> distinctByLastSyncManga() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastSyncManga');
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QDistinct>
-  distinctByLastSyncUpdate() {
+  QueryBuilder<SyncPreference, SyncPreference, QDistinct> distinctByLastSyncUpdate() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastSyncUpdate');
     });
@@ -1517,8 +1474,7 @@ extension SyncPreferenceQueryWhereDistinct
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QDistinct>
-  distinctBySyncHistories() {
+  QueryBuilder<SyncPreference, SyncPreference, QDistinct> distinctBySyncHistories() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'syncHistories');
     });
@@ -1530,23 +1486,20 @@ extension SyncPreferenceQueryWhereDistinct
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QDistinct>
-  distinctBySyncSettings() {
+  QueryBuilder<SyncPreference, SyncPreference, QDistinct> distinctBySyncSettings() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'syncSettings');
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QDistinct>
-  distinctBySyncUpdates() {
+  QueryBuilder<SyncPreference, SyncPreference, QDistinct> distinctBySyncUpdates() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'syncUpdates');
     });
   }
 }
 
-extension SyncPreferenceQueryProperty
-    on QueryBuilder<SyncPreference, SyncPreference, QQueryProperty> {
+extension SyncPreferenceQueryProperty on QueryBuilder<SyncPreference, SyncPreference, QQueryProperty> {
   QueryBuilder<SyncPreference, int, QQueryOperations> syncIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'syncId');
@@ -1559,8 +1512,7 @@ extension SyncPreferenceQueryProperty
     });
   }
 
-  QueryBuilder<SyncPreference, int, QQueryOperations>
-  autoSyncFrequencyProperty() {
+  QueryBuilder<SyncPreference, int, QQueryOperations> autoSyncFrequencyProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'autoSyncFrequency');
     });
@@ -1572,8 +1524,7 @@ extension SyncPreferenceQueryProperty
     });
   }
 
-  QueryBuilder<SyncPreference, int?, QQueryOperations>
-  lastSyncHistoryProperty() {
+  QueryBuilder<SyncPreference, int?, QQueryOperations> lastSyncHistoryProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastSyncHistory');
     });
@@ -1585,8 +1536,7 @@ extension SyncPreferenceQueryProperty
     });
   }
 
-  QueryBuilder<SyncPreference, int?, QQueryOperations>
-  lastSyncUpdateProperty() {
+  QueryBuilder<SyncPreference, int?, QQueryOperations> lastSyncUpdateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastSyncUpdate');
     });

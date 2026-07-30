@@ -153,18 +153,17 @@ const extension = exports.default;
 
   @override
   Future<MPages> search(String query, int page, List<dynamic> filters) async {
-    final items =
-        ((await _extensionCallAsync('searchNovels("$query",$page)', [])))
-            .map((e) => NovelItem.fromJson(e))
-            .map(
-              (e) => MManga(
-                name: e.name,
-                imageUrl: e.cover,
-                link: e.path,
-                chapters: [],
-              ),
-            )
-            .toList();
+    final items = ((await _extensionCallAsync('searchNovels("$query",$page)', [])))
+        .map((e) => NovelItem.fromJson(e))
+        .map(
+          (e) => MManga(
+            name: e.name,
+            imageUrl: e.cover,
+            link: e.path,
+            chapters: [],
+          ),
+        )
+        .toList();
     return MPages(list: items, hasNextPage: true);
   }
 
@@ -178,22 +177,21 @@ const extension = exports.default;
     );
     final chaps =
         ((chapters.chapters.isNotEmpty ? chapters.chapters : item.chapters)
-                ?.map(
-                  (e) => MChapter(
-                    name: e.name,
-                    url: e.path,
-                    dateUpload:
-                        e.releaseTime != null
-                            ? DateTime.tryParse(
-                                  e.releaseTime!,
-                                )?.millisecondsSinceEpoch.toString() ??
-                                int.tryParse(e.releaseTime!)?.toString() ??
-                                DateTime.now().millisecondsSinceEpoch.toString()
-                            : DateTime.now().millisecondsSinceEpoch.toString(),
-                  ),
-                )
-                .toList() ??
-            []);
+            ?.map(
+              (e) => MChapter(
+                name: e.name,
+                url: e.path,
+                dateUpload: e.releaseTime != null
+                    ? DateTime.tryParse(
+                            e.releaseTime!,
+                          )?.millisecondsSinceEpoch.toString() ??
+                          int.tryParse(e.releaseTime!)?.toString() ??
+                          DateTime.now().millisecondsSinceEpoch.toString()
+                    : DateTime.now().millisecondsSinceEpoch.toString(),
+              ),
+            )
+            .toList() ??
+        []);
     return MManga(
       name: item.name,
       imageUrl: item.cover,
@@ -224,12 +222,11 @@ const extension = exports.default;
   @override
   Future<String> getHtmlContent(String name, String url) async {
     _init();
-    final res =
-        (await runtime.handlePromise(
-          await runtime.evaluateAsync(
-            'jsonStringify(() => extension.parseChapter(`$url`))',
-          ),
-        )).stringResult;
+    final res = (await runtime.handlePromise(
+      await runtime.evaluateAsync(
+        'jsonStringify(() => extension.parseChapter(`$url`))',
+      ),
+    )).stringResult;
     return res;
   }
 

@@ -54,18 +54,14 @@ class JsVideosExtractors {
     runtime.onMessage('sendVidExtractor', (dynamic args) async {
       return (await MBridge.sendVidExtractor(
         args[0],
-        args[1] != null
-            ? jsonEncode((args[1] as Map?).toMapStringString)
-            : null,
+        args[1] != null ? jsonEncode((args[1] as Map?).toMapStringString) : null,
         args[2] ?? "",
       )).encodeToJson();
     });
     runtime.onMessage('yourUploadExtractor', (dynamic args) async {
       return (await MBridge.yourUploadExtractor(
         args[0],
-        args[1] != null
-            ? jsonEncode((args[1] as Map?).toMapStringString)
-            : null,
+        args[1] != null ? jsonEncode((args[1] as Map?).toMapStringString) : null,
         args[2],
         args[3] ?? "",
       )).encodeToJson();
@@ -85,9 +81,7 @@ class JsVideosExtractors {
     runtime.onMessage('mp4UploadExtractor', (dynamic args) async {
       return (await MBridge.mp4UploadExtractor(
         args[0],
-        args[1] != null
-            ? jsonEncode((args[1] as Map?).toMapStringString)
-            : null,
+        args[1] != null ? jsonEncode((args[1] as Map?).toMapStringString) : null,
         args[2] ?? "",
         args[3] ?? "",
       )).encodeToJson();

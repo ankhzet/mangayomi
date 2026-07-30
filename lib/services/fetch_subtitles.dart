@@ -14,10 +14,7 @@ Future<List<ImdbTitle>> fetchImdbTitles(String query) async {
       },
     );
     final data = json.decode(res.body) as Map<String, dynamic>;
-    return (data["titles"] as List?)
-            ?.map((e) => ImdbTitle.fromJson(e))
-            .toList() ??
-        [];
+    return (data["titles"] as List?)?.map((e) => ImdbTitle.fromJson(e)).toList() ?? [];
   } catch (_) {
     return [];
   }
@@ -36,9 +33,7 @@ Future<List<ImdbEpisode>?> fetchImdbEpisodes(String imdbId) async {
       },
     );
     final data = json.decode(res.body) as Map<String, dynamic>;
-    return (data["episodes"] as List?)
-        ?.map((e) => ImdbEpisode.fromJson(e))
-        .toList();
+    return (data["episodes"] as List?)?.map((e) => ImdbEpisode.fromJson(e)).toList();
   } catch (_) {
     return null;
   }
@@ -57,10 +52,7 @@ Future<List<ImdbSubtitle>?> fetchImdbSubtitles(String imdbId) async {
       },
     );
     final data = json.decode(res.body) as List?;
-    return data
-        ?.map((e) => ImdbSubtitle.fromJson(e))
-        .where((e) => e.url != null)
-        .toList();
+    return data?.map((e) => ImdbSubtitle.fromJson(e)).where((e) => e.url != null).toList();
   } catch (_) {
     return null;
   }
@@ -98,10 +90,9 @@ class ImdbTitle {
       primaryImage: json["primaryImage"]?["url"],
       startYear: json["startYear"],
       endYear: json["endYear"],
-      aggregateRating:
-          json["rating"]?["aggregateRating"] is int
-              ? (json["rating"]?["aggregateRating"] as int).toDouble()
-              : json["rating"]?["aggregateRating"],
+      aggregateRating: json["rating"]?["aggregateRating"] is int
+          ? (json["rating"]?["aggregateRating"] as int).toDouble()
+          : json["rating"]?["aggregateRating"],
       voteCount: json["rating"]?["voteCount"],
     );
   }

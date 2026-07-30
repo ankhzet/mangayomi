@@ -12,13 +12,11 @@ part of 'backup.dart';
 @ProviderFor(doBackUp)
 final doBackUpProvider = DoBackUpFamily._();
 
-final class DoBackUpProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+final class DoBackUpProvider extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
     with $FutureModifier<void>, $FutureProvider<void> {
   DoBackUpProvider._({
     required DoBackUpFamily super.from,
-    required ({List<int> list, String path, BuildContext? context})
-    super.argument,
+    required ({List<int> list, String path, BuildContext? context}) super.argument,
   }) : super(
          retry: null,
          name: r'doBackUpProvider',
@@ -39,13 +37,11 @@ final class DoBackUpProvider
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<void> create(Ref ref) {
-    final argument =
-        this.argument as ({List<int> list, String path, BuildContext? context});
+    final argument = this.argument as ({List<int> list, String path, BuildContext? context});
     return doBackUp(
       ref,
       list: argument.list,
@@ -68,11 +64,7 @@ final class DoBackUpProvider
 String _$doBackUpHash() => r'34d50ab49f5ee3cdcd74ba5f8a879030b5527f5a';
 
 final class DoBackUpFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          FutureOr<void>,
-          ({List<int> list, String path, BuildContext? context})
-        > {
+    with $FunctionalFamilyOverride<FutureOr<void>, ({List<int> list, String path, BuildContext? context})> {
   DoBackUpFamily._()
     : super(
         retry: null,

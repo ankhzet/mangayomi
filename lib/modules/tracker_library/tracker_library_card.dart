@@ -22,12 +22,10 @@ class TrackerLibraryImageCard extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<TrackerLibraryImageCard> createState() =>
-      _TrackerLibraryImageCardState();
+  ConsumerState<TrackerLibraryImageCard> createState() => _TrackerLibraryImageCardState();
 }
 
-class _TrackerLibraryImageCardState
-    extends ConsumerState<TrackerLibraryImageCard>
+class _TrackerLibraryImageCardState extends ConsumerState<TrackerLibraryImageCard>
     with AutomaticKeepAliveClientMixin<TrackerLibraryImageCard> {
   @override
   Widget build(BuildContext context) {
@@ -70,14 +68,11 @@ class _TrackerLibraryImageCardState
                                   child: Text.rich(
                                     TextSpan(
                                       style: TextStyle(
-                                        background:
-                                            Paint()
-                                              ..color = Theme.of(context)
-                                                  .scaffoldBackgroundColor
-                                                  .withValues(alpha: 0.75)
-                                              ..strokeWidth = 20.0
-                                              ..strokeJoin = StrokeJoin.round
-                                              ..style = PaintingStyle.stroke,
+                                        background: Paint()
+                                          ..color = Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.75)
+                                          ..strokeWidth = 20.0
+                                          ..strokeJoin = StrokeJoin.round
+                                          ..style = PaintingStyle.stroke,
                                       ),
                                       children: [
                                         WidgetSpan(
@@ -139,12 +134,11 @@ class _TrackerLibraryImageCardState
   void _showCard(BuildContext context, int? mangaId) {
     showDialog(
       context: context,
-      builder:
-          (context) => TrackerItemCard(
-            track: widget.track,
-            itemType: widget.itemType,
-            mangaId: mangaId,
-          ),
+      builder: (context) => TrackerItemCard(
+        track: widget.track,
+        itemType: widget.itemType,
+        mangaId: mangaId,
+      ),
     );
   }
 

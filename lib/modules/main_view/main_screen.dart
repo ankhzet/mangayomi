@@ -48,8 +48,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   static final Map<String, String> _hyphenatedLabelsCache = {};
 
-  final Map<String, List<NavigationRailDestination>> _desktopDestinationsCache =
-      {};
+  final Map<String, List<NavigationRailDestination>> _desktopDestinationsCache = {};
   final Map<String, List<Widget>> _mobileDestinationsCache = {};
   void _clearCache() {
     _hyphenatedLabelsCache.clear();
@@ -81,14 +80,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     super.initState();
 
     _navigationOrder = ref.read(navigationOrderStateProvider);
-    _autoSyncFrequency = ref
-        .read(synchingProvider(syncId: 1))
-        .autoSyncFrequency;
+    _autoSyncFrequency = ref.read(synchingProvider(syncId: 1)).autoSyncFrequency;
     final hiddenItems = ref.read(hideItemsStateProvider);
 
-    _defaultLocation = _navigationOrder
-        .where((e) => !hiddenItems.contains(e))
-        .first;
+    _defaultLocation = _navigationOrder.where((e) => !hiddenItems.contains(e)).first;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
@@ -195,9 +190,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                         (nav) => libLocationRegex.hasMatch(nav),
                       ),
                     ].where((nav) => !hideItems.contains(nav)).toList()
-                  : navigationOrder
-                        .where((nav) => !hideItems.contains(nav))
-                        .toList();
+                  : navigationOrder.where((nav) => !hideItems.contains(nav)).toList();
 
               if (mergeLibraryNavMobile && !context.isTablet && !isLibSwitch) {
                 dest = dest
@@ -217,15 +210,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                     .toList();
               }
 
-              if (isLibSwitch &&
-                  (currentIndex >= dest.length ||
-                      !libLocationRegex.hasMatch(location ?? ""))) {
+              if (isLibSwitch && (currentIndex >= dest.length || !libLocationRegex.hasMatch(location ?? ""))) {
                 currentIndex = 0;
               } else {
                 String? libLocation;
-                if (mergeLibraryNavMobile &&
-                    !context.isTablet &&
-                    !isLibSwitch) {
+                if (mergeLibraryNavMobile && !context.isTablet && !isLibSwitch) {
                   libLocation = location?.replaceAll(
                     libLocationRegex,
                     "_enableLibSwitch",
@@ -250,8 +239,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                       downloadedOnly: downloadedOnly,
                       l10n: l10n,
                     ),
-                  if (!isReadingScreen)
-                    _IncognitoModeBar(incognitoMode: incognitoMode, l10n: l10n),
+                  if (!isReadingScreen) _IncognitoModeBar(incognitoMode: incognitoMode, l10n: l10n),
                   Flexible(
                     child: Scaffold(
                       body: context.isTablet
@@ -262,8 +250,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                               currentIndex: currentIndex,
                               route: route,
                               ref: ref,
-                              buildNavigationWidgetsDesktop:
-                                  _buildNavigationWidgetsDesktop,
+                              buildNavigationWidgetsDesktop: _buildNavigationWidgetsDesktop,
                               child: widget.child,
                             )
                           : widget.child,
@@ -276,8 +263,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                               dest: dest,
                               route: route,
                               ref: ref,
-                              buildNavigationWidgetsMobile:
-                                  _buildNavigationWidgetsMobile,
+                              buildNavigationWidgetsMobile: _buildNavigationWidgetsMobile,
                               onDestinationSelected: (destination) {
                                 if (destination == "_enableLibSwitch") {
                                   setState(() {
@@ -304,9 +290,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   }
 
   static bool _isReadingScreen(String? location) {
-    return location == '/mangaReaderView' ||
-        location == '/animePlayerView' ||
-        location == '/novelReaderView';
+    return location == '/mangaReaderView' || location == '/animePlayerView' || location == '/novelReaderView';
   }
 
   List<NavigationRailDestination> _buildNavigationWidgetsDesktop(
@@ -657,10 +641,7 @@ class _TabletLayout extends StatelessWidget {
                   labelType: NavigationRailLabelType.all,
                   useIndicator: true,
                   destinations: destinations,
-                  selectedIndex:
-                      (currentIndex >= 0 && currentIndex < destinations.length)
-                      ? currentIndex
-                      : 0,
+                  selectedIndex: (currentIndex >= 0 && currentIndex < destinations.length) ? currentIndex : 0,
                   onDestinationSelected: (newIndex) {
                     route.go(dest[newIndex]);
                   },
@@ -710,8 +691,7 @@ class _MobileBottomNavigation extends StatelessWidget {
   final List<String> dest;
   final GoRouter route;
   final WidgetRef ref;
-  final List<Widget> Function(WidgetRef, List<String>, BuildContext)
-  buildNavigationWidgetsMobile;
+  final List<Widget> Function(WidgetRef, List<String>, BuildContext) buildNavigationWidgetsMobile;
   final Function(String) onDestinationSelected;
 
   @override
@@ -798,8 +778,7 @@ class _ExtensionBadgeWidget extends ConsumerWidget {
 
         final entries = snapshot.data!
             .where(
-              (element) =>
-                  compareVersions(element.version!, element.versionLast!) < 0,
+              (element) => compareVersions(element.version!, element.versionLast!) < 0,
             )
             .toList();
 
@@ -862,11 +841,7 @@ class _UpdatesBadgeWidget extends ConsumerWidget {
           return icon;
         }
 
-        final distinctMangaCount = entries
-            .map((e) => e.chapter.value?.mangaId)
-            .whereType<int>()
-            .toSet()
-            .length;
+        final distinctMangaCount = entries.map((e) => e.chapter.value?.mangaId).whereType<int>().toSet().length;
 
         if (distinctMangaCount == 0) {
           return icon;

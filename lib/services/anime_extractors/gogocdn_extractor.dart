@@ -19,19 +19,9 @@ class GogoCdnExtractor {
       final document = response.body;
 
       Document parsedResponse = parser.parse(response.body);
-      final iv =
-          parsedResponse
-              .querySelector('div.wrapper')!
-              .attributes["class"]!
-              .split('container-')
-              .last;
+      final iv = parsedResponse.querySelector('div.wrapper')!.attributes["class"]!.split('container-').last;
 
-      final secretKey =
-          parsedResponse
-              .querySelector('body[class]')!
-              .attributes["class"]!
-              .split('container-')
-              .last;
+      final secretKey = parsedResponse.querySelector('body[class]')!.attributes["class"]!.split('container-').last;
       RegExp(r'container-(\d+)').firstMatch(document)?.group(1);
       final decryptionKey = RegExp(
         r'videocontent-(\d+)',
@@ -51,8 +41,7 @@ class GogoCdnExtractor {
       final token = httpUrl.queryParameters['token'];
       final qualityPrefix = token != null ? "Gogostream - " : "Vidstreaming - ";
 
-      final encryptAjaxUrl =
-          "${host}encrypt-ajax.php?id=$encryptedId&$encryptAjaxParams&alias=$id";
+      final encryptAjaxUrl = "${host}encrypt-ajax.php?id=$encryptedId&$encryptAjaxParams&alias=$id";
 
       final encryptAjaxResponse = await client.get(
         Uri.parse(encryptAjaxUrl),
@@ -69,26 +58,20 @@ class GogoCdnExtractor {
       final videoList = <Video>[];
       final autoList = <Video>[];
       final array = json.decode(decryptedData)["source"];
-      if (array != null &&
-          array is List &&
-          array.length == 1 &&
-          array[0]["type"] == "hls") {
+      if (array != null && array is List && array.length == 1 && array[0]["type"] == "hls") {
         final fileURL = array[0]["file"].toString().trim();
         const separator = "#EXT-X-STREAM-INF:";
         final masterPlaylistResponse = await client.get(Uri.parse(fileURL));
         final masterPlaylist = masterPlaylistResponse.body;
         if (masterPlaylist.contains(separator)) {
-          for (var it in masterPlaylist
-              .substringAfter(separator)
-              .split(separator)) {
+          for (var it in masterPlaylist.substringAfter(separator).split(separator)) {
             final quality =
                 "${it.substringAfter("RESOLUTION=").substringAfter("x").substringBefore(",").substringBefore("\n")}p";
 
             var videoUrl = it.substringAfter("\n").substringBefore("\n");
 
             if (!videoUrl.startsWith("http")) {
-              videoUrl =
-                  "${fileURL.split("/").sublist(0, fileURL.split("/").length - 1).join("/")}/$videoUrl";
+              videoUrl = "${fileURL.split("/").sublist(0, fileURL.split("/").length - 1).join("/")}/$videoUrl";
             }
             videoList.add(Video(videoUrl, "$qualityPrefix$quality", videoUrl));
           }

@@ -379,9 +379,7 @@ class MBridge {
       } else if (WordSet(["month", "mes"]).anyWordIn(date)) {
         return cal.subtract(Duration(days: number * 30)).millisecondsSinceEpoch;
       } else if (WordSet(["year", "año"]).anyWordIn(date)) {
-        return cal
-            .subtract(Duration(days: number * 365))
-            .millisecondsSinceEpoch;
+        return cal.subtract(Duration(days: number * 365)).millisecondsSinceEpoch;
       } else {
         return 0;
       }
@@ -408,10 +406,7 @@ class MBridge {
         final cleanedDate = date
             .split(" ")
             .map(
-              (it) =>
-                  it.contains(RegExp(r"\d\D\D"))
-                      ? it.replaceAll(RegExp(r"\D"), "")
-                      : it,
+              (it) => it.contains(RegExp(r"\d\D\D")) ? it.replaceAll(RegExp(r"\D"), "") : it,
             )
             .join(" ");
         return DateFormat(
@@ -460,10 +455,7 @@ class MBridge {
               final cleanedDate = date
                   .split(" ")
                   .map(
-                    (it) =>
-                        it.contains(RegExp(r"\d\D\D"))
-                            ? it.replaceAll(RegExp(r"\D"), "")
-                            : it,
+                    (it) => it.contains(RegExp(r"\d\D\D")) ? it.replaceAll(RegExp(r"\D"), "") : it,
                   )
                   .join(" ");
               return DateFormat(
@@ -710,33 +702,29 @@ void Function() botToast(
     duration: second != null ? Duration(seconds: second) : null,
     animationDuration: Duration(milliseconds: animationDuration),
     animationReverseDuration: Duration(milliseconds: animationDuration),
-    leading:
-        showIcon
-            ? (_) => Image.asset(
-              (themeDark == null
-                  ? (assets..shuffle()).first
-                  : assets[themeDark ? 0 : 1]),
-              height: 25,
-            )
-            : null,
+    leading: showIcon
+        ? (_) => Image.asset(
+            (themeDark == null ? (assets..shuffle()).first : assets[themeDark ? 0 : 1]),
+            height: 25,
+          )
+        : null,
     title: builder ?? ((_) => Text(title!, style: TextStyle(fontSize: fontSize))),
-    trailing:
-        url != null
-            ? (_) => OutlinedButton.icon(
-              style: OutlinedButton.styleFrom(elevation: 10),
-              onPressed: () {
-                context?.push(
-                  "/mangawebview",
-                  extra: {'url': url, 'title': ''},
-                );
-              },
-              label: Text(
-                "Resolve Cloudflare challenge",
-                style: TextStyle(color: context?.secondaryColor),
-              ),
-              icon: const Icon(Icons.public),
-            )
-            : null,
+    trailing: url != null
+        ? (_) => OutlinedButton.icon(
+            style: OutlinedButton.styleFrom(elevation: 10),
+            onPressed: () {
+              context?.push(
+                "/mangawebview",
+                extra: {'url': url, 'title': ''},
+              );
+            },
+            label: Text(
+              "Resolve Cloudflare challenge",
+              style: TextStyle(color: context?.secondaryColor),
+            ),
+            icon: const Icon(Icons.public),
+          )
+        : null,
   );
 }
 

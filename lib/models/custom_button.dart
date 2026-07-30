@@ -33,26 +33,17 @@ class CustomButton {
 
   String getButtonStartup(int primaryId) {
     final isPrimary = primaryId == id ? "true" : "false";
-    return codeStartup
-            ?.replaceAll("\$id", "$id")
-            .replaceAll("\$isPrimary", isPrimary) ??
-        "";
+    return codeStartup?.replaceAll("\$id", "$id").replaceAll("\$isPrimary", isPrimary) ?? "";
   }
 
   String getButtonPress(int primaryId) {
     final isPrimary = primaryId == id ? "true" : "false";
-    return codePress
-            ?.replaceAll("\$id", "$id")
-            .replaceAll("\$isPrimary", isPrimary) ??
-        "";
+    return codePress?.replaceAll("\$id", "$id").replaceAll("\$isPrimary", isPrimary) ?? "";
   }
 
   String getButtonLongPress(int primaryId) {
     final isPrimary = primaryId == id ? "true" : "false";
-    return codeLongPress
-            ?.replaceAll("\$id", "$id")
-            .replaceAll("\$isPrimary", isPrimary) ??
-        "";
+    return codeLongPress?.replaceAll("\$id", "$id").replaceAll("\$isPrimary", isPrimary) ?? "";
   }
 
   CustomButton.fromJson(Map<String, dynamic> json) {

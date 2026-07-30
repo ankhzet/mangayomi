@@ -10,8 +10,7 @@ part of 'archive_reader_providers.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(getArchivesDataFromDirectory)
-final getArchivesDataFromDirectoryProvider =
-    GetArchivesDataFromDirectoryFamily._();
+final getArchivesDataFromDirectoryProvider = GetArchivesDataFromDirectoryFamily._();
 
 final class GetArchivesDataFromDirectoryProvider
     extends
@@ -46,8 +45,9 @@ final class GetArchivesDataFromDirectoryProvider
 
   @$internal
   @override
-  $FutureProviderElement<List<(String, LocalExtensionType, Uint8List, String)>>
-  $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
+  $FutureProviderElement<List<(String, LocalExtensionType, Uint8List, String)>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<List<(String, LocalExtensionType, Uint8List, String)>> create(
@@ -59,8 +59,7 @@ final class GetArchivesDataFromDirectoryProvider
 
   @override
   bool operator ==(Object other) {
-    return other is GetArchivesDataFromDirectoryProvider &&
-        other.argument == argument;
+    return other is GetArchivesDataFromDirectoryProvider && other.argument == argument;
   }
 
   @override
@@ -69,15 +68,10 @@ final class GetArchivesDataFromDirectoryProvider
   }
 }
 
-String _$getArchivesDataFromDirectoryHash() =>
-    r'2f343dfe03bb479e80e6343f389fce8830998f0e';
+String _$getArchivesDataFromDirectoryHash() => r'2f343dfe03bb479e80e6343f389fce8830998f0e';
 
 final class GetArchivesDataFromDirectoryFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          FutureOr<List<(String, LocalExtensionType, Uint8List, String)>>,
-          String
-        > {
+    with $FunctionalFamilyOverride<FutureOr<List<(String, LocalExtensionType, Uint8List, String)>>, String> {
   GetArchivesDataFromDirectoryFamily._()
     : super(
         retry: null,
@@ -95,19 +89,11 @@ final class GetArchivesDataFromDirectoryFamily extends $Family
 }
 
 @ProviderFor(getArchiveDataFromDirectory)
-final getArchiveDataFromDirectoryProvider =
-    GetArchiveDataFromDirectoryFamily._();
+final getArchiveDataFromDirectoryProvider = GetArchiveDataFromDirectoryFamily._();
 
 final class GetArchiveDataFromDirectoryProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<LocalArchive>>,
-          List<LocalArchive>,
-          FutureOr<List<LocalArchive>>
-        >
-    with
-        $FutureModifier<List<LocalArchive>>,
-        $FutureProvider<List<LocalArchive>> {
+    extends $FunctionalProvider<AsyncValue<List<LocalArchive>>, List<LocalArchive>, FutureOr<List<LocalArchive>>>
+    with $FutureModifier<List<LocalArchive>>, $FutureProvider<List<LocalArchive>> {
   GetArchiveDataFromDirectoryProvider._({
     required GetArchiveDataFromDirectoryFamily super.from,
     required String super.argument,
@@ -143,8 +129,7 @@ final class GetArchiveDataFromDirectoryProvider
 
   @override
   bool operator ==(Object other) {
-    return other is GetArchiveDataFromDirectoryProvider &&
-        other.argument == argument;
+    return other is GetArchiveDataFromDirectoryProvider && other.argument == argument;
   }
 
   @override
@@ -153,8 +138,7 @@ final class GetArchiveDataFromDirectoryProvider
   }
 }
 
-String _$getArchiveDataFromDirectoryHash() =>
-    r'81705a8d04d4f4d1454a82b35e55eb2e0397ea6f';
+String _$getArchiveDataFromDirectoryHash() => r'81705a8d04d4f4d1454a82b35e55eb2e0397ea6f';
 
 final class GetArchiveDataFromDirectoryFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<List<LocalArchive>>, String> {
@@ -210,8 +194,8 @@ final class GetArchivesDataFromFileProvider
 
   @$internal
   @override
-  $FutureProviderElement<(String, LocalExtensionType, Uint8List, String)>
-  $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
+  $FutureProviderElement<(String, LocalExtensionType, Uint8List, String)> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
 
   @override
   FutureOr<(String, LocalExtensionType, Uint8List, String)> create(Ref ref) {
@@ -221,8 +205,7 @@ final class GetArchivesDataFromFileProvider
 
   @override
   bool operator ==(Object other) {
-    return other is GetArchivesDataFromFileProvider &&
-        other.argument == argument;
+    return other is GetArchivesDataFromFileProvider && other.argument == argument;
   }
 
   @override
@@ -231,15 +214,10 @@ final class GetArchivesDataFromFileProvider
   }
 }
 
-String _$getArchivesDataFromFileHash() =>
-    r'04d8ce722c077a7def61dda20ff18b23090fb646';
+String _$getArchivesDataFromFileHash() => r'04d8ce722c077a7def61dda20ff18b23090fb646';
 
 final class GetArchivesDataFromFileFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          FutureOr<(String, LocalExtensionType, Uint8List, String)>,
-          String
-        > {
+    with $FunctionalFamilyOverride<FutureOr<(String, LocalExtensionType, Uint8List, String)>, String> {
   GetArchivesDataFromFileFamily._()
     : super(
         retry: null,
@@ -249,8 +227,7 @@ final class GetArchivesDataFromFileFamily extends $Family
         isAutoDispose: true,
       );
 
-  GetArchivesDataFromFileProvider call(String path) =>
-      GetArchivesDataFromFileProvider._(argument: path, from: this);
+  GetArchivesDataFromFileProvider call(String path) => GetArchivesDataFromFileProvider._(argument: path, from: this);
 
   @override
   String toString() => r'getArchivesDataFromFileProvider';
@@ -260,12 +237,7 @@ final class GetArchivesDataFromFileFamily extends $Family
 final getArchiveDataFromFileProvider = GetArchiveDataFromFileFamily._();
 
 final class GetArchiveDataFromFileProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<LocalArchive>,
-          LocalArchive,
-          FutureOr<LocalArchive>
-        >
+    extends $FunctionalProvider<AsyncValue<LocalArchive>, LocalArchive, FutureOr<LocalArchive>>
     with $FutureModifier<LocalArchive>, $FutureProvider<LocalArchive> {
   GetArchiveDataFromFileProvider._({
     required GetArchiveDataFromFileFamily super.from,
@@ -302,8 +274,7 @@ final class GetArchiveDataFromFileProvider
 
   @override
   bool operator ==(Object other) {
-    return other is GetArchiveDataFromFileProvider &&
-        other.argument == argument;
+    return other is GetArchiveDataFromFileProvider && other.argument == argument;
   }
 
   @override
@@ -312,8 +283,7 @@ final class GetArchiveDataFromFileProvider
   }
 }
 
-String _$getArchiveDataFromFileHash() =>
-    r'a5d8bf8246bfa250af6a7fd3c09bba6a012e0b2d';
+String _$getArchiveDataFromFileHash() => r'a5d8bf8246bfa250af6a7fd3c09bba6a012e0b2d';
 
 final class GetArchiveDataFromFileFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<LocalArchive>, String> {
@@ -326,8 +296,7 @@ final class GetArchiveDataFromFileFamily extends $Family
         isAutoDispose: true,
       );
 
-  GetArchiveDataFromFileProvider call(String path) =>
-      GetArchiveDataFromFileProvider._(argument: path, from: this);
+  GetArchiveDataFromFileProvider call(String path) => GetArchiveDataFromFileProvider._(argument: path, from: this);
 
   @override
   String toString() => r'getArchiveDataFromFileProvider';

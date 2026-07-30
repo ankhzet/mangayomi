@@ -20,14 +20,10 @@ class Anilist extends _$Anilist implements BaseTracker {
   static final _isDesktop = Platform.isWindows || Platform.isLinux;
   final String _clientId = _isDesktop ? '13587' : '13588';
   static const String _baseApiUrl = "https://graphql.anilist.co/";
-  final String _redirectUri =
-      _isDesktop
-          ? 'http://localhost:43824/success?code=1337'
-          : 'mangayomi://success?code=1337';
-  final String _clientSecret =
-      _isDesktop
-          ? 'tJA13cAR2tCCXrJCwwvmwEDbWRoIaahFiJTXToHd'
-          : 'G2fFUiGtgFd60D0lCkhgGKvMmrCfDmZXADQIzWXr';
+  final String _redirectUri = _isDesktop ? 'http://localhost:43824/success?code=1337' : 'mangayomi://success?code=1337';
+  final String _clientSecret = _isDesktop
+      ? 'tJA13cAR2tCCXrJCwwvmwEDbWRoIaahFiJTXToHd'
+      : 'G2fFUiGtgFd60D0lCkhgGKvMmrCfDmZXADQIzWXr';
 
   @override
   void build({
@@ -37,8 +33,7 @@ class Anilist extends _$Anilist implements BaseTracker {
   }) {}
 
   Future<bool?> login() async {
-    final callbackUrlScheme =
-        _isDesktop ? 'http://localhost:43824' : 'mangayomi';
+    final callbackUrlScheme = _isDesktop ? 'http://localhost:43824' : 'mangayomi';
     final loginUrl =
         'https://anilist.co/api/v2/oauth/authorize?client_id=$_clientId'
         '&redirect_uri=$_redirectUri&response_type=code';
@@ -62,10 +57,7 @@ class Anilist extends _$Anilist implements BaseTracker {
       );
       final res = jsonDecode(response.body) as Map<String, dynamic>;
       final aLOAuth = OAuth.fromJson(res)
-        ..expiresIn =
-            DateTime.now()
-                .add(Duration(seconds: res['expires_in']))
-                .millisecondsSinceEpoch;
+        ..expiresIn = DateTime.now().add(Duration(seconds: res['expires_in'])).millisecondsSinceEpoch;
       final currenUser = await _getCurrentUser(aLOAuth.accessToken!);
       widgetRef
           .read(tracksProvider(syncId: syncId).notifier)
@@ -91,7 +83,8 @@ class Anilist extends _$Anilist implements BaseTracker {
     final idVarName = isNew ? 'mediaId' : 'id';
     final idVarValue = isNew ? track.mediaId : track.libraryId!;
 
-    final document = '''
+    final document =
+        '''
     mutation $opName(\$$idVarName: Int!, \$progress: Int!, \$status: MediaListStatus${isNew ? '' : ', \$score: Int, \$startedAt: FuzzyDateInput, \$completedAt: FuzzyDateInput'} ) {
       SaveMediaListEntry(
         ${isNew ? 'mediaId' : 'id'}: \$$idVarName,
@@ -125,7 +118,8 @@ class Anilist extends _$Anilist implements BaseTracker {
   Future<List<TrackSearch>> search(String search, bool isManga) async {
     final type = isManga ? "MANGA" : "ANIME";
     final contentUnit = isManga ? "chapters" : "episodes";
-    final query = '''
+    final query =
+        '''
     query Search(\$query: String) {
       Page(perPage: 50) {
         media(search: \$query, type: $type, format_not_in: [NOVEL]) {
@@ -168,10 +162,7 @@ class Anilist extends _$Anilist implements BaseTracker {
                 ).toString(),
             publishingType: "",
             publishingStatus: jsonRes['status'],
-            score:
-                jsonRes["averageScore"] != null
-                    ? jsonRes["averageScore"] * 1.0
-                    : 0,
+            score: jsonRes["averageScore"] != null ? jsonRes["averageScore"] * 1.0 : 0,
           ),
         )
         .toList();
@@ -186,7 +177,8 @@ class Anilist extends _$Anilist implements BaseTracker {
     final typeVar = isManga ? "manga_id" : "anime_id";
     final contentUnit = isManga ? "chapters" : "episodes";
 
-    final query = '''
+    final query =
+        '''
     query(\$id: Int!, \$$typeVar: Int!) {
       Page {
         mediaList(userId: \$id, type: $type, mediaId: \$$typeVar) {
@@ -236,12 +228,12 @@ class Anilist extends _$Anilist implements BaseTracker {
   @override
   Future<List<TrackSearch>> fetchGeneralData({
     bool isManga = true,
-    String rankingType =
-        "status: NOT_YET_RELEASED, sort: [POPULARITY_DESC, TRENDING_DESC]",
+    String rankingType = "status: NOT_YET_RELEASED, sort: [POPULARITY_DESC, TRENDING_DESC]",
   }) async {
     final type = isManga ? "MANGA" : "ANIME";
     final contentUnit = isManga ? "chapters" : "episodes";
-    final query = '''
+    final query =
+        '''
     query {
       Page(perPage: 50) {
         media(type: $type, format_not_in: [NOVEL], $rankingType) {
@@ -284,10 +276,7 @@ class Anilist extends _$Anilist implements BaseTracker {
                 ).toString(),
             publishingType: "",
             publishingStatus: jsonRes['status'],
-            score:
-                jsonRes["averageScore"] != null
-                    ? jsonRes["averageScore"] * 1.0
-                    : 0,
+            score: jsonRes["averageScore"] != null ? jsonRes["averageScore"] * 1.0 : 0,
           ),
         )
         .toList();
@@ -301,7 +290,8 @@ class Anilist extends _$Anilist implements BaseTracker {
     final type = isManga ? "MANGA" : "ANIME";
     final contentUnit = isManga ? "chapters" : "episodes";
 
-    final query = '''
+    final query =
+        '''
     query(\$id: Int!) {
       Page {
         mediaList(userId: \$id, type: $type, status: CURRENT, sort: UPDATED_TIME_DESC) {
@@ -352,10 +342,7 @@ class Anilist extends _$Anilist implements BaseTracker {
                 ).toString(),
             publishingType: "",
             publishingStatus: jsonRes['media']['status'],
-            score:
-                jsonRes['media']['averageScore'] != null
-                    ? jsonRes['media']['averageScore'] * 1.0
-                    : 0,
+            score: jsonRes['media']['averageScore'] != null ? jsonRes['media']['averageScore'] * 1.0 : 0,
             status: _getALTrackStatus(jsonRes['status'], isManga).name,
             lastChapterRead: jsonRes['progress'] as int? ?? 0,
             startedReadingDate: parseDate(jsonRes, 'startedAt'),
@@ -542,9 +529,7 @@ class Anilist extends _$Anilist implements BaseTracker {
 
   @override
   Future<bool> checkRefresh() async {
-    widgetRef
-        .read(tracksProvider(syncId: syncId).notifier)
-        .setRefreshing(false);
+    widgetRef.read(tracksProvider(syncId: syncId).notifier).setRefreshing(false);
     return true;
   }
 }

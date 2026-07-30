@@ -35,13 +35,7 @@ class ExtensionsLang extends ConsumerWidget {
                 } else if (value == 1) {
                   enable = false;
                 }
-                final sources =
-                    isar.sources
-                        .filter()
-                        .idIsNotNull()
-                        .and()
-                        .itemTypeEqualTo(itemType)
-                        .findAllSync();
+                final sources = isar.sources.filter().idIsNotNull().and().itemTypeEqualTo(itemType).findAllSync();
                 for (var source in sources) {
                   isar.sources.putSync(
                     source
@@ -55,12 +49,7 @@ class ExtensionsLang extends ConsumerWidget {
         ],
       ),
       body: StreamBuilder(
-        stream: isar.sources
-            .filter()
-            .idIsNotNull()
-            .and()
-            .itemTypeEqualTo(itemType)
-            .watch(fireImmediately: true),
+        stream: isar.sources.filter().idIsNotNull().and().itemTypeEqualTo(itemType).watch(fireImmediately: true),
         builder: (context, snapshot) {
           List<Source>? entries = snapshot.hasData ? snapshot.data : [];
           final languages = entries!.map((e) => e.lang!).toSet().toList();
@@ -85,15 +74,11 @@ class ExtensionsLang extends ConsumerWidget {
                     }
                   });
                 },
-                value:
-                    entries
-                        .where(
-                          (element) =>
-                              element.lang!.toLowerCase() ==
-                                  lang.toLowerCase() &&
-                              element.isActive!,
-                        )
-                        .isNotEmpty,
+                value: entries
+                    .where(
+                      (element) => element.lang!.toLowerCase() == lang.toLowerCase() && element.isActive!,
+                    )
+                    .isNotEmpty,
               );
             },
           );

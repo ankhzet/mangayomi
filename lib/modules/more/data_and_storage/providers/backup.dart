@@ -44,104 +44,49 @@ Future<void> doBackUp(
       datas.addAll({"manga": res});
     }
     if (list.contains(1)) {
-      final res = isar.categorys
-          .filter()
-          .idIsNotNull()
-          .findAllSync()
-          .map((e) => e.toJson())
-          .toList();
+      final res = isar.categorys.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
       datas.addAll({"categories": res});
     }
     if (list.contains(2)) {
-      final res = isar.chapters
-          .where()
-          .findAllSync()
-          .map((e) => e.toJson())
-          .toList();
+      final res = isar.chapters.where().findAllSync().map((e) => e.toJson()).toList();
       datas.addAll({"chapters": res});
-      final res_ = isar.downloads
-          .filter()
-          .idIsNotNull()
-          .findAllSync()
-          .map((e) => e.toJson())
-          .toList();
+      final res_ = isar.downloads.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
       datas.addAll({"downloads": res_});
     }
     if (list.contains(3)) {
-      final res = isar.tracks
-          .filter()
-          .idIsNotNull()
-          .findAllSync()
-          .map((e) => e.toJson())
-          .toList();
+      final res = isar.tracks.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
       datas.addAll({"tracks": res});
     }
     if (list.contains(4)) {
-      final res = isar.historys
-          .filter()
-          .idIsNotNull()
-          .findAllSync()
-          .map((e) => e.toJson())
-          .toList();
+      final res = isar.historys.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
       datas.addAll({"history": res});
     }
     if (list.contains(5)) {
-      final res = isar.updates
-          .filter()
-          .idIsNotNull()
-          .findAllSync()
-          .map((e) => e.toJson())
-          .toList();
+      final res = isar.updates.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
       datas.addAll({"updates": res});
     }
     if (list.contains(6)) {
-      final res = isar.settings
-          .filter()
-          .idIsNotNull()
-          .findAllSync()
-          .map((e) => e.toJson())
-          .toList();
+      final res = isar.settings.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
       datas.addAll({"settings": res});
     }
     if (list.contains(7)) {
-      final res = isar.sourcePreferences
-          .filter()
-          .idIsNotNull()
-          .findAllSync()
-          .map((e) => e.toJson())
-          .toList();
+      final res = isar.sourcePreferences.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
       datas.addAll({"extensions_preferences": res});
     }
     if (list.contains(8)) {
-      final res_ = isar.trackPreferences
-          .filter()
-          .syncIdIsNotNull()
-          .findAllSync()
-          .map((e) => e.toJson())
-          .toList();
+      final res_ = isar.trackPreferences.filter().syncIdIsNotNull().findAllSync().map((e) => e.toJson()).toList();
       datas.addAll({"trackPreferences": res_});
     }
     if (list.contains(9)) {
-      final res = isar.sources
-          .filter()
-          .idIsNotNull()
-          .findAllSync()
-          .map((e) => e.toJson())
-          .toList();
+      final res = isar.sources.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
       datas.addAll({"extensions": res});
     }
     if (list.contains(10)) {
-      final res = isar.customButtons
-          .filter()
-          .idIsNotNull()
-          .findAllSync()
-          .map((e) => e.toJson())
-          .toList();
+      final res = isar.customButtons.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
       datas.addAll({"customButtons": res});
     }
     final regExp = RegExp(r'[^a-zA-Z0-9 .()\-\s]');
-    final name =
-        'mangayomi_${DateTime.now().toString().replaceAll(regExp, '_').replaceAll(' ', '_')}';
+    final name = 'mangayomi_${DateTime.now().toString().replaceAll(regExp, '_').replaceAll(' ', '_')}';
     final backupFilePath = p.join(path, "$name.backup.db");
     final file = File(backupFilePath);
 
@@ -174,16 +119,13 @@ Future<void> doBackUp(
                 alignment: Alignment.topLeft,
                 child: ElevatedButton(
                   onPressed: () {
-                    final RenderBox? box =
-                        context.findRenderObject() as RenderBox?;
+                    final RenderBox? box = context.findRenderObject() as RenderBox?;
                     SharePlus.instance.share(
                       ShareParams(
                         files: [XFile(p.join(path, "$name.backup"))],
                         subject: "$name.backup",
                         title: "Share Mangayomi backup file",
-                        sharePositionOrigin: box == null
-                            ? null
-                            : box.localToGlobal(Offset.zero) & box.size,
+                        sharePositionOrigin: box == null ? null : box.localToGlobal(Offset.zero) & box.size,
                       ),
                     );
                   },

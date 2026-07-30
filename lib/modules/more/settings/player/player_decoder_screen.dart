@@ -10,8 +10,7 @@ class PlayerDecoderScreen extends ConsumerStatefulWidget {
   const PlayerDecoderScreen({super.key});
 
   @override
-  ConsumerState<PlayerDecoderScreen> createState() =>
-      _PlayerDecoderScreenState();
+  ConsumerState<PlayerDecoderScreen> createState() => _PlayerDecoderScreenState();
 }
 
 class _PlayerDecoderScreenState extends ConsumerState<PlayerDecoderScreen> {
@@ -147,9 +146,7 @@ class _PlayerDecoderScreenState extends ConsumerState<PlayerDecoderScreen> {
                         child: RadioGroup(
                           groupValue: debandingType,
                           onChanged: (value) {
-                            ref
-                                .read(debandingStateProvider.notifier)
-                                .set(value!);
+                            ref.read(debandingStateProvider.notifier).set(value!);
                             Navigator.pop(context);
                           },
                           child: SuperListView.builder(

@@ -64,11 +64,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
           final isExtended = ref.watch(isExtendedStateProvider);
           return ref.watch(isLongPressedStateProvider)
               ? Container()
-              : chaptersList.isNotEmpty &&
-                    chaptersList
-                        .where((element) => !element.isRead!)
-                        .toList()
-                        .isNotEmpty
+              : chaptersList.isNotEmpty && chaptersList.where((element) => !element.isRead!).toList().isNotEmpty
               ? StreamBuilder(
                   stream: isar.historys
                       .filter()
@@ -81,9 +77,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                       )
                       .watch(fireImmediately: true),
                   builder: (context, snapshot) {
-                    String buttonLabel = widget.manga.itemType != ItemType.anime
-                        ? l10n.read
-                        : l10n.watch;
+                    String buttonLabel = widget.manga.itemType != ItemType.anime ? l10n.read : l10n.watch;
                     if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                       final incognitoMode = ref.watch(
                         incognitoModeStateProvider,
@@ -136,9 +130,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                 Icon(Icons.person_outline, size: 14),
                 const SizedBox(width: 4),
                 Text(
-                  (widget.manga.author?.isEmpty ?? false)
-                      ? l10n.unknown
-                      : widget.manga.author!,
+                  (widget.manga.author?.isEmpty ?? false) ? l10n.unknown : widget.manga.author!,
                   style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
               ],
@@ -172,8 +164,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                     },
                     child: Text(widget.manga.source!),
                   ),
-                if (!isLocalArchive)
-                  Text(' (${widget.manga.lang!.toUpperCase()})'),
+                if (!isLocalArchive) Text(' (${widget.manga.lang!.toUpperCase()})'),
                 if (!isLocalArchive && !widget.sourceExist)
                   const Padding(
                     padding: EdgeInsets.all(3),

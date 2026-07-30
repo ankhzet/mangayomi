@@ -12,8 +12,7 @@ part of 'player_decoder_state_provider.dart';
 @ProviderFor(HwdecModeState)
 final hwdecModeStateProvider = HwdecModeStateFamily._();
 
-final class HwdecModeStateProvider
-    extends $NotifierProvider<HwdecModeState, String> {
+final class HwdecModeStateProvider extends $NotifierProvider<HwdecModeState, String> {
   HwdecModeStateProvider._({
     required HwdecModeStateFamily super.from,
     required bool super.argument,
@@ -71,8 +70,7 @@ final class HwdecModeStateFamily extends $Family
         isAutoDispose: true,
       );
 
-  HwdecModeStateProvider call({bool rawValue = false}) =>
-      HwdecModeStateProvider._(argument: rawValue, from: this);
+  HwdecModeStateProvider call({bool rawValue = false}) => HwdecModeStateProvider._(argument: rawValue, from: this);
 
   @override
   String toString() => r'hwdecModeStateProvider';
@@ -87,14 +85,7 @@ abstract class _$HwdecModeState extends $Notifier<String> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String, String>,
-              String,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
     element.handleCreate(ref, () => build(rawValue: _$args));
   }
 }
@@ -102,8 +93,7 @@ abstract class _$HwdecModeState extends $Notifier<String> {
 @ProviderFor(EnableHardwareAccelState)
 final enableHardwareAccelStateProvider = EnableHardwareAccelStateProvider._();
 
-final class EnableHardwareAccelStateProvider
-    extends $NotifierProvider<EnableHardwareAccelState, bool> {
+final class EnableHardwareAccelStateProvider extends $NotifierProvider<EnableHardwareAccelState, bool> {
   EnableHardwareAccelStateProvider._()
     : super(
         from: null,
@@ -131,8 +121,7 @@ final class EnableHardwareAccelStateProvider
   }
 }
 
-String _$enableHardwareAccelStateHash() =>
-    r'4804b699c14a78db9c760ec4eaf8a88bb6ce1b9b';
+String _$enableHardwareAccelStateHash() => r'4804b699c14a78db9c760ec4eaf8a88bb6ce1b9b';
 
 abstract class _$EnableHardwareAccelState extends $Notifier<bool> {
   bool build();
@@ -140,14 +129,7 @@ abstract class _$EnableHardwareAccelState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -155,8 +137,7 @@ abstract class _$EnableHardwareAccelState extends $Notifier<bool> {
 @ProviderFor(DebandingState)
 final debandingStateProvider = DebandingStateProvider._();
 
-final class DebandingStateProvider
-    extends $NotifierProvider<DebandingState, DebandingType> {
+final class DebandingStateProvider extends $NotifierProvider<DebandingState, DebandingType> {
   DebandingStateProvider._()
     : super(
         from: null,
@@ -194,12 +175,7 @@ abstract class _$DebandingState extends $Notifier<DebandingType> {
     final ref = this.ref as $Ref<DebandingType, DebandingType>;
     final element =
         ref.element
-            as $ClassProviderElement<
-              AnyNotifier<DebandingType, DebandingType>,
-              DebandingType,
-              Object?,
-              Object?
-            >;
+            as $ClassProviderElement<AnyNotifier<DebandingType, DebandingType>, DebandingType, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -207,8 +183,7 @@ abstract class _$DebandingState extends $Notifier<DebandingType> {
 @ProviderFor(UseGpuNextState)
 final useGpuNextStateProvider = UseGpuNextStateProvider._();
 
-final class UseGpuNextStateProvider
-    extends $NotifierProvider<UseGpuNextState, bool> {
+final class UseGpuNextStateProvider extends $NotifierProvider<UseGpuNextState, bool> {
   UseGpuNextStateProvider._()
     : super(
         from: null,
@@ -244,14 +219,7 @@ abstract class _$UseGpuNextState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -259,8 +227,7 @@ abstract class _$UseGpuNextState extends $Notifier<bool> {
 @ProviderFor(UseYUV420PState)
 final useYUV420PStateProvider = UseYUV420PStateProvider._();
 
-final class UseYUV420PStateProvider
-    extends $NotifierProvider<UseYUV420PState, bool> {
+final class UseYUV420PStateProvider extends $NotifierProvider<UseYUV420PState, bool> {
   UseYUV420PStateProvider._()
     : super(
         from: null,
@@ -296,14 +263,7 @@ abstract class _$UseYUV420PState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

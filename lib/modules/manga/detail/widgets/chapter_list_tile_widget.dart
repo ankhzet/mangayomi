@@ -36,38 +36,29 @@ class ChapterListTileWidget<T> extends ConsumerWidget {
     final dateUpload = !isLocalArchive && group.dateUpload != null
         ? group.dateUpload!.millisecondsSinceEpoch.toString()
         : null;
-    final textColor = context.isLight
-        ? Colors.black.withValues(alpha: 0.4)
-        : Colors.white.withValues(alpha: 0.3);
+    final textColor = context.isLight ? Colors.black.withValues(alpha: 0.4) : Colors.white.withValues(alpha: 0.3);
 
     return Container(
       color: isSelected ? context.primaryColor.withValues(alpha: 0.4) : null,
       child: ListTile(
         textColor: isRead ? textColor : null,
-        selectedColor: isRead
-            ? Colors.white.withValues(alpha: 0.3)
-            : Colors.white,
+        selectedColor: isRead ? Colors.white.withValues(alpha: 0.3) : Colors.white,
         onLongPress: () {
-          ref
-              .read(chaptersListStateProvider.notifier)
-              .updateAll(group.chapters);
+          ref.read(chaptersListStateProvider.notifier).updateAll(group.chapters);
           if (!isLongPressed) {
             ref.read(isLongPressedStateProvider.notifier).update(true);
           }
         },
         onTap: () async {
           if (isLongPressed) {
-            ref
-                .read(chaptersListStateProvider.notifier)
-                .updateAll(group.chapters);
+            ref.read(chaptersListStateProvider.notifier).updateAll(group.chapters);
           } else {
             chapter.pushToReaderView(context, ignoreIsRead: true);
           }
         },
         title: Row(
           children: [
-            if (isBookmarked)
-              Icon(Icons.bookmark, size: 16, color: context.primaryColor),
+            if (isBookmarked) Icon(Icons.bookmark, size: 16, color: context.primaryColor),
             Flexible(
               child: Text(
                 group.fullTitle,
@@ -89,9 +80,7 @@ class ChapterListTileWidget<T> extends ConsumerWidget {
                 children: [
                   const Text(' • '),
                   Text(
-                    manga.itemType == ItemType.anime
-                        ? l10n.episode_progress(progress)
-                        : l10n.page(progress),
+                    manga.itemType == ItemType.anime ? l10n.episode_progress(progress) : l10n.page(progress),
                     style: const TextStyle(fontSize: 11),
                   ),
                 ],
@@ -116,9 +105,7 @@ class ChapterListTileWidget<T> extends ConsumerWidget {
               const Spacer(),
           ],
         ),
-        trailing: sourceExist && !isLocalArchive
-            ? ChapterPageDownload(chapter: chapter)
-            : null,
+        trailing: sourceExist && !isLocalArchive ? ChapterPageDownload(chapter: chapter) : null,
       ),
     );
   }

@@ -44,9 +44,7 @@ class ReaderScreen extends ConsumerWidget {
                         child: RadioGroup(
                           groupValue: defaultReadingMode,
                           onChanged: (value) {
-                            ref
-                                .read(defaultReadingModeStateProvider.notifier)
-                                .set(value!);
+                            ref.read(defaultReadingModeStateProvider.notifier).set(value!);
                             Navigator.pop(context);
                           },
                           child: SuperListView.builder(
@@ -173,9 +171,7 @@ class ReaderScreen extends ConsumerWidget {
                         child: RadioGroup(
                           groupValue: backgroundColor,
                           onChanged: (value) {
-                            ref
-                                .read(backgroundColorStateProvider.notifier)
-                                .set(value!);
+                            ref.read(backgroundColorStateProvider.notifier).set(value!);
                             Navigator.pop(context);
                           },
                           child: SuperListView.builder(
@@ -276,9 +272,7 @@ class ReaderScreen extends ConsumerWidget {
                         ),
                         TextButton(
                           onPressed: () {
-                            ref
-                                .read(pagePreloadAmountStateProvider.notifier)
-                                .set(tempAmount);
+                            ref.read(pagePreloadAmountStateProvider.notifier).set(tempAmount);
                             Navigator.pop(context);
                           },
                           child: Text(
@@ -309,9 +303,7 @@ class ReaderScreen extends ConsumerWidget {
                         child: RadioGroup(
                           groupValue: scaleType.index,
                           onChanged: (value) {
-                            ref
-                                .read(scaleTypeStateProvider.notifier)
-                                .set(ScaleType.values[value!]);
+                            ref.read(scaleTypeStateProvider.notifier).set(ScaleType.values[value!]);
                             Navigator.pop(context);
                           },
                           child: SuperListView.builder(
@@ -374,9 +366,7 @@ class ReaderScreen extends ConsumerWidget {
               value: animatePageTransitions,
               title: Text(context.l10n.animate_page_transitions),
               onChanged: (value) {
-                ref
-                    .read(animatePageTransitionsStateProvider.notifier)
-                    .set(value);
+                ref.read(animatePageTransitionsStateProvider.notifier).set(value);
               },
             ),
             SwitchListTile(
@@ -403,8 +393,7 @@ class ReaderScreen extends ConsumerWidget {
 String getReaderModeName(ReaderMode readerMode, BuildContext context) {
   return switch (readerMode) {
     ReaderMode.vertical => context.l10n.reading_mode_vertical,
-    ReaderMode.verticalContinuous =>
-      context.l10n.reading_mode_vertical_continuous,
+    ReaderMode.verticalContinuous => context.l10n.reading_mode_vertical_continuous,
     ReaderMode.ltr => context.l10n.reading_mode_left_to_right,
     ReaderMode.rtl => context.l10n.reading_mode_right_to_left,
     ReaderMode.horizontalContinuous => context.l10n.horizontal_continious,

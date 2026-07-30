@@ -12,9 +12,7 @@ part of 'get_source_baseurl.dart';
 @ProviderFor(sourceBaseUrl)
 final sourceBaseUrlProvider = SourceBaseUrlFamily._();
 
-final class SourceBaseUrlProvider
-    extends $FunctionalProvider<String, String, String>
-    with $Provider<String> {
+final class SourceBaseUrlProvider extends $FunctionalProvider<String, String, String> with $Provider<String> {
   SourceBaseUrlProvider._({
     required SourceBaseUrlFamily super.from,
     required Source super.argument,
@@ -38,8 +36,7 @@ final class SourceBaseUrlProvider
 
   @$internal
   @override
-  $ProviderElement<String> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $ProviderElement<String> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
 
   @override
   String create(Ref ref) {
@@ -68,8 +65,7 @@ final class SourceBaseUrlProvider
 
 String _$sourceBaseUrlHash() => r'8b39ad1c4c8283700b2d16dfa3036acc766bb5d4';
 
-final class SourceBaseUrlFamily extends $Family
-    with $FunctionalFamilyOverride<String, Source> {
+final class SourceBaseUrlFamily extends $Family with $FunctionalFamilyOverride<String, Source> {
   SourceBaseUrlFamily._()
     : super(
         retry: null,
@@ -79,8 +75,7 @@ final class SourceBaseUrlFamily extends $Family
         isAutoDispose: true,
       );
 
-  SourceBaseUrlProvider call({required Source source}) =>
-      SourceBaseUrlProvider._(argument: source, from: this);
+  SourceBaseUrlProvider call({required Source source}) => SourceBaseUrlProvider._(argument: source, from: this);
 
   @override
   String toString() => r'sourceBaseUrlProvider';

@@ -12,8 +12,7 @@ part of 'file_scanner.dart';
 @ProviderFor(LocalFoldersState)
 final localFoldersStateProvider = LocalFoldersStateProvider._();
 
-final class LocalFoldersStateProvider
-    extends $NotifierProvider<LocalFoldersState, List<String>> {
+final class LocalFoldersStateProvider extends $NotifierProvider<LocalFoldersState, List<String>> {
   LocalFoldersStateProvider._()
     : super(
         from: null,
@@ -50,13 +49,7 @@ abstract class _$LocalFoldersState extends $Notifier<List<String>> {
   void runBuild() {
     final ref = this.ref as $Ref<List<String>, List<String>>;
     final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<List<String>, List<String>>,
-              List<String>,
-              Object?,
-              Object?
-            >;
+        ref.element as $ClassProviderElement<AnyNotifier<List<String>, List<String>>, List<String>, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -100,8 +93,7 @@ final scanLocalLibraryProvider = ScanLocalLibraryProvider._();
 /// Other types: epub
 /// ```
 
-final class ScanLocalLibraryProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+final class ScanLocalLibraryProvider extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
     with $FutureModifier<void>, $FutureProvider<void> {
   /// Scans `Mangayomi/local` folder (if exists) for Mangas/Animes and imports in library.
   ///
@@ -136,8 +128,7 @@ final class ScanLocalLibraryProvider
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<void> create(Ref ref) {

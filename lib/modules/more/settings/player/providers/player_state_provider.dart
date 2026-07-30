@@ -16,8 +16,7 @@ class DefaultSubtitleLangState extends _$DefaultSubtitleLangState {
   }
 
   L10nLocale? _getLocale() {
-    return isar.settings.getSync(227)!.defaultSubtitleLang ??
-        L10nLocale(languageCode: "en", countryCode: "");
+    return isar.settings.getSync(227)!.defaultSubtitleLang ?? L10nLocale(languageCode: "en", countryCode: "");
   }
 
   void setLocale(Locale locale) async {
@@ -77,8 +76,7 @@ class DefaultSkipIntroLengthState extends _$DefaultSkipIntroLengthState {
 }
 
 @riverpod
-class DefaultDoubleTapToSkipLengthState
-    extends _$DefaultDoubleTapToSkipLengthState {
+class DefaultDoubleTapToSkipLengthState extends _$DefaultDoubleTapToSkipLengthState {
   @override
   int build() {
     return isar.settings.getSync(227)!.defaultDoubleTapToSkipLength ?? 10;

@@ -12,12 +12,7 @@ Stream<List<Manga>> getAllMangaStream(
   required ItemType itemType,
 }) async* {
   yield* categoryId == null
-      ? isar.mangas
-            .filter()
-            .favoriteEqualTo(true)
-            .and()
-            .itemTypeEqualTo(itemType)
-            .watch(fireImmediately: true)
+      ? isar.mangas.filter().favoriteEqualTo(true).and().itemTypeEqualTo(itemType).watch(fireImmediately: true)
       : isar.mangas
             .filter()
             .favoriteEqualTo(true)

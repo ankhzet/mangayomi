@@ -18,8 +18,7 @@ class TrackingDetail extends StatefulWidget {
   State<TrackingDetail> createState() => _TrackingDetailState();
 }
 
-class _TrackingDetailState extends State<TrackingDetail>
-    with TickerProviderStateMixin {
+class _TrackingDetailState extends State<TrackingDetail> with TickerProviderStateMixin {
   late TabController _tabBarController;
   bool get isMovies =>
       widget.trackerPref.syncId == TrackerProviders.simkl.syncId ||
@@ -49,14 +48,15 @@ class _TrackingDetailState extends State<TrackingDetail>
           elevation: 0,
           backgroundColor: Colors.transparent,
           title: Text(
-            widget.trackerPref.syncId == -1
-                ? 'Local'
-                : trackInfos(widget.trackerPref.syncId!).$2,
+            widget.trackerPref.syncId == -1 ? 'Local' : trackInfos(widget.trackerPref.syncId!).$2,
           ),
           bottom: TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
             controller: _tabBarController,
-            tabs: [if (!isMovies) Tab(text: l10n.manga), Tab(text: l10n.anime)],
+            tabs: [
+              if (!isMovies) Tab(text: l10n.manga),
+              Tab(text: l10n.anime),
+            ],
           ),
         ),
         body: TabBarView(
@@ -152,10 +152,7 @@ class TrackingWidget extends StatelessWidget {
         List<Track>? trackRes = [];
         List<Track> res = snapshot.data ?? [];
         for (var track in res) {
-          if (!trackRes
-              .map((e) => e.mediaId)
-              .toList()
-              .contains(track.mediaId)) {
+          if (!trackRes.map((e) => e.mediaId).toList().contains(track.mediaId)) {
             trackRes.add(track);
           }
         }

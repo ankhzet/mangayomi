@@ -29,19 +29,16 @@ class VoeExtractor {
             "if (typeof localStorage !== 'undefined')",
           ) ??
           false) {
-        var originalUrl = scriptElement?.text
-            .substringAfter("window.location.href = '")
-            .substringBefore("';");
+        var originalUrl = scriptElement?.text.substringAfter("window.location.href = '").substringBefore("';");
         if (originalUrl == null) {
           return [];
         }
         document = parse((await client.get(Uri.parse(originalUrl))).body);
       }
-      var alternativeScript =
-          document
-              .select('script')
-              ?.where((script) => scriptBase64Regex.hasMatch(script.text))
-              .toList();
+      var alternativeScript = document
+          .select('script')
+          ?.where((script) => scriptBase64Regex.hasMatch(script.text))
+          .toList();
 
       Element? script = document.selectFirst(
         "script:contains(const sources), script:contains(var sources), script:contains(wc0)",
@@ -56,21 +53,15 @@ class VoeExtractor {
       final scriptContent = script.text;
       String playlistUrl = "";
       if (scriptContent.contains('sources')) {
-        final link = scriptContent
-            .substringAfter("hls': '")
-            .substringBefore("'");
+        final link = scriptContent.substringAfter("hls': '").substringBefore("'");
 
-        playlistUrl =
-            linkRegex.hasMatch(link) ? link : utf8.decode(base64.decode(link));
+        playlistUrl = linkRegex.hasMatch(link) ? link : utf8.decode(base64.decode(link));
       } else if (scriptContent.contains('wc0') || alternativeScript != null) {
         final base64Match = base64Regex.firstMatch(scriptContent)!.group(0)!;
         final decoded = utf8.decode(base64.decode(base64Match));
-        playlistUrl =
-            json.decode(
-              alternativeScript != null
-                  ? String.fromCharCodes(decoded.runes.toList().reversed)
-                  : decoded,
-            )['file'];
+        playlistUrl = json.decode(
+          alternativeScript != null ? String.fromCharCodes(decoded.runes.toList().reversed) : decoded,
+        )['file'];
       } else {
         return [];
       }
@@ -86,10 +77,7 @@ class VoeExtractor {
         final resolution =
             "${it.substringAfter("RESOLUTION=").substringBefore("\n").substringAfter("x").substringBefore(",")}p";
         final line = it.substringAfter("\n").substringBefore("\n");
-        final videoUrl =
-            line.startsWith("http")
-                ? line
-                : "$m3u8Host/${line.replaceFirst("/", "")}";
+        final videoUrl = line.startsWith("http") ? line : "$m3u8Host/${line.replaceFirst("/", "")}";
         return Video(videoUrl, '${prefix ?? ""}Voe: $resolution', videoUrl);
       }).toList();
     } catch (_) {

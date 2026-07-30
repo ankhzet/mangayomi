@@ -18,9 +18,7 @@ class OkruExtractor {
   }) async {
     final response = await client.get(Uri.parse(url));
     final document = parse(response.body);
-    final videoString = document
-        .selectFirst('div[data-options]')
-        ?.attr("data-options");
+    final videoString = document.selectFirst('div[data-options]')?.attr("data-options");
 
     if (videoString == null) {
       return [];
@@ -28,10 +26,7 @@ class OkruExtractor {
 
     if (videoString.contains('ondemandHls')) {
       final playlistUrl = Uri.parse(
-        videoString
-            .substringAfter("ondemandHls\\\":\\\"")
-            .substringBefore("\\\"")
-            .replaceAll("\\\\u0026", "&"),
+        videoString.substringAfter("ondemandHls\\\":\\\"").substringBefore("\\\"").replaceAll("\\\\u0026", "&"),
       );
 
       final masterPlaylistResponse = await client.get(playlistUrl);
@@ -43,10 +38,8 @@ class OkruExtractor {
       ) {
         final resolution =
             "${it.substringAfter("RESOLUTION=").substringBefore("\n").substringAfter("x").substringBefore(",")}p";
-        final m3u8Host =
-            "${playlistUrl.scheme}://${playlistUrl.host}${path.dirname(playlistUrl.path)}";
-        final videoUrl =
-            "$m3u8Host/${it.substringAfter("\n").substringBefore("\n")}";
+        final m3u8Host = "${playlistUrl.scheme}://${playlistUrl.host}${path.dirname(playlistUrl.path)}";
+        final videoUrl = "$m3u8Host/${it.substringAfter("\n").substringBefore("\n")}";
         return Video(
           videoUrl,
           "${prefix.isNotEmpty ? prefix : ""}Okru:$resolution",

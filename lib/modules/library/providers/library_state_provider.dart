@@ -211,8 +211,7 @@ class MangaFilterState {
 
   int setValue(int value) {
     isar.settings.first = settings
-      ..libraryFilter = ((settings.libraryFilter ?? LibraryFilter())
-        ..setValue(type, position, value));
+      ..libraryFilter = ((settings.libraryFilter ?? LibraryFilter())..setValue(type, position, value));
 
     onUpdate();
     return value;
@@ -412,8 +411,7 @@ class LibraryShowNumbersOfItemsState extends _$LibraryShowNumbersOfItemsState {
 }
 
 @riverpod
-class LibraryShowContinueReadingButtonState
-    extends _$LibraryShowContinueReadingButtonState {
+class LibraryShowContinueReadingButtonState extends _$LibraryShowContinueReadingButtonState {
   @override
   bool build({required ItemType itemType, required Settings settings}) {
     return switch (itemType) {

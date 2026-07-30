@@ -32,22 +32,17 @@ class BackupHistory extends $pb.GeneratedMessage {
     return $result;
   }
   BackupHistory._() : super();
-  factory BackupHistory.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupHistory.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
-  factory BackupHistory.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupHistory.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'BackupHistory',
-      createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'url')
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'lastRead', $pb.PbFieldType.O3,
-        protoName: 'lastRead')
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'readDuration', $pb.PbFieldType.O3,
-        protoName: 'readDuration')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      $pb.BuilderInfo(_omitMessageNames ? '' : 'BackupHistory', createEmptyInstance: create)
+        ..aOS(1, _omitFieldNames ? '' : 'url')
+        ..a<$core.int>(2, _omitFieldNames ? '' : 'lastRead', $pb.PbFieldType.O3, protoName: 'lastRead')
+        ..a<$core.int>(3, _omitFieldNames ? '' : 'readDuration', $pb.PbFieldType.O3, protoName: 'readDuration')
+        ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -57,19 +52,16 @@ class BackupHistory extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   BackupHistory copyWith(void Function(BackupHistory) updates) =>
-      super.copyWith((message) => updates(message as BackupHistory))
-          as BackupHistory;
+      super.copyWith((message) => updates(message as BackupHistory)) as BackupHistory;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static BackupHistory create() => BackupHistory._();
   BackupHistory createEmptyInstance() => create();
-  static $pb.PbList<BackupHistory> createRepeated() =>
-      $pb.PbList<BackupHistory>();
+  static $pb.PbList<BackupHistory> createRepeated() => $pb.PbList<BackupHistory>();
   @$core.pragma('dart2js:noInline')
-  static BackupHistory getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<BackupHistory>(create);
+  static BackupHistory getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BackupHistory>(create);
   static BackupHistory? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -110,5 +102,4 @@ class BackupHistory extends $pb.GeneratedMessage {
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames =
-    $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

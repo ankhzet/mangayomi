@@ -68,8 +68,7 @@ class FollowSystemThemeState extends _$FollowSystemThemeState {
     final settings = isar.settings.getSync(227);
     state = value;
     if (value) {
-      if (WidgetsBinding.instance.platformDispatcher.platformBrightness ==
-          Brightness.light) {
+      if (WidgetsBinding.instance.platformDispatcher.platformBrightness == Brightness.light) {
         ref.read(themeModeStateProvider.notifier).setLightTheme();
       } else {
         ref.read(themeModeStateProvider.notifier).setDarkTheme();

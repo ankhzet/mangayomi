@@ -94,10 +94,7 @@ class TrackerItemCard extends StatelessWidget {
                   width: context.width(0.8),
                   height: context.height(1),
                   child: SingleChildScrollView(
-                    child:
-                        context.isTablet
-                            ? _buildContentDesktop(context, l10n)
-                            : _buildContentMobile(context, l10n),
+                    child: context.isTablet ? _buildContentDesktop(context, l10n) : _buildContentMobile(context, l10n),
                   ),
                 ),
               ],
@@ -226,9 +223,7 @@ class TrackerItemCard extends StatelessWidget {
           children: [
             WidgetSpan(
               child: Icon(
-                itemType == ItemType.anime
-                    ? Icons.video_library
-                    : Icons.local_library,
+                itemType == ItemType.anime ? Icons.video_library : Icons.local_library,
                 color: context.primaryColor,
               ),
             ),
@@ -237,10 +232,9 @@ class TrackerItemCard extends StatelessWidget {
         ),
       ),
       TextButton.icon(
-        onPressed:
-            () async => await InAppBrowser.openWithSystemBrowser(
-              url: WebUri(track.trackingUrl!),
-            ),
+        onPressed: () async => await InAppBrowser.openWithSystemBrowser(
+          url: WebUri(track.trackingUrl!),
+        ),
         label: Text(l10n.open_in_browser),
         icon: Icon(Icons.public),
       ),

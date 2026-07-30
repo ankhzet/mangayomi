@@ -191,8 +191,7 @@ class QuarkUcExtractor {
             cloudDriveType,
           ),
         );
-      } else if (item['type'] == 'file' &&
-          subtitleExts.any((x) => item['file_name'].endsWith(x))) {
+      } else if (item['type'] == 'file' && subtitleExts.any((x) => item['file_name'].endsWith(x))) {
         subtitles.add(
           Item.objectFrom(
             item,
@@ -285,9 +284,7 @@ class QuarkUcExtractor {
       {},
       'get',
     );
-    if (listData['data'] != null &&
-        listData['data']['list'] != null &&
-        listData['data']['list'].isNotEmpty) {
+    if (listData['data'] != null && listData['data']['list'] != null && listData['data']['list'].isNotEmpty) {
       await api('file/delete?$pr', {
         'action_type': 2,
         'filelist': listData['data']['list'].map((v) => v['fid']).toList(),
@@ -391,8 +388,7 @@ class QuarkUcExtractor {
       'resolutions': 'normal,low,high,super,2k,4k',
       'supports': 'fmp4',
     }, 'post');
-    if (transcoding['data'] != null &&
-        transcoding['data']['video_list'] != null) {
+    if (transcoding['data'] != null && transcoding['data']['video_list'] != null) {
       List<Map<String, String>> qualityOptions = [];
       for (final video in transcoding['data']['video_list']) {
         qualityOptions.add({
@@ -536,8 +532,7 @@ class QuarkUcExtractor {
     }
     String subStr = "";
     for (var item in subItemList) {
-      subStr +=
-          "+${removeExt(item.getName())}@@@${item.getFileExtension()}@@@${item.getFileId()}";
+      subStr += "+${removeExt(item.getName())}@@@${item.getFileExtension()}@@@${item.getFileId()}";
     }
     return subStr;
   }
@@ -658,8 +653,7 @@ class Item {
   }
 
   String getDisplayName(String typeName) {
-    String drivePrefix =
-        cloudDriveType == CloudDriveType.quark ? '[quark]' : '[uc]';
+    String drivePrefix = cloudDriveType == CloudDriveType.quark ? '[quark]' : '[uc]';
     String displayName = getName();
     if (typeName == "电视剧") {
       List<String> replaceNameList = ["4k", "4K"];
@@ -668,13 +662,10 @@ class Item {
       for (String replaceName in replaceNameList) {
         displayName = displayName.replaceAll(replaceName, "");
       }
-      displayName =
-          RegExp(r'\.S01E(.*?)\.').firstMatch(displayName)?.group(1) ??
-          displayName;
-      final numbers =
-          RegExp(
-            r'\d+',
-          ).allMatches(displayName).map((m) => m.group(0)).toList();
+      displayName = RegExp(r'\.S01E(.*?)\.').firstMatch(displayName)?.group(1) ?? displayName;
+      final numbers = RegExp(
+        r'\d+',
+      ).allMatches(displayName).map((m) => m.group(0)).toList();
       if (numbers.isNotEmpty) {
         displayName = numbers[0]!;
       }

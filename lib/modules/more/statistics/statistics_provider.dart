@@ -27,11 +27,7 @@ Future<StatisticsData> getStatistics(
   Ref ref, {
   required ItemType itemType,
 }) async {
-  final items = await isar.mangas
-      .filter()
-      .favoriteEqualTo(true)
-      .itemTypeEqualTo(itemType)
-      .findAll();
+  final items = await isar.mangas.filter().favoriteEqualTo(true).itemTypeEqualTo(itemType).findAll();
 
   final chapters = await isar.chapters
       .filter()
@@ -54,8 +50,7 @@ Future<StatisticsData> getStatistics(
   for (var item in items) {
     if (item.status == Status.completed) {
       final itemChapters = item.chapters.toList();
-      if (itemChapters.isNotEmpty &&
-          itemChapters.every((element) => element.isRead ?? false)) {
+      if (itemChapters.isNotEmpty && itemChapters.every((element) => element.isRead ?? false)) {
         completedItems++;
       }
     }

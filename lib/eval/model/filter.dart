@@ -114,9 +114,7 @@ class SortFilter {
     return SortFilter(
       json['type'],
       json['name'],
-      json['state'] == null
-          ? SortState(0, false, "")
-          : SortState.fromJson(json['state']),
+      json['state'] == null ? SortState(0, false, "") : SortState.fromJson(json['state']),
       fromJsonFilterValuesToList(json['values']),
       json['type_name'],
     );

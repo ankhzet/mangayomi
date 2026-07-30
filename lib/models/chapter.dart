@@ -14,8 +14,7 @@ extension CompositeUtils on ChapterCompositeNumber {
       return chapter.toDouble();
     }
 
-    return chapter +
-        fraction.toDouble() / pow(10, (log(fraction) * log10e).floor() + 1);
+    return chapter + fraction.toDouble() / pow(10, (log(fraction) * log10e).floor() + 1);
   }
 
   bool isSame(ChapterCompositeNumber other) {
@@ -176,8 +175,7 @@ class Chapter {
 
     if ((url?.isNotEmpty ?? false) && url == other.url) {
       return true;
-    } else if ((archivePath?.isNotEmpty ?? false) &&
-        archivePath == other.archivePath) {
+    } else if ((archivePath?.isNotEmpty ?? false) && archivePath == other.archivePath) {
       return true;
     }
 

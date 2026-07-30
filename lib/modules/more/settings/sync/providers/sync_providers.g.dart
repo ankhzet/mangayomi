@@ -12,8 +12,7 @@ part of 'sync_providers.dart';
 @ProviderFor(Synching)
 final synchingProvider = SynchingFamily._();
 
-final class SynchingProvider
-    extends $NotifierProvider<Synching, SyncPreference> {
+final class SynchingProvider extends $NotifierProvider<Synching, SyncPreference> {
   SynchingProvider._({
     required SynchingFamily super.from,
     required int? super.argument,
@@ -61,14 +60,7 @@ final class SynchingProvider
 String _$synchingHash() => r'8035607ca70b965adf2a3752fea751292d9641a9';
 
 final class SynchingFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          Synching,
-          SyncPreference,
-          SyncPreference,
-          SyncPreference,
-          int?
-        > {
+    with $ClassFamilyOverride<Synching, SyncPreference, SyncPreference, SyncPreference, int?> {
   SynchingFamily._()
     : super(
         retry: null,
@@ -78,8 +70,7 @@ final class SynchingFamily extends $Family
         isAutoDispose: true,
       );
 
-  SynchingProvider call({required int? syncId}) =>
-      SynchingProvider._(argument: syncId, from: this);
+  SynchingProvider call({required int? syncId}) => SynchingProvider._(argument: syncId, from: this);
 
   @override
   String toString() => r'synchingProvider';
@@ -96,12 +87,7 @@ abstract class _$Synching extends $Notifier<SyncPreference> {
     final ref = this.ref as $Ref<SyncPreference, SyncPreference>;
     final element =
         ref.element
-            as $ClassProviderElement<
-              AnyNotifier<SyncPreference, SyncPreference>,
-              SyncPreference,
-              Object?,
-              Object?
-            >;
+            as $ClassProviderElement<AnyNotifier<SyncPreference, SyncPreference>, SyncPreference, Object?, Object?>;
     element.handleCreate(ref, () => build(syncId: _$args));
   }
 }

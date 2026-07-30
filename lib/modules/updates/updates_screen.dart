@@ -191,9 +191,7 @@ class _UpdatesScreenState extends BaseLibraryTabScreenState<UpdatesScreen> {
     isar.writeTxnSync(() {
       for (var update in updates) {
         idsToDelete.add(update.id!);
-        ref
-            .read(synchingProvider(syncId: 1).notifier)
-            .addChangedPart(ActionType.removeUpdate, update.id, "{}", false);
+        ref.read(synchingProvider(syncId: 1).notifier).addChangedPart(ActionType.removeUpdate, update.id, "{}", false);
       }
     });
     await isar.writeTxn(() => isar.updates.deleteAll(idsToDelete));
@@ -215,8 +213,7 @@ class UpdateTab extends ConsumerStatefulWidget {
   ConsumerState<UpdateTab> createState() => _UpdateTabState();
 }
 
-class _UpdateTabState extends ConsumerState<UpdateTab>
-    with AutomaticKeepAliveClientMixin {
+class _UpdateTabState extends ConsumerState<UpdateTab> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -311,44 +308,42 @@ class _UpdateTabState extends ConsumerState<UpdateTab>
                         ]),
                       ),
                     ),
-                  ...periodOrder
-                      .where((p) => groupedByPeriod.containsKey(p))
-                      .expand((periodKey) {
-                        final updatesForPeriod = groupedByPeriod[periodKey]!;
-                        final groupedByManga = UpdateGroup.groupUpdates<int?>(
-                          updatesForPeriod.where((u) => u.chapter.value?.isRead != true),
-                          (update) => update.chapter.value?.mangaId,
-                        );
-                        groupedByManga.sort((a, b) => b.compareTo(a));
+                  ...periodOrder.where((p) => groupedByPeriod.containsKey(p)).expand((periodKey) {
+                    final updatesForPeriod = groupedByPeriod[periodKey]!;
+                    final groupedByManga = UpdateGroup.groupUpdates<int?>(
+                      updatesForPeriod.where((u) => u.chapter.value?.isRead != true),
+                      (update) => update.chapter.value?.mangaId,
+                    );
+                    groupedByManga.sort((a, b) => b.compareTo(a));
 
-                        return [
-                          SliverPadding(
-                            padding: const EdgeInsets.only(
-                              top: 16,
-                              bottom: 8,
-                              left: 12,
-                            ),
-                            sliver: SliverList(
-                              delegate: SliverChildListDelegate.fixed([
-                                Text(getTimePeriodLabel(periodKey)),
-                              ]),
-                            ),
-                          ),
-                          SliverList(
-                            delegate: SliverChildBuilderDelegate((
-                              context,
-                              index,
-                            ) {
-                              final group = groupedByManga[index];
-                              return UpdateChapterListTileWidget(
-                                chapter: group.firstOrUnread,
-                                chapterGroup: group,
-                                sourceExist: true,
-                              );
-                            }, childCount: groupedByManga.length),
-                          ),
-                        ];
-                      }),
+                    return [
+                      SliverPadding(
+                        padding: const EdgeInsets.only(
+                          top: 16,
+                          bottom: 8,
+                          left: 12,
+                        ),
+                        sliver: SliverList(
+                          delegate: SliverChildListDelegate.fixed([
+                            Text(getTimePeriodLabel(periodKey)),
+                          ]),
+                        ),
+                      ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate((
+                          context,
+                          index,
+                        ) {
+                          final group = groupedByManga[index];
+                          return UpdateChapterListTileWidget(
+                            chapter: group.firstOrUnread,
+                            chapterGroup: group,
+                            sourceExist: true,
+                          );
+                        }, childCount: groupedByManga.length),
+                      ),
+                    ];
+                  }),
                 ],
               );
             }
@@ -387,11 +382,7 @@ Widget _updateNumbers(WidgetRef ref, ItemType itemType) {
     builder: (context, snapshot) {
       if (snapshot.hasData && snapshot.data!.isNotEmpty) {
         final entries = snapshot.data!.toList();
-        final distinctMangaCount = entries
-            .map((e) => e.chapter.value?.mangaId)
-            .whereType<int>()
-            .toSet()
-            .length;
+        final distinctMangaCount = entries.map((e) => e.chapter.value?.mangaId).whereType<int>().toSet().length;
         return entries.isEmpty
             ? SizedBox.shrink()
             : Badge(

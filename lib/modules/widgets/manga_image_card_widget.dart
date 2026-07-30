@@ -42,17 +42,13 @@ class MangaImageCardWidget extends ConsumerWidget {
           .watch(fireImmediately: true),
       builder: (context, snapshot) {
         bool hasData = snapshot.hasData;
-        final mangaList =
-            hasData
-                ? snapshot.data!
-                    .where(
-                      (element) =>
-                          element.sourceId == null
-                              ? true
-                              : element.sourceId == source.id,
-                    )
-                    .toList()
-                : [];
+        final mangaList = hasData
+            ? snapshot.data!
+                  .where(
+                    (element) => element.sourceId == null ? true : element.sourceId == source.id,
+                  )
+                  .toList()
+            : [];
         hasData = hasData && mangaList.isNotEmpty;
         return CoverViewWidget(
           bottomTextWidget: BottomTextWidget(
@@ -61,28 +57,24 @@ class MangaImageCardWidget extends ConsumerWidget {
             isComfortableGrid: isComfortableGrid,
           ),
           isComfortableGrid: isComfortableGrid,
-          image:
-              hasData && mangaList.first.customCoverImage != null
-                  ? MemoryImage(mangaList.first.customCoverImage as Uint8List)
-                      as ImageProvider
-                  : CustomExtendedNetworkImageProvider(
-                    toImgUrl(
-                      hasData
-                          ? mangaList.first.customCoverFromTracker ??
-                              mangaList.first.imageUrl ??
-                              ""
-                          : getMangaDetail!.imageUrl ?? "",
-                    ),
-                    headers: ref.watch(
-                      headersProvider(
-                        source: source.name!,
-                        lang: source.lang!,
-                        sourceId: source.id,
-                      ),
-                    ),
-                    cache: true,
-                    cacheMaxAge: const Duration(days: 7),
+          image: hasData && mangaList.first.customCoverImage != null
+              ? MemoryImage(mangaList.first.customCoverImage as Uint8List) as ImageProvider
+              : CustomExtendedNetworkImageProvider(
+                  toImgUrl(
+                    hasData
+                        ? mangaList.first.customCoverFromTracker ?? mangaList.first.imageUrl ?? ""
+                        : getMangaDetail!.imageUrl ?? "",
                   ),
+                  headers: ref.watch(
+                    headersProvider(
+                      source: source.name!,
+                      lang: source.lang!,
+                      sourceId: source.id,
+                    ),
+                  ),
+                  cache: true,
+                  cacheMaxAge: const Duration(days: 7),
+                ),
           onTap: () {
             pushToMangaReaderDetail(
               ref: ref,
@@ -120,10 +112,7 @@ class MangaImageCardWidget extends ConsumerWidget {
           },
           children: [
             Container(
-              color:
-                  hasData && mangaList.first.favorite!
-                      ? Colors.black.withValues(alpha: 0.5)
-                      : null,
+              color: hasData && mangaList.first.favorite! ? Colors.black.withValues(alpha: 0.5) : null,
             ),
             if (hasData && mangaList.first.favorite!)
               Positioned(
@@ -182,38 +171,30 @@ class MangaImageCardListTileWidget extends ConsumerWidget {
           .watch(fireImmediately: true),
       builder: (context, snapshot) {
         bool hasData = snapshot.hasData;
-        final mangaList =
-            hasData
-                ? snapshot.data!
-                    .where(
-                      (element) =>
-                          element.sourceId == null
-                              ? true
-                              : element.sourceId == source.id,
-                    )
-                    .toList()
-                : [];
+        final mangaList = hasData
+            ? snapshot.data!
+                  .where(
+                    (element) => element.sourceId == null ? true : element.sourceId == source.id,
+                  )
+                  .toList()
+            : [];
         hasData = hasData && mangaList.isNotEmpty;
-        final image =
-            hasData && mangaList.first.customCoverImage != null
-                ? MemoryImage(mangaList.first.customCoverImage as Uint8List)
-                    as ImageProvider
-                : CustomExtendedNetworkImageProvider(
-                  toImgUrl(
-                    hasData
-                        ? mangaList.first.customCoverFromTracker ??
-                            mangaList.first.imageUrl ??
-                            ""
-                        : getMangaDetail!.imageUrl ?? "",
+        final image = hasData && mangaList.first.customCoverImage != null
+            ? MemoryImage(mangaList.first.customCoverImage as Uint8List) as ImageProvider
+            : CustomExtendedNetworkImageProvider(
+                toImgUrl(
+                  hasData
+                      ? mangaList.first.customCoverFromTracker ?? mangaList.first.imageUrl ?? ""
+                      : getMangaDetail!.imageUrl ?? "",
+                ),
+                headers: ref.watch(
+                  headersProvider(
+                    source: source.name!,
+                    lang: source.lang!,
+                    sourceId: source.id,
                   ),
-                  headers: ref.watch(
-                    headersProvider(
-                      source: source.name!,
-                      lang: source.lang!,
-                      sourceId: source.id,
-                    ),
-                  ),
-                );
+                ),
+              );
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Material(
@@ -276,10 +257,7 @@ class MangaImageCardListTileWidget extends ConsumerWidget {
                         Container(
                           height: 55,
                           width: 40,
-                          color:
-                              hasData && mangaList.first.favorite!
-                                  ? Colors.black.withValues(alpha: 0.5)
-                                  : null,
+                          color: hasData && mangaList.first.favorite! ? Colors.black.withValues(alpha: 0.5) : null,
                         ),
                       ],
                     ),
@@ -336,14 +314,13 @@ Future<void> pushToMangaReaderDetail({
   bool addToFavourite = false,
 }) async {
   int? mangaId;
-  mangaId =
-      isar.mangas
-          .filter()
-          .isLocalArchiveEqualTo(true)
-          .sourceEqualTo("local")
-          .nameEqualTo(getManga?.name)
-          .findFirstSync()
-          ?.id;
+  mangaId = isar.mangas
+      .filter()
+      .isLocalArchiveEqualTo(true)
+      .sourceEqualTo("local")
+      .nameEqualTo(getManga?.name)
+      .findFirstSync()
+      ?.id;
 
   if (mangaId == null) {
     if (archiveId == null) {
@@ -364,13 +341,12 @@ Future<void> pushToMangaReaderDetail({
             artist: getManga.artist ?? '',
             sourceId: sourceId,
           );
-      final empty =
-          isar.mangas
-              .filter()
-              .langEqualTo(lang)
-              .nameEqualTo(manga.name)
-              .sourceEqualTo(manga.source)
-              .isEmptySync();
+      final empty = isar.mangas
+          .filter()
+          .langEqualTo(lang)
+          .nameEqualTo(manga.name)
+          .sourceEqualTo(manga.source)
+          .isEmptySync();
       if (empty) {
         isar.writeTxnSync(() {
           isar.mangas.putSync(
@@ -383,20 +359,16 @@ Future<void> pushToMangaReaderDetail({
         });
       }
 
-      mangaId =
-          isar.mangas
-              .filter()
-              .langEqualTo(lang)
-              .nameEqualTo(manga.name)
-              .sourceEqualTo(manga.source)
-              .findAllSync()
-              .firstWhere(
-                (element) =>
-                    element.sourceId == null
-                        ? true
-                        : element.sourceId == sourceId,
-              )
-              .id;
+      mangaId = isar.mangas
+          .filter()
+          .langEqualTo(lang)
+          .nameEqualTo(manga.name)
+          .sourceEqualTo(manga.source)
+          .findAllSync()
+          .firstWhere(
+            (element) => element.sourceId == null ? true : element.sourceId == sourceId,
+          )
+          .id;
     } else {
       mangaId = archiveId;
     }
@@ -410,8 +382,7 @@ Future<void> pushToMangaReaderDetail({
   }
   final settings = isar.settings.getSync(227)!;
   final sortList = settings.sortChapterList ?? [];
-  final checkIfExist =
-      sortList.where((element) => element.mangaId == mangaId).toList();
+  final checkIfExist = sortList.where((element) => element.mangaId == mangaId).toList();
   if (checkIfExist.isEmpty) {
     isar.writeTxnSync(() {
       List<SortChapter>? sortChapterList = [];

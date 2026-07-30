@@ -26,10 +26,7 @@ class StreamlareExtractor {
       final type = playlist.substringAfter('"type":"').substringBefore('"');
 
       if (type == 'hls') {
-        final masterPlaylistUrl = playlist
-            .substringAfter('"file":"')
-            .substringBefore('"')
-            .replaceAll(r'\/', '/');
+        final masterPlaylistUrl = playlist.substringAfter('"file":"').substringBefore('"').replaceAll(r'\/', '/');
         final masterPlaylistResponse = await client.get(
           Uri.parse(masterPlaylistUrl),
         );
@@ -39,13 +36,10 @@ class StreamlareExtractor {
         return masterPlaylist.substringAfter(separator).split(separator).map((
           value,
         ) {
-          final quality =
-              '${value.substringAfter('RESOLUTION=').substringAfter('x').substringBefore(',')}p';
+          final quality = '${value.substringAfter('RESOLUTION=').substringAfter('x').substringBefore(',')}p';
           final videoUrl = value.substringAfter('\n').substringBefore('\n').let(
             (urlPart) {
-              return !urlPart.startsWith('http')
-                  ? masterPlaylistUrl.substringBefore('master.m3u8') + urlPart
-                  : urlPart;
+              return !urlPart.startsWith('http') ? masterPlaylistUrl.substringBefore('master.m3u8') + urlPart : urlPart;
             },
           );
 
@@ -58,15 +52,10 @@ class StreamlareExtractor {
       } else {
         const separator = '"label":"';
         List<Video> videoList = [];
-        List<String> values = playlist
-            .substringAfter(separator)
-            .split(separator);
+        List<String> values = playlist.substringAfter(separator).split(separator);
         for (var value in values) {
           final quality = value.substringAfter(separator).substringBefore('",');
-          final apiUrl = value
-              .substringAfter('"file":"')
-              .substringBefore('",')
-              .replaceAll('\\', '');
+          final apiUrl = value.substringAfter('"file":"').substringBefore('",').replaceAll('\\', '');
           final response = await client.post(Uri.parse(apiUrl));
           final videoUrl = response.request!.url.toString();
 

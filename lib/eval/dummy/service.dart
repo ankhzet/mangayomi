@@ -15,8 +15,7 @@ class DummyExtensionService implements ExtensionService {
   DummyExtensionService(this.source);
 
   @override
-  void dispose() {
-  }
+  void dispose() {}
 
   @override
   Map<String, String> getHeaders() {

@@ -84,13 +84,10 @@ class AppearanceScreen extends ConsumerWidget {
                     title: Text(l10n.pure_black_dark_mode),
                     value: pureBlackDarkMode,
                     onChanged: (value) {
-                      ref
-                          .read(pureBlackDarkModeStateProvider.notifier)
-                          .set(value);
+                      ref.read(pureBlackDarkModeStateProvider.notifier).set(value);
                     },
                   ),
-                if (!pureBlackDarkMode || !isDarkTheme)
-                  const BlendLevelSlider(),
+                if (!pureBlackDarkMode || !isDarkTheme) const BlendLevelSlider(),
               ],
             ),
             SettingsSection(
@@ -149,9 +146,7 @@ class AppearanceScreen extends ConsumerWidget {
                 child: RadioGroup(
                   groupValue: l10nLocale,
                   onChanged: (value) {
-                    ref
-                        .read(l10nLocaleStateProvider.notifier)
-                        .setLocale(value!);
+                    ref.read(l10nLocaleStateProvider.notifier).setLocale(value!);
                     Navigator.pop(context);
                   },
                   child: SuperListView.builder(
@@ -200,15 +195,14 @@ class AppearanceScreen extends ConsumerWidget {
     AppLocalizations l10n,
   ) {
     final appFontFamily = ref.watch(appFontFamilyProvider);
-    final appFontFamilySub =
-        appFontFamily == null
-            ? context.l10n.default0
-            : GoogleFonts.asMap().entries
-                .toList()
-                .firstWhere(
-                  (element) => element.value().fontFamily! == appFontFamily,
-                )
-                .key;
+    final appFontFamilySub = appFontFamily == null
+        ? context.l10n.default0
+        : GoogleFonts.asMap().entries
+              .toList()
+              .firstWhere(
+                (element) => element.value().fontFamily! == appFontFamily,
+              )
+              .key;
     return ListTile(
       title: Text(context.l10n.font),
       subtitle: Text(
@@ -263,14 +257,11 @@ class AppearanceScreen extends ConsumerWidget {
                         Builder(
                           builder: (context) {
                             List values = GoogleFonts.asMap().entries.toList();
-                            values =
-                                values
-                                    .where(
-                                      (values) => values.key
-                                          .toLowerCase()
-                                          .contains(textValue.toLowerCase()),
-                                    )
-                                    .toList();
+                            values = values
+                                .where(
+                                  (values) => values.key.toLowerCase().contains(textValue.toLowerCase()),
+                                )
+                                .toList();
                             return Expanded(
                               child: Scrollbar(
                                 interactive: true,
@@ -280,9 +271,7 @@ class AppearanceScreen extends ConsumerWidget {
                                 child: RadioGroup<String?>(
                                   groupValue: appFontFamily,
                                   onChanged: (value) {
-                                    ref
-                                        .read(appFontFamilyProvider.notifier)
-                                        .set(value);
+                                    ref.read(appFontFamilyProvider.notifier).set(value);
                                     Navigator.pop(context);
                                   },
                                   child: SuperListView.builder(
@@ -364,9 +353,7 @@ class AppearanceScreen extends ConsumerWidget {
                 child: RadioGroup(
                   groupValue: relativeTimestamps,
                   onChanged: (value) {
-                    ref
-                        .read(relativeTimesTampsStateProvider.notifier)
-                        .set(value!);
+                    ref.read(relativeTimesTampsStateProvider.notifier).set(value!);
                     Navigator.pop(context);
                   },
                   child: SuperListView.builder(

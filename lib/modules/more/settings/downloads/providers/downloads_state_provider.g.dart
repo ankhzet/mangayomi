@@ -12,8 +12,7 @@ part of 'downloads_state_provider.dart';
 @ProviderFor(OnlyOnWifiState)
 final onlyOnWifiStateProvider = OnlyOnWifiStateProvider._();
 
-final class OnlyOnWifiStateProvider
-    extends $NotifierProvider<OnlyOnWifiState, bool> {
+final class OnlyOnWifiStateProvider extends $NotifierProvider<OnlyOnWifiState, bool> {
   OnlyOnWifiStateProvider._()
     : super(
         from: null,
@@ -49,14 +48,7 @@ abstract class _$OnlyOnWifiState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -64,8 +56,7 @@ abstract class _$OnlyOnWifiState extends $Notifier<bool> {
 @ProviderFor(SaveAsCBZArchiveState)
 final saveAsCBZArchiveStateProvider = SaveAsCBZArchiveStateProvider._();
 
-final class SaveAsCBZArchiveStateProvider
-    extends $NotifierProvider<SaveAsCBZArchiveState, bool> {
+final class SaveAsCBZArchiveStateProvider extends $NotifierProvider<SaveAsCBZArchiveState, bool> {
   SaveAsCBZArchiveStateProvider._()
     : super(
         from: null,
@@ -93,8 +84,7 @@ final class SaveAsCBZArchiveStateProvider
   }
 }
 
-String _$saveAsCBZArchiveStateHash() =>
-    r'836e8cce08b3d307c58d2a850a7dcb3c9d739fc1';
+String _$saveAsCBZArchiveStateHash() => r'836e8cce08b3d307c58d2a850a7dcb3c9d739fc1';
 
 abstract class _$SaveAsCBZArchiveState extends $Notifier<bool> {
   bool build();
@@ -102,14 +92,7 @@ abstract class _$SaveAsCBZArchiveState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -117,8 +100,7 @@ abstract class _$SaveAsCBZArchiveState extends $Notifier<bool> {
 @ProviderFor(DownloadLocationState)
 final downloadLocationStateProvider = DownloadLocationStateProvider._();
 
-final class DownloadLocationStateProvider
-    extends $NotifierProvider<DownloadLocationState, (String, String)> {
+final class DownloadLocationStateProvider extends $NotifierProvider<DownloadLocationState, (String, String)> {
   DownloadLocationStateProvider._()
     : super(
         from: null,
@@ -146,8 +128,7 @@ final class DownloadLocationStateProvider
   }
 }
 
-String _$downloadLocationStateHash() =>
-    r'75e2679930508fdd5e1b59baca632e03aace598e';
+String _$downloadLocationStateHash() => r'75e2679930508fdd5e1b59baca632e03aace598e';
 
 abstract class _$DownloadLocationState extends $Notifier<(String, String)> {
   (String, String) build();
@@ -170,8 +151,7 @@ abstract class _$DownloadLocationState extends $Notifier<(String, String)> {
 @ProviderFor(ConcurrentDownloadsState)
 final concurrentDownloadsStateProvider = ConcurrentDownloadsStateProvider._();
 
-final class ConcurrentDownloadsStateProvider
-    extends $NotifierProvider<ConcurrentDownloadsState, int> {
+final class ConcurrentDownloadsStateProvider extends $NotifierProvider<ConcurrentDownloadsState, int> {
   ConcurrentDownloadsStateProvider._()
     : super(
         from: null,
@@ -199,8 +179,7 @@ final class ConcurrentDownloadsStateProvider
   }
 }
 
-String _$concurrentDownloadsStateHash() =>
-    r'1b2df8d425fb0f0697883e9a121eace99fd4f5e4';
+String _$concurrentDownloadsStateHash() => r'1b2df8d425fb0f0697883e9a121eace99fd4f5e4';
 
 abstract class _$ConcurrentDownloadsState extends $Notifier<int> {
   int build();
@@ -208,14 +187,7 @@ abstract class _$ConcurrentDownloadsState extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

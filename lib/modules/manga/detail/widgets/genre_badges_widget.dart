@@ -25,10 +25,9 @@ class GenreBadgesWidget extends StatelessWidget {
     final items = [
       for (var i = 0; i < genres.length; i++)
         Padding(
-          padding:
-              multiline
-                  ? const EdgeInsets.only(left: 2, right: 2, bottom: 5)
-                  : const EdgeInsets.symmetric(horizontal: 2),
+          padding: multiline
+              ? const EdgeInsets.only(left: 2, right: 2, bottom: 5)
+              : const EdgeInsets.symmetric(horizontal: 2),
           child: GenreBadgeWidget(
             genre: genres[i],
             height: height,
@@ -40,11 +39,11 @@ class GenreBadgesWidget extends StatelessWidget {
     return multiline
         ? Wrap(children: items)
         : SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: items,
-          ),
-        );
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: items,
+            ),
+          );
   }
 }

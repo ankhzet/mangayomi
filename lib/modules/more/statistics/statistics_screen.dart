@@ -15,8 +15,7 @@ class StatisticsScreen extends ConsumerStatefulWidget {
   ConsumerState<StatisticsScreen> createState() => _StatisticsScreenState();
 }
 
-class _StatisticsScreenState extends ConsumerState<StatisticsScreen>
-    with SingleTickerProviderStateMixin {
+class _StatisticsScreenState extends ConsumerState<StatisticsScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late final List<ItemType> _visibleTabTypes;
 
@@ -50,18 +49,16 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen>
         title: Text(l10n.statistics),
         bottom: TabBar(
           controller: _tabController,
-          tabs:
-              _visibleTabTypes.map((type) {
-                return Tab(text: type.localized(l10n));
-              }).toList(),
+          tabs: _visibleTabTypes.map((type) {
+            return Tab(text: type.localized(l10n));
+          }).toList(),
         ),
       ),
       body: TabBarView(
         controller: _tabController,
-        children:
-            _visibleTabTypes.map((type) {
-              return _buildStatisticsTab(itemType: type);
-            }).toList(),
+        children: _visibleTabTypes.map((type) {
+          return _buildStatisticsTab(itemType: type);
+        }).toList(),
       ),
     );
   }
@@ -91,10 +88,8 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen>
         final downloadedItems = stats.downloadedItems;
 
         final averageChapters = totalItems > 0 ? totalChapters / totalItems : 0;
-        final readPercentage =
-            totalChapters > 0 ? (readChapters / totalChapters) * 100 : 0;
-        final completedPercentage =
-            totalItems > 0 ? (completedItems / totalItems) * 100 : 0;
+        final readPercentage = totalChapters > 0 ? (readChapters / totalChapters) * 100 : 0;
+        final completedPercentage = totalItems > 0 ? (completedItems / totalItems) * 100 : 0;
         return SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(

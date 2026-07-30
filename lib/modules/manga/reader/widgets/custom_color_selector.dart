@@ -41,29 +41,19 @@ class CustomColorSelector extends ConsumerWidget {
                 ),
               ),
               onChanged: (value) {
-                ref
-                    .read(enableCustomColorFilterStateProvider.notifier)
-                    .set(value);
+                ref.read(enableCustomColorFilterStateProvider.notifier).set(value);
               },
             ),
             if (enableCustomColorFilter) ...[
               rgbaFilterWidget(a, r, g, b, (val) {
                 if (val.$3 == "r") {
-                  ref
-                      .read(customColorFilterStateProvider.notifier)
-                      .set(a, val.$1.toInt(), g, b, val.$2);
+                  ref.read(customColorFilterStateProvider.notifier).set(a, val.$1.toInt(), g, b, val.$2);
                 } else if (val.$3 == "g") {
-                  ref
-                      .read(customColorFilterStateProvider.notifier)
-                      .set(a, r, val.$1.toInt(), b, val.$2);
+                  ref.read(customColorFilterStateProvider.notifier).set(a, r, val.$1.toInt(), b, val.$2);
                 } else if (val.$3 == "b") {
-                  ref
-                      .read(customColorFilterStateProvider.notifier)
-                      .set(a, r, g, val.$1.toInt(), val.$2);
+                  ref.read(customColorFilterStateProvider.notifier).set(a, r, g, val.$1.toInt(), val.$2);
                 } else {
-                  ref
-                      .read(customColorFilterStateProvider.notifier)
-                      .set(val.$1.toInt(), r, g, b, val.$2);
+                  ref.read(customColorFilterStateProvider.notifier).set(val.$1.toInt(), r, g, b, val.$2);
                 }
               }, context),
               CustomPopupMenuButton<ColorFilterBlendMode>(
@@ -73,9 +63,7 @@ class CustomColorSelector extends ConsumerWidget {
                   context,
                 ),
                 onSelected: (value) {
-                  ref
-                      .read(colorFilterBlendModeStateProvider.notifier)
-                      .set(value);
+                  ref.read(colorFilterBlendModeStateProvider.notifier).set(value);
                 },
                 value: colorFilterBlendMode,
                 list: ColorFilterBlendMode.values,

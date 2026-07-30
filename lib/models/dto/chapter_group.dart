@@ -8,8 +8,7 @@ class ChapterGroup<T> {
   List<Chapter> chapters;
   T group;
 
-  ChapterGroup.fromChapters(this.chapters, this.group)
-    : manga = chapters.first.manga.value!;
+  ChapterGroup.fromChapters(this.chapters, this.group) : manga = chapters.first.manga.value!;
 
   static T groupBy<T>(ChapterGroup<T> element) => element.group;
 
@@ -58,9 +57,7 @@ class ChapterGroup<T> {
           return map;
         },
       );
-      return volumesMap.entries
-          .map((entry) => 'Vol. ${entry.key}: ${indexesToStr(entry.value)}')
-          .join(', ');
+      return volumesMap.entries.map((entry) => 'Vol. ${entry.key}: ${indexesToStr(entry.value)}').join(', ');
     }
 
     return 'Ch. ${indexesToStr(indexes)}';
@@ -88,14 +85,11 @@ class ChapterGroup<T> {
 
   late String scanlators = chapters
       .map(
-        (chapter) =>
-            (chapter.scanlator?.isEmpty ?? true) ? '?' : chapter.scanlator,
+        (chapter) => (chapter.scanlator?.isEmpty ?? true) ? '?' : chapter.scanlator,
       )
       .join(', ');
 
-  int get lastUpdate =>
-      manga.lastUpdate ??
-      DateTime.fromMicrosecondsSinceEpoch(0).millisecondsSinceEpoch;
+  int get lastUpdate => manga.lastUpdate ?? DateTime.fromMicrosecondsSinceEpoch(0).millisecondsSinceEpoch;
 
   int compareTo(ChapterGroup other) => lastUpdate.compareTo(other.lastUpdate);
 }

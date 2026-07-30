@@ -12,8 +12,7 @@ part of 'state_provider.dart';
 @ProviderFor(MangaHomeDisplayTypeState)
 final mangaHomeDisplayTypeStateProvider = MangaHomeDisplayTypeStateProvider._();
 
-final class MangaHomeDisplayTypeStateProvider
-    extends $NotifierProvider<MangaHomeDisplayTypeState, DisplayType> {
+final class MangaHomeDisplayTypeStateProvider extends $NotifierProvider<MangaHomeDisplayTypeState, DisplayType> {
   MangaHomeDisplayTypeStateProvider._()
     : super(
         from: null,
@@ -41,8 +40,7 @@ final class MangaHomeDisplayTypeStateProvider
   }
 }
 
-String _$mangaHomeDisplayTypeStateHash() =>
-    r'6e91cef2e4a9925cab1a7a764ac6a0e741398fb2';
+String _$mangaHomeDisplayTypeStateHash() => r'6e91cef2e4a9925cab1a7a764ac6a0e741398fb2';
 
 abstract class _$MangaHomeDisplayTypeState extends $Notifier<DisplayType> {
   DisplayType build();
@@ -51,13 +49,7 @@ abstract class _$MangaHomeDisplayTypeState extends $Notifier<DisplayType> {
   void runBuild() {
     final ref = this.ref as $Ref<DisplayType, DisplayType>;
     final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<DisplayType, DisplayType>,
-              DisplayType,
-              Object?,
-              Object?
-            >;
+        ref.element as $ClassProviderElement<AnyNotifier<DisplayType, DisplayType>, DisplayType, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

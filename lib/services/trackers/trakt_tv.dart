@@ -21,12 +21,9 @@ class TraktTv extends _$TraktTv implements BaseTracker {
   static const _baseOAuthUrl = 'https://api.trakt.tv/oauth';
   static const _baseApiUrl = 'https://api.trakt.tv';
   static final _isDesktop = (Platform.isWindows || Platform.isLinux);
-  static final _redirectUri =
-      _isDesktop ? 'http://localhost:43824' : 'mangayomi://';
-  static const _clientId =
-      '5520c7e24da0d8d73ec80315b61b9849483583b013cb7f296c6db723eb9886a1';
-  static const _clientSecret =
-      'b512565ad92d4179290de257b6e435d03ee47b2e4371b3bd918081beb6121734';
+  static final _redirectUri = _isDesktop ? 'http://localhost:43824' : 'mangayomi://';
+  static const _clientId = '5520c7e24da0d8d73ec80315b61b9849483583b013cb7f296c6db723eb9886a1';
+  static const _clientSecret = 'b512565ad92d4179290de257b6e435d03ee47b2e4371b3bd918081beb6121734';
 
   String getFallbackClientId(String usedId) {
     return _clientId;
@@ -40,8 +37,7 @@ class TraktTv extends _$TraktTv implements BaseTracker {
   }) {}
 
   Future<bool?> login() async {
-    final callbackUrlScheme =
-        _isDesktop ? 'http://localhost:43824' : 'mangayomi';
+    final callbackUrlScheme = _isDesktop ? 'http://localhost:43824' : 'mangayomi';
     final loginUrl = _authUrl();
 
     try {
@@ -85,36 +81,25 @@ class TraktTv extends _$TraktTv implements BaseTracker {
           final typeName = type == 'movie' ? 'movies' : 'shows';
           return TrackSearch(
             mediaId: e['ids']?['trakt'] ?? e[type]?['ids']?['trakt'],
-            summary:
-                e['overview'] ??
-                e[type]?['overview'] ??
-                'No summary available.',
-            totalChapter:
-                e['aired_episodes'] ?? e[type]?['aired_episodes'] ?? 1,
-            coverUrl:
-                (e['images']?['fanart'] as List?)?.isNotEmpty ?? false
-                    ? 'https://wsrv.nl/?url=${e['images']?['fanart'][0]}'
-                    : (e[type]?['images']?['fanart'] as List?)?.isNotEmpty ??
-                        false
-                    ? 'https://wsrv.nl/?url=${e[type]?['images']?['fanart'][0]}'
-                    : (e['images']?['poster'] as List?)?.isNotEmpty ?? false
-                    ? 'https://wsrv.nl/?url=${e['images']?['poster'][0]}'
-                    : (e[type]?['images']?['poster'] as List?)?.isNotEmpty ??
-                        false
-                    ? 'https://wsrv.nl/?url=${e[type]?['images']?['poster'][0]}'
-                    : '',
+            summary: e['overview'] ?? e[type]?['overview'] ?? 'No summary available.',
+            totalChapter: e['aired_episodes'] ?? e[type]?['aired_episodes'] ?? 1,
+            coverUrl: (e['images']?['fanart'] as List?)?.isNotEmpty ?? false
+                ? 'https://wsrv.nl/?url=${e['images']?['fanart'][0]}'
+                : (e[type]?['images']?['fanart'] as List?)?.isNotEmpty ?? false
+                ? 'https://wsrv.nl/?url=${e[type]?['images']?['fanart'][0]}'
+                : (e['images']?['poster'] as List?)?.isNotEmpty ?? false
+                ? 'https://wsrv.nl/?url=${e['images']?['poster'][0]}'
+                : (e[type]?['images']?['poster'] as List?)?.isNotEmpty ?? false
+                ? 'https://wsrv.nl/?url=${e[type]?['images']?['poster'][0]}'
+                : '',
             title: e['title'] ?? e[type]?['title'] ?? 'Unknown Title',
             score: double.tryParse(
-              (e["rating"] ?? e[type]?["rating"] as num?)
-                      ?.toDouble()
-                      .toStringAsFixed(2) ??
-                  "",
+              (e["rating"] ?? e[type]?["rating"] as num?)?.toDouble().toStringAsFixed(2) ?? "",
             ),
             startDate: e["first_aired"] ?? e[type]?["first_aired"] ?? "",
             publishingType: type,
             publishingStatus: e["status"] ?? e[type]["status"],
-            trackingUrl:
-                "https://trakt.tv/$typeName/${e['ids']?['slug'] ?? e[type]?['ids']?['slug']}",
+            trackingUrl: "https://trakt.tv/$typeName/${e['ids']?['slug'] ?? e[type]?['ids']?['slug']}",
             syncId: syncId,
           );
         }).toList() ??
@@ -137,18 +122,15 @@ class TraktTv extends _$TraktTv implements BaseTracker {
             mediaId: e[type]?['ids']?['trakt'],
             summary: e[type]?['overview'] ?? 'No summary available.',
             totalChapter: e[type]?['aired_episodes'] ?? 1,
-            coverUrl:
-                (e['images']?['fanart'] as List?)?.isNotEmpty ?? false
-                    ? 'https://wsrv.nl/?url=${e['images']?['fanart'][0]}'
-                    : (e[type]?['images']?['fanart'] as List?)?.isNotEmpty ??
-                        false
-                    ? 'https://wsrv.nl/?url=${e[type]?['images']?['fanart'][0]}'
-                    : (e['images']?['poster'] as List?)?.isNotEmpty ?? false
-                    ? 'https://wsrv.nl/?url=${e['images']?['poster'][0]}'
-                    : (e[type]?['images']?['poster'] as List?)?.isNotEmpty ??
-                        false
-                    ? 'https://wsrv.nl/?url=${e[type]?['images']?['poster'][0]}'
-                    : '',
+            coverUrl: (e['images']?['fanart'] as List?)?.isNotEmpty ?? false
+                ? 'https://wsrv.nl/?url=${e['images']?['fanart'][0]}'
+                : (e[type]?['images']?['fanart'] as List?)?.isNotEmpty ?? false
+                ? 'https://wsrv.nl/?url=${e[type]?['images']?['fanart'][0]}'
+                : (e['images']?['poster'] as List?)?.isNotEmpty ?? false
+                ? 'https://wsrv.nl/?url=${e['images']?['poster'][0]}'
+                : (e[type]?['images']?['poster'] as List?)?.isNotEmpty ?? false
+                ? 'https://wsrv.nl/?url=${e[type]?['images']?['poster'][0]}'
+                : '',
             title: e[type]['title'] ?? 'Unknown Title',
             score: double.tryParse(
               (e[type]?["rating"] as num?)?.toDouble().toStringAsFixed(2) ?? "",
@@ -156,8 +138,7 @@ class TraktTv extends _$TraktTv implements BaseTracker {
             startDate: e[type]?["first_aired"] ?? "",
             publishingType: type,
             publishingStatus: e[type]["status"],
-            trackingUrl:
-                "https://trakt.tv/$typeName/${e[type]?['ids']?['slug']}",
+            trackingUrl: "https://trakt.tv/$typeName/${e[type]?['ids']?['slug']}",
             syncId: syncId,
           );
         }).toList() ??
@@ -167,26 +148,23 @@ class TraktTv extends _$TraktTv implements BaseTracker {
   @override
   Future<Track?> findLibItem(Track track, bool isManga) async {
     final accessToken = await _getAccessToken();
-    final isMovie =
-        track.trackingUrl?.replaceAll("https://trakt.tv/", "").split("/")[0] ==
-        "movies";
-    final url = Uri.parse(
-      '$_baseApiUrl/sync/history/${isMovie ? "movies" : "shows"}/${track.mediaId}',
-    ).replace(
-      queryParameters: {"extended": "full", "page": "1", "limit": "3000"},
-    );
+    final isMovie = track.trackingUrl?.replaceAll("https://trakt.tv/", "").split("/")[0] == "movies";
+    final url =
+        Uri.parse(
+          '$_baseApiUrl/sync/history/${isMovie ? "movies" : "shows"}/${track.mediaId}',
+        ).replace(
+          queryParameters: {"extended": "full", "page": "1", "limit": "3000"},
+        );
     final result = await _makeGetRequest(url, accessToken);
     final data = jsonDecode(result.body) as List?;
     if (data?.isNotEmpty ?? false) {
       if (!isMovie) {
-        track.lastChapterRead =
-            data!.where((e) => e["type"] == "episode").length;
+        track.lastChapterRead = data!.where((e) => e["type"] == "episode").length;
       }
       if ((track.lastChapterRead ?? 0) >= (track.totalChapter ?? 0)) {
-        track.finishedReadingDate =
-            DateTime.tryParse(
-              data!.firstOrNull?["watched_at"],
-            )?.millisecondsSinceEpoch;
+        track.finishedReadingDate = DateTime.tryParse(
+          data!.firstOrNull?["watched_at"],
+        )?.millisecondsSinceEpoch;
       }
       return track;
     }
@@ -213,30 +191,23 @@ class TraktTv extends _$TraktTv implements BaseTracker {
             mediaId: e[type]?['ids']?['trakt'],
             summary: e[type]?['overview'] ?? 'No summary available.',
             totalChapter: e[type]?['aired_episodes'] ?? 1,
-            coverUrl:
-                (e['images']?['fanart'] as List?)?.isNotEmpty ?? false
-                    ? 'https://wsrv.nl/?url=${e['images']?['fanart'][0]}'
-                    : (e[type]?['images']?['fanart'] as List?)?.isNotEmpty ??
-                        false
-                    ? 'https://wsrv.nl/?url=${e[type]?['images']?['fanart'][0]}'
-                    : (e['images']?['poster'] as List?)?.isNotEmpty ?? false
-                    ? 'https://wsrv.nl/?url=${e['images']?['poster'][0]}'
-                    : (e[type]?['images']?['poster'] as List?)?.isNotEmpty ??
-                        false
-                    ? 'https://wsrv.nl/?url=${e[type]?['images']?['poster'][0]}'
-                    : '',
+            coverUrl: (e['images']?['fanart'] as List?)?.isNotEmpty ?? false
+                ? 'https://wsrv.nl/?url=${e['images']?['fanart'][0]}'
+                : (e[type]?['images']?['fanart'] as List?)?.isNotEmpty ?? false
+                ? 'https://wsrv.nl/?url=${e[type]?['images']?['fanart'][0]}'
+                : (e['images']?['poster'] as List?)?.isNotEmpty ?? false
+                ? 'https://wsrv.nl/?url=${e['images']?['poster'][0]}'
+                : (e[type]?['images']?['poster'] as List?)?.isNotEmpty ?? false
+                ? 'https://wsrv.nl/?url=${e[type]?['images']?['poster'][0]}'
+                : '',
             title: e[type]['title'] ?? 'Unknown Title',
             score: double.tryParse(
-              (e["rating"] ?? e[type]?["rating"] as num?)
-                      ?.toDouble()
-                      .toStringAsFixed(2) ??
-                  "",
+              (e["rating"] ?? e[type]?["rating"] as num?)?.toDouble().toStringAsFixed(2) ?? "",
             ),
             startDate: e[type]?["first_aired"] ?? "",
             publishingType: type,
             publishingStatus: e[type]["status"],
-            trackingUrl:
-                "https://trakt.tv/$typeName/${e[type]?['ids']?['slug']}",
+            trackingUrl: "https://trakt.tv/$typeName/${e[type]?['ids']?['slug']}",
             syncId: syncId,
           );
         }).toList() ??
@@ -249,9 +220,7 @@ class TraktTv extends _$TraktTv implements BaseTracker {
   @override
   Future<Track> update(Track track, bool isManga) async {
     final accessToken = await _getAccessToken();
-    final isMovie =
-        track.trackingUrl?.replaceAll("https://trakt.tv/", "").split("/")[0] ==
-        "movies";
+    final isMovie = track.trackingUrl?.replaceAll("https://trakt.tv/", "").split("/")[0] == "movies";
     /*final urlRemove = Uri.parse(
       "$_baseApiUrl/sync/history/remove",
     ).replace(queryParameters: {'clientId': _clientId});
@@ -274,36 +243,34 @@ class TraktTv extends _$TraktTv implements BaseTracker {
     final url = Uri.parse(
       "$_baseApiUrl/sync/history",
     ).replace(queryParameters: {'extended': 'full', 'clientId': _clientId});
-    final body =
-        isMovie
-            ? {
-              'movies': [
-                {
-                  'watched_at': DateTime.timestamp().toIso8601String(),
-                  'ids': {'trakt': track.mediaId},
-                },
-              ],
-            }
-            : {
-              'shows': [
-                {
-                  'ids': {'trakt': track.mediaId},
-                  'seasons': [
-                    {
-                      'number': 1,
-                      'episodes': [
-                        for (int i = 1; i <= (track.lastChapterRead ?? 1); i++)
-                          {
-                            'watched_at':
-                                DateTime.timestamp().toIso8601String(),
-                            'number': i,
-                          },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            };
+    final body = isMovie
+        ? {
+            'movies': [
+              {
+                'watched_at': DateTime.timestamp().toIso8601String(),
+                'ids': {'trakt': track.mediaId},
+              },
+            ],
+          }
+        : {
+            'shows': [
+              {
+                'ids': {'trakt': track.mediaId},
+                'seasons': [
+                  {
+                    'number': 1,
+                    'episodes': [
+                      for (int i = 1; i <= (track.lastChapterRead ?? 1); i++)
+                        {
+                          'watched_at': DateTime.timestamp().toIso8601String(),
+                          'number': i,
+                        },
+                    ],
+                  },
+                ],
+              },
+            ],
+          };
     await _makePostRequest(url, accessToken, body);
     return track;
   }
@@ -315,8 +282,7 @@ class TraktTv extends _$TraktTv implements BaseTracker {
     );
     final expiresIn = DateTime.fromMillisecondsSinceEpoch(mALOAuth.expiresIn!);
     if (DateTime.now().isBefore(expiresIn)) return mALOAuth.accessToken!;
-    if (!bypass &&
-        (widgetRef.read(tracksProvider(syncId: syncId))?.refreshing ?? false)) {
+    if (!bypass && (widgetRef.read(tracksProvider(syncId: syncId))?.refreshing ?? false)) {
       return mALOAuth.accessToken!;
     }
     widgetRef.read(tracksProvider(syncId: syncId).notifier).setRefreshing(true);
@@ -329,9 +295,7 @@ class TraktTv extends _$TraktTv implements BaseTracker {
     final username = await _getUserName(refreshed.accessToken!);
     _saveOAuth(username, refreshed);
     await Future.delayed(Duration(seconds: 3));
-    widgetRef
-        .read(tracksProvider(syncId: syncId).notifier)
-        .setRefreshing(false);
+    widgetRef.read(tracksProvider(syncId: syncId).notifier).setRefreshing(false);
     return refreshed.accessToken!;
   }
 
@@ -356,16 +320,12 @@ class TraktTv extends _$TraktTv implements BaseTracker {
       return _buildOAuth(body, cid);
     }
 
-    return await tryRefresh(primaryClientId) ??
-        await tryRefresh(getFallbackClientId(primaryClientId));
+    return await tryRefresh(primaryClientId) ?? await tryRefresh(getFallbackClientId(primaryClientId));
   }
 
   OAuth _buildOAuth(Map<String, dynamic> json, String clientId) {
     return OAuth.fromJson(json)
-      ..expiresIn =
-          DateTime.now()
-              .add(Duration(seconds: json['expires_in']))
-              .millisecondsSinceEpoch
+      ..expiresIn = DateTime.now().add(Duration(seconds: json['expires_in'])).millisecondsSinceEpoch
       ..clientId = clientId;
   }
 
@@ -463,9 +423,7 @@ class TraktTv extends _$TraktTv implements BaseTracker {
       AppLogger.log(e.toString(), logLevel: LogLevel.error);
       return false;
     } finally {
-      widgetRef
-          .read(tracksProvider(syncId: syncId).notifier)
-          .setRefreshing(false);
+      widgetRef.read(tracksProvider(syncId: syncId).notifier).setRefreshing(false);
     }
   }
 }

@@ -77,8 +77,7 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
                                         as ImageProvider
                                   : CustomExtendedNetworkImageProvider(
                                       toImgUrl(
-                                        manga.customCoverFromTracker ??
-                                            manga.imageUrl!,
+                                        manga.customCoverFromTracker ?? manga.imageUrl!,
                                       ),
                                       headers: ref.watch(
                                         headersProvider(
@@ -111,9 +110,7 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
                                 ),
                               ),
                               Text(
-                                uniqueChapterCount > 1
-                                    ? '$chapterLabel ($uniqueChapterCount chapters)'
-                                    : chapterLabel,
+                                uniqueChapterCount > 1 ? '$chapterLabel ($uniqueChapterCount chapters)' : chapterLabel,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 11,

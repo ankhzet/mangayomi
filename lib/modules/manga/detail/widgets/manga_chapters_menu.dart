@@ -14,8 +14,7 @@ class MangaChaptersMenu extends ConsumerStatefulWidget {
   ConsumerState<MangaChaptersMenu> createState() => _MangaChaptersMenuState();
 }
 
-class _MangaChaptersMenuState extends ConsumerState<MangaChaptersMenu>
-    with TickerProviderStateMixin {
+class _MangaChaptersMenuState extends ConsumerState<MangaChaptersMenu> with TickerProviderStateMixin {
   late final manga = widget.manga;
   late final mangaId = widget.manga.id;
 
@@ -68,9 +67,7 @@ class _MangaChaptersMenuState extends ConsumerState<MangaChaptersMenu>
                 RadioListTile(
                   dense: true,
                   title: Text(
-                    manga.itemType != ItemType.anime
-                        ? l10n.chapter_number
-                        : l10n.episode_number,
+                    manga.itemType != ItemType.anime ? l10n.chapter_number : l10n.episode_number,
                   ),
                   value: "ej",
                   groupValue: "e",

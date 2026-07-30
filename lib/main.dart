@@ -87,9 +87,7 @@ void main(List<String> args) async {
 Future<void> _postLaunchInit(StorageProvider storage) async {
   await AppLogger.init();
   unawaited(MDownloader.initializeIsolatePool(poolSize: 6));
-  final hivePath = (Platform.isIOS || Platform.isMacOS)
-      ? "databases"
-      : p.join("Mangayomi", "databases");
+  final hivePath = (Platform.isIOS || Platform.isMacOS) ? "databases" : p.join("Mangayomi", "databases");
   await Hive.initFlutter(Platform.isAndroid ? "" : hivePath);
   if (Platform.isMacOS || Platform.isLinux || Platform.isWindows) {
     discordRpc = DiscordRPC(applicationId: "1395040506677039157");
@@ -126,9 +124,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       if (ref.read(clearChapterCacheOnAppLaunchStateProvider)) {
         // Watch before calling clearcache to keep it alive, so that _getTotalDiskSpace completes safely
         ref.watch(totalChapterCacheSizeStateProvider);
-        ref
-            .read(totalChapterCacheSizeStateProvider.notifier)
-            .clearCache(showToast: false);
+        ref.read(totalChapterCacheSizeStateProvider.notifier).clearCache(showToast: false);
       }
     });
   }
@@ -137,9 +133,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     final followSystem = ref.watch(followSystemThemeStateProvider);
     final forcedDark = ref.watch(themeModeStateProvider);
-    final themeMode = followSystem
-        ? ThemeMode.system
-        : (forcedDark ? ThemeMode.dark : ThemeMode.light);
+    final themeMode = followSystem ? ThemeMode.system : (forcedDark ? ThemeMode.dark : ThemeMode.light);
     final locale = ref.watch(l10nLocaleStateProvider);
     final router = ref.watch(routerProvider);
 
@@ -235,9 +229,7 @@ class _MyAppState extends ConsumerState<MyApp> {
                             ),
                           ),
                         ];
-                        ref
-                            .read(extensionsRepoStateProvider(type).notifier)
-                            .set(updated);
+                        ref.read(extensionsRepoStateProvider(type).notifier).set(updated);
                       }
 
                       addRepos(ItemType.manga, mangaRepoUrls);
@@ -293,8 +285,7 @@ class _MyAppState extends ConsumerState<MyApp> {
                                 ..pos = await isar.customButtons.count()
                                 ..isFavourite = false
                                 ..id = null
-                                ..updatedAt =
-                                    DateTime.now().millisecondsSinceEpoch,
+                                ..updatedAt = DateTime.now().millisecondsSinceEpoch,
                             );
                           });
                           botToast(l10n.custom_buttons_added);
@@ -335,8 +326,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     final dir = await provider.getMpvDirectory();
     final mpvFile = File('${dir!.path}/mpv.conf');
     final inputFile = File('${dir.path}/input.conf');
-    final filesMissing =
-        !(await mpvFile.exists()) && !(await inputFile.exists());
+    final filesMissing = !(await mpvFile.exists()) && !(await inputFile.exists());
     if (filesMissing) {
       final bytes = await rootBundle.load("assets/mangayomi_mpv.zip");
       final archive = ZipDecoder().decodeBytes(bytes.buffer.asUint8List());
@@ -349,12 +339,10 @@ class _MyAppState extends ConsumerState<MyApp> {
           await mpvFile.writeAsBytes(file.content);
         } else if (file.name == "input.conf") {
           await inputFile.writeAsBytes(file.content);
-        } else if (file.name.startsWith("shaders/") &&
-            file.name.endsWith(".glsl")) {
+        } else if (file.name.startsWith("shaders/") && file.name.endsWith(".glsl")) {
           final shaderFile = File('$shadersDir/${file.name.split("/").last}');
           await shaderFile.writeAsBytes(file.content);
-        } else if (file.name.startsWith("scripts/") &&
-            (file.name.endsWith(".js") || file.name.endsWith(".lua"))) {
+        } else if (file.name.startsWith("scripts/") && (file.name.endsWith(".js") || file.name.endsWith(".lua"))) {
           final scriptFile = File('$scriptsDir/${file.name.split("/").last}');
           await scriptFile.writeAsBytes(file.content);
         }
@@ -363,10 +351,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   }
 
   Future<void> _checkTrackerRefresh() async {
-    final prefs = await isar.trackPreferences
-        .filter()
-        .syncIdIsNotNull()
-        .findAll();
+    final prefs = await isar.trackPreferences.filter().syncIdIsNotNull().findAll();
     for (final pref in prefs) {
       final temp = track.Track(
         syncId: pref.syncId,

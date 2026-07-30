@@ -21,12 +21,10 @@ class AniSkipCountDownButton extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<AniSkipCountDownButton> createState() =>
-      _AniSkipCountDownButtonState();
+  ConsumerState<AniSkipCountDownButton> createState() => _AniSkipCountDownButtonState();
 }
 
-class _AniSkipCountDownButtonState extends ConsumerState<AniSkipCountDownButton>
-    with TickerProviderStateMixin {
+class _AniSkipCountDownButtonState extends ConsumerState<AniSkipCountDownButton> with TickerProviderStateMixin {
   late AnimationController _controller;
   @override
   void initState() {
@@ -72,80 +70,76 @@ class _AniSkipCountDownButtonState extends ConsumerState<AniSkipCountDownButton>
   Widget build(BuildContext context) {
     return widget.active && !widget.autoSkip
         ? _isCompleted
-            ? const SizedBox.shrink()
-            : AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: MaterialButton(
-                    padding: const EdgeInsets.all(0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    onPressed: () {
-                      _seekTo();
-                    },
-                    child: Container(
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        color: Colors.black54,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      width: 200,
-                      child: Stack(
-                        children: [
-                          RotatedBox(
-                            quarterTurns: 0,
-                            child: Container(
-                              clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: SizedBox.fromSize(
-                                size: const Size(200, 40),
-                                child: LinearProgressIndicator(
-                                  color: Colors.red,
-                                  value: 1 - _controller.value,
-                                  backgroundColor: Colors.transparent,
-                                ),
-                              ),
-                            ),
+              ? const SizedBox.shrink()
+              : AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, child) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
+                      child: MaterialButton(
+                        padding: const EdgeInsets.all(0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        onPressed: () {
+                          _seekTo();
+                        },
+                        child: Container(
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                            color: Colors.black54,
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          Positioned.fill(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(
-                                    widget.skipTypeText.toUpperCase(),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
+                          width: 200,
+                          child: Stack(
+                            children: [
+                              RotatedBox(
+                                quarterTurns: 0,
+                                child: Container(
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: SizedBox.fromSize(
+                                    size: const Size(200, 40),
+                                    child: LinearProgressIndicator(
+                                      color: Colors.red,
+                                      value: 1 - _controller.value,
+                                      backgroundColor: Colors.transparent,
                                     ),
                                   ),
-                                  Text(
-                                    (widget.timeoutLength -
-                                            (_controller.duration! *
-                                                    _controller.value)
-                                                .inSeconds)
-                                        .toString(),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
+                              Positioned.fill(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text(
+                                        widget.skipTypeText.toUpperCase(),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        (widget.timeoutLength - (_controller.duration! * _controller.value).inSeconds)
+                                            .toString(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              },
-            )
+                    );
+                  },
+                )
         : const SizedBox.shrink();
   }
 }

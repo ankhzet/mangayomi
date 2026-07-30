@@ -123,23 +123,22 @@ class _AnimePlayerViewState extends riv.ConsumerState<AnimePlayerView> {
           mpvDirectory: mpvDirectory,
         );
       },
-      error:
-          (error, stackTrace) => Scaffold(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            appBar: AppBar(
-              title: const Text(''),
-              leading: BackButton(
-                onPressed: () {
-                  SystemChrome.setEnabledSystemUIMode(
-                    SystemUiMode.manual,
-                    overlays: SystemUiOverlay.values,
-                  );
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-            body: Center(child: Text(error.toString())),
+      error: (error, stackTrace) => Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: AppBar(
+          title: const Text(''),
+          leading: BackButton(
+            onPressed: () {
+              SystemChrome.setEnabledSystemUIMode(
+                SystemUiMode.manual,
+                overlays: SystemUiOverlay.values,
+              );
+              Navigator.pop(context);
+            },
           ),
+        ),
+        body: Center(child: Text(error.toString())),
+      ),
       loading: () {
         return Scaffold(
           backgroundColor: Colors.black,
@@ -194,10 +193,7 @@ enum _AniSkipPhase { none, opening, ending }
 bool _firstTime = true;
 
 class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
-    with
-        _AlwaysOnTopStateMixin,
-        TickerProviderStateMixin,
-        WidgetsBindingObserver {
+    with _AlwaysOnTopStateMixin, TickerProviderStateMixin, WidgetsBindingObserver {
   late final GlobalKey<VideoState> _key = GlobalKey<VideoState>();
   late final useLibass = ref.read(useLibassStateProvider);
   late final useMpvConfig = ref.read(useMpvConfigStateProvider);
@@ -222,39 +218,27 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
         if (audioPreferredLang.isNotEmpty) "alang": audioPreferredLang,
         if (enableAudioPitchCorrection) "audio-pitch-correction": "yes",
         "volume-max": "${volumeBoostCap + 100}",
-        if (audioChannel != AudioChannel.reverseStereo)
-          "audio-channels": audioChannel.mpvName,
-        if (audioChannel == AudioChannel.reverseStereo)
-          "af": audioChannel.mpvName,
+        if (audioChannel != AudioChannel.reverseStereo) "audio-channels": audioChannel.mpvName,
+        if (audioChannel == AudioChannel.reverseStereo) "af": audioChannel.mpvName,
       },
       observeProperties: {
         "user-data/aniyomi/show_text": generated.mpv_format.MPV_FORMAT_NODE,
         "user-data/aniyomi/toggle_ui": generated.mpv_format.MPV_FORMAT_NODE,
         "user-data/aniyomi/show_panel": generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/aniyomi/software_keyboard":
-            generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/aniyomi/set_button_title":
-            generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/aniyomi/reset_button_title":
-            generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/aniyomi/software_keyboard": generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/aniyomi/set_button_title": generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/aniyomi/reset_button_title": generated.mpv_format.MPV_FORMAT_NODE,
         "user-data/aniyomi/toggle_button": generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/aniyomi/switch_episode":
-            generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/aniyomi/switch_episode": generated.mpv_format.MPV_FORMAT_NODE,
         "user-data/aniyomi/pause": generated.mpv_format.MPV_FORMAT_NODE,
         "user-data/aniyomi/seek_by": generated.mpv_format.MPV_FORMAT_NODE,
         "user-data/aniyomi/seek_to": generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/aniyomi/seek_by_with_text":
-            generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/aniyomi/seek_to_with_text":
-            generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/aniyomi/launch_int_picker":
-            generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/mangayomi/chapter_titles":
-            generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/mangayomi/current_chapter":
-            generated.mpv_format.MPV_FORMAT_INT64,
-        "user-data/mangayomi/selected_shader":
-            generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/aniyomi/seek_by_with_text": generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/aniyomi/seek_to_with_text": generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/aniyomi/launch_int_picker": generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/mangayomi/chapter_titles": generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/mangayomi/current_chapter": generated.mpv_format.MPV_FORMAT_INT64,
+        "user-data/mangayomi/selected_shader": generated.mpv_format.MPV_FORMAT_NODE,
       },
       eventHandler: _handleMpvEvents,
     ),
@@ -308,36 +292,31 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
 
   late final StreamSubscription<Duration> _currentPositionSub;
 
-  late final StreamSubscription<Duration> _currentTotalDurationSub = _player
-      .stream
-      .duration
-      .listen((duration) {
-        _currentTotalDuration.value = duration;
-        discordRpc?.updateChapterTimestamp(_currentPosition.value, duration);
-      });
+  late final StreamSubscription<Duration> _currentTotalDurationSub = _player.stream.duration.listen((duration) {
+    _currentTotalDuration.value = duration;
+    discordRpc?.updateChapterTimestamp(_currentPosition.value, duration);
+  });
 
   bool get hasNextEpisode => _streamController.getEpisodeIndex().$1 != 0;
 
-  late final StreamSubscription<bool> _completed = _player.stream.completed
-      .listen((val) {
-        if (hasNextEpisode && val) {
-          if (mounted) {
-            pushToNewEpisode(context, _streamController.getNextEpisode());
-          }
-        }
-        // If the last episode of an Anime has ended, exit fullscreen mode
-        final isFullScreen = ref.read(fullscreenProvider);
-        if (!hasNextEpisode && val && _isDesktop && isFullScreen) {
-          setFullScreen(value: false);
-          ref.read(fullscreenProvider.notifier).state = false;
-          widget.desktopFullScreenPlayer.call(false);
-        }
-      });
+  late final StreamSubscription<bool> _completed = _player.stream.completed.listen((val) {
+    if (hasNextEpisode && val) {
+      if (mounted) {
+        pushToNewEpisode(context, _streamController.getNextEpisode());
+      }
+    }
+    // If the last episode of an Anime has ended, exit fullscreen mode
+    final isFullScreen = ref.read(fullscreenProvider);
+    if (!hasNextEpisode && val && _isDesktop && isFullScreen) {
+      setFullScreen(value: false);
+      ref.read(fullscreenProvider.notifier).state = false;
+      widget.desktopFullScreenPlayer.call(false);
+    }
+  });
 
   Future<void> _handleMpvEvents(Pointer<generated.mpv_event> event) async {
     try {
-      if (event.ref.event_id ==
-          generated.mpv_event_id.MPV_EVENT_PROPERTY_CHANGE) {
+      if (event.ref.event_id == generated.mpv_event_id.MPV_EVENT_PROPERTY_CHANGE) {
         final prop = event.ref.data.cast<generated.mpv_event_property>();
         final propName = prop.ref.name.cast<Utf8>().toDartString();
         if (kDebugMode) {
@@ -345,12 +324,10 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
             print("DEBUG 00: $propName - ${prop.ref.format}");
           }
         }
-        if (propName.startsWith("user-data/") &&
-            prop.ref.format == generated.mpv_format.MPV_FORMAT_NODE) {
+        if (propName.startsWith("user-data/") && prop.ref.format == generated.mpv_format.MPV_FORMAT_NODE) {
           final value = prop.ref.data.cast<generated.mpv_node>();
           _handleMpvNodeEvents(propName, value);
-        } else if (propName.startsWith("user-data/") &&
-            prop.ref.format == generated.mpv_format.MPV_FORMAT_INT64) {
+        } else if (propName.startsWith("user-data/") && prop.ref.format == generated.mpv_format.MPV_FORMAT_INT64) {
           final value = prop.ref.data.cast<Int64>().value;
           _handleMpvNumberEvents(propName, value);
         }
@@ -536,9 +513,7 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
           final text = value.ref.u.string.cast<Utf8>().toDartString();
           if (text.isEmpty) break;
           final data = text.split("|");
-          final pos =
-              _currentPosition.value.inSeconds +
-              int.parse(data[0].replaceAll("\"", ""));
+          final pos = _currentPosition.value.inSeconds + int.parse(data[0].replaceAll("\"", ""));
           _tempPosition.value = Duration(seconds: pos);
           await _player.seek(Duration(seconds: pos));
           _tempPosition.value = null;
@@ -574,28 +549,23 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
               return AlertDialog(
                 title: Text(data[0]),
                 content: StatefulBuilder(
-                  builder:
-                      (context, setState) => SizedBox(
-                        height: 200,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            NumberPicker(
-                              value: currentValue,
-                              minValue: start,
-                              maxValue: stop,
-                              step: step,
-                              haptics: true,
-                              textMapper:
-                                  (numberText) =>
-                                      data[1].replaceAll("%d", numberText),
-                              onChanged:
-                                  (value) =>
-                                      setState(() => currentValue = value),
-                            ),
-                          ],
+                  builder: (context, setState) => SizedBox(
+                    height: 200,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        NumberPicker(
+                          value: currentValue,
+                          minValue: start,
+                          maxValue: stop,
+                          step: step,
+                          haptics: true,
+                          textMapper: (numberText) => data[1].replaceAll("%d", numberText),
+                          onChanged: (value) => setState(() => currentValue = value),
                         ),
-                      ),
+                      ],
+                    ),
+                  ),
                 ),
                 actions: [
                   Row(
@@ -613,8 +583,7 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
                       TextButton(
                         onPressed: () async {
                           final namePtr = data[5].toNativeUtf8();
-                          final valuePtr = calloc<Int64>(1)
-                            ..value = currentValue;
+                          final valuePtr = calloc<Int64>(1)..value = currentValue;
                           nativePlayer.mpv.mpv_set_property(
                             nativePlayer.ctx,
                             namePtr.cast(),
@@ -643,17 +612,14 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
         if (value.ref.format == generated.mpv_format.MPV_FORMAT_STRING) {
           final text = value.ref.u.string.cast<Utf8>().toDartString();
           final data = jsonDecode(text) as List<dynamic>;
-          _chapterMarks.value =
-              data
-                  .map(
-                    (e) => (
-                      e["title"] as String,
-                      e["timestamp"] is double
-                          ? (e["timestamp"] as double).toInt() * 1000
-                          : (e["timestamp"] as int) * 1000,
-                    ),
-                  )
-                  .toList();
+          _chapterMarks.value = data
+              .map(
+                (e) => (
+                  e["title"] as String,
+                  e["timestamp"] is double ? (e["timestamp"] as double).toInt() * 1000 : (e["timestamp"] as int) * 1000,
+                ),
+              )
+              .toList();
         }
         break;
       case "mangayomi/selected_shader":
@@ -675,12 +641,9 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
 
   Future<void> _initCustomButton() async {
     if (!useMpvConfig) return;
-    final customButtons =
-        isar.customButtons.filter().idIsNotNull().sortByPos().findAllSync();
+    final customButtons = isar.customButtons.filter().idIsNotNull().sortByPos().findAllSync();
     if (customButtons.isEmpty) return;
-    final primaryButton =
-        customButtons.firstWhereOrNull((e) => e.isFavourite ?? false) ??
-        customButtons.first;
+    final primaryButton = customButtons.firstWhereOrNull((e) => e.isFavourite ?? false) ?? customButtons.first;
     final provider = StorageProvider();
     if (!(await provider.requestPermission())) {
       return;
@@ -717,16 +680,14 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
       currentTitle: primaryButton.title!,
       visible: true,
       button: primaryButton,
-      onPress:
-          () => (_player.platform as NativePlayer).command([
-            "script-message",
-            "call_button_${primaryButton.id}",
-          ]),
-      onLongPress:
-          () => (_player.platform as NativePlayer).command([
-            "script-message",
-            "call_button_${primaryButton.id}_long",
-          ]),
+      onPress: () => (_player.platform as NativePlayer).command([
+        "script-message",
+        "call_button_${primaryButton.id}",
+      ]),
+      onLongPress: () => (_player.platform as NativePlayer).command([
+        "script-message",
+        "call_button_${primaryButton.id}_long",
+      ]),
     );
     _customButtons.value = customButtons;
   }
@@ -758,10 +719,9 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
           );
           final file = defaultTrack.file ?? "";
           final label = defaultTrack.label;
-          final track =
-              (file.startsWith("http") || file.startsWith("file"))
-                  ? SubtitleTrack.uri(file, title: label, language: label)
-                  : SubtitleTrack.data(file, title: label, language: label);
+          final track = (file.startsWith("http") || file.startsWith("file"))
+              ? SubtitleTrack.uri(file, title: label, language: label)
+              : SubtitleTrack.data(file, title: label, language: label);
           _player.setSubtitleTrack(track);
         } catch (_) {}
         if (_firstVid.audios?.isNotEmpty ?? false) {
@@ -833,12 +793,11 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
     if (speed != null) {
       final namePtr = "sub-speed".toNativeUtf8();
       final valuePtr = calloc<Double>(1)
-        ..value =
-            speed < 0.1
-                ? 0.1
-                : speed > 10
-                ? 10
-                : speed;
+        ..value = speed < 0.1
+            ? 0.1
+            : speed > 10
+            ? 10
+            : speed;
       nativePlayer.mpv.mpv_set_property(
         nativePlayer.ctx,
         namePtr.cast(),
@@ -859,12 +818,11 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
       configuration: VideoControllerConfiguration(
         hwdec: hwdecMode,
         enableHardwareAcceleration: enableHardwareAccel,
-        vo:
-            Platform.isAndroid
-                ? useGpuNext
-                    ? "gpu-next"
-                    : "gpu"
-                : "libmpv",
+        vo: Platform.isAndroid
+            ? useGpuNext
+                  ? "gpu-next"
+                  : "gpu"
+            : "libmpv",
       ),
     );
     // If player is being launched the first time,
@@ -922,8 +880,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.detached) {
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
       _setCurrentPosition(true);
     }
   }
@@ -965,12 +922,10 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
   Future<void> _initAniSkip() async {
     await _player.stream.buffer.first;
     _streamController.getAniSkipResults((result) {
-      final openingRes =
-          result.where((element) => element.skipType == "op").toList();
+      final openingRes = result.where((element) => element.skipType == "op").toList();
       _hasOpeningSkip = openingRes.isNotEmpty;
       if (_hasOpeningSkip) _openingResult = openingRes.first;
-      final endingRes =
-          result.where((element) => element.skipType == "ed").toList();
+      final endingRes = result.where((element) => element.skipType == "ed").toList();
       _hasEndingSkip = endingRes.isNotEmpty;
       if (_hasEndingSkip) _endingResult = endingRes.first;
       if (mounted) {
@@ -1058,15 +1013,13 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
   );
 
   Widget _videoQualityWidget(BuildContext context) {
-    List<VideoPrefs> videoQuality =
-        _player.state.tracks.video
-            .where(
-              (element) =>
-                  element.w != null && element.h != null && widget.isLocal,
-            )
-            .toList()
-            .map((e) => VideoPrefs(videoTrack: e, isLocal: true))
-            .toList();
+    List<VideoPrefs> videoQuality = _player.state.tracks.video
+        .where(
+          (element) => element.w != null && element.h != null && widget.isLocal,
+        )
+        .toList()
+        .map((e) => VideoPrefs(videoTrack: e, isLocal: true))
+        .toList();
 
     if (widget.videos.isNotEmpty && !widget.isLocal) {
       for (var video in widget.videos) {
@@ -1083,40 +1036,34 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
       child: Column(
-        children:
-            videoQuality.map((quality) {
-              final selected =
-                  _video.value!.videoTrack!.title ==
-                      quality.videoTrack!.title ||
-                  widget.isLocal;
-              return GestureDetector(
-                child: textWidget(
-                  widget.isLocal
-                      ? _firstVid.quality
-                      : quality.videoTrack!.title!,
-                  selected,
-                ),
-                onTap: () async {
-                  if (_video.value?.videoTrack?.id == quality.videoTrack?.id) {
-                    Navigator.pop(context);
-                    return;
-                  }
-                  _video.value = quality;
-                  _player.stop();
-                  if (quality.isLocal) {
-                    if (widget.isLocal) {
-                      _player.setVideoTrack(quality.videoTrack!);
-                    } else {
-                      _openMedia(quality);
-                    }
-                  } else {
-                    _openMedia(quality);
-                  }
-                  _initSubtitleAndAudio = true;
-                  Navigator.pop(context);
-                },
-              );
-            }).toList(),
+        children: videoQuality.map((quality) {
+          final selected = _video.value!.videoTrack!.title == quality.videoTrack!.title || widget.isLocal;
+          return GestureDetector(
+            child: textWidget(
+              widget.isLocal ? _firstVid.quality : quality.videoTrack!.title!,
+              selected,
+            ),
+            onTap: () async {
+              if (_video.value?.videoTrack?.id == quality.videoTrack?.id) {
+                Navigator.pop(context);
+                return;
+              }
+              _video.value = quality;
+              _player.stop();
+              if (quality.isLocal) {
+                if (widget.isLocal) {
+                  _player.setVideoTrack(quality.videoTrack!);
+                } else {
+                  _openMedia(quality);
+                }
+              } else {
+                _openMedia(quality);
+              }
+              _initSubtitleAndAudio = true;
+              Navigator.pop(context);
+            },
+          );
+        }).toList(),
       ),
     );
   }
@@ -1152,7 +1099,10 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
             );
           } else {
             await customDraggableTabBar(
-              tabs: [Tab(text: l10n.font), Tab(text: l10n.color)],
+              tabs: [
+                Tab(text: l10n.font),
+                Tab(text: l10n.color),
+              ],
               children: [
                 FontSettingWidget(hasSubtitleTrack: hasSubtitleTrack),
                 ColorSettingWidget(hasSubtitleTrack: hasSubtitleTrack),
@@ -1174,11 +1124,10 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
   }
 
   Widget _videoSubtitle(BuildContext context, Function(bool) hasSubtitleTrack) {
-    List<VideoPrefs> videoSubtitle =
-        _player.state.tracks.subtitle
-            .toList()
-            .map((e) => VideoPrefs(isLocal: true, subtitle: e))
-            .toList();
+    List<VideoPrefs> videoSubtitle = _player.state.tracks.subtitle
+        .toList()
+        .map((e) => VideoPrefs(isLocal: true, subtitle: e))
+        .toList();
 
     List<String> subs = [];
     if (widget.videos.isNotEmpty) {
@@ -1190,14 +1139,13 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
             videoSubtitle.add(
               VideoPrefs(
                 isLocal: widget.isLocal,
-                subtitle:
-                    (file.startsWith("http") || file.startsWith("file"))
-                        ? SubtitleTrack.uri(file, title: label, language: label)
-                        : SubtitleTrack.data(
-                          file,
-                          title: label,
-                          language: label,
-                        ),
+                subtitle: (file.startsWith("http") || file.startsWith("file"))
+                    ? SubtitleTrack.uri(file, title: label, language: label)
+                    : SubtitleTrack.data(
+                        file,
+                        title: label,
+                        language: label,
+                      ),
               ),
             );
             subs.add(sub.file!);
@@ -1206,20 +1154,15 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
       }
     }
     final subtitle = _player.state.track.subtitle;
-    videoSubtitle =
-        videoSubtitle
-            .map((e) {
-              VideoPrefs vid = e;
-              vid.title =
-                  vid.subtitle?.title ??
-                  vid.subtitle?.language ??
-                  vid.subtitle?.channels ??
-                  "";
-              return vid;
-            })
-            .toList()
-            .where((element) => element.title!.isNotEmpty)
-            .toList();
+    videoSubtitle = videoSubtitle
+        .map((e) {
+          VideoPrefs vid = e;
+          vid.title = vid.subtitle?.title ?? vid.subtitle?.language ?? vid.subtitle?.channels ?? "";
+          return vid;
+        })
+        .toList()
+        .where((element) => element.title!.isNotEmpty)
+        .toList();
     videoSubtitle.sort((a, b) => a.title!.compareTo(b.title!));
     hasSubtitleTrack.call(videoSubtitle.isNotEmpty);
     videoSubtitle.insert(
@@ -1229,11 +1172,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
     List<VideoPrefs> videoSubtitleLast = [];
     for (var element in videoSubtitle) {
       final contains = videoSubtitleLast.any((sub) {
-        return (sub.title ??
-                sub.subtitle?.title ??
-                sub.subtitle?.language ??
-                sub.subtitle?.channels ??
-                "None") ==
+        return (sub.title ?? sub.subtitle?.title ?? sub.subtitle?.language ?? sub.subtitle?.channels ?? "None") ==
             (element.title ??
                 element.subtitle?.title ??
                 element.subtitle?.language ??
@@ -1335,18 +1274,10 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
           const SizedBox(height: 30),
           ...videoSubtitleLast.toSet().toList().map((sub) {
             final title =
-                sub.title ??
-                sub.subtitle?.title ??
-                sub.subtitle?.language ??
-                sub.subtitle?.channels ??
-                "None";
+                sub.title ?? sub.subtitle?.title ?? sub.subtitle?.language ?? sub.subtitle?.channels ?? "None";
 
             final selected =
-                (title ==
-                    (subtitle.title ??
-                        subtitle.language ??
-                        subtitle.channels ??
-                        "None")) ||
+                (title == (subtitle.title ?? subtitle.language ?? subtitle.channels ?? "None")) ||
                 (subtitle.id == "no" && title == "None");
             return GestureDetector(
               onTap: () {
@@ -1415,11 +1346,10 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
   }
 
   Widget _videoAudios(BuildContext context) {
-    List<VideoPrefs> videoAudio =
-        _player.state.tracks.audio
-            .toList()
-            .map((e) => VideoPrefs(isLocal: true, audio: e))
-            .toList();
+    List<VideoPrefs> videoAudio = _player.state.tracks.audio
+        .toList()
+        .map((e) => VideoPrefs(isLocal: true, audio: e))
+        .toList();
 
     List<String> audios = [];
     if (widget.videos.isNotEmpty && !widget.isLocal) {
@@ -1442,45 +1372,33 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
       }
     }
     final audio = _player.state.track.audio;
-    videoAudio =
-        videoAudio
-            .map((e) {
-              VideoPrefs vid = e;
-              vid.title =
-                  vid.audio?.title ??
-                  vid.audio?.language ??
-                  vid.audio?.channels ??
-                  "";
-              return vid;
-            })
-            .toList()
-            .where((element) => element.title!.isNotEmpty)
-            .toList();
+    videoAudio = videoAudio
+        .map((e) {
+          VideoPrefs vid = e;
+          vid.title = vid.audio?.title ?? vid.audio?.language ?? vid.audio?.channels ?? "";
+          return vid;
+        })
+        .toList()
+        .where((element) => element.title!.isNotEmpty)
+        .toList();
     videoAudio.sort((a, b) => a.title!.compareTo(b.title!));
     videoAudio.insert(0, VideoPrefs(isLocal: false, audio: AudioTrack.no()));
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
       child: Column(
-        children:
-            videoAudio.toSet().toList().map((aud) {
-              final title =
-                  aud.title ??
-                  aud.audio?.title ??
-                  aud.audio?.language ??
-                  aud.audio?.channels ??
-                  "None";
-              final selected =
-                  (aud.audio == audio) || (audio.id == "no" && title == "None");
-              return GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                  try {
-                    _player.setAudioTrack(aud.audio!);
-                  } catch (_) {}
-                },
-                child: textWidget(title, selected),
-              );
-            }).toList(),
+        children: videoAudio.toSet().toList().map((aud) {
+          final title = aud.title ?? aud.audio?.title ?? aud.audio?.language ?? aud.audio?.channels ?? "None";
+          final selected = (aud.audio == audio) || (audio.id == "no" && title == "None");
+          return GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+              try {
+                _player.setAudioTrack(aud.audio!);
+              } catch (_) {}
+            },
+            child: textWidget(title, selected),
+          );
+        }).toList(),
       ),
     );
   }
@@ -1527,39 +1445,31 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
         height: 35,
         child: ValueListenableBuilder(
           valueListenable: _customButton,
-          builder:
-              (context, value, child) =>
-                  (value?.visible ?? true)
-                      ? ElevatedButton(
-                        onPressed:
-                            value?.onPress ??
-                            () async {
-                              _tempPosition.value = Duration(
-                                seconds:
-                                    defaultSkipIntroLength +
-                                    _currentPosition.value.inSeconds,
-                              );
-                              await _player.seek(
-                                Duration(
-                                  seconds:
-                                      _currentPosition.value.inSeconds +
-                                      defaultSkipIntroLength,
-                                ),
-                              );
-                              _tempPosition.value = null;
-                            },
-                        onLongPress: value?.onLongPress,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            value != null
-                                ? value.currentTitle
-                                : "+$defaultSkipIntroLength",
-                            style: const TextStyle(fontWeight: FontWeight.w100),
+          builder: (context, value, child) => (value?.visible ?? true)
+              ? ElevatedButton(
+                  onPressed:
+                      value?.onPress ??
+                      () async {
+                        _tempPosition.value = Duration(
+                          seconds: defaultSkipIntroLength + _currentPosition.value.inSeconds,
+                        );
+                        await _player.seek(
+                          Duration(
+                            seconds: _currentPosition.value.inSeconds + defaultSkipIntroLength,
                           ),
-                        ),
-                      )
-                      : Container(),
+                        );
+                        _tempPosition.value = null;
+                      },
+                  onLongPress: value?.onLongPress,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      value != null ? value.currentTitle : "+$defaultSkipIntroLength",
+                      style: const TextStyle(fontWeight: FontWeight.w100),
+                    ),
+                  ),
+                )
+              : Container(),
         ),
       ),
     );
@@ -1572,40 +1482,35 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
         height: 35,
         child: ValueListenableBuilder(
           valueListenable: _currentChapterMark,
-          builder:
-              (context, value, child) =>
-                  value != null
-                      ? PopupMenuButton<int>(
-                        tooltip: '',
-                        itemBuilder:
-                            (context) =>
-                                _chapterMarks.value
-                                    .map(
-                                      (mark) => PopupMenuItem<int>(
-                                        value: mark.$2,
-                                        child: Text(
-                                          "${mark.$1} - ${Duration(milliseconds: mark.$2).label()}",
-                                        ),
-                                        onTap:
-                                            () => _player.seek(
-                                              Duration(milliseconds: mark.$2),
-                                            ),
-                                      ),
-                                    )
-                                    .toList(),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+          builder: (context, value, child) => value != null
+              ? PopupMenuButton<int>(
+                  tooltip: '',
+                  itemBuilder: (context) => _chapterMarks.value
+                      .map(
+                        (mark) => PopupMenuItem<int>(
+                          value: mark.$2,
                           child: Text(
-                            "${_chapterMarks.value[value].$1} - ${Duration(milliseconds: _chapterMarks.value[value].$2).label()}",
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
+                            "${mark.$1} - ${Duration(milliseconds: mark.$2).label()}",
+                          ),
+                          onTap: () => _player.seek(
+                            Duration(milliseconds: mark.$2),
                           ),
                         ),
                       )
-                      : Container(),
+                      .toList(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "${_chapterMarks.value[value].$1} - ${Duration(milliseconds: _chapterMarks.value[value].$2).label()}",
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                )
+              : Container(),
         ),
       ),
     );
@@ -1678,13 +1583,11 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                   child: IconButton(
                     onPressed: () async {
                       _tempPosition.value = Duration(
-                        seconds:
-                            skipDuration - _currentPosition.value.inSeconds,
+                        seconds: skipDuration - _currentPosition.value.inSeconds,
                       );
                       await _player.seek(
                         Duration(
-                          seconds:
-                              _currentPosition.value.inSeconds - skipDuration,
+                          seconds: _currentPosition.value.inSeconds - skipDuration,
                         ),
                       );
                       _tempPosition.value = null;
@@ -1722,13 +1625,11 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                   child: IconButton(
                     onPressed: () async {
                       _tempPosition.value = Duration(
-                        seconds:
-                            skipDuration + _currentPosition.value.inSeconds,
+                        seconds: skipDuration + _currentPosition.value.inSeconds,
                       );
                       await _player.seek(
                         Duration(
-                          seconds:
-                              _currentPosition.value.inSeconds + skipDuration,
+                          seconds: _currentPosition.value.inSeconds + skipDuration,
                         ),
                       );
                       _tempPosition.value = null;
@@ -1763,12 +1664,10 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                 CustomMaterialDesktopVolumeButton(controller: _controller),
                 ValueListenableBuilder(
                   valueListenable: _tempPosition,
-                  builder:
-                      (context, value, child) =>
-                          CustomMaterialDesktopPositionIndicator(
-                            delta: value,
-                            controller: _controller,
-                          ),
+                  builder: (context, value, child) => CustomMaterialDesktopPositionIndicator(
+                    delta: value,
+                    controller: _controller,
+                  ),
                 ),
                 _chapterMarkWidget(),
               ],
@@ -1785,111 +1684,98 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
       PopupMenuButton<String>(
         tooltip: 'Shaders',
         icon: const Icon(Icons.high_quality, color: Colors.white),
-        itemBuilder:
-            (context) =>
-                [
-                      ("Anime4K: Mode A (Fast)", "set_anime_a"),
-                      ("Anime4K: Mode B (Fast)", "set_anime_b"),
-                      ("Anime4K: Mode C (Fast)", "set_anime_c"),
-                      ("Anime4K: Mode A+A (Fast)", "set_anime_aa"),
-                      ("Anime4K: Mode B+B (Fast)", "set_anime_bb"),
-                      ("Anime4K: Mode C+A (Fast)", "set_anime_ca"),
-                      ("Anime4K: Mode A (HQ)", "set_anime_hq_a"),
-                      ("Anime4K: Mode B (HQ)", "set_anime_hq_b"),
-                      ("Anime4K: Mode C (HQ)", "set_anime_hq_c"),
-                      ("Anime4K: Mode A+A (HQ)", "set_anime_hq_aa"),
-                      ("Anime4K: Mode B+B (HQ)", "set_anime_hq_bb"),
-                      ("Anime4K: Mode C+A (HQ)", "set_anime_hq_ca"),
-                      ("AMD FSR", "set_fsr"),
-                      ("Luma Upscaling", "set_luma"),
-                      ("Qualcomm Snapdragon GSR", "set_snapdragon"),
-                      ("NVIDIA Image Scaling", "set_nvidia"),
-                      ("Clear GLSL shaders", "clear_anime"),
-                    ]
-                    .map(
-                      (mode) => PopupMenuItem<String>(
-                        value: mode.$1,
-                        child: Text(
-                          mode.$1,
-                          style: TextStyle(
-                            fontWeight:
-                                _selectedShader.value == mode.$1
-                                    ? FontWeight.w900
-                                    : FontWeight.normal,
-                          ),
-                        ),
-                        onTap: () {
-                          (_player.platform as NativePlayer).command([
-                            "script-message",
-                            mode.$2,
-                          ]);
-                        },
+        itemBuilder: (context) =>
+            [
+                  ("Anime4K: Mode A (Fast)", "set_anime_a"),
+                  ("Anime4K: Mode B (Fast)", "set_anime_b"),
+                  ("Anime4K: Mode C (Fast)", "set_anime_c"),
+                  ("Anime4K: Mode A+A (Fast)", "set_anime_aa"),
+                  ("Anime4K: Mode B+B (Fast)", "set_anime_bb"),
+                  ("Anime4K: Mode C+A (Fast)", "set_anime_ca"),
+                  ("Anime4K: Mode A (HQ)", "set_anime_hq_a"),
+                  ("Anime4K: Mode B (HQ)", "set_anime_hq_b"),
+                  ("Anime4K: Mode C (HQ)", "set_anime_hq_c"),
+                  ("Anime4K: Mode A+A (HQ)", "set_anime_hq_aa"),
+                  ("Anime4K: Mode B+B (HQ)", "set_anime_hq_bb"),
+                  ("Anime4K: Mode C+A (HQ)", "set_anime_hq_ca"),
+                  ("AMD FSR", "set_fsr"),
+                  ("Luma Upscaling", "set_luma"),
+                  ("Qualcomm Snapdragon GSR", "set_snapdragon"),
+                  ("NVIDIA Image Scaling", "set_nvidia"),
+                  ("Clear GLSL shaders", "clear_anime"),
+                ]
+                .map(
+                  (mode) => PopupMenuItem<String>(
+                    value: mode.$1,
+                    child: Text(
+                      mode.$1,
+                      style: TextStyle(
+                        fontWeight: _selectedShader.value == mode.$1 ? FontWeight.w900 : FontWeight.normal,
                       ),
-                    )
-                    .toList(),
+                    ),
+                    onTap: () {
+                      (_player.platform as NativePlayer).command([
+                        "script-message",
+                        mode.$2,
+                      ]);
+                    },
+                  ),
+                )
+                .toList(),
       ),
       PopupMenuButton<String>(
         tooltip: 'Stats',
         icon: const Icon(Icons.memory, color: Colors.white),
-        itemBuilder:
-            (context) =>
-                [
-                      ("Stats Toggle", "stats/display-stats-toggle"),
-                      ("Stats Page 1", "stats/display-page-1"),
-                      ("Stats Page 2", "stats/display-page-2"),
-                      ("Stats Page 3", "stats/display-page-3"),
-                      ("Stats Page 4", "stats/display-page-4"),
-                      ("Stats Page 5", "stats/display-page-5"),
-                    ]
+        itemBuilder: (context) =>
+            [
+                  ("Stats Toggle", "stats/display-stats-toggle"),
+                  ("Stats Page 1", "stats/display-page-1"),
+                  ("Stats Page 2", "stats/display-page-2"),
+                  ("Stats Page 3", "stats/display-page-3"),
+                  ("Stats Page 4", "stats/display-page-4"),
+                  ("Stats Page 5", "stats/display-page-5"),
+                ]
+                .map(
+                  (mode) => PopupMenuItem<String>(
+                    value: mode.$1,
+                    child: Text(
+                      mode.$1,
+                      style: TextStyle(
+                        fontWeight: _selectedShader.value == mode.$1 ? FontWeight.w900 : FontWeight.normal,
+                      ),
+                    ),
+                    onTap: () {
+                      (_player.platform as NativePlayer).command([
+                        "script-binding",
+                        mode.$2,
+                      ]);
+                    },
+                  ),
+                )
+                .toList(),
+      ),
+      ValueListenableBuilder(
+        valueListenable: _customButtons,
+        builder: (context, value, child) => value != null
+            ? PopupMenuButton<String>(
+                tooltip: context.l10n.custom_buttons,
+                icon: const Icon(Icons.terminal, color: Colors.white),
+                itemBuilder: (context) => value
                     .map(
-                      (mode) => PopupMenuItem<String>(
-                        value: mode.$1,
-                        child: Text(
-                          mode.$1,
-                          style: TextStyle(
-                            fontWeight:
-                                _selectedShader.value == mode.$1
-                                    ? FontWeight.w900
-                                    : FontWeight.normal,
-                          ),
-                        ),
+                      (btn) => PopupMenuItem<String>(
+                        value: btn.title!,
+                        child: Text(btn.title!),
                         onTap: () {
                           (_player.platform as NativePlayer).command([
-                            "script-binding",
-                            mode.$2,
+                            "script-message",
+                            "call_button_${btn.id}",
                           ]);
                         },
                       ),
                     )
                     .toList(),
-      ),
-      ValueListenableBuilder(
-        valueListenable: _customButtons,
-        builder:
-            (context, value, child) =>
-                value != null
-                    ? PopupMenuButton<String>(
-                      tooltip: context.l10n.custom_buttons,
-                      icon: const Icon(Icons.terminal, color: Colors.white),
-                      itemBuilder:
-                          (context) =>
-                              value
-                                  .map(
-                                    (btn) => PopupMenuItem<String>(
-                                      value: btn.title!,
-                                      child: Text(btn.title!),
-                                      onTap: () {
-                                        (_player.platform as NativePlayer)
-                                            .command([
-                                              "script-message",
-                                              "call_button_${btn.id}",
-                                            ]);
-                                      },
-                                    ),
-                                  )
-                                  .toList(),
-                    )
-                    : Container(),
+              )
+            : Container(),
       ),
     ];
   }
@@ -1908,19 +1794,17 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
         PopupMenuButton<double>(
           tooltip: '', // Remove default tooltip "Show menu" for consistency
           icon: const Icon(Icons.speed, color: Colors.white),
-          itemBuilder:
-              (context) =>
-                  [0.25, 0.5, 0.75, 1.0, 1.25, 1.50, 1.75, 2.0]
-                      .map(
-                        (speed) => PopupMenuItem<double>(
-                          value: speed,
-                          child: Text("${speed}x"),
-                          onTap: () {
-                            _setPlaybackSpeed(speed);
-                          },
-                        ),
-                      )
-                      .toList(),
+          itemBuilder: (context) => [0.25, 0.5, 0.75, 1.0, 1.25, 1.50, 1.75, 2.0]
+              .map(
+                (speed) => PopupMenuItem<double>(
+                  value: speed,
+                  child: Text("${speed}x"),
+                  onTap: () {
+                    _setPlaybackSpeed(speed);
+                  },
+                ),
+              )
+              .toList(),
         ),
         IconButton(
           icon: const Icon(Icons.fit_screen_outlined, color: Colors.white),
@@ -1952,8 +1836,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
     final fullScreen = ref.watch(fullscreenProvider);
     return Padding(
       padding: EdgeInsets.only(
-        top:
-            !_isDesktop && !fullScreen ? MediaQuery.of(context).padding.top : 0,
+        top: !_isDesktop && !fullScreen ? MediaQuery.of(context).padding.top : 0,
       ),
       child: Row(
         children: [
@@ -2076,40 +1959,38 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
           ),
           fit: fit,
           key: _key,
-          controls:
-              (state) =>
-                  _isDesktop
-                      ? DesktopControllerWidget(
-                        videoController: _controller,
-                        topButtonBarWidget: _topButtonBar(context),
-                        videoStatekey: _key,
-                        bottomButtonBarWidget: _desktopBottomButtonBar(context),
-                        streamController: _streamController,
-                        seekToWidget: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: Row(children: [_seekToWidget()]),
-                        ),
-                        tempDuration: (value) {
-                          _tempPosition.value = value;
-                        },
-                        doubleSpeed: (value) {
-                          _isDoubleSpeed.value = value ?? false;
-                        },
-                        defaultSkipIntroLength: skipIntroLength,
-                        desktopFullScreenPlayer: widget.desktopFullScreenPlayer,
-                        chapterMarks: _chapterMarks,
-                      )
-                      : MobileControllerWidget(
-                        videoController: _controller,
-                        topButtonBarWidget: _topButtonBar(context),
-                        videoStatekey: _key,
-                        bottomButtonBarWidget: _mobileBottomButtonBar(context),
-                        streamController: _streamController,
-                        doubleSpeed: (value) {
-                          _isDoubleSpeed.value = value ?? false;
-                        },
-                        chapterMarks: _chapterMarks,
-                      ),
+          controls: (state) => _isDesktop
+              ? DesktopControllerWidget(
+                  videoController: _controller,
+                  topButtonBarWidget: _topButtonBar(context),
+                  videoStatekey: _key,
+                  bottomButtonBarWidget: _desktopBottomButtonBar(context),
+                  streamController: _streamController,
+                  seekToWidget: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(children: [_seekToWidget()]),
+                  ),
+                  tempDuration: (value) {
+                    _tempPosition.value = value;
+                  },
+                  doubleSpeed: (value) {
+                    _isDoubleSpeed.value = value ?? false;
+                  },
+                  defaultSkipIntroLength: skipIntroLength,
+                  desktopFullScreenPlayer: widget.desktopFullScreenPlayer,
+                  chapterMarks: _chapterMarks,
+                )
+              : MobileControllerWidget(
+                  videoController: _controller,
+                  topButtonBarWidget: _topButtonBar(context),
+                  videoStatekey: _key,
+                  bottomButtonBarWidget: _mobileBottomButtonBar(context),
+                  streamController: _streamController,
+                  doubleSpeed: (value) {
+                    _isDoubleSpeed.value = value ?? false;
+                  },
+                  chapterMarks: _chapterMarks,
+                ),
           controller: _controller,
           width: context.width(1),
           height: context.height(1),
@@ -2127,30 +2008,27 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                     textAlign: TextAlign.center,
                     TextSpan(
                       style: TextStyle(
-                        background:
-                            Paint()
-                              ..color =
-                                  Theme.of(context).scaffoldBackgroundColor
-                              ..strokeWidth = 30.0
-                              ..strokeJoin = StrokeJoin.round
-                              ..style = PaintingStyle.stroke,
+                        background: Paint()
+                          ..color = Theme.of(context).scaffoldBackgroundColor
+                          ..strokeWidth = 30.0
+                          ..strokeJoin = StrokeJoin.round
+                          ..style = PaintingStyle.stroke,
                       ),
-                      children:
-                          snapshot
-                              ? [
-                                TextSpan(
-                                  text: " 2X ",
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                      children: snapshot
+                          ? [
+                              TextSpan(
+                                text: " 2X ",
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                WidgetSpan(
-                                  alignment: PlaceholderAlignment.middle,
-                                  child: Icon(Icons.fast_forward),
-                                ),
-                              ]
-                              : [],
+                              ),
+                              WidgetSpan(
+                                alignment: PlaceholderAlignment.middle,
+                                child: Icon(Icons.fast_forward),
+                              ),
+                            ]
+                          : [],
                     ),
                   );
                 },
@@ -2173,10 +2051,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                   active: true,
                   autoSkip: enableAutoSkip,
                   timeoutLength: aniSkipTimeoutLength,
-                  skipTypeText:
-                      isOpening
-                          ? context.l10n.skip_opening
-                          : context.l10n.skip_ending,
+                  skipTypeText: isOpening ? context.l10n.skip_opening : context.l10n.skip_ending,
                   player: _player,
                   aniSkipResult: result,
                 );
@@ -2194,33 +2069,33 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
     return IconButton(
       onPressed: () async {
         onChanged?.call(false);
-        Widget button(String label, IconData icon, Function() onPressed) =>
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    shadowColor: Colors.transparent,
-                  ),
-                  onPressed: onPressed,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(4),
-                        child: Icon(icon),
-                      ),
-                      Text(label),
-                    ],
-                  ),
-                ),
+        Widget button(String label, IconData icon, Function() onPressed) => Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                shadowColor: Colors.transparent,
               ),
-            );
-        final name =
-            "${episode.manga.value!.name} ${episode.name} - ${_currentPosition.value.toString()}"
-                .replaceAll(RegExp(r'[^a-zA-Z0-9 .()\-\s]'), '_');
+              onPressed: onPressed,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Icon(icon),
+                  ),
+                  Text(label),
+                ],
+              ),
+            ),
+          ),
+        );
+        final name = "${episode.manga.value!.name} ${episode.name} - ${_currentPosition.value.toString()}".replaceAll(
+          RegExp(r'[^a-zA-Z0-9 .()\-\s]'),
+          '_',
+        );
         await showModalBottomSheet(
           context: context,
           constraints: BoxConstraints(maxWidth: context.width(1)),
@@ -2271,8 +2146,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                                       ),
                                       actions: [
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                          mainAxisAlignment: MainAxisAlignment.end,
                                           children: [
                                             TextButton(
                                               onPressed: () {
@@ -2283,17 +2157,12 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                                             const SizedBox(width: 15),
                                             TextButton(
                                               onPressed: () {
-                                                final manga =
-                                                    episode.manga.value!;
+                                                final manga = episode.manga.value!;
                                                 isar.writeTxnSync(() {
                                                   isar.mangas.putSync(
                                                     manga
-                                                      ..updatedAt =
-                                                          DateTime.now()
-                                                              .millisecondsSinceEpoch
-                                                      ..customCoverImage =
-                                                          imageBytes
-                                                              ?.getCoverImage,
+                                                      ..updatedAt = DateTime.now().millisecondsSinceEpoch
+                                                      ..customCoverImage = imageBytes?.getCoverImage,
                                                   );
                                                 });
                                                 if (context.mounted) {
@@ -2308,9 +2177,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                                     );
                                   },
                                 );
-                                if (res != null &&
-                                    res == "ok" &&
-                                    context.mounted) {
+                                if (res != null && res == "ok" && context.mounted) {
                                   Navigator.pop(context);
                                   botToast(
                                     context.l10n.cover_updated,
@@ -2329,8 +2196,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                                 includeLibassSubtitles: _includeSubtitles,
                               );
                               if (context.mounted) {
-                                final box =
-                                    context.findRenderObject() as RenderBox?;
+                                final box = context.findRenderObject() as RenderBox?;
                                 await SharePlus.instance.share(
                                   ShareParams(
                                     files: [
@@ -2340,9 +2206,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                                         mimeType: 'image/png',
                                       ),
                                     ],
-                                    sharePositionOrigin:
-                                        box!.localToGlobal(Offset.zero) &
-                                        box.size,
+                                    sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
                                   ),
                                 );
                               }
@@ -2356,8 +2220,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                                 format: "image/png",
                                 includeLibassSubtitles: _includeSubtitles,
                               );
-                              final dir =
-                                  await StorageProvider().getGalleryDirectory();
+                              final dir = await StorageProvider().getGalleryDirectory();
                               final file = File(
                                 path.join(dir!.path, "$name.png"),
                               );
@@ -2477,6 +2340,5 @@ mixin _AlwaysOnTopStateMixin<T extends StatefulWidget> on State<T> {
   }
 
   // Whether the platform support AlwaysOnTop feature.
-  bool _supportAlwaysOnTop() =>
-      !kIsWeb && (Platform.isLinux || Platform.isMacOS || Platform.isWindows);
+  bool _supportAlwaysOnTop() => !kIsWeb && (Platform.isLinux || Platform.isMacOS || Platform.isWindows);
 }

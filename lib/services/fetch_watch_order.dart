@@ -27,14 +27,10 @@ Future<List<SequelItem>> fetchSequels(
         "user-agent":
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
       },
-      body:
-          "user=${malUsername ?? anilistUsername}&list_source=${malUsername != null ? "mal" : "anilist"}$_sequelData",
+      body: "user=${malUsername ?? anilistUsername}&list_source=${malUsername != null ? "mal" : "anilist"}$_sequelData",
     );
     final data = jsonDecode(res.body) as Map<String, dynamic>?;
-    return (data?["data"] as List?)
-            ?.map((e) => SequelItem.fromJson(e))
-            .toList() ??
-        [];
+    return (data?["data"] as List?)?.map((e) => SequelItem.fromJson(e)).toList() ?? [];
   } catch (_) {
     return [];
   }
@@ -84,19 +80,12 @@ Future<List<WatchOrderItem>> fetchWatchOrder(String id) async {
               return WatchOrderItem(
                 id: e.attr("data-id") ?? id,
                 anilistId: e.attr("data-anilist-id") ?? "",
-                image:
-                    startIdx != -1 && endIdx != -1
-                        ? "https://chiaki.site/${img?.substring(startIdx + 5, endIdx)}"
-                        : "",
-                name:
-                    e.selectFirst("td > span.wo_title")?.text ??
-                    "Unknown title",
+                image: startIdx != -1 && endIdx != -1
+                    ? "https://chiaki.site/${img?.substring(startIdx + 5, endIdx)}"
+                    : "",
+                name: e.selectFirst("td > span.wo_title")?.text ?? "Unknown title",
                 nameEnglish: e.selectFirst("td > span.uk-text-small")?.text,
-                text:
-                    e
-                        .selectFirst("td > span.uk-text-muted.uk-text-small")
-                        ?.text ??
-                    "",
+                text: e.selectFirst("td > span.uk-text-muted.uk-text-small")?.text ?? "",
               );
             })
             .where((e) => e.name != "Unknown title")
@@ -149,11 +138,7 @@ class SequelItem {
       score: json["score"],
       scoreUsers: json["score_users"],
       type: json["type"],
-      reason:
-          (json["reason"] as List?)
-              ?.map((e) => SequelReason.fromJson(e))
-              .toList() ??
-          [],
+      reason: (json["reason"] as List?)?.map((e) => SequelReason.fromJson(e)).toList() ?? [],
     );
   }
 }

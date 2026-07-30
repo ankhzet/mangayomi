@@ -62,7 +62,8 @@ enum LogLevel {
   debug,
   info,
   warning,
-  error;
+  error
+  ;
 
   @override
   String toString() {

@@ -210,8 +210,7 @@ extension DownloadQueryWhere on QueryBuilder<Download, Download, QWhereClause> {
   }
 }
 
-extension DownloadQueryFilter
-    on QueryBuilder<Download, Download, QFilterCondition> {
+extension DownloadQueryFilter on QueryBuilder<Download, Download, QFilterCondition> {
   QueryBuilder<Download, Download, QAfterFilterCondition> failedIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -368,8 +367,7 @@ extension DownloadQueryFilter
     });
   }
 
-  QueryBuilder<Download, Download, QAfterFilterCondition>
-  isDownloadIsNotNull() {
+  QueryBuilder<Download, Download, QAfterFilterCondition> isDownloadIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'isDownload'),
@@ -387,8 +385,7 @@ extension DownloadQueryFilter
     });
   }
 
-  QueryBuilder<Download, Download, QAfterFilterCondition>
-  isStartDownloadIsNull() {
+  QueryBuilder<Download, Download, QAfterFilterCondition> isStartDownloadIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'isStartDownload'),
@@ -396,8 +393,7 @@ extension DownloadQueryFilter
     });
   }
 
-  QueryBuilder<Download, Download, QAfterFilterCondition>
-  isStartDownloadIsNotNull() {
+  QueryBuilder<Download, Download, QAfterFilterCondition> isStartDownloadIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'isStartDownload'),
@@ -405,8 +401,7 @@ extension DownloadQueryFilter
     });
   }
 
-  QueryBuilder<Download, Download, QAfterFilterCondition>
-  isStartDownloadEqualTo(bool? value) {
+  QueryBuilder<Download, Download, QAfterFilterCondition> isStartDownloadEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'isStartDownload', value: value),
@@ -565,11 +560,9 @@ extension DownloadQueryFilter
   }
 }
 
-extension DownloadQueryObject
-    on QueryBuilder<Download, Download, QFilterCondition> {}
+extension DownloadQueryObject on QueryBuilder<Download, Download, QFilterCondition> {}
 
-extension DownloadQueryLinks
-    on QueryBuilder<Download, Download, QFilterCondition> {
+extension DownloadQueryLinks on QueryBuilder<Download, Download, QFilterCondition> {
   QueryBuilder<Download, Download, QAfterFilterCondition> chapter(
     FilterQuery<Chapter> q,
   ) {
@@ -647,8 +640,7 @@ extension DownloadQuerySortBy on QueryBuilder<Download, Download, QSortBy> {
   }
 }
 
-extension DownloadQuerySortThenBy
-    on QueryBuilder<Download, Download, QSortThenBy> {
+extension DownloadQuerySortThenBy on QueryBuilder<Download, Download, QSortThenBy> {
   QueryBuilder<Download, Download, QAfterSortBy> thenByFailed() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'failed', Sort.asc);
@@ -722,8 +714,7 @@ extension DownloadQuerySortThenBy
   }
 }
 
-extension DownloadQueryWhereDistinct
-    on QueryBuilder<Download, Download, QDistinct> {
+extension DownloadQueryWhereDistinct on QueryBuilder<Download, Download, QDistinct> {
   QueryBuilder<Download, Download, QDistinct> distinctByFailed() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'failed');
@@ -755,8 +746,7 @@ extension DownloadQueryWhereDistinct
   }
 }
 
-extension DownloadQueryProperty
-    on QueryBuilder<Download, Download, QQueryProperty> {
+extension DownloadQueryProperty on QueryBuilder<Download, Download, QQueryProperty> {
   QueryBuilder<Download, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');

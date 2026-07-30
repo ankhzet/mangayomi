@@ -45,10 +45,8 @@ extension ChapterExtension on Chapter {
 
   static bool isChapterRead(Chapter chapter) => chapter.isRead ?? false;
   static bool isChapterUnread(Chapter chapter) => !(chapter.isRead ?? false);
-  static bool isChapterBookmarked(Chapter chapter) =>
-      chapter.isBookmarked ?? false;
-  static bool hasChapterScanlators(Chapter chapter) =>
-      chapter.scanlator?.isNotEmpty ?? false;
+  static bool isChapterBookmarked(Chapter chapter) => chapter.isBookmarked ?? false;
+  static bool hasChapterScanlators(Chapter chapter) => chapter.scanlator?.isNotEmpty ?? false;
 
   static DateTime? firstUpload(List<Chapter> chapters) {
     if (chapters.isEmpty) return null;

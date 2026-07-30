@@ -91,9 +91,7 @@ Category _categoryDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Category(
-    forItemType:
-        _CategoryforItemTypeValueEnumMap[reader.readByteOrNull(offsets[0])] ??
-        ItemType.manga,
+    forItemType: _CategoryforItemTypeValueEnumMap[reader.readByteOrNull(offsets[0])] ?? ItemType.manga,
     hide: reader.readBoolOrNull(offsets[2]),
     id: id,
     name: reader.readStringOrNull(offsets[3]),
@@ -113,9 +111,7 @@ P _categoryDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (_CategoryforItemTypeValueEnumMap[reader.readByteOrNull(offset)] ??
-              ItemType.manga)
-          as P;
+      return (_CategoryforItemTypeValueEnumMap[reader.readByteOrNull(offset)] ?? ItemType.manga) as P;
     case 1:
       return (reader.readBoolOrNull(offset)) as P;
     case 2:
@@ -230,8 +226,7 @@ extension CategoryQueryWhere on QueryBuilder<Category, Category, QWhereClause> {
   }
 }
 
-extension CategoryQueryFilter
-    on QueryBuilder<Category, Category, QFilterCondition> {
+extension CategoryQueryFilter on QueryBuilder<Category, Category, QFilterCondition> {
   QueryBuilder<Category, Category, QAfterFilterCondition> forItemTypeEqualTo(
     ItemType value,
   ) {
@@ -242,8 +237,10 @@ extension CategoryQueryFilter
     });
   }
 
-  QueryBuilder<Category, Category, QAfterFilterCondition>
-  forItemTypeGreaterThan(ItemType value, {bool include = false}) {
+  QueryBuilder<Category, Category, QAfterFilterCondition> forItemTypeGreaterThan(
+    ItemType value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -659,8 +656,7 @@ extension CategoryQueryFilter
     });
   }
 
-  QueryBuilder<Category, Category, QAfterFilterCondition>
-  shouldUpdateIsNotNull() {
+  QueryBuilder<Category, Category, QAfterFilterCondition> shouldUpdateIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'shouldUpdate'),
@@ -754,11 +750,9 @@ extension CategoryQueryFilter
   }
 }
 
-extension CategoryQueryObject
-    on QueryBuilder<Category, Category, QFilterCondition> {}
+extension CategoryQueryObject on QueryBuilder<Category, Category, QFilterCondition> {}
 
-extension CategoryQueryLinks
-    on QueryBuilder<Category, Category, QFilterCondition> {}
+extension CategoryQueryLinks on QueryBuilder<Category, Category, QFilterCondition> {}
 
 extension CategoryQuerySortBy on QueryBuilder<Category, Category, QSortBy> {
   QueryBuilder<Category, Category, QAfterSortBy> sortByForItemType() {
@@ -846,8 +840,7 @@ extension CategoryQuerySortBy on QueryBuilder<Category, Category, QSortBy> {
   }
 }
 
-extension CategoryQuerySortThenBy
-    on QueryBuilder<Category, Category, QSortThenBy> {
+extension CategoryQuerySortThenBy on QueryBuilder<Category, Category, QSortThenBy> {
   QueryBuilder<Category, Category, QAfterSortBy> thenByForItemType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'forItemType', Sort.asc);
@@ -945,8 +938,7 @@ extension CategoryQuerySortThenBy
   }
 }
 
-extension CategoryQueryWhereDistinct
-    on QueryBuilder<Category, Category, QDistinct> {
+extension CategoryQueryWhereDistinct on QueryBuilder<Category, Category, QDistinct> {
   QueryBuilder<Category, Category, QDistinct> distinctByForItemType() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'forItemType');
@@ -992,8 +984,7 @@ extension CategoryQueryWhereDistinct
   }
 }
 
-extension CategoryQueryProperty
-    on QueryBuilder<Category, Category, QQueryProperty> {
+extension CategoryQueryProperty on QueryBuilder<Category, Category, QQueryProperty> {
   QueryBuilder<Category, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');

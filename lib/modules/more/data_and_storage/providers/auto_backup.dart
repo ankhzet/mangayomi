@@ -24,8 +24,7 @@ class BackupFrequencyState extends _$BackupFrequencyState {
 class BackupFrequencyOptionsState extends _$BackupFrequencyOptionsState {
   @override
   List<int> build() {
-    return isar.settings.getSync(227)!.backupListOptions ??
-        [0, 1, 2, 3, 4, 5, 6, 7, 10];
+    return isar.settings.getSync(227)!.backupListOptions ?? [0, 1, 2, 3, 4, 5, 6, 7, 10];
   }
 
   void set(List<int> values) {
@@ -65,15 +64,12 @@ class AutoBackupLocationState extends _$AutoBackupLocationState {
   Directory? _storageProvider;
 
   Future _refresh() async {
-    _storageProvider =
-        Platform.isIOS
-            ? await StorageProvider().getIosBackupDirectory()
-            : await StorageProvider().getDefaultDirectory();
+    _storageProvider = Platform.isIOS
+        ? await StorageProvider().getIosBackupDirectory()
+        : await StorageProvider().getDefaultDirectory();
     final settings = isar.settings.getSync(227);
     state = (
-      Platform.isIOS
-          ? _storageProvider!.path
-          : p.join(_storageProvider!.path, "backup"),
+      Platform.isIOS ? _storageProvider!.path : p.join(_storageProvider!.path, "backup"),
       settings!.autoBackupLocation ?? "",
     );
   }
@@ -99,9 +95,7 @@ Future<void> checkAndBackup(Ref ref) async {
   } else {
     final defaultDirectory = await storageProvider.getDefaultDirectory();
     backupDirectory = Directory(
-      backupLocation.isEmpty
-          ? p.join(defaultDirectory!.path, "backup")
-          : backupLocation,
+      backupLocation.isEmpty ? p.join(defaultDirectory!.path, "backup") : backupLocation,
     );
   }
   await storageProvider.createDirectorySafely(backupDirectory!.path);

@@ -136,7 +136,11 @@ Future<dynamic> updateMangaDetail(Ref ref, {required int? mangaId, required bool
 
                   if (candidates.isNotEmpty) {
                     final duplicates = candidates
-                        .map((chapter) => ({ chapter.scanlator: [chapter] }))
+                        .map(
+                          (chapter) => ({
+                            chapter.scanlator: [chapter],
+                          }),
+                        )
                         .reduce((acc, map) {
                           final MapEntry(:key, :value) = map.entries.first;
                           final bucket = acc[key];
@@ -195,10 +199,11 @@ Future<dynamic> updateMangaDetail(Ref ref, {required int? mangaId, required bool
 
         final updates = added.reversed
             .where((chapter) => !skip.any((other) => other.isSameNumber(chapter)))
-            .map((chapter) => (
-              Update(mangaId: mangaId, chapterName: chapter.name, date: date, updatedAt: now)
-                ..chapter.value = chapter
-            ))
+            .map(
+              (chapter) =>
+                  (Update(mangaId: mangaId, chapterName: chapter.name, date: date, updatedAt: now)
+                    ..chapter.value = chapter),
+            )
             .toList(growable: false);
 
         isar.updates.putAllSync(updates);
@@ -208,7 +213,8 @@ Future<dynamic> updateMangaDetail(Ref ref, {required int? mangaId, required bool
         }
       }
 
-      if (allChanged.isNotEmpty) { // no need to recalculate if nothing changed
+      if (allChanged.isNotEmpty) {
+        // no need to recalculate if nothing changed
         final withDates = chaps.where((chapter) => chapter.dateUpload != null);
         final intervals = withDates.length - 1;
 
@@ -218,10 +224,7 @@ Future<dynamic> updateMangaDetail(Ref ref, {required int? mangaId, required bool
               .sorted()
               .map((timestamp) => DateTime.fromMillisecondsSinceEpoch(timestamp))
               .toList(growable: false);
-          final daysBetweenUploads = dates
-              .take(intervals)
-              .indexed
-              .map((i) => -i.$2.difference(dates[i.$1 + 1]).inDays);
+          final daysBetweenUploads = dates.take(intervals).indexed.map((i) => -i.$2.difference(dates[i.$1 + 1]).inDays);
 
           if (daysBetweenUploads.isNotEmpty) {
             final diffs = daysBetweenUploads.toList(growable: false);

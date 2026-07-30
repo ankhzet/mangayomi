@@ -30,9 +30,7 @@ class MExtensionServerPlatform {
         final port = server.port;
         await server.close();
         await MExtensionServer().startServer(port);
-        ref
-            .read(androidProxyServerStateProvider.notifier)
-            .set("http://127.0.0.1:$port");
+        ref.read(androidProxyServerStateProvider.notifier).set("http://127.0.0.1:$port");
       }
     } catch (e) {
       if (kDebugMode) {

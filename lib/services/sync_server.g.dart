@@ -59,8 +59,7 @@ final class SyncServerProvider extends $NotifierProvider<SyncServer, void> {
 
 String _$syncServerHash() => r'b525d04e4d86c99194aaca1cefbaa346a80b075f';
 
-final class SyncServerFamily extends $Family
-    with $ClassFamilyOverride<SyncServer, void, void, void, int> {
+final class SyncServerFamily extends $Family with $ClassFamilyOverride<SyncServer, void, void, void, int> {
   SyncServerFamily._()
     : super(
         retry: null,
@@ -70,8 +69,7 @@ final class SyncServerFamily extends $Family
         isAutoDispose: true,
       );
 
-  SyncServerProvider call({required int syncId}) =>
-      SyncServerProvider._(argument: syncId, from: this);
+  SyncServerProvider call({required int syncId}) => SyncServerProvider._(argument: syncId, from: this);
 
   @override
   String toString() => r'syncServerProvider';
@@ -86,14 +84,7 @@ abstract class _$SyncServer extends $Notifier<void> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<void, void>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<void, void>,
-              void,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<void, void>, void, Object?, Object?>;
     element.handleCreate(ref, () => build(syncId: _$args));
   }
 }

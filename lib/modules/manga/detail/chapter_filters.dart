@@ -124,9 +124,7 @@ class _ChapterFiltersState extends ConsumerState<ChapterFilters> {
                 label: scanlators.$1[index],
                 type: scanlators.$3.contains(scanlators.$1[index]) ? 2 : 0,
                 onTap: () {
-                  ref
-                      .read(scanlatorsFilterStateProvider(manga).notifier)
-                      .setFilteredList(scanlators.$1[index]);
+                  ref.read(scanlatorsFilterStateProvider(manga).notifier).setFilteredList(scanlators.$1[index]);
                 },
               ),
             ),

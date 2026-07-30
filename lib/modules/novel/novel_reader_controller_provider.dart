@@ -73,8 +73,7 @@ class NovelReaderController extends _$NovelReaderController {
     });
     History? history;
 
-    final empty =
-        isar.historys.filter().mangaIdEqualTo(getManga().id).isEmptySync();
+    final empty = isar.historys.filter().mangaIdEqualTo(getManga().id).isEmptySync();
 
     if (empty) {
       history = History(
@@ -84,14 +83,10 @@ class NovelReaderController extends _$NovelReaderController {
         chapterId: chapter.id,
       )..chapter.value = chapter;
     } else {
-      history =
-          (isar.historys
-                .filter()
-                .mangaIdEqualTo(getManga().id)
-                .findFirstSync())!
-            ..chapterId = chapter.id
-            ..chapter.value = chapter
-            ..date = DateTime.now().millisecondsSinceEpoch.toString();
+      history = (isar.historys.filter().mangaIdEqualTo(getManga().id).findFirstSync())!
+        ..chapterId = chapter.id
+        ..chapter.value = chapter
+        ..date = DateTime.now().millisecondsSinceEpoch.toString();
     }
     isar.writeTxnSync(() {
       history!.updatedAt = DateTime.now().millisecondsSinceEpoch;
@@ -107,8 +102,7 @@ class NovelReaderController extends _$NovelReaderController {
       final ch = chapter;
       isar.writeTxnSync(() {
         ch.isRead = isRead;
-        ch.lastPageRead =
-            (maxOffset != 0 ? newOffset / maxOffset : 0).toString();
+        ch.lastPageRead = (maxOffset != 0 ? newOffset / maxOffset : 0).toString();
         ch.updatedAt = DateTime.now().millisecondsSinceEpoch;
         isar.chapters.putSync(ch);
       });
@@ -205,9 +199,7 @@ class NovelReaderController extends _$NovelReaderController {
   }
 
   int getChaptersLength(bool isInFilterList) {
-    return isInFilterList
-        ? getManga().getFilteredChapterList().length
-        : getManga().chapters.length;
+    return isInFilterList ? getManga().getFilteredChapterList().length : getManga().chapters.length;
   }
 
   String getMangaName() {

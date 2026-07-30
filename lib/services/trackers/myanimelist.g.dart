@@ -15,8 +15,7 @@ final myAnimeListProvider = MyAnimeListFamily._();
 final class MyAnimeListProvider extends $NotifierProvider<MyAnimeList, void> {
   MyAnimeListProvider._({
     required MyAnimeListFamily super.from,
-    required ({int syncId, ItemType? itemType, dynamic widgetRef})
-    super.argument,
+    required ({int syncId, ItemType? itemType, dynamic widgetRef}) super.argument,
   }) : super(
          retry: null,
          name: r'myAnimeListProvider',
@@ -61,14 +60,7 @@ final class MyAnimeListProvider extends $NotifierProvider<MyAnimeList, void> {
 String _$myAnimeListHash() => r'2aeddba481f6f97fac7ce2037f6c38f84acf755d';
 
 final class MyAnimeListFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          MyAnimeList,
-          void,
-          void,
-          void,
-          ({int syncId, ItemType? itemType, dynamic widgetRef})
-        > {
+    with $ClassFamilyOverride<MyAnimeList, void, void, void, ({int syncId, ItemType? itemType, dynamic widgetRef})> {
   MyAnimeListFamily._()
     : super(
         retry: null,
@@ -92,8 +84,7 @@ final class MyAnimeListFamily extends $Family
 }
 
 abstract class _$MyAnimeList extends $Notifier<void> {
-  late final _$args =
-      ref.$arg as ({int syncId, ItemType? itemType, dynamic widgetRef});
+  late final _$args = ref.$arg as ({int syncId, ItemType? itemType, dynamic widgetRef});
   int get syncId => _$args.syncId;
   ItemType? get itemType => _$args.itemType;
   dynamic get widgetRef => _$args.widgetRef;
@@ -107,14 +98,7 @@ abstract class _$MyAnimeList extends $Notifier<void> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<void, void>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<void, void>,
-              void,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<void, void>, void, Object?, Object?>;
     element.handleCreate(
       ref,
       () => build(

@@ -28,26 +28,25 @@ class CustomPopupMenuButton<T> extends StatelessWidget {
         offset: Offset.fromDirection(1),
         color: Colors.black,
         onSelected: onSelected,
-        itemBuilder:
-            (context) => [
-              for (var d in list)
-                PopupMenuItem(
-                  value: d,
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.check,
-                        color: d == value ? Colors.white : Colors.transparent,
-                      ),
-                      const SizedBox(width: 7),
-                      Text(
-                        itemText(d),
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ],
+        itemBuilder: (context) => [
+          for (var d in list)
+            PopupMenuItem(
+              value: d,
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.check,
+                    color: d == value ? Colors.white : Colors.transparent,
                   ),
-                ),
-            ],
+                  const SizedBox(width: 7),
+                  Text(
+                    itemText(d),
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+        ],
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Row(

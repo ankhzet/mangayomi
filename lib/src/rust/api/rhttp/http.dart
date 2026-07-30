@@ -18,10 +18,8 @@ part 'http.freezed.dart';
 Future<RequestClient> registerClient({required ClientSettings settings}) =>
     RustLib.instance.api.crateApiRhttpHttpRegisterClient(settings: settings);
 
-RequestClient registerClientSync({required ClientSettings settings}) => RustLib
-    .instance
-    .api
-    .crateApiRhttpHttpRegisterClientSync(settings: settings);
+RequestClient registerClientSync({required ClientSettings settings}) =>
+    RustLib.instance.api.crateApiRhttpHttpRegisterClientSync(settings: settings);
 
 Future<void> cancelRunningRequests({required RequestClient client}) =>
     RustLib.instance.api.crateApiRhttpHttpCancelRunningRequests(client: client);
@@ -60,8 +58,7 @@ sealed class HttpHeaders with _$HttpHeaders {
   const HttpHeaders._();
 
   const factory HttpHeaders.map(Map<String, String> field0) = HttpHeaders_Map;
-  const factory HttpHeaders.list(List<(String, String)> field0) =
-      HttpHeaders_List;
+  const factory HttpHeaders.list(List<(String, String)> field0) = HttpHeaders_List;
 }
 
 enum HttpMethod {
@@ -90,8 +87,7 @@ class HttpResponse {
   });
 
   @override
-  int get hashCode =>
-      headers.hashCode ^ version.hashCode ^ statusCode.hashCode ^ body.hashCode;
+  int get hashCode => headers.hashCode ^ version.hashCode ^ statusCode.hashCode ^ body.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -109,8 +105,7 @@ sealed class HttpResponseBody with _$HttpResponseBody {
   const HttpResponseBody._();
 
   const factory HttpResponseBody.text(String field0) = HttpResponseBody_Text;
-  const factory HttpResponseBody.bytes(Uint8List field0) =
-      HttpResponseBody_Bytes;
+  const factory HttpResponseBody.bytes(Uint8List field0) = HttpResponseBody_Bytes;
   const factory HttpResponseBody.stream() = HttpResponseBody_Stream;
 }
 

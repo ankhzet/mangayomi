@@ -117,8 +117,5 @@ class EpubResource {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is EpubResource &&
-          runtimeType == other.runtimeType &&
-          name == other.name &&
-          content == other.content;
+      other is EpubResource && runtimeType == other.runtimeType && name == other.name && content == other.content;
 }

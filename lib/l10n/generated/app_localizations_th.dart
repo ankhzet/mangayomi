@@ -75,7 +75,8 @@ class AppLocalizationsTh extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'คุณกำลังลบทั้งหมด $count $entryTypePluralของ$mediaTypeนี้ออกจากคลังของคุณ',
+      other:
+          'คุณกำลังลบทั้งหมด $count $entryTypePluralของ$mediaTypeนี้ออกจากคลังของคุณ',
       one: 'คุณกำลังลบ$entryTypeเดียวของ$mediaTypeนี้ออกจากคลังของคุณ',
     );
     return '$_temp0\nสิ่งนี้จะลบ$mediaTypeทั้งหมดออกจากคลังของคุณด้วย\n\nหมายเหตุ: ไฟล์จะไม่ถูกลบ';
@@ -110,6 +111,14 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get compact_grid => 'กระทัดรัด';
+
+  @override
+  String get compression_level => 'ระดับการบีบอัด';
+
+  @override
+  String compression_info(Object level) {
+    return 'การบีบอัดที่สูงขึ้น = พื้นที่น้อยลง แต่ CPU มากขึ้น ค่าเริ่มต้น: $level';
+  }
 
   @override
   String get comfortable_grid => 'พอดี';
@@ -166,10 +175,12 @@ class AppLocalizationsTh extends AppLocalizations {
   String get remove_everything => 'ลบออกทุกอย่าง';
 
   @override
-  String get remove_everything_msg => 'ประวัติทุกอย่างจะหายไป คุณแน่ใจนะว่าจะลบ?';
+  String get remove_everything_msg =>
+      'ประวัติทุกอย่างจะหายไป คุณแน่ใจนะว่าจะลบ?';
 
   @override
-  String get remove_all_update_msg => 'คุณแน่ใจหรือไม่? การอัปเดตทั้งหมดจะถูกลบ';
+  String get remove_all_update_msg =>
+      'คุณแน่ใจหรือไม่? การอัปเดตทั้งหมดจะถูกลบ';
 
   @override
   String get ok => 'ตกลง';
@@ -181,7 +192,8 @@ class AppLocalizationsTh extends AppLocalizations {
   String get remove => 'ลบ';
 
   @override
-  String get remove_history_msg => 'นี่จะเป็นการลบวันที่อ่านของตอนนี้ คุณแน่ใจนะ?';
+  String get remove_history_msg =>
+      'นี่จะเป็นการลบวันที่อ่านของตอนนี้ คุณแน่ใจนะ?';
 
   @override
   String get last_used => 'ใช้ล่าสุด';
@@ -208,6 +220,236 @@ class AppLocalizationsTh extends AppLocalizations {
   String get migrate => 'ผนวก';
 
   @override
+  String get mass_migration_title => 'การอพยพแบบรวม';
+
+  @override
+  String get mass_migration_preview_items => 'ตัวอย่างรายการ';
+
+  @override
+  String get mass_migration_destination_source => 'Destination source';
+
+  @override
+  String get mass_migration_no_library_items =>
+      'No library items are available for mass migration.';
+
+  @override
+  String get mass_migration_no_destination_sources =>
+      'No installed destination sources are available.';
+
+  @override
+  String get mass_migration_installed => 'Installed';
+
+  @override
+  String mass_migration_items_ready_for_review(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items ready for review',
+      one: '1 item ready for review',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mass_migration_item_count(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '1 item',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mass_migration_select_destination_source =>
+      'Select destination source';
+
+  @override
+  String mass_migration_finding_matches(Object source, Object language) {
+    return 'Finding matches in $source • $language';
+  }
+
+  @override
+  String mass_migration_processing_item(int current, int total) {
+    return 'Processing item $current of $total';
+  }
+
+  @override
+  String get mass_migration_waiting_next_item =>
+      'Waiting 2 seconds before the next item...';
+
+  @override
+  String get mass_migration_waiting_next_migration =>
+      'Waiting 2 seconds before the next migration...';
+
+  @override
+  String mass_migration_matched_so_far(int count) {
+    return 'Matched so far: $count';
+  }
+
+  @override
+  String mass_migration_no_match_count(int count) {
+    return 'No match: $count';
+  }
+
+  @override
+  String mass_migration_review_matches(Object source) {
+    return 'Review matches for $source';
+  }
+
+  @override
+  String mass_migration_found_matches(int count) {
+    return 'Found matches: $count';
+  }
+
+  @override
+  String mass_migration_no_matches(int count) {
+    return 'No matches: $count';
+  }
+
+  @override
+  String mass_migration_selected_to_migrate(int count) {
+    return 'Selected to migrate: $count';
+  }
+
+  @override
+  String get mass_migration_finish_review => 'Finish review';
+
+  @override
+  String mass_migration_migrate_selected(int count) {
+    return 'Migrate selected items ($count)';
+  }
+
+  @override
+  String mass_migration_migrating_selected(Object source) {
+    return 'Migrating selected items to $source';
+  }
+
+  @override
+  String get mass_migration_no_items_selected =>
+      'No items selected for migration.';
+
+  @override
+  String mass_migration_migrating_item(int current, int total) {
+    return 'Migrating item $current of $total';
+  }
+
+  @override
+  String get mass_migration_complete => 'Mass migration complete';
+
+  @override
+  String get mass_migration_complete_success_message =>
+      'All selected items were processed successfully.';
+
+  @override
+  String get mass_migration_complete_partial_message =>
+      'Migration finished with a few items that still need manual attention.';
+
+  @override
+  String mass_migration_route_summary(Object source, Object destination) {
+    return '$source → $destination';
+  }
+
+  @override
+  String get mass_migration_processed => 'Processed';
+
+  @override
+  String get mass_migration_matched => 'Matched';
+
+  @override
+  String get mass_migration_migrated => 'Migrated';
+
+  @override
+  String get mass_migration_skipped => 'Skipped';
+
+  @override
+  String get mass_migration_failed => 'Failed';
+
+  @override
+  String get mass_migration_failed_items => 'Failed Items';
+
+  @override
+  String get mass_migration_exit => 'Exit Mass Migration';
+
+  @override
+  String get mass_migration_no_destination_match =>
+      'No destination match found';
+
+  @override
+  String mass_migration_query(Object query) {
+    return 'Query: $query';
+  }
+
+  @override
+  String get mass_migration_skip => 'Skip';
+
+  @override
+  String get mass_migration_loading => 'Loading...';
+
+  @override
+  String get mass_migration_choose_another_result => 'Choose another result';
+
+  @override
+  String get mass_migration_source_chapters => 'Source chapters';
+
+  @override
+  String get mass_migration_destination_chapters => 'Destination chapters';
+
+  @override
+  String mass_migration_chapter_count(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count chapters',
+      one: '1 chapter',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mass_migration_source_chapter_count(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count source chapters',
+      one: '1 source chapter',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mass_migration_destination_chapter_count(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count destination chapters',
+      one: '1 destination chapter',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mass_migration_no_chapters_found => 'No chapters found.';
+
+  @override
+  String mass_migration_and_more_chapters(int count) {
+    return 'And $count more...';
+  }
+
+  @override
+  String get mass_migration_unknown_title => 'Unknown title';
+
+  @override
+  String get mass_migration_unknown_match => 'Unknown match';
+
+  @override
+  String get mass_migration_unknown_source => 'Unknown source';
+
+  @override
+  String get mass_migration_unknown_chapter => 'Unknown chapter';
+
+  @override
   String get migrate_confirm => 'ย้ายไปยังแหล่งอื่น';
 
   @override
@@ -219,7 +461,8 @@ class AppLocalizationsTh extends AppLocalizations {
   }
 
   @override
-  String get clean_database_desc => 'สิ่งนี้จะลบรายการทั้งหมดที่ไม่ได้เพิ่มในห้องสมุด!';
+  String get clean_database_desc =>
+      'สิ่งนี้จะลบรายการทั้งหมดที่ไม่ได้เพิ่มในห้องสมุด!';
 
   @override
   String get incognito_mode => 'โหมดไม่ระบุตัวตน';
@@ -231,7 +474,8 @@ class AppLocalizationsTh extends AppLocalizations {
   String get downloaded_only => 'ที่ดาวน์โหลดแล้วเท่านั้น';
 
   @override
-  String get downloaded_only_description => 'แสดงเฉพาะรายการที่ดาวน์โหลดแล้วในห้องสมุดของคุณ';
+  String get downloaded_only_description =>
+      'แสดงเฉพาะรายการที่ดาวน์โหลดแล้วในห้องสมุดของคุณ';
 
   @override
   String get download_queue => 'คิวดาวน์โหลด';
@@ -369,7 +613,8 @@ class AppLocalizationsTh extends AppLocalizations {
   String get reading_mode_webtoon => 'เว็บตูน';
 
   @override
-  String get double_tap_animation_speed => 'ความเร็วการเคลื่อนไหวของการแตะสองครั้ง';
+  String get double_tap_animation_speed =>
+      'ความเร็วการเคลื่อนไหวของการแตะสองครั้ง';
 
   @override
   String get normal => 'ปกติ';
@@ -403,6 +648,9 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get save_as_cbz_archive => 'จัดเก็บเป็น CBZ';
+
+  @override
+  String get delete_download_after_reading => 'ลบหลังอ่าน';
 
   @override
   String get concurrent_downloads => 'ดาวน์โหลดพร้อมกัน';
@@ -624,6 +872,13 @@ class AppLocalizationsTh extends AppLocalizations {
   String get import_files => 'ไฟล์';
 
   @override
+  String get split_epub_chapters => 'แบ่งออกเป็นบท';
+
+  @override
+  String get split_epub_chapters_description =>
+      'นำเข้าแต่ละบท EPUB เป็นรายการแยกต่างหาก';
+
+  @override
   String get nothing_read_recently => 'ยังไม่ได้อ่านอะไรเลย';
 
   @override
@@ -717,13 +972,15 @@ class AppLocalizationsTh extends AppLocalizations {
   String get sync_button_upload => 'อัปโหลดเท่านั้น';
 
   @override
-  String get sync_button_upload_info => 'การดำเนินการนี้จะแทนที่ข้อมูลระยะไกลด้วยข้อมูลในเครื่องทั้งหมด!';
+  String get sync_button_upload_info =>
+      'การดำเนินการนี้จะแทนที่ข้อมูลระยะไกลด้วยข้อมูลในเครื่องทั้งหมด!';
 
   @override
   String get sync_button_download => 'ดาวน์โหลดเท่านั้น';
 
   @override
-  String get sync_button_download_info => 'การดำเนินการนี้จะแทนที่ข้อมูลในเครื่องด้วยข้อมูลระยะไกลทั้งหมด!';
+  String get sync_button_download_info =>
+      'การดำเนินการนี้จะแทนที่ข้อมูลในเครื่องด้วยข้อมูลระยะไกลทั้งหมด!';
 
   @override
   String get sync_on => 'เปิดการซิงค์';
@@ -771,13 +1028,15 @@ class AppLocalizationsTh extends AppLocalizations {
   String get reorder_navigation => 'ปรับแต่งการนำทาง';
 
   @override
-  String get reorder_navigation_description => 'จัดเรียงและปรับแต่งการนำทางแต่ละรายการตามความต้องการของคุณ';
+  String get reorder_navigation_description =>
+      'จัดเรียงและปรับแต่งการนำทางแต่ละรายการตามความต้องการของคุณ';
 
   @override
   String get full_screen_player => 'ใช้โหมดเต็มหน้าจอ';
 
   @override
-  String get full_screen_player_info => 'ใช้โหมดเต็มหน้าจอโดยอัตโนมัติเมื่อเล่นวิดีโอ';
+  String get full_screen_player_info =>
+      'ใช้โหมดเต็มหน้าจอโดยอัตโนมัติเมื่อเล่นวิดีโอ';
 
   @override
   String episode_progress(Object n) {
@@ -912,7 +1171,8 @@ class AppLocalizationsTh extends AppLocalizations {
   String get auto_extensions_updates => 'อัพเดทส่วนขยายอัตโนมัติ';
 
   @override
-  String get auto_extensions_updates_subtitle => 'จะทำการอัพเดทส่วนขยายเมื่อมีเวอร์ชั่นใหม่พร้อมใช้งานโดยอัตโนมัติ';
+  String get auto_extensions_updates_subtitle =>
+      'จะทำการอัพเดทส่วนขยายเมื่อมีเวอร์ชั่นใหม่พร้อมใช้งานโดยอัตโนมัติ';
 
   @override
   String get check_for_app_updates => 'ตรวจสอบการอัปเดตแอปเมื่อเริ่มต้น';
@@ -985,7 +1245,8 @@ class AppLocalizationsTh extends AppLocalizations {
   String get create_backup_dialog_title => 'คุณต้องการสำรองอะไรบ้าง?';
 
   @override
-  String get create_backup_subtitle => 'สามารถใช้ในการกู้คืนชั้นหนังสือปัจจุบัน';
+  String get create_backup_subtitle =>
+      'สามารถใช้ในการกู้คืนชั้นหนังสือปัจจุบัน';
 
   @override
   String get restore_backup => 'กู้คืนการสำรอง';
@@ -1009,10 +1270,12 @@ class AppLocalizationsTh extends AppLocalizations {
   String get backup_options_dialog_title => 'คุณต้องการสำรองอะไรบ้าง?';
 
   @override
-  String get backup_options_subtitle => 'ข้อมูลอะไรบ้างที่ต้องการรวมไว้ในไฟล์สำรอง';
+  String get backup_options_subtitle =>
+      'ข้อมูลอะไรบ้างที่ต้องการรวมไว้ในไฟล์สำรอง';
 
   @override
-  String get backup_and_restore_warning_info => 'คุณควรเก็บสำเนาไฟล์สำรองไว้ที่อื่นด้วย';
+  String get backup_and_restore_warning_info =>
+      'คุณควรเก็บสำเนาไฟล์สำรองไว้ที่อื่นด้วย';
 
   @override
   String get library_entries => 'รายการชั้นหนังสือ';
@@ -1074,19 +1337,26 @@ class AppLocalizationsTh extends AppLocalizations {
   String get video_audio => 'เสียง';
 
   @override
-  String get video_audio_info => 'ภาษาที่ต้องการ, การแก้ไขระดับเสียง, ช่องเสียง';
+  String get video_audio_info =>
+      'ภาษาที่ต้องการ, การแก้ไขระดับเสียง, ช่องเสียง';
 
   @override
   String get player => 'ตัวเล่น';
 
   @override
-  String get markEpisodeAsSeenSetting => 'กำหนดจุดที่จะทำเครื่องหมายตอนว่าดูแล้ว';
+  String get markEpisodeAsSeenSetting =>
+      'กำหนดจุดที่จะทำเครื่องหมายตอนว่าดูแล้ว';
+
+  @override
+  String get mark_duplicate_chapters_read =>
+      'Mark duplicate chapter numbers as read';
 
   @override
   String get default_skip_intro_length => 'ค่าพื้นฐานความยาวการเข้าอินโทร';
 
   @override
-  String get default_playback_speed_length => 'ค่าพื้นฐานความยาวความเร็วการเล่น';
+  String get default_playback_speed_length =>
+      'ค่าพื้นฐานความยาวความเร็วการเล่น';
 
   @override
   String get updateProgressAfterReading => 'อัพเดทความคืบหน้าหลังอ่าน';
@@ -1098,10 +1368,12 @@ class AppLocalizationsTh extends AppLocalizations {
   String get show_extensions => 'แสดงส่วนขยาย';
 
   @override
-  String get default_skip_forward_skip_length => 'ค่าพื้นฐานความยาวการข้ามไปข้างหน้า';
+  String get default_skip_forward_skip_length =>
+      'ค่าพื้นฐานความยาวการข้ามไปข้างหน้า';
 
   @override
-  String get aniskip_requires_info => 'AniSkip จำเป็นต้องใช้การติดตามอนิเมะ MAL หรือ Anilist เพื่อใช้งาน';
+  String get aniskip_requires_info =>
+      'AniSkip จำเป็นต้องใช้การติดตามอนิเมะ MAL หรือ Anilist เพื่อใช้งาน';
 
   @override
   String get enable_aniskip => 'เปิดใช้ AniSkip';
@@ -1250,7 +1522,8 @@ class AppLocalizationsTh extends AppLocalizations {
   String get background => 'พื้นหลัง';
 
   @override
-  String get no_subtite_warning_message => 'ไม่มีผลกระทบเนื่องจากไม่มีคำบรรยายใด ๆ ในวีดีโอนี้';
+  String get no_subtite_warning_message =>
+      'ไม่มีผลกระทบเนื่องจากไม่มีคำบรรยายใด ๆ ในวีดีโอนี้';
 
   @override
   String get grid_size => 'ขนาดตาราง';
@@ -1270,7 +1543,8 @@ class AppLocalizationsTh extends AppLocalizations {
   String get use_libass => 'เปิดใช้งาน libass';
 
   @override
-  String get use_libass_info => 'ใช้การเรนเดอร์คำบรรยายที่ใช้ libass สำหรับแบ็คเอนด์พื้นเมือง';
+  String get use_libass_info =>
+      'ใช้การเรนเดอร์คำบรรยายที่ใช้ libass สำหรับแบ็คเอนด์พื้นเมือง';
 
   @override
   String get libass_not_disable_message =>
@@ -1353,7 +1627,8 @@ class AppLocalizationsTh extends AppLocalizations {
   String get cache_cleared => 'ล้างแคชแล้ว';
 
   @override
-  String get clear_chapter_or_episode_cache_on_app_launch => 'ล้างแคชบท/ตอนเมื่อเปิดแอป';
+  String get clear_chapter_or_episode_cache_on_app_launch =>
+      'ล้างแคชบท/ตอนเมื่อเปิดแอป';
 
   @override
   String get app_settings => 'การตั้งค่าแอป';
@@ -1362,13 +1637,15 @@ class AppLocalizationsTh extends AppLocalizations {
   String get sources_settings => 'การตั้งค่าแหล่งข้อมูล';
 
   @override
-  String get include_sensitive_settings => 'รวมการตั้งค่าที่อ่อนไหว (เช่น โทเค็นการเข้าสู่ระบบของตัวติดตาม)';
+  String get include_sensitive_settings =>
+      'รวมการตั้งค่าที่อ่อนไหว (เช่น โทเค็นการเข้าสู่ระบบของตัวติดตาม)';
 
   @override
   String get create => 'สร้าง';
 
   @override
-  String get downloads_are_limited_to_wifi => 'การดาวน์โหลดจำกัดเฉพาะ Wi-Fi เท่านั้น';
+  String get downloads_are_limited_to_wifi =>
+      'การดาวน์โหลดจำกัดเฉพาะ Wi-Fi เท่านั้น';
 
   @override
   String get recommendations => 'แนะนำ';
@@ -1416,7 +1693,8 @@ class AppLocalizationsTh extends AppLocalizations {
   String get undefined => 'ไม่ได้กำหนด';
 
   @override
-  String get empty_extensions_repo => 'คุณไม่มี URL ที่เก็บข้อมูลที่นี่ คลิกปุ่มเพิ่มเพื่อเพิ่ม!';
+  String get empty_extensions_repo =>
+      'คุณไม่มี URL ที่เก็บข้อมูลที่นี่ คลิกปุ่มเพิ่มเพื่อเพิ่ม!';
 
   @override
   String get add_extensions_repo => 'เพิ่ม URL ที่เก็บข้อมูล';
@@ -1510,7 +1788,8 @@ class AppLocalizationsTh extends AppLocalizations {
   String get enable_hardware_accel => 'การเร่งฮาร์ดแวร์';
 
   @override
-  String get enable_hardware_accel_info => 'เปิด/ปิดหากคุณพบข้อผิดพลาดหรือการขัดข้อง';
+  String get enable_hardware_accel_info =>
+      'เปิด/ปิดหากคุณพบข้อผิดพลาดหรือการขัดข้อง';
 
   @override
   String get track_library_navigate => 'ไปที่รายการในเครื่องที่มีอยู่';
@@ -1519,10 +1798,12 @@ class AppLocalizationsTh extends AppLocalizations {
   String get track_library_add => 'เพิ่มไปยังห้องสมุดในเครื่อง';
 
   @override
-  String get track_library_add_confirm => 'เพิ่มรายการที่ติดตามไปยังห้องสมุดในเครื่อง';
+  String get track_library_add_confirm =>
+      'เพิ่มรายการที่ติดตามไปยังห้องสมุดในเครื่อง';
 
   @override
-  String get track_library_not_logged => 'เข้าสู่ระบบตัวติดตามที่เกี่ยวข้องเพื่อใช้คุณสมบัตินี้!';
+  String get track_library_not_logged =>
+      'เข้าสู่ระบบตัวติดตามที่เกี่ยวข้องเพื่อใช้คุณสมบัตินี้!';
 
   @override
   String get track_library_switch => 'สลับไปยังตัวติดตามอื่น';
@@ -1537,10 +1818,12 @@ class AppLocalizationsTh extends AppLocalizations {
   String get enable_discord_rpc => 'เปิดใช้งาน Discord RPC';
 
   @override
-  String get hide_discord_rpc_incognito => 'ซ่อน Discord RPC ในโหมดไม่ระบุตัวตน';
+  String get hide_discord_rpc_incognito =>
+      'ซ่อน Discord RPC ในโหมดไม่ระบุตัวตน';
 
   @override
-  String get rpc_show_reading_watching_progress => 'แสดงตอนปัจจุบันใน Discord (ต้องรีสตาร์ท)';
+  String get rpc_show_reading_watching_progress =>
+      'แสดงตอนปัจจุบันใน Discord (ต้องรีสตาร์ท)';
 
   @override
   String get rpc_show_title => 'แสดงชื่อปัจจุบันใน Discord';
@@ -1694,7 +1977,8 @@ class AppLocalizationsTh extends AppLocalizations {
   String get clear_library => 'ล้างห้องสมุด';
 
   @override
-  String get clear_library_desc => 'เลือกล้างรายการมังงะ, อนิเมะ และ/หรือ นิยายทั้งหมด';
+  String get clear_library_desc =>
+      'เลือกล้างรายการมังงะ, อนิเมะ และ/หรือ นิยายทั้งหมด';
 
   @override
   String get clear_library_input =>
@@ -1748,17 +2032,460 @@ class AppLocalizationsTh extends AppLocalizations {
   }
 
   @override
-  String get default_user_agent => 'Defaul user agent';
+  String get default_user_agent => 'ตัวแทนผู้ใช้เริ่มต้น';
 
   @override
-  String get forceLandscapeMode => 'Force landscape mode';
+  String get forceLandscapeMode => 'บังคับโหมดแนวนอน';
 
   @override
-  String get forceLandscapeModeSubtitle => 'Force the player to use landscape orientation.';
+  String get forceLandscapeModeSubtitle =>
+      'บังคับให้เครื่องเล่นใช้การวางแนวแนวนอน';
 
   @override
   String get dns_over_https => 'DNS-over-HTTPS (DoH)';
 
   @override
-  String get dns_provider => 'DNS Provider';
+  String get dns_provider => 'ผู้ให้บริการ DNS';
+
+  @override
+  String get tracked => 'ติดตามแล้ว';
+
+  @override
+  String get auth_unlock_msg => 'ยืนยันตัวตนเพื่อปลดล็อก Mangayomi';
+
+  @override
+  String get app_locked => 'Mangayomi ถูกล็อก';
+
+  @override
+  String get auth_to_continue => 'ยืนยันตัวตนเพื่อดำเนินการต่อ';
+
+  @override
+  String get authenticating => 'กำลังยืนยันตัวตน...';
+
+  @override
+  String get unlock => 'ปลดล็อก';
+
+  @override
+  String get security => 'ความปลอดภัย';
+
+  @override
+  String get auth_to_change_security_setting =>
+      'ยืนยันตัวตนเพื่อเปลี่ยนการตั้งค่าความปลอดภัย';
+
+  @override
+  String get app_lock => 'ล็อกแอป';
+
+  @override
+  String get require_biometric_or_device_credential =>
+      'ต้องใช้การยืนยันตัวตนแบบไบโอเมตริกหรือข้อมูลประจำตัวอุปกรณ์เพื่อเปิดแอป';
+
+  @override
+  String get biometric_or_device_credential_not_available =>
+      'ไม่มีการยืนยันตัวตนแบบไบโอเมตริกในอุปกรณ์นี้';
+
+  @override
+  String get app_lock_description =>
+      'เมื่อเปิดใช้งานล็อกแอป คุณจะได้รับการขอให้ยืนยันตัวตน\\nทุกครั้งที่คุณเปิดแอปหรือกลับมาจากพื้นหลัง';
+
+  @override
+  String get keep_screen_on => 'เปิดหน้าจอไว้';
+
+  @override
+  String get webtoon_side_padding => 'ช่องว่างด้านข้างของ Webtoon';
+
+  @override
+  String get show_page_gaps => 'แสดงช่องว่างระหว่างหน้า';
+
+  @override
+  String get invert_colors => 'กลับสี';
+
+  @override
+  String get grayscale => 'โทนสีเทา';
+
+  @override
+  String get brightness => 'ความสว่าง';
+
+  @override
+  String get contrast => 'ความเปนสัน';
+
+  @override
+  String get saturation => 'ความเข้ม';
+
+  @override
+  String get navigation_layout => 'เลย์เอาต์การนำทาง';
+
+  @override
+  String get nav_layout_default => 'ค่าเริ่มต้น';
+
+  @override
+  String get nav_layout_l_shaped => 'รูป L';
+
+  @override
+  String get nav_layout_kindle => 'Kindle';
+
+  @override
+  String get nav_layout_edge => 'ขอบ';
+
+  @override
+  String get nav_layout_right_and_left => 'ขวาและซ้าย';
+
+  @override
+  String get nav_layout_disabled => 'ปิดใช้งาน';
+
+  @override
+  String get color_enhancements => 'การปรับปรุงสี';
+
+  @override
+  String get total => 'รวม';
+
+  @override
+  String get mean_per_title => 'ค่าเฉลี่ยต่อชื่อเรื่อง';
+
+  @override
+  String get completion_rate => 'อัตราการเสร็จสิ้น';
+
+  @override
+  String get watching_time => 'เวลาการดู';
+
+  @override
+  String get reading_time => 'เวลาการอ่าน';
+
+  @override
+  String average_chapters_per_title(Object title) {
+    return 'บทเฉลี่ยต่อชื่อเรื่อง';
+  }
+
+  @override
+  String get read_percentage => 'เปอร์เซ็นต์การอ่าน';
+
+  @override
+  String get entries => 'รายการ';
+
+  @override
+  String get android_proxy_server_mihon => 'Android Proxy Server (Mihon)';
+
+  @override
+  String get android_proxy_server_mihon_description =>
+      'Download and configure the proxy server required to use Mihon extensions.';
+
+  @override
+  String get mihon_proxy_server => 'Mihon proxy server';
+
+  @override
+  String get extension_server_intro_with_jre =>
+      'Download the proxy server bundle before using Mihon extensions. The bundle includes the JRE and extension server JAR.';
+
+  @override
+  String get extension_server_intro_ios =>
+      'Download the proxy server JAR before using Mihon extensions. iOS only needs the extension server JAR.';
+
+  @override
+  String get checking_files => 'Checking files';
+
+  @override
+  String get files_installed => 'Files installed';
+
+  @override
+  String get files_missing => 'Files missing';
+
+  @override
+  String get update_files => 'Update files';
+
+  @override
+  String get up_to_date => 'Up to date';
+
+  @override
+  String get choose_location => 'Choose location';
+
+  @override
+  String get import_existing_jar => 'Import existing JAR';
+
+  @override
+  String get detect_files_in_selected_folder =>
+      'Detect files in selected folder';
+
+  @override
+  String get preparing_download => 'Preparing download...';
+
+  @override
+  String get app_install_location => 'App install location';
+
+  @override
+  String get install_location => 'Install location';
+
+  @override
+  String get jre_executable => 'JRE executable';
+
+  @override
+  String get extension_server_jar => 'Extension server JAR';
+
+  @override
+  String get installed_version => 'Installed version';
+
+  @override
+  String get latest_version => 'Latest version';
+
+  @override
+  String get apkbridge_description =>
+      'Use ApkBridge when you need a separate Android device proxy. Set the proxy address here and download the APK from GitHub.';
+
+  @override
+  String get set_proxy_address => 'Set proxy address';
+
+  @override
+  String get no_newer_proxy_server_release_available =>
+      'No newer proxy server release is available.';
+
+  @override
+  String get could_not_check_proxy_server_updates =>
+      'Could not check for proxy server updates.';
+
+  @override
+  String get no_extension_server_bundle_available_for_this_platform =>
+      'No extension server bundle is available for this platform.';
+
+  @override
+  String failed_to_download_bundle(Object statusCode) {
+    return 'Failed to download bundle ($statusCode).';
+  }
+
+  @override
+  String get downloaded_bundle_missing_expected_files =>
+      'The downloaded bundle does not contain the expected files.';
+
+  @override
+  String get extension_server_files_ready =>
+      'Extension server files are ready.';
+
+  @override
+  String get ios_extension_server_import_hint =>
+      'On iOS the server is installed inside the app sandbox. Use \"Import existing JAR\" to bring in a downloaded file.';
+
+  @override
+  String get select_extension_server_folder => 'Select extension server folder';
+
+  @override
+  String get selected_folder_does_not_exist =>
+      'The selected folder does not exist.';
+
+  @override
+  String get no_extension_server_files_found_in_selected_folder =>
+      'No extension server files were found in the selected folder.';
+
+  @override
+  String get extension_server_files_linked =>
+      'Extension server files were linked.';
+
+  @override
+  String get select_extension_server_jar => 'Select extension server JAR';
+
+  @override
+  String get selected_file_could_not_be_accessed =>
+      'The selected file could not be accessed.';
+
+  @override
+  String get extension_server_jar_imported =>
+      'Extension server JAR was imported.';
+
+  @override
+  String get could_not_launch_apk_bridge_page =>
+      'Could not launch the ApkBridge page.';
+
+  @override
+  String get proxy_server_ip_hint =>
+      'Server IP (e.g., 10.0.0.5 or https://example.com)';
+
+  @override
+  String get not_configured => 'Not configured';
+
+  @override
+  String get webview => 'Webview';
+
+  @override
+  String get tts => 'Text-to-Speech';
+
+  @override
+  String get tts_speed => 'Speed';
+
+  @override
+  String get tts_pitch => 'Pitch';
+
+  @override
+  String get tts_language => 'Language';
+
+  @override
+  String get tts_voice => 'Voice';
+
+  @override
+  String get tts_stop => 'Stop';
+
+  @override
+  String get tts_play => 'Play';
+
+  @override
+  String get tts_pause => 'Pause';
+
+  @override
+  String get tts_previous => 'Previous paragraph';
+
+  @override
+  String get tts_next => 'Next paragraph';
+
+  @override
+  String tts_paragraph_progress(Object current, Object total) {
+    return 'Paragraph $current of $total';
+  }
+
+  @override
+  String get tts_settings => 'TTS Settings';
+
+  @override
+  String get tts_default => 'Default';
+
+  @override
+  String get webtoon_disable_zoom_out => 'ปิดการใช้งานการซูมออกสำหรับเว็บตูน';
+
+  @override
+  String get webtoon_double_tap_zoom_enabled => 'แตะสองครั้งเพื่อซูมเว็บตูน';
+
+  @override
+  String get navigate_to_pan => 'เลื่อนภาพที่ซูมก่อนเปลี่ยนหน้า';
+
+  @override
+  String get navigate_to_pan_subtitle =>
+      'เลื่อนภาพที่ซูมก่อนจะทำการเปลี่ยนหน้าถัดไป';
+
+  @override
+  String get split_wide_pages => 'แบ่งหน้าคู่';
+
+  @override
+  String get dual_page_invert => 'สลับหน้าคู่ที่ถูกแบ่ง';
+
+  @override
+  String get dual_page_rotate_to_fit => 'หมุนเพื่อปรับให้พอดี';
+
+  @override
+  String get dual_page_rotate_to_fit_invert => 'กลับทิศทางการหมุน';
+
+  @override
+  String get landscape_zoom => 'ซูมแนวนอนอัตโนมัติ';
+
+  @override
+  String get zoom_start_position => 'ตำแหน่งเริ่มต้นของการซูม';
+
+  @override
+  String get zoom_start_left => 'ซ้าย';
+
+  @override
+  String get zoom_start_right => 'ขวา';
+
+  @override
+  String get zoom_start_center => 'ตรงกลาง';
+
+  @override
+  String get automatic_background => 'สีพื้นหลังอัตโนมัติ';
+
+  @override
+  String get tapping_inversion => 'การกลับด้านการแตะ';
+
+  @override
+  String get tapping_inversion_none => 'ไม่มี';
+
+  @override
+  String get tapping_inversion_horizontal => 'แนวนอน';
+
+  @override
+  String get tapping_inversion_vertical => 'แนวตั้ง';
+
+  @override
+  String get tapping_inversion_both => 'ทั้งสองแบบ';
+
+  @override
+  String get flash_on_page_change => 'กะพริบเมื่อเปลี่ยนหน้า';
+
+  @override
+  String get flash_on_page_change_subtitle =>
+      'ตัวช่วยป้องกันหน้าจอ AMOLED เบิร์น';
+
+  @override
+  String get flash_color => 'สีของการกะพริบ';
+
+  @override
+  String get flash_color_black => 'สีดำ';
+
+  @override
+  String get flash_color_white => 'สีขาว';
+
+  @override
+  String get flash_color_white_black => 'สีขาวและสีดำ';
+
+  @override
+  String flash_interval(String n) {
+    return 'ช่วงการกะพริบ: ทุก $n หน้า';
+  }
+
+  @override
+  String flash_duration(String n) {
+    return 'ระยะเวลาการกะพริบ: $n มิลลิวินาที';
+  }
+
+  @override
+  String get show_navigation_overlay_on_start =>
+      'แสดงพื้นที่แตะเพื่อเลื่อนหน้าเมื่อเริ่มอ่าน';
+
+  @override
+  String get reader_hide_threshold => 'ความเร็วการเลื่อนเพื่อซ่อนเมนู';
+
+  @override
+  String get reader_hide_threshold_highest => 'เร็วที่สุด (5 px)';
+
+  @override
+  String get reader_hide_threshold_high => 'เร็ว (13 px)';
+
+  @override
+  String get reader_hide_threshold_low => 'ช้า (31 px)';
+
+  @override
+  String get reader_hide_threshold_lowest => 'ช้าที่สุด (47 px)';
+
+  @override
+  String get error_no_pages_available =>
+      'เกิดข้อผิดพลาด: ไม่มีหน้าที่พร้อมใช้งาน';
+
+  @override
+  String get app_ui_scale => 'Interface scale';
+
+  @override
+  String get app_ui_scale_subtitle =>
+      'Make the interface larger or smaller to suit your screen and viewing distance.';
+
+  @override
+  String get allow_concurrent_downloads => 'Allow concurrent downloads';
+
+  @override
+  String get allow_concurrent_downloads_subtitle =>
+      'Download from different sources at the same time. A single source still downloads one chapter at a time so it isn\'t overloaded. Turn off to download one at a time everywhere.';
+
+  @override
+  String get download_delay => 'Download delay';
+
+  @override
+  String get download_delay_subtitle =>
+      'Off. Add a wait with random jitter between chapters to be gentler on sources.';
+
+  @override
+  String get save_search => 'Save search';
+
+  @override
+  String get saved_searches => 'Saved searches';
+
+  @override
+  String get enter_search_to_save_first => 'Enter a search to save first';
+
+  @override
+  String get no_saved_searches =>
+      'No saved searches for this source yet.\nRun a search, then pick \"Save search\".';
+
+  @override
+  String get source => 'Source';
 }

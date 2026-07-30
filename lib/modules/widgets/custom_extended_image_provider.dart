@@ -10,7 +10,8 @@ import 'package:http_client_helper/http_client_helper.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:path/path.dart';
-import 'package:extended_image_library/src/network/extended_network_image_provider.dart' as image_provider;
+import 'package:extended_image_library/src/network/extended_network_image_provider.dart'
+    as image_provider;
 
 /// LRU Memory Cache for decoded image data
 class _LRUCache<K, V> {
@@ -19,7 +20,7 @@ class _LRUCache<K, V> {
   int _currentSize = 0;
   final int Function(V)? _sizeOf;
 
-  _LRUCache({required int maxSize, int Function(V)? sizeOf}) : _maxSize = maxSize, _sizeOf = sizeOf;
+  _LRUCache({required this._maxSize, this._sizeOf});
 
   V? get(K key) {
     final value = _cache.remove(key);
@@ -134,7 +135,8 @@ class _CacheManager {
   }
 }
 
-class CustomExtendedNetworkImageProvider extends ImageProvider<image_provider.ExtendedNetworkImageProvider>
+class CustomExtendedNetworkImageProvider
+    extends ImageProvider<image_provider.ExtendedNetworkImageProvider>
     with ExtendedImageProvider<image_provider.ExtendedNetworkImageProvider>
     implements image_provider.ExtendedNetworkImageProvider {
   /// Creates an object that fetches the image at the given URL.
@@ -226,7 +228,8 @@ class CustomExtendedNetworkImageProvider extends ImageProvider<image_provider.Ex
     // Ownership of this controller is handed off to [_loadAsync]; it is that
     // method's responsibility to close the controller's stream when the image
     // has been loaded or an error is thrown.
-    final StreamController<ImageChunkEvent> chunkEvents = StreamController<ImageChunkEvent>();
+    final StreamController<ImageChunkEvent> chunkEvents =
+        StreamController<ImageChunkEvent>();
 
     return MultiFrameImageStreamCompleter(
       codec: _loadAsync(
@@ -311,7 +314,8 @@ class CustomExtendedNetworkImageProvider extends ImageProvider<image_provider.Ex
       return cachedData;
     }
 
-    final Directory cacheImagesDirectory = await StorageProvider().createCacheDirectory(imageCacheFolderName);
+    final Directory cacheImagesDirectory = await StorageProvider()
+        .createCacheDirectory(imageCacheFolderName);
     Uint8List? data;
     final File cacheFile = File(join(cacheImagesDirectory.path, md5Key));
 
@@ -367,7 +371,9 @@ class CustomExtendedNetworkImageProvider extends ImageProvider<image_provider.Ex
 
       // Pre-allocate list if content length is known
       final int total = response.contentLength ?? 0;
-      final List<int> bytes = total > 0 ? List<int>.filled(total, 0, growable: true) : [];
+      final List<int> bytes = total > 0
+          ? List<int>.filled(total, 0, growable: true)
+          : [];
       int received = 0;
 
       response.stream.asBroadcastStream();
@@ -528,5 +534,6 @@ class CustomExtendedNetworkImageProvider extends ImageProvider<image_provider.Ex
   }
 
   @override
-  WebHtmlElementStrategy get webHtmlElementStrategy => WebHtmlElementStrategy.fallback;
+  WebHtmlElementStrategy get webHtmlElementStrategy =>
+      WebHtmlElementStrategy.fallback;
 }

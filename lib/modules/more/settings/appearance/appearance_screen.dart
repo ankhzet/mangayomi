@@ -13,9 +13,13 @@ import 'package:mangayomi/modules/more/settings/appearance/providers/pure_black_
 import 'package:mangayomi/modules/more/settings/appearance/widgets/blend_level_slider.dart';
 import 'package:mangayomi/modules/more/settings/appearance/widgets/dark_mode_button.dart';
 import 'package:mangayomi/modules/more/settings/appearance/widgets/theme_selector.dart';
+import 'package:mangayomi/modules/main_view/providers/tv_mode_provider.dart';
+import 'package:mangayomi/utils/platform_utils.dart';
 import 'package:mangayomi/l10n/generated/app_localizations.dart';
 import 'package:mangayomi/utils/language.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
+import 'package:mangayomi/modules/more/settings/appearance/providers/app_ui_scale_state_provider.dart';
+import 'package:mangayomi/modules/widgets/tv_escapable_slider.dart';
 
 final navigationItems = {
   "/MangaLibrary": "Manga",
@@ -71,6 +75,7 @@ class AppearanceScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text(l10n!.appearance)),
       body: SingleChildScrollView(
+        padding: tvPageInsets,
         child: Column(
           children: [
             SettingsSection(
@@ -93,6 +98,66 @@ class AppearanceScreen extends ConsumerWidget {
             SettingsSection(
               title: l10n.appearance,
               children: [
+                if (isTv)
+                  SwitchListTile(
+                    secondary: const Icon(Icons.grid_view_outlined),
+                    title: const Text('TV home (beta)'),
+                    subtitle: const Text(
+                      'Rows-based anime home (Continue · New Episodes · '
+                      'categories) instead of the flat grid',
+                    ),
+                    value: ref.watch(tvHomeStyleProvider),
+                    onChanged: (v) =>
+                        ref.read(tvHomeStyleProvider.notifier).set(v),
+                  ),
+                Builder(
+                  builder: (context) {
+                    final scale = ref
+                        .watch(appUiScaleStateProvider)
+                        .clamp(0.85, 1.25);
+                    return ListTile(
+                      leading: const Icon(Icons.aspect_ratio_outlined),
+                      title: Text(l10n.app_ui_scale),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${l10n.app_ui_scale_subtitle}  '
+                            '(${(scale * 100).round()}%)',
+                          ),
+                          TvEscapableSlider(
+                            enabled: isTv,
+                            onDecrease: () => ref
+                                .read(appUiScaleStateProvider.notifier)
+                                .set(
+                                  (scale - 0.05).clamp(0.85, 1.25),
+                                  end: true,
+                                ),
+                            onIncrease: () => ref
+                                .read(appUiScaleStateProvider.notifier)
+                                .set(
+                                  (scale + 0.05).clamp(0.85, 1.25),
+                                  end: true,
+                                ),
+                            child: Slider(
+                              min: 0.85,
+                              max: 1.25,
+                              divisions: 8,
+                              value: scale.toDouble(),
+                              label: '${(scale * 100).round()}%',
+                              onChanged: (v) => ref
+                                  .read(appUiScaleStateProvider.notifier)
+                                  .set(v),
+                              onChangeEnd: (v) => ref
+                                  .read(appUiScaleStateProvider.notifier)
+                                  .set(v, end: true),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
                 _buildLanguageTile(context, ref, l10n),
                 _buildFontTile(context, ref, l10n),
                 ListTile(

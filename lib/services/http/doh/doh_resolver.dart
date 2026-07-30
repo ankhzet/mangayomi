@@ -22,8 +22,9 @@ class _ProviderStats {
   DateTime lastFailure = DateTime.now();
   bool isCircuitOpen = false;
 
-  double get successRate =>
-      (successCount + failureCount) == 0 ? 100 : (successCount / (successCount + failureCount)) * 100;
+  double get successRate => (successCount + failureCount) == 0
+      ? 100
+      : (successCount / (successCount + failureCount)) * 100;
 
   bool shouldRetry() {
     if (!isCircuitOpen) return true;
@@ -104,8 +105,7 @@ class DoHResolver {
     }
   }
 
-  /// Resolve using specific provider via bootstrap IP
-  /// This avoids circular DNS dependency by connecting to bootstrap IP directly
+  /// Resolve using specific provider via hostname
   static Future<List<String>> _resolveFromProvider(
     String host,
     DoHProvider provider, {
@@ -118,56 +118,34 @@ class DoHResolver {
       return [];
     }
 
-    final uri = Uri.parse(provider.url);
-    final providerHost = uri.host;
-
-    // Validate bootstrap IPs format
-    final validBootstrapIps = provider.bootstrapIPs.where((ip) => _isValidIp(ip)).toList();
-    if (validBootstrapIps.isEmpty) {
-      _log('No valid bootstrap IPs for ${provider.name}', isError: true);
-      return [];
-    }
-
-    // Try each bootstrap IP until one succeeds
-    for (int i = 0; i < validBootstrapIps.length; i++) {
-      final bootstrapIp = validBootstrapIps[i];
-      try {
-        final result = await _queryDoHViaBootstrapIp(
-          host,
-          provider,
-          bootstrapIp,
-          providerHost,
-          recordType,
-        );
-        if (result.isNotEmpty) {
-          _log(
-            'Resolved $host via ${provider.name} (bootstrap IP $i+1/${validBootstrapIps.length})',
-          );
-          return result;
-        }
-      } catch (e) {
-        _log('Bootstrap IP $i failed for ${provider.name}: $e');
-        continue;
+    try {
+      final directResult = await _queryDoHViaHostname(
+        host,
+        provider,
+        recordType,
+      );
+      if (directResult.isNotEmpty) {
+        _log('Resolved $host via ${provider.name} (hostname mode)');
+        stats.successCount++;
+        return directResult;
       }
-    }
-
-    stats.failureCount++;
-    stats.lastFailure = DateTime.now();
-    // Open circuit after 3 consecutive failures
-    if (stats.failureCount >= 3) {
-      stats.isCircuitOpen = true;
-      _log('Circuit breaker opened for ${provider.name}', isError: true);
+    } catch (e) {
+      _log('Hostname mode failed for ${provider.name}: $e');
+      stats.failureCount++;
+      stats.lastFailure = DateTime.now();
+      if (stats.failureCount >= 3) {
+        stats.isCircuitOpen = true;
+        _log('Circuit breaker opened for ${provider.name}', isError: true);
+      }
     }
 
     return [];
   }
 
-  /// Query DoH via specific bootstrap IP (direct IP connection, no DNS lookup)
-  static Future<List<String>> _queryDoHViaBootstrapIp(
+  /// Query DoH by provider hostname (relies on platform DNS for provider host)
+  static Future<List<String>> _queryDoHViaHostname(
     String targetHost,
     DoHProvider provider,
-    String bootstrapIp,
-    String providerHost,
     String recordType,
   ) async {
     final uri = Uri.parse(provider.url);
@@ -175,19 +153,16 @@ class DoHResolver {
     client.connectionTimeout = _requestTimeout;
 
     try {
-      // Create request with bootstrap IP instead of hostname
       final request = await client.getUrl(
         Uri(
           scheme: uri.scheme,
-          host: bootstrapIp, // Use bootstrap IP directly
+          host: uri.host,
           port: uri.port,
           path: uri.path,
           query: 'name=$targetHost&type=$recordType',
         ),
       );
 
-      // Set Host header to the actual provider hostname (required for HTTPS SNI)
-      request.headers.set('Host', providerHost);
       request.headers.set('Accept', 'application/dns-json');
       request.headers.set('User-Agent', 'Mangayomi/1.0');
 
@@ -198,18 +173,10 @@ class DoHResolver {
         return _parseDoHResponse(body);
       }
 
-      _log('HTTP ${response.statusCode} from $bootstrapIp (${provider.name})');
+      _log('HTTP ${response.statusCode} from hostname (${provider.name})');
       return [];
-    } on SocketException {
-      // Connection failed with this bootstrap IP
-      _log('Socket error on $bootstrapIp');
-      rethrow;
-    } on TimeoutException {
-      // Timeout with this bootstrap IP
-      _log('Timeout on $bootstrapIp');
-      rethrow;
     } finally {
-      client.close();
+      client.close(force: true);
     }
   }
 
@@ -269,6 +236,7 @@ class DoHResolver {
               return null;
             })
             .whereType<String>()
+            .where(_isValidIp)
             .toList();
 
         if (ips.isNotEmpty) {

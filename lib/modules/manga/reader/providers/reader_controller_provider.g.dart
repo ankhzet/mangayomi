@@ -137,7 +137,7 @@ final class ReaderControllerProvider extends $NotifierProvider<ReaderController,
   }
 }
 
-String _$readerControllerHash() => r'23eece0ca4e7b6cbf425488636ef942fe0d4c2bc';
+String _$readerControllerHash() => r'00be8cd2fec117f587bd57c09de8c1d3124171fb';
 
 final class ReaderControllerFamily extends $Family
     with $ClassFamilyOverride<ReaderController, KeepAliveLink, KeepAliveLink, KeepAliveLink, Chapter> {

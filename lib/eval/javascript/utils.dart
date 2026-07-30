@@ -42,6 +42,10 @@ class JsUtils {
     runtime.onMessage('decryptAESCryptoJS', (dynamic args) {
       return MBridge.decryptAESCryptoJS(args[0], args[1]);
     });
+    runtime.onMessage('decryptAESGCM', (dynamic args) {
+      // tagHex is optional (empty when already appended); coerce null → "".
+      return MBridge.decryptAESGCM(args[0], args[1], args[2], args[3] ?? '');
+    });
     runtime.onMessage('deobfuscateJsPassword', (dynamic args) {
       return MBridge.deobfuscateJsPassword(args[0]);
     });
@@ -52,11 +56,24 @@ class JsUtils {
       return JSPacker(args[0]).unpack() ?? "";
     });
     runtime.onMessage('evaluateJavascriptViaWebview', (dynamic args) async {
-      return await MBridge.evaluateJavascriptViaWebview(
-        args[0]!,
-        (args[1]! as Map).toMapStringString!,
-        (args[2]! as List).map((e) => e.toString()).toList(),
-      );
+      return http
+          .post(
+            Uri.parse('http://localhost:$cfPort/evaluateJavascriptViaWebview'),
+            headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+            body: jsonEncode({
+              'url': args[0]!,
+              'headers': (args[1]! as Map).toMapStringString!,
+              'scripts': (args[2]! as List).map((e) => e.toString()).toList(),
+              "time": args[3] ?? 30,
+            }),
+          )
+          .then((res) {
+            if (res.statusCode == 200) {
+              final data = jsonDecode(res.body) as Map<String, dynamic>;
+              return data['result'] as bool;
+            }
+            return false;
+          });
     });
     runtime.onMessage('parseEpub', (dynamic args) async {
       final bytes = await _toBytesResponse(client(), "GET", args);
@@ -152,6 +169,12 @@ function decryptAESCryptoJS(encrypted, passphrase) {
     return sendMessage(
         "decryptAESCryptoJS",
         JSON.stringify([encrypted, passphrase])
+    );
+}
+function decryptAESGCM(encrypted, keyHex, ivHex, tagHex = "") {
+    return sendMessage(
+        "decryptAESGCM",
+        JSON.stringify([encrypted, keyHex, ivHex, tagHex])
     );
 }
 function deobfuscateJsPassword(inputString) {

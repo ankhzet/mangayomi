@@ -1,10 +1,17 @@
-import 'package:d4rt/d4rt.dart';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:d4rt/d4rt.dart' hide Logger;
+import 'package:flutter/foundation.dart';
 import 'package:flutter_qjs/flutter_qjs.dart';
+import 'package:http/http.dart' as http;
 import 'package:mangayomi/eval/model/filter.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/eval/model/m_provider.dart';
 import 'package:mangayomi/modules/browse/extension/providers/extension_preferences_providers.dart';
+import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
+import 'package:mangayomi/utils/log/log.dart';
 
 class MProviderBridged {
   final mProviderBridged = BridgedClass(
@@ -16,7 +23,8 @@ class MProviderBridged {
       },
     },
     getters: {
-      'supportsLatest': (visitor, target) => (target as MProvider).supportsLatest,
+      'supportsLatest': (visitor, target) =>
+          (target as MProvider).supportsLatest,
       'baseUrl': (visitor, target) => (target as MProvider).baseUrl,
       'headers': (visitor, target) => (target as MProvider).headers,
     },
@@ -27,22 +35,25 @@ class MProviderBridged {
           (target as MProvider).getPopular(positionalArgs[0] as int),
       'getVideoList': (visitor, target, positionalArgs, namedArgs) =>
           (target as MProvider).getVideoList(positionalArgs[0] as String),
-      'search': (visitor, target, positionalArgs, namedArgs) => (target as MProvider).search(
-        positionalArgs[0] as String,
-        positionalArgs[1] as int,
-        positionalArgs[2] as FilterList,
-      ),
+      'search': (visitor, target, positionalArgs, namedArgs) =>
+          (target as MProvider).search(
+            positionalArgs[0] as String,
+            positionalArgs[1] as int,
+            positionalArgs[2] as FilterList,
+          ),
       'getDetail': (visitor, target, positionalArgs, namedArgs) =>
           (target as MProvider).getDetail(positionalArgs[0] as String),
       'getPageList': (visitor, target, positionalArgs, namedArgs) =>
           (target as MProvider).getPageList(positionalArgs[0] as String),
       'cleanHtmlContent': (visitor, target, positionalArgs, namedArgs) =>
           (target as MProvider).cleanHtmlContent(positionalArgs[0] as String),
-      'getHtmlContent': (visitor, target, positionalArgs, namedArgs) => (target as MProvider).getHtmlContent(
-        positionalArgs[0] as String,
-        positionalArgs[1] as String,
-      ),
-      'getFilterList': (visitor, target, positionalArgs, namedArgs) => (target as MProvider).getFilterList(),
+      'getHtmlContent': (visitor, target, positionalArgs, namedArgs) =>
+          (target as MProvider).getHtmlContent(
+            positionalArgs[0] as String,
+            positionalArgs[1] as String,
+          ),
+      'getFilterList': (visitor, target, positionalArgs, namedArgs) =>
+          (target as MProvider).getFilterList(),
       'getSourcePreferences': (visitor, target, positionalArgs, namedArgs) =>
           (target as MProvider).getSourcePreferences(),
     },
@@ -92,8 +103,20 @@ class MProviderBridged {
       ),
     );
     interpreter.registertopLevelFunction(
+      'decryptAESGCM',
+      (visitor, positionalArgs, namedArgs, _) => MBridge.decryptAESGCM(
+        positionalArgs[0] as String,
+        positionalArgs[1] as String,
+        positionalArgs[2] as String,
+        // tagHex is optional (empty when the tag is already appended); coerce a
+        // null/missing arg to "" so the call can't throw before the try/catch.
+        positionalArgs[3] as String? ?? '',
+      ),
+    );
+    interpreter.registertopLevelFunction(
       'deobfuscateJsPassword',
-      (visitor, positionalArgs, namedArgs, _) => MBridge.deobfuscateJsPassword(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) =>
+          MBridge.deobfuscateJsPassword(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'sibnetExtractor',
@@ -104,11 +127,13 @@ class MProviderBridged {
     );
     interpreter.registertopLevelFunction(
       'myTvExtractor',
-      (visitor, positionalArgs, namedArgs, _) => MBridge.myTvExtractor(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) =>
+          MBridge.myTvExtractor(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'okruExtractor',
-      (visitor, positionalArgs, namedArgs, _) => MBridge.okruExtractor(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) =>
+          MBridge.okruExtractor(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'voeExtractor',
@@ -119,7 +144,8 @@ class MProviderBridged {
     );
     interpreter.registertopLevelFunction(
       'vidBomExtractor',
-      (visitor, positionalArgs, namedArgs, _) => MBridge.vidBomExtractor(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) =>
+          MBridge.vidBomExtractor(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'streamlareExtractor',
@@ -234,7 +260,8 @@ class MProviderBridged {
     );
     interpreter.registertopLevelFunction(
       'gogoCdnExtractor',
-      (visitor, positionalArgs, namedArgs, _) => MBridge.gogoCdnExtractor(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) =>
+          MBridge.gogoCdnExtractor(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'doodExtractor',
@@ -276,19 +303,23 @@ class MProviderBridged {
     );
     interpreter.registertopLevelFunction(
       'unpackJs',
-      (visitor, positionalArgs, namedArgs, _) => MBridge.unpackJs(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) =>
+          MBridge.unpackJs(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'unpackJsAndCombine',
-      (visitor, positionalArgs, namedArgs, _) => MBridge.unpackJsAndCombine(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) =>
+          MBridge.unpackJsAndCombine(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'evalJs',
-      (visitor, positionalArgs, namedArgs, _) => getJavascriptRuntime().evaluateAsync(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) =>
+          getJavascriptRuntime().evaluateAsync(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'evalJsSync',
-      (visitor, positionalArgs, namedArgs, _) => getJavascriptRuntime().evaluate(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) =>
+          getJavascriptRuntime().evaluate(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'regExp',
@@ -310,20 +341,48 @@ class MProviderBridged {
     );
     interpreter.registertopLevelFunction(
       'parseHtml',
-      (visitor, positionalArgs, namedArgs, _) => MBridge.parsHtml(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) =>
+          MBridge.parsHtml(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'getUrlWithoutDomain',
-      (visitor, positionalArgs, namedArgs, _) => (positionalArgs[0] as String).getUrlWithoutDomain,
+      (visitor, positionalArgs, namedArgs, _) =>
+          (positionalArgs[0] as String).getUrlWithoutDomain,
     );
     interpreter.registertopLevelFunction(
       'evaluateJavascriptViaWebview',
-      (visitor, positionalArgs, namedArgs, _) => MBridge.evaluateJavascriptViaWebview(
-        positionalArgs[0] as String,
-        (positionalArgs[1] as Map).cast(),
-        (positionalArgs[2] as List).cast(),
-        time: namedArgs.get<int?>('time') ?? 30,
-      ),
+      (visitor, positionalArgs, namedArgs, _) => http
+          .post(
+            Uri.parse('http://localhost:$cfPort/evaluateJavascriptViaWebview'),
+            headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+            body: jsonEncode({
+              'url': positionalArgs[0] as String,
+              'headers': (positionalArgs[1] as Map).cast<String, String>(),
+              'scripts': (positionalArgs[2] as List).cast(),
+              "time": namedArgs.get<int?>('time') ?? 30,
+            }),
+          )
+          .then((res) {
+            if (res.statusCode == 200) {
+              final data = jsonDecode(res.body) as Map<String, dynamic>;
+              return data['result'] as bool;
+            }
+            return false;
+          }),
     );
+    interpreter.registertopLevelFunction('print', (
+      visitor,
+      positionalArgs,
+      namedArgs,
+      _,
+    ) {
+      if (kDebugMode || useLogger) {
+        // ignore: avoid_print
+        print("LoggerLevel.warning:${positionalArgs[0]}");
+        Logger.add(LoggerLevel.warning, "${positionalArgs[0]}");
+      }
+
+      return null;
+    });
   }
 }

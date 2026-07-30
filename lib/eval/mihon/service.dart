@@ -353,7 +353,7 @@ class MihonExtensionService implements ExtensionService {
     final userAgent = isar.settings.getSync(227)!.userAgent;
     return {
       ...MClient.getCookiesPref(source.baseUrl!),
-      if (userAgent != null) 'user-agent': userAgent,
+      'user-agent': ?userAgent,
     };
   }
 }

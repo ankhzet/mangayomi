@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:mangayomi/utils/platform_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/manga.dart';
@@ -22,7 +21,8 @@ class TrackerWidgetSearch extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<TrackerWidgetSearch> createState() => _TrackerWidgetSearchState();
+  ConsumerState<TrackerWidgetSearch> createState() =>
+      _TrackerWidgetSearchState();
 }
 
 class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
@@ -37,7 +37,8 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
   late List<TrackSearch>? tracks = [];
   String? _errorMsg;
   Future<void> _init() async {
-    await Future.delayed(const Duration(microseconds: 100));
+    // Yield to microtask queue so initState completes before async work
+    await Future(() {});
     try {
       tracks = await ref
           .read(
@@ -75,7 +76,7 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
         bottomLeft: Radius.circular(20),
         bottomRight: Radius.circular(20),
       ),
-      clipBehavior: Clip.antiAliasWithSaveLayer,
+      clipBehavior: Clip.antiAlias,
       child: _isLoading
           ? SizedBox(
               height: context.height(0.3),
@@ -89,7 +90,9 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
               child: SizedBox(
                 height: context.height(0.8),
                 child: Column(
-                  mainAxisAlignment: _errorMsg != null ? MainAxisAlignment.center : MainAxisAlignment.start,
+                  mainAxisAlignment: _errorMsg != null
+                      ? MainAxisAlignment.center
+                      : MainAxisAlignment.start,
                   children: [
                     if (_errorMsg != null)
                       Padding(
@@ -111,26 +114,29 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                                 child: Column(
                                   children: [
                                     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Material(
                                           borderRadius: BorderRadius.circular(
                                             5,
                                           ),
                                           color: Colors.transparent,
-                                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                                          clipBehavior: Clip.antiAlias,
                                           child: Ink.image(
                                             height: 120,
                                             width: 80,
                                             fit: BoxFit.cover,
-                                            image: CustomExtendedNetworkImageProvider(
-                                              tracks![index].coverUrl!,
-                                            ),
+                                            image:
+                                                CustomExtendedNetworkImageProvider(
+                                                  tracks![index].coverUrl!,
+                                                ),
                                           ),
                                         ),
                                         const SizedBox(width: 10),
                                         Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(
                                               width: context.width(0.6),
@@ -151,7 +157,8 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  tracks![index].publishingType!,
+                                                  tracks![index]
+                                                      .publishingType!,
                                                   style: const TextStyle(
                                                     fontSize: 12,
                                                   ),
@@ -168,7 +175,8 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  tracks![index].publishingStatus!,
+                                                  tracks![index]
+                                                      .publishingStatus!,
                                                   style: const TextStyle(
                                                     fontSize: 12,
                                                   ),
@@ -192,20 +200,16 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                               ),
                             );
                           },
-                          separatorBuilder:
-                              (
-                                BuildContext context,
-                                int index,
-                              ) {
-                                return const Divider();
-                              },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const Divider();
+                          },
                         ),
                       ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: TextFormField(
                         onTap: () {
-                          if (Platform.isAndroid || Platform.isIOS) {
+                          if (isMobile) {
                             setState(() {
                               hide = true;
                             });
@@ -258,19 +262,13 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                                   icon: const Icon(Icons.clear),
                                 ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: context.primaryColor,
-                            ),
+                            borderSide: BorderSide(color: context.primaryColor),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: context.primaryColor,
-                            ),
+                            borderSide: BorderSide(color: context.primaryColor),
                           ),
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: context.primaryColor,
-                            ),
+                            borderSide: BorderSide(color: context.primaryColor),
                           ),
                         ),
                       ),

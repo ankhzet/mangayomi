@@ -59,7 +59,7 @@ final class GetStatisticsProvider
   }
 }
 
-String _$getStatisticsHash() => r'f4a11dfa53b9560da765b1822fadc758a0a23cba';
+String _$getStatisticsHash() => r'b7b308baca48da577b70b7278b0628b3517d59de';
 
 final class GetStatisticsFamily extends $Family with $FunctionalFamilyOverride<FutureOr<StatisticsData>, ItemType> {
   GetStatisticsFamily._()

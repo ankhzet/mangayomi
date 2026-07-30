@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mangayomi/models/category.dart';
 import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/widgets/base_library_tab_screen.dart';
@@ -11,6 +10,8 @@ import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/updates/widgets/update_chapter_list_tile_widget.dart';
+import 'package:mangayomi/modules/updates/update_errors_screen.dart';
+import 'package:mangayomi/services/update_errors_provider.dart';
 import 'package:mangayomi/modules/history/providers/isar_providers.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/services/library_updater.dart';
@@ -61,6 +62,19 @@ class _UpdatesScreenState extends BaseLibraryTabScreenState<UpdatesScreen> {
     final l10n = l10nLocalizations(context)!;
 
     return [
+      if (ref.watch(updateErrorsProvider).isNotEmpty)
+        IconButton(
+          splashRadius: 20,
+          tooltip: 'Update errors',
+          icon: Icon(
+            Icons.error_outline,
+            color: Theme.of(context).colorScheme.error,
+          ),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const UpdateErrorsScreen()),
+          ),
+        ),
       IconButton(
         splashRadius: 20,
         icon: Icon(Icons.refresh_outlined, color: Theme.of(context).hintColor),
@@ -99,57 +113,44 @@ class _UpdatesScreenState extends BaseLibraryTabScreenState<UpdatesScreen> {
   }
 
   Future<void> _updateLibrary() async {
-    setState(() => _isLoading = true);
-    final itemType = getCurrentItemType();
-    final allowedCategories = isar.categorys
-        .filter()
-        .idIsNotNull()
-        .group((q) => q.shouldUpdateIsNull().or().shouldUpdateEqualTo(true))
-        .findAllSync()
-        .map((e) => e.id);
-    final mangaList = isar.mangas
-        .filter()
-        .idIsNotNull()
-        .favoriteEqualTo(true)
-        .and()
-        .itemTypeEqualTo(itemType)
-        .and()
-        .isLocalArchiveEqualTo(false)
-        .findAllSync()
-        .where((e) {
-          for (final category in allowedCategories) {
-            if (e.categories?.contains(category) ?? false) {
-              return true;
-            }
-          }
-          return false;
-        })
-        .toList();
-    await updateLibrary(
-      ref: ref,
-      context: context,
-      mangaList: mangaList,
-      itemType: itemType,
-    );
-    setState(() => _isLoading = false);
+    try {
+      setState(() => _isLoading = true);
+      final itemType = getCurrentItemType();
+      final mangaList = await isar.mangas
+          .filter()
+          .idIsNotNull()
+          .favoriteEqualTo(true)
+          .itemTypeEqualTo(itemType)
+          .isLocalArchiveEqualTo(false)
+          .findAll();
+      if (!mounted) return;
+      await updateLibrary(
+        ref: ref,
+        context: context,
+        mangaList: mangaList,
+        itemType: itemType,
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   Future<void> _clearUpdates() async {
-    List<Update> updates = await isar.updates
+    final List<Id> idsToDelete = await isar.updates
         .filter()
         .idIsNotNull()
-        .chapter(
-          (q) => q.manga((q) => q.itemTypeEqualTo(getCurrentItemType())),
-        )
+        .chapter((q) => q.manga((q) => q.itemTypeEqualTo(getCurrentItemType())))
+        .idProperty()
         .findAll();
-    final idsToDelete = <Id>[];
+    if (idsToDelete.isEmpty) return;
     isar.writeTxnSync(() {
-      for (var update in updates) {
-        idsToDelete.add(update.id!);
-        ref.read(synchingProvider(syncId: 1).notifier).addChangedPart(ActionType.removeUpdate, update.id, "{}", false);
+      for (var id in idsToDelete) {
+        ref
+            .read(synchingProvider(syncId: 1).notifier)
+            .addChangedPart(ActionType.removeUpdate, id, "{}", false);
       }
     });
-    await isar.writeTxn(() => isar.updates.deleteAll(idsToDelete));
+    await isar.writeTxn(() async => await isar.updates.deleteAll(idsToDelete));
   }
 }
 
@@ -168,7 +169,8 @@ class UpdateTab extends ConsumerStatefulWidget {
   ConsumerState<UpdateTab> createState() => _UpdateTabState();
 }
 
-class _UpdateTabState extends ConsumerState<UpdateTab> with AutomaticKeepAliveClientMixin {
+class _UpdateTabState extends ConsumerState<UpdateTab>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -186,7 +188,9 @@ class _UpdateTabState extends ConsumerState<UpdateTab> with AutomaticKeepAliveCl
       children: [
         update.when(
           data: (entries) {
-            final lastUpdatedList = entries.map((e) => e.chapter.value!.manga.value!.lastUpdate!).toList();
+            final lastUpdatedList = entries
+                .map((e) => e.chapter.value!.manga.value!.lastUpdate!)
+                .toList();
             lastUpdatedList.sort((a, b) => b.compareTo(a));
             final lastUpdated = lastUpdatedList.firstOrNull;
             if (entries.isNotEmpty) {
@@ -250,7 +254,8 @@ class _UpdateTabState extends ConsumerState<UpdateTab> with AutomaticKeepAliveCl
                         sourceExist: true,
                       );
                     },
-                    itemComparator: (item1, item2) => item1.date!.compareTo(item2.date!),
+                    itemComparator: (item1, item2) =>
+                        item1.date!.compareTo(item2.date!),
                     order: GroupedListOrder.DESC,
                   ),
                 ],
@@ -285,25 +290,18 @@ Widget _updateNumbers(WidgetRef ref, ItemType itemType) {
     stream: isar.updates
         .filter()
         .idIsNotNull()
-        .and()
         .chapter((q) => q.manga((q) => q.itemTypeEqualTo(itemType)))
         .watch(fireImmediately: true),
     builder: (context, snapshot) {
-      if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-        final entries = snapshot.data!.toList();
-        return entries.isEmpty
-            ? SizedBox.shrink()
-            : Badge(
-                backgroundColor: Theme.of(context).focusColor,
-                label: Text(
-                  entries.length.toString(),
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.bodySmall!.color,
-                  ),
-                ),
-              );
-      }
-      return Container();
+      final count = snapshot.data?.length ?? 0;
+      if (count == 0) return const SizedBox.shrink();
+      return Badge(
+        backgroundColor: Theme.of(context).focusColor,
+        label: Text(
+          count.toString(),
+          style: TextStyle(color: Theme.of(context).textTheme.bodySmall!.color),
+        ),
+      );
     },
   );
 }

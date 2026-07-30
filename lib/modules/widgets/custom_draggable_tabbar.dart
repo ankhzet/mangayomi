@@ -105,88 +105,101 @@ Future<void> customDraggableTabBar({
       DraggableMenu(
         curve: Curves.linearToEaseOut,
         controller: controller,
-        levels: widgetsHeight.map((e) => DraggableMenuLevel(height: e["height"])).toList(),
+        levels: widgetsHeight
+            .map((e) => DraggableMenuLevel(height: e["height"]))
+            .toList(),
         customUi: Consumer(
           builder: (context, ref, child) {
             final location = ref.watch(routerCurrentLocationStateProvider);
             final width = context.isTablet && !fullWidth
                 ? switch (location) {
                     null => 100,
-                    != '/MangaLibrary' && != '/AnimeLibrary' && != '/history' && != '/browse' && != '/more' => 0,
+                    != '/MangaLibrary' &&
+                        != '/AnimeLibrary' &&
+                        != '/history' &&
+                        != '/browse' &&
+                        != '/more' =>
+                      0,
                     _ => 100,
                   }
                 : 0;
             return Scaffold(
               backgroundColor: Platform.isLinux ? null : Colors.transparent,
-              body: Container(
+              body: SizedBox(
                 width: context.width(1) - width,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  ),
+                child: Material(
                   color: Theme.of(context).scaffoldBackgroundColor,
-                ),
-                child: DefaultTabController(
-                  length: tabs.length,
-                  child: Column(
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Flexible(
-                            flex: 9,
-                            child: TabBar(
-                              unselectedLabelStyle: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                              ),
-                              labelStyle: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                              dividerColor: context.isLight ? Colors.black : Colors.grey,
-                              dividerHeight: 0.4,
-                              controller: tabBarController,
-                              tabs: tabs,
-                            ),
-                          ),
-                          if (moreWidget != null)
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: DefaultTabController(
+                    length: tabs.length,
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
                             Flexible(
-                              flex: 1,
-                              child: Column(
-                                children: [
-                                  moreWidget,
-                                  const SizedBox(height: 2),
-                                  Row(
-                                    children: [
-                                      Flexible(
-                                        child: Container(
-                                          color: context.isLight ? Colors.black : Colors.grey,
-                                          height: 0.4,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                              flex: 9,
+                              child: TabBar(
+                                unselectedLabelStyle: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                labelStyle: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                dividerColor: context.isLight
+                                    ? Colors.black
+                                    : Colors.grey,
+                                dividerHeight: 0.4,
+                                controller: tabBarController,
+                                tabs: tabs,
                               ),
                             ),
-                        ],
-                      ),
-                      Flexible(
-                        child: TabBarView(
-                          controller: tabBarController,
-                          children: children
-                              .map(
-                                (e) => SingleChildScrollView(
-                                  child: MeasureWidgetSize(
-                                    onCalculateSize: (_) => refresh(),
-                                    child: e,
-                                  ),
+                            if (moreWidget != null)
+                              Flexible(
+                                flex: 1,
+                                child: Column(
+                                  children: [
+                                    moreWidget,
+                                    const SizedBox(height: 2),
+                                    Row(
+                                      children: [
+                                        Flexible(
+                                          child: Container(
+                                            color: context.isLight
+                                                ? Colors.black
+                                                : Colors.grey,
+                                            height: 0.4,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              )
-                              .toList(),
+                              ),
+                          ],
                         ),
-                      ),
-                    ],
+                        Flexible(
+                          child: TabBarView(
+                            controller: tabBarController,
+                            children: children
+                                .map(
+                                  (e) => SingleChildScrollView(
+                                    child: MeasureWidgetSize(
+                                      onCalculateSize: (_) => refresh(),
+                                      child: e,
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

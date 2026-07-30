@@ -557,6 +557,327 @@
   "text_align": "পাঠ সংৰেখণ",
   "line_height": "শাৰী উচ্চতা",
   "show_scroll_percentage": "স্ক্ৰ'ল শতাংশ দেখুৱাওক",
-  "remove_extra_paragraph_spacing": "অতিৰিক্ত অনুচ্ছেদ স্পেছিং আঁতৰাওক",
-  "select_label_color": "{label} ৰং নিৰ্বাচন কৰক"
+  "remove_extra_paragraph_spacing": "অতিৰিक্ত অনুচ্ছেদ স্পেছিং আঁতৰাওক",
+  "select_label_color": "{label} ৰং নিৰ্বাচন কৰক",
+  "default_user_agent": "ডিফল্ট ব্যৱহাৰকাৰী এজেন্ট",
+  "forceLandscapeMode": "ল্যান্ডস্কেপ মোড বাধ্য কৰক",
+  "forceLandscapeModeSubtitle": "প্লেয়াৰক ল্যান্ডস্কেপ অৰিয়েন্টেশন ব্যৱহাৰ কৰিবলৈ বাধ্য কৰক।",
+  "dns_over_https": "DNS-over-HTTPS (DoH)",
+  "dns_provider": "DNS প্ৰদানকাৰী",
+  "tracked": "ট্র্যাক কৰা",
+  "auth_unlock_msg": "Mangayomi আনলক কৰিবলৈ প্রমাণ কৰক",
+  "app_locked": "Mangayomi লক কৰা আছে",
+  "auth_to_continue": "অব্যাহত ৰাখিবলৈ প্রমাণ কৰক",
+  "authenticating": "প্রমাণ কৰা হৈ আছে...",
+  "unlock": "আনলক",
+  "security": "নিৰাপত্তা",
+  "auth_to_change_security_setting": "নিৰাপত্তা সেটিং পৰিৱৰ্তন কৰিবলৈ প্রমাণ কৰক",
+  "app_lock": "এপ্লিকেশন লক",
+  "require_biometric_or_device_credential": "এপ্লিকেশন খোলাৰ বাবে বায়োমেট্রিক বা ডিভাইস শংসাপত্ৰ প্রয়োজন",
+  "biometric_or_device_credential_not_available": "এই ডিভাইসে বায়োমেট্রিক প্রমাণ উপলব্ধ নহয়",
+  "app_lock_description": "যেতিয়া এপ্লিকেশন লক সক্ষম থাকে, আপোনাক প্রমাণ কৰিবলৈ কোৱা হব\\nপ্রতিবাৰ যেতিয়া আপুনি এপ্লিকেশন খোলেন বা পটভূমিৰ পৰা ঘূৰি আহেন।",
+  "keep_screen_on": "স্ক্রীন চালু ৰাখক",
+  "webtoon_side_padding": "Webtoon পাৰ্শ্ব প্যাডিং",
+  "show_page_gaps": "পৃষ্ঠা ফাঁক দেখাওক",
+  "invert_colors": "ৰং উল্টাই দিয়ক",
+  "grayscale": "গ্ৰেস্কেল",
+  "brightness": "উজ্জ্বলতা",
+  "contrast": "বৈপৰীত্য",
+  "saturation": "সংপৃক্ততা",
+  "navigation_layout": "নেভিগেশন লেআউট",
+  "nav_layout_default": "ডিফল্ট",
+  "nav_layout_l_shaped": "L-আকৃতি",
+  "nav_layout_kindle": "Kindle",
+  "nav_layout_edge": "প্রান্ত",
+  "nav_layout_right_and_left": "সোঁ আৰু বাওঁ",
+  "nav_layout_disabled": "অক্ষম",
+  "color_enhancements": "ৰং উন্নতি",
+  "split_epub_chapters": "অধ্যায়লৈ বিভক্ত কৰক",
+  "split_epub_chapters_description": "প্রতিটি EPUB অধ্যায় পৃথক প্রৱেশ হিচাপে আমদানি কৰক",
+  "compression_level": "সংকোচনৰ স্তৰ",
+  "compression_info": "সংকোচন যিমানে বেছি হ’ব, বেকাপ ফাইলটোৱে সিমানেই কম ঠাই ল’ব, কিন্তু ই অধিক CPU ব্যৱহাৰ কৰিব। ডিফল্ট: {level}",
+  "mass_migration_title": "সামূহিক স্থানান্তৰ",
+  "mass_migration_preview_items": "আইটেমসমূহৰ পূৰ্ববীক্ষণ",
+  "mass_migration_destination_source": "গন্তব্য উৎস",
+  "mass_migration_no_library_items": "সামূহিক স্থানান্তৰৰ বাবে কোনো পুথিভঁৰালৰ আইটেম উপলব্ধ নহয়।",
+  "mass_migration_no_destination_sources": "কোনো ইনষ্টল কৰা গন্তব্য উৎস উপলব্ধ নহয়।",
+  "mass_migration_installed": "ইনষ্টল কৰা হৈছে",
+  "mass_migration_items_ready_for_review": "{count, plural, =1{১ টা আইটেম পৰ্যালোচনাৰ বাবে সাজু} other{{count} টা আইটেম পৰ্যালোচনাৰ বাবে সাজু}}",
+  "@mass_migration_items_ready_for_review": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mass_migration_item_count": "{count, plural, =1{১ টা আইটেম} other{{count} টা আইটেম}}",
+  "@mass_migration_item_count": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mass_migration_select_destination_source": "গন্তব্য উৎস বাছনি কৰক",
+  "mass_migration_finding_matches": "{source} • {language} ত মিল বিচাৰি থকা হৈছে",
+  "@mass_migration_finding_matches": {
+    "placeholders": {
+      "source": {},
+      "language": {}
+    }
+  },
+  "mass_migration_processing_item": "{total} ৰ ভিতৰত {current} নম্বৰ আইটেম প্ৰক্ৰিয়াকৰণ কৰা হৈছে",
+  "@mass_migration_processing_item": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "mass_migration_waiting_next_item": "পৰৱৰ্তী আইটেমৰ বাবে ২ চেকেণ্ড অপেক্ষা কৰা হৈছে...",
+  "mass_migration_waiting_next_migration": "পৰৱৰ্তী স্থানান্তৰৰ বাবে ২ চেকেণ্ড অপেক্ষা কৰা হৈছে...",
+  "mass_migration_matched_so_far": "এতিয়ালৈকে মিলা আইটেম: {count}",
+  "@mass_migration_matched_so_far": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mass_migration_no_match_count": "মিলা নাই: {count}",
+  "@mass_migration_no_match_count": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mass_migration_review_matches": "{source} ৰ বাবে অমিলবোৰ পৰ্যালোচনা কৰক",
+  "@mass_migration_review_matches": {
+    "placeholders": {
+      "source": {}
+    }
+  },
+  "mass_migration_found_matches": "মিলা আইটেম পোৱা গৈছে: {count}",
+  "@mass_migration_found_matches": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mass_migration_no_matches": "কোনো মিল নাই: {count}",
+  "@mass_migration_no_matches": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mass_migration_selected_to_migrate": "স্থানান্তৰৰ বাবে নিৰ্বাচিত: {count}",
+  "@mass_migration_selected_to_migrate": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mass_migration_finish_review": "পৰ্যালোচনা সমাপ্ত কৰক",
+  "mass_migration_migrate_selected": "নিৰ্বাচিত আইটেমসমূহ স্থানান্তৰ কৰক ({count})",
+  "@mass_migration_migrate_selected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mass_migration_migrating_selected": "নিৰ্বাচিত আইটেমসমূহ {source} লৈ স্থানান্তৰ কৰা হৈছে",
+  "@mass_migration_migrating_selected": {
+    "placeholders": {
+      "source": {}
+    }
+  },
+  "mass_migration_no_items_selected": "স্থানান্তৰৰ বাবে কোনো আইটেম বাছনি কৰা হোৱা নাই।",
+  "mass_migration_migrating_item": "{total} ৰ ভিতৰত {current} নম্বৰ আইটেম স্থানান্তৰ কৰা হৈছে",
+  "@mass_migration_migrating_item": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "mass_migration_complete": "সামূহিক স্থানান্তৰ সম্পন্ন হ’ল",
+  "mass_migration_complete_success_message": "সকলো নিৰ্বাচিত আইটেম সফলতাৰে প্ৰক্ৰিয়াকৰণ কৰা হৈছে।",
+  "mass_migration_complete_partial_message": "স্থানান্তৰ সম্পূৰ্ণ হৈছে যদিও কিছুমান আইটেমৰ বাবে এতিয়াও হাতেৰে মনোযোগ দিয়াৰ প্ৰয়োজন আছে।",
+  "mass_migration_route_summary": "{source} → {destination}",
+  "@mass_migration_route_summary": {
+    "placeholders": {
+      "source": {},
+      "destination": {}
+    }
+  },
+  "mass_migration_processed": "প্ৰক্ৰিয়াকৃত",
+  "mass_migration_matched": "মিলা",
+  "mass_migration_migrated": "স্থানান্তৰিত",
+  "mass_migration_skipped": "স্কিপ কৰা হৈছে",
+  "mass_migration_failed": "ব্যৰ্থ হৈছে",
+  "mass_migration_failed_items": "ব্যৰ্থ আইটেমসমূহ",
+  "mass_migration_exit": "সামূহিক স্থানান্তৰৰ পৰা ওলাই যাওক",
+  "mass_migration_no_destination_match": "কোনো গন্তব্য মিল পোৱা নগ’ল",
+  "mass_migration_query": "প্ৰশ্ন: {query}",
+  "@mass_migration_query": {
+    "placeholders": {
+      "query": {}
+    }
+  },
+  "mass_migration_skip": "স্কিপ কৰক",
+  "mass_migration_loading": "লোড হৈ আছে...",
+  "mass_migration_choose_another_result": "আন এটা ফলাফল বাছনি কৰক",
+  "mass_migration_source_chapters": "উৎস অধ্যায়সমূহ",
+  "mass_migration_destination_chapters": "গন্তব্য অধ্যায়সমূহ",
+  "mass_migration_chapter_count": "{count, plural, =1{১ টা অধ্যায়} other{{count} টা অধ্যায়}}",
+  "@mass_migration_chapter_count": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mass_migration_source_chapter_count": "{count, plural, =1{১ টা উৎস অধ্যায়} other{{count} টা উৎস অধ্যায়}}",
+  "@mass_migration_source_chapter_count": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mass_migration_destination_chapter_count": "{count, plural, =1{১ টা গন্তব্য অধ্যায়} other{{count} টা গন্তব্য অধ্যায়}}",
+  "@mass_migration_destination_chapter_count": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mass_migration_no_chapters_found": "কোনো অধ্যায় পোৱা নগ’ল।",
+  "mass_migration_and_more_chapters": "আৰু {count} টা অধিক...",
+  "@mass_migration_and_more_chapters": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mass_migration_unknown_title": "অজ্ঞাত শিৰোনাম",
+  "mass_migration_unknown_match": "অজ্ঞাত মিল",
+  "mass_migration_unknown_source": "অজ্ঞাত উৎস",
+  "mass_migration_unknown_chapter": "অজ্ঞাত অধ্যায়",
+  "delete_download_after_reading": "পঢ়াৰ পিছত ডাউনলোড কৰা ফাইল ডিলিট কৰক",
+  "total": "সৰ্বমুঠ",
+  "mean_per_title": "প্ৰতিটো শিৰোনামৰ গড়",
+  "completion_rate": "সম্পূৰ্ণ হোৱাৰ হাৰ",
+  "watching_time": "চোৱাৰ সময়",
+  "reading_time": "পঢ়াৰ সময়",
+  "average_chapters_per_title": "প্ৰতিটো শিৰোনামৰ গড় অধ্যায়",
+  "read_percentage": "পঢ়াৰ শতাংশ",
+  "entries": "প্ৰৱেশসমূহ",
+  "extension_server_intro_with_jre": "Download the proxy server bundle before using Mihon extensions. The bundle includes the JRE and extension server JAR.",
+  "extension_server_intro_ios": "Download the proxy server JAR before using Mihon extensions. iOS only needs the extension server JAR.",
+  "checking_files": "Checking files",
+  "files_installed": "Files installed",
+  "files_missing": "Files missing",
+  "update_files": "Update files",
+  "up_to_date": "Up to date",
+  "choose_location": "Choose location",
+  "import_existing_jar": "Import existing JAR",
+  "detect_files_in_selected_folder": "Detect files in selected folder",
+  "preparing_download": "Preparing download...",
+  "app_install_location": "App install location",
+  "install_location": "Install location",
+  "jre_executable": "JRE executable",
+  "extension_server_jar": "Extension server JAR",
+  "installed_version": "Installed version",
+  "latest_version": "Latest version",
+  "apkbridge_description": "Use ApkBridge when you need a separate Android device proxy. Set the proxy address here and download the APK from GitHub.",
+  "set_proxy_address": "Set proxy address",
+  "no_extension_server_bundle_available_for_this_platform": "No extension server bundle is available for this platform.",
+  "failed_to_download_bundle": "Failed to download bundle ({statusCode}).",
+  "@failed_to_download_bundle": {
+    "placeholders": {
+      "statusCode": {}
+    }
+  },
+  "downloaded_bundle_missing_expected_files": "The downloaded bundle does not contain the expected files.",
+  "extension_server_files_ready": "Extension server files are ready.",
+  "ios_extension_server_import_hint": "On iOS the server is installed inside the app sandbox. Use \"Import existing JAR\" to bring in a downloaded file.",
+  "select_extension_server_folder": "Select extension server folder",
+  "selected_folder_does_not_exist": "The selected folder does not exist.",
+  "no_extension_server_files_found_in_selected_folder": "No extension server files were found in the selected folder.",
+  "extension_server_files_linked": "Extension server files were linked.",
+  "selected_file_could_not_be_accessed": "The selected file could not be accessed.",
+  "extension_server_jar_imported": "Extension server JAR was imported.",
+  "could_not_launch_apk_bridge_page": "Could not launch the ApkBridge page.",
+  "not_configured": "Not configured",
+  "webview": "Webview",
+  "android_proxy_server_mihon_description": "Download and configure the proxy server required to use Mihon extensions.",
+  "could_not_check_proxy_server_updates": "Could not check for proxy server updates.",
+  "proxy_server_ip_hint": "Server IP (e.g., 10.0.0.5 or https://example.com)",
+  "no_newer_proxy_server_release_available": "No newer proxy server release is available.",
+  "mihon_proxy_server": "Mihon proxy server",
+  "android_proxy_server_mihon": "Android Proxy Server (Mihon)",
+  "select_extension_server_jar": "Select extension server JAR",
+  "webtoon_disable_zoom_out": "Webtoon disable zoom out",
+  "webtoon_double_tap_zoom_enabled": "Webtoon double tap zoom",
+  "navigate_to_pan": "Navigate to pan",
+  "navigate_to_pan_subtitle": "Move zoomed image before turning page",
+  "split_wide_pages": "Split wide pages",
+  "dual_page_invert": "Invert cut half pages",
+  "dual_page_rotate_to_fit": "Rotate to fit",
+  "dual_page_rotate_to_fit_invert": "Invert rotation direction",
+  "landscape_zoom": "Automatic landscape zoom",
+  "zoom_start_position": "Zoom start position",
+  "zoom_start_left": "Left",
+  "zoom_start_right": "Right",
+  "zoom_start_center": "Center",
+  "automatic_background": "Automatic background",
+  "tapping_inversion": "Tapping Inversion",
+  "tapping_inversion_none": "None",
+  "tapping_inversion_horizontal": "Horizontal",
+  "tapping_inversion_vertical": "Vertical",
+  "tapping_inversion_both": "Both",
+  "flash_on_page_change": "Flash on page change",
+  "flash_on_page_change_subtitle": "AMOLED anti-retention helper",
+  "flash_color": "Flash Color",
+  "flash_color_black": "Black",
+  "flash_color_white": "White",
+  "flash_color_white_black": "White & Black",
+  "flash_interval": "Flash Interval: {n} pages",
+  "@flash_interval": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "flash_duration": "Flash Duration: {n} ms",
+  "@flash_duration": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "show_navigation_overlay_on_start": "Show Navigation Overlay on startup",
+  "reader_hide_threshold": "Reader Hide Threshold",
+  "reader_hide_threshold_highest": "Highest (5 px)",
+  "reader_hide_threshold_high": "High (13 px)",
+  "reader_hide_threshold_low": "Low (31 px)",
+  "reader_hide_threshold_lowest": "Lowest (47 px)",
+  "error_no_pages_available": "Error: no pages available"
 }

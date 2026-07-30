@@ -12,11 +12,13 @@ part of 'local_archive.dart';
 @ProviderFor(importArchivesFromFile)
 final importArchivesFromFileProvider = ImportArchivesFromFileFamily._();
 
-final class ImportArchivesFromFileProvider extends $FunctionalProvider<AsyncValue<dynamic>, dynamic, FutureOr<dynamic>>
+final class ImportArchivesFromFileProvider
+    extends $FunctionalProvider<AsyncValue<dynamic>, dynamic, FutureOr<dynamic>>
     with $FutureModifier<dynamic>, $FutureProvider<dynamic> {
   ImportArchivesFromFileProvider._({
     required ImportArchivesFromFileFamily super.from,
-    required (Manga?, {ItemType itemType, bool init}) super.argument,
+    required (Manga?, {ItemType itemType, bool init, bool splitChapters})
+    super.argument,
   }) : super(
          retry: null,
          name: r'importArchivesFromFileProvider',
@@ -37,22 +39,27 @@ final class ImportArchivesFromFileProvider extends $FunctionalProvider<AsyncValu
 
   @$internal
   @override
-  $FutureProviderElement<dynamic> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
+  $FutureProviderElement<dynamic> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
 
   @override
   FutureOr<dynamic> create(Ref ref) {
-    final argument = this.argument as (Manga?, {ItemType itemType, bool init});
+    final argument =
+        this.argument
+            as (Manga?, {ItemType itemType, bool init, bool splitChapters});
     return importArchivesFromFile(
       ref,
       argument.$1,
       itemType: argument.itemType,
       init: argument.init,
+      splitChapters: argument.splitChapters,
     );
   }
 
   @override
   bool operator ==(Object other) {
-    return other is ImportArchivesFromFileProvider && other.argument == argument;
+    return other is ImportArchivesFromFileProvider &&
+        other.argument == argument;
   }
 
   @override
@@ -61,10 +68,15 @@ final class ImportArchivesFromFileProvider extends $FunctionalProvider<AsyncValu
   }
 }
 
-String _$importArchivesFromFileHash() => r'52d80a07200627e1bc650b06d1fd8aed66c03e4c';
+String _$importArchivesFromFileHash() =>
+    r'871480402500a77765e2581062042a2ea5161bf9';
 
 final class ImportArchivesFromFileFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<dynamic>, (Manga?, {ItemType itemType, bool init})> {
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<dynamic>,
+          (Manga?, {ItemType itemType, bool init, bool splitChapters})
+        > {
   ImportArchivesFromFileFamily._()
     : super(
         retry: null,
@@ -78,8 +90,14 @@ final class ImportArchivesFromFileFamily extends $Family
     Manga? mManga, {
     required ItemType itemType,
     required bool init,
+    bool splitChapters = true,
   }) => ImportArchivesFromFileProvider._(
-    argument: (mManga, itemType: itemType, init: init),
+    argument: (
+      mManga,
+      itemType: itemType,
+      init: init,
+      splitChapters: splitChapters,
+    ),
     from: this,
   );
 

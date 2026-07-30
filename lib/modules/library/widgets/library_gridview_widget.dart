@@ -1,32 +1,23 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:isar_community/isar.dart';
-import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/models/download.dart';
-import 'package:mangayomi/models/history.dart';
-import 'package:mangayomi/modules/library/providers/isar_providers.dart';
 import 'package:mangayomi/modules/library/providers/library_state_provider.dart';
 import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/modules/library/widgets/continue_reader_button.dart';
 import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
-import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
-import 'package:mangayomi/utils/constant.dart';
-import 'package:mangayomi/utils/extensions/chapter.dart';
-import 'package:mangayomi/utils/headers.dart';
-import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
+import 'package:mangayomi/utils/platform_utils.dart';
+import 'package:mangayomi/modules/library/widgets/library_entry_utils.dart';
 import 'package:mangayomi/modules/widgets/bottom_text_widget.dart';
 import 'package:mangayomi/modules/widgets/cover_view_widget.dart';
 import 'package:mangayomi/modules/widgets/gridview_widget.dart';
-import 'package:mangayomi/modules/widgets/manga_image_card_widget.dart';
 
 class LibraryGridViewWidget extends StatefulWidget {
   final bool isCoverOnlyGrid;
   final bool isComfortableGrid;
-  final List<int> mangaIdsList;
+  final Set<int> mangaIdsList;
   final List<Manga> entriesManga;
   final bool language;
+  final bool sourceBadge;
   final bool downloadedChapter;
   final bool continueReaderBtn;
   final bool localSource;
@@ -37,6 +28,7 @@ class LibraryGridViewWidget extends StatefulWidget {
     required this.isCoverOnlyGrid,
     this.isComfortableGrid = false,
     required this.language,
+    this.sourceBadge = false,
     required this.downloadedChapter,
     required this.continueReaderBtn,
     required this.mangaIdsList,
@@ -53,11 +45,8 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        final isLongPressed = ref.watch(isLongPressedStateProvider);
-        final itemType = widget.itemType;
-
         final gridSize = ref.watch(
-          libraryGridSizeStateProvider(itemType: itemType),
+          libraryGridSizeStateProvider(itemType: widget.itemType),
         );
         return GridViewWidget(
           gridSize: gridSize,
@@ -65,183 +54,53 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
           itemCount: widget.entriesManga.length,
           itemBuilder: (context, index) {
             final entry = widget.entriesManga[index];
-
-            return Builder(
-              builder: (context) {
-                bool isLocalArchive = entry.isLocalArchive ?? false;
+            return Consumer(
+              builder: (context, ref, child) {
+                final isLongPressed = ref.watch(isLongPressedStateProvider);
                 return Padding(
                   padding: const EdgeInsets.all(2),
                   child: CoverViewWidget(
+                    // On TV, make the first cover the content's focus target so the
+                    // d-pad reliably lands on the grid (not the app bar).
+                    autofocus: isTv && index == 0,
                     isLongPressed: widget.mangaIdsList.contains(entry.id),
+                    isComfortableGrid: widget.isComfortableGrid,
                     bottomTextWidget: BottomTextWidget(
                       maxLines: 1,
                       text: entry.name!,
                       isComfortableGrid: widget.isComfortableGrid,
                     ),
-                    isComfortableGrid: widget.isComfortableGrid,
-                    image: entry.customCoverImage != null
-                        ? MemoryImage(entry.customCoverImage as Uint8List) as ImageProvider
-                        : CustomExtendedNetworkImageProvider(
-                            toImgUrl(
-                              entry.customCoverFromTracker ?? entry.imageUrl ?? "",
-                            ),
-                            headers: entry.isLocalArchive!
-                                ? null
-                                : ref.watch(
-                                    headersProvider(
-                                      source: entry.source!,
-                                      lang: entry.lang!,
-                                      sourceId: entry.sourceId,
-                                    ),
-                                  ),
-                          ),
-                    onTap: () async {
-                      if (isLongPressed) {
-                        ref.read(mangasListStateProvider.notifier).update(entry);
-                      } else {
-                        await pushToMangaReaderDetail(
-                          ref: ref,
-                          archiveId: isLocalArchive ? entry.id : null,
-                          context: context,
-                          lang: entry.lang!,
-                          mangaM: entry,
-                          source: entry.source!,
-                          sourceId: entry.sourceId,
-                        );
-                        if (context.mounted) {
-                          ref.invalidate(
-                            getAllMangaWithoutCategoriesStreamProvider(
-                              itemType: widget.itemType,
-                            ),
-                          );
-                          ref.invalidate(
-                            getAllMangaStreamProvider(
-                              categoryId: null,
-                              itemType: widget.itemType,
-                            ),
-                          );
-                        }
-                      }
-                    },
-                    onLongPress: () {
-                      _handleLongOrSecondaryTap(isLongPressed, ref, entry);
-                    },
-                    onSecondaryTap: () {
-                      _handleLongOrSecondaryTap(isLongPressed, ref, entry);
-                    },
+                    image: resolveCoverImage(entry, ref),
+                    onTap: () => onTapEntry(
+                      isLongPressed: isLongPressed,
+                      ref: ref,
+                      context: context,
+                      entry: entry,
+                    ),
+                    onLongPress: () =>
+                        handleLongOrSecondaryTap(isLongPressed, ref, entry),
+                    onSecondaryTap: () =>
+                        handleLongOrSecondaryTap(isLongPressed, ref, entry),
                     children: [
                       Stack(
                         children: [
+                          // ── Top-left: Local + download count + unread count ──
                           Positioned(
                             top: 0,
                             left: 0,
                             child: Padding(
                               padding: const EdgeInsets.all(5),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(3),
-                                  color: context.primaryColor,
-                                ),
-                                child: Row(
-                                  children: [
-                                    if (widget.localSource && isLocalArchive)
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(3),
-                                            bottomLeft: Radius.circular(3),
-                                          ),
-                                          color: Theme.of(context).hintColor,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 3,
-                                            right: 3,
-                                          ),
-                                          child: Text(
-                                            "Local",
-                                            style: TextStyle(
-                                              color: context.dynamicBlackWhiteColor,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 5),
-                                      child: Consumer(
-                                        builder: (context, ref, child) {
-                                          List nbrDown = [];
-                                          if (widget.downloadedChapter) {
-                                            isar.txnSync(() {
-                                              for (var i = 0; i < entry.chapters.length; i++) {
-                                                final entries = isar.downloads
-                                                    .filter()
-                                                    .idEqualTo(
-                                                      entry.chapters.toList()[i].id,
-                                                    )
-                                                    .findAllSync();
-
-                                                if (entries.isNotEmpty && entries.first.isDownload!) {
-                                                  nbrDown.add(1);
-                                                }
-                                              }
-                                            });
-                                          }
-
-                                          return Row(
-                                            children: [
-                                              if (nbrDown.isNotEmpty && widget.downloadedChapter)
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: const BorderRadius.only(
-                                                      topLeft: Radius.circular(
-                                                        3,
-                                                      ),
-                                                      bottomLeft: Radius.circular(
-                                                        3,
-                                                      ),
-                                                    ),
-                                                    color: Theme.of(
-                                                      context,
-                                                    ).secondaryHeaderColor,
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.only(
-                                                      left: 3,
-                                                      right: 3,
-                                                    ),
-                                                    child: Text(
-                                                      nbrDown.length.toString(),
-                                                    ),
-                                                  ),
-                                                ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 3,
-                                                ),
-                                                child: Text(
-                                                  entry.chapters
-                                                      .where(
-                                                        (element) => !element.isRead!,
-                                                      )
-                                                      .length
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                    color: context.dynamicBlackWhiteColor,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                              child: LibraryBadgeWidget(
+                                entry: entry,
+                                showLocal: widget.localSource,
+                                showDownloaded: widget.downloadedChapter,
                               ),
                             ),
                           ),
-                          if (widget.language && entry.lang!.isNotEmpty)
+
+                          // ── Top-right: Language ──
+                          if (widget.language &&
+                              (entry.lang?.isNotEmpty ?? false))
                             Positioned(
                               top: 0,
                               right: 0,
@@ -249,25 +108,11 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                                 padding: const EdgeInsets.all(5),
                                 child: Container(
                                   color: context.themeData.cardColor,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(3),
-                                        bottomLeft: Radius.circular(3),
-                                      ),
-                                      color: Theme.of(context).hintColor,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 3,
-                                        right: 3,
-                                      ),
-                                      child: Text(
-                                        entry.lang!.toUpperCase(),
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
+                                  child: EntryBadgeChip(
+                                    label: entry.lang!.toUpperCase(),
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(3),
+                                      bottomLeft: Radius.circular(3),
                                     ),
                                   ),
                                 ),
@@ -275,103 +120,45 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                             ),
                         ],
                       ),
-                      if (!widget.isComfortableGrid && !widget.isCoverOnlyGrid) BottomTextWidget(text: entry.name!),
+
+                      if (!widget.isComfortableGrid && !widget.isCoverOnlyGrid)
+                        BottomTextWidget(text: entry.name!),
+
                       if (widget.continueReaderBtn)
                         Positioned(
                           bottom: 0,
                           right: 0,
                           child: Padding(
                             padding: const EdgeInsets.all(9),
-                            child: Consumer(
-                              builder: (context, ref, child) {
-                                return StreamBuilder(
-                                  stream: isar.historys
-                                      .filter()
-                                      .idIsNotNull()
-                                      .and()
-                                      .chapter(
-                                        (q) => q.manga(
-                                          (q) => q.itemTypeEqualTo(entry.itemType),
-                                        ),
-                                      )
-                                      .watch(fireImmediately: true),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                                      final incognitoMode = ref.watch(
-                                        incognitoModeStateProvider,
-                                      );
-                                      final entries = snapshot.data!
-                                          .where(
-                                            (element) => element.mangaId == entry.id,
-                                          )
-                                          .toList();
-                                      if (entries.isNotEmpty && !incognitoMode) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            entries.first.chapter.value!.pushToReaderView(context);
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5),
-                                              color: context.primaryColor.withValues(alpha: 0.9),
-                                            ),
-                                            child: const Padding(
-                                              padding: EdgeInsets.all(7),
-                                              child: Icon(
-                                                Icons.play_arrow,
-                                                size: 19,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                      return GestureDetector(
-                                        onTap: () {
-                                          entry.chapters.toList().reversed.toList().last.pushToReaderView(context);
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              5,
-                                            ),
-                                            color: context.primaryColor.withValues(alpha: 0.9),
-                                          ),
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(7),
-                                            child: Icon(
-                                              Icons.play_arrow,
-                                              size: 19,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    return GestureDetector(
-                                      onTap: () {
-                                        entry.chapters.toList().reversed.toList().last.pushToReaderView(context);
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                            5,
-                                          ),
-                                          color: context.primaryColor.withValues(alpha: 0.9),
-                                        ),
-                                        child: const Padding(
-                                          padding: EdgeInsets.all(7),
-                                          child: Icon(
-                                            Icons.play_arrow,
-                                            size: 19,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
+                            child: ContinueReaderButton(entry: entry),
+                          ),
+                        ),
+
+                      // ── Bottom-left: Source ──
+                      if (widget.sourceBadge && (entry.source ?? '').isNotEmpty)
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Container(
+                              constraints: const BoxConstraints(maxWidth: 96),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: context.themeData.cardColor,
+                                borderRadius: const BorderRadius.only(
+                                  topRight: Radius.circular(3),
+                                ),
+                              ),
+                              child: Text(
+                                entry.source!,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(fontSize: 10),
+                              ),
                             ),
                           ),
                         ),
@@ -384,18 +171,5 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
         );
       },
     );
-  }
-
-  void _handleLongOrSecondaryTap(
-    bool isLongPressed,
-    WidgetRef ref,
-    Manga entry,
-  ) {
-    if (!isLongPressed) {
-      ref.read(mangasListStateProvider.notifier).update(entry);
-      ref.read(isLongPressedStateProvider.notifier).update(!isLongPressed);
-    } else {
-      ref.read(mangasListStateProvider.notifier).update(entry);
-    }
   }
 }

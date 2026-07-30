@@ -7,6 +7,7 @@ import 'package:mangayomi/modules/more/settings/downloads/providers/downloads_st
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:mangayomi/utils/platform_utils.dart';
 
 class DownloadsScreen extends ConsumerStatefulWidget {
   const DownloadsScreen({super.key});
@@ -19,13 +20,21 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
   @override
   Widget build(BuildContext context) {
     final saveAsCBZArchiveState = ref.watch(saveAsCBZArchiveStateProvider);
+    final deleteDownloadAfterReading = ref.watch(
+      deleteDownloadAfterReadingStateProvider,
+    );
     final onlyOnWifiState = ref.watch(onlyOnWifiStateProvider);
     final concurrentDownloads = ref.watch(concurrentDownloadsStateProvider);
+    final allowConcurrentDownloads = ref.watch(
+      allowConcurrentDownloadsStateProvider,
+    );
+    final downloadDelaySeconds = ref.watch(downloadDelaySecondsStateProvider);
     final localFolders = ref.watch(localFoldersStateProvider);
     final l10n = l10nLocalizations(context);
     return Scaffold(
       appBar: AppBar(title: Text(l10n!.downloads)),
       body: SingleChildScrollView(
+        padding: tvPageInsets,
         child: Column(
           children: [
             SwitchListTile(
@@ -42,14 +51,103 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                 ref.read(saveAsCBZArchiveStateProvider.notifier).set(value);
               },
             ),
+            SwitchListTile(
+              value: deleteDownloadAfterReading,
+              title: Text(l10n.delete_download_after_reading),
+              onChanged: (value) {
+                ref
+                    .read(deleteDownloadAfterReadingStateProvider.notifier)
+                    .set(value);
+              },
+            ),
+            SwitchListTile(
+              value: allowConcurrentDownloads,
+              title: Text(l10n.allow_concurrent_downloads),
+              subtitle: Text(l10n.allow_concurrent_downloads_subtitle),
+              onChanged: (value) {
+                ref
+                    .read(allowConcurrentDownloadsStateProvider.notifier)
+                    .set(value);
+              },
+            ),
+            if (allowConcurrentDownloads)
+              ListTile(
+                onTap: () {
+                  int currentIntValue = concurrentDownloads;
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text(context.l10n.concurrent_downloads),
+                        content: StatefulBuilder(
+                          builder: (context, setState) => SizedBox(
+                            height: 200,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                NumberPicker(
+                                  value: currentIntValue,
+                                  minValue: 1,
+                                  maxValue: 255,
+                                  step: 1,
+                                  haptics: true,
+                                  textMapper: (numberText) => numberText,
+                                  onChanged: (value) =>
+                                      setState(() => currentIntValue = value),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        actions: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                onPressed: () async {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  context.l10n.cancel,
+                                  style: TextStyle(color: context.primaryColor),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  ref
+                                      .read(
+                                        concurrentDownloadsStateProvider
+                                            .notifier,
+                                      )
+                                      .set(currentIntValue);
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  context.l10n.ok,
+                                  style: TextStyle(color: context.primaryColor),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                title: Text(context.l10n.concurrent_downloads),
+                subtitle: Text(
+                  "$concurrentDownloads",
+                  style: TextStyle(fontSize: 11, color: context.secondaryColor),
+                ),
+              ),
             ListTile(
               onTap: () {
-                int currentIntValue = concurrentDownloads;
+                int currentDelay = downloadDelaySeconds;
                 showDialog(
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text(context.l10n.concurrent_downloads),
+                      title: Text(context.l10n.download_delay),
                       content: StatefulBuilder(
                         builder: (context, setState) => SizedBox(
                           height: 200,
@@ -57,15 +155,14 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               NumberPicker(
-                                value: currentIntValue,
-                                minValue: 1,
-                                maxValue: 255,
+                                value: currentDelay,
+                                minValue: 0,
+                                maxValue: 120,
                                 step: 1,
                                 haptics: true,
                                 textMapper: (numberText) => numberText,
-                                onChanged: (value) => setState(
-                                  () => currentIntValue = value,
-                                ),
+                                onChanged: (value) =>
+                                    setState(() => currentDelay = value),
                               ),
                             ],
                           ),
@@ -76,21 +173,20 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             TextButton(
-                              onPressed: () async {
-                                Navigator.pop(context);
-                              },
+                              onPressed: () => Navigator.pop(context),
                               child: Text(
                                 context.l10n.cancel,
                                 style: TextStyle(color: context.primaryColor),
                               ),
                             ),
                             TextButton(
-                              onPressed: () async {
+                              onPressed: () {
                                 ref
                                     .read(
-                                      concurrentDownloadsStateProvider.notifier,
+                                      downloadDelaySecondsStateProvider
+                                          .notifier,
                                     )
-                                    .set(currentIntValue);
+                                    .set(currentDelay);
                                 Navigator.pop(context);
                               },
                               child: Text(
@@ -105,9 +201,11 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                   },
                 );
               },
-              title: Text(context.l10n.concurrent_downloads),
+              title: Text(context.l10n.download_delay),
               subtitle: Text(
-                "$concurrentDownloads",
+                downloadDelaySeconds == 0
+                    ? l10n.download_delay_subtitle
+                    : "$downloadDelaySeconds s (+ jitter)",
                 style: TextStyle(fontSize: 11, color: context.secondaryColor),
               ),
             ),
@@ -117,7 +215,7 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
             ),
             ListTile(
               onTap: () async {
-                final result = await FilePicker.platform.getDirectoryPath();
+                final result = await FilePicker.getDirectoryPath();
                 if (result != null) {
                   final temp = localFolders.toList();
                   temp.add(result);
@@ -234,8 +332,10 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
             Text.rich(
               TextSpan(
                 children: [
-                  for (int i = 1; i < level; i++) const WidgetSpan(child: SizedBox(width: 20)),
-                  if (level > 0) WidgetSpan(child: Icon(Icons.subdirectory_arrow_right)),
+                  for (int i = 1; i < level; i++)
+                    const WidgetSpan(child: SizedBox(width: 20)),
+                  if (level > 0)
+                    WidgetSpan(child: Icon(Icons.subdirectory_arrow_right)),
                   WidgetSpan(child: Icon(Icons.folder)),
                   const WidgetSpan(child: SizedBox(width: 5)),
                   TextSpan(text: data.$1),
@@ -251,8 +351,10 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
       return Text.rich(
         TextSpan(
           children: [
-            for (int i = 1; i < level; i++) const WidgetSpan(child: SizedBox(width: 20)),
-            if (level > 0) WidgetSpan(child: Icon(Icons.subdirectory_arrow_right)),
+            for (int i = 1; i < level; i++)
+              const WidgetSpan(child: SizedBox(width: 20)),
+            if (level > 0)
+              WidgetSpan(child: Icon(Icons.subdirectory_arrow_right)),
             WidgetSpan(child: Icon(data.$2 as IconData)),
             const WidgetSpan(child: SizedBox(width: 5)),
             TextSpan(text: data.$1),
@@ -350,7 +452,8 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                                     content: Text("${l10n.delete} $folder"),
                                     actions: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
                                           TextButton(
                                             onPressed: () {
@@ -361,13 +464,15 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                                           const SizedBox(width: 15),
                                           TextButton(
                                             onPressed: () {
-                                              final temp = localFolders.toList();
+                                              final temp = localFolders
+                                                  .toList();
                                               temp.removeAt(
                                                 temp.indexOf(folder),
                                               );
                                               ref
                                                   .read(
-                                                    localFoldersStateProvider.notifier,
+                                                    localFoldersStateProvider
+                                                        .notifier,
                                                   )
                                                   .set(temp);
                                               Navigator.pop(context);

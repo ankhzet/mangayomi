@@ -26,6 +26,9 @@ class DesktopControllerWidget extends ConsumerStatefulWidget {
   final int defaultSkipIntroLength;
   final void Function(bool) desktopFullScreenPlayer;
   final ValueNotifier<List<(String, int)>> chapterMarks;
+  // Bumped by the player on each d-pad key so the desktop controls can reveal on
+  // a TV remote — they otherwise only appear on mouse hover. Null off-TV.
+  final ValueNotifier<int>? revealControls;
   const DesktopControllerWidget({
     super.key,
     required this.videoController,
@@ -39,6 +42,7 @@ class DesktopControllerWidget extends ConsumerStatefulWidget {
     required this.defaultSkipIntroLength,
     required this.desktopFullScreenPlayer,
     required this.chapterMarks,
+    this.revealControls,
   });
 
   @override
@@ -65,6 +69,18 @@ class _DesktopControllerWidgetState extends ConsumerState<DesktopControllerWidge
   final List<StreamSubscription> subscriptions = [];
   DateTime last = DateTime.now();
   Timer? _tapTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    // Reveal on a d-pad key (TV remote) — the desktop controls otherwise only
+    // appear on mouse hover, which a remote can't trigger.
+    widget.revealControls?.addListener(_onRevealRequest);
+  }
+
+  void _onRevealRequest() {
+    if (mounted) onEnter();
+  }
 
   @override
   void setState(VoidCallback fn) {
@@ -97,6 +113,7 @@ class _DesktopControllerWidgetState extends ConsumerState<DesktopControllerWidge
 
   @override
   void dispose() {
+    widget.revealControls?.removeListener(_onRevealRequest);
     for (final subscription in subscriptions) {
       subscription.cancel();
     }
@@ -175,6 +192,12 @@ class _DesktopControllerWidgetState extends ConsumerState<DesktopControllerWidge
         },
         const SingleActivator(LogicalKeyboardKey.enter): () {
           final rate = widget.videoController.player.state.position + Duration(seconds: widget.defaultSkipIntroLength);
+          widget.videoController.player.seek(rate);
+        },
+        const SingleActivator(LogicalKeyboardKey.keyS): () {
+          final rate =
+              widget.videoController.player.state.position +
+              Duration(seconds: widget.defaultSkipIntroLength);
           widget.videoController.player.seek(rate);
         },
         const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
@@ -818,17 +841,10 @@ class _CustomMaterialDesktopFullscreenButtonState extends ConsumerState<CustomMa
 
 Future<bool> setFullScreen({bool? value}) async {
   if (value != null) {
-    final isFullScreen = await windowManager.isFullScreen();
-    if (value != isFullScreen) {
-      await windowManager.setFullScreen(value);
-    }
+    await windowManager.setFullScreen(value);
     return value;
   }
   final isFullScreen = await windowManager.isFullScreen();
-  if (!isFullScreen) {
-    await windowManager.setFullScreen(true);
-  } else {
-    await windowManager.setFullScreen(false);
-  }
+  await windowManager.setFullScreen(!isFullScreen);
   return !isFullScreen;
 }

@@ -47,6 +47,27 @@ class SaveAsCBZArchiveState extends _$SaveAsCBZArchiveState {
 }
 
 @riverpod
+class DeleteDownloadAfterReadingState
+    extends _$DeleteDownloadAfterReadingState {
+  @override
+  bool build() {
+    return isar.settings.getSync(227)!.deleteDownloadAfterReading ?? false;
+  }
+
+  void set(bool value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..deleteDownloadAfterReading = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
+  }
+}
+
+@riverpod
 class DownloadLocationState extends _$DownloadLocationState {
   @override
   (String, String) build() {
@@ -92,6 +113,46 @@ class ConcurrentDownloadsState extends _$ConcurrentDownloadsState {
       () => isar.settings.putSync(
         settings!
           ..concurrentDownloads = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
+  }
+}
+
+@riverpod
+class AllowConcurrentDownloadsState extends _$AllowConcurrentDownloadsState {
+  @override
+  bool build() {
+    return isar.settings.getSync(227)!.allowConcurrentDownloads ?? true;
+  }
+
+  void set(bool value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..allowConcurrentDownloads = value
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
+  }
+}
+
+@riverpod
+class DownloadDelaySecondsState extends _$DownloadDelaySecondsState {
+  @override
+  int build() {
+    return isar.settings.getSync(227)!.downloadDelaySeconds ?? 0;
+  }
+
+  void set(int value) {
+    final settings = isar.settings.getSync(227);
+    state = value;
+    isar.writeTxnSync(
+      () => isar.settings.putSync(
+        settings!
+          ..downloadDelaySeconds = value
           ..updatedAt = DateTime.now().millisecondsSinceEpoch,
       ),
     );

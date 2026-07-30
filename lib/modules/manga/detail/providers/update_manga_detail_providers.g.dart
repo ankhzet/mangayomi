@@ -61,7 +61,7 @@ final class UpdateMangaDetailProvider extends $FunctionalProvider<AsyncValue<dyn
   }
 }
 
-String _$updateMangaDetailHash() => r'37da5f23f30126d15cedfaf42087f9ce11c3fc26';
+String _$updateMangaDetailHash() => r'44eba7f0a8128ed6da26ad1125d7db805abb5ff1';
 
 final class UpdateMangaDetailFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<dynamic>, ({int? mangaId, bool isInit, bool showToast})> {

@@ -127,7 +127,7 @@ final class DownloadChapterProvider extends $FunctionalProvider<AsyncValue<void>
   }
 }
 
-String _$downloadChapterHash() => r'c503cef46aa7083316b023400f0aa470ae3a3bc4';
+String _$downloadChapterHash() => r'c1907fb4b8bf9e60c54b9f647b71c831e0661ffa';
 
 final class DownloadChapterFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<void>, ({Chapter chapter, bool? useWifi, VoidCallback? callback})> {
@@ -200,7 +200,7 @@ final class ProcessDownloadsProvider extends $FunctionalProvider<AsyncValue<void
   }
 }
 
-String _$processDownloadsHash() => r'36903a1ca0140ef7d55aa68ee34d8c74573e8e71';
+String _$processDownloadsHash() => r'61cfdcfe76480853d4f2102e4435bd3bdc36c939';
 
 final class ProcessDownloadsFamily extends $Family with $FunctionalFamilyOverride<FutureOr<void>, bool?> {
   ProcessDownloadsFamily._()

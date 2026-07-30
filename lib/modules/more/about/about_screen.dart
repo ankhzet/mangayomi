@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +9,7 @@ import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/more/about/providers/check_for_update.dart';
+import 'package:mangayomi/modules/more/about/providers/download_file_screen.dart';
 import 'package:mangayomi/modules/more/about/providers/get_package_info.dart';
 import 'package:mangayomi/modules/more/about/providers/logs_state.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
@@ -38,7 +40,9 @@ class AboutScreen extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(vertical: 40),
                     child: Image.asset(
                       "assets/app_icons/icon.png",
-                      color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
                       fit: BoxFit.cover,
                       height: 100,
                     ),
@@ -63,38 +67,59 @@ class AboutScreen extends ConsumerWidget {
                             isar.settings.putSync(
                               settings!
                                 ..checkForAppUpdates = value
-                                ..updatedAt = DateTime.now().millisecondsSinceEpoch,
+                                ..updatedAt =
+                                    DateTime.now().millisecondsSinceEpoch,
                             );
                           });
                           ref.invalidate(checkForAppUpdatesProvider);
                         },
                       ),
                       ListTile(
-                        onTap: () {
-                          ref.read(
-                            checkForUpdateProvider(
-                              context: context,
-                              manualUpdate: true,
-                            ),
-                          );
+                        onTap: () async {
+                          BotToast.showText(text: l10n.searching_for_updates);
+                          try {
+                            final updateInfo = await performManualUpdateCheck();
+                            if (updateInfo != null) {
+                              BotToast.showText(
+                                text: l10n.new_update_available,
+                              );
+                              await Future.delayed(const Duration(seconds: 1));
+                              if (context.mounted) {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => DownloadFileScreen(
+                                    updateAvailable: updateInfo,
+                                  ),
+                                );
+                              }
+                            } else {
+                              BotToast.showText(
+                                text: l10n.no_new_updates_available,
+                              );
+                            }
+                          } catch (_) {
+                            BotToast.showText(
+                              text: l10n.no_new_updates_available,
+                            );
+                          }
                         },
                         title: Text(l10n.check_for_update),
                       ),
                       SwitchListTile(
                         title: Text(l10n.logs_on),
                         value: enableLogs,
-                        onChanged: (value) {
-                          isar.writeTxnSync(() {
-                            final settings = isar.settings.getSync(227);
-                            isar.settings.putSync(
+                        onChanged: (value) async {
+                          await isar.writeTxn(() async {
+                            final settings = await isar.settings.get(227);
+                            await isar.settings.put(
                               settings!..enableLogs = value,
                             );
                           });
                           ref.invalidate(logsStateProvider);
                           if (value) {
-                            AppLogger.init();
+                            await AppLogger.init();
                           } else {
-                            AppLogger.dispose();
+                            await AppLogger.dispose();
                           }
                         },
                       ),
@@ -102,7 +127,8 @@ class AboutScreen extends ConsumerWidget {
                         ListTile(
                           onTap: () async {
                             final storage = StorageProvider();
-                            final directory = await storage.getDefaultDirectory();
+                            final directory = await storage
+                                .getDefaultDirectory();
                             final file = File(
                               path.join(directory!.path, 'logs.txt'),
                             );
@@ -113,12 +139,15 @@ class AboutScreen extends ConsumerWidget {
                                 );
                               }
                               if (context.mounted) {
-                                final box = context.findRenderObject() as RenderBox?;
+                                final box =
+                                    context.findRenderObject() as RenderBox?;
                                 SharePlus.instance.share(
                                   ShareParams(
                                     files: [XFile(file.path)],
                                     text: "log.txt",
-                                    sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+                                    sharePositionOrigin:
+                                        box!.localToGlobal(Offset.zero) &
+                                        box.size,
                                   ),
                                 );
                               }
@@ -152,11 +181,8 @@ class AboutScreen extends ConsumerWidget {
                               );
                             },
                             icon: const Padding(
-                              padding: EdgeInsets.only(
-                                left: 2.5,
-                                right: 2.5,
-                              ),
-                              child: Icon(FontAwesomeIcons.github),
+                              padding: EdgeInsets.only(left: 2.5, right: 2.5),
+                              child: FaIcon(FontAwesomeIcons.github),
                             ),
                           ),
                           IconButton(
@@ -169,7 +195,7 @@ class AboutScreen extends ConsumerWidget {
                             },
                             icon: const Padding(
                               padding: EdgeInsets.only(right: 5),
-                              child: Icon(FontAwesomeIcons.discord),
+                              child: FaIcon(FontAwesomeIcons.discord),
                             ),
                           ),
                         ],

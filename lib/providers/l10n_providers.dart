@@ -9,14 +9,13 @@ part 'l10n_providers.g.dart';
 class L10nLocaleState extends _$L10nLocaleState {
   @override
   Locale build() {
-    return Locale(
-      _getLocale()!.languageCode ?? "en",
-      _getLocale()!.countryCode ?? "",
-    );
+    final locale = _getLocale();
+    return Locale(locale.languageCode ?? "en", locale.countryCode ?? "");
   }
 
-  L10nLocale? _getLocale() {
-    return isar.settings.getSync(227)!.locale ?? L10nLocale(languageCode: "en", countryCode: "");
+  L10nLocale _getLocale() {
+    return isar.settings.getSync(227)?.locale ??
+        L10nLocale(languageCode: "en", countryCode: "");
   }
 
   void setLocale(Locale locale) async {
@@ -35,7 +34,8 @@ class L10nLocaleState extends _$L10nLocaleState {
   }
 }
 
-AppLocalizations? l10nLocalizations(BuildContext context) => AppLocalizations.of(context);
+AppLocalizations? l10nLocalizations(BuildContext context) =>
+    AppLocalizations.of(context);
 Locale currentLocale(BuildContext context) {
   return Localizations.localeOf(context);
 }

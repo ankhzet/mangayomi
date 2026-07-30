@@ -12,7 +12,8 @@ part of 'novel_reader_controller_provider.dart';
 @ProviderFor(NovelReaderController)
 final novelReaderControllerProvider = NovelReaderControllerFamily._();
 
-final class NovelReaderControllerProvider extends $NotifierProvider<NovelReaderController, void> {
+final class NovelReaderControllerProvider
+    extends $NotifierProvider<NovelReaderController, void> {
   NovelReaderControllerProvider._({
     required NovelReaderControllerFamily super.from,
     required Chapter super.argument,
@@ -57,10 +58,12 @@ final class NovelReaderControllerProvider extends $NotifierProvider<NovelReaderC
   }
 }
 
-String _$novelReaderControllerHash() => r'6ed6441112a356af8530219a6017e640fda388f2';
+String _$novelReaderControllerHash() =>
+    r'c9171314d6c24d3f7a88bd7a258ab409f769dbb5';
 
 final class NovelReaderControllerFamily extends $Family
-    with $ClassFamilyOverride<NovelReaderController, void, void, void, Chapter> {
+    with
+        $ClassFamilyOverride<NovelReaderController, void, void, void, Chapter> {
   NovelReaderControllerFamily._()
     : super(
         retry: null,
@@ -86,7 +89,14 @@ abstract class _$NovelReaderController extends $Notifier<void> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<void, void>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<void, void>, void, Object?, Object?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<void, void>,
+              void,
+              Object?,
+              Object?
+            >;
     element.handleCreate(ref, () => build(chapter: _$args));
   }
 }

@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:mangayomi/utils/platform_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/settings.dart';
@@ -7,6 +6,7 @@ import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
+import 'package:mangayomi/modules/widgets/tv_escapable_slider.dart';
 
 class ReaderScreen extends ConsumerWidget {
   const ReaderScreen({super.key});
@@ -27,9 +27,15 @@ class ReaderScreen extends ConsumerWidget {
     final fullScreenReader = ref.watch(fullScreenReaderStateProvider);
 
     final cropBorders = ref.watch(cropBordersStateProvider);
+    final keepScreenOn = ref.watch(keepScreenOnReaderStateProvider);
+    final autoReadDuplChap = ref.watch(autoReadDuplicateChaptersStateProvider);
+    final showPageGaps = ref.watch(showPageGapsStateProvider);
+    final webtoonSidePadding = ref.watch(webtoonSidePaddingStateProvider);
+    final navigationLayout = ref.watch(readerNavigationLayoutStateProvider);
     return Scaffold(
       appBar: AppBar(title: Text(context.l10n.reader)),
       body: SingleChildScrollView(
+        padding: tvPageInsets,
         child: Column(
           children: [
             ListTile(
@@ -245,17 +251,30 @@ class ReaderScreen extends ConsumerWidget {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Slider(
-                                  value: tempAmount.toDouble(),
-                                  min: 1,
-                                  max: 20,
-                                  // divisions: 19, // makes the slider a bit sluggish
-                                  // label: tempAmount.toString(), // value indicator balloon. Redundant because of the Text widget above
-                                  onChanged: (double newVal) {
-                                    setState(() {
-                                      tempAmount = newVal.round();
-                                    });
-                                  },
+                                TvEscapableSlider(
+                                  enabled: isTv,
+                                  onDecrease: () => setState(
+                                    () => tempAmount = (tempAmount - 1).clamp(
+                                      1,
+                                      20,
+                                    ),
+                                  ),
+                                  onIncrease: () => setState(
+                                    () => tempAmount = (tempAmount + 1).clamp(
+                                      1,
+                                      20,
+                                    ),
+                                  ),
+                                  child: Slider(
+                                    value: tempAmount.toDouble(),
+                                    min: 1,
+                                    max: 20,
+                                    onChanged: (double newVal) {
+                                      setState(() {
+                                        tempAmount = newVal.round();
+                                      });
+                                    },
+                                  ),
                                 ),
                               ],
                             );
@@ -354,7 +373,7 @@ class ReaderScreen extends ConsumerWidget {
                 style: TextStyle(fontSize: 11, color: context.secondaryColor),
               ),
             ),
-            if (!(Platform.isAndroid || Platform.isIOS))
+            if (!isMobile)
               SwitchListTile(
                 value: fullScreenReader,
                 title: Text(context.l10n.fullscreen),
@@ -383,6 +402,92 @@ class ReaderScreen extends ConsumerWidget {
                 ref.read(usePageTapZonesStateProvider.notifier).set(value);
               },
             ),
+            SwitchListTile(
+              value: keepScreenOn,
+              title: Text(context.l10n.keep_screen_on),
+              onChanged: (value) {
+                ref.read(keepScreenOnReaderStateProvider.notifier).set(value);
+              },
+            ),
+            SwitchListTile(
+              value: showPageGaps,
+              title: Text(context.l10n.show_page_gaps),
+              onChanged: (value) {
+                ref.read(showPageGapsStateProvider.notifier).set(value);
+              },
+            ),
+            SwitchListTile(
+              value: autoReadDuplChap,
+              title: Text(context.l10n.mark_duplicate_chapters_read),
+              onChanged: (value) {
+                ref
+                    .read(autoReadDuplicateChaptersStateProvider.notifier)
+                    .set(value);
+              },
+            ),
+            ListTile(
+              title: Text(context.l10n.webtoon_side_padding),
+              subtitle: TvEscapableSlider(
+                enabled: isTv,
+                onDecrease: () => ref
+                    .read(webtoonSidePaddingStateProvider.notifier)
+                    .set((webtoonSidePadding - 1).clamp(0, 50)),
+                onIncrease: () => ref
+                    .read(webtoonSidePaddingStateProvider.notifier)
+                    .set((webtoonSidePadding + 1).clamp(0, 50)),
+                child: Slider(
+                  min: 0,
+                  max: 50,
+                  divisions: 50,
+                  label: '$webtoonSidePadding%',
+                  value: webtoonSidePadding.toDouble(),
+                  onChanged: (value) {
+                    ref
+                        .read(webtoonSidePaddingStateProvider.notifier)
+                        .set(value.toInt());
+                  },
+                ),
+              ),
+            ),
+            ListTile(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (ctx) {
+                    return SimpleDialog(
+                      title: Text(context.l10n.navigation_layout),
+                      children: [
+                        RadioGroup<int>(
+                          groupValue: navigationLayout,
+                          onChanged: (val) {
+                            ref
+                                .read(
+                                  readerNavigationLayoutStateProvider.notifier,
+                                )
+                                .set(val!);
+                            Navigator.pop(ctx);
+                          },
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: List.generate(6, (i) {
+                              return RadioListTile<int>(
+                                value: i,
+                                title: Text(_navLayoutNameGlobal(i, context)),
+                              );
+                            }),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              title: Text(context.l10n.navigation_layout),
+              subtitle: Text(
+                _navLayoutNameGlobal(navigationLayout, context),
+                style: TextStyle(fontSize: 11, color: context.secondaryColor),
+              ),
+            ),
           ],
         ),
       ),
@@ -397,6 +502,8 @@ String getReaderModeName(ReaderMode readerMode, BuildContext context) {
     ReaderMode.ltr => context.l10n.reading_mode_left_to_right,
     ReaderMode.rtl => context.l10n.reading_mode_right_to_left,
     ReaderMode.horizontalContinuous => context.l10n.horizontal_continious,
+    ReaderMode.horizontalContinuousRTL =>
+      "${context.l10n.horizontal_continious} (RTL)",
     _ => context.l10n.reading_mode_webtoon,
   };
 }
@@ -481,4 +588,16 @@ List<String> getScaleTypeNames(BuildContext context) {
     // l10n.scale_type_original_size,
     // l10n.scale_type_smart_fit,
   ];
+}
+
+String _navLayoutNameGlobal(int index, BuildContext context) {
+  return switch (index) {
+    0 => context.l10n.nav_layout_default,
+    1 => context.l10n.nav_layout_l_shaped,
+    2 => context.l10n.nav_layout_kindle,
+    3 => context.l10n.nav_layout_edge,
+    4 => context.l10n.nav_layout_right_and_left,
+    5 => context.l10n.nav_layout_disabled,
+    _ => context.l10n.nav_layout_default,
+  };
 }

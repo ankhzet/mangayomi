@@ -68,15 +68,10 @@ Future<(String, String, String, List<dynamic>)> _checkUpdate() async {
     );
     List resListJson = jsonDecode(res.body) as List;
     return (
-      resListJson.first["name"]
-          .toString()
-          .substringAfter('v')
-          .substringBefore('-'),
+      resListJson.first["name"].toString().substringAfter('v').substringBefore('-'),
       resListJson.first["body"].toString(),
       resListJson.first["html_url"].toString(),
-      (resListJson.first["assets"] as List)
-          .map((asset) => asset["browser_download_url"])
-          .toList(),
+      (resListJson.first["assets"] as List).map((asset) => asset["browser_download_url"]).toList(),
     );
   } catch (e) {
     rethrow;

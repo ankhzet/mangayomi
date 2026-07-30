@@ -37,8 +37,7 @@ class DartExtensionService implements ExtensionService {
       return _interpreter!.invoke('headers', []) as Map<String, String>;
     } catch (_) {
       try {
-        return _interpreter!.invoke('getHeader', [source.baseUrl!])
-            as Map<String, String>;
+        return _interpreter!.invoke('getHeader', [source.baseUrl!]) as Map<String, String>;
       } catch (_) {
         return {};
       }
@@ -65,12 +64,10 @@ class DartExtensionService implements ExtensionService {
   }
 
   @override
-  Future<MPages> getPopular(int page) async =>
-      await _interpreter!.invoke('getPopular', [page]) as MPages;
+  Future<MPages> getPopular(int page) async => await _interpreter!.invoke('getPopular', [page]) as MPages;
 
   @override
-  Future<MPages> getLatestUpdates(int page) async =>
-      await _interpreter!.invoke('getLatestUpdates', [page]) as MPages;
+  Future<MPages> getLatestUpdates(int page) async => await _interpreter!.invoke('getLatestUpdates', [page]) as MPages;
 
   @override
   Future<MPages> search(String query, int page, List<dynamic> filters) async {
@@ -83,8 +80,7 @@ class DartExtensionService implements ExtensionService {
   }
 
   @override
-  Future<MManga> getDetail(String url) async =>
-      await _interpreter!.invoke('getDetail', [url]) as MManga;
+  Future<MManga> getDetail(String url) async => await _interpreter!.invoke('getDetail', [url]) as MManga;
 
   @override
   Future<List<PageUrl>> getPageList(String url) async {

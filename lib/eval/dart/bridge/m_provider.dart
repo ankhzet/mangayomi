@@ -16,49 +16,35 @@ class MProviderBridged {
       },
     },
     getters: {
-      'supportsLatest':
-          (visitor, target) => (target as MProvider).supportsLatest,
+      'supportsLatest': (visitor, target) => (target as MProvider).supportsLatest,
       'baseUrl': (visitor, target) => (target as MProvider).baseUrl,
       'headers': (visitor, target) => (target as MProvider).headers,
     },
     methods: {
-      'getLatestUpdates':
-          (visitor, target, positionalArgs, namedArgs) =>
-              (target as MProvider).getLatestUpdates(positionalArgs[0] as int),
-      'getPopular':
-          (visitor, target, positionalArgs, namedArgs) =>
-              (target as MProvider).getPopular(positionalArgs[0] as int),
-      'getVideoList':
-          (visitor, target, positionalArgs, namedArgs) =>
-              (target as MProvider).getVideoList(positionalArgs[0] as String),
-      'search':
-          (visitor, target, positionalArgs, namedArgs) =>
-              (target as MProvider).search(
-                positionalArgs[0] as String,
-                positionalArgs[1] as int,
-                positionalArgs[2] as FilterList,
-              ),
-      'getDetail':
-          (visitor, target, positionalArgs, namedArgs) =>
-              (target as MProvider).getDetail(positionalArgs[0] as String),
-      'getPageList':
-          (visitor, target, positionalArgs, namedArgs) =>
-              (target as MProvider).getPageList(positionalArgs[0] as String),
-      'cleanHtmlContent':
-          (visitor, target, positionalArgs, namedArgs) => (target as MProvider)
-              .cleanHtmlContent(positionalArgs[0] as String),
-      'getHtmlContent':
-          (visitor, target, positionalArgs, namedArgs) =>
-              (target as MProvider).getHtmlContent(
-                positionalArgs[0] as String,
-                positionalArgs[1] as String,
-              ),
-      'getFilterList':
-          (visitor, target, positionalArgs, namedArgs) =>
-              (target as MProvider).getFilterList(),
-      'getSourcePreferences':
-          (visitor, target, positionalArgs, namedArgs) =>
-              (target as MProvider).getSourcePreferences(),
+      'getLatestUpdates': (visitor, target, positionalArgs, namedArgs) =>
+          (target as MProvider).getLatestUpdates(positionalArgs[0] as int),
+      'getPopular': (visitor, target, positionalArgs, namedArgs) =>
+          (target as MProvider).getPopular(positionalArgs[0] as int),
+      'getVideoList': (visitor, target, positionalArgs, namedArgs) =>
+          (target as MProvider).getVideoList(positionalArgs[0] as String),
+      'search': (visitor, target, positionalArgs, namedArgs) => (target as MProvider).search(
+        positionalArgs[0] as String,
+        positionalArgs[1] as int,
+        positionalArgs[2] as FilterList,
+      ),
+      'getDetail': (visitor, target, positionalArgs, namedArgs) =>
+          (target as MProvider).getDetail(positionalArgs[0] as String),
+      'getPageList': (visitor, target, positionalArgs, namedArgs) =>
+          (target as MProvider).getPageList(positionalArgs[0] as String),
+      'cleanHtmlContent': (visitor, target, positionalArgs, namedArgs) =>
+          (target as MProvider).cleanHtmlContent(positionalArgs[0] as String),
+      'getHtmlContent': (visitor, target, positionalArgs, namedArgs) => (target as MProvider).getHtmlContent(
+        positionalArgs[0] as String,
+        positionalArgs[1] as String,
+      ),
+      'getFilterList': (visitor, target, positionalArgs, namedArgs) => (target as MProvider).getFilterList(),
+      'getSourcePreferences': (visitor, target, positionalArgs, namedArgs) =>
+          (target as MProvider).getSourcePreferences(),
     },
   );
 
@@ -107,8 +93,7 @@ class MProviderBridged {
     );
     interpreter.registertopLevelFunction(
       'deobfuscateJsPassword',
-      (visitor, positionalArgs, namedArgs, _) =>
-          MBridge.deobfuscateJsPassword(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) => MBridge.deobfuscateJsPassword(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'sibnetExtractor',
@@ -119,13 +104,11 @@ class MProviderBridged {
     );
     interpreter.registertopLevelFunction(
       'myTvExtractor',
-      (visitor, positionalArgs, namedArgs, _) =>
-          MBridge.myTvExtractor(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) => MBridge.myTvExtractor(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'okruExtractor',
-      (visitor, positionalArgs, namedArgs, _) =>
-          MBridge.okruExtractor(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) => MBridge.okruExtractor(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'voeExtractor',
@@ -136,8 +119,7 @@ class MProviderBridged {
     );
     interpreter.registertopLevelFunction(
       'vidBomExtractor',
-      (visitor, positionalArgs, namedArgs, _) =>
-          MBridge.vidBomExtractor(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) => MBridge.vidBomExtractor(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'streamlareExtractor',
@@ -252,8 +234,7 @@ class MProviderBridged {
     );
     interpreter.registertopLevelFunction(
       'gogoCdnExtractor',
-      (visitor, positionalArgs, namedArgs, _) =>
-          MBridge.gogoCdnExtractor(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) => MBridge.gogoCdnExtractor(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'doodExtractor',
@@ -295,23 +276,19 @@ class MProviderBridged {
     );
     interpreter.registertopLevelFunction(
       'unpackJs',
-      (visitor, positionalArgs, namedArgs, _) =>
-          MBridge.unpackJs(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) => MBridge.unpackJs(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'unpackJsAndCombine',
-      (visitor, positionalArgs, namedArgs, _) =>
-          MBridge.unpackJsAndCombine(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) => MBridge.unpackJsAndCombine(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'evalJs',
-      (visitor, positionalArgs, namedArgs, _) =>
-          getJavascriptRuntime().evaluateAsync(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) => getJavascriptRuntime().evaluateAsync(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'evalJsSync',
-      (visitor, positionalArgs, namedArgs, _) =>
-          getJavascriptRuntime().evaluate(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) => getJavascriptRuntime().evaluate(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'regExp',
@@ -333,23 +310,20 @@ class MProviderBridged {
     );
     interpreter.registertopLevelFunction(
       'parseHtml',
-      (visitor, positionalArgs, namedArgs, _) =>
-          MBridge.parsHtml(positionalArgs[0] as String),
+      (visitor, positionalArgs, namedArgs, _) => MBridge.parsHtml(positionalArgs[0] as String),
     );
     interpreter.registertopLevelFunction(
       'getUrlWithoutDomain',
-      (visitor, positionalArgs, namedArgs, _) =>
-          (positionalArgs[0] as String).getUrlWithoutDomain,
+      (visitor, positionalArgs, namedArgs, _) => (positionalArgs[0] as String).getUrlWithoutDomain,
     );
     interpreter.registertopLevelFunction(
       'evaluateJavascriptViaWebview',
-      (visitor, positionalArgs, namedArgs, _) =>
-          MBridge.evaluateJavascriptViaWebview(
-            positionalArgs[0] as String,
-            (positionalArgs[1] as Map).cast(),
-            (positionalArgs[2] as List).cast(),
-            time: namedArgs.get<int?>('time') ?? 30,
-          ),
+      (visitor, positionalArgs, namedArgs, _) => MBridge.evaluateJavascriptViaWebview(
+        positionalArgs[0] as String,
+        (positionalArgs[1] as Map).cast(),
+        (positionalArgs[2] as List).cast(),
+        time: namedArgs.get<int?>('time') ?? 30,
+      ),
     );
   }
 }

@@ -24,6 +24,6 @@ const BackupHistory$json = {
 };
 
 /// Descriptor for `BackupHistory`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List backupHistoryDescriptor = $convert.base64Decode(
-    'Cg1CYWNrdXBIaXN0b3J5EhAKA3VybBgBIAEoCVIDdXJsEhoKCGxhc3RSZWFkGAIgASgFUghsYX'
-    'N0UmVhZBIiCgxyZWFkRHVyYXRpb24YAyABKAVSDHJlYWREdXJhdGlvbg==');
+final $typed_data.Uint8List backupHistoryDescriptor =
+    $convert.base64Decode('Cg1CYWNrdXBIaXN0b3J5EhAKA3VybBgBIAEoCVIDdXJsEhoKCGxhc3RSZWFkGAIgASgFUghsYX'
+        'N0UmVhZBIiCgxyZWFkRHVyYXRpb24YAyABKAVSDHJlYWREdXJhdGlvbg==');

@@ -77,13 +77,10 @@ class _CustomSubtitleViewState extends ConsumerState<CustomSubtitleView> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final nr = (constraints.maxWidth * constraints.maxHeight);
-        const dr =
-            kTextScaleFactorReferenceWidth * kTextScaleFactorReferenceHeight;
+        const dr = kTextScaleFactorReferenceWidth * kTextScaleFactorReferenceHeight;
         final textScaleFactor = sqrt((nr / dr).clamp(0.0, 1.0));
 
-        final textScaler =
-            widget.configuration.textScaler ??
-            TextScaler.linear(textScaleFactor);
+        final textScaler = widget.configuration.textScaler ?? TextScaler.linear(textScaleFactor);
         return Material(
           color: Colors.transparent,
           child: AnimatedContainer(

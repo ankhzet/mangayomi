@@ -87,16 +87,12 @@ class BackupManga extends $pb.GeneratedMessage {
     return $result;
   }
   BackupManga._() : super();
-  factory BackupManga.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupManga.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
-  factory BackupManga.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupManga.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'BackupManga',
-      createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'BackupManga', createEmptyInstance: create)
     ..a<$core.int>(1, _omitFieldNames ? '' : 'source', $pb.PbFieldType.O3)
     ..aOS(2, _omitFieldNames ? '' : 'url')
     ..aOS(3, _omitFieldNames ? '' : 'title')
@@ -106,21 +102,15 @@ class BackupManga extends $pb.GeneratedMessage {
     ..pPS(7, _omitFieldNames ? '' : 'genre')
     ..a<$core.int>(8, _omitFieldNames ? '' : 'status', $pb.PbFieldType.O3)
     ..aOS(9, _omitFieldNames ? '' : 'thumbnailUrl', protoName: 'thumbnailUrl')
-    ..a<$core.int>(13, _omitFieldNames ? '' : 'dateAdded', $pb.PbFieldType.O3,
-        protoName: 'dateAdded')
+    ..a<$core.int>(13, _omitFieldNames ? '' : 'dateAdded', $pb.PbFieldType.O3, protoName: 'dateAdded')
     ..a<$core.int>(14, _omitFieldNames ? '' : 'viewer', $pb.PbFieldType.O3)
-    ..pc<$0.BackupChapter>(
-        16, _omitFieldNames ? '' : 'chapters', $pb.PbFieldType.PM,
+    ..pc<$0.BackupChapter>(16, _omitFieldNames ? '' : 'chapters', $pb.PbFieldType.PM,
         subBuilder: $0.BackupChapter.create)
     ..p<$core.int>(17, _omitFieldNames ? '' : 'categories', $pb.PbFieldType.K3)
-    ..a<$core.int>(
-        103, _omitFieldNames ? '' : 'viewerFlags', $pb.PbFieldType.O3)
-    ..pc<$1.BackupHistory>(
-        104, _omitFieldNames ? '' : 'history', $pb.PbFieldType.PM,
+    ..a<$core.int>(103, _omitFieldNames ? '' : 'viewerFlags', $pb.PbFieldType.O3)
+    ..pc<$1.BackupHistory>(104, _omitFieldNames ? '' : 'history', $pb.PbFieldType.PM,
         subBuilder: $1.BackupHistory.create)
-    ..a<$core.int>(
-        106, _omitFieldNames ? '' : 'lastModifiedAt', $pb.PbFieldType.O3,
-        protoName: 'lastModifiedAt')
+    ..a<$core.int>(106, _omitFieldNames ? '' : 'lastModifiedAt', $pb.PbFieldType.O3, protoName: 'lastModifiedAt')
     ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
@@ -131,8 +121,7 @@ class BackupManga extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   BackupManga copyWith(void Function(BackupManga) updates) =>
-      super.copyWith((message) => updates(message as BackupManga))
-          as BackupManga;
+      super.copyWith((message) => updates(message as BackupManga)) as BackupManga;
 
   $pb.BuilderInfo get info_ => _i;
 
@@ -141,8 +130,7 @@ class BackupManga extends $pb.GeneratedMessage {
   BackupManga createEmptyInstance() => create();
   static $pb.PbList<BackupManga> createRepeated() => $pb.PbList<BackupManga>();
   @$core.pragma('dart2js:noInline')
-  static BackupManga getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<BackupManga>(create);
+  static BackupManga getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BackupManga>(create);
   static BackupManga? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -303,5 +291,4 @@ class BackupManga extends $pb.GeneratedMessage {
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames =
-    $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

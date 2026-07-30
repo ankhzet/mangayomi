@@ -13,21 +13,21 @@ Stream<List<Manga>> getAllMangaStream(
 }) async* {
   yield* categoryId == null
       ? isar.mangas
-          .filter()
-          .idIsNotNull()
-          .favoriteEqualTo(true)
-          .and()
-          .itemTypeEqualTo(itemType)
-          .watch(fireImmediately: true)
+            .filter()
+            .idIsNotNull()
+            .favoriteEqualTo(true)
+            .and()
+            .itemTypeEqualTo(itemType)
+            .watch(fireImmediately: true)
       : isar.mangas
-          .filter()
-          .idIsNotNull()
-          .favoriteEqualTo(true)
-          .categoriesIsNotEmpty()
-          .categoriesElementEqualTo(categoryId)
-          .and()
-          .itemTypeEqualTo(itemType)
-          .watch(fireImmediately: true);
+            .filter()
+            .idIsNotNull()
+            .favoriteEqualTo(true)
+            .categoriesIsNotEmpty()
+            .categoriesElementEqualTo(categoryId)
+            .and()
+            .itemTypeEqualTo(itemType)
+            .watch(fireImmediately: true);
 }
 
 @riverpod
@@ -53,10 +53,5 @@ Stream<List<Manga>> getAllMangaWithoutCategoriesStream(
 
 @riverpod
 Stream<List<Settings>> getSettingsStream(Ref ref) async* {
-  yield* isar.settings
-      .filter()
-      .idIsNotNull()
-      .and()
-      .idEqualTo(227)
-      .watch(fireImmediately: true);
+  yield* isar.settings.filter().idIsNotNull().and().idEqualTo(227).watch(fireImmediately: true);
 }

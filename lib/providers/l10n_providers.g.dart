@@ -12,8 +12,7 @@ part of 'l10n_providers.dart';
 @ProviderFor(L10nLocaleState)
 final l10nLocaleStateProvider = L10nLocaleStateProvider._();
 
-final class L10nLocaleStateProvider
-    extends $NotifierProvider<L10nLocaleState, Locale> {
+final class L10nLocaleStateProvider extends $NotifierProvider<L10nLocaleState, Locale> {
   L10nLocaleStateProvider._()
     : super(
         from: null,
@@ -49,14 +48,7 @@ abstract class _$L10nLocaleState extends $Notifier<Locale> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<Locale, Locale>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<Locale, Locale>,
-              Locale,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<Locale, Locale>, Locale, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

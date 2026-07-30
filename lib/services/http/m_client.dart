@@ -7,8 +7,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:mangayomi/eval/model/m_source.dart';
 import 'package:mangayomi/main.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart'
-    as flutter_inappwebview;
+import 'package:flutter_inappwebview/flutter_inappwebview.dart' as flutter_inappwebview;
 import 'package:mangayomi/models/settings.dart';
 import 'package:http/io_client.dart';
 import 'package:mangayomi/services/http/rhttp/src/model/settings.dart';
@@ -29,19 +28,12 @@ class MClient {
       try {
         settings ??= rhttp.ClientSettings(
           throwOnStatusCode: false,
-          proxySettings:
-              reqcopyWith?["noProxy"] ?? false
-                  ? const rhttp.ProxySettings.noProxy()
-                  : null,
-          timeout:
-              reqcopyWith?["timeout"] != null
-                  ? Duration(seconds: reqcopyWith?["timeout"])
-                  : null,
+          proxySettings: reqcopyWith?["noProxy"] ?? false ? const rhttp.ProxySettings.noProxy() : null,
+          timeout: reqcopyWith?["timeout"] != null ? Duration(seconds: reqcopyWith?["timeout"]) : null,
           timeoutSettings: TimeoutSettings(
-            connectTimeout:
-                reqcopyWith?["connectTimeout"] != null
-                    ? Duration(seconds: reqcopyWith?["connectTimeout"])
-                    : null,
+            connectTimeout: reqcopyWith?["connectTimeout"] != null
+                ? Duration(seconds: reqcopyWith?["connectTimeout"])
+                : null,
           ),
           tlsSettings: rhttp.TlsSettings(
             verifyCertificates: reqcopyWith?["verifyCertificates"] ?? false,
@@ -81,11 +73,9 @@ class MClient {
     }
 
     // Apply DNS settings if configured
-    final clientSettings =
-        dnsSettings != null
-            ? settings?.copyWith(dnsSettings: dnsSettings) ??
-                ClientSettings(dnsSettings: dnsSettings)
-            : settings;
+    final clientSettings = dnsSettings != null
+        ? settings?.copyWith(dnsSettings: dnsSettings) ?? ClientSettings(dnsSettings: dnsSettings)
+        : settings;
 
     return InterceptedClient.build(
       client: httpClient(settings: clientSettings, reqcopyWith: reqcopyWith),
@@ -101,13 +91,12 @@ class MClient {
     final cookiesList = isar.settings.getSync(227)!.cookiesList ?? [];
     if (cookiesList.isEmpty) return {};
     final host = Uri.parse(url).host;
-    final cookies =
-        cookiesList
-            .firstWhere(
-              (element) => element.host == host || host.contains(element.host!),
-              orElse: () => MCookie(cookie: ""),
-            )
-            .cookie!;
+    final cookies = cookiesList
+        .firstWhere(
+          (element) => element.host == host || host.contains(element.host!),
+          orElse: () => MCookie(cookie: ""),
+        )
+        .cookie!;
     if (cookies.isEmpty) return {};
     return {HttpHeaders.cookieHeader: cookies};
   }
@@ -121,19 +110,17 @@ class MClient {
     List<String> cookies = [];
     // if incoming cookie is not empty, use it first
     if (cookie != null && cookie.isNotEmpty) {
-      cookies =
-          cookie
-              .split(RegExp('(?<=)(,)(?=[^;]+?=)'))
-              .where((cookie) => cookie.isNotEmpty)
-              .toList();
+      cookies = cookie.split(RegExp('(?<=)(,)(?=[^;]+?=)')).where((cookie) => cookie.isNotEmpty).toList();
     } else if (!Platform.isLinux) {
       cookies =
           (await flutter_inappwebview.CookieManager.instance(
-            webViewEnvironment: webViewEnvironment,
-          ).getCookies(
-            url: flutter_inappwebview.WebUri(url),
-            webViewController: webViewController,
-          )).map((e) => "${e.name}=${e.value}").toList();
+                webViewEnvironment: webViewEnvironment,
+              ).getCookies(
+                url: flutter_inappwebview.WebUri(url),
+                webViewController: webViewController,
+              ))
+              .map((e) => "${e.name}=${e.value}")
+              .toList();
     }
     if (cookies.isNotEmpty) {
       final host = Uri.parse(url).host;
@@ -166,9 +153,7 @@ class MClient {
     List<MCookie> allCookies,
     String host,
   ) {
-    return allCookies
-        .where((cookie) => cookie.host != host && !host.contains(cookie.host!))
-        .toList();
+    return allCookies.where((cookie) => cookie.host != host && !host.contains(cookie.host!)).toList();
   }
 
   static Future<void> deleteAllCookies(String url) async {
@@ -229,8 +214,7 @@ class LoggerInterceptor extends InterceptorContract {
   bool showCloudFlareError;
   @override
   Future<BaseRequest> interceptRequest({required BaseRequest request}) async {
-    final content =
-        "----- Request -----\n${request.toString()}\nheaders: ${request.headers.toString()}";
+    final content = "----- Request -----\n${request.toString()}\nheaders: ${request.headers.toString()}";
 
     if (kDebugMode || useLogger) {
       // ignore: avoid_print
@@ -377,8 +361,7 @@ void _handleResolveCf(HttpRequest request) async {
       onLoadStop: (controller, url) async {
         try {
           isCloudFlare = await controller.platform.evaluateJavascript(
-            source:
-                "document.head.innerHTML.includes('#challenge-success-text')",
+            source: "document.head.innerHTML.includes('#challenge-success-text')",
           );
         } catch (_) {
           isCloudFlare = false;
@@ -388,8 +371,7 @@ void _handleResolveCf(HttpRequest request) async {
           if (!timeOut && isCloudFlare) {
             try {
               isCloudFlare = await controller.platform.evaluateJavascript(
-                source:
-                    "document.head.innerHTML.includes('#challenge-success-text')",
+                source: "document.head.innerHTML.includes('#challenge-success-text')",
               );
             } catch (_) {
               isCloudFlare = false;

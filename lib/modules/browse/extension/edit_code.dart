@@ -35,8 +35,7 @@ class CodeEditorPage extends ConsumerStatefulWidget {
 
 class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
   dynamic result;
-  late final source =
-      widget.sourceId == null ? null : isar.sources.getSync(widget.sourceId!);
+  late final source = widget.sourceId == null ? null : isar.sources.getSync(widget.sourceId!);
   final CodeLineEditingController _controller = CodeLineEditingController();
 
   List<(String, int)> _getServices(BuildContext context) => [
@@ -120,56 +119,55 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
   Future<String?> filterDialog(BuildContext context) async {
     return await showModalBottomSheet(
       context: context,
-      builder:
-          (context) => StatefulBuilder(
-            builder: (context, setState) {
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              filters = getFilterList(source: source!);
-                            });
-                          },
-                          child: Text(context.l10n.reset),
-                        ),
-                        const Spacer(),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: context.primaryColor,
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context, 'filter');
-                          },
-                          child: Text(
-                            context.l10n.filter,
-                            style: TextStyle(
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Divider(),
-                  Expanded(
-                    child: FilterWidget(
-                      filterList: filters,
-                      onChanged: (values) {
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) {
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    TextButton(
+                      onPressed: () {
                         setState(() {
-                          filters = values;
+                          filters = getFilterList(source: source!);
                         });
                       },
+                      child: Text(context.l10n.reset),
                     ),
-                  ),
-                ],
-              );
-            },
-          ),
+                    const Spacer(),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: context.primaryColor,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context, 'filter');
+                      },
+                      child: Text(
+                        context.l10n.filter,
+                        style: TextStyle(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(),
+              Expanded(
+                child: FilterWidget(
+                  filterList: filters,
+                  onChanged: (values) {
+                    setState(() {
+                      filters = values;
+                    });
+                  },
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -185,8 +183,7 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> filterList =
-        source != null ? getFilterList(source: source!) : [];
+    List<dynamic> filterList = source != null ? getFilterList(source: source!) : [];
     final appFontFamily = ref.watch(appFontFamilyProvider);
     return Scaffold(
       appBar: AppBar(
@@ -275,34 +272,33 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                           if (source != null && context.mounted) {
                             isar.writeTxnSync(() {
                               isar.sources.putSync(
-                                source!
-                                  ..updatedAt =
-                                      DateTime.now().millisecondsSinceEpoch,
+                                source!..updatedAt = DateTime.now().millisecondsSinceEpoch,
                               );
                             });
                           }
                         },
                         wordWrap: false,
-                        indicatorBuilder: (
-                          context,
-                          editingController,
-                          chunkController,
-                          notifier,
-                        ) {
-                          return Row(
-                            children: [
-                              DefaultCodeLineNumber(
-                                controller: editingController,
-                                notifier: notifier,
-                              ),
-                              DefaultCodeChunkIndicator(
-                                width: 20,
-                                controller: chunkController,
-                                notifier: notifier,
-                              ),
-                            ],
-                          );
-                        },
+                        indicatorBuilder:
+                            (
+                              context,
+                              editingController,
+                              chunkController,
+                              notifier,
+                            ) {
+                              return Row(
+                                children: [
+                                  DefaultCodeLineNumber(
+                                    controller: editingController,
+                                    notifier: notifier,
+                                  ),
+                                  DefaultCodeChunkIndicator(
+                                    width: 20,
+                                    controller: chunkController,
+                                    notifier: notifier,
+                                  ),
+                                ],
+                              );
+                            },
                         sperator: Container(
                           width: 1,
                           color: context.dynamicThemeColor.withValues(
@@ -368,36 +364,34 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                                 hint: Text(
                                   _getServices(context)
                                       .firstWhere(
-                                        (element) =>
-                                            element.$2 == _serviceIndex,
+                                        (element) => element.$2 == _serviceIndex,
                                       )
                                       .$1,
                                   style: const TextStyle(fontSize: 13),
                                 ),
-                                items:
-                                    _getServices(context)
-                                        .map(
-                                          (e) => DropdownMenuItem(
-                                            value: e,
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  _getServiceIcon(e.$2),
-                                                  size: 18,
-                                                  color: context.primaryColor,
-                                                ),
-                                                const SizedBox(width: 10),
-                                                Text(
-                                                  e.$1,
-                                                  style: const TextStyle(
-                                                    fontSize: 13,
-                                                  ),
-                                                ),
-                                              ],
+                                items: _getServices(context)
+                                    .map(
+                                      (e) => DropdownMenuItem(
+                                        value: e,
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              _getServiceIcon(e.$2),
+                                              size: 18,
+                                              color: context.primaryColor,
                                             ),
-                                          ),
-                                        )
-                                        .toList(),
+                                            const SizedBox(width: 10),
+                                            Text(
+                                              e.$1,
+                                              style: const TextStyle(
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
                                 onChanged: (v) {
                                   setState(() {
                                     _serviceIndex = v!.$2;
@@ -406,9 +400,7 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                               ),
                             ),
                           ),
-                          if (_serviceIndex == 0 ||
-                              _serviceIndex == 1 ||
-                              _serviceIndex == 2)
+                          if (_serviceIndex == 0 || _serviceIndex == 1 || _serviceIndex == 2)
                             _textEditing("Page", context, "ex: 1", (v) {
                               _page = int.tryParse(v) ?? 1;
                             }),
@@ -418,10 +410,7 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                             ) {
                               _query = v;
                             }),
-                          if (_serviceIndex == 3 ||
-                              _serviceIndex == 4 ||
-                              _serviceIndex == 5 ||
-                              _serviceIndex == 6)
+                          if (_serviceIndex == 3 || _serviceIndex == 4 || _serviceIndex == 5 || _serviceIndex == 6)
                             _textEditing(
                               "Url",
                               context,
@@ -471,10 +460,7 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                                     if (source != null && context.mounted) {
                                       isar.writeTxnSync(() {
                                         isar.sources.putSync(
-                                          source!
-                                            ..updatedAt =
-                                                DateTime.now()
-                                                    .millisecondsSinceEpoch,
+                                          source!..updatedAt = DateTime.now().millisecondsSinceEpoch,
                                         );
                                       });
                                     }
@@ -494,61 +480,49 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                                         )?
                                         serviceFunc;
                                         if (_serviceIndex == 0) {
-                                          final getManga =
-                                              await getIsolateService
-                                                  .get<MPages?>(
-                                                    page: _page,
-                                                    source: source,
-                                                    serviceType: 'getPopular',
-                                                    proxyServer: proxyServer,
-                                                    useLogger: true,
-                                                  );
+                                          final getManga = await getIsolateService.get<MPages?>(
+                                            page: _page,
+                                            source: source,
+                                            serviceType: 'getPopular',
+                                            proxyServer: proxyServer,
+                                            useLogger: true,
+                                          );
                                           result = getManga!.toJson();
                                         } else if (_serviceIndex == 1) {
-                                          final getManga =
-                                              await getIsolateService
-                                                  .get<MPages?>(
-                                                    page: _page,
-                                                    source: source,
-                                                    serviceType:
-                                                        'getLatestUpdates',
-                                                    proxyServer: proxyServer,
-                                                    useLogger: true,
-                                                  );
+                                          final getManga = await getIsolateService.get<MPages?>(
+                                            page: _page,
+                                            source: source,
+                                            serviceType: 'getLatestUpdates',
+                                            proxyServer: proxyServer,
+                                            useLogger: true,
+                                          );
                                           result = getManga!.toJson();
                                         } else if (_serviceIndex == 2) {
-                                          final getManga =
-                                              await getIsolateService
-                                                  .get<MPages?>(
-                                                    query: _query,
-                                                    filterList: filterList,
-                                                    source: source,
-                                                    page: _page,
-                                                    serviceType: 'search',
-                                                    proxyServer: proxyServer,
-                                                    useLogger: true,
-                                                  );
+                                          final getManga = await getIsolateService.get<MPages?>(
+                                            query: _query,
+                                            filterList: filterList,
+                                            source: source,
+                                            page: _page,
+                                            serviceType: 'search',
+                                            proxyServer: proxyServer,
+                                            useLogger: true,
+                                          );
                                           result = getManga!.toJson();
                                         } else if (_serviceIndex == 3) {
-                                          final getManga =
-                                              await getIsolateService
-                                                  .get<MManga>(
-                                                    url: _url,
-                                                    source: source,
-                                                    serviceType: 'getDetail',
-                                                    proxyServer: proxyServer,
-                                                    useLogger: true,
-                                                  );
+                                          final getManga = await getIsolateService.get<MManga>(
+                                            url: _url,
+                                            source: source,
+                                            serviceType: 'getDetail',
+                                            proxyServer: proxyServer,
+                                            useLogger: true,
+                                          );
                                           result = getManga.toJson();
                                         } else if (_serviceIndex == 4) {
                                           serviceFunc = (service) async {
                                             return {
-                                              "pages":
-                                                  (await service.getPageList(
-                                                        _url,
-                                                      ))
-                                                      .map((e) => e.toJson())
-                                                      .toList(),
+                                              "pages": (await service.getPageList(
+                                                _url,
+                                              )).map((e) => e.toJson()).toList(),
                                             };
                                           };
                                         } else if (_serviceIndex == 5) {
@@ -566,8 +540,7 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                                           };
                                         } else {
                                           serviceFunc = (service) async {
-                                            return await service
-                                                .cleanHtmlContent(_html);
+                                            return await service.cleanHtmlContent(_html);
                                           };
                                         }
                                         if (serviceFunc != null) {
@@ -634,8 +607,7 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                                 if (_serviceIndex == 2 && filterList.isNotEmpty)
                                   FilledButton.tonalIcon(
                                     style: FilledButton.styleFrom(
-                                      backgroundColor: context.primaryColor
-                                          .withValues(alpha: 0.15),
+                                      backgroundColor: context.primaryColor.withValues(alpha: 0.15),
                                       foregroundColor: context.primaryColor,
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 20,
@@ -669,8 +641,7 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                                           final res = await filterDialog(
                                             context,
                                           );
-                                          if (res == 'filter' &&
-                                              context.mounted) {
+                                          if (res == 'filter' && context.mounted) {
                                             setState(() {
                                               result = null;
                                               _isLoading = true;
@@ -705,111 +676,108 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                           ),
                           const Divider(height: 1),
                           Expanded(
-                            child:
-                                _error
-                                    ? Container(
-                                      padding: const EdgeInsets.all(20),
-                                      child: Center(
-                                        child: Container(
-                                          padding: const EdgeInsets.all(16),
-                                          decoration: BoxDecoration(
+                            child: _error
+                                ? Container(
+                                    padding: const EdgeInsets.all(20),
+                                    child: Center(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(16),
+                                        decoration: BoxDecoration(
+                                          color: Colors.red.withValues(
+                                            alpha: 0.1,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                          border: Border.all(
                                             color: Colors.red.withValues(
-                                              alpha: 0.1,
+                                              alpha: 0.3,
                                             ),
-                                            borderRadius: BorderRadius.circular(
-                                              12,
-                                            ),
-                                            border: Border.all(
-                                              color: Colors.red.withValues(
-                                                alpha: 0.3,
-                                              ),
-                                              width: 1,
-                                            ),
+                                            width: 1,
                                           ),
-                                          child: SelectableText(
-                                            _errorText,
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                              fontFamily: 'monospace',
-                                            ),
+                                        ),
+                                        child: SelectableText(
+                                          _errorText,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontFamily: 'monospace',
                                           ),
                                         ),
                                       ),
-                                    )
-                                    : _isLoading
-                                    ? Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          CircularProgressIndicator(
+                                    ),
+                                  )
+                                : _isLoading
+                                ? Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CircularProgressIndicator(
+                                          color: context.primaryColor,
+                                        ),
+                                        const SizedBox(height: 16),
+                                        Text(
+                                          'Executing...',
+                                          style: TextStyle(
                                             color: context.primaryColor,
+                                            fontWeight: FontWeight.w500,
                                           ),
-                                          const SizedBox(height: 16),
-                                          Text(
-                                            'Executing...',
-                                            style: TextStyle(
-                                              color: context.primaryColor,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                    : result != null
-                                    ? Container(
-                                      padding: const EdgeInsets.all(12),
-                                      child: JsonConfig(
-                                        data: JsonConfigData(
-                                          gap: 100,
-                                          style: const JsonStyleScheme(
-                                            quotation: JsonQuotation.same('"'),
-                                            openAtStart: false,
-                                            arrow: Icon(
-                                              Icons.arrow_forward_rounded,
-                                            ),
-                                            depth: 4,
-                                          ),
-                                          color: const JsonColorScheme(),
                                         ),
-                                        child: JsonView(json: result),
+                                      ],
+                                    ),
+                                  )
+                                : result != null
+                                ? Container(
+                                    padding: const EdgeInsets.all(12),
+                                    child: JsonConfig(
+                                      data: JsonConfigData(
+                                        gap: 100,
+                                        style: const JsonStyleScheme(
+                                          quotation: JsonQuotation.same('"'),
+                                          openAtStart: false,
+                                          arrow: Icon(
+                                            Icons.arrow_forward_rounded,
+                                          ),
+                                          depth: 4,
+                                        ),
+                                        color: const JsonColorScheme(),
                                       ),
-                                    )
-                                    : Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.data_object_rounded,
-                                            size: 64,
+                                      child: JsonView(json: result),
+                                    ),
+                                  )
+                                : Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.data_object_rounded,
+                                          size: 64,
+                                          color: Colors.grey.withValues(
+                                            alpha: 0.5,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 16),
+                                        Text(
+                                          'No results yet',
+                                          style: TextStyle(
+                                            color: Colors.grey.withValues(
+                                              alpha: 0.7,
+                                            ),
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          'Execute a service to see results',
+                                          style: TextStyle(
                                             color: Colors.grey.withValues(
                                               alpha: 0.5,
                                             ),
+                                            fontSize: 12,
                                           ),
-                                          const SizedBox(height: 16),
-                                          Text(
-                                            'No results yet',
-                                            style: TextStyle(
-                                              color: Colors.grey.withValues(
-                                                alpha: 0.7,
-                                              ),
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            'Execute a service to see results',
-                                            style: TextStyle(
-                                              color: Colors.grey.withValues(
-                                                alpha: 0.5,
-                                              ),
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
+                                  ),
                           ),
                         ],
                       ),
@@ -896,71 +864,60 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                     Expanded(
                       child: ValueListenableBuilder(
                         valueListenable: _logsNotifier,
-                        builder:
-                            (context, logs, child) =>
-                                logs.isEmpty
-                                    ? Center(
-                                      child: Text(
-                                        'No logs yet',
-                                        style: TextStyle(
-                                          color: Colors.grey.withValues(
-                                            alpha: 0.5,
-                                          ),
-                                          fontSize: 12,
+                        builder: (context, logs, child) => logs.isEmpty
+                            ? Center(
+                                child: Text(
+                                  'No logs yet',
+                                  style: TextStyle(
+                                    color: Colors.grey.withValues(
+                                      alpha: 0.5,
+                                    ),
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              )
+                            : SuperListView.separated(
+                                separatorBuilder: (context, index) => Divider(
+                                  height: 1,
+                                  color: Colors.grey.withValues(
+                                    alpha: 0.2,
+                                  ),
+                                ),
+                                controller: _scrollController,
+                                padding: const EdgeInsets.all(12),
+                                itemCount: logs.length,
+                                itemBuilder: (context, index) {
+                                  final value = logs[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 4,
+                                    ),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Icon(
+                                          value.$1 == LoggerLevel.info
+                                              ? Icons.info_outline_rounded
+                                              : Icons.bug_report_rounded,
+                                          size: 14,
+                                          color: value.$1 == LoggerLevel.info ? Colors.yellow : Colors.blueAccent,
                                         ),
-                                      ),
-                                    )
-                                    : SuperListView.separated(
-                                      separatorBuilder:
-                                          (context, index) => Divider(
-                                            height: 1,
-                                            color: Colors.grey.withValues(
-                                              alpha: 0.2,
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: SelectableText(
+                                            value.$2,
+                                            style: TextStyle(
+                                              fontSize: 11,
+                                              fontFamily: 'monospace',
+                                              color: value.$1 == LoggerLevel.info ? Colors.yellow : Colors.blueAccent,
                                             ),
                                           ),
-                                      controller: _scrollController,
-                                      padding: const EdgeInsets.all(12),
-                                      itemCount: logs.length,
-                                      itemBuilder: (context, index) {
-                                        final value = logs[index];
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 4,
-                                          ),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Icon(
-                                                value.$1 == LoggerLevel.info
-                                                    ? Icons.info_outline_rounded
-                                                    : Icons.bug_report_rounded,
-                                                size: 14,
-                                                color:
-                                                    value.$1 == LoggerLevel.info
-                                                        ? Colors.yellow
-                                                        : Colors.blueAccent,
-                                              ),
-                                              const SizedBox(width: 8),
-                                              Expanded(
-                                                child: SelectableText(
-                                                  value.$2,
-                                                  style: TextStyle(
-                                                    fontSize: 11,
-                                                    fontFamily: 'monospace',
-                                                    color:
-                                                        value.$1 ==
-                                                                LoggerLevel.info
-                                                            ? Colors.yellow
-                                                            : Colors.blueAccent,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
+                                        ),
+                                      ],
                                     ),
+                                  );
+                                },
+                              ),
                       ),
                     ),
                   ],

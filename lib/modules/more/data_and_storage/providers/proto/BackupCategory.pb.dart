@@ -32,20 +32,17 @@ class BackupCategory extends $pb.GeneratedMessage {
     return $result;
   }
   BackupCategory._() : super();
-  factory BackupCategory.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupCategory.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
-  factory BackupCategory.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupCategory.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'BackupCategory',
-      createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'name')
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'order', $pb.PbFieldType.O3)
-    ..a<$core.int>(100, _omitFieldNames ? '' : 'flags', $pb.PbFieldType.O3)
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      $pb.BuilderInfo(_omitMessageNames ? '' : 'BackupCategory', createEmptyInstance: create)
+        ..aOS(1, _omitFieldNames ? '' : 'name')
+        ..a<$core.int>(2, _omitFieldNames ? '' : 'order', $pb.PbFieldType.O3)
+        ..a<$core.int>(100, _omitFieldNames ? '' : 'flags', $pb.PbFieldType.O3)
+        ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -55,19 +52,16 @@ class BackupCategory extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   BackupCategory copyWith(void Function(BackupCategory) updates) =>
-      super.copyWith((message) => updates(message as BackupCategory))
-          as BackupCategory;
+      super.copyWith((message) => updates(message as BackupCategory)) as BackupCategory;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static BackupCategory create() => BackupCategory._();
   BackupCategory createEmptyInstance() => create();
-  static $pb.PbList<BackupCategory> createRepeated() =>
-      $pb.PbList<BackupCategory>();
+  static $pb.PbList<BackupCategory> createRepeated() => $pb.PbList<BackupCategory>();
   @$core.pragma('dart2js:noInline')
-  static BackupCategory getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<BackupCategory>(create);
+  static BackupCategory getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BackupCategory>(create);
   static BackupCategory? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -108,5 +102,4 @@ class BackupCategory extends $pb.GeneratedMessage {
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames =
-    $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

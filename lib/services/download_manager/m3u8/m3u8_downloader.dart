@@ -123,8 +123,7 @@ class M3u8Downloader {
         subtitleFile.createSync(recursive: true);
         if (element.file!.startsWith("http")) {
           final response = await _withRetry(
-            () =>
-                httpClient.get(Uri.parse(element.file ?? ''), headers: headers),
+            () => httpClient.get(Uri.parse(element.file ?? ''), headers: headers),
           );
           if (response.statusCode != 200) {
             _log('Warning: Failed to download subtitle file: ${element.label}');
@@ -150,9 +149,7 @@ class M3u8Downloader {
     List<TsInfo> tsList,
     String tempDir,
   ) async {
-    return tsList
-        .where((ts) => !File(path.join(tempDir, '${ts.name}.ts')).existsSync())
-        .toList();
+    return tsList.where((ts) => !File(path.join(tempDir, '${ts.name}.ts')).existsSync()).toList();
   }
 
   Future<void> _downloadSegmentsWithProgress(
@@ -234,11 +231,7 @@ class M3u8Downloader {
   Future<void> _mergeTsToMp4(String fileName, String directory) async {
     try {
       final dir = Directory(directory);
-      final files =
-          await dir
-              .list()
-              .where((entity) => entity.path.endsWith('.ts'))
-              .toList();
+      final files = await dir.list().where((entity) => entity.path.endsWith('.ts')).toList();
 
       files.sort((a, b) {
         final aIndex = int.parse(
@@ -277,8 +270,7 @@ class M3u8Downloader {
     for (final line in lines) {
       if (line.isEmpty || line.startsWith('#')) continue;
       index++;
-      final tsUrl =
-          line.startsWith('http') ? line : '$host${line.replaceFirst("/", "")}';
+      final tsUrl = line.startsWith('http') ? line : '$host${line.replaceFirst("/", "")}';
       tsList.add(TsInfo('TS_$index', tsUrl));
     }
     return tsList;
@@ -322,10 +314,7 @@ class M3u8Downloader {
     }
 
     final ivStr = match.group(2);
-    final iv =
-        ivStr != null
-            ? Uint8List.fromList(hex.decode(ivStr.replaceFirst('0x', '')))
-            : null;
+    final iv = ivStr != null ? Uint8List.fromList(hex.decode(ivStr.replaceFirst('0x', ''))) : null;
 
     return (uri, iv);
   }
@@ -346,6 +335,5 @@ class M3u8DownloaderException implements Exception {
   M3u8DownloaderException(this.message, [this.originalError]);
 
   @override
-  String toString() =>
-      'M3u8DownloaderException: $message${originalError != null ? ' ($originalError)' : ''}';
+  String toString() => 'M3u8DownloaderException: $message${originalError != null ? ' ($originalError)' : ''}';
 }

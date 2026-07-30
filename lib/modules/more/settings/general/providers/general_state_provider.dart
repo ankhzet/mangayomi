@@ -64,8 +64,7 @@ class HideDiscordRpcInIncognitoState extends _$HideDiscordRpcInIncognitoState {
 }
 
 @riverpod
-class RpcShowReadingWatchingProgressState
-    extends _$RpcShowReadingWatchingProgressState {
+class RpcShowReadingWatchingProgressState extends _$RpcShowReadingWatchingProgressState {
   @override
   bool build() {
     return isar.settings.getSync(227)!.rpcShowReadingWatchingProgress ?? true;

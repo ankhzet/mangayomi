@@ -12,8 +12,7 @@ part of 'flex_scheme_color_state_provider.dart';
 @ProviderFor(FlexSchemeColorState)
 final flexSchemeColorStateProvider = FlexSchemeColorStateProvider._();
 
-final class FlexSchemeColorStateProvider
-    extends $NotifierProvider<FlexSchemeColorState, FlexSchemeColor> {
+final class FlexSchemeColorStateProvider extends $NotifierProvider<FlexSchemeColorState, FlexSchemeColor> {
   FlexSchemeColorStateProvider._()
     : super(
         from: null,
@@ -41,8 +40,7 @@ final class FlexSchemeColorStateProvider
   }
 }
 
-String _$flexSchemeColorStateHash() =>
-    r'0b484f5c16d099fd94e2150bf4a32d9e8338feb3';
+String _$flexSchemeColorStateHash() => r'0b484f5c16d099fd94e2150bf4a32d9e8338feb3';
 
 abstract class _$FlexSchemeColorState extends $Notifier<FlexSchemeColor> {
   FlexSchemeColor build();
@@ -52,12 +50,7 @@ abstract class _$FlexSchemeColorState extends $Notifier<FlexSchemeColor> {
     final ref = this.ref as $Ref<FlexSchemeColor, FlexSchemeColor>;
     final element =
         ref.element
-            as $ClassProviderElement<
-              AnyNotifier<FlexSchemeColor, FlexSchemeColor>,
-              FlexSchemeColor,
-              Object?,
-              Object?
-            >;
+            as $ClassProviderElement<AnyNotifier<FlexSchemeColor, FlexSchemeColor>, FlexSchemeColor, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

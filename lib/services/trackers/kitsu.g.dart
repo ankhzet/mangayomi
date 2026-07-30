@@ -15,8 +15,7 @@ final kitsuProvider = KitsuFamily._();
 final class KitsuProvider extends $NotifierProvider<Kitsu, void> {
   KitsuProvider._({
     required KitsuFamily super.from,
-    required ({int syncId, ItemType? itemType, dynamic widgetRef})
-    super.argument,
+    required ({int syncId, ItemType? itemType, dynamic widgetRef}) super.argument,
   }) : super(
          retry: null,
          name: r'kitsuProvider',
@@ -61,14 +60,7 @@ final class KitsuProvider extends $NotifierProvider<Kitsu, void> {
 String _$kitsuHash() => r'8a19aa11f167df8d8cb537f746cc9dc31cad1d49';
 
 final class KitsuFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          Kitsu,
-          void,
-          void,
-          void,
-          ({int syncId, ItemType? itemType, dynamic widgetRef})
-        > {
+    with $ClassFamilyOverride<Kitsu, void, void, void, ({int syncId, ItemType? itemType, dynamic widgetRef})> {
   KitsuFamily._()
     : super(
         retry: null,
@@ -92,8 +84,7 @@ final class KitsuFamily extends $Family
 }
 
 abstract class _$Kitsu extends $Notifier<void> {
-  late final _$args =
-      ref.$arg as ({int syncId, ItemType? itemType, dynamic widgetRef});
+  late final _$args = ref.$arg as ({int syncId, ItemType? itemType, dynamic widgetRef});
   int get syncId => _$args.syncId;
   ItemType? get itemType => _$args.itemType;
   dynamic get widgetRef => _$args.widgetRef;
@@ -107,14 +98,7 @@ abstract class _$Kitsu extends $Notifier<void> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<void, void>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<void, void>,
-              void,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<void, void>, void, Object?, Object?>;
     element.handleCreate(
       ref,
       () => build(

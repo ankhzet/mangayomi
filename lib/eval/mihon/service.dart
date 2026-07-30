@@ -64,22 +64,21 @@ class MihonExtensionService implements ExtensionService {
     final data = jsonDecode(res.body) as Map<String, dynamic>;
     final pages = MangaPages.fromJson(data, source.itemType);
     return MPages(
-      list:
-          pages.list
-              .map(
-                (e) => MManga(
-                  name: e.title,
-                  link: e.url,
-                  artist: e.artist,
-                  author: e.author,
-                  description: e.description,
-                  genre: e.genre,
-                  status: e.status,
-                  imageUrl: e.thumbnailUrl,
-                  chapters: [],
-                ),
-              )
-              .toList(),
+      list: pages.list
+          .map(
+            (e) => MManga(
+              name: e.title,
+              link: e.url,
+              artist: e.artist,
+              author: e.author,
+              description: e.description,
+              genre: e.genre,
+              status: e.status,
+              imageUrl: e.thumbnailUrl,
+              chapters: [],
+            ),
+          )
+          .toList(),
       hasNextPage: pages.hasNextPage,
     );
   }
@@ -102,22 +101,21 @@ class MihonExtensionService implements ExtensionService {
     final data = jsonDecode(res.body) as Map<String, dynamic>;
     final pages = MangaPages.fromJson(data, source.itemType);
     return MPages(
-      list:
-          pages.list
-              .map(
-                (e) => MManga(
-                  name: e.title,
-                  link: e.url,
-                  artist: e.artist,
-                  author: e.author,
-                  description: e.description,
-                  genre: e.genre,
-                  status: e.status,
-                  imageUrl: e.thumbnailUrl,
-                  chapters: [],
-                ),
-              )
-              .toList(),
+      list: pages.list
+          .map(
+            (e) => MManga(
+              name: e.title,
+              link: e.url,
+              artist: e.artist,
+              author: e.author,
+              description: e.description,
+              genre: e.genre,
+              status: e.status,
+              imageUrl: e.thumbnailUrl,
+              chapters: [],
+            ),
+          )
+          .toList(),
       hasNextPage: pages.hasNextPage,
     );
   }
@@ -141,22 +139,21 @@ class MihonExtensionService implements ExtensionService {
     final data = jsonDecode(res.body) as Map<String, dynamic>;
     final pages = MangaPages.fromJson(data, source.itemType);
     return MPages(
-      list:
-          pages.list
-              .map(
-                (e) => MManga(
-                  name: e.title,
-                  link: e.url,
-                  artist: e.artist,
-                  author: e.author,
-                  description: e.description,
-                  genre: e.genre,
-                  status: e.status,
-                  imageUrl: e.thumbnailUrl,
-                  chapters: [],
-                ),
-              )
-              .toList(),
+      list: pages.list
+          .map(
+            (e) => MManga(
+              name: e.title,
+              link: e.url,
+              artist: e.artist,
+              author: e.author,
+              description: e.description,
+              genre: e.genre,
+              status: e.status,
+              imageUrl: e.thumbnailUrl,
+              chapters: [],
+            ),
+          )
+          .toList(),
       hasNextPage: pages.hasNextPage,
     );
   }
@@ -202,10 +199,7 @@ class MihonExtensionService implements ExtensionService {
     final res = await client.post(
       Uri.parse("$androidProxyServer/dalvik"),
       body: jsonEncode({
-        "method":
-            source.itemType == ItemType.anime
-                ? "getEpisodeList"
-                : "getChapterList",
+        "method": source.itemType == ItemType.anime ? "getEpisodeList" : "getChapterList",
         if (source.itemType == ItemType.manga) "mangaData": {"url": url},
         if (source.itemType == ItemType.anime) "animeData": {"url": url},
         "preferences": getSourcePreferences(),
@@ -220,9 +214,7 @@ class MihonExtensionService implements ExtensionService {
           (e) => MChapter(
             name: e['name'],
             url: e['url'],
-            dateUpload:
-                (e['date_upload'] as int?)?.toString() ??
-                DateTime.now().millisecondsSinceEpoch.toString(),
+            dateUpload: (e['date_upload'] as int?)?.toString() ?? DateTime.now().millisecondsSinceEpoch.toString(),
             scanlator: e['scanlator'],
           ),
         )
@@ -261,8 +253,7 @@ class MihonExtensionService implements ExtensionService {
     hasError(res);
     final data = jsonDecode(res.body) as List;
     return data.map((e) {
-      final tempHeaders =
-          e['headers']?['namesAndValues\$okhttp'] as List<dynamic>?;
+      final tempHeaders = e['headers']?['namesAndValues\$okhttp'] as List<dynamic>?;
       final Map<String, String> headers = {};
       if (tempHeaders != null) {
         for (var i = 0; i + 1 < tempHeaders.length; i += 2) {
@@ -329,22 +320,21 @@ class MihonExtensionService implements ExtensionService {
       } else if (e is GroupFilter) {
         yield {
           "name": e.name,
-          "stateList":
-              e.state.expand((e) sync* {
-                if (e is CheckBoxFilter) {
-                  yield {
-                    "name": e.name,
-                    "stateBoolean": e.state,
-                    "type": "CheckBoxFilter",
-                  };
-                } else if (e is TriStateFilter) {
-                  yield {
-                    "name": e.name,
-                    "stateInt": e.state,
-                    "type": "TriStateFilter",
-                  };
-                }
-              }).toList(),
+          "stateList": e.state.expand((e) sync* {
+            if (e is CheckBoxFilter) {
+              yield {
+                "name": e.name,
+                "stateBoolean": e.state,
+                "type": "CheckBoxFilter",
+              };
+            } else if (e is TriStateFilter) {
+              yield {
+                "name": e.name,
+                "stateInt": e.state,
+                "type": "TriStateFilter",
+              };
+            }
+          }).toList(),
           "type": "GroupFilter",
         };
       } else if (e is SelectFilter) {

@@ -19,8 +19,7 @@ class CustomPlayOrPauseButton extends StatefulWidget {
   CustomPlayOrPauseButtonState createState() => CustomPlayOrPauseButtonState();
 }
 
-class CustomPlayOrPauseButtonState extends State<CustomPlayOrPauseButton>
-    with SingleTickerProviderStateMixin {
+class CustomPlayOrPauseButtonState extends State<CustomPlayOrPauseButton> with SingleTickerProviderStateMixin {
   late final animation = AnimationController(
     vsync: this,
     value: widget.controller.player.state.playing ? 1 : 0,

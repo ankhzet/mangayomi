@@ -60,45 +60,45 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
           final isExtended = ref.watch(isExtendedStateProvider);
           return ref.watch(isLongPressedStateProvider)
               ? Container()
-              : chaptersList.isNotEmpty &&
-                  chaptersList
-                      .where((element) => !element.isRead!)
-                      .toList()
-                      .isNotEmpty
+              : chaptersList.isNotEmpty && chaptersList.where((element) => !element.isRead!).toList().isNotEmpty
               ? StreamBuilder(
-                stream: isar.historys
-                    .filter()
-                    .idIsNotNull()
-                    .and()
-                    .chapter(
-                      (q) => q.manga(
-                        (q) => q.itemTypeEqualTo(widget.manga.itemType),
-                      ),
-                    )
-                    .watch(fireImmediately: true),
-                builder: (context, snapshot) {
-                  String buttonLabel =
-                      widget.manga.itemType != ItemType.anime
-                          ? l10n.read
-                          : l10n.watch;
-                  if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                    final incognitoMode = ref.watch(incognitoModeStateProvider);
-                    final entries =
-                        snapshot.data!
-                            .where(
-                              (element) => element.mangaId == widget.manga.id,
-                            )
-                            .toList()
-                            .reversed
-                            .toList();
+                  stream: isar.historys
+                      .filter()
+                      .idIsNotNull()
+                      .and()
+                      .chapter(
+                        (q) => q.manga(
+                          (q) => q.itemTypeEqualTo(widget.manga.itemType),
+                        ),
+                      )
+                      .watch(fireImmediately: true),
+                  builder: (context, snapshot) {
+                    String buttonLabel = widget.manga.itemType != ItemType.anime ? l10n.read : l10n.watch;
+                    if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                      final incognitoMode = ref.watch(incognitoModeStateProvider);
+                      final entries = snapshot.data!
+                          .where(
+                            (element) => element.mangaId == widget.manga.id,
+                          )
+                          .toList()
+                          .reversed
+                          .toList();
 
-                    if (entries.isNotEmpty && !incognitoMode) {
-                      final chap = entries.first.chapter.value!;
+                      if (entries.isNotEmpty && !incognitoMode) {
+                        final chap = entries.first.chapter.value!;
+                        return CustomFloatingActionBtn(
+                          isExtended: !isExtended,
+                          label: l10n.resume,
+                          onPressed: () {
+                            chap.pushToReaderView(context);
+                          },
+                        );
+                      }
                       return CustomFloatingActionBtn(
                         isExtended: !isExtended,
-                        label: l10n.resume,
+                        label: buttonLabel,
                         onPressed: () {
-                          chap.pushToReaderView(context);
+                          widget.manga.chapters.toList().reversed.toList().last.pushToReaderView(context);
                         },
                       );
                     }
@@ -106,29 +106,11 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                       isExtended: !isExtended,
                       label: buttonLabel,
                       onPressed: () {
-                        widget.manga.chapters
-                            .toList()
-                            .reversed
-                            .toList()
-                            .last
-                            .pushToReaderView(context);
+                        widget.manga.chapters.toList().reversed.toList().last.pushToReaderView(context);
                       },
                     );
-                  }
-                  return CustomFloatingActionBtn(
-                    isExtended: !isExtended,
-                    label: buttonLabel,
-                    onPressed: () {
-                      widget.manga.chapters
-                          .toList()
-                          .reversed
-                          .toList()
-                          .last
-                          .pushToReaderView(context);
-                    },
-                  );
-                },
-              )
+                  },
+                )
               : Container();
         },
       ),
@@ -142,9 +124,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                 Icon(Icons.person_outline, size: 14),
                 const SizedBox(width: 4),
                 Text(
-                  (widget.manga.author?.isEmpty ?? false)
-                      ? l10n.unknown
-                      : widget.manga.author!,
+                  (widget.manga.author?.isEmpty ?? false) ? l10n.unknown : widget.manga.author!,
                   style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
               ],
@@ -157,8 +137,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                 Text(getMangaStatusName(widget.manga.status, context)),
                 if (!isLocalArchive) const Text(' • '),
                 if (!isLocalArchive) Text(widget.manga.source!),
-                if (!isLocalArchive)
-                  Text(' (${widget.manga.lang!.toUpperCase()})'),
+                if (!isLocalArchive) Text(' (${widget.manga.lang!.toUpperCase()})'),
                 if (!isLocalArchive && !widget.sourceExist)
                   const Padding(
                     padding: EdgeInsets.all(3),
@@ -172,86 +151,83 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
             ),
           ],
         ),
-        action:
-            widget.manga.favorite!
-                ? SizedBox(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Theme.of(context).scaffoldBackgroundColor,
-                      elevation: 0,
-                    ),
-                    onPressed: () {
-                      final model = widget.manga;
-                      isar.writeTxnSync(() {
-                        model.favorite = false;
-                        model.dateAdded = 0;
-                        model.updatedAt = DateTime.now().millisecondsSinceEpoch;
-                        isar.mangas.putSync(model);
-                      });
-                    },
-                    child: Column(
-                      children: [
-                        const Icon(Icons.favorite, size: 20),
-                        const SizedBox(height: 4),
-                        Text(
-                          l10n.in_library,
-                          style: const TextStyle(fontSize: 11),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-                : ElevatedButton(
+        action: widget.manga.favorite!
+            ? SizedBox(
+                child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                     elevation: 0,
                   ),
                   onPressed: () {
                     final model = widget.manga;
-                    final checkCategoryList =
-                        isar.categorys
-                            .filter()
-                            .idIsNotNull()
-                            .and()
-                            .forItemTypeEqualTo(model.itemType)
-                            .isNotEmptySync();
-                    if (checkCategoryList) {
-                      showCategorySelectionDialog(
-                        context: context,
-                        ref: ref,
-                        itemType: model.itemType,
-                        singleManga: model,
-                      );
-                    } else {
-                      isar.writeTxnSync(() {
-                        model.favorite = true;
-                        model.dateAdded = DateTime.now().millisecondsSinceEpoch;
-                        model.updatedAt = DateTime.now().millisecondsSinceEpoch;
-                        isar.mangas.putSync(model);
-                      });
-                    }
+                    isar.writeTxnSync(() {
+                      model.favorite = false;
+                      model.dateAdded = 0;
+                      model.updatedAt = DateTime.now().millisecondsSinceEpoch;
+                      isar.mangas.putSync(model);
+                    });
                   },
                   child: Column(
                     children: [
-                      Icon(
-                        Icons.favorite_border_rounded,
-                        size: 20,
-                        color: context.secondaryColor,
-                      ),
+                      const Icon(Icons.favorite, size: 20),
                       const SizedBox(height: 4),
                       Text(
-                        l10n.add_to_library,
-                        style: TextStyle(
-                          color: context.secondaryColor,
-                          fontSize: 11,
-                        ),
+                        l10n.in_library,
+                        style: const TextStyle(fontSize: 11),
                         textAlign: TextAlign.center,
                       ),
                     ],
                   ),
                 ),
+              )
+            : ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  elevation: 0,
+                ),
+                onPressed: () {
+                  final model = widget.manga;
+                  final checkCategoryList = isar.categorys
+                      .filter()
+                      .idIsNotNull()
+                      .and()
+                      .forItemTypeEqualTo(model.itemType)
+                      .isNotEmptySync();
+                  if (checkCategoryList) {
+                    showCategorySelectionDialog(
+                      context: context,
+                      ref: ref,
+                      itemType: model.itemType,
+                      singleManga: model,
+                    );
+                  } else {
+                    isar.writeTxnSync(() {
+                      model.favorite = true;
+                      model.dateAdded = DateTime.now().millisecondsSinceEpoch;
+                      model.updatedAt = DateTime.now().millisecondsSinceEpoch;
+                      isar.mangas.putSync(model);
+                    });
+                  }
+                },
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.favorite_border_rounded,
+                      size: 20,
+                      color: context.secondaryColor,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      l10n.add_to_library,
+                      style: TextStyle(
+                        color: context.secondaryColor,
+                        fontSize: 11,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
         manga: widget.manga,
         isExtended: (value) {
           ref.read(isExtendedStateProvider.notifier).update(value);

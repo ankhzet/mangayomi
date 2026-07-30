@@ -41,11 +41,10 @@ Future<(String, EpubNovel?)> getHtmlContent(
       final mangaMainDirectory = await storageProvider.getMangaMainDirectory(
         chapter,
       );
-      final chapterDirectory =
-          (await storageProvider.getMangaChapterDirectory(
-            chapter,
-            mangaMainDirectory: mangaMainDirectory,
-          ))!;
+      final chapterDirectory = (await storageProvider.getMangaChapterDirectory(
+        chapter,
+        mangaMainDirectory: mangaMainDirectory,
+      ))!;
 
       final htmlPath = p.join(chapterDirectory.path, "${chapter.name}.html");
 
@@ -108,8 +107,7 @@ String _buildHtml(String input) {
   });
 
   document.querySelectorAll('td, th').forEach((cell) {
-    cell.attributes['style'] =
-        '${cell.attributes['style'] ?? ''} border: 1px solid #ddd; padding: 8px;';
+    cell.attributes['style'] = '${cell.attributes['style'] ?? ''} border: 1px solid #ddd; padding: 8px;';
   });
 
   // Improve citations/blockquotes

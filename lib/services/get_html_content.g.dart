@@ -13,15 +13,8 @@ part of 'get_html_content.dart';
 final getHtmlContentProvider = GetHtmlContentFamily._();
 
 final class GetHtmlContentProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<(String, EpubNovel?)>,
-          (String, EpubNovel?),
-          FutureOr<(String, EpubNovel?)>
-        >
-    with
-        $FutureModifier<(String, EpubNovel?)>,
-        $FutureProvider<(String, EpubNovel?)> {
+    extends $FunctionalProvider<AsyncValue<(String, EpubNovel?)>, (String, EpubNovel?), FutureOr<(String, EpubNovel?)>>
+    with $FutureModifier<(String, EpubNovel?)>, $FutureProvider<(String, EpubNovel?)> {
   GetHtmlContentProvider._({
     required GetHtmlContentFamily super.from,
     required Chapter super.argument,
@@ -79,8 +72,7 @@ final class GetHtmlContentFamily extends $Family
         isAutoDispose: true,
       );
 
-  GetHtmlContentProvider call({required Chapter chapter}) =>
-      GetHtmlContentProvider._(argument: chapter, from: this);
+  GetHtmlContentProvider call({required Chapter chapter}) => GetHtmlContentProvider._(argument: chapter, from: this);
 
   @override
   String toString() => r'getHtmlContentProvider';

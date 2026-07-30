@@ -29,8 +29,7 @@ class HwdecModeState extends _$HwdecModeState {
       return hwdecMode;
     }
     final hwdecSupport = hwdecs[hwdecMode] ?? [];
-    if (!hwdecSupport.contains("all") &&
-        !hwdecSupport.contains(Platform.operatingSystem)) {
+    if (!hwdecSupport.contains("all") && !hwdecSupport.contains(Platform.operatingSystem)) {
       return Platform.isAndroid ? "auto-safe" : "auto";
     }
     return hwdecMode;
@@ -53,10 +52,7 @@ class HwdecModeState extends _$HwdecModeState {
 class EnableHardwareAccelState extends _$EnableHardwareAccelState {
   @override
   bool build() {
-    return isar.settings.getSync(227)!.enableHardwareAcceleration ??
-            Platform.isMacOS
-        ? false
-        : true;
+    return isar.settings.getSync(227)!.enableHardwareAcceleration ?? Platform.isMacOS ? false : true;
   }
 
   void set(bool value) {

@@ -80,8 +80,7 @@ extension StringExtensions on String {
 extension NativeStringExtensions on List<String> {
   Pointer<Pointer<Int8>> strListToPointer() {
     final strings = this;
-    List<Pointer<Int8>> int8PointerList =
-        strings.map((str) => str.toNativeUtf8().cast<Int8>()).toList();
+    List<Pointer<Int8>> int8PointerList = strings.map((str) => str.toNativeUtf8().cast<Int8>()).toList();
 
     final Pointer<Pointer<Int8>> pointerPointer = malloc.allocate(
       int8PointerList.length,

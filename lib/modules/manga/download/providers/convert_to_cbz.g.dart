@@ -13,12 +13,7 @@ part of 'convert_to_cbz.dart';
 final convertToCBZProvider = ConvertToCBZFamily._();
 
 final class ConvertToCBZProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<String>>,
-          List<String>,
-          FutureOr<List<String>>
-        >
+    extends $FunctionalProvider<AsyncValue<List<String>>, List<String>, FutureOr<List<String>>>
     with $FutureModifier<List<String>>, $FutureProvider<List<String>> {
   ConvertToCBZProvider._({
     required ConvertToCBZFamily super.from,
@@ -73,11 +68,7 @@ final class ConvertToCBZProvider
 String _$convertToCBZHash() => r'56f4320034ec2420c8c2c2b22a2522721181ab54';
 
 final class ConvertToCBZFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          FutureOr<List<String>>,
-          (String, String, String, List<String>)
-        > {
+    with $FunctionalFamilyOverride<FutureOr<List<String>>, (String, String, String, List<String>)> {
   ConvertToCBZFamily._()
     : super(
         retry: null,

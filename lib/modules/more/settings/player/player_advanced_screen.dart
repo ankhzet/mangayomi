@@ -14,8 +14,7 @@ class PlayerAdvancedScreen extends ConsumerStatefulWidget {
   const PlayerAdvancedScreen({super.key});
 
   @override
-  ConsumerState<PlayerAdvancedScreen> createState() =>
-      _PlayerAdvancedScreenState();
+  ConsumerState<PlayerAdvancedScreen> createState() => _PlayerAdvancedScreenState();
 }
 
 class _PlayerAdvancedScreenState extends ConsumerState<PlayerAdvancedScreen> {
@@ -69,8 +68,7 @@ class _PlayerAdvancedScreenState extends ConsumerState<PlayerAdvancedScreen> {
     final dir = await provider.getMpvDirectory();
     final mpvFile = File('${dir!.path}/mpv.conf');
     final inputFile = File('${dir.path}/input.conf');
-    final filesMissing =
-        !(await mpvFile.exists()) && !(await inputFile.exists());
+    final filesMissing = !(await mpvFile.exists()) && !(await inputFile.exists());
     if ((redownload || filesMissing) && context.mounted) {
       final res = await showDialog(
         context: context,
@@ -103,15 +101,13 @@ class _PlayerAdvancedScreenState extends ConsumerState<PlayerAdvancedScreen> {
                           await mpvFile.writeAsBytes(file.content);
                         } else if (file.name == "input.conf") {
                           await inputFile.writeAsBytes(file.content);
-                        } else if (file.name.startsWith("shaders/") &&
-                            file.name.endsWith(".glsl")) {
+                        } else if (file.name.startsWith("shaders/") && file.name.endsWith(".glsl")) {
                           final shaderFile = File(
                             '$shadersDir/${file.name.split("/").last}',
                           );
                           await shaderFile.writeAsBytes(file.content);
                         } else if (file.name.startsWith("scripts/") &&
-                            (file.name.endsWith(".js") ||
-                                file.name.endsWith(".lua"))) {
+                            (file.name.endsWith(".js") || file.name.endsWith(".lua"))) {
                           final scriptFile = File(
                             '$scriptsDir/${file.name.split("/").last}',
                           );

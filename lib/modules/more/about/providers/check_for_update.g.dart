@@ -12,8 +12,7 @@ part of 'check_for_update.dart';
 @ProviderFor(checkForUpdate)
 final checkForUpdateProvider = CheckForUpdateFamily._();
 
-final class CheckForUpdateProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+final class CheckForUpdateProvider extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
     with $FutureModifier<void>, $FutureProvider<void> {
   CheckForUpdateProvider._({
     required CheckForUpdateFamily super.from,
@@ -38,13 +37,11 @@ final class CheckForUpdateProvider
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<void> create(Ref ref) {
-    final argument =
-        this.argument as ({BuildContext? context, bool? manualUpdate});
+    final argument = this.argument as ({BuildContext? context, bool? manualUpdate});
     return checkForUpdate(
       ref,
       context: argument.context,
@@ -66,11 +63,7 @@ final class CheckForUpdateProvider
 String _$checkForUpdateHash() => r'644316334ac3e95d37f54d7197d744c9de1260b6';
 
 final class CheckForUpdateFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          FutureOr<void>,
-          ({BuildContext? context, bool? manualUpdate})
-        > {
+    with $FunctionalFamilyOverride<FutureOr<void>, ({BuildContext? context, bool? manualUpdate})> {
   CheckForUpdateFamily._()
     : super(
         retry: null,
@@ -80,11 +73,10 @@ final class CheckForUpdateFamily extends $Family
         isAutoDispose: true,
       );
 
-  CheckForUpdateProvider call({BuildContext? context, bool? manualUpdate}) =>
-      CheckForUpdateProvider._(
-        argument: (context: context, manualUpdate: manualUpdate),
-        from: this,
-      );
+  CheckForUpdateProvider call({BuildContext? context, bool? manualUpdate}) => CheckForUpdateProvider._(
+    argument: (context: context, manualUpdate: manualUpdate),
+    from: this,
+  );
 
   @override
   String toString() => r'checkForUpdateProvider';
@@ -93,9 +85,7 @@ final class CheckForUpdateFamily extends $Family
 @ProviderFor(checkForAppUpdates)
 final checkForAppUpdatesProvider = CheckForAppUpdatesProvider._();
 
-final class CheckForAppUpdatesProvider
-    extends $FunctionalProvider<bool, bool, bool>
-    with $Provider<bool> {
+final class CheckForAppUpdatesProvider extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
   CheckForAppUpdatesProvider._()
     : super(
         from: null,
@@ -112,8 +102,7 @@ final class CheckForAppUpdatesProvider
 
   @$internal
   @override
-  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $ProviderElement<bool> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
 
   @override
   bool create(Ref ref) {
@@ -129,5 +118,4 @@ final class CheckForAppUpdatesProvider
   }
 }
 
-String _$checkForAppUpdatesHash() =>
-    r'2243b74d748a90847bacff256cb2ef0a344fee80';
+String _$checkForAppUpdatesHash() => r'2243b74d748a90847bacff256cb2ef0a344fee80';

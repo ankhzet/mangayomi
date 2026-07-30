@@ -170,8 +170,7 @@ void _customButtonAttach(
   object.id = id;
 }
 
-extension CustomButtonQueryWhereSort
-    on QueryBuilder<CustomButton, CustomButton, QWhere> {
+extension CustomButtonQueryWhereSort on QueryBuilder<CustomButton, CustomButton, QWhere> {
   QueryBuilder<CustomButton, CustomButton, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
@@ -179,8 +178,7 @@ extension CustomButtonQueryWhereSort
   }
 }
 
-extension CustomButtonQueryWhere
-    on QueryBuilder<CustomButton, CustomButton, QWhereClause> {
+extension CustomButtonQueryWhere on QueryBuilder<CustomButton, CustomButton, QWhereClause> {
   QueryBuilder<CustomButton, CustomButton, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(lower: id, upper: id));
@@ -252,10 +250,8 @@ extension CustomButtonQueryWhere
   }
 }
 
-extension CustomButtonQueryFilter
-    on QueryBuilder<CustomButton, CustomButton, QFilterCondition> {
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeLongPressIsNull() {
+extension CustomButtonQueryFilter on QueryBuilder<CustomButton, CustomButton, QFilterCondition> {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeLongPressIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'codeLongPress'),
@@ -263,8 +259,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeLongPressIsNotNull() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeLongPressIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'codeLongPress'),
@@ -272,8 +267,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeLongPressEqualTo(String? value, {bool caseSensitive = true}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeLongPressEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -285,8 +282,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeLongPressGreaterThan(
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeLongPressGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -303,8 +299,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeLongPressLessThan(
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeLongPressLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -321,8 +316,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeLongPressBetween(
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeLongPressBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -343,8 +337,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeLongPressStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeLongPressStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -356,8 +352,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeLongPressEndsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeLongPressEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -369,8 +367,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeLongPressContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeLongPressContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -382,8 +382,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeLongPressMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeLongPressMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -395,8 +397,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeLongPressIsEmpty() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeLongPressIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'codeLongPress', value: ''),
@@ -404,8 +405,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeLongPressIsNotEmpty() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeLongPressIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'codeLongPress', value: ''),
@@ -413,8 +413,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codePressIsNull() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codePressIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'codePress'),
@@ -422,8 +421,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codePressIsNotNull() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codePressIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'codePress'),
@@ -431,8 +429,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codePressEqualTo(String? value, {bool caseSensitive = true}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codePressEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -444,8 +444,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codePressGreaterThan(
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codePressGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -462,8 +461,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codePressLessThan(
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codePressLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -480,8 +478,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codePressBetween(
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codePressBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -502,8 +499,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codePressStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codePressStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -515,8 +514,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codePressEndsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codePressEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -528,8 +529,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codePressContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codePressContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -541,8 +544,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codePressMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codePressMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -554,8 +559,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codePressIsEmpty() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codePressIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'codePress', value: ''),
@@ -563,8 +567,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codePressIsNotEmpty() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codePressIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'codePress', value: ''),
@@ -572,8 +575,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeStartupIsNull() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeStartupIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'codeStartup'),
@@ -581,8 +583,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeStartupIsNotNull() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeStartupIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'codeStartup'),
@@ -590,8 +591,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeStartupEqualTo(String? value, {bool caseSensitive = true}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeStartupEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -603,8 +606,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeStartupGreaterThan(
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeStartupGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -621,8 +623,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeStartupLessThan(
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeStartupLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -639,8 +640,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeStartupBetween(
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeStartupBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -661,8 +661,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeStartupStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeStartupStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -674,8 +676,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeStartupEndsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeStartupEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -687,8 +691,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeStartupContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeStartupContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -700,8 +706,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeStartupMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeStartupMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -713,8 +721,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeStartupIsEmpty() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeStartupIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'codeStartup', value: ''),
@@ -722,8 +729,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  codeStartupIsNotEmpty() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> codeStartupIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'codeStartup', value: ''),
@@ -739,8 +745,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  idIsNotNull() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> idIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'id'),
@@ -807,8 +812,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  isFavouriteIsNull() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> isFavouriteIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'isFavourite'),
@@ -816,8 +820,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  isFavouriteIsNotNull() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> isFavouriteIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'isFavourite'),
@@ -825,8 +828,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  isFavouriteEqualTo(bool? value) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> isFavouriteEqualTo(bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'isFavourite', value: value),
@@ -842,8 +844,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  posIsNotNull() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> posIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'pos'),
@@ -861,8 +862,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  posGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> posGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -908,8 +908,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  titleIsNull() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> titleIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'title'),
@@ -917,8 +916,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  titleIsNotNull() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> titleIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'title'),
@@ -941,8 +939,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  titleGreaterThan(
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> titleGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -997,8 +994,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  titleStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> titleStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -1055,8 +1054,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  titleIsEmpty() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> titleIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'title', value: ''),
@@ -1064,8 +1062,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  titleIsNotEmpty() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> titleIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'title', value: ''),
@@ -1073,8 +1070,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  updatedAtIsNull() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> updatedAtIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'updatedAt'),
@@ -1082,8 +1078,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  updatedAtIsNotNull() {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> updatedAtIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'updatedAt'),
@@ -1091,8 +1086,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  updatedAtEqualTo(int? value) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> updatedAtEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'updatedAt', value: value),
@@ -1100,8 +1094,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  updatedAtGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> updatedAtGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -1113,8 +1109,10 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  updatedAtLessThan(int? value, {bool include = false}) {
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> updatedAtLessThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -1126,8 +1124,7 @@ extension CustomButtonQueryFilter
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition>
-  updatedAtBetween(
+  QueryBuilder<CustomButton, CustomButton, QAfterFilterCondition> updatedAtBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -1147,22 +1144,18 @@ extension CustomButtonQueryFilter
   }
 }
 
-extension CustomButtonQueryObject
-    on QueryBuilder<CustomButton, CustomButton, QFilterCondition> {}
+extension CustomButtonQueryObject on QueryBuilder<CustomButton, CustomButton, QFilterCondition> {}
 
-extension CustomButtonQueryLinks
-    on QueryBuilder<CustomButton, CustomButton, QFilterCondition> {}
+extension CustomButtonQueryLinks on QueryBuilder<CustomButton, CustomButton, QFilterCondition> {}
 
-extension CustomButtonQuerySortBy
-    on QueryBuilder<CustomButton, CustomButton, QSortBy> {
+extension CustomButtonQuerySortBy on QueryBuilder<CustomButton, CustomButton, QSortBy> {
   QueryBuilder<CustomButton, CustomButton, QAfterSortBy> sortByCodeLongPress() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'codeLongPress', Sort.asc);
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterSortBy>
-  sortByCodeLongPressDesc() {
+  QueryBuilder<CustomButton, CustomButton, QAfterSortBy> sortByCodeLongPressDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'codeLongPress', Sort.desc);
     });
@@ -1186,8 +1179,7 @@ extension CustomButtonQuerySortBy
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterSortBy>
-  sortByCodeStartupDesc() {
+  QueryBuilder<CustomButton, CustomButton, QAfterSortBy> sortByCodeStartupDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'codeStartup', Sort.desc);
     });
@@ -1199,8 +1191,7 @@ extension CustomButtonQuerySortBy
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterSortBy>
-  sortByIsFavouriteDesc() {
+  QueryBuilder<CustomButton, CustomButton, QAfterSortBy> sortByIsFavouriteDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isFavourite', Sort.desc);
     });
@@ -1243,16 +1234,14 @@ extension CustomButtonQuerySortBy
   }
 }
 
-extension CustomButtonQuerySortThenBy
-    on QueryBuilder<CustomButton, CustomButton, QSortThenBy> {
+extension CustomButtonQuerySortThenBy on QueryBuilder<CustomButton, CustomButton, QSortThenBy> {
   QueryBuilder<CustomButton, CustomButton, QAfterSortBy> thenByCodeLongPress() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'codeLongPress', Sort.asc);
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterSortBy>
-  thenByCodeLongPressDesc() {
+  QueryBuilder<CustomButton, CustomButton, QAfterSortBy> thenByCodeLongPressDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'codeLongPress', Sort.desc);
     });
@@ -1276,8 +1265,7 @@ extension CustomButtonQuerySortThenBy
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterSortBy>
-  thenByCodeStartupDesc() {
+  QueryBuilder<CustomButton, CustomButton, QAfterSortBy> thenByCodeStartupDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'codeStartup', Sort.desc);
     });
@@ -1301,8 +1289,7 @@ extension CustomButtonQuerySortThenBy
     });
   }
 
-  QueryBuilder<CustomButton, CustomButton, QAfterSortBy>
-  thenByIsFavouriteDesc() {
+  QueryBuilder<CustomButton, CustomButton, QAfterSortBy> thenByIsFavouriteDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isFavourite', Sort.desc);
     });
@@ -1345,8 +1332,7 @@ extension CustomButtonQuerySortThenBy
   }
 }
 
-extension CustomButtonQueryWhereDistinct
-    on QueryBuilder<CustomButton, CustomButton, QDistinct> {
+extension CustomButtonQueryWhereDistinct on QueryBuilder<CustomButton, CustomButton, QDistinct> {
   QueryBuilder<CustomButton, CustomButton, QDistinct> distinctByCodeLongPress({
     bool caseSensitive = true,
   }) {
@@ -1401,16 +1387,14 @@ extension CustomButtonQueryWhereDistinct
   }
 }
 
-extension CustomButtonQueryProperty
-    on QueryBuilder<CustomButton, CustomButton, QQueryProperty> {
+extension CustomButtonQueryProperty on QueryBuilder<CustomButton, CustomButton, QQueryProperty> {
   QueryBuilder<CustomButton, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<CustomButton, String?, QQueryOperations>
-  codeLongPressProperty() {
+  QueryBuilder<CustomButton, String?, QQueryOperations> codeLongPressProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'codeLongPress');
     });

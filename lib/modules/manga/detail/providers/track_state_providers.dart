@@ -67,9 +67,7 @@ class TrackState extends _$TrackState {
   }
 
   void writeBack(Track t) {
-    widgetRef
-        .read(tracksProvider(syncId: t.syncId!).notifier)
-        .updateTrackManga(t, itemType!);
+    widgetRef.read(tracksProvider(syncId: t.syncId!).notifier).updateTrackManga(t, itemType!);
   }
 
   Future updateManga() async {
@@ -186,9 +184,9 @@ class TrackState extends _$TrackState {
     final tracker = getNotifier(syncId);
     return rankingType != null
         ? await tracker.fetchGeneralData(
-          isManga: _isManga,
-          rankingType: rankingType,
-        )
+            isManga: _isManga,
+            rankingType: rankingType,
+          )
         : await tracker.fetchGeneralData(isManga: _isManga);
   }
 
@@ -206,8 +204,7 @@ class TrackState extends _$TrackState {
 }
 
 @riverpod
-class LastTrackerLibraryLocationState
-    extends _$LastTrackerLibraryLocationState {
+class LastTrackerLibraryLocationState extends _$LastTrackerLibraryLocationState {
   @override
   (int, bool) build() {
     final value = isar.settings.getSync(227)!.lastTrackerLibraryLocation;

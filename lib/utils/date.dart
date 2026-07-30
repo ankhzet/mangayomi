@@ -19,10 +19,9 @@ String dateFormat(
   final locale = currentLocale(context);
   final relativeTimestamps = ref.read(relativeTimesTampsStateProvider);
   final dateFrmt = ref.read(dateFormatStateProvider);
-  final dateTime =
-      stringDate != null
-          ? DateTime.parse(stringDate)
-          : DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp!));
+  final dateTime = stringDate != null
+      ? DateTime.parse(stringDate)
+      : DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp!));
   stringDate = null;
   final date = DateTime(dateTime.year, dateTime.month, dateTime.day);
   if (stringDate == null) {
@@ -58,9 +57,7 @@ String dateFormat(
       }
 
       return l10n.today;
-    } else if (date == yesterday &&
-        useRelativeTimesTamps &&
-        relativeTimestamps != 0) {
+    } else if (date == yesterday && useRelativeTimesTamps && relativeTimestamps != 0) {
       return l10n.yesterday;
     } else if (useRelativeTimesTamps && relativeTimestamps == 2) {
       if (date.isAfter(twoDaysAgo) ||
@@ -72,21 +69,13 @@ String dateFormat(
           date.isAfter(aWeekAgo)) {
         final difference = today.difference(date).inDays.abs();
         return switch (difference) {
-          1 =>
-            showInDaysFuture
-                ? l10n.in_n_day(difference)
-                : l10n.n_day_ago(difference),
-          != 7 =>
-            showInDaysFuture
-                ? l10n.in_n_days(difference)
-                : l10n.n_days_ago(difference),
+          1 => showInDaysFuture ? l10n.in_n_day(difference) : l10n.n_day_ago(difference),
+          != 7 => showInDaysFuture ? l10n.in_n_days(difference) : l10n.n_days_ago(difference),
           _ => showInDaysFuture ? l10n.next_week : l10n.a_week_ago,
         };
       }
     }
-    return forHistoryValue
-        ? DateTime(dateTime.year, dateTime.month, dateTime.day).toString()
-        : formatter.format(date);
+    return forHistoryValue ? DateTime(dateTime.year, dateTime.month, dateTime.day).toString() : formatter.format(date);
   }
   return date.toString();
 }

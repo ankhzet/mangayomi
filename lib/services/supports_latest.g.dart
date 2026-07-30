@@ -12,8 +12,7 @@ part of 'supports_latest.dart';
 @ProviderFor(supportsLatest)
 final supportsLatestProvider = SupportsLatestFamily._();
 
-final class SupportsLatestProvider extends $FunctionalProvider<bool, bool, bool>
-    with $Provider<bool> {
+final class SupportsLatestProvider extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
   SupportsLatestProvider._({
     required SupportsLatestFamily super.from,
     required Source super.argument,
@@ -37,8 +36,7 @@ final class SupportsLatestProvider extends $FunctionalProvider<bool, bool, bool>
 
   @$internal
   @override
-  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $ProviderElement<bool> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
 
   @override
   bool create(Ref ref) {
@@ -67,8 +65,7 @@ final class SupportsLatestProvider extends $FunctionalProvider<bool, bool, bool>
 
 String _$supportsLatestHash() => r'e2d9b73adde86f78f1ab1c97d91ea2d3a59dc78d';
 
-final class SupportsLatestFamily extends $Family
-    with $FunctionalFamilyOverride<bool, Source> {
+final class SupportsLatestFamily extends $Family with $FunctionalFamilyOverride<bool, Source> {
   SupportsLatestFamily._()
     : super(
         retry: null,
@@ -78,8 +75,7 @@ final class SupportsLatestFamily extends $Family
         isAutoDispose: true,
       );
 
-  SupportsLatestProvider call({required Source source}) =>
-      SupportsLatestProvider._(argument: source, from: this);
+  SupportsLatestProvider call({required Source source}) => SupportsLatestProvider._(argument: source, from: this);
 
   @override
   String toString() => r'supportsLatestProvider';

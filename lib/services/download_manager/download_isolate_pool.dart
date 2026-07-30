@@ -440,8 +440,7 @@ Future<void> _processFileDownload(
 
   try {
     while (queue.isNotEmpty || activeTasks.isNotEmpty) {
-      while (queue.isNotEmpty &&
-          activeTasks.length < params.concurrentDownloads) {
+      while (queue.isNotEmpty && activeTasks.length < params.concurrentDownloads) {
         final pageUrl = queue.removeFirst();
         final task = _downloadFile(pageUrl, client, params.itemType, replyPort)
             .then((_) {
@@ -561,8 +560,7 @@ Future<void> _processM3u8Download(
 
   try {
     while (queue.isNotEmpty || activeTasks.isNotEmpty) {
-      while (queue.isNotEmpty &&
-          activeTasks.length < params.concurrentDownloads) {
+      while (queue.isNotEmpty && activeTasks.length < params.concurrentDownloads) {
         final segment = queue.removeFirst();
         final task = _downloadSegment(segment, params, client)
             .then((_) {
@@ -697,6 +695,5 @@ class DownloadPoolException implements Exception {
   DownloadPoolException(this.message, [this.originalError]);
 
   @override
-  String toString() =>
-      'DownloadPoolException: $message${originalError != null ? ' ($originalError)' : ''}';
+  String toString() => 'DownloadPoolException: $message${originalError != null ? ' ($originalError)' : ''}';
 }

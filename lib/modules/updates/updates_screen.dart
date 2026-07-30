@@ -75,24 +75,23 @@ class _UpdatesScreenState extends BaseLibraryTabScreenState<UpdatesScreen> {
         onPressed: () {
           showDialog(
             context: context,
-            builder:
-                (dialogContext) => AlertDialog(
-                  title: Text(l10n.remove_everything),
-                  content: Text(l10n.remove_all_update_msg),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.of(dialogContext).pop(),
-                      child: Text(l10n.cancel),
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        Navigator.of(dialogContext).pop();
-                        await _clearUpdates();
-                      },
-                      child: Text(l10n.ok),
-                    ),
-                  ],
+            builder: (dialogContext) => AlertDialog(
+              title: Text(l10n.remove_everything),
+              content: Text(l10n.remove_all_update_msg),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  child: Text(l10n.cancel),
                 ),
+                TextButton(
+                  onPressed: () async {
+                    Navigator.of(dialogContext).pop();
+                    await _clearUpdates();
+                  },
+                  child: Text(l10n.ok),
+                ),
+              ],
+            ),
           );
         },
       ),
@@ -108,25 +107,24 @@ class _UpdatesScreenState extends BaseLibraryTabScreenState<UpdatesScreen> {
         .group((q) => q.shouldUpdateIsNull().or().shouldUpdateEqualTo(true))
         .findAllSync()
         .map((e) => e.id);
-    final mangaList =
-        isar.mangas
-            .filter()
-            .idIsNotNull()
-            .favoriteEqualTo(true)
-            .and()
-            .itemTypeEqualTo(itemType)
-            .and()
-            .isLocalArchiveEqualTo(false)
-            .findAllSync()
-            .where((e) {
-              for (final category in allowedCategories) {
-                if (e.categories?.contains(category) ?? false) {
-                  return true;
-                }
-              }
-              return false;
-            })
-            .toList();
+    final mangaList = isar.mangas
+        .filter()
+        .idIsNotNull()
+        .favoriteEqualTo(true)
+        .and()
+        .itemTypeEqualTo(itemType)
+        .and()
+        .isLocalArchiveEqualTo(false)
+        .findAllSync()
+        .where((e) {
+          for (final category in allowedCategories) {
+            if (e.categories?.contains(category) ?? false) {
+              return true;
+            }
+          }
+          return false;
+        })
+        .toList();
     await updateLibrary(
       ref: ref,
       context: context,
@@ -137,21 +135,18 @@ class _UpdatesScreenState extends BaseLibraryTabScreenState<UpdatesScreen> {
   }
 
   Future<void> _clearUpdates() async {
-    List<Update> updates =
-        await isar.updates
-            .filter()
-            .idIsNotNull()
-            .chapter(
-              (q) => q.manga((q) => q.itemTypeEqualTo(getCurrentItemType())),
-            )
-            .findAll();
+    List<Update> updates = await isar.updates
+        .filter()
+        .idIsNotNull()
+        .chapter(
+          (q) => q.manga((q) => q.itemTypeEqualTo(getCurrentItemType())),
+        )
+        .findAll();
     final idsToDelete = <Id>[];
     isar.writeTxnSync(() {
       for (var update in updates) {
         idsToDelete.add(update.id!);
-        ref
-            .read(synchingProvider(syncId: 1).notifier)
-            .addChangedPart(ActionType.removeUpdate, update.id, "{}", false);
+        ref.read(synchingProvider(syncId: 1).notifier).addChangedPart(ActionType.removeUpdate, update.id, "{}", false);
       }
     });
     await isar.writeTxn(() => isar.updates.deleteAll(idsToDelete));
@@ -173,8 +168,7 @@ class UpdateTab extends ConsumerStatefulWidget {
   ConsumerState<UpdateTab> createState() => _UpdateTabState();
 }
 
-class _UpdateTabState extends ConsumerState<UpdateTab>
-    with AutomaticKeepAliveClientMixin {
+class _UpdateTabState extends ConsumerState<UpdateTab> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -192,10 +186,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab>
       children: [
         update.when(
           data: (entries) {
-            final lastUpdatedList =
-                entries
-                    .map((e) => e.chapter.value!.manga.value!.lastUpdate!)
-                    .toList();
+            final lastUpdatedList = entries.map((e) => e.chapter.value!.manga.value!.lastUpdate!).toList();
             lastUpdatedList.sort((a, b) => b.compareTo(a));
             final lastUpdated = lastUpdatedList.firstOrNull;
             if (entries.isNotEmpty) {
@@ -230,30 +221,28 @@ class _UpdateTabState extends ConsumerState<UpdateTab>
                     ),
                   CustomSliverGroupedListView<Update, String>(
                     elements: entries,
-                    groupBy:
-                        (element) => dateFormat(
-                          element.date!,
-                          context: context,
-                          ref: ref,
-                          forHistoryValue: true,
-                          useRelativeTimesTamps: false,
-                        ),
-                    groupSeparatorBuilder:
-                        (String groupByValue) => Padding(
-                          padding: const EdgeInsets.only(bottom: 8, left: 12),
-                          child: Row(
-                            children: [
-                              Text(
-                                dateFormat(
-                                  null,
-                                  context: context,
-                                  stringDate: groupByValue,
-                                  ref: ref,
-                                ),
-                              ),
-                            ],
+                    groupBy: (element) => dateFormat(
+                      element.date!,
+                      context: context,
+                      ref: ref,
+                      forHistoryValue: true,
+                      useRelativeTimesTamps: false,
+                    ),
+                    groupSeparatorBuilder: (String groupByValue) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8, left: 12),
+                      child: Row(
+                        children: [
+                          Text(
+                            dateFormat(
+                              null,
+                              context: context,
+                              stringDate: groupByValue,
+                              ref: ref,
+                            ),
                           ),
-                        ),
+                        ],
+                      ),
+                    ),
                     itemBuilder: (context, element) {
                       final chapter = element.chapter.value!;
                       return UpdateChapterListTileWidget(
@@ -261,8 +250,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab>
                         sourceExist: true,
                       );
                     },
-                    itemComparator:
-                        (item1, item2) => item1.date!.compareTo(item2.date!),
+                    itemComparator: (item1, item2) => item1.date!.compareTo(item2.date!),
                     order: GroupedListOrder.DESC,
                   ),
                 ],
@@ -306,14 +294,14 @@ Widget _updateNumbers(WidgetRef ref, ItemType itemType) {
         return entries.isEmpty
             ? SizedBox.shrink()
             : Badge(
-              backgroundColor: Theme.of(context).focusColor,
-              label: Text(
-                entries.length.toString(),
-                style: TextStyle(
-                  color: Theme.of(context).textTheme.bodySmall!.color,
+                backgroundColor: Theme.of(context).focusColor,
+                label: Text(
+                  entries.length.toString(),
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodySmall!.color,
+                  ),
                 ),
-              ),
-            );
+              );
       }
       return Container();
     },

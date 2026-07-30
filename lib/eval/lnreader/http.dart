@@ -86,14 +86,13 @@ async function fetchApi(url, init) {
 Future<String> _toHttpResponse(Client client, String method, List args) async {
   final url = args[0] as String;
   final headers = (args[1] as Map?)?.toMapStringString ?? {};
-  final body =
-      args.length >= 3
-          ? args[2] is List
-              ? args[2] as List
-              : args[2] is String
-              ? args[2] as String
-              : (args[2] as Map?)?.toMapStringDynamic
-          : null;
+  final body = args.length >= 3
+      ? args[2] is List
+            ? args[2] as List
+            : args[2] is String
+            ? args[2] as String
+            : (args[2] as Map?)?.toMapStringDynamic
+      : null;
   var request = http.Request(method, Uri.parse(url));
   request.headers.addAll(headers);
   if ((request.headers[HttpHeaders.contentTypeHeader]?.contains(
@@ -125,8 +124,7 @@ Future<String> _toHttpResponse(Client client, String method, List args) async {
               "=${Uri.encodeQueryComponent(e[1])}",
         )
         .join("&");
-    headers["content-type"] =
-        "application/x-www-form-urlencoded; charset=UTF-8";
+    headers["content-type"] = "application/x-www-form-urlencoded; charset=UTF-8";
   }
   final future = switch (method) {
     "HEAD" => client.head(Uri.parse(url), headers: headers),

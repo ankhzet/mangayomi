@@ -18,11 +18,9 @@ class ChapterItem {
       name: json['name'],
       path: json['path'],
       releaseTime: json['releaseTime'],
-      chapterNumber:
-          json['chapterNumber'] != null
-              ? (json['chapterNumber'] as num?)?.toInt() ??
-                  int.tryParse(json['chapterNumber'])
-              : null,
+      chapterNumber: json['chapterNumber'] != null
+          ? (json['chapterNumber'] as num?)?.toInt() ?? int.tryParse(json['chapterNumber'])
+          : null,
       page: json['page'],
     );
   }
@@ -93,14 +91,8 @@ class SourceNovel extends NovelItem {
       author: json['author'],
       artist: json['artist'],
       status: json['status'],
-      rating:
-          json['rating'] is double
-              ? json['rating']
-              : json['rating']?.toDouble(),
-      chapters:
-          (json['chapters'] as List<dynamic>?)
-              ?.map((item) => ChapterItem.fromJson(item))
-              .toList(),
+      rating: json['rating'] is double ? json['rating'] : json['rating']?.toDouble(),
+      chapters: (json['chapters'] as List<dynamic>?)?.map((item) => ChapterItem.fromJson(item)).toList(),
     );
   }
 
@@ -128,11 +120,7 @@ class SourcePage {
 
   factory SourcePage.fromJson(Map<String, dynamic> json) {
     return SourcePage(
-      chapters:
-          (json['chapters'] as List<dynamic>?)
-              ?.map((item) => ChapterItem.fromJson(item))
-              .toList() ??
-          [],
+      chapters: (json['chapters'] as List<dynamic>?)?.map((item) => ChapterItem.fromJson(item)).toList() ?? [],
     );
   }
 

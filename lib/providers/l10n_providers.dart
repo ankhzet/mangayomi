@@ -16,8 +16,7 @@ class L10nLocaleState extends _$L10nLocaleState {
   }
 
   L10nLocale? _getLocale() {
-    return isar.settings.getSync(227)!.locale ??
-        L10nLocale(languageCode: "en", countryCode: "");
+    return isar.settings.getSync(227)!.locale ?? L10nLocale(languageCode: "en", countryCode: "");
   }
 
   void setLocale(Locale locale) async {
@@ -36,8 +35,7 @@ class L10nLocaleState extends _$L10nLocaleState {
   }
 }
 
-AppLocalizations? l10nLocalizations(BuildContext context) =>
-    AppLocalizations.of(context);
+AppLocalizations? l10nLocalizations(BuildContext context) => AppLocalizations.of(context);
 Locale currentLocale(BuildContext context) {
   return Localizations.localeOf(context);
 }

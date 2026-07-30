@@ -34,12 +34,8 @@ class ReaderSettingsTab extends ConsumerWidget {
                       label: 'Dark',
                       isSelected: backgroundColor == '#292832',
                       onTap: () {
-                        ref
-                            .read(novelReaderThemeStateProvider.notifier)
-                            .set('#292832');
-                        ref
-                            .read(novelReaderTextColorStateProvider.notifier)
-                            .set('#CCCCCC');
+                        ref.read(novelReaderThemeStateProvider.notifier).set('#292832');
+                        ref.read(novelReaderTextColorStateProvider.notifier).set('#CCCCCC');
                       },
                     ),
                     _ThemeButton(
@@ -48,12 +44,8 @@ class ReaderSettingsTab extends ConsumerWidget {
                       label: 'Light',
                       isSelected: backgroundColor == '#FFFFFF',
                       onTap: () {
-                        ref
-                            .read(novelReaderThemeStateProvider.notifier)
-                            .set('#FFFFFF');
-                        ref
-                            .read(novelReaderTextColorStateProvider.notifier)
-                            .set('#000000');
+                        ref.read(novelReaderThemeStateProvider.notifier).set('#FFFFFF');
+                        ref.read(novelReaderTextColorStateProvider.notifier).set('#000000');
                       },
                     ),
                     _ThemeButton(
@@ -62,12 +54,8 @@ class ReaderSettingsTab extends ConsumerWidget {
                       label: 'Black',
                       isSelected: backgroundColor == '#000000',
                       onTap: () {
-                        ref
-                            .read(novelReaderThemeStateProvider.notifier)
-                            .set('#000000');
-                        ref
-                            .read(novelReaderTextColorStateProvider.notifier)
-                            .set('#FFFFFF');
+                        ref.read(novelReaderThemeStateProvider.notifier).set('#000000');
+                        ref.read(novelReaderTextColorStateProvider.notifier).set('#FFFFFF');
                       },
                     ),
                     _ThemeButton(
@@ -76,12 +64,8 @@ class ReaderSettingsTab extends ConsumerWidget {
                       label: 'Sepia',
                       isSelected: backgroundColor == '#F5E6D3',
                       onTap: () {
-                        ref
-                            .read(novelReaderThemeStateProvider.notifier)
-                            .set('#F5E6D3');
-                        ref
-                            .read(novelReaderTextColorStateProvider.notifier)
-                            .set('#5F4B32');
+                        ref.read(novelReaderThemeStateProvider.notifier).set('#F5E6D3');
+                        ref.read(novelReaderTextColorStateProvider.notifier).set('#5F4B32');
                       },
                     ),
                   ],
@@ -94,9 +78,7 @@ class ReaderSettingsTab extends ConsumerWidget {
                         label: context.l10n.background,
                         color: backgroundColor,
                         onColorChanged: (color) {
-                          ref
-                              .read(novelReaderThemeStateProvider.notifier)
-                              .set(color);
+                          ref.read(novelReaderThemeStateProvider.notifier).set(color);
                         },
                       ),
                     ),
@@ -106,9 +88,7 @@ class ReaderSettingsTab extends ConsumerWidget {
                         label: context.l10n.text,
                         color: textColor,
                         onColorChanged: (color) {
-                          ref
-                              .read(novelReaderTextColorStateProvider.notifier)
-                              .set(color);
+                          ref.read(novelReaderTextColorStateProvider.notifier).set(color);
                         },
                       ),
                     ),
@@ -128,36 +108,28 @@ class ReaderSettingsTab extends ConsumerWidget {
                   icon: Icons.format_align_left,
                   isSelected: textAlign == NovelTextAlign.left,
                   onTap: () {
-                    ref
-                        .read(novelTextAlignStateProvider.notifier)
-                        .set(NovelTextAlign.left);
+                    ref.read(novelTextAlignStateProvider.notifier).set(NovelTextAlign.left);
                   },
                 ),
                 _AlignButton(
                   icon: Icons.format_align_center,
                   isSelected: textAlign == NovelTextAlign.center,
                   onTap: () {
-                    ref
-                        .read(novelTextAlignStateProvider.notifier)
-                        .set(NovelTextAlign.center);
+                    ref.read(novelTextAlignStateProvider.notifier).set(NovelTextAlign.center);
                   },
                 ),
                 _AlignButton(
                   icon: Icons.format_align_right,
                   isSelected: textAlign == NovelTextAlign.right,
                   onTap: () {
-                    ref
-                        .read(novelTextAlignStateProvider.notifier)
-                        .set(NovelTextAlign.right);
+                    ref.read(novelTextAlignStateProvider.notifier).set(NovelTextAlign.right);
                   },
                 ),
                 _AlignButton(
                   icon: Icons.format_align_justify,
                   isSelected: textAlign == NovelTextAlign.block,
                   onTap: () {
-                    ref
-                        .read(novelTextAlignStateProvider.notifier)
-                        .set(NovelTextAlign.block);
+                    ref.read(novelTextAlignStateProvider.notifier).set(NovelTextAlign.block);
                   },
                 ),
               ],
@@ -213,9 +185,7 @@ class ReaderSettingsTab extends ConsumerWidget {
                           divisions: 50,
                           label: '$padding px',
                           onChanged: (value) {
-                            ref
-                                .read(novelReaderPaddingStateProvider.notifier)
-                                .set(value.toInt());
+                            ref.read(novelReaderPaddingStateProvider.notifier).set(value.toInt());
                           },
                         ),
                       ),
@@ -358,9 +328,7 @@ class GeneralSettingsTab extends ConsumerWidget {
             title: context.l10n.show_scroll_percentage,
             value: ref.watch(novelShowScrollPercentageStateProvider),
             onChanged: (value) {
-              ref
-                  .read(novelShowScrollPercentageStateProvider.notifier)
-                  .set(value);
+              ref.read(novelShowScrollPercentageStateProvider.notifier).set(value);
             },
           ),
           ValueListenableBuilder(
@@ -383,19 +351,18 @@ class GeneralSettingsTab extends ConsumerWidget {
                   if (valueT)
                     ValueListenableBuilder(
                       valueListenable: pageOffset,
-                      builder:
-                          (context, value, child) => Slider(
-                            min: 2.0,
-                            max: 30.0,
-                            divisions: max(28, 3),
-                            value: value,
-                            onChanged: (val) {
-                              pageOffset.value = val;
-                            },
-                            onChangeEnd: (val) {
-                              readerController.setAutoScroll(valueT, val);
-                            },
-                          ),
+                      builder: (context, value, child) => Slider(
+                        min: 2.0,
+                        max: 30.0,
+                        divisions: max(28, 3),
+                        value: value,
+                        onChanged: (val) {
+                          pageOffset.value = val;
+                        },
+                        onChangeEnd: (val) {
+                          readerController.setAutoScroll(valueT, val);
+                        },
+                      ),
                     ),
                 ],
               );
@@ -405,9 +372,7 @@ class GeneralSettingsTab extends ConsumerWidget {
             title: context.l10n.remove_extra_paragraph_spacing,
             value: ref.watch(novelRemoveExtraParagraphSpacingStateProvider),
             onChanged: (value) {
-              ref
-                  .read(novelRemoveExtraParagraphSpacingStateProvider.notifier)
-                  .set(value);
+              ref.read(novelRemoveExtraParagraphSpacingStateProvider.notifier).set(value);
             },
           ),
 
@@ -551,24 +516,20 @@ class _ThemeButton extends StatelessWidget {
             color: _parseColor(backgroundColor),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color:
-                  isSelected
-                      ? Theme.of(context).primaryColor
-                      : Colors.grey.withValues(alpha: 0.3),
+              color: isSelected ? Theme.of(context).primaryColor : Colors.grey.withValues(alpha: 0.3),
               width: isSelected ? 3 : 1.5,
             ),
-            boxShadow:
-                isSelected
-                    ? [
-                      BoxShadow(
-                        color: Theme.of(
-                          context,
-                        ).primaryColor.withValues(alpha: 0.3),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ]
-                    : null,
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: Theme.of(
+                        context,
+                      ).primaryColor.withValues(alpha: 0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ]
+                : null,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -703,30 +664,25 @@ class _ColorPicker extends StatelessWidget {
               color: isSelected ? Theme.of(context).primaryColor : Colors.grey,
               width: isSelected ? 3 : 1.5,
             ),
-            boxShadow:
-                isSelected
-                    ? [
-                      BoxShadow(
-                        color: Theme.of(
-                          context,
-                        ).primaryColor.withValues(alpha: 0.4),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ]
-                    : null,
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: Theme.of(
+                        context,
+                      ).primaryColor.withValues(alpha: 0.4),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ]
+                : null,
           ),
-          child:
-              isSelected
-                  ? Icon(
-                    Icons.check_circle_rounded,
-                    size: 26,
-                    color:
-                        optionColor.computeLuminance() > 0.5
-                            ? Colors.black
-                            : Colors.white,
-                  )
-                  : null,
+          child: isSelected
+              ? Icon(
+                  Icons.check_circle_rounded,
+                  size: 26,
+                  color: optionColor.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+                )
+              : null,
         ),
       ),
     );
@@ -837,26 +793,17 @@ class _AlignButton extends StatelessWidget {
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color:
-                isSelected
-                    ? Theme.of(context).primaryColor.withValues(alpha: 0.15)
-                    : Colors.transparent,
+            color: isSelected ? Theme.of(context).primaryColor.withValues(alpha: 0.15) : Colors.transparent,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color:
-                  isSelected
-                      ? Theme.of(context).primaryColor
-                      : Colors.grey.withValues(alpha: 0.3),
+              color: isSelected ? Theme.of(context).primaryColor : Colors.grey.withValues(alpha: 0.3),
               width: isSelected ? 2 : 1.5,
             ),
           ),
           child: Icon(
             icon,
             size: 22,
-            color:
-                isSelected
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).iconTheme.color,
+            color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).iconTheme.color,
           ),
         ),
       ),

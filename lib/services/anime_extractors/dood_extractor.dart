@@ -31,8 +31,7 @@ class DoodExtractor {
         headers: {'referer': newUrl},
       );
 
-      final videoUrl =
-          '${videoUrlStart.body}$randomString?token=$token&expiry=$expiry';
+      final videoUrl = '${videoUrlStart.body}$randomString?token=$token&expiry=$expiry';
       return [
         Video(
           newUrl,
@@ -47,12 +46,10 @@ class DoodExtractor {
   }
 
   String getRandomString({int length = 10}) {
-    const allowedChars =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const allowedChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     return List.generate(
       length,
-      (index) =>
-          allowedChars.runes.elementAt(Random().nextInt(allowedChars.length)),
+      (index) => allowedChars.runes.elementAt(Random().nextInt(allowedChars.length)),
     ).join();
   }
 }

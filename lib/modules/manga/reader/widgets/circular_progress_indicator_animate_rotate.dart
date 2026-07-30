@@ -9,12 +9,10 @@ class CircularProgressIndicatorAnimateRotate extends StatefulWidget {
   });
 
   @override
-  State<CircularProgressIndicatorAnimateRotate> createState() =>
-      _CircularProgressIndicatorAnimateRotateState();
+  State<CircularProgressIndicatorAnimateRotate> createState() => _CircularProgressIndicatorAnimateRotateState();
 }
 
-class _CircularProgressIndicatorAnimateRotateState
-    extends State<CircularProgressIndicatorAnimateRotate>
+class _CircularProgressIndicatorAnimateRotateState extends State<CircularProgressIndicatorAnimateRotate>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
@@ -36,30 +34,26 @@ class _CircularProgressIndicatorAnimateRotateState
   @override
   Widget build(BuildContext context) {
     return Center(
-      child:
-          widget.progress == 0
-              ? const CircularProgressIndicator()
-              : AnimatedBuilder(
-                animation: _controller,
-                builder: (_, child) {
-                  return Transform.rotate(
-                    angle: _controller.value * 2 * pi,
-                    child: child,
-                  );
+      child: widget.progress == 0
+          ? const CircularProgressIndicator()
+          : AnimatedBuilder(
+              animation: _controller,
+              builder: (_, child) {
+                return Transform.rotate(
+                  angle: _controller.value * 2 * pi,
+                  child: child,
+                );
+              },
+              child: TweenAnimationBuilder<double>(
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+                tween: Tween<double>(begin: 0, end: widget.progress),
+                builder: (context, value, _) {
+                  final safeValue = value.isNaN || value.isInfinite ? null : value.clamp(0.0, 1.0);
+                  return CircularProgressIndicator(value: safeValue);
                 },
-                child: TweenAnimationBuilder<double>(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeInOut,
-                  tween: Tween<double>(begin: 0, end: widget.progress),
-                  builder: (context, value, _) {
-                    final safeValue =
-                        value.isNaN || value.isInfinite
-                            ? null
-                            : value.clamp(0.0, 1.0);
-                    return CircularProgressIndicator(value: safeValue);
-                  },
-                ),
               ),
+            ),
     );
   }
 }

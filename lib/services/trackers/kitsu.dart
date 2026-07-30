@@ -16,16 +16,12 @@ part 'kitsu.g.dart';
 @riverpod
 class Kitsu extends _$Kitsu implements BaseTracker {
   final http = MClient.init(reqcopyWith: {'useDartHttpClient': true});
-  final String _clientId =
-      'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd';
-  final String _clientSecret =
-      '54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151';
+  final String _clientId = 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd';
+  final String _clientSecret = '54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151';
   final String _baseUrl = 'https://kitsu.app/api/edge/';
   final String _loginUrl = 'https://kitsu.app/api/oauth/token';
-  final String _algoliaKeyUrl =
-      'https://kitsu.app/api/edge/algolia-keys/media/';
-  final String _algoliaUrl =
-      'https://AWQO5J657S-dsn.algolia.net/1/indexes/production_media/query/';
+  final String _algoliaKeyUrl = 'https://kitsu.app/api/edge/algolia-keys/media/';
+  final String _algoliaUrl = 'https://AWQO5J657S-dsn.algolia.net/1/indexes/production_media/query/';
   final String _algoliaAppId = 'AWQO5J657S';
   String _algoliaFilter(bool isManga) =>
       '&facetFilters=%5B%22kind%3A${isManga ? 'manga' : 'anime'}%22%5D'
@@ -56,14 +52,9 @@ class Kitsu extends _$Kitsu implements BaseTracker {
       if (response.statusCode != 200) {
         return (false, "${response.reasonPhrase!} ${response.statusCode}");
       }
-      final res =
-          jsonDecode(await response.stream.bytesToString())
-              as Map<String, dynamic>;
+      final res = jsonDecode(await response.stream.bytesToString()) as Map<String, dynamic>;
       final aKOAuth = OAuth.fromJson(res)
-        ..expiresIn =
-            DateTime.now()
-                .add(Duration(seconds: res['expires_in']))
-                .millisecondsSinceEpoch;
+        ..expiresIn = DateTime.now().add(Duration(seconds: res['expires_in'])).millisecondsSinceEpoch;
       final currentUser = await _getCurrentUser(aKOAuth.accessToken!);
       widgetRef
           .read(tracksProvider(syncId: syncId).notifier)
@@ -149,16 +140,14 @@ class Kitsu extends _$Kitsu implements BaseTracker {
         "X-Algolia-API-Key": key,
       },
       body: json.encode({
-        'params':
-            'query=${Uri.encodeComponent(search)}${_algoliaFilter(isManga)}',
+        'params': 'query=${Uri.encodeComponent(search)}${_algoliaFilter(isManga)}',
       }),
     );
     final data = json.decode(utf8.decode(response.bodyBytes));
 
-    final entries =
-        List<Map<String, dynamic>>.from(
-          data['hits'],
-        ).where((element) => element["subtype"] != "novel").toList();
+    final entries = List<Map<String, dynamic>>.from(
+      data['hits'],
+    ).where((element) => element["subtype"] != "novel").toList();
     final totalChapter = isManga ? "chapterCount" : "episodeCount";
     return entries
         .map(
@@ -173,12 +162,10 @@ class Kitsu extends _$Kitsu implements BaseTracker {
             title: jsonRes['canonicalTitle'],
             startDate: "",
             publishingType: (jsonRes["subtype"] ?? ""),
-            publishingStatus:
-                jsonRes['endDate'] == null ? "Publishing" : "Finished",
-            score:
-                jsonRes['averageRating'] is String
-                    ? double.parse(jsonRes['averageRating'])
-                    : jsonRes['averageRating'],
+            publishingStatus: jsonRes['endDate'] == null ? "Publishing" : "Finished",
+            score: jsonRes['averageRating'] is String
+                ? double.parse(jsonRes['averageRating'])
+                : jsonRes['averageRating'],
           ),
         )
         .toList();
@@ -194,19 +181,16 @@ class Kitsu extends _$Kitsu implements BaseTracker {
     );
     final data = json.decode(utf8.decode(response.bodyBytes));
 
-    final entries =
-        List<Map<String, dynamic>>.from(
-          data['data'],
-        ).where((element) => element["subtype"] != "novel").toList();
+    final entries = List<Map<String, dynamic>>.from(
+      data['data'],
+    ).where((element) => element["subtype"] != "novel").toList();
     final totalChapter = isManga ? "chapterCount" : "episodeCount";
     return entries.map((jsonRes) {
-      final mediaId =
-          jsonRes['id'] is String ? int.parse(jsonRes['id']) : jsonRes['id'];
+      final mediaId = jsonRes['id'] is String ? int.parse(jsonRes['id']) : jsonRes['id'];
       final attributes = jsonRes['attributes'];
-      final score =
-          attributes['averageRating'] is String
-              ? double.parse(attributes['averageRating'])
-              : attributes['averageRating'];
+      final score = attributes['averageRating'] is String
+          ? double.parse(attributes['averageRating'])
+          : attributes['averageRating'];
       return TrackSearch(
         libraryId: mediaId,
         syncId: syncId,
@@ -219,8 +203,7 @@ class Kitsu extends _$Kitsu implements BaseTracker {
         startDate: "",
         score: score,
         publishingType: (attributes['subtype'] ?? ""),
-        publishingStatus:
-            attributes['endDate'] == null ? "Publishing" : "Finished",
+        publishingStatus: attributes['endDate'] == null ? "Publishing" : "Finished",
       );
     }).toList();
   }
@@ -266,12 +249,10 @@ class Kitsu extends _$Kitsu implements BaseTracker {
           title: included['canonicalTitle'],
           startDate: "",
           publishingType: (included["subtype"] ?? ""),
-          publishingStatus:
-              included['endDate'] == null ? "Publishing" : "Finished",
-          score:
-              included['averageRating'] is String
-                  ? double.parse(included['averageRating'])
-                  : included['averageRating'],
+          publishingStatus: included['endDate'] == null ? "Publishing" : "Finished",
+          score: included['averageRating'] is String
+              ? double.parse(included['averageRating'])
+              : included['averageRating'],
           status: getKitsuTrackStatus(attributes["status"], type).name,
           lastChapterRead: attributes["progress"],
           startedReadingDate: _parseDate(attributes["startedAt"]),
@@ -437,9 +418,7 @@ class Kitsu extends _$Kitsu implements BaseTracker {
 
   @override
   Future<bool> checkRefresh() async {
-    widgetRef
-        .read(tracksProvider(syncId: syncId).notifier)
-        .setRefreshing(false);
+    widgetRef.read(tracksProvider(syncId: syncId).notifier).setRefreshing(false);
     return true;
   }
 }

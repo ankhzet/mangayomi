@@ -15,8 +15,5 @@ Stream<List<Chapter>> getChaptersStream(
   Ref ref, {
   required int mangaId,
 }) async* {
-  yield* isar.chapters
-      .filter()
-      .manga((q) => q.idEqualTo(mangaId))
-      .watch(fireImmediately: true);
+  yield* isar.chapters.filter().manga((q) => q.idEqualTo(mangaId)).watch(fireImmediately: true);
 }

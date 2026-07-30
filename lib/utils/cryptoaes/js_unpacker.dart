@@ -65,8 +65,7 @@ class Unbaser {
     52: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP",
     54: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR",
     62: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
-    95:
-        " !\"#\$%&\\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~",
+    95: " !\"#\$%&\\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~",
   };
 
   Unbaser(this.base);
@@ -75,10 +74,7 @@ class Unbaser {
     if (base >= 2 && base <= 36) {
       return int.tryParse(value, radix: base) ?? 0;
     } else {
-      final dict = _alphabet[base]
-          ?.split('')
-          .asMap()
-          .map((index, c) => MapEntry(c, index));
+      final dict = _alphabet[base]?.split('').asMap().map((index, c) => MapEntry(c, index));
       var returnVal = 0;
 
       final valArray = value.runes.toList().reversed.toList();

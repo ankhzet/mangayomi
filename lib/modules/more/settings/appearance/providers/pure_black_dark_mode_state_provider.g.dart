@@ -12,8 +12,7 @@ part of 'pure_black_dark_mode_state_provider.dart';
 @ProviderFor(PureBlackDarkModeState)
 final pureBlackDarkModeStateProvider = PureBlackDarkModeStateProvider._();
 
-final class PureBlackDarkModeStateProvider
-    extends $NotifierProvider<PureBlackDarkModeState, bool> {
+final class PureBlackDarkModeStateProvider extends $NotifierProvider<PureBlackDarkModeState, bool> {
   PureBlackDarkModeStateProvider._()
     : super(
         from: null,
@@ -41,8 +40,7 @@ final class PureBlackDarkModeStateProvider
   }
 }
 
-String _$pureBlackDarkModeStateHash() =>
-    r'a597f2ae7d7374fa57fb6c26aed274774d788509';
+String _$pureBlackDarkModeStateHash() => r'a597f2ae7d7374fa57fb6c26aed274774d788509';
 
 abstract class _$PureBlackDarkModeState extends $Notifier<bool> {
   bool build();
@@ -50,14 +48,7 @@ abstract class _$PureBlackDarkModeState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

@@ -72,41 +72,27 @@ class BackupEpisode extends $pb.GeneratedMessage {
     return $result;
   }
   BackupEpisode._() : super();
-  factory BackupEpisode.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupEpisode.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
-  factory BackupEpisode.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupEpisode.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'BackupEpisode',
-      createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'url')
-    ..aOS(2, _omitFieldNames ? '' : 'name')
-    ..aOS(3, _omitFieldNames ? '' : 'scanlator')
-    ..aOB(4, _omitFieldNames ? '' : 'seen')
-    ..aOB(5, _omitFieldNames ? '' : 'bookmark')
-    ..a<$core.int>(
-        6, _omitFieldNames ? '' : 'lastSecondSeen', $pb.PbFieldType.O3,
-        protoName: 'lastSecondSeen')
-    ..a<$core.int>(7, _omitFieldNames ? '' : 'dateFetch', $pb.PbFieldType.O3,
-        protoName: 'dateFetch')
-    ..a<$core.int>(8, _omitFieldNames ? '' : 'dateUpload', $pb.PbFieldType.O3,
-        protoName: 'dateUpload')
-    ..a<$core.double>(
-        9, _omitFieldNames ? '' : 'episodeNumber', $pb.PbFieldType.OF,
-        protoName: 'episodeNumber')
-    ..a<$core.int>(10, _omitFieldNames ? '' : 'sourceOrder', $pb.PbFieldType.O3,
-        protoName: 'sourceOrder')
-    ..a<$core.int>(
-        11, _omitFieldNames ? '' : 'lastModifiedAt', $pb.PbFieldType.O3,
-        protoName: 'lastModifiedAt')
-    ..a<$core.int>(12, _omitFieldNames ? '' : 'version', $pb.PbFieldType.O3)
-    ..a<$core.int>(
-        16, _omitFieldNames ? '' : 'totalSeconds', $pb.PbFieldType.O3,
-        protoName: 'totalSeconds')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      $pb.BuilderInfo(_omitMessageNames ? '' : 'BackupEpisode', createEmptyInstance: create)
+        ..aOS(1, _omitFieldNames ? '' : 'url')
+        ..aOS(2, _omitFieldNames ? '' : 'name')
+        ..aOS(3, _omitFieldNames ? '' : 'scanlator')
+        ..aOB(4, _omitFieldNames ? '' : 'seen')
+        ..aOB(5, _omitFieldNames ? '' : 'bookmark')
+        ..a<$core.int>(6, _omitFieldNames ? '' : 'lastSecondSeen', $pb.PbFieldType.O3, protoName: 'lastSecondSeen')
+        ..a<$core.int>(7, _omitFieldNames ? '' : 'dateFetch', $pb.PbFieldType.O3, protoName: 'dateFetch')
+        ..a<$core.int>(8, _omitFieldNames ? '' : 'dateUpload', $pb.PbFieldType.O3, protoName: 'dateUpload')
+        ..a<$core.double>(9, _omitFieldNames ? '' : 'episodeNumber', $pb.PbFieldType.OF, protoName: 'episodeNumber')
+        ..a<$core.int>(10, _omitFieldNames ? '' : 'sourceOrder', $pb.PbFieldType.O3, protoName: 'sourceOrder')
+        ..a<$core.int>(11, _omitFieldNames ? '' : 'lastModifiedAt', $pb.PbFieldType.O3, protoName: 'lastModifiedAt')
+        ..a<$core.int>(12, _omitFieldNames ? '' : 'version', $pb.PbFieldType.O3)
+        ..a<$core.int>(16, _omitFieldNames ? '' : 'totalSeconds', $pb.PbFieldType.O3, protoName: 'totalSeconds')
+        ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -116,19 +102,16 @@ class BackupEpisode extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   BackupEpisode copyWith(void Function(BackupEpisode) updates) =>
-      super.copyWith((message) => updates(message as BackupEpisode))
-          as BackupEpisode;
+      super.copyWith((message) => updates(message as BackupEpisode)) as BackupEpisode;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static BackupEpisode create() => BackupEpisode._();
   BackupEpisode createEmptyInstance() => create();
-  static $pb.PbList<BackupEpisode> createRepeated() =>
-      $pb.PbList<BackupEpisode>();
+  static $pb.PbList<BackupEpisode> createRepeated() => $pb.PbList<BackupEpisode>();
   @$core.pragma('dart2js:noInline')
-  static BackupEpisode getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<BackupEpisode>(create);
+  static BackupEpisode getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BackupEpisode>(create);
   static BackupEpisode? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -289,5 +272,4 @@ class BackupEpisode extends $pb.GeneratedMessage {
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames =
-    $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

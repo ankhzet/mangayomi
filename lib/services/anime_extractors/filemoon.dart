@@ -24,17 +24,13 @@ class FilemoonExtractor {
       };
       final response = await client.get(Uri.parse(url));
 
-      final jsEval =
-          xpathSelector(
-            response.body,
-          ).queryXPath('//script[contains(text(), "eval")]/text()').attr;
+      final jsEval = xpathSelector(
+        response.body,
+      ).queryXPath('//script[contains(text(), "eval")]/text()').attr;
 
       final unpacked = JSPacker(jsEval!).unpack() ?? "";
 
-      final masterUrl =
-          unpacked.isNotEmpty
-              ? unpacked.substringAfter('{file:"').substringBefore('"}')
-              : '';
+      final masterUrl = unpacked.isNotEmpty ? unpacked.substringAfter('{file:"').substringBefore('"}') : '';
 
       if (masterUrl.isEmpty) {
         return [];
@@ -63,8 +59,7 @@ class FilemoonExtractor {
       final playlists = masterPlaylist.split(separator).sublist(1);
 
       return playlists.map((playlist) {
-        final resolution =
-            '${playlist.substringAfter('RESOLUTION=').substringAfter('x').substringBefore(',').trim()}p';
+        final resolution = '${playlist.substringAfter('RESOLUTION=').substringAfter('x').substringBefore(',').trim()}p';
         final videoUrl = playlist.split('\n')[1].trim();
 
         return Video(

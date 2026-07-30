@@ -68,37 +68,26 @@ class BackupChapter extends $pb.GeneratedMessage {
     return $result;
   }
   BackupChapter._() : super();
-  factory BackupChapter.fromBuffer($core.List<$core.int> i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupChapter.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(i, r);
-  factory BackupChapter.fromJson($core.String i,
-          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupChapter.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'BackupChapter',
-      createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'url')
-    ..aOS(2, _omitFieldNames ? '' : 'name')
-    ..aOS(3, _omitFieldNames ? '' : 'scanlator')
-    ..aOB(4, _omitFieldNames ? '' : 'read')
-    ..aOB(5, _omitFieldNames ? '' : 'bookmark')
-    ..a<$core.int>(6, _omitFieldNames ? '' : 'lastPageRead', $pb.PbFieldType.O3,
-        protoName: 'lastPageRead')
-    ..a<$core.int>(7, _omitFieldNames ? '' : 'dateFetch', $pb.PbFieldType.O3,
-        protoName: 'dateFetch')
-    ..a<$core.int>(8, _omitFieldNames ? '' : 'dateUpload', $pb.PbFieldType.O3,
-        protoName: 'dateUpload')
-    ..a<$core.double>(
-        9, _omitFieldNames ? '' : 'chapterNumber', $pb.PbFieldType.OF,
-        protoName: 'chapterNumber')
-    ..a<$core.int>(10, _omitFieldNames ? '' : 'sourceOrder', $pb.PbFieldType.O3,
-        protoName: 'sourceOrder')
-    ..a<$core.int>(
-        11, _omitFieldNames ? '' : 'lastModifiedAt', $pb.PbFieldType.O3,
-        protoName: 'lastModifiedAt')
-    ..a<$core.int>(12, _omitFieldNames ? '' : 'version', $pb.PbFieldType.O3)
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      $pb.BuilderInfo(_omitMessageNames ? '' : 'BackupChapter', createEmptyInstance: create)
+        ..aOS(1, _omitFieldNames ? '' : 'url')
+        ..aOS(2, _omitFieldNames ? '' : 'name')
+        ..aOS(3, _omitFieldNames ? '' : 'scanlator')
+        ..aOB(4, _omitFieldNames ? '' : 'read')
+        ..aOB(5, _omitFieldNames ? '' : 'bookmark')
+        ..a<$core.int>(6, _omitFieldNames ? '' : 'lastPageRead', $pb.PbFieldType.O3, protoName: 'lastPageRead')
+        ..a<$core.int>(7, _omitFieldNames ? '' : 'dateFetch', $pb.PbFieldType.O3, protoName: 'dateFetch')
+        ..a<$core.int>(8, _omitFieldNames ? '' : 'dateUpload', $pb.PbFieldType.O3, protoName: 'dateUpload')
+        ..a<$core.double>(9, _omitFieldNames ? '' : 'chapterNumber', $pb.PbFieldType.OF, protoName: 'chapterNumber')
+        ..a<$core.int>(10, _omitFieldNames ? '' : 'sourceOrder', $pb.PbFieldType.O3, protoName: 'sourceOrder')
+        ..a<$core.int>(11, _omitFieldNames ? '' : 'lastModifiedAt', $pb.PbFieldType.O3, protoName: 'lastModifiedAt')
+        ..a<$core.int>(12, _omitFieldNames ? '' : 'version', $pb.PbFieldType.O3)
+        ..hasRequiredFields = false;
 
   @$core.Deprecated('Using this can add significant overhead to your binary. '
       'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
@@ -108,19 +97,16 @@ class BackupChapter extends $pb.GeneratedMessage {
       'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
       'Will be removed in next major version')
   BackupChapter copyWith(void Function(BackupChapter) updates) =>
-      super.copyWith((message) => updates(message as BackupChapter))
-          as BackupChapter;
+      super.copyWith((message) => updates(message as BackupChapter)) as BackupChapter;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
   static BackupChapter create() => BackupChapter._();
   BackupChapter createEmptyInstance() => create();
-  static $pb.PbList<BackupChapter> createRepeated() =>
-      $pb.PbList<BackupChapter>();
+  static $pb.PbList<BackupChapter> createRepeated() => $pb.PbList<BackupChapter>();
   @$core.pragma('dart2js:noInline')
-  static BackupChapter getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<BackupChapter>(create);
+  static BackupChapter getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BackupChapter>(create);
   static BackupChapter? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -269,5 +255,4 @@ class BackupChapter extends $pb.GeneratedMessage {
 }
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
-const _omitMessageNames =
-    $core.bool.fromEnvironment('protobuf.omit_message_names');
+const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

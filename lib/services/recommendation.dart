@@ -29,8 +29,7 @@ Future<List<RecommendationResult>?> _getRecommendation(
   ItemType itemType,
   AlgorithmWeights algorithmWeights,
 ) async {
-  final url =
-      "https://anibrain.ai/api/-/recommender/recs/${itemType != ItemType.anime ? "manga" : "anime"}";
+  final url = "https://anibrain.ai/api/-/recommender/recs/${itemType != ItemType.anime ? "manga" : "anime"}";
   final res = await http.get(
     Uri.parse(url),
     headers: {
@@ -54,9 +53,7 @@ Future<List<RecommendationResult>?> _getRecommendation(
     },
   );
   final data = json.decode(res.body) as Map<String, dynamic>;
-  return (data["data"] as List?)
-      ?.map((e) => RecommendationResult.fromJson(e))
-      .toList();
+  return (data["data"] as List?)?.map((e) => RecommendationResult.fromJson(e)).toList();
 }
 
 Future<String?> _getSuggest(

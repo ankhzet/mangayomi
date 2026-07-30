@@ -50,8 +50,7 @@ class CustomSliverGroupedListView<T, E> extends StatefulWidget {
 
   /// Called to build children for the list with
   /// 0 <= element, index < elements.length
-  final Widget Function(BuildContext context, T element, int index)?
-  indexedItemBuilder;
+  final Widget Function(BuildContext context, T element, int index)? indexedItemBuilder;
 
   /// Whether the order of the list is ascending or descending.
   ///
@@ -89,12 +88,10 @@ class CustomSliverGroupedListView<T, E> extends StatefulWidget {
        assert(groupSeparatorBuilder != null || groupHeaderBuilder != null);
 
   @override
-  State<StatefulWidget> createState() =>
-      _CustomSliverGroupedListViewState<T, E>();
+  State<StatefulWidget> createState() => _CustomSliverGroupedListViewState<T, E>();
 }
 
-class _CustomSliverGroupedListViewState<T, E>
-    extends State<CustomSliverGroupedListView<T, E>> {
+class _CustomSliverGroupedListViewState<T, E> extends State<CustomSliverGroupedListView<T, E>> {
   final LinkedHashMap<String, GlobalKey> _keys = LinkedHashMap();
   List<T> _sortedElements = [];
 
@@ -106,10 +103,7 @@ class _CustomSliverGroupedListViewState<T, E>
 
     return SuperSliverList(
       delegate: SliverChildBuilderDelegate(
-        childCount:
-            widget.footer == null
-                ? _sortedElements.length * 2
-                : (_sortedElements.length * 2) + 1,
+        childCount: widget.footer == null ? _sortedElements.length * 2 : (_sortedElements.length * 2) + 1,
         (context, index) {
           var actualIndex = index ~/ 2;
 
@@ -142,14 +136,13 @@ class _CustomSliverGroupedListViewState<T, E>
     _keys['$actualIndex'] = key;
     return Container(
       key: key,
-      child:
-          widget.indexedItemBuilder == null
-              ? widget.itemBuilder!(context, _sortedElements[actualIndex])
-              : widget.indexedItemBuilder!(
-                context,
-                _sortedElements[actualIndex],
-                actualIndex,
-              ),
+      child: widget.indexedItemBuilder == null
+          ? widget.itemBuilder!(context, _sortedElements[actualIndex])
+          : widget.indexedItemBuilder!(
+              context,
+              _sortedElements[actualIndex],
+              actualIndex,
+            ),
     );
   }
 

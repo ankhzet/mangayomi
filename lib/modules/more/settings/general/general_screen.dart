@@ -60,10 +60,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
               trailing: IgnorePointer(
                 child: Switch(value: doHState.enabled, onChanged: (_) {}),
               ),
-              onExpansionChanged:
-                  (value) => ref
-                      .read(doHProviderStateProvider.notifier)
-                      .setDoHEnabled(value),
+              onExpansionChanged: (value) => ref.read(doHProviderStateProvider.notifier).setDoHEnabled(value),
               children: [
                 ListTile(
                   title: Text(l10n.dns_provider),
@@ -86,9 +83,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                             child: RadioGroup(
                               groupValue: providerId,
                               onChanged: (value) {
-                                ref
-                                    .read(doHProviderStateProvider.notifier)
-                                    .setDoHProvider(value!);
+                                ref.read(doHProviderStateProvider.notifier).setDoHProvider(value!);
                                 if (context.mounted) {
                                   Navigator.pop(context);
                                 }
@@ -174,9 +169,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                             _synopsis = defaultWeights.synopsis!;
                             _theme = defaultWeights.theme!;
                           });
-                          ref
-                              .read(algorithmWeightsStateProvider.notifier)
-                              .set(defaultWeights);
+                          ref.read(algorithmWeightsStateProvider.notifier).set(defaultWeights);
                         },
                         label: Text(context.l10n.reset),
                         icon: const Icon(Icons.restore),
@@ -214,12 +207,11 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                                 _genre = value.toInt();
                               });
                             },
-                            onChangeEnd:
-                                (value) => ref
-                                    .read(
-                                      algorithmWeightsStateProvider.notifier,
-                                    )
-                                    .setWeights(genre: _genre),
+                            onChangeEnd: (value) => ref
+                                .read(
+                                  algorithmWeightsStateProvider.notifier,
+                                )
+                                .setWeights(genre: _genre),
                           ),
                         ),
                       ],
@@ -256,12 +248,11 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                                 _setting = value.toInt();
                               });
                             },
-                            onChangeEnd:
-                                (value) => ref
-                                    .read(
-                                      algorithmWeightsStateProvider.notifier,
-                                    )
-                                    .setWeights(setting: _setting),
+                            onChangeEnd: (value) => ref
+                                .read(
+                                  algorithmWeightsStateProvider.notifier,
+                                )
+                                .setWeights(setting: _setting),
                           ),
                         ),
                       ],
@@ -298,12 +289,11 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                                 _synopsis = value.toInt();
                               });
                             },
-                            onChangeEnd:
-                                (value) => ref
-                                    .read(
-                                      algorithmWeightsStateProvider.notifier,
-                                    )
-                                    .setWeights(synopsis: _synopsis),
+                            onChangeEnd: (value) => ref
+                                .read(
+                                  algorithmWeightsStateProvider.notifier,
+                                )
+                                .setWeights(synopsis: _synopsis),
                           ),
                         ),
                       ],
@@ -340,12 +330,11 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                                 _theme = value.toInt();
                               });
                             },
-                            onChangeEnd:
-                                (value) => ref
-                                    .read(
-                                      algorithmWeightsStateProvider.notifier,
-                                    )
-                                    .setWeights(theme: _theme),
+                            onChangeEnd: (value) => ref
+                                .read(
+                                  algorithmWeightsStateProvider.notifier,
+                                )
+                                .setWeights(theme: _theme),
                           ),
                         ),
                       ],
@@ -370,18 +359,14 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
               value: hideDiscordRpcInIncognito,
               title: Text(l10n.hide_discord_rpc_incognito),
               onChanged: (value) {
-                ref
-                    .read(hideDiscordRpcInIncognitoStateProvider.notifier)
-                    .set(value);
+                ref.read(hideDiscordRpcInIncognitoStateProvider.notifier).set(value);
               },
             ),
             SwitchListTile(
               value: rpcShowReadingWatchingProgress,
               title: Text(l10n.rpc_show_reading_watching_progress),
               onChanged: (value) {
-                ref
-                    .read(rpcShowReadingWatchingProgressStateProvider.notifier)
-                    .set(value);
+                ref.read(rpcShowReadingWatchingProgressStateProvider.notifier).set(value);
               },
             ),
             SwitchListTile(
@@ -413,71 +398,67 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
     String dns = customDns;
     showDialog(
       context: context,
-      builder:
-          (context) => StatefulBuilder(
-            builder: (context, setState) {
-              return AlertDialog(
-                title: Text(
-                  context.l10n.custom_dns,
-                  style: const TextStyle(fontSize: 30),
-                ),
-                content: SizedBox(
-                  width: context.width(0.8),
-                  height: context.height(0.3),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: TextFormField(
-                          controller: dnsController,
-                          autofocus: true,
-                          onChanged:
-                              (value) => setState(() {
-                                dns = value;
-                              }),
-                          decoration: InputDecoration(
-                            hintText: "8.8.8.8",
-                            filled: false,
-                            contentPadding: const EdgeInsets.all(12),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(width: 0.4),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                              borderSide: const BorderSide(),
-                            ),
-                          ),
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            title: Text(
+              context.l10n.custom_dns,
+              style: const TextStyle(fontSize: 30),
+            ),
+            content: SizedBox(
+              width: context.width(0.8),
+              height: context.height(0.3),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: TextFormField(
+                      controller: dnsController,
+                      autofocus: true,
+                      onChanged: (value) => setState(() {
+                        dns = value;
+                      }),
+                      decoration: InputDecoration(
+                        hintText: "8.8.8.8",
+                        filled: false,
+                        contentPadding: const EdgeInsets.all(12),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(width: 0.4),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: const BorderSide(),
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: SizedBox(
-                          width: context.width(1),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              ref
-                                  .read(customDnsStateProvider.notifier)
-                                  .set(dns);
-                              Navigator.pop(context);
-                            },
-                            child: Text(context.l10n.dialog_confirm),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: SizedBox(
+                      width: context.width(1),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          ref.read(customDnsStateProvider.notifier).set(dns);
+                          Navigator.pop(context);
+                        },
+                        child: Text(context.l10n.dialog_confirm),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
@@ -490,69 +471,65 @@ void _showDefaultUserAgentDialog(
   final uaController = TextEditingController(text: ua);
   showDialog(
     context: context,
-    builder:
-        (context) => StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              title: Text(
-                context.l10n.default_user_agent,
-                style: const TextStyle(fontSize: 30),
-              ),
-              content: SizedBox(
-                width: context.width(0.8),
-                height: context.height(0.3),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: TextFormField(
-                        controller: uaController,
-                        autofocus: true,
+    builder: (context) => StatefulBuilder(
+      builder: (context, setState) {
+        return AlertDialog(
+          title: Text(
+            context.l10n.default_user_agent,
+            style: const TextStyle(fontSize: 30),
+          ),
+          content: SizedBox(
+            width: context.width(0.8),
+            height: context.height(0.3),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: TextFormField(
+                    controller: uaController,
+                    autofocus: true,
 
-                        decoration: InputDecoration(
-                          hintText:
-                              "Mozilla/5.0 (Windows NT 10.0; Win64; x64)...",
-                          filled: false,
-                          contentPadding: const EdgeInsets.all(12),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(width: 0.4),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                            borderSide: const BorderSide(),
-                          ),
-                        ),
+                    decoration: InputDecoration(
+                      hintText: "Mozilla/5.0 (Windows NT 10.0; Win64; x64)...",
+                      filled: false,
+                      contentPadding: const EdgeInsets.all(12),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(width: 0.4),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        borderSide: const BorderSide(),
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: SizedBox(
-                        width: context.width(1),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            ref
-                                .watch(userAgentStateProvider.notifier)
-                                .set(uaController.text);
-                            if (!context.mounted) return;
-                            Navigator.pop(context);
-                          },
-                          child: Text(context.l10n.dialog_confirm),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            );
-          },
-        ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: SizedBox(
+                    width: context.width(1),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        ref.watch(userAgentStateProvider.notifier).set(uaController.text);
+                        if (!context.mounted) return;
+                        Navigator.pop(context);
+                      },
+                      child: Text(context.l10n.dialog_confirm),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    ),
   );
 }

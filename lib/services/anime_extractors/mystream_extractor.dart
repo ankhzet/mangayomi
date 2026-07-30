@@ -19,22 +19,17 @@ class MyStreamExtractor {
       final response = await client.get(Uri.parse(url), headers: headers);
 
       final document = response.body;
-      final streamCode = document
-          .substringAfter("${url.substringAfter("?v=")}\", \"")
-          .substringBefore("\",null,null");
+      final streamCode = document.substringAfter("${url.substringAfter("?v=")}\", \"").substringBefore("\",null,null");
       final streamUrl = "$host/m3u8/$streamCode/master.txt?s=1&cache=1";
 
-      final cookie =
-          response.headers.entries
-              .firstWhere(
-                (entry) =>
-                    entry.key.toLowerCase() == "set-cookie" &&
-                    entry.value.startsWith("PHPSESSID", 0),
-                orElse: () => const MapEntry("set-cookie", ""),
-              )
-              .value
-              .split(";")
-              .first;
+      final cookie = response.headers.entries
+          .firstWhere(
+            (entry) => entry.key.toLowerCase() == "set-cookie" && entry.value.startsWith("PHPSESSID", 0),
+            orElse: () => const MapEntry("set-cookie", ""),
+          )
+          .value
+          .split(";")
+          .first;
 
       final newHeaders = {...headers, "cookie": cookie, "accept": "*/*"};
 

@@ -120,9 +120,7 @@ class Source {
   });
 
   FilterList? getFilterList() =>
-      filterList != null
-          ? FilterList.fromJson(jsonDecode(filterList!) as Map<String, dynamic>)
-          : null;
+      filterList != null ? FilterList.fromJson(jsonDecode(filterList!) as Map<String, dynamic>) : null;
 
   Source.fromJson(Map<String, dynamic> json) {
     apiUrl = json['apiUrl'];
@@ -155,8 +153,7 @@ class Source {
     additionalParams = json['additionalParams'] ?? "";
     isObsolete = json['isObsolete'];
     isLocal = json['isLocal'];
-    sourceCodeLanguage =
-        SourceCodeLanguage.values[json['sourceCodeLanguage'] ?? 0];
+    sourceCodeLanguage = SourceCodeLanguage.values[json['sourceCodeLanguage'] ?? 0];
     notes = json['notes'] ?? "";
     repo = json['repo'] != null ? Repo.fromJson(json['repo']) : null;
     updatedAt = json['updatedAt'];

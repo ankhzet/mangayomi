@@ -22,8 +22,7 @@ Future<dynamic> updateMangaDetail(
 }) async {
   try {
     final manga = isar.mangas.getSync(mangaId!);
-    if ((manga!.isLocalArchive ?? false) ||
-        (manga.chapters.isNotEmpty && isInit)) {
+    if ((manga!.isLocalArchive ?? false) || (manga.chapters.isNotEmpty && isInit)) {
       return;
     }
     final source = getSource(
@@ -38,32 +37,21 @@ Future<dynamic> updateMangaDetail(
       getDetailProvider(url: manga.link!, source: source!).future,
     );
 
-    final genre =
-        getManga.genre
-            ?.map((e) => e.toString().trim())
-            .toList()
-            .toSet()
-            .toList() ??
-        [];
+    final genre = getManga.genre?.map((e) => e.toString().trim()).toList().toSet().toList() ?? [];
 
     final imgUrl = getManga.imageUrl.trimmedOrDefault(manga.imageUrl);
     manga
-      ..imageUrl =
-          imgUrl == null
-              ? null
-              : imgUrl.startsWith('http')
-              ? imgUrl
-              : '${source.baseUrl ?? ''}/${imgUrl.getUrlWithoutDomain}'
+      ..imageUrl = imgUrl == null
+          ? null
+          : imgUrl.startsWith('http')
+          ? imgUrl
+          : '${source.baseUrl ?? ''}/${imgUrl.getUrlWithoutDomain}'
       ..name = getManga.name.trimmedOrDefault(manga.name)
       ..genre = (genre.isEmpty ? null : genre) ?? manga.genre ?? []
       ..author = getManga.author.trimmedOrDefault(manga.author) ?? ""
       ..artist = getManga.artist.trimmedOrDefault(manga.artist) ?? ""
-      ..status =
-          getManga.status == Status.unknown
-              ? manga.status
-              : getManga.status ?? Status.unknown
-      ..description =
-          getManga.description.trimmedOrDefault(manga.description) ?? ""
+      ..status = getManga.status == Status.unknown ? manga.status : getManga.status ?? Status.unknown
+      ..description = getManga.description.trimmedOrDefault(manga.description) ?? ""
       ..link = getManga.link.trimmedOrDefault(manga.link)
       ..source = manga.source
       ..lang = manga.lang
@@ -88,10 +76,9 @@ Future<dynamic> updateMangaDetail(
           final chapter = Chapter(
             name: chaps[i].name!,
             url: chaps[i].url!.trim(),
-            dateUpload:
-                chaps[i].dateUpload == null
-                    ? DateTime.now().millisecondsSinceEpoch.toString()
-                    : chaps[i].dateUpload.toString(),
+            dateUpload: chaps[i].dateUpload == null
+                ? DateTime.now().millisecondsSinceEpoch.toString()
+                : chaps[i].dateUpload.toString(),
             scanlator: chaps[i].scanlator ?? '',
             mangaId: mangaId,
             updatedAt: DateTime.now().millisecondsSinceEpoch,
@@ -120,8 +107,7 @@ Future<dynamic> updateMangaDetail(
           }
         }
       }
-      final oldChapers =
-          isar.mangas.getSync(mangaId)!.chapters.toList().reversed.toList();
+      final oldChapers = isar.mangas.getSync(mangaId)!.chapters.toList().reversed.toList();
       if (oldChapers.length == chaps.length) {
         for (var i = 0; i < oldChapers.length; i++) {
           final oldChap = oldChapers[i];

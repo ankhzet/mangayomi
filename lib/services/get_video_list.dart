@@ -25,24 +25,20 @@ Future<(List<Video>, bool, List<String>, Directory?)> getVideoList(
     final storageProvider = StorageProvider();
     final mpvDirectory = await storageProvider.getMpvDirectory();
     final mangaDirectory = await storageProvider.getMangaMainDirectory(episode);
-    final isLocalArchive =
-        episode.manga.value!.isLocalArchive! &&
-        episode.manga.value!.source != "torrent";
+    final isLocalArchive = episode.manga.value!.isLocalArchive! && episode.manga.value!.source != "torrent";
     final mp4animePath = p.join(
       mangaDirectory!.path,
       "${episode.name!.replaceForbiddenCharacters(' ')}.mp4",
     );
     List<String> infoHashes = [];
     if (await File(mp4animePath).exists() || isLocalArchive) {
-      final animeDir =
-          episode.archivePath != null && episode.manga.value?.source == "local"
-              ? Directory(p.dirname(episode.archivePath!))
-              : null;
-      final chapterDirectory =
-          (await storageProvider.getMangaChapterDirectory(
-            episode,
-            mangaMainDirectory: animeDir ?? mangaDirectory,
-          ))!;
+      final animeDir = episode.archivePath != null && episode.manga.value?.source == "local"
+          ? Directory(p.dirname(episode.archivePath!))
+          : null;
+      final chapterDirectory = (await storageProvider.getMangaChapterDirectory(
+        episode,
+        mangaMainDirectory: animeDir ?? mangaDirectory,
+      ))!;
       final path = isLocalArchive ? episode.archivePath : mp4animePath;
       final subtitlesDir = Directory(
         p.join('${chapterDirectory.path}_subtitles'),
@@ -74,12 +70,8 @@ Future<(List<Video>, bool, List<String>, Directory?)> getVideoList(
     );
     final proxyServer = ref.read(androidProxyServerStateProvider);
 
-    final isMihonTorrent =
-        source?.sourceCodeLanguage == SourceCodeLanguage.mihon &&
-        source!.name!.contains("(Torrent");
-    if ((source?.isTorrent ?? false) ||
-        episode.manga.value!.source == "torrent" ||
-        isMihonTorrent) {
+    final isMihonTorrent = source?.sourceCodeLanguage == SourceCodeLanguage.mihon && source!.name!.contains("(Torrent");
+    if ((source?.isTorrent ?? false) || episode.manga.value!.source == "torrent" || isMihonTorrent) {
       List<Video> list = [];
 
       List<Video> torrentList = [];

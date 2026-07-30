@@ -20,16 +20,13 @@ class YourUploadExtractor {
 
     try {
       final response = await client.get(Uri.parse(url), headers: newHeaders);
-      final baseData =
-          xpathSelector(response.body)
-              .queryXPath(
-                '//script[contains(text(), "jwplayerOptions")]/text()',
-              )
-              .attrs;
+      final baseData = xpathSelector(response.body)
+          .queryXPath(
+            '//script[contains(text(), "jwplayerOptions")]/text()',
+          )
+          .attrs;
       if (baseData.isNotEmpty) {
-        final basicUrl = baseData.first!
-            .substringAfter("file: '")
-            .substringBefore("',");
+        final basicUrl = baseData.first!.substringAfter("file: '").substringBefore("',");
         final quality = prefix + name;
         return [Video(basicUrl, quality, basicUrl, headers: newHeaders)];
       } else {

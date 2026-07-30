@@ -47,9 +47,7 @@ class _PlayerAudioScreenState extends ConsumerState<PlayerAudioScreen> {
                 style: TextStyle(fontSize: 11, color: context.secondaryColor),
               ),
               onChanged: (value) {
-                ref
-                    .read(enableAudioPitchCorrectionStateProvider.notifier)
-                    .set(value);
+                ref.read(enableAudioPitchCorrectionStateProvider.notifier).set(value);
               },
             ),
             ListTile(
@@ -71,9 +69,7 @@ class _PlayerAudioScreenState extends ConsumerState<PlayerAudioScreen> {
                         child: RadioGroup(
                           groupValue: audioChannel,
                           onChanged: (value) {
-                            ref
-                                .read(audioChannelStateProvider.notifier)
-                                .set(value!);
+                            ref.read(audioChannelStateProvider.notifier).set(value!);
                             Navigator.pop(context);
                           },
                           child: SuperListView.builder(
@@ -142,14 +138,10 @@ class _PlayerAudioScreenState extends ConsumerState<PlayerAudioScreen> {
                       value: volumeBoostCap.toDouble(),
                       onChanged: (value) {
                         HapticFeedback.vibrate();
-                        ref
-                            .read(volumeBoostCapStateProvider.notifier)
-                            .set(value.toInt());
+                        ref.read(volumeBoostCapStateProvider.notifier).set(value.toInt());
                       },
                       onChangeEnd: (value) {
-                        ref
-                            .read(volumeBoostCapStateProvider.notifier)
-                            .set(value.toInt());
+                        ref.read(volumeBoostCapStateProvider.notifier).set(value.toInt());
                       },
                     ),
                   ),
@@ -164,8 +156,7 @@ class _PlayerAudioScreenState extends ConsumerState<PlayerAudioScreen> {
 
   void _showEditController() {
     final audioPreferredLang = ref.read(audioPreferredLangStateProvider);
-    final langCodes =
-        AppLocalizations.supportedLocales.map((e) => e.languageCode).toList();
+    final langCodes = AppLocalizations.supportedLocales.map((e) => e.languageCode).toList();
     bool isLangCodeError = false;
     final textController = TextEditingController(text: audioPreferredLang);
     showDialog(
@@ -192,12 +183,9 @@ class _PlayerAudioScreenState extends ConsumerState<PlayerAudioScreen> {
                   controller: textController,
                   context: context,
                   isMissing: isLangCodeError,
-                  val:
-                      (text) => setState(() {
-                        isLangCodeError = text
-                            .split(",")
-                            .any((e) => !langCodes.contains(e));
-                      }),
+                  val: (text) => setState(() {
+                    isLangCodeError = text.split(",").any((e) => !langCodes.contains(e));
+                  }),
                   missing: (_) {},
                 ),
               ),
@@ -216,9 +204,7 @@ class _PlayerAudioScreenState extends ConsumerState<PlayerAudioScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        ref
-                            .read(audioPreferredLangStateProvider.notifier)
-                            .set(textController.text);
+                        ref.read(audioPreferredLangStateProvider.notifier).set(textController.text);
                         Navigator.pop(context);
                       },
                       child: Text(

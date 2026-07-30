@@ -48,8 +48,7 @@ class _FontSettingWidgetState extends ConsumerState<FontSettingWidget> {
                   ref
                       .read(subtitleSettingsStateProvider.notifier)
                       .set(
-                        subtitleSettings
-                          ..fontSize = subtitleSettings.fontSize! - 1,
+                        subtitleSettings..fontSize = subtitleSettings.fontSize! - 1,
                         true,
                       );
                   setState(() {});
@@ -68,9 +67,7 @@ class _FontSettingWidgetState extends ConsumerState<FontSettingWidget> {
                   onChanged: (v) {
                     final val = int.tryParse(v);
                     if (val != null) {
-                      ref
-                          .read(subtitleSettingsStateProvider.notifier)
-                          .set(subtitleSettings..fontSize = val, true);
+                      ref.read(subtitleSettingsStateProvider.notifier).set(subtitleSettings..fontSize = val, true);
                     }
                   },
                   decoration: InputDecoration(
@@ -96,8 +93,7 @@ class _FontSettingWidgetState extends ConsumerState<FontSettingWidget> {
                   ref
                       .read(subtitleSettingsStateProvider.notifier)
                       .set(
-                        subtitleSettings
-                          ..fontSize = subtitleSettings.fontSize! + 1,
+                        subtitleSettings..fontSize = subtitleSettings.fontSize! + 1,
                         true,
                       );
                   setState(() {});
@@ -117,10 +113,7 @@ class _FontSettingWidgetState extends ConsumerState<FontSettingWidget> {
                       );
                   setState(() {});
                 },
-                iconColors:
-                    subtitleSettings.useBold!
-                        ? null
-                        : context.dynamicWhiteBlackColor.withValues(alpha: 0.5),
+                iconColors: subtitleSettings.useBold! ? null : context.dynamicWhiteBlackColor.withValues(alpha: 0.5),
               ),
               iconButton(
                 Icons.format_italic,
@@ -128,16 +121,12 @@ class _FontSettingWidgetState extends ConsumerState<FontSettingWidget> {
                   ref
                       .read(subtitleSettingsStateProvider.notifier)
                       .set(
-                        subtitleSettings
-                          ..useItalic = !subtitleSettings.useItalic!,
+                        subtitleSettings..useItalic = !subtitleSettings.useItalic!,
                         true,
                       );
                   setState(() {});
                 },
-                iconColors:
-                    subtitleSettings.useItalic!
-                        ? null
-                        : context.dynamicWhiteBlackColor.withValues(alpha: 0.5),
+                iconColors: subtitleSettings.useItalic! ? null : context.dynamicWhiteBlackColor.withValues(alpha: 0.5),
               ),
             ],
           ),
@@ -300,21 +289,13 @@ class _ColorSettingWidgetState extends ConsumerState<ColorSettingWidget> {
               subSets.textColorB!,
               (val) {
                 if (val.$3 == "r") {
-                  ref
-                      .read(subtitleSettingsStateProvider.notifier)
-                      .set(subSets..textColorR = val.$1.toInt(), val.$2);
+                  ref.read(subtitleSettingsStateProvider.notifier).set(subSets..textColorR = val.$1.toInt(), val.$2);
                 } else if (val.$3 == "g") {
-                  ref
-                      .read(subtitleSettingsStateProvider.notifier)
-                      .set(subSets..textColorG = val.$1.toInt(), val.$2);
+                  ref.read(subtitleSettingsStateProvider.notifier).set(subSets..textColorG = val.$1.toInt(), val.$2);
                 } else if (val.$3 == "b") {
-                  ref
-                      .read(subtitleSettingsStateProvider.notifier)
-                      .set(subSets..textColorB = val.$1.toInt(), val.$2);
+                  ref.read(subtitleSettingsStateProvider.notifier).set(subSets..textColorB = val.$1.toInt(), val.$2);
                 } else {
-                  ref
-                      .read(subtitleSettingsStateProvider.notifier)
-                      .set(subSets..textColorA = val.$1.toInt(), val.$2);
+                  ref.read(subtitleSettingsStateProvider.notifier).set(subSets..textColorA = val.$1.toInt(), val.$2);
                 }
                 setState(() {});
               },
@@ -328,21 +309,13 @@ class _ColorSettingWidgetState extends ConsumerState<ColorSettingWidget> {
               subSets.borderColorB!,
               (val) {
                 if (val.$3 == "r") {
-                  ref
-                      .read(subtitleSettingsStateProvider.notifier)
-                      .set(subSets..borderColorR = val.$1.toInt(), val.$2);
+                  ref.read(subtitleSettingsStateProvider.notifier).set(subSets..borderColorR = val.$1.toInt(), val.$2);
                 } else if (val.$3 == "g") {
-                  ref
-                      .read(subtitleSettingsStateProvider.notifier)
-                      .set(subSets..borderColorG = val.$1.toInt(), val.$2);
+                  ref.read(subtitleSettingsStateProvider.notifier).set(subSets..borderColorG = val.$1.toInt(), val.$2);
                 } else if (val.$3 == "b") {
-                  ref
-                      .read(subtitleSettingsStateProvider.notifier)
-                      .set(subSets..borderColorB = val.$1.toInt(), val.$2);
+                  ref.read(subtitleSettingsStateProvider.notifier).set(subSets..borderColorB = val.$1.toInt(), val.$2);
                 } else {
-                  ref
-                      .read(subtitleSettingsStateProvider.notifier)
-                      .set(subSets..borderColorA = val.$1.toInt(), val.$2);
+                  ref.read(subtitleSettingsStateProvider.notifier).set(subSets..borderColorA = val.$1.toInt(), val.$2);
                 }
                 setState(() {});
               },

@@ -47,19 +47,10 @@ class _WatchOrderScreenState extends State<WatchOrderScreen> {
       _errorMessage = "";
       if (isSequels) {
         final mediaId = widget.track!.mediaId!.toString();
-        final mal =
-            await isar.trackPreferences
-                .filter()
-                .syncIdEqualTo(TrackerProviders.myAnimeList.syncId)
-                .findFirst();
-        final anilist =
-            await isar.trackPreferences
-                .filter()
-                .syncIdEqualTo(TrackerProviders.anilist.syncId)
-                .findFirst();
+        final mal = await isar.trackPreferences.filter().syncIdEqualTo(TrackerProviders.myAnimeList.syncId).findFirst();
+        final anilist = await isar.trackPreferences.filter().syncIdEqualTo(TrackerProviders.anilist.syncId).findFirst();
         final data = await fetchSequels(mal?.username, anilist?.username);
-        sequels =
-            data.where((e) => e.reason.any((r) => r.id == mediaId)).toList();
+        sequels = data.where((e) => e.reason.any((r) => r.id == mediaId)).toList();
       } else {
         dataSearch = await searchWatchOrder(widget.name);
       }
@@ -85,17 +76,16 @@ class _WatchOrderScreenState extends State<WatchOrderScreen> {
       appBar: AppBar(title: Text(isSequels ? l10n.sequels : l10n.watch_order)),
       body: Padding(
         padding: EdgeInsetsGeometry.all(5),
-        child:
-            _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : Builder(
-                  builder: (context) {
-                    if (_errorMessage.isNotEmpty) {
-                      return Center(child: Text(_errorMessage));
-                    }
-                    return isSequels ? _buildSequels() : _buildWatchOrder();
-                  },
-                ),
+        child: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Builder(
+                builder: (context) {
+                  if (_errorMessage.isNotEmpty) {
+                    return Center(child: Text(_errorMessage));
+                  }
+                  return isSequels ? _buildSequels() : _buildWatchOrder();
+                },
+              ),
       ),
     );
   }
@@ -194,8 +184,7 @@ class _WatchOrderScreenState extends State<WatchOrderScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildTitle(watchOrder?.name ?? search!.name, context),
-                      if (watchOrder?.nameEnglish != null &&
-                          watchOrder?.nameEnglish != watchOrder?.text)
+                      if (watchOrder?.nameEnglish != null && watchOrder?.nameEnglish != watchOrder?.text)
                         Text(
                           watchOrder!.nameEnglish!,
                           style: const TextStyle(fontSize: 11),
@@ -223,13 +212,14 @@ class _WatchOrderScreenState extends State<WatchOrderScreen> {
       builder: (context, constraints) {
         // Make sure that (constraints.maxWidth - (35 + 5)) is strictly positive.
         final double availableWidth = constraints.maxWidth - (35 + 5);
-        final textPainter = TextPainter(
-          text: TextSpan(text: text, style: const TextStyle(fontSize: 13)),
-          maxLines: 1,
-          textDirection: TextDirection.ltr,
-        )..layout(
-          maxWidth: availableWidth > 0 ? availableWidth : 1.0,
-        ); // - Download icon size (download_page_widget.dart, Widget Build SizedBox width: 35)
+        final textPainter =
+            TextPainter(
+              text: TextSpan(text: text, style: const TextStyle(fontSize: 13)),
+              maxLines: 1,
+              textDirection: TextDirection.ltr,
+            )..layout(
+              maxWidth: availableWidth > 0 ? availableWidth : 1.0,
+            ); // - Download icon size (download_page_widget.dart, Widget Build SizedBox width: 35)
 
         final isOverflowing = textPainter.didExceedMaxLines;
 

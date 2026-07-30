@@ -51,17 +51,14 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                         child: RadioGroup(
                           groupValue: defaultSubtitleLang,
                           onChanged: (value) {
-                            ref
-                                .read(defaultSubtitleLangStateProvider.notifier)
-                                .setLocale(value!);
+                            ref.read(defaultSubtitleLangStateProvider.notifier).setLocale(value!);
                             Navigator.pop(context);
                           },
                           child: SuperListView.builder(
                             shrinkWrap: true,
                             itemCount: AppLocalizations.supportedLocales.length,
                             itemBuilder: (context, index) {
-                              final locale =
-                                  AppLocalizations.supportedLocales[index];
+                              final locale = AppLocalizations.supportedLocales[index];
                               return RadioListTile(
                                 dense: true,
                                 contentPadding: const EdgeInsets.all(0),
@@ -171,28 +168,25 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                     return AlertDialog(
                       title: Text(context.l10n.default_skip_intro_length),
                       content: StatefulBuilder(
-                        builder:
-                            (context, setState) => SizedBox(
-                              height: 200,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  NumberPicker(
-                                    value: currentIntValue,
-                                    minValue: 1,
-                                    maxValue: 255,
-                                    step: 1,
-                                    haptics: true,
-                                    textMapper:
-                                        (numberText) => "${numberText}s",
-                                    onChanged:
-                                        (value) => setState(
-                                          () => currentIntValue = value,
-                                        ),
-                                  ),
-                                ],
+                        builder: (context, setState) => SizedBox(
+                          height: 200,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              NumberPicker(
+                                value: currentIntValue,
+                                minValue: 1,
+                                maxValue: 255,
+                                step: 1,
+                                haptics: true,
+                                textMapper: (numberText) => "${numberText}s",
+                                onChanged: (value) => setState(
+                                  () => currentIntValue = value,
+                                ),
                               ),
-                            ),
+                            ],
+                          ),
+                        ),
                       ),
                       actions: [
                         Row(
@@ -211,8 +205,7 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                               onPressed: () async {
                                 ref
                                     .read(
-                                      defaultSkipIntroLengthStateProvider
-                                          .notifier,
+                                      defaultSkipIntroLengthStateProvider.notifier,
                                     )
                                     .set(currentIntValue);
                                 Navigator.pop(context);
@@ -252,8 +245,7 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                           onChanged: (value) {
                             ref
                                 .read(
-                                  defaultDoubleTapToSkipLengthStateProvider
-                                      .notifier,
+                                  defaultDoubleTapToSkipLengthStateProvider.notifier,
                                 )
                                 .set(value!);
                             Navigator.pop(context);
@@ -379,9 +371,7 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
               trailing: IgnorePointer(
                 child: Switch(value: enableAniSkip, onChanged: (_) {}),
               ),
-              onExpansionChanged:
-                  (value) =>
-                      ref.read(enableAniSkipStateProvider.notifier).set(value),
+              onExpansionChanged: (value) => ref.read(enableAniSkipStateProvider.notifier).set(value),
               children: [
                 ListTile(
                   title: Padding(
@@ -427,8 +417,7 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                               onChanged: (value) {
                                 ref
                                     .read(
-                                      aniSkipTimeoutLengthStateProvider
-                                          .notifier,
+                                      aniSkipTimeoutLengthStateProvider.notifier,
                                     )
                                     .set(value!);
                                 Navigator.pop(context);

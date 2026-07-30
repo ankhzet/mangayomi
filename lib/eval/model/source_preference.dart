@@ -30,15 +30,11 @@ class SourcePreference {
     'id': id,
     'sourceId': sourceId,
     'key': key,
-    if (checkBoxPreference != null)
-      'checkBoxPreference': checkBoxPreference!.toJson(),
-    if (switchPreferenceCompat != null)
-      'switchPreferenceCompat': switchPreferenceCompat!.toJson(),
+    if (checkBoxPreference != null) 'checkBoxPreference': checkBoxPreference!.toJson(),
+    if (switchPreferenceCompat != null) 'switchPreferenceCompat': switchPreferenceCompat!.toJson(),
     if (listPreference != null) 'listPreference': listPreference!.toJson(),
-    if (multiSelectListPreference != null)
-      'multiSelectListPreference': multiSelectListPreference!.toJson(),
-    if (editTextPreference != null)
-      'editTextPreference': editTextPreference!.toJson(),
+    if (multiSelectListPreference != null) 'multiSelectListPreference': multiSelectListPreference!.toJson(),
+    if (editTextPreference != null) 'editTextPreference': editTextPreference!.toJson(),
   };
 
   factory SourcePreference.fromJson(Map<String, dynamic> json) {
@@ -46,28 +42,21 @@ class SourcePreference {
       id: json['id'] ?? Isar.autoIncrement,
       sourceId: json['sourceId'],
       key: json['key'],
-      checkBoxPreference:
-          json['checkBoxPreference'] != null
-              ? CheckBoxPreference.fromJson(json['checkBoxPreference'])
-              : null,
-      switchPreferenceCompat:
-          json['switchPreferenceCompat'] != null
-              ? SwitchPreferenceCompat.fromJson(json['switchPreferenceCompat'])
-              : null,
-      listPreference:
-          json['listPreference'] != null
-              ? ListPreference.fromJson(json['listPreference'])
-              : null,
-      multiSelectListPreference:
-          json['multiSelectListPreference'] != null
-              ? MultiSelectListPreference.fromJson(
-                json['multiSelectListPreference'],
-              )
-              : null,
-      editTextPreference:
-          json['editTextPreference'] != null
-              ? EditTextPreference.fromJson(json['editTextPreference'])
-              : null,
+      checkBoxPreference: json['checkBoxPreference'] != null
+          ? CheckBoxPreference.fromJson(json['checkBoxPreference'])
+          : null,
+      switchPreferenceCompat: json['switchPreferenceCompat'] != null
+          ? SwitchPreferenceCompat.fromJson(json['switchPreferenceCompat'])
+          : null,
+      listPreference: json['listPreference'] != null ? ListPreference.fromJson(json['listPreference']) : null,
+      multiSelectListPreference: json['multiSelectListPreference'] != null
+          ? MultiSelectListPreference.fromJson(
+              json['multiSelectListPreference'],
+            )
+          : null,
+      editTextPreference: json['editTextPreference'] != null
+          ? EditTextPreference.fromJson(json['editTextPreference'])
+          : null,
     );
   }
 }
@@ -146,8 +135,7 @@ class ListPreference {
     return ListPreference(
       title: json['title'],
       summary: json['summary'],
-      valueIndex:
-          json['valueIndex'] != null ? max(0, json['valueIndex']) : null,
+      valueIndex: json['valueIndex'] != null ? max(0, json['valueIndex']) : null,
       entries: json['entries']?.cast<String>(),
       entryValues: json['entryValues']?.cast<String>(),
     );

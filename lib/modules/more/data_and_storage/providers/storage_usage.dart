@@ -54,13 +54,12 @@ class TotalChapterCacheSizeState extends _$TotalChapterCacheSizeState {
   Future<int> _getdirectorySize(Directory directory) async {
     try {
       if (await directory.exists()) {
-        return directory
-            .list(recursive: true, followLinks: false)
-            .where((entity) => entity is File)
-            .cast<File>()
-            .fold(0, (total, file) {
-              return total + file.lengthSync();
-            });
+        return directory.list(recursive: true, followLinks: false).where((entity) => entity is File).cast<File>().fold(
+          0,
+          (total, file) {
+            return total + file.lengthSync();
+          },
+        );
       }
     } catch (_) {}
     return 0;
@@ -68,8 +67,7 @@ class TotalChapterCacheSizeState extends _$TotalChapterCacheSizeState {
 }
 
 @riverpod
-class ClearChapterCacheOnAppLaunchState
-    extends _$ClearChapterCacheOnAppLaunchState {
+class ClearChapterCacheOnAppLaunchState extends _$ClearChapterCacheOnAppLaunchState {
   @override
   bool build() {
     return isar.settings.getSync(227)!.clearChapterCacheOnAppLaunch ?? false;

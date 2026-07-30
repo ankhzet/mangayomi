@@ -13,15 +13,8 @@ part of 'custom_buttons_provider.dart';
 final getCustomButtonsStreamProvider = GetCustomButtonsStreamProvider._();
 
 final class GetCustomButtonsStreamProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<CustomButton>>,
-          List<CustomButton>,
-          Stream<List<CustomButton>>
-        >
-    with
-        $FutureModifier<List<CustomButton>>,
-        $StreamProvider<List<CustomButton>> {
+    extends $FunctionalProvider<AsyncValue<List<CustomButton>>, List<CustomButton>, Stream<List<CustomButton>>>
+    with $FutureModifier<List<CustomButton>>, $StreamProvider<List<CustomButton>> {
   GetCustomButtonsStreamProvider._()
     : super(
         from: null,
@@ -48,5 +41,4 @@ final class GetCustomButtonsStreamProvider
   }
 }
 
-String _$getCustomButtonsStreamHash() =>
-    r'476c26eb3d20e9e9eed2e1d8bb15fa74ce357ba3';
+String _$getCustomButtonsStreamHash() => r'476c26eb3d20e9e9eed2e1d8bb15fa74ce357ba3';

@@ -12,8 +12,7 @@ part of 'player_state_provider.dart';
 @ProviderFor(DefaultSubtitleLangState)
 final defaultSubtitleLangStateProvider = DefaultSubtitleLangStateProvider._();
 
-final class DefaultSubtitleLangStateProvider
-    extends $NotifierProvider<DefaultSubtitleLangState, Locale> {
+final class DefaultSubtitleLangStateProvider extends $NotifierProvider<DefaultSubtitleLangState, Locale> {
   DefaultSubtitleLangStateProvider._()
     : super(
         from: null,
@@ -41,8 +40,7 @@ final class DefaultSubtitleLangStateProvider
   }
 }
 
-String _$defaultSubtitleLangStateHash() =>
-    r'ae7b275e168dd15117512d9ed1c474736458753b';
+String _$defaultSubtitleLangStateHash() => r'ae7b275e168dd15117512d9ed1c474736458753b';
 
 abstract class _$DefaultSubtitleLangState extends $Notifier<Locale> {
   Locale build();
@@ -50,24 +48,15 @@ abstract class _$DefaultSubtitleLangState extends $Notifier<Locale> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<Locale, Locale>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<Locale, Locale>,
-              Locale,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<Locale, Locale>, Locale, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(MarkEpisodeAsSeenTypeState)
-final markEpisodeAsSeenTypeStateProvider =
-    MarkEpisodeAsSeenTypeStateProvider._();
+final markEpisodeAsSeenTypeStateProvider = MarkEpisodeAsSeenTypeStateProvider._();
 
-final class MarkEpisodeAsSeenTypeStateProvider
-    extends $NotifierProvider<MarkEpisodeAsSeenTypeState, int> {
+final class MarkEpisodeAsSeenTypeStateProvider extends $NotifierProvider<MarkEpisodeAsSeenTypeState, int> {
   MarkEpisodeAsSeenTypeStateProvider._()
     : super(
         from: null,
@@ -95,8 +84,7 @@ final class MarkEpisodeAsSeenTypeStateProvider
   }
 }
 
-String _$markEpisodeAsSeenTypeStateHash() =>
-    r'd25a31a8c5bf99ab6466023ef996613f98357c8c';
+String _$markEpisodeAsSeenTypeStateHash() => r'd25a31a8c5bf99ab6466023ef996613f98357c8c';
 
 abstract class _$MarkEpisodeAsSeenTypeState extends $Notifier<int> {
   int build();
@@ -104,24 +92,15 @@ abstract class _$MarkEpisodeAsSeenTypeState extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(DefaultSkipIntroLengthState)
-final defaultSkipIntroLengthStateProvider =
-    DefaultSkipIntroLengthStateProvider._();
+final defaultSkipIntroLengthStateProvider = DefaultSkipIntroLengthStateProvider._();
 
-final class DefaultSkipIntroLengthStateProvider
-    extends $NotifierProvider<DefaultSkipIntroLengthState, int> {
+final class DefaultSkipIntroLengthStateProvider extends $NotifierProvider<DefaultSkipIntroLengthState, int> {
   DefaultSkipIntroLengthStateProvider._()
     : super(
         from: null,
@@ -149,8 +128,7 @@ final class DefaultSkipIntroLengthStateProvider
   }
 }
 
-String _$defaultSkipIntroLengthStateHash() =>
-    r'cd673c1c8c1d6400caa02c8f7751615c223ca4e3';
+String _$defaultSkipIntroLengthStateHash() => r'cd673c1c8c1d6400caa02c8f7751615c223ca4e3';
 
 abstract class _$DefaultSkipIntroLengthState extends $Notifier<int> {
   int build();
@@ -158,21 +136,13 @@ abstract class _$DefaultSkipIntroLengthState extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(DefaultDoubleTapToSkipLengthState)
-final defaultDoubleTapToSkipLengthStateProvider =
-    DefaultDoubleTapToSkipLengthStateProvider._();
+final defaultDoubleTapToSkipLengthStateProvider = DefaultDoubleTapToSkipLengthStateProvider._();
 
 final class DefaultDoubleTapToSkipLengthStateProvider
     extends $NotifierProvider<DefaultDoubleTapToSkipLengthState, int> {
@@ -188,13 +158,11 @@ final class DefaultDoubleTapToSkipLengthStateProvider
       );
 
   @override
-  String debugGetCreateSourceHash() =>
-      _$defaultDoubleTapToSkipLengthStateHash();
+  String debugGetCreateSourceHash() => _$defaultDoubleTapToSkipLengthStateHash();
 
   @$internal
   @override
-  DefaultDoubleTapToSkipLengthState create() =>
-      DefaultDoubleTapToSkipLengthState();
+  DefaultDoubleTapToSkipLengthState create() => DefaultDoubleTapToSkipLengthState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(int value) {
@@ -205,8 +173,7 @@ final class DefaultDoubleTapToSkipLengthStateProvider
   }
 }
 
-String _$defaultDoubleTapToSkipLengthStateHash() =>
-    r'f550eb96cbf5110fdfc18848dd8049653e369459';
+String _$defaultDoubleTapToSkipLengthStateHash() => r'f550eb96cbf5110fdfc18848dd8049653e369459';
 
 abstract class _$DefaultDoubleTapToSkipLengthState extends $Notifier<int> {
   int build();
@@ -214,14 +181,7 @@ abstract class _$DefaultDoubleTapToSkipLengthState extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -229,8 +189,7 @@ abstract class _$DefaultDoubleTapToSkipLengthState extends $Notifier<int> {
 @ProviderFor(DefaultPlayBackSpeedState)
 final defaultPlayBackSpeedStateProvider = DefaultPlayBackSpeedStateProvider._();
 
-final class DefaultPlayBackSpeedStateProvider
-    extends $NotifierProvider<DefaultPlayBackSpeedState, double> {
+final class DefaultPlayBackSpeedStateProvider extends $NotifierProvider<DefaultPlayBackSpeedState, double> {
   DefaultPlayBackSpeedStateProvider._()
     : super(
         from: null,
@@ -258,8 +217,7 @@ final class DefaultPlayBackSpeedStateProvider
   }
 }
 
-String _$defaultPlayBackSpeedStateHash() =>
-    r'f9c19deb880028f6be06dcb57d4c75abaef48964';
+String _$defaultPlayBackSpeedStateHash() => r'f9c19deb880028f6be06dcb57d4c75abaef48964';
 
 abstract class _$DefaultPlayBackSpeedState extends $Notifier<double> {
   double build();
@@ -267,14 +225,7 @@ abstract class _$DefaultPlayBackSpeedState extends $Notifier<double> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<double, double>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<double, double>,
-              double,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<double, double>, double, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -282,8 +233,7 @@ abstract class _$DefaultPlayBackSpeedState extends $Notifier<double> {
 @ProviderFor(FullScreenPlayerState)
 final fullScreenPlayerStateProvider = FullScreenPlayerStateProvider._();
 
-final class FullScreenPlayerStateProvider
-    extends $NotifierProvider<FullScreenPlayerState, bool> {
+final class FullScreenPlayerStateProvider extends $NotifierProvider<FullScreenPlayerState, bool> {
   FullScreenPlayerStateProvider._()
     : super(
         from: null,
@@ -311,8 +261,7 @@ final class FullScreenPlayerStateProvider
   }
 }
 
-String _$fullScreenPlayerStateHash() =>
-    r'8f10fe73e899e05c9e1355f3e628be3593f1c2a6';
+String _$fullScreenPlayerStateHash() => r'8f10fe73e899e05c9e1355f3e628be3593f1c2a6';
 
 abstract class _$FullScreenPlayerState extends $Notifier<bool> {
   bool build();
@@ -320,14 +269,7 @@ abstract class _$FullScreenPlayerState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -335,8 +277,7 @@ abstract class _$FullScreenPlayerState extends $Notifier<bool> {
 @ProviderFor(EnableAniSkipState)
 final enableAniSkipStateProvider = EnableAniSkipStateProvider._();
 
-final class EnableAniSkipStateProvider
-    extends $NotifierProvider<EnableAniSkipState, bool> {
+final class EnableAniSkipStateProvider extends $NotifierProvider<EnableAniSkipState, bool> {
   EnableAniSkipStateProvider._()
     : super(
         from: null,
@@ -364,8 +305,7 @@ final class EnableAniSkipStateProvider
   }
 }
 
-String _$enableAniSkipStateHash() =>
-    r'103d41d30889391851d2eef85ccce7d4f0baf27d';
+String _$enableAniSkipStateHash() => r'103d41d30889391851d2eef85ccce7d4f0baf27d';
 
 abstract class _$EnableAniSkipState extends $Notifier<bool> {
   bool build();
@@ -373,14 +313,7 @@ abstract class _$EnableAniSkipState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -388,8 +321,7 @@ abstract class _$EnableAniSkipState extends $Notifier<bool> {
 @ProviderFor(EnableAutoSkipState)
 final enableAutoSkipStateProvider = EnableAutoSkipStateProvider._();
 
-final class EnableAutoSkipStateProvider
-    extends $NotifierProvider<EnableAutoSkipState, bool> {
+final class EnableAutoSkipStateProvider extends $NotifierProvider<EnableAutoSkipState, bool> {
   EnableAutoSkipStateProvider._()
     : super(
         from: null,
@@ -417,8 +349,7 @@ final class EnableAutoSkipStateProvider
   }
 }
 
-String _$enableAutoSkipStateHash() =>
-    r'e5880ae4f88cbcf6be1e4b252aea11425d8b78fc';
+String _$enableAutoSkipStateHash() => r'e5880ae4f88cbcf6be1e4b252aea11425d8b78fc';
 
 abstract class _$EnableAutoSkipState extends $Notifier<bool> {
   bool build();
@@ -426,14 +357,7 @@ abstract class _$EnableAutoSkipState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -441,8 +365,7 @@ abstract class _$EnableAutoSkipState extends $Notifier<bool> {
 @ProviderFor(AniSkipTimeoutLengthState)
 final aniSkipTimeoutLengthStateProvider = AniSkipTimeoutLengthStateProvider._();
 
-final class AniSkipTimeoutLengthStateProvider
-    extends $NotifierProvider<AniSkipTimeoutLengthState, int> {
+final class AniSkipTimeoutLengthStateProvider extends $NotifierProvider<AniSkipTimeoutLengthState, int> {
   AniSkipTimeoutLengthStateProvider._()
     : super(
         from: null,
@@ -470,8 +393,7 @@ final class AniSkipTimeoutLengthStateProvider
   }
 }
 
-String _$aniSkipTimeoutLengthStateHash() =>
-    r'2e13a6e7f53bc29c0b35107af18337fcaf79867f';
+String _$aniSkipTimeoutLengthStateHash() => r'2e13a6e7f53bc29c0b35107af18337fcaf79867f';
 
 abstract class _$AniSkipTimeoutLengthState extends $Notifier<int> {
   int build();
@@ -479,14 +401,7 @@ abstract class _$AniSkipTimeoutLengthState extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -494,8 +409,7 @@ abstract class _$AniSkipTimeoutLengthState extends $Notifier<int> {
 @ProviderFor(UseLibassState)
 final useLibassStateProvider = UseLibassStateProvider._();
 
-final class UseLibassStateProvider
-    extends $NotifierProvider<UseLibassState, bool> {
+final class UseLibassStateProvider extends $NotifierProvider<UseLibassState, bool> {
   UseLibassStateProvider._()
     : super(
         from: null,
@@ -531,14 +445,7 @@ abstract class _$UseLibassState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -546,8 +453,7 @@ abstract class _$UseLibassState extends $Notifier<bool> {
 @ProviderFor(UseMpvConfigState)
 final useMpvConfigStateProvider = UseMpvConfigStateProvider._();
 
-final class UseMpvConfigStateProvider
-    extends $NotifierProvider<UseMpvConfigState, bool> {
+final class UseMpvConfigStateProvider extends $NotifierProvider<UseMpvConfigState, bool> {
   UseMpvConfigStateProvider._()
     : super(
         from: null,
@@ -583,14 +489,7 @@ abstract class _$UseMpvConfigState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -598,8 +497,7 @@ abstract class _$UseMpvConfigState extends $Notifier<bool> {
 @ProviderFor(ForceLandscapePlayerState)
 final forceLandscapePlayerStateProvider = ForceLandscapePlayerStateProvider._();
 
-final class ForceLandscapePlayerStateProvider
-    extends $NotifierProvider<ForceLandscapePlayerState, bool> {
+final class ForceLandscapePlayerStateProvider extends $NotifierProvider<ForceLandscapePlayerState, bool> {
   ForceLandscapePlayerStateProvider._()
     : super(
         from: null,
@@ -627,8 +525,7 @@ final class ForceLandscapePlayerStateProvider
   }
 }
 
-String _$forceLandscapePlayerStateHash() =>
-    r'65d3e0b91d7b6d38e9f70893a8c71f13029715b5';
+String _$forceLandscapePlayerStateHash() => r'65d3e0b91d7b6d38e9f70893a8c71f13029715b5';
 
 abstract class _$ForceLandscapePlayerState extends $Notifier<bool> {
   bool build();
@@ -636,14 +533,7 @@ abstract class _$ForceLandscapePlayerState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

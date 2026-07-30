@@ -25,8 +25,7 @@ class AudioPreferredLangState extends _$AudioPreferredLangState {
 }
 
 @riverpod
-class EnableAudioPitchCorrectionState
-    extends _$EnableAudioPitchCorrectionState {
+class EnableAudioPitchCorrectionState extends _$EnableAudioPitchCorrectionState {
   @override
   bool build() {
     return isar.settings.getSync(227)!.enableAudioPitchCorrection ?? true;

@@ -81,9 +81,7 @@ class LibraryListViewWidget extends StatelessWidget {
                   if (!isLongPressed) {
                     ref.read(mangasListStateProvider.notifier).update(entry);
 
-                    ref
-                        .read(isLongPressedStateProvider.notifier)
-                        .update(!isLongPressed);
+                    ref.read(isLongPressedStateProvider.notifier).update(!isLongPressed);
                   } else {
                     ref.read(mangasListStateProvider.notifier).update(entry);
                   }
@@ -92,18 +90,15 @@ class LibraryListViewWidget extends StatelessWidget {
                   if (!isLongPressed) {
                     ref.read(mangasListStateProvider.notifier).update(entry);
 
-                    ref
-                        .read(isLongPressedStateProvider.notifier)
-                        .update(!isLongPressed);
+                    ref.read(isLongPressedStateProvider.notifier).update(!isLongPressed);
                   } else {
                     ref.read(mangasListStateProvider.notifier).update(entry);
                   }
                 },
                 child: Container(
-                  color:
-                      mangaIdsList.contains(entry.id)
-                          ? context.primaryColor.withValues(alpha: 0.4)
-                          : Colors.transparent,
+                  color: mangaIdsList.contains(entry.id)
+                      ? context.primaryColor.withValues(alpha: 0.4)
+                      : Colors.transparent,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 8,
@@ -127,33 +122,28 @@ class LibraryListViewWidget extends StatelessWidget {
                                       fit: BoxFit.cover,
                                       width: 40,
                                       height: 45,
-                                      image:
-                                          entry.customCoverImage != null
-                                              ? MemoryImage(
-                                                    entry.customCoverImage
-                                                        as Uint8List,
-                                                  )
-                                                  as ImageProvider
-                                              : CustomExtendedNetworkImageProvider(
-                                                toImgUrl(
-                                                  entry.customCoverFromTracker ??
-                                                      entry.imageUrl!,
-                                                ),
-                                                headers: ref.watch(
-                                                  headersProvider(
-                                                    source: entry.source!,
-                                                    lang: entry.lang!,
-                                                    sourceId: entry.sourceId,
-                                                  ),
+                                      image: entry.customCoverImage != null
+                                          ? MemoryImage(
+                                                  entry.customCoverImage as Uint8List,
+                                                )
+                                                as ImageProvider
+                                          : CustomExtendedNetworkImageProvider(
+                                              toImgUrl(
+                                                entry.customCoverFromTracker ?? entry.imageUrl!,
+                                              ),
+                                              headers: ref.watch(
+                                                headersProvider(
+                                                  source: entry.source!,
+                                                  lang: entry.lang!,
+                                                  sourceId: entry.sourceId,
                                                 ),
                                               ),
+                                            ),
                                       child: InkWell(
                                         child: Container(
-                                          color:
-                                              mangaIdsList.contains(entry.id)
-                                                  ? context.primaryColor
-                                                      .withValues(alpha: 0.4)
-                                                  : Colors.transparent,
+                                          color: mangaIdsList.contains(entry.id)
+                                              ? context.primaryColor.withValues(alpha: 0.4)
+                                              : Colors.transparent,
                                         ),
                                       ),
                                     ),
@@ -212,23 +202,15 @@ class LibraryListViewWidget extends StatelessWidget {
                                           builder: (context, ref, child) {
                                             List nbrDown = [];
                                             isar.txnSync(() {
-                                              for (
-                                                var i = 0;
-                                                i < entry.chapters.length;
-                                                i++
-                                              ) {
-                                                final entries =
-                                                    isar.downloads
-                                                        .filter()
-                                                        .idEqualTo(
-                                                          entry.chapters
-                                                              .toList()[i]
-                                                              .id,
-                                                        )
-                                                        .findAllSync();
+                                              for (var i = 0; i < entry.chapters.length; i++) {
+                                                final entries = isar.downloads
+                                                    .filter()
+                                                    .idEqualTo(
+                                                      entry.chapters.toList()[i].id,
+                                                    )
+                                                    .findAllSync();
 
-                                                if (entries.isNotEmpty &&
-                                                    entries.first.isDownload!) {
+                                                if (entries.isNotEmpty && entries.first.isDownload!) {
                                                   nbrDown.add(entries.first);
                                                 }
                                               }
@@ -236,24 +218,19 @@ class LibraryListViewWidget extends StatelessWidget {
                                             if (nbrDown.isNotEmpty) {
                                               return Container(
                                                 decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      const BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(3),
-                                                        bottomLeft:
-                                                            Radius.circular(3),
-                                                      ),
-                                                  color:
-                                                      Theme.of(
-                                                        context,
-                                                      ).hintColor,
+                                                  borderRadius: const BorderRadius.only(
+                                                    topLeft: Radius.circular(3),
+                                                    bottomLeft: Radius.circular(3),
+                                                  ),
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).hintColor,
                                                 ),
                                                 child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                        left: 3,
-                                                        right: 3,
-                                                      ),
+                                                  padding: const EdgeInsets.only(
+                                                    left: 3,
+                                                    right: 3,
+                                                  ),
                                                   child: Text(
                                                     nbrDown.length.toString(),
                                                     style: const TextStyle(
@@ -282,13 +259,12 @@ class LibraryListViewWidget extends StatelessWidget {
                                         color: context.primaryColor,
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                                  topRight: Radius.circular(3),
-                                                  bottomRight: Radius.circular(
-                                                    3,
-                                                  ),
-                                                ),
+                                            borderRadius: const BorderRadius.only(
+                                              topRight: Radius.circular(3),
+                                              bottomRight: Radius.circular(
+                                                3,
+                                              ),
+                                            ),
                                             color: Theme.of(context).hintColor,
                                           ),
                                           child: Padding(
@@ -320,38 +296,30 @@ class LibraryListViewWidget extends StatelessWidget {
                                       .and()
                                       .chapter(
                                         (q) => q.manga(
-                                          (q) =>
-                                              q.itemTypeEqualTo(entry.itemType),
+                                          (q) => q.itemTypeEqualTo(entry.itemType),
                                         ),
                                       )
                                       .watch(fireImmediately: true),
                                   builder: (context, snapshot) {
-                                    if (snapshot.hasData &&
-                                        snapshot.data!.isNotEmpty) {
+                                    if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                                       final incognitoMode = ref.watch(
                                         incognitoModeStateProvider,
                                       );
-                                      final entries =
-                                          snapshot.data!
-                                              .where(
-                                                (element) =>
-                                                    element.mangaId == entry.id,
-                                              )
-                                              .toList();
-                                      if (entries.isNotEmpty &&
-                                          !incognitoMode) {
-                                        final chap =
-                                            entries.first.chapter.value!;
+                                      final entries = snapshot.data!
+                                          .where(
+                                            (element) => element.mangaId == entry.id,
+                                          )
+                                          .toList();
+                                      if (entries.isNotEmpty && !incognitoMode) {
+                                        final chap = entries.first.chapter.value!;
                                         return GestureDetector(
                                           onTap: () {
                                             chap.pushToReaderView(context);
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              color: context.primaryColor
-                                                  .withValues(alpha: 0.9),
+                                              borderRadius: BorderRadius.circular(5),
+                                              color: context.primaryColor.withValues(alpha: 0.9),
                                             ),
                                             child: const Padding(
                                               padding: EdgeInsets.all(7),
@@ -366,20 +334,14 @@ class LibraryListViewWidget extends StatelessWidget {
                                       }
                                       return GestureDetector(
                                         onTap: () {
-                                          entry.chapters
-                                              .toList()
-                                              .reversed
-                                              .toList()
-                                              .last
-                                              .pushToReaderView(context);
+                                          entry.chapters.toList().reversed.toList().last.pushToReaderView(context);
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(
                                               5,
                                             ),
-                                            color: context.primaryColor
-                                                .withValues(alpha: 0.9),
+                                            color: context.primaryColor.withValues(alpha: 0.9),
                                           ),
                                           child: const Padding(
                                             padding: EdgeInsets.all(7),
@@ -394,20 +356,14 @@ class LibraryListViewWidget extends StatelessWidget {
                                     }
                                     return GestureDetector(
                                       onTap: () {
-                                        entry.chapters
-                                            .toList()
-                                            .reversed
-                                            .toList()
-                                            .last
-                                            .pushToReaderView(context);
+                                        entry.chapters.toList().reversed.toList().last.pushToReaderView(context);
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(
                                             5,
                                           ),
-                                          color: context.primaryColor
-                                              .withValues(alpha: 0.9),
+                                          color: context.primaryColor.withValues(alpha: 0.9),
                                         ),
                                         child: const Padding(
                                           padding: EdgeInsets.all(7),

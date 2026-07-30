@@ -12,13 +12,7 @@ part of 'crop_borders_provider.dart';
 @ProviderFor(cropBorders)
 final cropBordersProvider = CropBordersFamily._();
 
-final class CropBordersProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<Uint8List?>,
-          Uint8List?,
-          FutureOr<Uint8List?>
-        >
+final class CropBordersProvider extends $FunctionalProvider<AsyncValue<Uint8List?>, Uint8List?, FutureOr<Uint8List?>>
     with $FutureModifier<Uint8List?>, $FutureProvider<Uint8List?> {
   CropBordersProvider._({
     required CropBordersFamily super.from,
@@ -43,13 +37,11 @@ final class CropBordersProvider
 
   @$internal
   @override
-  $FutureProviderElement<Uint8List?> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<Uint8List?> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<Uint8List?> create(Ref ref) {
-    final argument =
-        this.argument as ({UChapDataPreload data, bool cropBorder});
+    final argument = this.argument as ({UChapDataPreload data, bool cropBorder});
     return cropBorders(
       ref,
       data: argument.data,
@@ -71,11 +63,7 @@ final class CropBordersProvider
 String _$cropBordersHash() => r'ec9c6fc8a8c88a2bb48bb54a497478bc61376291';
 
 final class CropBordersFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          FutureOr<Uint8List?>,
-          ({UChapDataPreload data, bool cropBorder})
-        > {
+    with $FunctionalFamilyOverride<FutureOr<Uint8List?>, ({UChapDataPreload data, bool cropBorder})> {
   CropBordersFamily._()
     : super(
         retry: null,

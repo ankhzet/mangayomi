@@ -13,9 +13,7 @@ part 'browse_state_provider.g.dart';
 class AndroidProxyServerState extends _$AndroidProxyServerState {
   @override
   String build() {
-    String proxyServer =
-        isar.settings.getSync(227)!.androidProxyServer ??
-        "http://127.0.0.1:8080";
+    String proxyServer = isar.settings.getSync(227)!.androidProxyServer ?? "http://127.0.0.1:8080";
     if (!proxyServer.startsWith("http")) {
       proxyServer = "http://$proxyServer";
     }
@@ -76,13 +74,12 @@ class ExtensionsRepoState extends _$ExtensionsRepoState {
   }
 
   void setVisibility(Repo repo, bool hidden) {
-    final value =
-        state.map((e) {
-          if (e == repo) {
-            e.hidden = hidden;
-          }
-          return e;
-        }).toList();
+    final value = state.map((e) {
+      if (e == repo) {
+        e.hidden = hidden;
+      }
+      return e;
+    }).toList();
     set(value);
   }
 

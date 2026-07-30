@@ -17,8 +17,7 @@ const List<String> _kImageExtensions = [
 const List<String> _kArchiveExtensions = ['.cbz', '.zip', '.cbt', '.tar'];
 
 @riverpod
-Future<List<(String, LocalExtensionType, Uint8List, String)>>
-getArchivesDataFromDirectory(Ref ref, String path) async {
+Future<List<(String, LocalExtensionType, Uint8List, String)>> getArchivesDataFromDirectory(Ref ref, String path) async {
   return compute(_extractArchiveMetadataFromDirectory, path);
 }
 
@@ -74,8 +73,9 @@ Future<List<LocalArchive>> _extractArchivesFromDirectory(
 }
 
 /// Extract only metadata (cover) from all archives in a directory (recursive)
-Future<List<(String, LocalExtensionType, Uint8List, String)>>
-_extractArchiveMetadataFromDirectory(String directoryPath) async {
+Future<List<(String, LocalExtensionType, Uint8List, String)>> _extractArchiveMetadataFromDirectory(
+  String directoryPath,
+) async {
   final metadata = <(String, LocalExtensionType, Uint8List, String)>[];
 
   try {
@@ -157,23 +157,18 @@ Future<LocalArchive> _extractArchive(String path) async {
 Future<LocalArchive> _extractFromImageFolder(String path) async {
   final dir = Directory(path);
   final imageFiles =
-      await dir
-            .list()
-            .where((entity) => entity is File && _isImageFile(entity.path))
-            .cast<File>()
-            .toList()
+      await dir.list().where((entity) => entity is File && _isImageFile(entity.path)).cast<File>().toList()
         ..sort((a, b) => a.path.compareTo(b.path));
 
   if (imageFiles.isEmpty) {
     throw Exception('No images found in folder: $path');
   }
 
-  final images =
-      imageFiles.map((file) {
-        return LocalImage()
-          ..image = file.readAsBytesSync()
-          ..name = p.basename(file.path);
-      }).toList();
+  final images = imageFiles.map((file) {
+    return LocalImage()
+      ..image = file.readAsBytesSync()
+      ..name = p.basename(file.path);
+  }).toList();
 
   return LocalArchive()
     ..path = path
@@ -186,12 +181,11 @@ Future<LocalArchive> _extractFromImageFolder(String path) async {
 /// Extract images from an archive file
 LocalArchive _extractFromArchiveFile(String path) {
   final extensionType = _getArchiveType(path);
-  final localArchive =
-      LocalArchive()
-        ..path = path
-        ..extensionType = extensionType
-        ..name = p.basenameWithoutExtension(path)
-        ..images = [];
+  final localArchive = LocalArchive()
+    ..path = path
+    ..extensionType = extensionType
+    ..name = p.basenameWithoutExtension(path)
+    ..images = [];
 
   InputFileStream? inputStream;
 
@@ -202,10 +196,7 @@ LocalArchive _extractFromArchiveFile(String path) {
     final imageFiles =
         archive.files
             .where(
-              (file) =>
-                  file.isFile &&
-                  _isImageFile(file.name) &&
-                  !file.name.startsWith('.'),
+              (file) => file.isFile && _isImageFile(file.name) && !file.name.startsWith('.'),
             )
             .toList()
           ..sort((a, b) => a.name.compareTo(b.name));
@@ -258,16 +249,10 @@ Future<(String, LocalExtensionType, Uint8List, String)> _extractArchiveMetadata(
 }
 
 /// Extract metadata from image folder
-Future<(String, LocalExtensionType, Uint8List, String)>
-_extractMetadataFromImageFolder(String path) async {
+Future<(String, LocalExtensionType, Uint8List, String)> _extractMetadataFromImageFolder(String path) async {
   final dir = Directory(path);
-  final images =
-      await dir
-            .list()
-            .where((entity) => entity is File && _isImageFile(entity.path))
-            .cast<File>()
-            .toList()
-        ..sort((a, b) => a.path.compareTo(b.path));
+  final images = await dir.list().where((entity) => entity is File && _isImageFile(entity.path)).cast<File>().toList()
+    ..sort((a, b) => a.path.compareTo(b.path));
 
   if (images.isEmpty) {
     throw Exception('No images found in folder: $path');
@@ -302,10 +287,7 @@ _extractMetadataFromImageFolder(String path) async {
         final imageFiles =
             archive.files
                 .where(
-                  (file) =>
-                      file.isFile &&
-                      _isImageFile(file.name) &&
-                      !file.name.startsWith('.'),
+                  (file) => file.isFile && _isImageFile(file.name) && !file.name.startsWith('.'),
                 )
                 .toList()
               ..sort((a, b) => a.name.compareTo(b.name));

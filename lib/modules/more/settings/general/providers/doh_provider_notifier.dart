@@ -17,10 +17,9 @@ class DoHProviderState {
   }
 }
 
-final doHProviderStateProvider =
-    NotifierProvider<DoHProviderNotifier, DoHProviderState>(() {
-      return DoHProviderNotifier();
-    });
+final doHProviderStateProvider = NotifierProvider<DoHProviderNotifier, DoHProviderState>(() {
+  return DoHProviderNotifier();
+});
 
 class DoHProviderNotifier extends Notifier<DoHProviderState> {
   @override

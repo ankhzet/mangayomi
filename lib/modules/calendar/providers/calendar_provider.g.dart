@@ -13,12 +13,7 @@ part of 'calendar_provider.dart';
 final getCalendarStreamProvider = GetCalendarStreamFamily._();
 
 final class GetCalendarStreamProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<Manga>>,
-          List<Manga>,
-          Stream<List<Manga>>
-        >
+    extends $FunctionalProvider<AsyncValue<List<Manga>>, List<Manga>, Stream<List<Manga>>>
     with $FutureModifier<List<Manga>>, $StreamProvider<List<Manga>> {
   GetCalendarStreamProvider._({
     required GetCalendarStreamFamily super.from,
@@ -66,8 +61,7 @@ final class GetCalendarStreamProvider
 
 String _$getCalendarStreamHash() => r'850d81742f8ac5ce88175732c0edf57a7a9295d4';
 
-final class GetCalendarStreamFamily extends $Family
-    with $FunctionalFamilyOverride<Stream<List<Manga>>, ItemType?> {
+final class GetCalendarStreamFamily extends $Family with $FunctionalFamilyOverride<Stream<List<Manga>>, ItemType?> {
   GetCalendarStreamFamily._()
     : super(
         retry: null,
@@ -77,8 +71,7 @@ final class GetCalendarStreamFamily extends $Family
         isAutoDispose: true,
       );
 
-  GetCalendarStreamProvider call({ItemType? itemType}) =>
-      GetCalendarStreamProvider._(argument: itemType, from: this);
+  GetCalendarStreamProvider call({ItemType? itemType}) => GetCalendarStreamProvider._(argument: itemType, from: this);
 
   @override
   String toString() => r'getCalendarStreamProvider';

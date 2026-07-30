@@ -12,13 +12,11 @@ part of 'search.dart';
 @ProviderFor(search)
 final searchProvider = SearchFamily._();
 
-final class SearchProvider
-    extends $FunctionalProvider<AsyncValue<MPages?>, MPages?, FutureOr<MPages?>>
+final class SearchProvider extends $FunctionalProvider<AsyncValue<MPages?>, MPages?, FutureOr<MPages?>>
     with $FutureModifier<MPages?>, $FutureProvider<MPages?> {
   SearchProvider._({
     required SearchFamily super.from,
-    required ({Source source, String query, int page, List<dynamic> filterList})
-    super.argument,
+    required ({Source source, String query, int page, List<dynamic> filterList}) super.argument,
   }) : super(
          retry: null,
          name: r'searchProvider',
@@ -39,8 +37,7 @@ final class SearchProvider
 
   @$internal
   @override
-  $FutureProviderElement<MPages?> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<MPages?> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<MPages?> create(Ref ref) {

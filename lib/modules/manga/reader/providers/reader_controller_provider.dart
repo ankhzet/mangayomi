@@ -23,9 +23,7 @@ class CurrentIndex extends _$CurrentIndex {
   int build(Chapter chapter) {
     final incognitoMode = ref.watch(incognitoModeStateProvider);
     if (incognitoMode) return 0;
-    return ref
-        .read(readerControllerProvider(chapter: chapter).notifier)
-        .getPageIndex();
+    return ref.read(readerControllerProvider(chapter: chapter).notifier).getPageIndex();
   }
 
   void setCurrentIndex(int currentIndex) {
@@ -66,8 +64,7 @@ class ReaderController extends _$ReaderController {
 
   final incognitoMode = isar.settings.getSync(227)!.incognitoMode!;
   ReaderMode getReaderMode() {
-    final personalReaderModeList =
-        getIsarSetting().personalReaderModeList ?? [];
+    final personalReaderModeList = getIsarSetting().personalReaderModeList ?? [];
     final personalReaderMode = personalReaderModeList.where(
       (element) => element.mangaId == getManga().id,
     );
@@ -126,8 +123,7 @@ class ReaderController extends _$ReaderController {
 
   void setReaderMode(ReaderMode newReaderMode) {
     List<PersonalReaderMode>? personalReaderModeLists = [];
-    for (var personalReaderMode
-        in getIsarSetting().personalReaderModeList ?? []) {
+    for (var personalReaderMode in getIsarSetting().personalReaderModeList ?? []) {
       if (personalReaderMode.mangaId != getManga().id) {
         personalReaderModeLists.add(personalReaderMode);
       }
@@ -200,8 +196,7 @@ class ReaderController extends _$ReaderController {
     });
     History? history;
 
-    final empty =
-        isar.historys.filter().mangaIdEqualTo(getManga().id).isEmptySync();
+    final empty = isar.historys.filter().mangaIdEqualTo(getManga().id).isEmptySync();
 
     if (empty) {
       history = History(
@@ -211,14 +206,10 @@ class ReaderController extends _$ReaderController {
         chapterId: chapter.id,
       )..chapter.value = chapter;
     } else {
-      history =
-          (isar.historys
-                .filter()
-                .mangaIdEqualTo(getManga().id)
-                .findFirstSync())!
-            ..chapterId = chapter.id
-            ..chapter.value = chapter
-            ..date = DateTime.now().millisecondsSinceEpoch.toString();
+      history = (isar.historys.filter().mangaIdEqualTo(getManga().id).findFirstSync())!
+        ..chapterId = chapter.id
+        ..chapter.value = chapter
+        ..date = DateTime.now().millisecondsSinceEpoch.toString();
     }
     isar.writeTxnSync(() {
       history!.updatedAt = DateTime.now().millisecondsSinceEpoch;
@@ -317,9 +308,7 @@ class ReaderController extends _$ReaderController {
   }
 
   int getChaptersLength(bool isInFilterList) {
-    return isInFilterList
-        ? getManga().getFilteredChapterList().length
-        : getManga().chapters.length;
+    return isInFilterList ? getManga().getFilteredChapterList().length : getManga().chapters.length;
   }
 
   int getPageIndex() {
@@ -337,27 +326,20 @@ class ReaderController extends _$ReaderController {
 
   int getPageLength(List incognitoPageLength) {
     if (incognitoMode) return incognitoPageLength.length;
-    return getIsarSetting().chapterPageUrlsList!
-        .where((element) => element.chapterId == chapter.id)
-        .first
-        .urls!
-        .length;
+    return getIsarSetting().chapterPageUrlsList!.where((element) => element.chapterId == chapter.id).first.urls!.length;
   }
 
   void setPageIndex(int newIndex, bool save) {
     if (chapter.isRead!) return;
     if (incognitoMode) return;
-    final isRead =
-        (getReaderMode() == ReaderMode.verticalContinuous ||
-                getReaderMode() == ReaderMode.webtoon)
-            ? ((newIndex + 2) >= getPageLength([]) - 1)
-                ? ((newIndex + 2) >= getPageLength([]) - 1)
-                : (newIndex + 2) >= getPageLength([])
-            : (newIndex + 2) >= getPageLength([]);
+    final isRead = (getReaderMode() == ReaderMode.verticalContinuous || getReaderMode() == ReaderMode.webtoon)
+        ? ((newIndex + 2) >= getPageLength([]) - 1)
+              ? ((newIndex + 2) >= getPageLength([]) - 1)
+              : (newIndex + 2) >= getPageLength([])
+        : (newIndex + 2) >= getPageLength([]);
     if (isRead || save) {
       List<ChapterPageIndex>? chapterPageIndexs = [];
-      for (var chapterPageIndex
-          in getIsarSetting().chapterPageIndexList ?? []) {
+      for (var chapterPageIndex in getIsarSetting().chapterPageIndexList ?? []) {
         if (chapterPageIndex.chapterId != chapter.id) {
           chapterPageIndexs.add(chapterPageIndex);
         }
@@ -411,34 +393,24 @@ extension ChapterExtensions on Chapter {
       name!,
     );
 
-    final tracks =
-        isar.tracks
-            .filter()
-            .idIsNotNull()
-            .itemTypeEqualTo(manga.itemType)
-            .mangaIdEqualTo(manga.id!)
-            .findAllSync();
+    final tracks = isar.tracks
+        .filter()
+        .idIsNotNull()
+        .itemTypeEqualTo(manga.itemType)
+        .mangaIdEqualTo(manga.id!)
+        .findAllSync();
 
     if (tracks.isEmpty) return;
     for (var track in tracks) {
-      final service =
-          isar.trackPreferences
-              .filter()
-              .syncIdIsNotNull()
-              .syncIdEqualTo(track.syncId)
-              .findFirstSync();
+      final service = isar.trackPreferences.filter().syncIdIsNotNull().syncIdEqualTo(track.syncId).findFirstSync();
       if (!(service == null || chapterNumber <= (track.lastChapterRead ?? 0))) {
         if (track.status != TrackStatus.completed) {
           track.lastChapterRead = chapterNumber;
-          if (track.lastChapterRead == track.totalChapter &&
-              (track.totalChapter ?? 0) > 0) {
+          if (track.lastChapterRead == track.totalChapter && (track.totalChapter ?? 0) > 0) {
             track.status = TrackStatus.completed;
             track.finishedReadingDate = DateTime.now().millisecondsSinceEpoch;
           } else {
-            track.status =
-                manga.itemType == ItemType.manga
-                    ? TrackStatus.reading
-                    : TrackStatus.watching;
+            track.status = manga.itemType == ItemType.manga ? TrackStatus.reading : TrackStatus.watching;
             if (track.lastChapterRead == 1) {
               track.startedReadingDate = DateTime.now().millisecondsSinceEpoch;
             }
@@ -491,58 +463,42 @@ extension MangaExtensions on Manga {
             .type!;
 
     final sortChapter =
-        (isar.settings
-                    .getSync(227)!
-                    .sortChapterList!
-                    .where((element) => element.mangaId == id)
-                    .toList()
-                    .firstOrNull ??
+        (isar.settings.getSync(227)!.sortChapterList!.where((element) => element.mangaId == id).toList().firstOrNull ??
                 SortChapter(mangaId: id, index: 1, reverse: false))
             .index;
     final filterScanlator = _getFilterScanlator(this) ?? [];
     List<Chapter>? chapterList;
-    chapterList =
-        data
-            .where(
-              (element) =>
-                  filterUnread == 1
-                      ? element.isRead == false
-                      : filterUnread == 2
-                      ? element.isRead == true
-                      : true,
-            )
-            .where(
-              (element) =>
-                  filterBookmarked == 1
-                      ? element.isBookmarked == true
-                      : filterBookmarked == 2
-                      ? element.isBookmarked == false
-                      : true,
-            )
-            .where((element) {
-              final modelChapDownload =
-                  isar.downloads.filter().idEqualTo(element.id).findAllSync();
-              return filterDownloaded == 1
-                  ? modelChapDownload.isNotEmpty &&
-                      modelChapDownload.first.isDownload == true
-                  : filterDownloaded == 2
-                  ? !(modelChapDownload.isNotEmpty &&
-                      modelChapDownload.first.isDownload == true)
-                  : true;
-            })
-            .where((element) => !filterScanlator.contains(element.scanlator))
-            .toList();
-    List<Chapter> chapters =
-        sortChapter == 1 ? chapterList.reversed.toList() : chapterList;
+    chapterList = data
+        .where(
+          (element) => filterUnread == 1
+              ? element.isRead == false
+              : filterUnread == 2
+              ? element.isRead == true
+              : true,
+        )
+        .where(
+          (element) => filterBookmarked == 1
+              ? element.isBookmarked == true
+              : filterBookmarked == 2
+              ? element.isBookmarked == false
+              : true,
+        )
+        .where((element) {
+          final modelChapDownload = isar.downloads.filter().idEqualTo(element.id).findAllSync();
+          return filterDownloaded == 1
+              ? modelChapDownload.isNotEmpty && modelChapDownload.first.isDownload == true
+              : filterDownloaded == 2
+              ? !(modelChapDownload.isNotEmpty && modelChapDownload.first.isDownload == true)
+              : true;
+        })
+        .where((element) => !filterScanlator.contains(element.scanlator))
+        .toList();
+    List<Chapter> chapters = sortChapter == 1 ? chapterList.reversed.toList() : chapterList;
     if (sortChapter == 0) {
       chapters.sort((a, b) {
-        return (a.scanlator == null ||
-                b.scanlator == null ||
-                a.dateUpload == null ||
-                b.dateUpload == null)
+        return (a.scanlator == null || b.scanlator == null || a.dateUpload == null || b.dateUpload == null)
             ? 0
-            : a.scanlator!.compareTo(b.scanlator!) |
-                a.dateUpload!.compareTo(b.dateUpload!);
+            : a.scanlator!.compareTo(b.scanlator!) | a.dateUpload!.compareTo(b.dateUpload!);
       });
     } else if (sortChapter == 2) {
       chapters.sort((a, b) {
@@ -552,9 +508,7 @@ extension MangaExtensions on Manga {
       });
     } else if (sortChapter == 3) {
       chapters.sort((a, b) {
-        return (a.name == null || b.name == null)
-            ? 0
-            : a.name!.compareTo(b.name!);
+        return (a.name == null || b.name == null) ? 0 : a.name!.compareTo(b.name!);
       });
     }
     return chapterList;
@@ -563,7 +517,6 @@ extension MangaExtensions on Manga {
 
 List<String>? _getFilterScanlator(Manga manga) {
   final scanlators = isar.settings.getSync(227)!.filterScanlatorList ?? [];
-  final filter =
-      scanlators.where((element) => element.mangaId == manga.id).toList();
+  final filter = scanlators.where((element) => element.mangaId == manga.id).toList();
   return filter.firstOrNull?.scanlators;
 }

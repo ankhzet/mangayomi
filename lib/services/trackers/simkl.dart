@@ -20,12 +20,9 @@ class Simkl extends _$Simkl implements BaseTracker {
   static const _baseOAuthUrl = 'https://simkl.com/oauth';
   static const _baseApiUrl = 'https://api.simkl.com';
   static final _isDesktop = (Platform.isWindows || Platform.isLinux);
-  static final _redirectUri =
-      _isDesktop ? 'http://localhost:43824' : 'mangayomi://';
-  static const _clientId =
-      '1e0a52930b1bdface4e30c1a94a44641475f3c80b69a5ea939562153fccffb68';
-  static const _clientSecret =
-      'aed1dc0fa8b9906c493b87c513b430fde75ea5cdad0087e8d129fbc5d36f9be0';
+  static final _redirectUri = _isDesktop ? 'http://localhost:43824' : 'mangayomi://';
+  static const _clientId = '1e0a52930b1bdface4e30c1a94a44641475f3c80b69a5ea939562153fccffb68';
+  static const _clientSecret = 'aed1dc0fa8b9906c493b87c513b430fde75ea5cdad0087e8d129fbc5d36f9be0';
 
   String getFallbackClientId(String usedId) {
     return _clientId;
@@ -39,8 +36,7 @@ class Simkl extends _$Simkl implements BaseTracker {
   }) {}
 
   Future<bool?> login() async {
-    final callbackUrlScheme =
-        _isDesktop ? 'http://localhost:43824' : 'mangayomi';
+    final callbackUrlScheme = _isDesktop ? 'http://localhost:43824' : 'mangayomi';
     final loginUrl = _authUrl();
 
     try {
@@ -88,19 +84,17 @@ class Simkl extends _$Simkl implements BaseTracker {
             mediaId: e['ids']?['simkl_id'] ?? e['ids']?['simkl'],
             summary: e['overview'] ?? 'No summary available.',
             totalChapter: 0,
-            coverUrl:
-                e['fanart'] != null
-                    ? 'https://wsrv.nl/?url=https://simkl.in/fanart/${e['fanart']}_medium.jpg'
-                    : e['poster'] != null
-                    ? 'https://wsrv.nl/?url=https://simkl.in/posters/${e['poster']}_m.webp'
-                    : '',
+            coverUrl: e['fanart'] != null
+                ? 'https://wsrv.nl/?url=https://simkl.in/fanart/${e['fanart']}_medium.jpg'
+                : e['poster'] != null
+                ? 'https://wsrv.nl/?url=https://simkl.in/posters/${e['poster']}_m.webp'
+                : '',
             title: e['title'] ?? 'Unknown Title',
             score: (e["ratings"]?["simkl"]?["rating"] as num?)?.toDouble(),
             startDate: e["release_date"] ?? "",
             publishingType: isManga ? "movie" : "tv",
             publishingStatus: e["status"],
-            trackingUrl:
-                "https://simkl.com/$type/${e['ids']?['simkl_id'] ?? e['ids']?['simkl']}",
+            trackingUrl: "https://simkl.com/$type/${e['ids']?['simkl_id'] ?? e['ids']?['simkl']}",
             syncId: syncId,
           );
         }).toList() ??
@@ -121,10 +115,9 @@ class Simkl extends _$Simkl implements BaseTracker {
             mediaId: node['ids']?['simkl'],
             summary: 'No summary available.',
             totalChapter: isManga ? 1 : e['total_episodes_count'],
-            coverUrl:
-                node['poster'] != null
-                    ? "https://wsrv.nl/?url=https://simkl.in/posters/${node['poster']}_m.jpg"
-                    : "",
+            coverUrl: node['poster'] != null
+                ? "https://wsrv.nl/?url=https://simkl.in/posters/${node['poster']}_m.jpg"
+                : "",
             title: node['title'] ?? 'Unknown Title',
             score: 0,
             startDate: "",
@@ -147,17 +140,14 @@ class Simkl extends _$Simkl implements BaseTracker {
       {"simkl": track.mediaId},
     ]);
     final data = jsonDecode(result.body) as List?;
-    if ((data?.isNotEmpty ?? false) &&
-        data!.firstOrNull?["result"] != "not_found") {
+    if ((data?.isNotEmpty ?? false) && data!.firstOrNull?["result"] != "not_found") {
       final node = data.firstOrNull;
       if (node?["list"] is String) {
         track.status = _trackFromSimklStatus(node!["list"]);
-        if (track.status == TrackStatus.completed &&
-            node?["last_watched_at"] is String) {
-          track.finishedReadingDate =
-              DateTime.tryParse(
-                node!["last_watched_at"],
-              )?.millisecondsSinceEpoch;
+        if (track.status == TrackStatus.completed && node?["last_watched_at"] is String) {
+          track.finishedReadingDate = DateTime.tryParse(
+            node!["last_watched_at"],
+          )?.millisecondsSinceEpoch;
         }
       }
       if (node?["episodes_watched"] is num) {
@@ -194,17 +184,13 @@ class Simkl extends _$Simkl implements BaseTracker {
             mediaId: e['ids']?['simkl_id'] ?? e['ids']?['simkl'],
             summary: e['overview'] ?? 'No summary available.',
             totalChapter: 0,
-            coverUrl:
-                e['poster'] != null
-                    ? 'https://wsrv.nl/?url=https://simkl.in/posters/${e['poster']}_m.webp'
-                    : '',
+            coverUrl: e['poster'] != null ? 'https://wsrv.nl/?url=https://simkl.in/posters/${e['poster']}_m.webp' : '',
             title: e['title'] ?? 'Unknown Title',
             score: (e["ratings"]?["simkl"]?["rating"] as num?)?.toDouble(),
             startDate: e["release_date"] ?? "",
             publishingType: "movie",
             publishingStatus: e["status"],
-            trackingUrl:
-                "https://simkl.com/movie/${e['ids']?['simkl_id'] ?? e['ids']?['simkl']}",
+            trackingUrl: "https://simkl.com/movie/${e['ids']?['simkl_id'] ?? e['ids']?['simkl']}",
             syncId: syncId,
           );
         }).toList() ??
@@ -225,17 +211,13 @@ class Simkl extends _$Simkl implements BaseTracker {
             mediaId: e['ids']?['simkl_id'] ?? e['ids']?['simkl'],
             summary: e['overview'] ?? 'No summary available.',
             totalChapter: 0,
-            coverUrl:
-                e['poster'] != null
-                    ? 'https://wsrv.nl/?url=https://simkl.in/posters/${e['poster']}_m.webp'
-                    : '',
+            coverUrl: e['poster'] != null ? 'https://wsrv.nl/?url=https://simkl.in/posters/${e['poster']}_m.webp' : '',
             title: e['title'] ?? 'Unknown Title',
             score: (e["ratings"]?["simkl"]?["rating"] as num?)?.toDouble(),
             startDate: e["release_date"] ?? "",
             publishingType: "tv",
             publishingStatus: e["status"],
-            trackingUrl:
-                "https://simkl.com/tv/${e['ids']?['simkl_id'] ?? e['ids']?['simkl']}",
+            trackingUrl: "https://simkl.com/tv/${e['ids']?['simkl_id'] ?? e['ids']?['simkl']}",
             syncId: syncId,
           );
         }).toList() ??
@@ -256,44 +238,39 @@ class Simkl extends _$Simkl implements BaseTracker {
   Future<Track> update(Track track, bool isManga) async {
     final accessToken = await _getAccessToken();
     final existRemote = track.libraryId == 1;
-    final isMovie =
-        track.trackingUrl?.replaceAll("https://simkl.com/", "").split("/")[0] ==
-        "movie";
-    final url = Uri.parse(
-      existRemote
-          ? "$_baseApiUrl/sync/history"
-          : "$_baseApiUrl/sync/add-to-list",
-    ).replace(
-      queryParameters: {
-        'extended': 'full',
-        'clientId': _clientId,
-        'limit': '15',
-      },
-    );
-    final body =
-        isMovie
-            ? {
-              'movies': [
-                {
-                  if (!existRemote) 'to': _trackToSimklStatus(track),
-                  if (existRemote) 'status': _trackToSimklStatus(track),
-                  'ids': {'simkl': track.mediaId},
-                },
-              ],
-            }
-            : {
-              'shows': [
-                {
-                  if (!existRemote) 'to': _trackToSimklStatus(track),
-                  if (existRemote) 'status': _trackToSimklStatus(track),
-                  'ids': {'simkl': track.mediaId},
-                  'episodes': [
-                    for (int i = 1; i <= (track.lastChapterRead ?? 1); i++)
-                      {'number': i},
-                  ],
-                },
-              ],
-            };
+    final isMovie = track.trackingUrl?.replaceAll("https://simkl.com/", "").split("/")[0] == "movie";
+    final url =
+        Uri.parse(
+          existRemote ? "$_baseApiUrl/sync/history" : "$_baseApiUrl/sync/add-to-list",
+        ).replace(
+          queryParameters: {
+            'extended': 'full',
+            'clientId': _clientId,
+            'limit': '15',
+          },
+        );
+    final body = isMovie
+        ? {
+            'movies': [
+              {
+                if (!existRemote) 'to': _trackToSimklStatus(track),
+                if (existRemote) 'status': _trackToSimklStatus(track),
+                'ids': {'simkl': track.mediaId},
+              },
+            ],
+          }
+        : {
+            'shows': [
+              {
+                if (!existRemote) 'to': _trackToSimklStatus(track),
+                if (existRemote) 'status': _trackToSimklStatus(track),
+                'ids': {'simkl': track.mediaId},
+                'episodes': [
+                  for (int i = 1; i <= (track.lastChapterRead ?? 1); i++) {'number': i},
+                ],
+              },
+            ],
+          };
     final result = await _makePostRequest(url, accessToken, body);
     if (result.statusCode >= 200 && result.statusCode < 300) {
       track.libraryId = 1;
@@ -428,9 +405,7 @@ class Simkl extends _$Simkl implements BaseTracker {
 
   @override
   Future<bool> checkRefresh() async {
-    widgetRef
-        .read(tracksProvider(syncId: syncId).notifier)
-        .setRefreshing(false);
+    widgetRef.read(tracksProvider(syncId: syncId).notifier).setRefreshing(false);
     return true;
   }
 }

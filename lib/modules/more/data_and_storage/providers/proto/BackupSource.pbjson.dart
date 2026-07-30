@@ -23,6 +23,6 @@ const BackupSource$json = {
 };
 
 /// Descriptor for `BackupSource`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List backupSourceDescriptor = $convert.base64Decode(
-    'CgxCYWNrdXBTb3VyY2USEgoEbmFtZRgBIAEoCVIEbmFtZRIaCghzb3VyY2VJZBgCIAEoBVIIc2'
-    '91cmNlSWQ=');
+final $typed_data.Uint8List backupSourceDescriptor =
+    $convert.base64Decode('CgxCYWNrdXBTb3VyY2USEgoEbmFtZRgBIAEoCVIEbmFtZRIaCghzb3VyY2VJZBgCIAEoBVIIc2'
+        '91cmNlSWQ=');

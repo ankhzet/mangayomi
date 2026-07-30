@@ -80,7 +80,8 @@ enum HttpHeaderName {
   xContentTypeOptions('x-content-type-options'),
   xDnsPrefetchControl('x-dns-prefetch-control'),
   xFrameOptions('x-frame-options'),
-  xXssProtection('x-xss-protection');
+  xXssProtection('x-xss-protection')
+  ;
 
   final String httpName;
 

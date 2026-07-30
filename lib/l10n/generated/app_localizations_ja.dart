@@ -181,8 +181,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get remove => '削除';
 
   @override
-  String get remove_history_msg =>
-      'This will remove the read date of this chapter. Are you sure?';
+  String get remove_history_msg => 'This will remove the read date of this chapter. Are you sure?';
 
   @override
   String get last_used => '最後に使用';
@@ -275,8 +274,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get category_name_required => '*Required';
 
   @override
-  String get add_category_error_exist =>
-      'A category with this name already exist!';
+  String get add_category_error_exist => 'A category with this name already exist!';
 
   @override
   String get delete_category => 'Delete Category';
@@ -685,8 +683,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get sync_logged => 'ログイン成功';
 
   @override
-  String get syncing_subtitle =>
-      'セルフホストサーバーを通じて複数デバイス間で進行状況を同期します。詳細はDiscordサーバーをご覧ください！';
+  String get syncing_subtitle => 'セルフホストサーバーを通じて複数デバイス間で進行状況を同期します。詳細はDiscordサーバーをご覧ください！';
 
   @override
   String get last_sync_manga => '最終マンガ同期: ';
@@ -773,8 +770,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get reorder_navigation => 'ナビゲーションをカスタマイズ';
 
   @override
-  String get reorder_navigation_description =>
-      'ニーズに合わせて各ナビゲーションを並べ替えたり切り替えたりします。';
+  String get reorder_navigation_description => 'ニーズに合わせて各ナビゲーションを並べ替えたり切り替えたりします。';
 
   @override
   String get full_screen_player => 'フルスクリーンを使用';
@@ -1013,12 +1009,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get backup_options_dialog_title => 'What do you want to backup?';
 
   @override
-  String get backup_options_subtitle =>
-      'What information to include in the backup file?';
+  String get backup_options_subtitle => 'What information to include in the backup file?';
 
   @override
-  String get backup_and_restore_warning_info =>
-      'You should keep copies of backups in other places as well';
+  String get backup_and_restore_warning_info => 'You should keep copies of backups in other places as well';
 
   @override
   String get library_entries => 'Library entries';
@@ -1107,8 +1101,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get default_skip_forward_skip_length => 'デフォルトスキップフォワードスキップ長';
 
   @override
-  String get aniskip_requires_info =>
-      'AniSkipを機能させるには、アニメをMALまたはAnilistで追跡する必要があります。';
+  String get aniskip_requires_info => 'AniSkipを機能させるには、アニメをMALまたはAnilistで追跡する必要があります。';
 
   @override
   String get enable_aniskip => 'AniSkipを有効化';
@@ -1280,8 +1273,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get use_libass_info => 'ネイティブバックエンドにlibassベースの字幕レンダリングを使用します。';
 
   @override
-  String get libass_not_disable_message =>
-      '字幕をカスタマイズできるようにするには、プレーヤー設定で「libassを使用」を無効にしてください。';
+  String get libass_not_disable_message => '字幕をカスタマイズできるようにするには、プレーヤー設定で「libassを使用」を無効にしてください。';
 
   @override
   String get torrent_stream => 'トレントストリーム';
@@ -1308,8 +1300,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get use_native_http_client => 'ネイティブhttpクライアントを使用';
 
   @override
-  String get use_native_http_client_info =>
-      'VPNのようなプラットフォーム機能を自動的にサポートし、HTTP/3のようなより多くのHTTP機能をサポートし、カスタムリダイレクト処理';
+  String get use_native_http_client_info => 'VPNのようなプラットフォーム機能を自動的にサポートし、HTTP/3のようなより多くのHTTP機能をサポートし、カスタムリダイレクト処理';
 
   @override
   String n_hour_ago(Object hour) {
@@ -1360,8 +1351,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cache_cleared => 'キャッシュをクリアしました';
 
   @override
-  String get clear_chapter_or_episode_cache_on_app_launch =>
-      'アプリ起動時にチャプター/エピソードキャッシュをクリア';
+  String get clear_chapter_or_episode_cache_on_app_launch => 'アプリ起動時にチャプター/エピソードキャッシュをクリア';
 
   @override
   String get app_settings => 'アプリ設定';
@@ -1457,8 +1447,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get clear_all_sources => 'すべてのソースをクリア';
 
   @override
-  String get clear_all_sources_msg =>
-      'これによりアプリケーションのすべてのソースが完全に削除されます。続行してもよろしいですか？';
+  String get clear_all_sources_msg => 'これによりアプリケーションのすべてのソースが完全に削除されます。続行してもよろしいですか？';
 
   @override
   String get sources_cleared => 'ソースがクリアされました！！！';
@@ -1490,8 +1479,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get unsupported_repo =>
-      'サポートされていないリポジトリを追加しようとしています。サポートについてはDiscordサーバーを確認してください！';
+  String get unsupported_repo => 'サポートされていないリポジトリを追加しようとしています。サポートについてはDiscordサーバーを確認してください！';
 
   @override
   String get end_of_chapter => 'チャプターの終わり';
@@ -1548,8 +1536,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hide_discord_rpc_incognito => 'シークレットモードでDiscord RPCを非表示';
 
   @override
-  String get rpc_show_reading_watching_progress =>
-      'Discordに現在のチャプターを表示（再起動が必要）';
+  String get rpc_show_reading_watching_progress => 'Discordに現在のチャプターを表示（再起動が必要）';
 
   @override
   String get rpc_show_title => 'Discordに現在のタイトルを表示';
@@ -1641,8 +1628,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get use_yuv420p => 'YUV420Pピクセル形式を使用';
 
   @override
-  String get use_yuv420p_info =>
-      '一部のビデオコーデックで黒い画面を修正し、品質を犠牲にしてパフォーマンスを向上させることもできます';
+  String get use_yuv420p_info => '一部のビデオコーデックで黒い画面を修正し、品質を犠牲にしてパフォーマンスを向上させることもできます';
 
   @override
   String get audio_preferred_languages => '優先言語';
@@ -1655,8 +1641,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get enable_audio_pitch_correction => 'オーディオピッチ補正を有効化';
 
   @override
-  String get enable_audio_pitch_correction_info =>
-      '高速再生時にオーディオが高音になり、低速再生時に低音になるのを防ぎます';
+  String get enable_audio_pitch_correction_info => '高速再生時にオーディオが高音になり、低速再生時に低音になるのを防ぎます';
 
   @override
   String get audio_channels => 'オーディオチャンネル';
@@ -1686,8 +1671,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get calendar_no_data => 'まだデータがありません。';
 
   @override
-  String get calendar_info =>
-      'カレンダーは過去のアップロードに基づいて次のチャプターアップロードを予測できるだけです。一部のデータは100％正確ではない可能性があります！';
+  String get calendar_info => 'カレンダーは過去のアップロードに基づいて次のチャプターアップロードを予測できるだけです。一部のデータは100％正確ではない可能性があります！';
 
   @override
   String in_n_day(Object days) {
@@ -1706,8 +1690,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get clear_library_desc => 'すべてのマンガ、アニメ、および/または小説エントリをクリアする選択';
 
   @override
-  String get clear_library_input =>
-      'すべての関連エントリを削除するには「manga」、「anime」、および/または「novel」と入力してください（カンマ区切り）';
+  String get clear_library_input => 'すべての関連エントリを削除するには「manga」、「anime」、および/または「novel」と入力してください（カンマ区切り）';
 
   @override
   String get watch_order => '視聴順';
@@ -1763,8 +1746,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get forceLandscapeMode => 'Force landscape mode';
 
   @override
-  String get forceLandscapeModeSubtitle =>
-      'Force the player to use landscape orientation.';
+  String get forceLandscapeModeSubtitle => 'Force the player to use landscape orientation.';
 
   @override
   String get dns_over_https => 'DNS-over-HTTPS (DoH)';

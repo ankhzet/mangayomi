@@ -9,15 +9,13 @@ export 'package:mangayomi/models/settings.dart' show UpdateError;
 /// The last library update's failures, persisted on the Settings collection so
 /// they can be reviewed on the [UpdateErrorsScreen] rather than only in a
 /// transient dialog.
-final updateErrorsProvider =
-    NotifierProvider<UpdateErrorsNotifier, List<UpdateError>>(
-      UpdateErrorsNotifier.new,
-    );
+final updateErrorsProvider = NotifierProvider<UpdateErrorsNotifier, List<UpdateError>>(
+  UpdateErrorsNotifier.new,
+);
 
 class UpdateErrorsNotifier extends Notifier<List<UpdateError>> {
   @override
-  List<UpdateError> build() =>
-      isar.settings.getSync(227)?.updateErrorsList ?? const [];
+  List<UpdateError> build() => isar.settings.getSync(227)?.updateErrorsList ?? const [];
 
   /// Replaces the stored failures with the latest update run's results.
   void set(List<UpdateError> errors) {

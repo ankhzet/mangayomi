@@ -69,10 +69,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 GoRouter router(Ref ref) {
   final router = RouterNotifier();
   final hiddenItems = ref.read(hideItemsStateProvider);
-  final initLocation = ref
-      .watch(navigationOrderStateProvider)
-      .where((e) => !hiddenItems.contains(e))
-      .first;
+  final initLocation = ref.watch(navigationOrderStateProvider).where((e) => !hiddenItems.contains(e)).first;
 
   return GoRouter(
     observers: [BotToastNavigatorObserver()],
@@ -106,12 +103,9 @@ class RouterCurrentLocationState extends _$RouterCurrentLocationState {
     final router = ref.read(routerProvider);
     router.routerDelegate.addListener(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        final RouteMatchList matches =
-            router.routerDelegate.currentConfiguration;
+        final RouteMatchList matches = router.routerDelegate.currentConfiguration;
         final RouteMatch lastMatch = matches.last;
-        final RouteMatchList matchList = lastMatch is ImperativeRouteMatch
-            ? lastMatch.matches
-            : matches;
+        final RouteMatchList matchList = lastMatch is ImperativeRouteMatch ? lastMatch.matches : matches;
         state = matchList.uri.toString();
       });
     });
@@ -129,18 +123,15 @@ class RouterNotifier extends ChangeNotifier {
       routes: [
         _genericRoute<String?>(
           name: "MangaLibrary",
-          builder: (id) =>
-              LibraryScreen(itemType: ItemType.manga, presetInput: id),
+          builder: (id) => LibraryScreen(itemType: ItemType.manga, presetInput: id),
         ),
         _genericRoute<String?>(
           name: "AnimeLibrary",
-          builder: (id) =>
-              LibraryScreen(itemType: ItemType.anime, presetInput: id),
+          builder: (id) => LibraryScreen(itemType: ItemType.anime, presetInput: id),
         ),
         _genericRoute<String?>(
           name: "NovelLibrary",
-          builder: (id) =>
-              LibraryScreen(itemType: ItemType.novel, presetInput: id),
+          builder: (id) => LibraryScreen(itemType: ItemType.novel, presetInput: id),
         ),
         _genericRoute<String?>(
           name: "trackerLibrary",
@@ -299,9 +290,7 @@ class RouterNotifier extends ChangeNotifier {
       },
       pageBuilder: isApple
           ? (context, state) {
-              final pageChild = builder != null
-                  ? builder(state.extra as T)
-                  : child!;
+              final pageChild = builder != null ? builder(state.extra as T) : child!;
               return transitionPage(key: state.pageKey, child: pageChild);
             }
           : null,
@@ -314,7 +303,5 @@ Page transitionPage({required LocalKey key, required child}) {
 }
 
 Route createRoute({required Widget page}) {
-  return isApple
-      ? CupertinoPageRoute(builder: (context) => page)
-      : MaterialPageRoute(builder: (context) => page);
+  return isApple ? CupertinoPageRoute(builder: (context) => page) : MaterialPageRoute(builder: (context) => page);
 }

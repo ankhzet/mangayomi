@@ -22,9 +22,8 @@ class _ProviderStats {
   DateTime lastFailure = DateTime.now();
   bool isCircuitOpen = false;
 
-  double get successRate => (successCount + failureCount) == 0
-      ? 100
-      : (successCount / (successCount + failureCount)) * 100;
+  double get successRate =>
+      (successCount + failureCount) == 0 ? 100 : (successCount / (successCount + failureCount)) * 100;
 
   bool shouldRetry() {
     if (!isCircuitOpen) return true;

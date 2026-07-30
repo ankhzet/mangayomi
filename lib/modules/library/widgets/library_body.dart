@@ -80,14 +80,10 @@ class LibraryBody extends ConsumerWidget {
     );
     final mangaStream = allMangaStream.whenData((allMangas) {
       if (withoutCategories) {
-        return allMangas
-            .where((m) => m.categories == null || m.categories!.isEmpty)
-            .toList();
+        return allMangas.where((m) => m.categories == null || m.categories!.isEmpty).toList();
       }
       if (categoryId != null) {
-        return allMangas
-            .where((m) => m.categories?.contains(categoryId) ?? false)
-            .toList();
+        return allMangas.where((m) => m.categories?.contains(categoryId) ?? false).toList();
       }
       return allMangas;
     });
@@ -201,9 +197,7 @@ class CategoryBadge extends ConsumerWidget {
 
     return mangas.when(
       data: (allMangas) {
-        final data = allMangas
-            .where((m) => m.categories?.contains(categoryId) ?? false)
-            .toList();
+        final data = allMangas.where((m) => m.categories?.contains(categoryId) ?? false).toList();
         final filtered = ref.watch(
           filteredLibraryMangaProvider(
             data: data,

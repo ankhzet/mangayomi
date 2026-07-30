@@ -20,11 +20,10 @@ class LibraryUpdateState {
     this.running = false,
     this.cancelRequested = false,
   });
-  LibraryUpdateState copyWith({bool? running, bool? cancelRequested}) =>
-      LibraryUpdateState(
-        running: running ?? this.running,
-        cancelRequested: cancelRequested ?? this.cancelRequested,
-      );
+  LibraryUpdateState copyWith({bool? running, bool? cancelRequested}) => LibraryUpdateState(
+    running: running ?? this.running,
+    cancelRequested: cancelRequested ?? this.cancelRequested,
+  );
 }
 
 class LibraryUpdateNotifier extends Notifier<LibraryUpdateState> {
@@ -34,13 +33,13 @@ class LibraryUpdateNotifier extends Notifier<LibraryUpdateState> {
   void requestCancel() {
     if (state.running) state = state.copyWith(cancelRequested: true);
   }
+
   void end() => state = const LibraryUpdateState();
 }
 
-final libraryUpdateProvider =
-    NotifierProvider<LibraryUpdateNotifier, LibraryUpdateState>(
-      LibraryUpdateNotifier.new,
-    );
+final libraryUpdateProvider = NotifierProvider<LibraryUpdateNotifier, LibraryUpdateState>(
+  LibraryUpdateNotifier.new,
+);
 
 Future<void> updateLibrary({
   required WidgetRef ref,

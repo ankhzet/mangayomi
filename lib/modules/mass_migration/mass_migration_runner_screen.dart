@@ -24,12 +24,10 @@ class MassMigrationRunnerScreen extends ConsumerStatefulWidget {
   final Source destinationSource;
 
   @override
-  ConsumerState<MassMigrationRunnerScreen> createState() =>
-      _MassMigrationRunnerScreenState();
+  ConsumerState<MassMigrationRunnerScreen> createState() => _MassMigrationRunnerScreenState();
 }
 
-class _MassMigrationRunnerScreenState
-    extends ConsumerState<MassMigrationRunnerScreen> {
+class _MassMigrationRunnerScreenState extends ConsumerState<MassMigrationRunnerScreen> {
   _MassMigrationPhase _phase = _MassMigrationPhase.matching;
   int _currentIndex = 0;
   int _migratedCount = 0;
@@ -147,9 +145,7 @@ class _MassMigrationRunnerScreenState
   Widget _buildReviewPhase(BuildContext context) {
     final l10n = context.l10n;
     final matchedCount = _resolvedItems.where((item) => item.hasMatch).length;
-    final selectedCount = _resolvedItems
-        .where((item) => item.shouldMigrate)
-        .length;
+    final selectedCount = _resolvedItems.where((item) => item.shouldMigrate).length;
     final noMatchCount = _resolvedItems.where((item) => !item.hasMatch).length;
 
     return Column(
@@ -221,13 +217,9 @@ class _MassMigrationRunnerScreenState
 
   Widget _buildApplyingPhase(BuildContext context) {
     final l10n = context.l10n;
-    final selectedItems = _resolvedItems
-        .where((item) => item.shouldMigrate)
-        .toList();
+    final selectedItems = _resolvedItems.where((item) => item.shouldMigrate).toList();
     final total = selectedItems.isEmpty ? 1 : selectedItems.length;
-    final currentItem = selectedItems.isEmpty
-        ? null
-        : selectedItems[_currentIndex.clamp(0, selectedItems.length - 1)];
+    final currentItem = selectedItems.isEmpty ? null : selectedItems[_currentIndex.clamp(0, selectedItems.length - 1)];
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -275,14 +267,12 @@ class _MassMigrationRunnerScreenState
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            currentItem.sourceItem.name ??
-                                l10n.mass_migration_unknown_title,
+                            currentItem.sourceItem.name ?? l10n.mass_migration_unknown_title,
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                           const SizedBox(height: 6),
                           Text(
-                            currentItem.selectedCandidate?.name ??
-                                l10n.mass_migration_unknown_match,
+                            currentItem.selectedCandidate?.name ?? l10n.mass_migration_unknown_match,
                           ),
                         ],
                       ),
@@ -337,9 +327,7 @@ class _MassMigrationRunnerScreenState
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(
-                    _failedItems.isEmpty
-                        ? Icons.task_alt_rounded
-                        : Icons.done_all_rounded,
+                    _failedItems.isEmpty ? Icons.task_alt_rounded : Icons.done_all_rounded,
                     color: successTone,
                     size: 30,
                   ),
@@ -490,15 +478,13 @@ class _MassMigrationRunnerScreenState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        item.sourceItem.name ??
-                            l10n.mass_migration_unknown_title,
+                        item.sourceItem.name ?? l10n.mass_migration_unknown_title,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 6),
                       Text(
                         item.hasMatch
-                            ? (item.selectedCandidate?.name ??
-                                  l10n.mass_migration_unknown_match)
+                            ? (item.selectedCandidate?.name ?? l10n.mass_migration_unknown_match)
                             : l10n.mass_migration_no_destination_match,
                       ),
                       const SizedBox(height: 6),
@@ -537,16 +523,12 @@ class _MassMigrationRunnerScreenState
                 ChoiceChip(
                   label: Text(l10n.migrate),
                   selected: item.shouldMigrate,
-                  onSelected: item.canMigrate
-                      ? (_) => _updateShouldMigrate(index, true)
-                      : null,
+                  onSelected: item.canMigrate ? (_) => _updateShouldMigrate(index, true) : null,
                 ),
                 const Spacer(),
                 if (item.searchResult.candidates.length > 1)
                   TextButton(
-                    onPressed: _loadingCandidateIndexes.contains(index)
-                        ? null
-                        : () => _pickAnotherCandidate(index),
+                    onPressed: _loadingCandidateIndexes.contains(index) ? null : () => _pickAnotherCandidate(index),
                     child: Text(
                       _loadingCandidateIndexes.contains(index)
                           ? l10n.mass_migration_loading
@@ -630,10 +612,8 @@ class _MassMigrationRunnerScreenState
                 ),
                 subtitle: Text(
                   [
-                    if ((candidate.author ?? '').trim().isNotEmpty)
-                      candidate.author!,
-                    if ((candidate.artist ?? '').trim().isNotEmpty)
-                      candidate.artist!,
+                    if ((candidate.author ?? '').trim().isNotEmpty) candidate.author!,
+                    if ((candidate.artist ?? '').trim().isNotEmpty) candidate.artist!,
                   ].join(' • '),
                 ),
                 onTap: () => Navigator.pop(context, candidate),
@@ -689,9 +669,7 @@ class _MassMigrationRunnerScreenState
   }
 
   Future<void> _startMigration() async {
-    final selectedItems = _resolvedItems
-        .where((item) => item.shouldMigrate)
-        .toList();
+    final selectedItems = _resolvedItems.where((item) => item.shouldMigrate).toList();
     if (selectedItems.isEmpty) {
       setState(() {
         _skippedCount = widget.sourceGroup.items.length;

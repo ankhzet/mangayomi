@@ -104,9 +104,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                 "navigator.userAgent",
               ) ??
               "";
-          final cookie = cookieList
-              .map((e) => "${e.name}=${e.value}")
-              .join(";");
+          final cookie = cookieList.map((e) => "${e.name}=${e.value}").join(";");
           await MClient.setCookie(_url, ua, null, cookie: cookie);
         } catch (_) {}
       });
@@ -281,14 +279,11 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                               if (value == 0) {
                                 _webViewController?.reload();
                               } else if (value == 1) {
-                                final box =
-                                    context.findRenderObject() as RenderBox?;
+                                final box = context.findRenderObject() as RenderBox?;
                                 SharePlus.instance.share(
                                   ShareParams(
                                     text: _url,
-                                    sharePositionOrigin:
-                                        box!.localToGlobal(Offset.zero) &
-                                        box.size,
+                                    sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
                                   ),
                                 );
                               } else if (value == 2) {
@@ -304,9 +299,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                         ],
                       ),
                     ),
-                    _progress < 1.0
-                        ? LinearProgressIndicator(value: _progress)
-                        : Container(),
+                    _progress < 1.0 ? LinearProgressIndicator(value: _progress) : Container(),
                     if (!Platform.isWindows)
                       Expanded(
                         // Android's WebView drives its own d-pad focus once it
@@ -328,25 +321,24 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                                 _url = url.toString();
                               });
                             },
-                            shouldOverrideUrlLoading:
-                                (controller, navigationAction) async {
-                                  var uri = navigationAction.request.url!;
-                                  if (![
-                                    "http",
-                                    "https",
-                                    "file",
-                                    "chrome",
-                                    "data",
-                                    "javascript",
-                                    "about",
-                                  ].contains(uri.scheme)) {
-                                    if (await canLaunchUrl(uri)) {
-                                      await launchUrl(uri);
-                                      return NavigationActionPolicy.CANCEL;
-                                    }
-                                  }
-                                  return NavigationActionPolicy.ALLOW;
-                                },
+                            shouldOverrideUrlLoading: (controller, navigationAction) async {
+                              var uri = navigationAction.request.url!;
+                              if (![
+                                "http",
+                                "https",
+                                "file",
+                                "chrome",
+                                "data",
+                                "javascript",
+                                "about",
+                              ].contains(uri.scheme)) {
+                                if (await canLaunchUrl(uri)) {
+                                  await launchUrl(uri);
+                                  return NavigationActionPolicy.CANCEL;
+                                }
+                              }
+                              return NavigationActionPolicy.ALLOW;
+                            },
                             onLoadStop: (controller, url) async {
                               if (mounted) {
                                 setState(() {
@@ -361,32 +353,29 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                                 });
                               }
                             },
-                            onUpdateVisitedHistory:
-                                (controller, url, isReload) async {
-                                  final ua =
-                                      await controller.evaluateJavascript(
-                                        source: "navigator.userAgent",
-                                      ) ??
-                                      "";
-                                  await MClient.setCookie(
-                                    url.toString(),
-                                    ua,
-                                    controller,
-                                  );
-                                  final canGoback = await controller
-                                      .canGoBack();
-                                  final canGoForward = await controller
-                                      .canGoForward();
-                                  final title = await controller.getTitle();
-                                  if (mounted) {
-                                    setState(() {
-                                      _url = url.toString();
-                                      _title = title!;
-                                      _canGoback = canGoback;
-                                      _canGoForward = canGoForward;
-                                    });
-                                  }
-                                },
+                            onUpdateVisitedHistory: (controller, url, isReload) async {
+                              final ua =
+                                  await controller.evaluateJavascript(
+                                    source: "navigator.userAgent",
+                                  ) ??
+                                  "";
+                              await MClient.setCookie(
+                                url.toString(),
+                                ua,
+                                controller,
+                              );
+                              final canGoback = await controller.canGoBack();
+                              final canGoForward = await controller.canGoForward();
+                              final title = await controller.getTitle();
+                              if (mounted) {
+                                setState(() {
+                                  _url = url.toString();
+                                  _title = title!;
+                                  _canGoback = canGoback;
+                                  _canGoForward = canGoForward;
+                                });
+                              }
+                            },
                             initialUrlRequest: URLRequest(
                               url: WebUri(widget.url),
                             ),

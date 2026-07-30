@@ -16,10 +16,7 @@ class UpcomingHeader extends UpcomingUIModel {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is UpcomingHeader &&
-          date == other.date &&
-          mangaCount == other.mangaCount;
+      identical(this, other) || other is UpcomingHeader && date == other.date && mangaCount == other.mangaCount;
 
   @override
   int get hashCode => Object.hash(date, mangaCount);
@@ -32,9 +29,7 @@ class UpcomingItem extends UpcomingUIModel {
   const UpcomingItem({required this.manga, required this.expectedDate});
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is UpcomingItem && manga.id == other.manga.id;
+  bool operator ==(Object other) => identical(this, other) || other is UpcomingItem && manga.id == other.manga.id;
 
   @override
   int get hashCode => manga.id.hashCode;

@@ -84,9 +84,7 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
         var randomManga = (value..shuffle()).first;
         pushToMangaReaderDetail(
           ref: ref,
-          archiveId: randomManga.isLocalArchive ?? false
-              ? randomManga.id
-              : null,
+          archiveId: randomManga.isLocalArchive ?? false ? randomManga.id : null,
           context: context,
           lang: randomManga.lang ?? '',
           mangaM: randomManga,
@@ -113,13 +111,9 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
         return allMangas;
       }
       if (categoryId == null) {
-        return allMangas
-            .where((m) => m.categories == null || m.categories!.isEmpty)
-            .toList();
+        return allMangas.where((m) => m.categories == null || m.categories!.isEmpty).toList();
       }
-      return allMangas
-          .where((m) => m.categories?.contains(categoryId) ?? false)
-          .toList();
+      return allMangas.where((m) => m.categories?.contains(categoryId) ?? false).toList();
     });
     final l10n = l10nLocalizations(context)!;
 
@@ -172,8 +166,7 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
             focusColor: Theme.of(
               context,
             ).colorScheme.primary.withValues(alpha: 0.4),
-            onPressed: () =>
-                ref.read(libraryUpdateProvider.notifier).requestCancel(),
+            onPressed: () => ref.read(libraryUpdateProvider.notifier).requestCancel(),
             icon: const Icon(Icons.stop_circle_outlined),
           ),
         isSearch
@@ -200,9 +193,7 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                isMobile
-                    ? l10n.ignore_filters.replaceFirst(' ', '\n')
-                    : l10n.ignore_filters.replaceAll('\n', ''),
+                isMobile ? l10n.ignore_filters.replaceFirst(' ', '\n') : l10n.ignore_filters.replaceAll('\n', ''),
                 textAlign: TextAlign.center,
               ),
               Checkbox(
@@ -306,9 +297,7 @@ class _SelectionAppBar extends ConsumerWidget {
         leading: IconButton(
           onPressed: () {
             ref.read(mangasListStateProvider.notifier).clear();
-            ref
-                .read(isLongPressedStateProvider.notifier)
-                .update(!isLongPressed);
+            ref.read(isLongPressedStateProvider.notifier).update(!isLongPressed);
           },
           icon: const Icon(Icons.clear),
         ),

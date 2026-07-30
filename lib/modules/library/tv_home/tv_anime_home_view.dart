@@ -41,19 +41,15 @@ const double _defaultCardWidth = 150;
 /// home too, rather than the home keeping a private density of its own.
 double _cardWidth(BuildContext context, int gridSize) {
   final size = MediaQuery.sizeOf(context);
-  final raw = gridSize <= 0
-      ? _defaultCardWidth
-      : (size.width - 44) / gridSize - 8;
+  final raw = gridSize <= 0 ? _defaultCardWidth : (size.width - 44) / gridSize - 8;
   // A rail is not a grid: cap the card so "1 per row" can't eat the screen.
   final cap = ((size.height * 0.5) / 1.66).clamp(120.0, 400.0);
   return raw.clamp(90.0, cap);
 }
 
-double _rowHeight(BuildContext context, int gridSize) =>
-    _cardWidth(context, gridSize) * 1.66;
+double _rowHeight(BuildContext context, int gridSize) => _cardWidth(context, gridSize) * 1.66;
 
-int _gridSize(WidgetRef ref) =>
-    ref.watch(libraryGridSizeStateProvider(itemType: ItemType.anime)) ?? 0;
+int _gridSize(WidgetRef ref) => ref.watch(libraryGridSizeStateProvider(itemType: ItemType.anime)) ?? 0;
 
 /// Mirrors GridViewWidget: 0 means "default", anything else is an exact number
 /// of columns.
@@ -74,10 +70,7 @@ SliverGridDelegate _gridDelegate(int gridSize) => gridSize <= 0
 /// The episode to resume for [manga] — the last from watch history, else the
 /// first chapter.
 Chapter? _resumeChapter(Manga manga) {
-  final history = isar.historys
-      .filter()
-      .mangaIdEqualTo(manga.id!)
-      .findAllSync();
+  final history = isar.historys.filter().mangaIdEqualTo(manga.id!).findAllSync();
   if (history.isNotEmpty) {
     history.first.chapter.loadSync();
     final ch = history.first.chapter.value;
@@ -192,13 +185,8 @@ class _TvAnimeHomeViewState extends ConsumerState<TvAnimeHomeView> {
 
   /// Synchronous read matching getAllMangaStreamProvider(categoryId: null) —
   /// used to seed the first frame so the spinner never flashes for local data.
-  List<Manga> _favoriteAnimeSync() => isar.mangas
-      .filter()
-      .idIsNotNull()
-      .favoriteEqualTo(true)
-      .and()
-      .itemTypeEqualTo(ItemType.anime)
-      .findAllSync();
+  List<Manga> _favoriteAnimeSync() =>
+      isar.mangas.filter().idIsNotNull().favoriteEqualTo(true).and().itemTypeEqualTo(ItemType.anime).findAllSync();
 
   @override
   Widget build(BuildContext context) {
@@ -226,18 +214,14 @@ class _TvAnimeHomeViewState extends ConsumerState<TvAnimeHomeView> {
           final allCats = catsAsync.asData?.value ?? const <Category>[];
           final hiddenCats = allCats.where((c) => c.hide ?? false).toList()
             ..sort((a, b) => (a.pos ?? 0).compareTo(b.pos ?? 0));
-          final hiddenCatIds = hiddenCats
-              .map((c) => c.id)
-              .whereType<int>()
-              .toSet();
+          final hiddenCatIds = hiddenCats.map((c) => c.id).whereType<int>().toSet();
           final cats = allCats.where((c) => !(c.hide ?? false)).toList()
             ..sort((a, b) => (a.pos ?? 0).compareTo(b.pos ?? 0));
           final visible = hiddenCatIds.isEmpty
               ? allAnime
               : allAnime.where((m) {
                   final mc = m.categories ?? const <int>[];
-                  return mc.isEmpty ||
-                      mc.any((id) => !hiddenCatIds.contains(id));
+                  return mc.isEmpty || mc.any((id) => !hiddenCatIds.contains(id));
                 }).toList();
 
           // Only a genuinely empty library short-circuits the whole screen. If
@@ -306,9 +290,7 @@ class _TvAnimeHomeViewState extends ConsumerState<TvAnimeHomeView> {
               ignoreFiltersOnSearch: false,
             ),
           );
-          final entries = (sortState.reverse ?? false)
-              ? filtered.reversed.toList()
-              : filtered;
+          final entries = (sortState.reverse ?? false) ? filtered.reversed.toList() : filtered;
 
           // Continue Watching = every anime you've actually played, from watch
           // history, most-recently-watched first.
@@ -341,31 +323,22 @@ class _TvAnimeHomeViewState extends ConsumerState<TvAnimeHomeView> {
                   .whereType<int>()
                   .toSet();
 
-          final continueList =
-              entries.where((m) => historyIds.contains(m.id)).toList()
-                ..sort((a, b) => (b.lastRead ?? 0).compareTo(a.lastRead ?? 0));
+          final continueList = entries.where((m) => historyIds.contains(m.id)).toList()
+            ..sort((a, b) => (b.lastRead ?? 0).compareTo(a.lastRead ?? 0));
           final newEpisodes =
               entries
                   .where(
-                    (m) =>
-                        updatedIds.contains(m.id) &&
-                        m.chapters.any((c) => !(c.isRead ?? true)),
+                    (m) => updatedIds.contains(m.id) && m.chapters.any((c) => !(c.isRead ?? true)),
                   )
                   .toList()
                 ..sort(
                   (a, b) => (b.lastUpdate ?? 0).compareTo(a.lastUpdate ?? 0),
                 );
-          final recent = [...entries]
-            ..sort((a, b) => (b.dateAdded ?? 0).compareTo(a.dateAdded ?? 0));
-          final heroItems = (continueList.isNotEmpty ? continueList : recent)
-              .take(6)
-              .toList();
+          final recent = [...entries]..sort((a, b) => (b.dateAdded ?? 0).compareTo(a.dateAdded ?? 0));
+          final heroItems = (continueList.isNotEmpty ? continueList : recent).take(6).toList();
 
           // If the selected category was removed, fall back to All.
-          final selectedId =
-              (_selected != null && cats.any((c) => c.id == _selected))
-              ? _selected
-              : null;
+          final selectedId = (_selected != null && cats.any((c) => c.id == _selected)) ? _selected : null;
 
           final q = _query.trim().toLowerCase();
           final searching = q.isNotEmpty;
@@ -415,9 +388,7 @@ class _TvAnimeHomeViewState extends ConsumerState<TvAnimeHomeView> {
               node: _scopeGrid,
               child: _MangaGrid(
                 items: matches,
-                emptyLabel: catName == null
-                    ? 'No matching anime'
-                    : 'No matching anime in “$catName”',
+                emptyLabel: catName == null ? 'No matching anime' : 'No matching anime in “$catName”',
               ),
             );
           } else if (entries.isEmpty) {
@@ -470,9 +441,8 @@ class _TvAnimeHomeViewState extends ConsumerState<TvAnimeHomeView> {
                   if (t.isNotEmpty) (byGenre[t] ??= <Manga>[]).add(m);
                 }
               }
-              final genreRows =
-                  byGenre.entries.where((e) => e.value.length >= 3).toList()
-                    ..sort((a, b) => b.value.length.compareTo(a.value.length));
+              final genreRows = byGenre.entries.where((e) => e.value.length >= 3).toList()
+                ..sort((a, b) => b.value.length.compareTo(a.value.length));
               for (final g in genreRows.take(6)) {
                 addRow(g.key, g.value);
               }
@@ -484,25 +454,20 @@ class _TvAnimeHomeViewState extends ConsumerState<TvAnimeHomeView> {
           } else {
             // Category view: a Continue Watching row scoped to *this* category,
             // then the category's full grid.
-            final catName = cats
-                .firstWhere((c) => c.id == selectedId, orElse: () => cats.first)
-                .name;
+            final catName = cats.firstWhere((c) => c.id == selectedId, orElse: () => cats.first).name;
             final inCat = entries
                 .where(
                   (m) => (m.categories ?? const <int>[]).contains(selectedId),
                 )
                 .toList();
-            final catContinue =
-                inCat.where((m) => historyIds.contains(m.id)).toList()..sort(
-                  (a, b) => (b.lastRead ?? 0).compareTo(a.lastRead ?? 0),
-                );
+            final catContinue = inCat.where((m) => historyIds.contains(m.id)).toList()
+              ..sort(
+                (a, b) => (b.lastRead ?? 0).compareTo(a.lastRead ?? 0),
+              );
             // Same hero rule as All: what you'd resume, else what you added
             // last — never "whatever the sort tab happens to put first".
-            final catRecent = [...inCat]
-              ..sort((a, b) => (b.dateAdded ?? 0).compareTo(a.dateAdded ?? 0));
-            final catHero = (catContinue.isNotEmpty ? catContinue : catRecent)
-                .take(6)
-                .toList();
+            final catRecent = [...inCat]..sort((a, b) => (b.dateAdded ?? 0).compareTo(a.dateAdded ?? 0));
+            final catHero = (catContinue.isNotEmpty ? catContinue : catRecent).take(6).toList();
 
             if (inCat.isEmpty) {
               order.add(_scopeGrid);
@@ -657,11 +622,9 @@ class _TvHomeTopBar extends StatelessWidget {
               canRequestFocus: false,
               skipTraversal: true,
               onKeyEvent: (node, event) {
-                if (event is KeyDownEvent &&
-                    event.logicalKey == LogicalKeyboardKey.arrowRight) {
+                if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.arrowRight) {
                   final sel = controller.selection;
-                  final atEnd =
-                      !sel.isValid || sel.baseOffset >= controller.text.length;
+                  final atEnd = !sel.isValid || sel.baseOffset >= controller.text.length;
                   if (atEnd) {
                     FocusScope.of(
                       context,
@@ -721,12 +684,10 @@ class _LibrarySettingsButton extends ConsumerStatefulWidget {
   final List<Manga> entries;
 
   @override
-  ConsumerState<_LibrarySettingsButton> createState() =>
-      _LibrarySettingsButtonState();
+  ConsumerState<_LibrarySettingsButton> createState() => _LibrarySettingsButtonState();
 }
 
-class _LibrarySettingsButtonState extends ConsumerState<_LibrarySettingsButton>
-    with SingleTickerProviderStateMixin {
+class _LibrarySettingsButtonState extends ConsumerState<_LibrarySettingsButton> with SingleTickerProviderStateMixin {
   bool _focused = false;
 
   void _open() => showLibrarySettingsSheet(
@@ -814,8 +775,7 @@ class _TvHomeHero extends StatefulWidget {
   State<_TvHomeHero> createState() => _TvHomeHeroState();
 }
 
-class _TvHomeHeroState extends State<_TvHomeHero>
-    with SingleTickerProviderStateMixin {
+class _TvHomeHeroState extends State<_TvHomeHero> with SingleTickerProviderStateMixin {
   static const _dwell = Duration(seconds: 7);
   int _index = 0;
   late final AnimationController _ctrl;
@@ -956,9 +916,7 @@ class _HeroContent extends ConsumerWidget {
 
     // Series progress = watched / total (episode duration isn't reliably
     // stored, so within-episode % isn't available).
-    final progress = (total > 0 && read > 0 && read < total)
-        ? read / total
-        : 0.0;
+    final progress = (total > 0 && read > 0 && read < total) ? read / total : 0.0;
     final hasBar = progress > 0;
 
     final metaBits = <String>[
@@ -967,10 +925,7 @@ class _HeroContent extends ConsumerWidget {
       if (unread > 0) '$unread new',
       if ((manga.source ?? '').isNotEmpty) manga.source!,
     ];
-    final genreBits = (manga.genre ?? const <String>[])
-        .where((g) => g.trim().isNotEmpty)
-        .take(3)
-        .toList();
+    final genreBits = (manga.genre ?? const <String>[]).where((g) => g.trim().isNotEmpty).take(3).toList();
 
     return ClipRect(
       child: SizedBox(
@@ -1318,10 +1273,8 @@ class _CategoryPillsState extends State<_CategoryPills> {
                     selected: widget.selected == null,
                     autofocus: true,
                     onTap: () => widget.onSelect(null),
-                    onLongPress: () =>
-                        _showHiddenCategoriesDialog(context, widget.hidden),
-                    onMenu: () =>
-                        _showHiddenCategoriesDialog(context, widget.hidden),
+                    onLongPress: () => _showHiddenCategoriesDialog(context, widget.hidden),
+                    onMenu: () => _showHiddenCategoriesDialog(context, widget.hidden),
                   ),
                   for (final c in widget.categories)
                     Padding(
@@ -1338,8 +1291,7 @@ class _CategoryPillsState extends State<_CategoryPills> {
                     child: TvPill(
                       label: 'Category',
                       icon: Icons.add,
-                      onTap: () =>
-                          _showAddCategoryDialog(context, widget.categories),
+                      onTap: () => _showAddCategoryDialog(context, widget.categories),
                     ),
                   ),
                 ],
@@ -1432,10 +1384,7 @@ void _showAddCategoryDialog(BuildContext context, List<Category> existing) {
                     );
                     isar.writeTxnSync(() {
                       isar.categorys.putSync(category..pos = category.id);
-                      final nulls = isar.categorys
-                          .filter()
-                          .posIsNull()
-                          .findAllSync();
+                      final nulls = isar.categorys.filter().posIsNull().findAllSync();
                       for (final c in nulls) {
                         isar.categorys.putSync(c..pos = c.id);
                       }
@@ -1463,9 +1412,7 @@ class _TvHomeCard extends ConsumerWidget {
     final unread = manga.chapters.where((c) => !(c.isRead ?? true)).length;
     // Series progress = episodes watched / total (episode duration isn't
     // reliably stored, so within-episode progress isn't available).
-    final progress = (total > 0 && read > 0 && read < total)
-        ? read / total
-        : 0.0;
+    final progress = (total > 0 && read > 0 && read < total) ? read / total : 0.0;
     final source = manga.source ?? '';
     return CoverViewWidget(
       isComfortableGrid: true,

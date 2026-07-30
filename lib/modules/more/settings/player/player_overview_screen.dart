@@ -31,8 +31,7 @@ class PlayerOverviewScreen extends StatelessWidget {
                       'On: dedicated TV player.  Off: original (desktop) player.',
                     ),
                     value: useTvPlayer,
-                    onChanged: (v) =>
-                        ref.read(tvPlayerStyleProvider.notifier).set(v),
+                    onChanged: (v) => ref.read(tvPlayerStyleProvider.notifier).set(v),
                   );
                 },
               ),

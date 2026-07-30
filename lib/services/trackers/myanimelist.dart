@@ -40,9 +40,7 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
   }) {}
 
   Future<bool?> login() async {
-    final callbackUrlScheme = _isDesktop
-        ? 'http://localhost:43824'
-        : 'mangayomi';
+    final callbackUrlScheme = _isDesktop ? 'http://localhost:43824' : 'mangayomi';
     final loginUrl = _authUrl();
 
     try {
@@ -71,8 +69,7 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
     );
     final expiresIn = DateTime.fromMillisecondsSinceEpoch(mALOAuth.expiresIn!);
     if (DateTime.now().isBefore(expiresIn)) return mALOAuth.accessToken!;
-    if (!bypass &&
-        (widgetRef.read(tracksProvider(syncId: syncId))?.refreshing ?? false)) {
+    if (!bypass && (widgetRef.read(tracksProvider(syncId: syncId))?.refreshing ?? false)) {
       return mALOAuth.accessToken!;
     }
     widgetRef.read(tracksProvider(syncId: syncId).notifier).setRefreshing(true);
@@ -85,9 +82,7 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
     final username = await _getUserName(refreshed.accessToken!);
     _saveOAuth(username, refreshed);
     await Future.delayed(Duration(seconds: 3));
-    widgetRef
-        .read(tracksProvider(syncId: syncId).notifier)
-        .setRefreshing(false);
+    widgetRef.read(tracksProvider(syncId: syncId).notifier).setRefreshing(false);
     return refreshed.accessToken!;
   }
 
@@ -108,15 +103,12 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
       return _buildOAuth(body, cid);
     }
 
-    return await tryRefresh(primaryClientId) ??
-        await tryRefresh(getFallbackClientId(primaryClientId));
+    return await tryRefresh(primaryClientId) ?? await tryRefresh(getFallbackClientId(primaryClientId));
   }
 
   OAuth _buildOAuth(Map<String, dynamic> json, String clientId) {
     return OAuth.fromJson(json)
-      ..expiresIn = DateTime.now()
-          .add(Duration(seconds: json['expires_in']))
-          .millisecondsSinceEpoch
+      ..expiresIn = DateTime.now().add(Duration(seconds: json['expires_in'])).millisecondsSinceEpoch
       ..clientId = clientId;
   }
 
@@ -142,16 +134,12 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
     final result = await _makeGetRequest(url, accessToken);
     final res = jsonDecode(result.body) as Map<String, dynamic>;
 
-    List<int> mangaIds = res['data'] == null
-        ? []
-        : (res['data'] as List).map((e) => e['node']["id"] as int).toList();
+    List<int> mangaIds = res['data'] == null ? [] : (res['data'] as List).map((e) => e['node']["id"] as int).toList();
     final trackSearchResult = await Future.wait(
       mangaIds.map((id) => getDetails(id, accessToken, isManga)),
     );
 
-    return trackSearchResult
-        .where((element) => !element.publishingType!.contains("novel"))
-        .toList();
+    return trackSearchResult.where((element) => !element.publishingType!.contains("novel")).toList();
   }
 
   Future<TrackSearch> getDetails(
@@ -163,8 +151,7 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
     final contentUnit = isManga ? "num_chapters" : "num_episodes";
     final url = Uri.parse('$_baseApiUrl/$item/$id').replace(
       queryParameters: {
-        'fields':
-            'id,title,synopsis,$contentUnit,main_picture,status,media_type,start_date,mean',
+        'fields': 'id,title,synopsis,$contentUnit,main_picture,status,media_type,start_date,mean',
       },
     );
 
@@ -198,8 +185,7 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
       queryParameters: {
         'ranking_type': rankingType,
         'limit': '15',
-        'fields':
-            'id,title,synopsis,$contentUnit,main_picture,status,media_type,start_date,mean',
+        'fields': 'id,title,synopsis,$contentUnit,main_picture,status,media_type,start_date,mean',
       },
     );
     final result = await _makeGetRequest(url, accessToken);
@@ -238,8 +224,7 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
         utf8.decode([110, 115, 102, 119]): 'true',
         'sort': 'list_updated_at',
         'limit': '1000',
-        'fields':
-            'id,title,synopsis,$contentUnit,main_picture,status,media_type,start_date,mean,list_status',
+        'fields': 'id,title,synopsis,$contentUnit,main_picture,status,media_type,start_date,mean,list_status',
       },
     );
     final result = await _makeGetRequest(url, accessToken);
@@ -264,10 +249,7 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
               trackingUrl: "https://myanimelist.net/$item/${node["id"]}",
               startedReadingDate: _parseDate(listStatus["start_date"]),
               finishedReadingDate: _parseDate(listStatus["finish_date"]),
-              lastChapterRead:
-                  listStatus[isManga
-                      ? "num_chapters_read"
-                      : "num_episodes_watched"],
+              lastChapterRead: listStatus[isManga ? "num_chapters_read" : "num_episodes_watched"],
               status: fromMyAnimeListStatus(listStatus["status"], isManga).name,
               syncId: syncId,
             );
@@ -390,8 +372,7 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
   }
 
   Track _parseItem(Map<String, dynamic> mJson, Track track, bool isManga) {
-    bool isRepeating =
-        mJson[isManga ? "is_rereading" : "is_rewatching"] ?? false;
+    bool isRepeating = mJson[isManga ? "is_rereading" : "is_rewatching"] ?? false;
     track.status = isRepeating
         ? (isManga ? TrackStatus.reReading : TrackStatus.reWatching)
         : _getMALTrackStatus(mJson["status"], isManga);
@@ -415,23 +396,13 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
   Future<Track> update(Track track, bool isManga) async {
     final accessToken = await _getAccessToken();
     final formBody = {
-      'status':
-          (toMyAnimeListStatus(track.status, isManga) ??
-                  (isManga ? 'reading' : 'watching'))
-              .toString(),
+      'status': (toMyAnimeListStatus(track.status, isManga) ?? (isManga ? 'reading' : 'watching')).toString(),
       isManga ? 'is_rereading' : 'is_rewatching':
-          (track.status ==
-                  (isManga ? TrackStatus.reReading : TrackStatus.reWatching))
-              .toString(),
-      if (track.score != null && track.score! > 0)
-        'score': track.score.toString(),
-      isManga ? 'num_chapters_read' : 'num_watched_episodes': track
-          .lastChapterRead
-          .toString(),
-      if ((track.startedReadingDate ?? 0) > 0)
-        'start_date': _convertToIsoDate(track.startedReadingDate),
-      if ((track.finishedReadingDate ?? 0) > 0)
-        'finish_date': _convertToIsoDate(track.finishedReadingDate),
+          (track.status == (isManga ? TrackStatus.reReading : TrackStatus.reWatching)).toString(),
+      if (track.score != null && track.score! > 0) 'score': track.score.toString(),
+      isManga ? 'num_chapters_read' : 'num_watched_episodes': track.lastChapterRead.toString(),
+      if ((track.startedReadingDate ?? 0) > 0) 'start_date': _convertToIsoDate(track.startedReadingDate),
+      if ((track.finishedReadingDate ?? 0) > 0) 'finish_date': _convertToIsoDate(track.finishedReadingDate),
     };
     final request = Request(
       'PUT',
@@ -483,9 +454,7 @@ class MyAnimeList extends _$MyAnimeList implements BaseTracker {
       AppLogger.log(e.toString(), logLevel: LogLevel.error);
       return false;
     } finally {
-      widgetRef
-          .read(tracksProvider(syncId: syncId).notifier)
-          .setRefreshing(false);
+      widgetRef.read(tracksProvider(syncId: syncId).notifier).setRefreshing(false);
     }
   }
 }

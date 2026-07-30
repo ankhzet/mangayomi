@@ -225,12 +225,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mass_migration_destination_source => 'Destination source';
 
   @override
-  String get mass_migration_no_library_items =>
-      'No library items are available for mass migration.';
+  String get mass_migration_no_library_items => 'No library items are available for mass migration.';
 
   @override
-  String get mass_migration_no_destination_sources =>
-      'No installed destination sources are available.';
+  String get mass_migration_no_destination_sources => 'No installed destination sources are available.';
 
   @override
   String get mass_migration_installed => 'Installed';
@@ -258,8 +256,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get mass_migration_select_destination_source =>
-      'Select destination source';
+  String get mass_migration_select_destination_source => 'Select destination source';
 
   @override
   String mass_migration_finding_matches(Object source, Object language) {
@@ -272,12 +269,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get mass_migration_waiting_next_item =>
-      'Waiting 2 seconds before the next item...';
+  String get mass_migration_waiting_next_item => 'Waiting 2 seconds before the next item...';
 
   @override
-  String get mass_migration_waiting_next_migration =>
-      'Waiting 2 seconds before the next migration...';
+  String get mass_migration_waiting_next_migration => 'Waiting 2 seconds before the next migration...';
 
   @override
   String mass_migration_matched_so_far(int count) {
@@ -323,8 +318,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get mass_migration_no_items_selected =>
-      'No items selected for migration.';
+  String get mass_migration_no_items_selected => 'No items selected for migration.';
 
   @override
   String mass_migration_migrating_item(int current, int total) {
@@ -335,8 +329,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mass_migration_complete => 'Mass migration complete';
 
   @override
-  String get mass_migration_complete_success_message =>
-      'All selected items were processed successfully.';
+  String get mass_migration_complete_success_message => 'All selected items were processed successfully.';
 
   @override
   String get mass_migration_complete_partial_message =>
@@ -369,8 +362,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mass_migration_exit => 'Exit Mass Migration';
 
   @override
-  String get mass_migration_no_destination_match =>
-      'No destination match found';
+  String get mass_migration_no_destination_match => 'No destination match found';
 
   @override
   String mass_migration_query(Object query) {
@@ -868,8 +860,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get split_epub_chapters => 'Split into chapters';
 
   @override
-  String get split_epub_chapters_description =>
-      'Import each EPUB chapter as a separate entry';
+  String get split_epub_chapters_description => 'Import each EPUB chapter as a separate entry';
 
   @override
   String get nothing_read_recently => 'Nothing read recently';
@@ -1332,8 +1323,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get markEpisodeAsSeenSetting => 'At what point to mark the episode as seen';
 
   @override
-  String get mark_duplicate_chapters_read =>
-      'Mark duplicate chapter numbers as read';
+  String get mark_duplicate_chapters_read => 'Mark duplicate chapter numbers as read';
 
   @override
   String get default_skip_intro_length => 'Default Skip intro length';
@@ -2037,19 +2027,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get security => 'Security';
 
   @override
-  String get auth_to_change_security_setting =>
-      'Authenticate to change security settings';
+  String get auth_to_change_security_setting => 'Authenticate to change security settings';
 
   @override
   String get app_lock => 'App lock';
 
   @override
-  String get require_biometric_or_device_credential =>
-      'Require biometric or device credential to open the app';
+  String get require_biometric_or_device_credential => 'Require biometric or device credential to open the app';
 
   @override
-  String get biometric_or_device_credential_not_available =>
-      'Biometric authentication not available on this device';
+  String get biometric_or_device_credential_not_available => 'Biometric authentication not available on this device';
 
   @override
   String get app_lock_description =>
@@ -2169,8 +2156,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get import_existing_jar => 'Import existing JAR';
 
   @override
-  String get detect_files_in_selected_folder =>
-      'Detect files in selected folder';
+  String get detect_files_in_selected_folder => 'Detect files in selected folder';
 
   @override
   String get preparing_download => 'Preparing download...';
@@ -2201,12 +2187,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get set_proxy_address => 'Set proxy address';
 
   @override
-  String get no_newer_proxy_server_release_available =>
-      'No newer proxy server release is available.';
+  String get no_newer_proxy_server_release_available => 'No newer proxy server release is available.';
 
   @override
-  String get could_not_check_proxy_server_updates =>
-      'Could not check for proxy server updates.';
+  String get could_not_check_proxy_server_updates => 'Could not check for proxy server updates.';
 
   @override
   String get no_extension_server_bundle_available_for_this_platform =>
@@ -2218,12 +2202,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get downloaded_bundle_missing_expected_files =>
-      'The downloaded bundle does not contain the expected files.';
+  String get downloaded_bundle_missing_expected_files => 'The downloaded bundle does not contain the expected files.';
 
   @override
-  String get extension_server_files_ready =>
-      'Extension server files are ready.';
+  String get extension_server_files_ready => 'Extension server files are ready.';
 
   @override
   String get ios_extension_server_import_hint =>
@@ -2233,35 +2215,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get select_extension_server_folder => 'Select extension server folder';
 
   @override
-  String get selected_folder_does_not_exist =>
-      'The selected folder does not exist.';
+  String get selected_folder_does_not_exist => 'The selected folder does not exist.';
 
   @override
   String get no_extension_server_files_found_in_selected_folder =>
       'No extension server files were found in the selected folder.';
 
   @override
-  String get extension_server_files_linked =>
-      'Extension server files were linked.';
+  String get extension_server_files_linked => 'Extension server files were linked.';
 
   @override
   String get select_extension_server_jar => 'Select extension server JAR';
 
   @override
-  String get selected_file_could_not_be_accessed =>
-      'The selected file could not be accessed.';
+  String get selected_file_could_not_be_accessed => 'The selected file could not be accessed.';
 
   @override
-  String get extension_server_jar_imported =>
-      'Extension server JAR was imported.';
+  String get extension_server_jar_imported => 'Extension server JAR was imported.';
 
   @override
-  String get could_not_launch_apk_bridge_page =>
-      'Could not launch the ApkBridge page.';
+  String get could_not_launch_apk_bridge_page => 'Could not launch the ApkBridge page.';
 
   @override
-  String get proxy_server_ip_hint =>
-      'Server IP (e.g., 10.0.0.5 or https://example.com)';
+  String get proxy_server_ip_hint => 'Server IP (e.g., 10.0.0.5 or https://example.com)';
 
   @override
   String get not_configured => 'Not configured';
@@ -2320,8 +2296,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navigate_to_pan => 'Navigate to pan';
 
   @override
-  String get navigate_to_pan_subtitle =>
-      'Move zoomed image before turning page';
+  String get navigate_to_pan_subtitle => 'Move zoomed image before turning page';
 
   @override
   String get split_wide_pages => 'Split wide pages';
@@ -2397,8 +2372,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get show_navigation_overlay_on_start =>
-      'Show Navigation Overlay on startup';
+  String get show_navigation_overlay_on_start => 'Show Navigation Overlay on startup';
 
   @override
   String get reader_hide_threshold => 'Reader Hide Threshold';
@@ -2422,8 +2396,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get app_ui_scale => 'Interface scale';
 
   @override
-  String get app_ui_scale_subtitle =>
-      'Make the interface larger or smaller to suit your screen and viewing distance.';
+  String get app_ui_scale_subtitle => 'Make the interface larger or smaller to suit your screen and viewing distance.';
 
   @override
   String get allow_concurrent_downloads => 'Allow concurrent downloads';
@@ -2436,8 +2409,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get download_delay => 'Download delay';
 
   @override
-  String get download_delay_subtitle =>
-      'Off. Add a wait with random jitter between chapters to be gentler on sources.';
+  String get download_delay_subtitle => 'Off. Add a wait with random jitter between chapters to be gentler on sources.';
 
   @override
   String get save_search => 'Save search';
@@ -2449,8 +2421,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enter_search_to_save_first => 'Enter a search to save first';
 
   @override
-  String get no_saved_searches =>
-      'No saved searches for this source yet.\nRun a search, then pick \"Save search\".';
+  String get no_saved_searches => 'No saved searches for this source yet.\nRun a search, then pick \"Save search\".';
 
   @override
   String get source => 'Source';

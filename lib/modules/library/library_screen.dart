@@ -50,8 +50,7 @@ class LibraryScreen extends ConsumerStatefulWidget {
   ConsumerState<LibraryScreen> createState() => _LibraryScreenState();
 }
 
-class _LibraryScreenState extends ConsumerState<LibraryScreen>
-    with TickerProviderStateMixin {
+class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProviderStateMixin {
   bool _isSearch = false;
   bool _ignoreFiltersOnSearch = false;
   final List<Manga> _entries = [];
@@ -94,9 +93,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen>
     // On Android TV the anime library shows the dedicated rows-based home
     // instead of the flat grid - a d-pad-first, cover-forward shelf. Toggleable
     // via tvHomeStyleProvider; every other surface keeps the grid.
-    if (isTv &&
-        widget.itemType == ItemType.anime &&
-        ref.watch(tvHomeStyleProvider)) {
+    if (isTv && widget.itemType == ItemType.anime && ref.watch(tvHomeStyleProvider)) {
       return TvAnimeHomeView(settings: settings);
     }
     final categories = ref.watch(
@@ -140,8 +137,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen>
     final showCategoryTabs = watchWithSettings(
       libraryShowCategoryTabsStateProvider.call,
     );
-    final reverse =
-        watchWithSettings(sortLibraryMangaStateProvider.call).reverse ?? false;
+    final reverse = watchWithSettings(sortLibraryMangaStateProvider.call).reverse ?? false;
     final continueReaderBtn = watchWithSettings(
       libraryShowContinueReadingButtonStateProvider.call,
     );
@@ -175,8 +171,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen>
     final trackingFilterType = watchWithSettingsAndManga(
       mangaFilterTrackingStateProvider.call,
     );
-    final sortType =
-        watchWithSettings(sortLibraryMangaStateProvider.call).index ?? 0;
+    final sortType = watchWithSettings(sortLibraryMangaStateProvider.call).index ?? 0;
 
     final searchQuery = _textEditingController.text;
 
@@ -227,9 +222,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen>
         data: (man) {
           return categories.when(
             data: (data) {
-              final withoutCategory = man
-                  .where((m) => m.categories == null || m.categories!.isEmpty)
-                  .toList();
+              final withoutCategory = man.where((m) => m.categories == null || m.categories!.isEmpty).toList();
               // Get the number of items for the app bar
               final numberOfItemsList = ref.watch(
                 filteredLibraryMangaProvider(
@@ -285,8 +278,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen>
                       },
                     );
                   },
-                  onIgnoreFiltersChanged: (val) =>
-                      setState(() => _ignoreFiltersOnSearch = val),
+                  onIgnoreFiltersChanged: (val) => setState(() => _ignoreFiltersOnSearch = val),
                   vsync: this,
                 ),
                 body: bodyForCategory(),
@@ -310,8 +302,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen>
     required bool showNumbersOfItems,
     required bool isNotFiltering,
     required int numberOfItems,
-    required Widget Function({int? categoryId, bool withoutCategories})
-    bodyForCategory,
+    required Widget Function({int? categoryId, bool withoutCategories}) bodyForCategory,
     required Widget Function(int categoryId) badgeForCategory,
     required int downloadFilterType,
     required bool downloadedOnly,
@@ -325,8 +316,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen>
     }
 
     // Manage TabController
-    if (tabCount > 0 &&
-        (tabBarController == null || tabBarController!.length != tabCount)) {
+    if (tabCount > 0 && (tabBarController == null || tabBarController!.length != tabCount)) {
       int newTabIndex = _tabIndex;
       if (newTabIndex >= tabCount) newTabIndex = tabCount - 1;
       tabBarController?.dispose();
@@ -355,8 +345,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen>
           isCategory: true,
           categoryId: withoutCategory.isNotEmpty && _tabIndex == 0
               ? null
-              : entr[withoutCategory.isNotEmpty ? _tabIndex - 1 : _tabIndex]
-                    .id!,
+              : entr[withoutCategory.isNotEmpty ? _tabIndex - 1 : _tabIndex].id!,
           settings: settings,
           isSearch: _isSearch,
           ignoreFiltersOnSearch: _ignoreFiltersOnSearch,
@@ -368,8 +357,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen>
               if (mounted) setState(() {});
             });
           },
-          onIgnoreFiltersChanged: (val) =>
-              setState(() => _ignoreFiltersOnSearch = val),
+          onIgnoreFiltersChanged: (val) => setState(() => _ignoreFiltersOnSearch = val),
           vsync: this,
         ),
         // A single category doesn't need the tab bar + TabBarView. The
@@ -445,13 +433,11 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen>
   List<Widget> _buildCategoryBodies({
     required List entr,
     required List<Manga> withoutCategory,
-    required Widget Function({int? categoryId, bool withoutCategories})
-    bodyForCategory,
+    required Widget Function({int? categoryId, bool withoutCategories}) bodyForCategory,
   }) {
     return [
       if (withoutCategory.isNotEmpty) bodyForCategory(withoutCategories: true),
-      for (var i = 0; i < entr.length; i++)
-        bodyForCategory(categoryId: entr[i].id!),
+      for (var i = 0; i < entr.length; i++) bodyForCategory(categoryId: entr[i].id!),
     ];
   }
 
@@ -466,9 +452,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen>
             BottomSelectButton(
               icon: Icon(Icons.label_outline_rounded, color: color),
               onPressed: () {
-                final List<Manga> bulkMangas = mangaIds
-                    .map((id) => isar.mangas.getSync(id)!)
-                    .toList();
+                final List<Manga> bulkMangas = mangaIds.map((id) => isar.mangas.getSync(id)!).toList();
                 showCategorySelectionDialog(
                   context: context,
                   ref: ref,
@@ -538,9 +522,7 @@ class _DefaultCategoryBadge extends ConsumerWidget {
     );
     return mangas.when(
       data: (data) {
-        final count = data
-            .where((m) => m.categories == null || m.categories!.isEmpty)
-            .length;
+        final count = data.where((m) => m.categories == null || m.categories!.isEmpty).length;
         return CircleAvatar(
           backgroundColor: Theme.of(context).focusColor,
           radius: 8,
@@ -675,8 +657,7 @@ void addTorrent(BuildContext context, {Manga? manga}) {
                                             Navigator.pop(context);
                                           },
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: [
                                         const Icon(Icons.archive_outlined),
                                         Text(

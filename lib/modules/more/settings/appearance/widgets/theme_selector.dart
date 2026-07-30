@@ -41,12 +41,8 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
                 void select() {
                   setState(() => selected = index);
                   isLight
-                      ? ref
-                            .read(flexSchemeColorStateProvider.notifier)
-                            .setTheme(ThemeAA.schemes[index].light, index)
-                      : ref
-                            .read(flexSchemeColorStateProvider.notifier)
-                            .setTheme(ThemeAA.schemes[index].dark, index);
+                      ? ref.read(flexSchemeColorStateProvider.notifier).setTheme(ThemeAA.schemes[index].light, index)
+                      : ref.read(flexSchemeColorStateProvider.notifier).setTheme(ThemeAA.schemes[index].dark, index);
                 }
 
                 return _TvSwatchFocus(
@@ -58,9 +54,7 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
                         Column(
                           children: [
                             FlexThemeModeOptionButton(
-                              flexSchemeColor: isLight
-                                  ? ThemeAA.schemes[index].light
-                                  : ThemeAA.schemes[index].dark,
+                              flexSchemeColor: isLight ? ThemeAA.schemes[index].light : ThemeAA.schemes[index].dark,
                               selected: selected == index,
                               selectedBorder: BorderSide(
                                 color: theme.primaryColorLight,
@@ -79,8 +73,7 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
                                 isLight
                                     ? ref
                                           .read(
-                                            flexSchemeColorStateProvider
-                                                .notifier,
+                                            flexSchemeColorStateProvider.notifier,
                                           )
                                           .setTheme(
                                             ThemeAA.schemes[selected].light,
@@ -88,8 +81,7 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
                                           )
                                     : ref
                                           .read(
-                                            flexSchemeColorStateProvider
-                                                .notifier,
+                                            flexSchemeColorStateProvider.notifier,
                                           )
                                           .setTheme(
                                             ThemeAA.schemes[selected].dark,

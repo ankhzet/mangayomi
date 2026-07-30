@@ -85,11 +85,7 @@ class _CoverViewWidgetState extends State<CoverViewWidget> {
     // On TV always show the ring when focused so something is always visibly
     // focused; elsewhere only for keyboard/d-pad (traditional) so touch input
     // never shows it.
-    final show =
-        hasFocus &&
-        (isTv ||
-            FocusManager.instance.highlightMode ==
-                FocusHighlightMode.traditional);
+    final show = hasFocus && (isTv || FocusManager.instance.highlightMode == FocusHighlightMode.traditional);
     if (mounted && show != _focused) {
       setState(() => _focused = show);
     }
@@ -100,8 +96,7 @@ class _CoverViewWidgetState extends State<CoverViewWidget> {
     final showOverlay = widget.isLongPressed != null && widget.isLongPressed!;
     // Comfortable grid renders the label below the card, so it must not also be
     // placed inside the card. Render it once, and only when provided.
-    final showBottomText =
-        widget.isComfortableGrid && widget.bottomTextWidget != null;
+    final showBottomText = widget.isComfortableGrid && widget.bottomTextWidget != null;
     // Matrix4.scale is deprecated in favour of the explicit per-axis form.
     final pop = _focused ? 1.06 : 1.0;
     // An InkWell's keyboard activation only ever fires onTap, so a remote
@@ -142,9 +137,7 @@ class _CoverViewWidgetState extends State<CoverViewWidget> {
                   onFocusChange: _onFocusChange,
                   child: widget.image == null
                       ? Container(
-                          color: showOverlay
-                              ? context.primaryColor.withValues(alpha: 0.4)
-                              : Colors.transparent,
+                          color: showOverlay ? context.primaryColor.withValues(alpha: 0.4) : Colors.transparent,
                           child: widget.isComfortableGrid
                               ? Column(children: widget.children)
                               : Stack(children: widget.children),

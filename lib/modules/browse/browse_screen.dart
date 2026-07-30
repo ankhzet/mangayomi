@@ -35,8 +35,7 @@ class BrowseTab {
   const BrowseTab(this.type, this.kind);
 }
 
-class _BrowseScreenState extends ConsumerState<BrowseScreen>
-    with TickerProviderStateMixin {
+class _BrowseScreenState extends ConsumerState<BrowseScreen> with TickerProviderStateMixin {
   late final hideItems = ref.read(hideItemsStateProvider);
   final _textEditingController = TextEditingController();
 
@@ -51,18 +50,12 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen>
   // layout so only anime shows. Recomputed live so toggling "Anime only" updates
   // the tabs without a restart. Defaults to isTv, user-overridable. See #729.
   List<BrowseTab> _computeTabList(bool animeOnly) => [
-    if (!animeOnly && !hideItems.contains("/MangaLibrary"))
-      BrowseTab(ItemType.manga, BrowseTabKind.sources),
-    if (!hideItems.contains("/AnimeLibrary"))
-      BrowseTab(ItemType.anime, BrowseTabKind.sources),
-    if (!animeOnly && !hideItems.contains("/NovelLibrary"))
-      BrowseTab(ItemType.novel, BrowseTabKind.sources),
-    if (!animeOnly && !hideItems.contains("/MangaLibrary"))
-      BrowseTab(ItemType.manga, BrowseTabKind.extensions),
-    if (!hideItems.contains("/AnimeLibrary"))
-      BrowseTab(ItemType.anime, BrowseTabKind.extensions),
-    if (!animeOnly && !hideItems.contains("/NovelLibrary"))
-      BrowseTab(ItemType.novel, BrowseTabKind.extensions),
+    if (!animeOnly && !hideItems.contains("/MangaLibrary")) BrowseTab(ItemType.manga, BrowseTabKind.sources),
+    if (!hideItems.contains("/AnimeLibrary")) BrowseTab(ItemType.anime, BrowseTabKind.sources),
+    if (!animeOnly && !hideItems.contains("/NovelLibrary")) BrowseTab(ItemType.novel, BrowseTabKind.sources),
+    if (!animeOnly && !hideItems.contains("/MangaLibrary")) BrowseTab(ItemType.manga, BrowseTabKind.extensions),
+    if (!hideItems.contains("/AnimeLibrary")) BrowseTab(ItemType.anime, BrowseTabKind.extensions),
+    if (!animeOnly && !hideItems.contains("/NovelLibrary")) BrowseTab(ItemType.novel, BrowseTabKind.extensions),
   ];
 
   @override
@@ -150,9 +143,7 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen>
                     }
                   },
                   icon: Icon(
-                    !isExtensionTab
-                        ? Icons.travel_explore_rounded
-                        : Icons.search_rounded,
+                    !isExtensionTab ? Icons.travel_explore_rounded : Icons.search_rounded,
                     color: Theme.of(context).hintColor,
                   ),
                 ),
@@ -312,9 +303,7 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen>
                 child: Row(
                   children: [
                     Text(
-                      isExt
-                          ? type.localizedExtensions(l10n)
-                          : type.localizedSources(l10n),
+                      isExt ? type.localizedExtensions(l10n) : type.localizedSources(l10n),
                     ),
                     if (isExt) ...[
                       const SizedBox(width: 8),
@@ -346,8 +335,7 @@ final extensionUpdateCountProvider = StreamProvider.family<int, ItemType>((
       .map(
         (list) => list
             .where(
-              (element) =>
-                  compareVersions(element.version!, element.versionLast!) < 0,
+              (element) => compareVersions(element.version!, element.versionLast!) < 0,
             )
             .length,
       );

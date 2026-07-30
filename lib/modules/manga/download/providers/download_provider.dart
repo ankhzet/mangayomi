@@ -108,8 +108,7 @@ Future<void> downloadChapter(
     bool onlyOnWifi = useWifi ?? ref.read(onlyOnWifiStateProvider);
     final connectivity = await Connectivity().checkConnectivity();
     final isOnWifi =
-        connectivity.contains(ConnectivityResult.wifi) ||
-        connectivity.contains(ConnectivityResult.ethernet);
+        connectivity.contains(ConnectivityResult.wifi) || connectivity.contains(ConnectivityResult.ethernet);
     if (onlyOnWifi && !isOnWifi) {
       botToast(navigatorKey.currentContext!.l10n.downloads_are_limited_to_wifi);
       return;
@@ -192,9 +191,7 @@ Future<void> downloadChapter(
       if (download == null) {
         final download = Download(
           id: chapter.id,
-          succeeded: progress.completed == 0
-              ? 0
-              : (progress.completed / progress.total * 100).toInt(),
+          succeeded: progress.completed == 0 ? 0 : (progress.completed / progress.total * 100).toInt(),
           failed: 0,
           total: 100,
           isDownload: progress.isCompleted,
@@ -209,9 +206,7 @@ Future<void> downloadChapter(
           isar.writeTxnSync(() {
             isar.downloads.putSync(
               download
-                ..succeeded = progress.completed == 0
-                    ? 0
-                    : (progress.completed / progress.total * 100).toInt()
+                ..succeeded = progress.completed == 0 ? 0 : (progress.completed / progress.total * 100).toInt()
                 ..total = 100
                 ..failed = 0
                 ..isDownload = progress.isCompleted,
@@ -230,17 +225,13 @@ Future<void> downloadChapter(
           chapterPageUrls.add(chapterPageUrl);
         }
       }
-      final chapterPageHeaders = pageUrls
-          .map((e) => e.headers == null ? null : jsonEncode(e.headers))
-          .toList();
+      final chapterPageHeaders = pageUrls.map((e) => e.headers == null ? null : jsonEncode(e.headers)).toList();
       chapterPageUrls.add(
         ChapterPageurls()
           ..chapterId = chapter.id
           ..urls = pageUrls.map((e) => e.url).toList()
           ..chapterUrl = chapter.url
-          ..headers = chapterPageHeaders.first != null
-              ? chapterPageHeaders.map((e) => e.toString()).toList()
-              : null,
+          ..headers = chapterPageHeaders.first != null ? chapterPageHeaders.map((e) => e.toString()).toList() : null,
       );
       isar.writeTxnSync(
         () => isar.settings.putSync(
@@ -271,14 +262,10 @@ Future<void> downloadChapter(
           .then((value) async {
             final m3u8Urls = value.$1
                 .where(
-                  (element) =>
-                      element.originalUrl.endsWith(".m3u8") ||
-                      element.originalUrl.endsWith(".m3u"),
+                  (element) => element.originalUrl.endsWith(".m3u8") || element.originalUrl.endsWith(".m3u"),
                 )
                 .toList();
-            final nonM3u8Urls = value.$1
-                .where((element) => element.originalUrl.isMediaVideo())
-                .toList();
+            final nonM3u8Urls = value.$1.where((element) => element.originalUrl.isMediaVideo()).toList();
             nonM3U8File = nonM3u8Urls.isNotEmpty;
             hasM3U8File = nonM3U8File ? false : m3u8Urls.isNotEmpty;
             final videosUrls = nonM3U8File ? nonM3u8Urls : m3u8Urls;
@@ -483,8 +470,7 @@ Future<void> downloadChapter(
         final html = await withExtensionService(
           source,
           ref.read(androidProxyServerStateProvider),
-          (service) =>
-              service.getHtmlContent(chapter.manga.value!.name!, chapter.url!),
+          (service) => service.getHtmlContent(chapter.manga.value!.name!, chapter.url!),
         );
         if (html.isNotEmpty) {
           await file.writeAsString(html);
@@ -550,8 +536,7 @@ void _markDownloadFailed(Chapter chapter) {
 /// download means "cancelled" — bail instead of resurrecting it. This matters
 /// because every download is fired up front and then waits in the gate; a
 /// cancel that lands while it waits must actually stop it.
-bool _downloadCancelled(Chapter chapter) =>
-    isar.downloads.getSync(chapter.id!) == null;
+bool _downloadCancelled(Chapter chapter) => isar.downloads.getSync(chapter.id!) == null;
 
 /// Key identifying the source a chapter belongs to, used to serialize
 /// downloads from the same source. Falls back to a per-chapter unique key when
@@ -668,12 +653,7 @@ Future<void> processDownloads(Ref ref, {bool? useWifi}) async {
     // the highest-priority chapters; the gate then keeps honoring live reorders
     // as later slots free.
     final ongoingDownloads = DownloadQueueOrder.sorted(
-      await isar.downloads
-          .filter()
-          .idIsNotNull()
-          .isDownloadEqualTo(false)
-          .isStartDownloadEqualTo(true)
-          .findAll(),
+      await isar.downloads.filter().idIsNotNull().isDownloadEqualTo(false).isStartDownloadEqualTo(true).findAll(),
     );
     // Kick off every pending download. The shared _DownloadGate enforces the
     // concurrency limit, per-source serialization (#645), the start delay

@@ -18,10 +18,7 @@ Stream<List<History>> getAllHistoryStream(
       .idIsNotNull()
       .chapter(
         (q) => q.manga(
-          (q) => q
-              .itemTypeEqualTo(itemType)
-              .and()
-              .nameContains(search, caseSensitive: false),
+          (q) => q.itemTypeEqualTo(itemType).and().nameContains(search, caseSensitive: false),
         ),
       )
       .watch(fireImmediately: true);
@@ -38,10 +35,7 @@ Stream<List<Update>> getAllUpdateStream(
       .idIsNotNull()
       .chapter(
         (q) => q.manga(
-          (q) => q
-              .itemTypeEqualTo(itemType)
-              .and()
-              .nameContains(search, caseSensitive: false),
+          (q) => q.itemTypeEqualTo(itemType).and().nameContains(search, caseSensitive: false),
         ),
       )
       .watch(fireImmediately: true);

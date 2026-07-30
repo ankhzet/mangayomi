@@ -82,8 +82,7 @@ class ReaderKeyboardHandler {
     return KeyboardListener(
       autofocus: true,
       focusNode: focusNode ?? FocusNode(),
-      onKeyEvent: (event) =>
-          handleKeyEvent(event, isReverseHorizontal: isReverseHorizontal),
+      onKeyEvent: (event) => handleKeyEvent(event, isReverseHorizontal: isReverseHorizontal),
       child: child,
     );
   }

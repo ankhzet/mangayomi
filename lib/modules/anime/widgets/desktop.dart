@@ -195,9 +195,7 @@ class _DesktopControllerWidgetState extends ConsumerState<DesktopControllerWidge
           widget.videoController.player.seek(rate);
         },
         const SingleActivator(LogicalKeyboardKey.keyS): () {
-          final rate =
-              widget.videoController.player.state.position +
-              Duration(seconds: widget.defaultSkipIntroLength);
+          final rate = widget.videoController.player.state.position + Duration(seconds: widget.defaultSkipIntroLength);
           widget.videoController.player.seek(rate);
         },
         const SingleActivator(LogicalKeyboardKey.arrowLeft): () {

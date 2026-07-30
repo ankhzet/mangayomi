@@ -41,14 +41,8 @@ class MigrationScreen extends ConsumerStatefulWidget {
 class _MigrationScreenScreenState extends ConsumerState<MigrationScreen> {
   String _query = "";
   final _textEditingController = TextEditingController();
-  late final List<Source> sourceList =
-      ref.read(onlyIncludePinnedSourceStateProvider)
-      ? isar.sources
-            .filter()
-            .isPinnedEqualTo(true)
-            .and()
-            .itemTypeEqualTo(widget.manga.itemType)
-            .findAllSync()
+  late final List<Source> sourceList = ref.read(onlyIncludePinnedSourceStateProvider)
+      ? isar.sources.filter().isPinnedEqualTo(true).and().itemTypeEqualTo(widget.manga.itemType).findAllSync()
       : isar.sources
             .filter()
             .idIsNotNull()
@@ -76,9 +70,7 @@ class _MigrationScreenScreenState extends ConsumerState<MigrationScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
-    final query = _query.isNotEmpty
-        ? _query
-        : widget.manga.name ?? widget.manga.author ?? "";
+    final query = _query.isNotEmpty ? _query : widget.manga.name ?? widget.manga.author ?? "";
 
     return Scaffold(
       appBar: AppBar(
@@ -115,9 +107,7 @@ class _MigrationScreenScreenState extends ConsumerState<MigrationScreen> {
           ),
         ],
       ),
-      body:
-          _query.isNotEmpty ||
-              (widget.manga.name != null && widget.manga.author != null)
+      body: _query.isNotEmpty || (widget.manga.name != null && widget.manga.author != null)
           ? SuperListView.builder(
               padding: tvPageInsets,
               itemCount: sourceList.length,
@@ -173,12 +163,10 @@ class MigrationSourceSearchScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<MigrationSourceSearchScreen> createState() =>
-      _MigrationSourceSearchScreenState();
+  ConsumerState<MigrationSourceSearchScreen> createState() => _MigrationSourceSearchScreenState();
 }
 
-class _MigrationSourceSearchScreenState
-    extends ConsumerState<MigrationSourceSearchScreen> {
+class _MigrationSourceSearchScreenState extends ConsumerState<MigrationSourceSearchScreen> {
   @override
   void initState() {
     super.initState();
@@ -255,8 +243,7 @@ class _MigrationSourceSearchScreenState
                         }
                         if (pages!.list.isNotEmpty) {
                           return SuperListView.builder(
-                            extentPrecalculationPolicy:
-                                SuperPrecalculationPolicy(),
+                            extentPrecalculationPolicy: SuperPrecalculationPolicy(),
                             scrollDirection: Axis.horizontal,
                             itemCount: pages!.list.length,
                             itemBuilder: (context, index) {
@@ -298,12 +285,10 @@ class MigrationMangaGlobalImageCard extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<MigrationMangaGlobalImageCard> createState() =>
-      _MigrationMangaGlobalImageCardState();
+  ConsumerState<MigrationMangaGlobalImageCard> createState() => _MigrationMangaGlobalImageCardState();
 }
 
-class _MigrationMangaGlobalImageCardState
-    extends ConsumerState<MigrationMangaGlobalImageCard>
+class _MigrationMangaGlobalImageCardState extends ConsumerState<MigrationMangaGlobalImageCard>
     with AutomaticKeepAliveClientMixin<MigrationMangaGlobalImageCard> {
   bool _focused = false;
 
@@ -375,12 +360,9 @@ class _MigrationMangaGlobalImageCardState
                         children: [
                           Builder(
                             builder: (context) {
-                              if (hasData &&
-                                  snapshot.data!.first.customCoverImage !=
-                                      null) {
+                              if (hasData && snapshot.data!.first.customCoverImage != null) {
                                 return Image.memory(
-                                  snapshot.data!.first.customCoverImage
-                                      as Uint8List,
+                                  snapshot.data!.first.customCoverImage as Uint8List,
                                 );
                               }
                               return ClipRRect(
@@ -395,10 +377,7 @@ class _MigrationMangaGlobalImageCardState
                                   ),
                                   imageUrl: toImgUrl(
                                     hasData
-                                        ? snapshot
-                                                  .data!
-                                                  .first
-                                                  .customCoverFromTracker ??
+                                        ? snapshot.data!.first.customCoverFromTracker ??
                                               snapshot.data!.first.imageUrl ??
                                               ""
                                         : getMangaDetail.imageUrl ?? "",
@@ -425,9 +404,7 @@ class _MigrationMangaGlobalImageCardState
                     Container(
                       width: 110,
                       height: 150,
-                      color: hasData && snapshot.data!.first.favorite!
-                          ? Colors.black.withValues(alpha: 0.7)
-                          : null,
+                      color: hasData && snapshot.data!.first.favorite! ? Colors.black.withValues(alpha: 0.7) : null,
                     ),
                     if (hasData && snapshot.data!.first.favorite!)
                       Positioned(
@@ -469,9 +446,7 @@ class _MigrationMangaGlobalImageCardState
               builder: (ctx) {
                 return AlertDialog(
                   title: Text(
-                    widget.trackSearch == null
-                        ? l10n.migrate_confirm
-                        : l10n.track_library_add_confirm,
+                    widget.trackSearch == null ? l10n.migrate_confirm : l10n.track_library_add_confirm,
                   ),
                   content: preview.chapters != null
                       ? SizedBox(
@@ -502,8 +477,7 @@ class _MigrationMangaGlobalImageCardState
                                       subtitle: Row(
                                         children: [
                                           Text(
-                                            chapter.dateUpload == null ||
-                                                    chapter.dateUpload!.isEmpty
+                                            chapter.dateUpload == null || chapter.dateUpload!.isEmpty
                                                 ? ""
                                                 : dateFormat(
                                                     chapter.dateUpload!,
@@ -514,8 +488,7 @@ class _MigrationMangaGlobalImageCardState
                                               fontSize: 11,
                                             ),
                                           ),
-                                          if (chapter.scanlator?.isNotEmpty ??
-                                              false)
+                                          if (chapter.scanlator?.isNotEmpty ?? false)
                                             Row(
                                               children: [
                                                 const Text(' • '),
@@ -611,9 +584,7 @@ class _MigrationMangaGlobalImageCardState
                                 }
                               });
                             },
-                            type: categoryIds.contains(entries[index].id)
-                                ? 1
-                                : 0,
+                            type: categoryIds.contains(entries[index].id) ? 1 : 0,
                           );
                         },
                       );

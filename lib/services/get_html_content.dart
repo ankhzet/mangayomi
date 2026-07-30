@@ -85,8 +85,7 @@ Future<(String, EpubNovel?)> getHtmlContent(
         // cleanHtmlContent renders a blank page, so strip the outer quotes and
         // hand it to _buildHtml directly.
         final raw = await localFile.readAsString();
-        final stripped =
-            raw.length >= 2 && raw.startsWith('"') && raw.endsWith('"')
+        final stripped = raw.length >= 2 && raw.startsWith('"') && raw.endsWith('"')
             ? raw.substring(1, raw.length - 1)
             : raw;
         result = (_buildHtml(stripped), null);

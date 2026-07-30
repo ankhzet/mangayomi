@@ -29,9 +29,7 @@ Future<(List<Video>, bool, List<String>, Directory?)> getVideoList(
     // error just for streaming an episode — the dir was being created on every
     // play even though useMpvConfig defaults to false. See #740.
     final useMpvConfig = ref.read(useMpvConfigStateProvider);
-    final mpvDirectory = useMpvConfig
-        ? await storageProvider.getMpvDirectory()
-        : null;
+    final mpvDirectory = useMpvConfig ? await storageProvider.getMpvDirectory() : null;
     final mangaDirectory = await storageProvider.getMangaMainDirectory(episode);
     final isLocalArchive = episode.manga.value!.isLocalArchive! && episode.manga.value!.source != "torrent";
     final mp4animePath = p.join(

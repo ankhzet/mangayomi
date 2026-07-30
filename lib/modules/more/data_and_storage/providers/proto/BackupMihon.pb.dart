@@ -28,8 +28,7 @@ class BackupMihon extends $pb.GeneratedMessage {
   }) {
     final result = create();
     if (backupManga != null) result.backupManga.addAll(backupManga);
-    if (backupCategories != null)
-      result.backupCategories.addAll(backupCategories);
+    if (backupCategories != null) result.backupCategories.addAll(backupCategories);
     if (backupSources != null) result.backupSources.addAll(backupSources);
     return result;
   }
@@ -39,13 +38,10 @@ class BackupMihon extends $pb.GeneratedMessage {
   factory BackupMihon.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(data, registry);
-  factory BackupMihon.fromJson($core.String json,
-          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupMihon.fromJson($core.String json, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(json, registry);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'BackupMihon',
-      createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'BackupMihon', createEmptyInstance: create)
     ..pPM<$0.BackupManga>(1, _omitFieldNames ? '' : 'backupManga',
         protoName: 'backupManga', subBuilder: $0.BackupManga.create)
     ..pPM<$1.BackupCategory>(2, _omitFieldNames ? '' : 'backupCategories',
@@ -58,8 +54,7 @@ class BackupMihon extends $pb.GeneratedMessage {
   BackupMihon clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   BackupMihon copyWith(void Function(BackupMihon) updates) =>
-      super.copyWith((message) => updates(message as BackupMihon))
-          as BackupMihon;
+      super.copyWith((message) => updates(message as BackupMihon)) as BackupMihon;
 
   @$core.override
   $pb.BuilderInfo get info_ => _i;
@@ -70,8 +65,7 @@ class BackupMihon extends $pb.GeneratedMessage {
   BackupMihon createEmptyInstance() => create();
   static $pb.PbList<BackupMihon> createRepeated() => $pb.PbList<BackupMihon>();
   @$core.pragma('dart2js:noInline')
-  static BackupMihon getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<BackupMihon>(create);
+  static BackupMihon getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BackupMihon>(create);
   static BackupMihon? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -84,7 +78,5 @@ class BackupMihon extends $pb.GeneratedMessage {
   $pb.PbList<$2.BackupSource> get backupSources => $_getList(2);
 }
 
-const $core.bool _omitFieldNames =
-    $core.bool.fromEnvironment('protobuf.omit_field_names');
-const $core.bool _omitMessageNames =
-    $core.bool.fromEnvironment('protobuf.omit_message_names');
+const $core.bool _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

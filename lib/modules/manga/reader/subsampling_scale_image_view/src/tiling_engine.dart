@@ -59,8 +59,7 @@ class TilingEngine {
 
       // Increases the number of horizontal tiles if necessary
       while (subTileWidth + xTiles + 1 > maxTileWidth ||
-          (subTileWidth > viewWidth * 1.25 &&
-              sampleSize < fullImageSampleSize)) {
+          (subTileWidth > viewWidth * 1.25 && sampleSize < fullImageSampleSize)) {
         xTiles += 1;
         sTileWidth = sWidth ~/ xTiles;
         subTileWidth = sTileWidth ~/ sampleSize;
@@ -68,8 +67,7 @@ class TilingEngine {
 
       // Increases the number of vertical tiles if necessary
       while (subTileHeight + yTiles + 1 > maxTileHeight ||
-          (subTileHeight > viewHeight * 1.25 &&
-              sampleSize < fullImageSampleSize)) {
+          (subTileHeight > viewHeight * 1.25 && sampleSize < fullImageSampleSize)) {
         yTiles += 1;
         sTileHeight = sHeight ~/ yTiles;
         subTileHeight = sTileHeight ~/ sampleSize;
@@ -81,9 +79,7 @@ class TilingEngine {
           final tileLeft = x * sTileWidth;
           final tileTop = y * sTileHeight;
           final tileRight = (x == xTiles - 1) ? sWidth : (x + 1) * sTileWidth;
-          final tileBottom = (y == yTiles - 1)
-              ? sHeight
-              : (y + 1) * sTileHeight;
+          final tileBottom = (y == yTiles - 1) ? sHeight : (y + 1) * sTileHeight;
 
           final tile = Tile(
             sRect: ui.Rect.fromLTRB(

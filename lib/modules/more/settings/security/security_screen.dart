@@ -78,16 +78,12 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
                       if (value) {
                         final authenticated = await _authenticate();
                         if (authenticated) {
-                          ref
-                              .read(appLockEnabledStateProvider.notifier)
-                              .set(true);
+                          ref.read(appLockEnabledStateProvider.notifier).set(true);
                         }
                       } else {
                         final authenticated = await _authenticate();
                         if (authenticated) {
-                          ref
-                              .read(appLockEnabledStateProvider.notifier)
-                              .set(false);
+                          ref.read(appLockEnabledStateProvider.notifier).set(false);
                           ref.read(appUnlockedStateProvider.notifier).unlock();
                         }
                       }

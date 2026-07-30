@@ -93,11 +93,7 @@ ColorFilter? buildReaderColorFilter(WidgetRef ref) {
   final contrast = ref.watch(readerContrastStateProvider);
   final saturation = ref.watch(readerSaturationStateProvider);
 
-  if (!invert &&
-      !grayscale &&
-      brightness == 0.0 &&
-      contrast == 1.0 &&
-      saturation == 1.0) {
+  if (!invert && !grayscale && brightness == 0.0 && contrast == 1.0 && saturation == 1.0) {
     return null;
   }
 

@@ -25,8 +25,7 @@ Future<dynamic> updateMangaDetail(
     // loadSync() so .isNotEmpty is reliable (IsarLinks are lazy by default).
     manga.chapters.loadSync();
 
-    if ((manga.isLocalArchive ?? false) ||
-        (manga.chapters.isNotEmpty && isInit)) {
+    if ((manga.isLocalArchive ?? false) || (manga.chapters.isNotEmpty && isInit)) {
       return;
     }
     final source = getSource(
@@ -41,13 +40,7 @@ Future<dynamic> updateMangaDetail(
       getDetailProvider(url: manga.link!, source: source).future,
     );
 
-    final genre =
-        getManga.genre
-            ?.map((e) => e.toString().trim())
-            .toList()
-            .toSet()
-            .toList() ??
-        [];
+    final genre = getManga.genre?.map((e) => e.toString().trim()).toList().toSet().toList() ?? [];
 
     final imgUrl = getManga.imageUrl.trimmedOrDefault(manga.imageUrl);
     final now = DateTime.now().millisecondsSinceEpoch;
@@ -62,11 +55,8 @@ Future<dynamic> updateMangaDetail(
       ..genre = (genre.isEmpty ? null : genre) ?? manga.genre ?? []
       ..author = getManga.author.trimmedOrDefault(manga.author) ?? ""
       ..artist = getManga.artist.trimmedOrDefault(manga.artist) ?? ""
-      ..status = getManga.status == Status.unknown
-          ? manga.status
-          : getManga.status ?? Status.unknown
-      ..description =
-          getManga.description.trimmedOrDefault(manga.description) ?? ""
+      ..status = getManga.status == Status.unknown ? manga.status : getManga.status ?? Status.unknown
+      ..description = getManga.description.trimmedOrDefault(manga.description) ?? ""
       ..link = getManga.link.trimmedOrDefault(manga.link)
       ..source = manga.source
       ..lang = manga.lang
@@ -104,8 +94,7 @@ Future<dynamic> updateMangaDetail(
           existingByUrl[key] = c;
         } else {
           // Keep the copy with reading state; drop the other.
-          final priorHasState =
-              (prior.isRead ?? false) || (prior.lastPageRead ?? '').isNotEmpty;
+          final priorHasState = (prior.isRead ?? false) || (prior.lastPageRead ?? '').isNotEmpty;
           final keep = priorHasState ? prior : c;
           final drop = identical(keep, prior) ? c : prior;
           existingByUrl[key] = keep;
@@ -122,8 +111,7 @@ Future<dynamic> updateMangaDetail(
         if (c.name == null) continue;
         final num = recognition.parseChapterNumber(manga.name ?? '', c.name!);
         if (num > 0) {
-          readByNumber[num] =
-              (readByNumber[num] ?? false) || (c.isRead ?? false);
+          readByNumber[num] = (readByNumber[num] ?? false) || (c.isRead ?? false);
         }
       }
 
@@ -141,17 +129,13 @@ Future<dynamic> updateMangaDetail(
         if (existing == null) {
           // Determine whether this chapter number has already been read under
           // a different scanlator, so we don't show it as unread to the user.
-          final chapNum = chap.name != null
-              ? recognition.parseChapterNumber(manga.name!, chap.name!)
-              : 0;
+          final chapNum = chap.name != null ? recognition.parseChapterNumber(manga.name!, chap.name!) : 0;
           final alreadyRead = chapNum > 0 && (readByNumber[chapNum] ?? false);
 
           final newChapter = Chapter(
             name: chap.name!,
             url: url,
-            dateUpload: chap.dateUpload == null
-                ? now.toString()
-                : chap.dateUpload.toString(),
+            dateUpload: chap.dateUpload == null ? now.toString() : chap.dateUpload.toString(),
             scanlator: chap.scanlator ?? '',
             mangaId: savedMangaId,
             updatedAt: now,
@@ -215,12 +199,8 @@ Future<dynamic> updateMangaDetail(
       // median of gaps between recent distinct chapter dates, clamped [1, 28].
       final dedupedExisting = duplicateIds.isEmpty
           ? existingChapters
-          : existingChapters
-                .where((c) => c.id == null || !duplicateIds.contains(c.id))
-                .toList();
-      final allChapters = newChapters.isEmpty
-          ? dedupedExisting
-          : [...dedupedExisting, ...newChapters];
+          : existingChapters.where((c) => c.id == null || !duplicateIds.contains(c.id)).toList();
+      final allChapters = newChapters.isEmpty ? dedupedExisting : [...dedupedExisting, ...newChapters];
       if (allChapters.isNotEmpty) {
         final interval = FetchInterval.calculateInterval(allChapters);
         manga

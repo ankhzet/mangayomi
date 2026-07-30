@@ -65,19 +65,14 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
               trailing: IgnorePointer(
                 child: Switch(value: doHState.enabled, onChanged: (_) {}),
               ),
-              onExpansionChanged: (value) => ref
-                  .read(doHProviderStateProvider.notifier)
-                  .setDoHEnabled(value),
+              onExpansionChanged: (value) => ref.read(doHProviderStateProvider.notifier).setDoHEnabled(value),
               children: [
                 ListTile(
                   title: Text(l10n.dns_provider),
                   subtitle: Text(
                     doHState.providerId == DoHProviders.customId
-                        ? (DohCustomStore.url.trim().isEmpty
-                              ? 'Custom'
-                              : 'Custom · ${DohCustomStore.url.trim()}')
-                        : (DoHProviders.byId[doHState.providerId ?? 0]?.name ??
-                              DoHProviders.cloudflare.name),
+                        ? (DohCustomStore.url.trim().isEmpty ? 'Custom' : 'Custom · ${DohCustomStore.url.trim()}')
+                        : (DoHProviders.byId[doHState.providerId ?? 0]?.name ?? DoHProviders.cloudflare.name),
                     style: TextStyle(
                       fontSize: 11,
                       color: context.secondaryColor,
@@ -106,9 +101,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                                     DohCustomStore.url,
                                   );
                                 } else {
-                                  ref
-                                      .read(doHProviderStateProvider.notifier)
-                                      .setDoHProvider(value!);
+                                  ref.read(doHProviderStateProvider.notifier).setDoHProvider(value!);
                                 }
                               },
                               child: SuperListView.builder(
@@ -181,9 +174,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
               onTap: () => _showCfProxyDialog(context),
               title: const Text('Cloudflare bypass proxy'),
               subtitle: Text(
-                CfProxyStore.url.isEmpty
-                    ? 'Optional FlareSolverr / Byparr URL'
-                    : CfProxyStore.url,
+                CfProxyStore.url.isEmpty ? 'Optional FlareSolverr / Byparr URL' : CfProxyStore.url,
                 style: TextStyle(fontSize: 11, color: context.secondaryColor),
               ),
             ),
@@ -212,9 +203,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                             _synopsis = defaultWeights.synopsis!;
                             _theme = defaultWeights.theme!;
                           });
-                          ref
-                              .read(algorithmWeightsStateProvider.notifier)
-                              .set(defaultWeights);
+                          ref.read(algorithmWeightsStateProvider.notifier).set(defaultWeights);
                         },
                         label: Text(context.l10n.reset),
                         icon: const Icon(Icons.restore),
@@ -240,15 +229,11 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                           enabled: isTv,
                           onDecrease: () {
                             setState(() => _genre = (_genre - 1).clamp(0, 100));
-                            ref
-                                .read(algorithmWeightsStateProvider.notifier)
-                                .setWeights(genre: _genre);
+                            ref.read(algorithmWeightsStateProvider.notifier).setWeights(genre: _genre);
                           },
                           onIncrease: () {
                             setState(() => _genre = (_genre + 1).clamp(0, 100));
-                            ref
-                                .read(algorithmWeightsStateProvider.notifier)
-                                .setWeights(genre: _genre);
+                            ref.read(algorithmWeightsStateProvider.notifier).setWeights(genre: _genre);
                           },
                           child: SliderTheme(
                             data: SliderTheme.of(context).copyWith(
@@ -266,9 +251,8 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                                   _genre = value.toInt();
                                 });
                               },
-                              onChangeEnd: (value) => ref
-                                  .read(algorithmWeightsStateProvider.notifier)
-                                  .setWeights(genre: _genre),
+                              onChangeEnd: (value) =>
+                                  ref.read(algorithmWeightsStateProvider.notifier).setWeights(genre: _genre),
                             ),
                           ),
                         ),
@@ -296,17 +280,13 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                             setState(
                               () => _setting = (_setting - 1).clamp(0, 100),
                             );
-                            ref
-                                .read(algorithmWeightsStateProvider.notifier)
-                                .setWeights(setting: _setting);
+                            ref.read(algorithmWeightsStateProvider.notifier).setWeights(setting: _setting);
                           },
                           onIncrease: () {
                             setState(
                               () => _setting = (_setting + 1).clamp(0, 100),
                             );
-                            ref
-                                .read(algorithmWeightsStateProvider.notifier)
-                                .setWeights(setting: _setting);
+                            ref.read(algorithmWeightsStateProvider.notifier).setWeights(setting: _setting);
                           },
                           child: SliderTheme(
                             data: SliderTheme.of(context).copyWith(
@@ -324,9 +304,8 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                                   _setting = value.toInt();
                                 });
                               },
-                              onChangeEnd: (value) => ref
-                                  .read(algorithmWeightsStateProvider.notifier)
-                                  .setWeights(setting: _setting),
+                              onChangeEnd: (value) =>
+                                  ref.read(algorithmWeightsStateProvider.notifier).setWeights(setting: _setting),
                             ),
                           ),
                         ),
@@ -354,17 +333,13 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                             setState(
                               () => _synopsis = (_synopsis - 1).clamp(0, 100),
                             );
-                            ref
-                                .read(algorithmWeightsStateProvider.notifier)
-                                .setWeights(synopsis: _synopsis);
+                            ref.read(algorithmWeightsStateProvider.notifier).setWeights(synopsis: _synopsis);
                           },
                           onIncrease: () {
                             setState(
                               () => _synopsis = (_synopsis + 1).clamp(0, 100),
                             );
-                            ref
-                                .read(algorithmWeightsStateProvider.notifier)
-                                .setWeights(synopsis: _synopsis);
+                            ref.read(algorithmWeightsStateProvider.notifier).setWeights(synopsis: _synopsis);
                           },
                           child: SliderTheme(
                             data: SliderTheme.of(context).copyWith(
@@ -382,9 +357,8 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                                   _synopsis = value.toInt();
                                 });
                               },
-                              onChangeEnd: (value) => ref
-                                  .read(algorithmWeightsStateProvider.notifier)
-                                  .setWeights(synopsis: _synopsis),
+                              onChangeEnd: (value) =>
+                                  ref.read(algorithmWeightsStateProvider.notifier).setWeights(synopsis: _synopsis),
                             ),
                           ),
                         ),
@@ -410,15 +384,11 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                           enabled: isTv,
                           onDecrease: () {
                             setState(() => _theme = (_theme - 1).clamp(0, 100));
-                            ref
-                                .read(algorithmWeightsStateProvider.notifier)
-                                .setWeights(theme: _theme);
+                            ref.read(algorithmWeightsStateProvider.notifier).setWeights(theme: _theme);
                           },
                           onIncrease: () {
                             setState(() => _theme = (_theme + 1).clamp(0, 100));
-                            ref
-                                .read(algorithmWeightsStateProvider.notifier)
-                                .setWeights(theme: _theme);
+                            ref.read(algorithmWeightsStateProvider.notifier).setWeights(theme: _theme);
                           },
                           child: SliderTheme(
                             data: SliderTheme.of(context).copyWith(
@@ -436,9 +406,8 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                                   _theme = value.toInt();
                                 });
                               },
-                              onChangeEnd: (value) => ref
-                                  .read(algorithmWeightsStateProvider.notifier)
-                                  .setWeights(theme: _theme),
+                              onChangeEnd: (value) =>
+                                  ref.read(algorithmWeightsStateProvider.notifier).setWeights(theme: _theme),
                             ),
                           ),
                         ),
@@ -464,18 +433,14 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
               value: hideDiscordRpcInIncognito,
               title: Text(l10n.hide_discord_rpc_incognito),
               onChanged: (value) {
-                ref
-                    .read(hideDiscordRpcInIncognitoStateProvider.notifier)
-                    .set(value);
+                ref.read(hideDiscordRpcInIncognitoStateProvider.notifier).set(value);
               },
             ),
             SwitchListTile(
               value: rpcShowReadingWatchingProgress,
               title: Text(l10n.rpc_show_reading_watching_progress),
               onChanged: (value) {
-                ref
-                    .read(rpcShowReadingWatchingProgressStateProvider.notifier)
-                    .set(value);
+                ref.read(rpcShowReadingWatchingProgressStateProvider.notifier).set(value);
               },
             ),
             SwitchListTile(
@@ -510,10 +475,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
       builder: (context) => StatefulBuilder(
         builder: (context, setState) {
           final parsed = Uri.tryParse(url.trim());
-          final isValid =
-              parsed != null &&
-              parsed.scheme == 'https' &&
-              parsed.host.isNotEmpty;
+          final isValid = parsed != null && parsed.scheme == 'https' && parsed.host.isNotEmpty;
           return AlertDialog(
             title: const Text('Custom DoH URL', style: TextStyle(fontSize: 24)),
             content: SizedBox(
@@ -556,9 +518,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                     child: ElevatedButton(
                       onPressed: isValid
                           ? () {
-                              ref
-                                  .read(doHProviderStateProvider.notifier)
-                                  .setCustomDoH(url.trim());
+                              ref.read(doHProviderStateProvider.notifier).setCustomDoH(url.trim());
                               Navigator.pop(context);
                             }
                           : null,
@@ -582,9 +542,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
       builder: (dialogContext) => StatefulBuilder(
         builder: (dialogContext, setLocalState) {
           final trimmed = url.trim();
-          final isValid =
-              trimmed.isEmpty || trimmed.startsWith('http://') ||
-              trimmed.startsWith('https://');
+          final isValid = trimmed.isEmpty || trimmed.startsWith('http://') || trimmed.startsWith('https://');
           return AlertDialog(
             title: const Text(
               'Cloudflare bypass proxy',
@@ -778,9 +736,7 @@ void _showDefaultUserAgentDialog(
                     width: context.width(1),
                     child: ElevatedButton(
                       onPressed: () async {
-                        ref
-                            .watch(userAgentStateProvider.notifier)
-                            .set(uaController.text);
+                        ref.watch(userAgentStateProvider.notifier).set(uaController.text);
                         if (!context.mounted) return;
                         Navigator.pop(context);
                       },

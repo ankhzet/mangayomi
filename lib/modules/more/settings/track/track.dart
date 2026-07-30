@@ -35,18 +35,14 @@ class TrackScreen extends ConsumerWidget {
             fireImmediately: true,
           ),
           builder: (context, snapshot) {
-            List<TrackPreference>? entries = snapshot.hasData
-                ? snapshot.data
-                : [];
+            List<TrackPreference>? entries = snapshot.hasData ? snapshot.data : [];
             return Column(
               children: [
                 SwitchListTile(
                   value: updateProgressAfterReading,
                   title: Text(context.l10n.updateProgressAfterReading),
                   onChanged: (value) {
-                    ref
-                        .read(updateProgressAfterReadingStateProvider.notifier)
-                        .set(value);
+                    ref.read(updateProgressAfterReadingStateProvider.notifier).set(value);
                   },
                 ),
                 Padding(
@@ -177,9 +173,7 @@ Future<void> _showDialogLogin(BuildContext context, WidgetRef ref) async {
   bool obscureText = true;
   final l10n = l10nLocalizations(context)!;
   void updateCanLogin() {
-    canLogin =
-        emailController.text.trim().isNotEmpty &&
-        passwordController.text.isNotEmpty;
+    canLogin = emailController.text.trim().isNotEmpty && passwordController.text.isNotEmpty;
   }
 
   await showDialog(
@@ -283,9 +277,7 @@ Future<void> _showDialogLogin(BuildContext context, WidgetRef ref) async {
                             obscureText = !obscureText;
                           }),
                           icon: Icon(
-                            obscureText
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
+                            obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                           ),
                         ),
                         filled: false,
@@ -315,9 +307,7 @@ Future<void> _showDialogLogin(BuildContext context, WidgetRef ref) async {
                       height: 50,
                       child: ElevatedButton(
                         onPressed: (!canLogin || isLoading) ? null : doLogin,
-                        child: isLoading
-                            ? const CircularProgressIndicator()
-                            : Text(l10n.login),
+                        child: isLoading ? const CircularProgressIndicator() : Text(l10n.login),
                       ),
                     ),
                   ),

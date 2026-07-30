@@ -19,9 +19,7 @@ class CurrentIndex extends _$CurrentIndex {
   int build(Chapter chapter) {
     final incognitoMode = ref.watch(incognitoModeStateProvider);
     if (incognitoMode) return 0;
-    return ref
-        .read(readerControllerProvider(chapter: chapter).notifier)
-        .getPageIndex();
+    return ref.read(readerControllerProvider(chapter: chapter).notifier).getPageIndex();
   }
 
   void setCurrentIndex(int currentIndex) {
@@ -41,8 +39,7 @@ BoxFit getBoxFit(ScaleType scaleType) {
 }
 
 @riverpod
-class ReaderController extends _$ReaderController
-    with ChapterControllerMixin, ChapterReaderSettingsMixin {
+class ReaderController extends _$ReaderController with ChapterControllerMixin, ChapterReaderSettingsMixin {
   @override
   KeepAliveLink build({required Chapter chapter}) {
     _keepAliveLink = ref.keepAlive();
@@ -70,8 +67,7 @@ class ReaderController extends _$ReaderController
   // ---------------------------------------------------------------------------
 
   ReaderMode getReaderMode() {
-    final personalReaderModeList =
-        getIsarSetting().personalReaderModeList ?? [];
+    final personalReaderModeList = getIsarSetting().personalReaderModeList ?? [];
     final personalReaderMode = personalReaderModeList.where(
       (element) => element.mangaId == getManga().id,
     );
@@ -94,8 +90,7 @@ class ReaderController extends _$ReaderController
 
   void setReaderMode(ReaderMode newReaderMode) {
     List<PersonalReaderMode>? personalReaderModeLists = [];
-    for (var personalReaderMode
-        in getIsarSetting().personalReaderModeList ?? []) {
+    for (var personalReaderMode in getIsarSetting().personalReaderModeList ?? []) {
       if (personalReaderMode.mangaId != getManga().id) {
         personalReaderModeLists.add(personalReaderMode);
       }
@@ -193,13 +188,10 @@ class ReaderController extends _$ReaderController
     if (pageLength == 0 || (!save && newIndex == _lastSavedIndex)) return;
     _lastSavedIndex = newIndex;
     final isContinuousLike = getReaderMode().isVerticalContinuous;
-    final isRead = isContinuousLike
-        ? (newIndex + 2) >= pageLength - 1
-        : (newIndex + 2) >= pageLength;
+    final isRead = isContinuousLike ? (newIndex + 2) >= pageLength - 1 : (newIndex + 2) >= pageLength;
     if (isRead || save) {
       List<ChapterPageIndex>? chapterPageIndexs = [];
-      for (var chapterPageIndex
-          in getIsarSetting().chapterPageIndexList ?? []) {
+      for (var chapterPageIndex in getIsarSetting().chapterPageIndexList ?? []) {
         if (chapterPageIndex.chapterId != chapter.id) {
           chapterPageIndexs.add(chapterPageIndex);
         }

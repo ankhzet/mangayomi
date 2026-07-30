@@ -84,9 +84,7 @@ class _TvPillState extends State<TvPill> {
       },
       onKeyEvent: (node, event) {
         final onMenu = widget.onMenu;
-        if (onMenu != null &&
-            event is KeyDownEvent &&
-            event.logicalKey == LogicalKeyboardKey.contextMenu) {
+        if (onMenu != null && event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.contextMenu) {
           onMenu();
           return KeyEventResult.handled;
         }

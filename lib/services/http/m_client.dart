@@ -65,9 +65,7 @@ class MClient {
       // Use DoH resolver with the selected provider — either a preset or, when
       // the custom sentinel id is set, one built from the user's saved URL.
       final provider = doHProviderId == DoHProviders.customId
-          ? (DohCustomStore.url.trim().isNotEmpty
-                ? DoHProviders.custom(DohCustomStore.url.trim())
-                : null)
+          ? (DohCustomStore.url.trim().isNotEmpty ? DoHProviders.custom(DohCustomStore.url.trim()) : null)
           : DoHProviders.byId[doHProviderId];
       if (provider != null) {
         dnsSettings = DnsSettings.dynamic(
@@ -337,10 +335,7 @@ Future<bool> _solveWithCfProxy(String proxyUrl, String targetUrl) async {
     if (solution == null) return false;
 
     final cookieList = (solution['cookies'] as List?) ?? [];
-    final cookie = cookieList
-        .whereType<Map>()
-        .map((c) => "${c['name']}=${c['value']}")
-        .join('; ');
+    final cookie = cookieList.whereType<Map>().map((c) => "${c['name']}=${c['value']}").join('; ');
     if (cookie.isEmpty) return false;
 
     final ua = (solution['userAgent'] as String?) ?? '';
@@ -366,8 +361,7 @@ Future<void> webviewServer() async {
       (HttpRequest request) {
         if (request.method == 'POST' && request.uri.path == '/resolve_cf') {
           _handleResolveCf(request);
-        } else if (request.method == 'POST' &&
-            request.uri.path == '/evaluateJavascriptViaWebview') {
+        } else if (request.method == 'POST' && request.uri.path == '/evaluateJavascriptViaWebview') {
           _evaluateJavascriptViaWebview(request);
         } else {
           request.response
@@ -498,11 +492,7 @@ Future<void> _evaluateJavascriptViaWebview(HttpRequest request) async {
           (key, value) => MapEntry(key, value.toString()),
         ) ??
         {};
-    final scripts =
-        (data['scripts'] as List<dynamic>?)
-            ?.map((e) => e.toString())
-            .toList() ??
-        [];
+    final scripts = (data['scripts'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [];
     final time = data['time'] as int? ?? 30;
 
     int t = 0;

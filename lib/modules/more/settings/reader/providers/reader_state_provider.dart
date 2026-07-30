@@ -1005,8 +1005,7 @@ class FlashColorState extends _$FlashColorState {
 }
 
 @riverpod
-class ShowNavigationOverlayOnStartState
-    extends _$ShowNavigationOverlayOnStartState {
+class ShowNavigationOverlayOnStartState extends _$ShowNavigationOverlayOnStartState {
   @override
   bool build() {
     return isar.settings.getSync(227)!.showNavigationOverlayOnStart ?? false;
@@ -1046,8 +1045,7 @@ class WebtoonDisableZoomOutState extends _$WebtoonDisableZoomOutState {
 }
 
 @riverpod
-class WebtoonDoubleTapZoomEnabledState
-    extends _$WebtoonDoubleTapZoomEnabledState {
+class WebtoonDoubleTapZoomEnabledState extends _$WebtoonDoubleTapZoomEnabledState {
   @override
   bool build() {
     return isar.settings.getSync(227)!.webtoonDoubleTapZoomEnabled ?? true;

@@ -47,8 +47,7 @@ class TvPlayerSettingsPanel extends ConsumerStatefulWidget {
   final VoidCallback onClose;
 
   @override
-  ConsumerState<TvPlayerSettingsPanel> createState() =>
-      _TvPlayerSettingsPanelState();
+  ConsumerState<TvPlayerSettingsPanel> createState() => _TvPlayerSettingsPanelState();
 }
 
 class _TvPlayerSettingsPanelState extends ConsumerState<TvPlayerSettingsPanel> {
@@ -118,8 +117,7 @@ class _TvPlayerSettingsPanelState extends ConsumerState<TvPlayerSettingsPanel> {
         canRequestFocus: false,
         skipTraversal: true,
         onKeyEvent: (node, event) {
-          if ((event is KeyDownEvent || event is KeyRepeatEvent) &&
-              event.logicalKey == LogicalKeyboardKey.arrowLeft) {
+          if ((event is KeyDownEvent || event is KeyRepeatEvent) && event.logicalKey == LogicalKeyboardKey.arrowLeft) {
             widget.onExitLeft();
             return KeyEventResult.handled;
           }
@@ -136,9 +134,7 @@ class _TvPlayerSettingsPanelState extends ConsumerState<TvPlayerSettingsPanel> {
                   _header(context),
                   const Divider(height: 1),
                   Expanded(
-                    child: _open == null
-                        ? _categoryList(context, accent)
-                        : _page(context, accent, _open!),
+                    child: _open == null ? _categoryList(context, accent) : _page(context, accent, _open!),
                   ),
                 ],
               ),
@@ -440,15 +436,12 @@ class _OptionRowState extends State<_OptionRow> {
                   widget.label,
                   style: TextStyle(
                     fontSize: 15,
-                    fontWeight: widget.selected
-                        ? FontWeight.w700
-                        : FontWeight.normal,
+                    fontWeight: widget.selected ? FontWeight.w700 : FontWeight.normal,
                     color: widget.selected ? widget.accent : null,
                   ),
                 ),
               ),
-              if (widget.selected)
-                Icon(Icons.check, size: 20, color: widget.accent),
+              if (widget.selected) Icon(Icons.check, size: 20, color: widget.accent),
             ],
           ),
         ),

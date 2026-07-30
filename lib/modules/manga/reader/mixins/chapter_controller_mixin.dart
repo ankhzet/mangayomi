@@ -76,18 +76,15 @@ mixin ChapterControllerMixin {
 
   Chapter _chapterWithOffset(int offset) {
     final idx = _chapterIndexWithOffset(offset);
-    final list = idx.$2
-        ? getManga().getChapterListForReading()
-        : getManga().chapters.toList();
+    final list = idx.$2 ? getManga().getChapterListForReading() : getManga().chapters.toList();
     if (idx.$1 < 0 || idx.$1 >= list.length) {
       throw RangeError('No chapter at offset $offset from ${chapter.id}');
     }
     return list[idx.$1];
   }
 
-  int getChaptersLength(bool isInFilterList) => isInFilterList
-      ? getManga().getChapterListForReading().length
-      : getManga().chapters.length;
+  int getChaptersLength(bool isInFilterList) =>
+      isInFilterList ? getManga().getChapterListForReading().length : getManga().chapters.length;
 
   // ---------------------------------------------------------------------------
   // History
@@ -109,10 +106,7 @@ mixin ChapterControllerMixin {
       isar.mangas.putSync(m);
     });
 
-    final isEmpty = isar.historys
-        .filter()
-        .mangaIdEqualTo(manga.id)
-        .isEmptySync();
+    final isEmpty = isar.historys.filter().mangaIdEqualTo(manga.id).isEmptySync();
 
     final History history;
     if (isEmpty) {
@@ -132,8 +126,7 @@ mixin ChapterControllerMixin {
     isar.writeTxnSync(() {
       history.updatedAt = DateTime.now().millisecondsSinceEpoch;
       if (elapsedSeconds > 0) {
-        history.readingTimeSeconds =
-            (history.readingTimeSeconds ?? 0) + elapsedSeconds;
+        history.readingTimeSeconds = (history.readingTimeSeconds ?? 0) + elapsedSeconds;
       }
       isar.historys.putSync(history);
       history.chapter.saveSync();

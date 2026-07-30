@@ -50,8 +50,7 @@ class BrowseSScreen extends ConsumerWidget {
                   'Hide manga & novel across the app. Turn off to show everything.',
                 ),
                 value: animeOnly,
-                onChanged: (v) =>
-                    ref.read(animeOnlyTvModeProvider.notifier).set(v),
+                onChanged: (v) => ref.read(animeOnlyTvModeProvider.notifier).set(v),
               ),
             Padding(
               padding: const EdgeInsets.only(bottom: 30, top: 20),
@@ -74,14 +73,10 @@ class BrowseSScreen extends ConsumerWidget {
                   ListTile(
                     onTap: () => context.push('/extensionServer'),
                     title: Text(
-                      isMobile
-                          ? l10n.android_proxy_server
-                          : l10n.android_proxy_server_mihon,
+                      isMobile ? l10n.android_proxy_server : l10n.android_proxy_server_mihon,
                     ),
                     subtitle: Text(
-                      isMobile
-                          ? l10n.apkbridge_description
-                          : l10n.android_proxy_server_mihon_description,
+                      isMobile ? l10n.apkbridge_description : l10n.android_proxy_server_mihon_description,
                       style: TextStyle(
                         fontSize: 11,
                         color: context.secondaryColor,
@@ -142,9 +137,7 @@ class BrowseSScreen extends ConsumerWidget {
                     value: checkForExtensionUpdates,
                     title: Text(l10n.check_for_extension_updates),
                     onChanged: (value) {
-                      ref
-                          .read(checkForExtensionsUpdateStateProvider.notifier)
-                          .set(value);
+                      ref.read(checkForExtensionsUpdateStateProvider.notifier).set(value);
                     },
                   ),
                   Padding(
@@ -161,8 +154,7 @@ class BrowseSScreen extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        onPressed: () =>
-                            _showClearAllSourcesDialog(context, l10n),
+                        onPressed: () => _showClearAllSourcesDialog(context, l10n),
                         child: Text(
                           l10n.clear_all_sources,
                           style: TextStyle(
@@ -208,9 +200,7 @@ class BrowseSScreen extends ConsumerWidget {
                         ),
                       ),
                       onChanged: (value) {
-                        ref
-                            .read(autoUpdateExtensionsStateProvider.notifier)
-                            .set(value);
+                        ref.read(autoUpdateExtensionsStateProvider.notifier).set(value);
                       },
                     ),
                 ],
@@ -238,9 +228,7 @@ class BrowseSScreen extends ConsumerWidget {
                     value: onlyIncludePinnedSource,
                     title: Text(l10n.only_include_pinned_sources),
                     onChanged: (value) {
-                      ref
-                          .read(onlyIncludePinnedSourceStateProvider.notifier)
-                          .set(value);
+                      ref.read(onlyIncludePinnedSourceStateProvider.notifier).set(value);
                     },
                   ),
                 ],
@@ -361,19 +349,13 @@ void _showCleanNonLibraryDialog(BuildContext context, dynamic l10n) {
               Consumer(
                 builder: (context, ref, child) => TextButton(
                   onPressed: () {
-                    final mangasList = isar.mangas
-                        .filter()
-                        .favoriteEqualTo(false)
-                        .findAllSync();
+                    final mangasList = isar.mangas.filter().favoriteEqualTo(false).findAllSync();
                     final provider = ref.read(
                       synchingProvider(syncId: 1).notifier,
                     );
                     isar.writeTxnSync(() {
                       for (var manga in mangasList) {
-                        final histories = isar.historys
-                            .filter()
-                            .mangaIdEqualTo(manga.id)
-                            .findAllSync();
+                        final histories = isar.historys.filter().mangaIdEqualTo(manga.id).findAllSync();
                         for (var history in histories) {
                           isar.historys.deleteSync(history.id!);
                           provider.addChangedPart(
@@ -458,9 +440,7 @@ void _showClearLibraryDialog(BuildContext context, WidgetRef ref) {
                 context: context,
                 isMissing: isInputError,
                 val: (text) => setState(() {
-                  isInputError =
-                      text.trim().isEmpty ||
-                      text.split(",").any((e) => !itemTypes.contains(e));
+                  isInputError = text.trim().isEmpty || text.split(",").any((e) => !itemTypes.contains(e));
                 }),
                 missing: (_) {},
               ),
@@ -495,9 +475,7 @@ void _showClearLibraryDialog(BuildContext context, WidgetRef ref) {
                                           _ => null,
                                         },
                                       ),
-                                  (q, element) => element == null
-                                      ? q.idIsNull()
-                                      : q.itemTypeEqualTo(element),
+                                  (q, element) => element == null ? q.idIsNull() : q.itemTypeEqualTo(element),
                                 )
                                 .findAllSync();
                             final provider = ref.read(
@@ -505,10 +483,7 @@ void _showClearLibraryDialog(BuildContext context, WidgetRef ref) {
                             );
                             isar.writeTxnSync(() {
                               for (var manga in mangasList) {
-                                final histories = isar.historys
-                                    .filter()
-                                    .mangaIdEqualTo(manga.id)
-                                    .findAllSync();
+                                final histories = isar.historys.filter().mangaIdEqualTo(manga.id).findAllSync();
                                 for (var history in histories) {
                                   isar.historys.deleteSync(history.id!);
                                   provider.addChangedPart(
@@ -560,9 +535,7 @@ void _showClearLibraryDialog(BuildContext context, WidgetRef ref) {
                     child: Text(
                       context.l10n.ok,
                       style: TextStyle(
-                        color: isInputError
-                            ? context.secondaryColor
-                            : context.primaryColor,
+                        color: isInputError ? context.secondaryColor : context.primaryColor,
                       ),
                     ),
                   ),

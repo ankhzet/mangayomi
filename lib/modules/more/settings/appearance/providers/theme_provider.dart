@@ -20,12 +20,10 @@ ThemeData _tvFocus(ThemeData theme) {
   // a TV, filled or not. Buttons that carry no border otherwise (Text/Elevated/
   // Filled) get the ring only while focused.
   final ring = WidgetStateProperty.resolveWith<BorderSide?>(
-    (states) => states.contains(WidgetState.focused)
-        ? BorderSide(color: theme.colorScheme.onSurface, width: 2.5)
-        : null,
+    (states) =>
+        states.contains(WidgetState.focused) ? BorderSide(color: theme.colorScheme.onSurface, width: 2.5) : null,
   );
-  ButtonStyle withRing(ButtonStyle? base) =>
-      (base ?? const ButtonStyle()).copyWith(side: ring);
+  ButtonStyle withRing(ButtonStyle? base) => (base ?? const ButtonStyle()).copyWith(side: ring);
   return theme.copyWith(
     focusColor: theme.colorScheme.primary.withValues(alpha: 0.45),
     textButtonTheme: TextButtonThemeData(

@@ -14,10 +14,8 @@ class ReaderNavigationOverlay extends StatelessWidget {
     required this.onClose,
   });
 
-  bool get _shouldInvertHorizontal =>
-      tappingInversion == 1 || tappingInversion == 3;
-  bool get _shouldInvertVertical =>
-      tappingInversion == 2 || tappingInversion == 3;
+  bool get _shouldInvertHorizontal => tappingInversion == 1 || tappingInversion == 3;
+  bool get _shouldInvertVertical => tappingInversion == 2 || tappingInversion == 3;
 
   Color get _menuColor => const Color(0xCC95818D);
   Color get _prevColor => const Color(0xCCFF7733);
@@ -76,10 +74,8 @@ class ReaderNavigationOverlay extends StatelessWidget {
   }
 
   // Helper values for LTR vs RTL
-  (Color, String) get _hLeft =>
-      isRTL ? (_nextColor, _nextText) : (_prevColor, _prevText);
-  (Color, String) get _hRight =>
-      isRTL ? (_prevColor, _prevText) : (_nextColor, _nextText);
+  (Color, String) get _hLeft => isRTL ? (_nextColor, _nextText) : (_prevColor, _prevText);
+  (Color, String) get _hRight => isRTL ? (_prevColor, _prevText) : (_nextColor, _nextText);
 
   (Color, String) get _leftZone => _shouldInvertHorizontal ? _hRight : _hLeft;
   (Color, String) get _rightZone => _shouldInvertHorizontal ? _hLeft : _hRight;
@@ -118,19 +114,11 @@ class ReaderNavigationOverlay extends StatelessWidget {
   }
 
   Widget _buildLShaped() {
-    final leftAction = (_shouldInvertHorizontal ^ _shouldInvertVertical)
-        ? _nextText
-        : _prevText;
-    final leftColor = (_shouldInvertHorizontal ^ _shouldInvertVertical)
-        ? _nextColor
-        : _prevColor;
+    final leftAction = (_shouldInvertHorizontal ^ _shouldInvertVertical) ? _nextText : _prevText;
+    final leftColor = (_shouldInvertHorizontal ^ _shouldInvertVertical) ? _nextColor : _prevColor;
 
-    final rightAction = (_shouldInvertHorizontal ^ _shouldInvertVertical)
-        ? _prevText
-        : _nextText;
-    final rightColor = (_shouldInvertHorizontal ^ _shouldInvertVertical)
-        ? _prevColor
-        : _nextColor;
+    final rightAction = (_shouldInvertHorizontal ^ _shouldInvertVertical) ? _prevText : _nextText;
+    final rightColor = (_shouldInvertHorizontal ^ _shouldInvertVertical) ? _prevColor : _nextColor;
 
     return Column(
       children: [

@@ -709,8 +709,7 @@ extension HistoryQueryFilter on QueryBuilder<History, History, QFilterCondition>
     });
   }
 
-  QueryBuilder<History, History, QAfterFilterCondition>
-  readingTimeSecondsIsNull() {
+  QueryBuilder<History, History, QAfterFilterCondition> readingTimeSecondsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'readingTimeSeconds'),
@@ -718,8 +717,7 @@ extension HistoryQueryFilter on QueryBuilder<History, History, QFilterCondition>
     });
   }
 
-  QueryBuilder<History, History, QAfterFilterCondition>
-  readingTimeSecondsIsNotNull() {
+  QueryBuilder<History, History, QAfterFilterCondition> readingTimeSecondsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'readingTimeSeconds'),
@@ -727,8 +725,7 @@ extension HistoryQueryFilter on QueryBuilder<History, History, QFilterCondition>
     });
   }
 
-  QueryBuilder<History, History, QAfterFilterCondition>
-  readingTimeSecondsEqualTo(int? value) {
+  QueryBuilder<History, History, QAfterFilterCondition> readingTimeSecondsEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'readingTimeSeconds', value: value),
@@ -736,8 +733,10 @@ extension HistoryQueryFilter on QueryBuilder<History, History, QFilterCondition>
     });
   }
 
-  QueryBuilder<History, History, QAfterFilterCondition>
-  readingTimeSecondsGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<History, History, QAfterFilterCondition> readingTimeSecondsGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -749,8 +748,7 @@ extension HistoryQueryFilter on QueryBuilder<History, History, QFilterCondition>
     });
   }
 
-  QueryBuilder<History, History, QAfterFilterCondition>
-  readingTimeSecondsLessThan(int? value, {bool include = false}) {
+  QueryBuilder<History, History, QAfterFilterCondition> readingTimeSecondsLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -762,8 +760,7 @@ extension HistoryQueryFilter on QueryBuilder<History, History, QFilterCondition>
     });
   }
 
-  QueryBuilder<History, History, QAfterFilterCondition>
-  readingTimeSecondsBetween(
+  QueryBuilder<History, History, QAfterFilterCondition> readingTimeSecondsBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,

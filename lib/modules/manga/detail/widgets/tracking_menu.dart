@@ -70,9 +70,7 @@ void openTrackingMenu({
                         .mangaIdEqualTo(manga.id!)
                         .watch(fireImmediately: true),
                     builder: (context, snapshot) {
-                      List<Track>? trackRes = snapshot.hasData
-                          ? snapshot.data
-                          : [];
+                      List<Track>? trackRes = snapshot.hasData ? snapshot.data : [];
                       return trackRes!.isNotEmpty
                           ? TrackerWidget(
                               mangaId: manga.id!,

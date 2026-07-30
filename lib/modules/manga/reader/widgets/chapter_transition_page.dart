@@ -21,9 +21,7 @@ class ChapterTransitionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
-      child: readerMode.isVertical
-          ? _buildVerticalScaffold(context)
-          : _buildHorizontalScaffold(context),
+      child: readerMode.isVertical ? _buildVerticalScaffold(context) : _buildHorizontalScaffold(context),
     );
   }
 
@@ -102,9 +100,7 @@ class ChapterTransitionPage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Icon(
-            nextChapter != null
-                ? Icons.keyboard_arrow_down
-                : Icons.check_circle_outline,
+            nextChapter != null ? Icons.keyboard_arrow_down : Icons.check_circle_outline,
             size: 32,
             color: nextChapter != null
                 ? Theme.of(context).colorScheme.primary
@@ -165,14 +161,10 @@ class ChapterTransitionPage extends StatelessWidget {
 
     final Widget arrowIcon = Icon(
       nextChapter != null
-          ? (readerMode.isRTL
-                ? Icons.keyboard_arrow_left
-                : Icons.keyboard_arrow_right)
+          ? (readerMode.isRTL ? Icons.keyboard_arrow_left : Icons.keyboard_arrow_right)
           : Icons.check_circle_outline,
       size: 36,
-      color: nextChapter != null
-          ? theme.colorScheme.primary
-          : theme.colorScheme.onSurface.withValues(alpha: 0.6),
+      color: nextChapter != null ? theme.colorScheme.primary : theme.colorScheme.onSurface.withValues(alpha: 0.6),
     );
 
     final Widget nextCard = nextChapter != null
@@ -228,9 +220,7 @@ class ChapterTransitionPage extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          nextChapter != null
-              ? l10n.continue_to_next_chapter
-              : l10n.return_to_the_list_of_chapters,
+          nextChapter != null ? l10n.continue_to_next_chapter : l10n.return_to_the_list_of_chapters,
           style: theme.textTheme.bodyMedium?.copyWith(
             color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
           ),
@@ -249,9 +239,7 @@ class ChapterTransitionPage extends StatelessWidget {
     required bool isPrimary,
   }) {
     final theme = Theme.of(context);
-    final bgColor = isPrimary
-        ? theme.colorScheme.primaryContainer
-        : theme.colorScheme.surface;
+    final bgColor = isPrimary ? theme.colorScheme.primaryContainer : theme.colorScheme.surface;
     final borderColor = isPrimary
         ? theme.colorScheme.primary.withValues(alpha: 0.3)
         : theme.colorScheme.outline.withValues(alpha: 0.2);

@@ -100,9 +100,7 @@ class _TtsPlayerBarState extends ConsumerState<TtsPlayerBar> {
                 top: Radius.circular(16),
               ),
               child: LinearProgressIndicator(
-                value: _totalParagraphs > 0
-                    ? (_currentIndex + 1) / _totalParagraphs
-                    : 0,
+                value: _totalParagraphs > 0 ? (_currentIndex + 1) / _totalParagraphs : 0,
                 minHeight: 3,
                 backgroundColor: theme.colorScheme.primary.withValues(
                   alpha: 0.1,
@@ -164,9 +162,7 @@ class _TtsPlayerBarState extends ConsumerState<TtsPlayerBar> {
                     }
                   },
                   icon: Icon(
-                    _state == TtsState.playing
-                        ? Icons.pause_rounded
-                        : Icons.play_arrow_rounded,
+                    _state == TtsState.playing ? Icons.pause_rounded : Icons.play_arrow_rounded,
                   ),
                   iconSize: 28,
                   padding: EdgeInsets.zero,
@@ -175,9 +171,7 @@ class _TtsPlayerBarState extends ConsumerState<TtsPlayerBar> {
                     minHeight: 40,
                   ),
                   color: theme.colorScheme.primary,
-                  tooltip: _state == TtsState.playing
-                      ? context.l10n.tts_pause
-                      : context.l10n.tts_play,
+                  tooltip: _state == TtsState.playing ? context.l10n.tts_pause : context.l10n.tts_play,
                 ),
 
                 // Skip next

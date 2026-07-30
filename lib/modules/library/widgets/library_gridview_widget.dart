@@ -77,10 +77,8 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                       context: context,
                       entry: entry,
                     ),
-                    onLongPress: () =>
-                        handleLongOrSecondaryTap(isLongPressed, ref, entry),
-                    onSecondaryTap: () =>
-                        handleLongOrSecondaryTap(isLongPressed, ref, entry),
+                    onLongPress: () => handleLongOrSecondaryTap(isLongPressed, ref, entry),
+                    onSecondaryTap: () => handleLongOrSecondaryTap(isLongPressed, ref, entry),
                     children: [
                       Stack(
                         children: [
@@ -99,8 +97,7 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                           ),
 
                           // ── Top-right: Language ──
-                          if (widget.language &&
-                              (entry.lang?.isNotEmpty ?? false))
+                          if (widget.language && (entry.lang?.isNotEmpty ?? false))
                             Positioned(
                               top: 0,
                               right: 0,
@@ -121,8 +118,7 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                         ],
                       ),
 
-                      if (!widget.isComfortableGrid && !widget.isCoverOnlyGrid)
-                        BottomTextWidget(text: entry.name!),
+                      if (!widget.isComfortableGrid && !widget.isCoverOnlyGrid) BottomTextWidget(text: entry.name!),
 
                       if (widget.continueReaderBtn)
                         Positioned(

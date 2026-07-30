@@ -15,9 +15,7 @@ class TransitionViewPaged extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    final readerMode = ref
-        .read(readerControllerProvider(chapter: data.chapter!).notifier)
-        .getReaderMode();
+    final readerMode = ref.read(readerControllerProvider(chapter: data.chapter!).notifier).getReaderMode();
 
     return ChapterTransitionPage(
       currentChapter: data.chapter!,

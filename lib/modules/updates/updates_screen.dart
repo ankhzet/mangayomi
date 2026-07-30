@@ -145,9 +145,7 @@ class _UpdatesScreenState extends BaseLibraryTabScreenState<UpdatesScreen> {
     if (idsToDelete.isEmpty) return;
     isar.writeTxnSync(() {
       for (var id in idsToDelete) {
-        ref
-            .read(synchingProvider(syncId: 1).notifier)
-            .addChangedPart(ActionType.removeUpdate, id, "{}", false);
+        ref.read(synchingProvider(syncId: 1).notifier).addChangedPart(ActionType.removeUpdate, id, "{}", false);
       }
     });
     await isar.writeTxn(() async => await isar.updates.deleteAll(idsToDelete));
@@ -169,8 +167,7 @@ class UpdateTab extends ConsumerStatefulWidget {
   ConsumerState<UpdateTab> createState() => _UpdateTabState();
 }
 
-class _UpdateTabState extends ConsumerState<UpdateTab>
-    with AutomaticKeepAliveClientMixin {
+class _UpdateTabState extends ConsumerState<UpdateTab> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -188,9 +185,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab>
       children: [
         update.when(
           data: (entries) {
-            final lastUpdatedList = entries
-                .map((e) => e.chapter.value!.manga.value!.lastUpdate!)
-                .toList();
+            final lastUpdatedList = entries.map((e) => e.chapter.value!.manga.value!.lastUpdate!).toList();
             lastUpdatedList.sort((a, b) => b.compareTo(a));
             final lastUpdated = lastUpdatedList.firstOrNull;
             if (entries.isNotEmpty) {
@@ -254,8 +249,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab>
                         sourceExist: true,
                       );
                     },
-                    itemComparator: (item1, item2) =>
-                        item1.date!.compareTo(item2.date!),
+                    itemComparator: (item1, item2) => item1.date!.compareTo(item2.date!),
                     order: GroupedListOrder.DESC,
                   ),
                 ],

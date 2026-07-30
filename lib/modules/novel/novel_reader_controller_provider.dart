@@ -7,8 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'novel_reader_controller_provider.g.dart';
 
 @riverpod
-class NovelReaderController extends _$NovelReaderController
-    with ChapterControllerMixin, ChapterReaderSettingsMixin {
+class NovelReaderController extends _$NovelReaderController with ChapterControllerMixin, ChapterReaderSettingsMixin {
   @override
   void build({required Chapter chapter}) {}
 
@@ -36,8 +35,7 @@ class NovelReaderController extends _$NovelReaderController
       final ch = chapter;
       isar.writeTxnSync(() {
         ch.isRead = isRead;
-        ch.lastPageRead = (maxOffset != 0 ? newOffset / maxOffset : 0)
-            .toString();
+        ch.lastPageRead = (maxOffset != 0 ? newOffset / maxOffset : 0).toString();
         ch.updatedAt = DateTime.now().millisecondsSinceEpoch;
         isar.chapters.putSync(ch);
       });

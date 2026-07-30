@@ -75,15 +75,9 @@ class MassMigrationCover extends ConsumerWidget {
     }
 
     final imageUrl = toImgUrl(
-      remoteItem?.imageUrl ??
-          libraryItem?.customCoverFromTracker ??
-          libraryItem?.imageUrl ??
-          '',
+      remoteItem?.imageUrl ?? libraryItem?.customCoverFromTracker ?? libraryItem?.imageUrl ?? '',
     );
-    final headers =
-        source == null ||
-            (source!.name?.isEmpty ?? true) ||
-            (source!.lang?.isEmpty ?? true)
+    final headers = source == null || (source!.name?.isEmpty ?? true) || (source!.lang?.isEmpty ?? true)
         ? null
         : ref.watch(
             headersProvider(

@@ -104,10 +104,7 @@ class _TvAnimeDetailViewState extends ConsumerState<TvAnimeDetailView> {
   /// The episode Play/Continue lands on: the one in watch history, else the
   /// first unwatched, else the first.
   Chapter? _resumeEpisode(List<Chapter> reading) {
-    final history = isar.historys
-        .filter()
-        .mangaIdEqualTo(manga.id!)
-        .findAllSync();
+    final history = isar.historys.filter().mangaIdEqualTo(manga.id!).findAllSync();
     if (history.isNotEmpty) {
       history.first.chapter.loadSync();
       final ch = history.first.chapter.value;
@@ -239,8 +236,7 @@ class _TvAnimeDetailViewState extends ConsumerState<TvAnimeDetailView> {
                                 '/watchOrder',
                                 extra: (manga.name, null),
                               ),
-                              onMigrate: () =>
-                                  context.push('/migrate', extra: manga),
+                              onMigrate: () => context.push('/migrate', extra: manga),
                               // Seeded: this manga's source floats to the top.
                               onMassMigrate: () => context.push(
                                 '/massMigration',
@@ -255,8 +251,7 @@ class _TvAnimeDetailViewState extends ConsumerState<TvAnimeDetailView> {
                               episodes: episodes,
                               resumeId: resume?.id,
                               loading: !hasLive && episodes.isEmpty,
-                              onExitLeft: () =>
-                                  _actionFocus[_lastAction].requestFocus(),
+                              onExitLeft: () => _actionFocus[_lastAction].requestFocus(),
                               onOpen: (c) => c.pushToReaderView(
                                 context,
                                 ignoreIsRead: true,
@@ -292,10 +287,7 @@ class _TvAnimeDetailViewState extends ConsumerState<TvAnimeDetailView> {
   /// logged in there is nothing to track against, so route to the tracking
   /// settings to set one up instead of showing an empty sheet.
   void _openTracking() {
-    final entries = isar.trackPreferences
-        .filter()
-        .syncIdIsNotNull()
-        .findAllSync();
+    final entries = isar.trackPreferences.filter().syncIdIsNotNull().findAllSync();
     if (entries.isEmpty) {
       context.push('/track');
       return;
@@ -341,8 +333,7 @@ class _TopBar extends StatelessWidget {
       canRequestFocus: false,
       skipTraversal: true,
       onKeyEvent: (node, event) {
-        if ((event is KeyDownEvent || event is KeyRepeatEvent) &&
-            event.logicalKey == LogicalKeyboardKey.arrowDown) {
+        if ((event is KeyDownEvent || event is KeyRepeatEvent) && event.logicalKey == LogicalKeyboardKey.arrowDown) {
           onDown();
           return KeyEventResult.handled;
         }
@@ -465,9 +456,7 @@ class _LeftInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final accent = context.primaryColor;
-    final genres = (manga.genre ?? const <String>[])
-        .where((g) => g.trim().isNotEmpty)
-        .toList();
+    final genres = (manga.genre ?? const <String>[]).where((g) => g.trim().isNotEmpty).toList();
     final metaBits = <String>[
       manga.status.name.isNotEmpty ? _cap(manga.status.name) : '',
       '$episodeCount episodes',
@@ -481,9 +470,7 @@ class _LeftInfo extends StatelessWidget {
         ? 'Replay'
         : (watched > 0 ? 'Continue' : 'Play');
     final resumeName = resume?.name?.trim() ?? '';
-    final resumeLabel = resumeName.isEmpty
-        ? resumeWord
-        : '$resumeWord  ·  $resumeName';
+    final resumeLabel = resumeName.isEmpty ? resumeWord : '$resumeWord  ·  $resumeName';
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(32, 20, 32, 16),
@@ -731,8 +718,7 @@ class _VActionButtonState extends State<_VActionButton> {
             node.focusInDirection(TraversalDirection.right);
             return KeyEventResult.handled;
           }
-          if (widget.onExitUp != null &&
-              event.logicalKey == LogicalKeyboardKey.arrowUp) {
+          if (widget.onExitUp != null && event.logicalKey == LogicalKeyboardKey.arrowUp) {
             widget.onExitUp!();
             return KeyEventResult.handled;
           }
@@ -871,9 +857,7 @@ class _EpisodeRowState extends State<_EpisodeRow> {
     final ep = widget.episode;
     final watched = ep.isRead ?? false;
     final filler = ep.isFiller ?? false;
-    final title = (ep.name ?? '').trim().isEmpty
-        ? 'Episode ${widget.index + 1}'
-        : ep.name!.trim();
+    final title = (ep.name ?? '').trim().isEmpty ? 'Episode ${widget.index + 1}' : ep.name!.trim();
     return Focus(
       onFocusChange: (f) => setState(() => _focused = f),
       onKeyEvent: (node, event) {
@@ -895,9 +879,7 @@ class _EpisodeRowState extends State<_EpisodeRow> {
           margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           decoration: BoxDecoration(
-            color: _focused
-                ? widget.accent.withValues(alpha: 0.20)
-                : Colors.transparent,
+            color: _focused ? widget.accent.withValues(alpha: 0.20) : Colors.transparent,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
@@ -909,9 +891,7 @@ class _EpisodeRowState extends State<_EpisodeRow> {
                 height: 34,
                 margin: const EdgeInsets.only(right: 12),
                 decoration: BoxDecoration(
-                  color: watched
-                      ? Theme.of(context).hintColor.withValues(alpha: 0.3)
-                      : widget.accent,
+                  color: watched ? Theme.of(context).hintColor.withValues(alpha: 0.3) : widget.accent,
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),

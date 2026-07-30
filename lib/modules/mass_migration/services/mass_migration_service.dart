@@ -63,32 +63,20 @@ _MigrationSnapshot _captureMigrationSnapshot({
   final chaptersProgress = <Chapter>[];
 
   isar.writeTxnSync(() {
-    final histories = isar.historys
-        .filter()
-        .mangaIdEqualTo(oldManga.id)
-        .sortByDate()
-        .findAllSync();
+    final histories = isar.historys.filter().mangaIdEqualTo(oldManga.id).sortByDate().findAllSync();
     historyChapter = extractMigrationChapterNumber(
       histories.lastOrNull?.chapter.value?.name ?? '',
     );
     historyDate = histories.lastOrNull?.date;
     for (final history in histories) {
       isar.historys.deleteSync(history.id!);
-      ref
-          .read(synchingProvider(syncId: 1).notifier)
-          .addChangedPart(ActionType.removeHistory, history.id, '{}', false);
+      ref.read(synchingProvider(syncId: 1).notifier).addChangedPart(ActionType.removeHistory, history.id, '{}', false);
     }
     for (final chapter in oldManga.chapters) {
       chaptersProgress.add(chapter);
-      isar.updates
-          .filter()
-          .mangaIdEqualTo(chapter.mangaId)
-          .chapterNameEqualTo(chapter.name)
-          .deleteAllSync();
+      isar.updates.filter().mangaIdEqualTo(chapter.mangaId).chapterNameEqualTo(chapter.name).deleteAllSync();
       isar.chapters.deleteSync(chapter.id!);
-      ref
-          .read(synchingProvider(syncId: 1).notifier)
-          .addChangedPart(ActionType.removeChapter, chapter.id, '{}', false);
+      ref.read(synchingProvider(syncId: 1).notifier).addChangedPart(ActionType.removeChapter, chapter.id, '{}', false);
     }
   });
 
@@ -128,12 +116,7 @@ void _syncMigratedMangaFromPreview({
   required Source destinationSource,
 }) {
   final genre =
-      preview.genre
-          ?.map((entry) => entry.toString().trim())
-          .where((entry) => entry.isNotEmpty)
-          .toSet()
-          .toList() ??
-      [];
+      preview.genre?.map((entry) => entry.toString().trim()).where((entry) => entry.isNotEmpty).toSet().toList() ?? [];
 
   final previewImageUrl = preview.imageUrl.trimmedOrDefault(oldManga.imageUrl);
   oldManga
@@ -146,11 +129,8 @@ void _syncMigratedMangaFromPreview({
     ..genre = genre.isEmpty ? oldManga.genre ?? [] : genre
     ..author = preview.author.trimmedOrDefault(oldManga.author) ?? ''
     ..artist = preview.artist.trimmedOrDefault(oldManga.artist) ?? ''
-    ..status = preview.status == Status.unknown
-        ? oldManga.status
-        : preview.status ?? Status.unknown
-    ..description =
-        preview.description.trimmedOrDefault(oldManga.description) ?? ''
+    ..status = preview.status == Status.unknown ? oldManga.status : preview.status ?? Status.unknown
+    ..description = preview.description.trimmedOrDefault(oldManga.description) ?? ''
     ..link = preview.link.trimmedOrDefault(oldManga.link)
     ..source = destinationSource.name
     ..lang = destinationSource.lang
@@ -218,9 +198,7 @@ void _restoreMigrationProgress({
       isar.historys.putSync(
         History(
           mangaId: oldManga.id,
-          date:
-              snapshot.historyDate ??
-              DateTime.now().millisecondsSinceEpoch.toString(),
+          date: snapshot.historyDate ?? DateTime.now().millisecondsSinceEpoch.toString(),
           itemType: oldManga.itemType,
           chapterId: historyChapter.id,
         )..chapter.value = historyChapter,
@@ -361,8 +339,7 @@ List<String> buildMassMigrationQueries(Manga manga) {
   }
 
   addQuery(manga.name);
-  for (final track
-      in isar.tracks.filter().mangaIdEqualTo(manga.id).findAllSync()) {
+  for (final track in isar.tracks.filter().mangaIdEqualTo(manga.id).findAllSync()) {
     addQuery(track.title);
   }
 
@@ -427,8 +404,7 @@ double _scoreCandidate({
       score = score < 100 ? 100 : score;
       continue;
     }
-    if (candidateName.contains(normalizedQuery) ||
-        normalizedQuery.contains(candidateName)) {
+    if (candidateName.contains(normalizedQuery) || normalizedQuery.contains(candidateName)) {
       final ratio = normalizedQuery.length < candidateName.length
           ? normalizedQuery.length / candidateName.length
           : candidateName.length / normalizedQuery.length;
@@ -442,12 +418,10 @@ double _scoreCandidate({
   final sourceArtist = _normalizeTitle(manga.artist);
   final candidateAuthor = _normalizeTitle(candidate.author);
   final candidateArtist = _normalizeTitle(candidate.artist);
-  if (sourceAuthor.isNotEmpty &&
-      (sourceAuthor == candidateAuthor || sourceAuthor == candidateArtist)) {
+  if (sourceAuthor.isNotEmpty && (sourceAuthor == candidateAuthor || sourceAuthor == candidateArtist)) {
     score += 15;
   }
-  if (sourceArtist.isNotEmpty &&
-      (sourceArtist == candidateArtist || sourceArtist == candidateAuthor)) {
+  if (sourceArtist.isNotEmpty && (sourceArtist == candidateArtist || sourceArtist == candidateAuthor)) {
     score += 10;
   }
 
@@ -456,10 +430,7 @@ double _scoreCandidate({
 
 double _tokenOverlapScore(String left, String right) {
   final leftTokens = left.split(' ').where((token) => token.isNotEmpty).toSet();
-  final rightTokens = right
-      .split(' ')
-      .where((token) => token.isNotEmpty)
-      .toSet();
+  final rightTokens = right.split(' ').where((token) => token.isNotEmpty).toSet();
   if (leftTokens.isEmpty || rightTokens.isEmpty) return 0;
   final overlap = leftTokens.intersection(rightTokens).length;
   return (overlap / leftTokens.union(rightTokens).length) * 70;

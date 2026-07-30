@@ -9,10 +9,9 @@ export 'package:mangayomi/models/settings.dart' show SavedSearch;
 /// Saved searches keyed by source id, so frequent searches can be re-run from
 /// the source browse with one tap. Persisted on the Settings collection as a
 /// flat list where each entry carries its `sourceId`.
-final savedSearchesProvider =
-    NotifierProvider<SavedSearchesNotifier, Map<int, List<SavedSearch>>>(
-      SavedSearchesNotifier.new,
-    );
+final savedSearchesProvider = NotifierProvider<SavedSearchesNotifier, Map<int, List<SavedSearch>>>(
+  SavedSearchesNotifier.new,
+);
 
 class SavedSearchesNotifier extends Notifier<Map<int, List<SavedSearch>>> {
   @override

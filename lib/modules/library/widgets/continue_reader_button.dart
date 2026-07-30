@@ -16,10 +16,7 @@ class ContinueReaderButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return StreamBuilder(
-      stream: isar.historys
-          .filter()
-          .mangaIdEqualTo(entry.id!)
-          .watch(fireImmediately: true),
+      stream: isar.historys.filter().mangaIdEqualTo(entry.id!).watch(fireImmediately: true),
       builder: (context, snapshot) => GestureDetector(
         onTap: () {
           final incognitoMode = ref.read(incognitoModeStateProvider);

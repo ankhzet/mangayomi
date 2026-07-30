@@ -40,12 +40,7 @@ class _GlobalSearchScreenState extends ConsumerState<GlobalSearchScreen> {
   late final bool _showNSFW = ref.read(showNSFWStateProvider);
   late final List<Source> sourceList = () {
     final sources = ref.read(onlyIncludePinnedSourceStateProvider)
-        ? isar.sources
-              .filter()
-              .isPinnedEqualTo(true)
-              .and()
-              .itemTypeEqualTo(widget.itemType)
-              .findAllSync()
+        ? isar.sources.filter().isPinnedEqualTo(true).and().itemTypeEqualTo(widget.itemType).findAllSync()
         : isar.sources
               .filter()
               .idIsNotNull()
@@ -216,12 +211,9 @@ class _SourceSearchScreenState extends ConsumerState<SourceSearchScreen> {
                         }
                         if (pages!.list.isNotEmpty) {
                           return SuperListView.builder(
-                            extentPrecalculationPolicy:
-                                SuperPrecalculationPolicy(),
+                            extentPrecalculationPolicy: SuperPrecalculationPolicy(),
                             scrollDirection: Axis.horizontal,
-                            padding: isTv
-                                ? const EdgeInsets.symmetric(horizontal: 8)
-                                : null,
+                            padding: isTv ? const EdgeInsets.symmetric(horizontal: 8) : null,
                             itemCount: pages!.list.length,
                             itemBuilder: (context, index) {
                               return MangaGlobalImageCard(
@@ -253,8 +245,7 @@ class MangaGlobalImageCard extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<MangaGlobalImageCard> createState() =>
-      _MangaGlobalImageCardState();
+  ConsumerState<MangaGlobalImageCard> createState() => _MangaGlobalImageCardState();
 }
 
 class _MangaGlobalImageCardState extends ConsumerState<MangaGlobalImageCard>
@@ -306,9 +297,7 @@ class _MangaGlobalImageCardState extends ConsumerState<MangaGlobalImageCard>
       // focused cover grows into. Inside, it would scale along with the card
       // and buy nothing, which is why the block had to be stretched before.
       child: Padding(
-        padding: isTv
-            ? const EdgeInsets.symmetric(horizontal: 8, vertical: 8)
-            : const EdgeInsets.only(left: 10),
+        padding: isTv ? const EdgeInsets.symmetric(horizontal: 8, vertical: 8) : const EdgeInsets.only(left: 10),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 130),
           curve: Curves.easeOut,
@@ -347,12 +336,9 @@ class _MangaGlobalImageCardState extends ConsumerState<MangaGlobalImageCard>
                         children: [
                           Builder(
                             builder: (context) {
-                              if (hasData &&
-                                  snapshot.data!.first.customCoverImage !=
-                                      null) {
+                              if (hasData && snapshot.data!.first.customCoverImage != null) {
                                 return Image.memory(
-                                  snapshot.data!.first.customCoverImage
-                                      as Uint8List,
+                                  snapshot.data!.first.customCoverImage as Uint8List,
                                 );
                               }
                               return ClipRRect(
@@ -367,10 +353,7 @@ class _MangaGlobalImageCardState extends ConsumerState<MangaGlobalImageCard>
                                   ),
                                   imageUrl: toImgUrl(
                                     hasData
-                                        ? snapshot
-                                                  .data!
-                                                  .first
-                                                  .customCoverFromTracker ??
+                                        ? snapshot.data!.first.customCoverFromTracker ??
                                               snapshot.data!.first.imageUrl ??
                                               ""
                                         : getMangaDetail.imageUrl ?? "",
@@ -397,9 +380,7 @@ class _MangaGlobalImageCardState extends ConsumerState<MangaGlobalImageCard>
                     Container(
                       width: 110,
                       height: 150,
-                      color: hasData && snapshot.data!.first.favorite!
-                          ? Colors.black.withValues(alpha: 0.7)
-                          : null,
+                      color: hasData && snapshot.data!.first.favorite! ? Colors.black.withValues(alpha: 0.7) : null,
                     ),
                     if (hasData && snapshot.data!.first.favorite!)
                       Positioned(

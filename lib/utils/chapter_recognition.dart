@@ -17,14 +17,12 @@ class ChapterRecognition {
 
   /// Sort key for the UI list. Encodes season into the key so multi-season
   /// anime sort correctly: key = season * 100000 + episode.
-  int parseChapterNumber(String mangaTitle, String chapterName) =>
-      _parse(mangaTitle, chapterName, applySeason: true);
+  int parseChapterNumber(String mangaTitle, String chapterName) => _parse(mangaTitle, chapterName, applySeason: true);
 
   /// Episode number within a season, for tracker updates (MAL/AniList/Kitsu)
   /// and AniSkip results. The tracker entry is already season-specific,
   /// so season is stripped.
-  int parseEpisodeNumber(String mangaTitle, String chapterName) =>
-      _parse(mangaTitle, chapterName, applySeason: false);
+  int parseEpisodeNumber(String mangaTitle, String chapterName) => _parse(mangaTitle, chapterName, applySeason: false);
 
   int _parse(
     String mangaTitle,
@@ -40,9 +38,7 @@ class ChapterRecognition {
         .replaceAll('-', '.')
         .replaceAll(_unwantedWhiteSpace, '');
 
-    final season = applySeason
-        ? int.tryParse(_seasonKeyword.firstMatch(name)?.group(1) ?? '') ?? 0
-        : 0;
+    final season = applySeason ? int.tryParse(_seasonKeyword.firstMatch(name)?.group(1) ?? '') ?? 0 : 0;
 
     final epMatch = _episodeKeyword.firstMatch(name);
     if (epMatch != null) {

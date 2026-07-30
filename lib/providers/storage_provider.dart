@@ -199,9 +199,7 @@ class StorageProvider {
     // and a black screen on launch. iOS keeps Documents so the DB remains
     // visible alongside backups via the Files app. Windows / Linux are
     // untouched — Documents is the conventional location there.
-    final dir = Platform.isMacOS
-        ? await getApplicationSupportDirectory()
-        : await getApplicationDocumentsDirectory();
+    final dir = Platform.isMacOS ? await getApplicationSupportDirectory() : await getApplicationDocumentsDirectory();
     String dbDir;
     if (Platform.isAndroid) return dir;
     if (Platform.isIOS) {

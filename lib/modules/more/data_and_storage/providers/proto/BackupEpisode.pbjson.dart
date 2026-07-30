@@ -20,15 +20,7 @@ const BackupEpisode$json = {
   '2': [
     {'1': 'url', '3': 1, '4': 1, '5': 9, '10': 'url'},
     {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
-    {
-      '1': 'scanlator',
-      '3': 3,
-      '4': 1,
-      '5': 9,
-      '9': 0,
-      '10': 'scanlator',
-      '17': true
-    },
+    {'1': 'scanlator', '3': 3, '4': 1, '5': 9, '9': 0, '10': 'scanlator', '17': true},
     {'1': 'seen', '3': 4, '4': 1, '5': 8, '10': 'seen'},
     {'1': 'bookmark', '3': 5, '4': 1, '5': 8, '10': 'bookmark'},
     {'1': 'lastSecondSeen', '3': 6, '4': 1, '5': 3, '10': 'lastSecondSeen'},
@@ -40,24 +32,8 @@ const BackupEpisode$json = {
     {'1': 'version', '3': 12, '4': 1, '5': 3, '10': 'version'},
     {'1': 'totalSeconds', '3': 16, '4': 1, '5': 3, '10': 'totalSeconds'},
     {'1': 'fillermark', '3': 501, '4': 1, '5': 8, '10': 'fillermark'},
-    {
-      '1': 'summary',
-      '3': 502,
-      '4': 1,
-      '5': 9,
-      '9': 1,
-      '10': 'summary',
-      '17': true
-    },
-    {
-      '1': 'previewUrl',
-      '3': 503,
-      '4': 1,
-      '5': 9,
-      '9': 2,
-      '10': 'previewUrl',
-      '17': true
-    },
+    {'1': 'summary', '3': 502, '4': 1, '5': 9, '9': 1, '10': 'summary', '17': true},
+    {'1': 'previewUrl', '3': 503, '4': 1, '5': 9, '9': 2, '10': 'previewUrl', '17': true},
   ],
   '8': [
     {'1': '_scanlator'},
@@ -67,15 +43,15 @@ const BackupEpisode$json = {
 };
 
 /// Descriptor for `BackupEpisode`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List backupEpisodeDescriptor = $convert.base64Decode(
-    'Cg1CYWNrdXBFcGlzb2RlEhAKA3VybBgBIAEoCVIDdXJsEhIKBG5hbWUYAiABKAlSBG5hbWUSIQ'
-    'oJc2NhbmxhdG9yGAMgASgJSABSCXNjYW5sYXRvcogBARISCgRzZWVuGAQgASgIUgRzZWVuEhoK'
-    'CGJvb2ttYXJrGAUgASgIUghib29rbWFyaxImCg5sYXN0U2Vjb25kU2VlbhgGIAEoA1IObGFzdF'
-    'NlY29uZFNlZW4SHAoJZGF0ZUZldGNoGAcgASgDUglkYXRlRmV0Y2gSHgoKZGF0ZVVwbG9hZBgI'
-    'IAEoA1IKZGF0ZVVwbG9hZBIkCg1lcGlzb2RlTnVtYmVyGAkgASgCUg1lcGlzb2RlTnVtYmVyEi'
-    'AKC3NvdXJjZU9yZGVyGAogASgDUgtzb3VyY2VPcmRlchImCg5sYXN0TW9kaWZpZWRBdBgLIAEo'
-    'A1IObGFzdE1vZGlmaWVkQXQSGAoHdmVyc2lvbhgMIAEoA1IHdmVyc2lvbhIiCgx0b3RhbFNlY2'
-    '9uZHMYECABKANSDHRvdGFsU2Vjb25kcxIfCgpmaWxsZXJtYXJrGPUDIAEoCFIKZmlsbGVybWFy'
-    'axIeCgdzdW1tYXJ5GPYDIAEoCUgBUgdzdW1tYXJ5iAEBEiQKCnByZXZpZXdVcmwY9wMgASgJSA'
-    'JSCnByZXZpZXdVcmyIAQFCDAoKX3NjYW5sYXRvckIKCghfc3VtbWFyeUINCgtfcHJldmlld1Vy'
-    'bA==');
+final $typed_data.Uint8List backupEpisodeDescriptor =
+    $convert.base64Decode('Cg1CYWNrdXBFcGlzb2RlEhAKA3VybBgBIAEoCVIDdXJsEhIKBG5hbWUYAiABKAlSBG5hbWUSIQ'
+        'oJc2NhbmxhdG9yGAMgASgJSABSCXNjYW5sYXRvcogBARISCgRzZWVuGAQgASgIUgRzZWVuEhoK'
+        'CGJvb2ttYXJrGAUgASgIUghib29rbWFyaxImCg5sYXN0U2Vjb25kU2VlbhgGIAEoA1IObGFzdF'
+        'NlY29uZFNlZW4SHAoJZGF0ZUZldGNoGAcgASgDUglkYXRlRmV0Y2gSHgoKZGF0ZVVwbG9hZBgI'
+        'IAEoA1IKZGF0ZVVwbG9hZBIkCg1lcGlzb2RlTnVtYmVyGAkgASgCUg1lcGlzb2RlTnVtYmVyEi'
+        'AKC3NvdXJjZU9yZGVyGAogASgDUgtzb3VyY2VPcmRlchImCg5sYXN0TW9kaWZpZWRBdBgLIAEo'
+        'A1IObGFzdE1vZGlmaWVkQXQSGAoHdmVyc2lvbhgMIAEoA1IHdmVyc2lvbhIiCgx0b3RhbFNlY2'
+        '9uZHMYECABKANSDHRvdGFsU2Vjb25kcxIfCgpmaWxsZXJtYXJrGPUDIAEoCFIKZmlsbGVybWFy'
+        'axIeCgdzdW1tYXJ5GPYDIAEoCUgBUgdzdW1tYXJ5iAEBEiQKCnByZXZpZXdVcmwY9wMgASgJSA'
+        'JSCnByZXZpZXdVcmyIAQFCDAoKX3NjYW5sYXRvckIKCghfc3VtbWFyeUINCgtfcHJldmlld1Vy'
+        'bA==');

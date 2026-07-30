@@ -44,10 +44,8 @@ class LibraryListViewWidget extends StatelessWidget {
                   context: context,
                   entry: entry,
                 ),
-                onLongPress: () =>
-                    handleLongOrSecondaryTap(isLongPressed, ref, entry),
-                onSecondaryTap: () =>
-                    handleLongOrSecondaryTap(isLongPressed, ref, entry),
+                onLongPress: () => handleLongOrSecondaryTap(isLongPressed, ref, entry),
+                onSecondaryTap: () => handleLongOrSecondaryTap(isLongPressed, ref, entry),
                 child: Container(
                   color: mangaIdsList.contains(entry.id)
                       ? context.primaryColor.withValues(alpha: 0.4)
@@ -117,8 +115,7 @@ class LibraryListViewWidget extends StatelessWidget {
                                 ),
                             ],
                           ),
-                          if (continueReaderBtn)
-                            ContinueReaderButton(entry: entry),
+                          if (continueReaderBtn) ContinueReaderButton(entry: entry),
                         ],
                       ),
                     ),

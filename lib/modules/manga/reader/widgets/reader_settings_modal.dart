@@ -192,9 +192,7 @@ class _ReadingModeTab extends ConsumerWidget {
                   ),
                 ),
                 onChanged: (value) {
-                  ref
-                      .read(webtoonDisableZoomOutStateProvider.notifier)
-                      .set(value);
+                  ref.read(webtoonDisableZoomOutStateProvider.notifier).set(value);
                 },
               ),
               SwitchListTile(
@@ -209,9 +207,7 @@ class _ReadingModeTab extends ConsumerWidget {
                   ),
                 ),
                 onChanged: (value) {
-                  ref
-                      .read(webtoonDoubleTapZoomEnabledStateProvider.notifier)
-                      .set(value);
+                  ref.read(webtoonDoubleTapZoomEnabledStateProvider.notifier).set(value);
                 },
               ),
             ],
@@ -299,9 +295,7 @@ class _ReadingModeTab extends ConsumerWidget {
                   ),
                 ),
                 onChanged: (value) {
-                  ref
-                      .read(dualPageRotateToFitInvertStateProvider.notifier)
-                      .set(value);
+                  ref.read(dualPageRotateToFitInvertStateProvider.notifier).set(value);
                 },
               ),
 
@@ -428,9 +422,7 @@ class _ReadingModeTab extends ConsumerWidget {
                   divisions: 50,
                   value: webtoonSidePadding.toDouble(),
                   onChanged: (value) {
-                    ref
-                        .read(webtoonSidePaddingStateProvider.notifier)
-                        .set(value.toInt());
+                    ref.read(webtoonSidePaddingStateProvider.notifier).set(value.toInt());
                   },
                 ),
               ),
@@ -626,9 +618,7 @@ class _GeneralTab extends ConsumerWidget {
                         RadioGroup<int>(
                           groupValue: tappingInversion,
                           onChanged: (val) {
-                            ref
-                                .read(tappingInversionStateProvider.notifier)
-                                .set(val!);
+                            ref.read(tappingInversionStateProvider.notifier).set(val!);
                             Navigator.pop(ctx);
                           },
                           child: Column(
@@ -744,9 +734,7 @@ class _GeneralTab extends ConsumerWidget {
                   divisions: 9,
                   value: flashInterval.toDouble(),
                   onChanged: (val) {
-                    ref
-                        .read(flashIntervalStateProvider.notifier)
-                        .set(val.toInt());
+                    ref.read(flashIntervalStateProvider.notifier).set(val.toInt());
                   },
                 ),
               ),
@@ -766,9 +754,7 @@ class _GeneralTab extends ConsumerWidget {
                   divisions: 9,
                   value: flashDuration.toDouble(),
                   onChanged: (val) {
-                    ref
-                        .read(flashDurationStateProvider.notifier)
-                        .set(val.toInt());
+                    ref.read(flashDurationStateProvider.notifier).set(val.toInt());
                   },
                 ),
               ),
@@ -787,9 +773,7 @@ class _GeneralTab extends ConsumerWidget {
                 ),
               ),
               onChanged: (value) {
-                ref
-                    .read(showNavigationOverlayOnStartStateProvider.notifier)
-                    .set(value);
+                ref.read(showNavigationOverlayOnStartStateProvider.notifier).set(value);
               },
             ),
 
@@ -820,9 +804,7 @@ class _GeneralTab extends ConsumerWidget {
                         RadioGroup<int>(
                           groupValue: readerHideThreshold,
                           onChanged: (val) {
-                            ref
-                                .read(readerHideThresholdStateProvider.notifier)
-                                .set(val!);
+                            ref.read(readerHideThresholdStateProvider.notifier).set(val!);
                             Navigator.pop(ctx);
                           },
                           child: Column(
@@ -993,8 +975,7 @@ class _CustomFilterTab extends ConsumerWidget {
               min: -1.0,
               max: 1.0,
               defaultValue: 0.0,
-              onChanged: (v) =>
-                  ref.read(readerBrightnessStateProvider.notifier).set(v),
+              onChanged: (v) => ref.read(readerBrightnessStateProvider.notifier).set(v),
               context: context,
             ),
 
@@ -1005,8 +986,7 @@ class _CustomFilterTab extends ConsumerWidget {
               min: 0.0,
               max: 2.0,
               defaultValue: 1.0,
-              onChanged: (v) =>
-                  ref.read(readerContrastStateProvider.notifier).set(v),
+              onChanged: (v) => ref.read(readerContrastStateProvider.notifier).set(v),
               context: context,
             ),
 
@@ -1017,8 +997,7 @@ class _CustomFilterTab extends ConsumerWidget {
               min: 0.0,
               max: 2.0,
               defaultValue: 1.0,
-              onChanged: (v) =>
-                  ref.read(readerSaturationStateProvider.notifier).set(v),
+              onChanged: (v) => ref.read(readerSaturationStateProvider.notifier).set(v),
               context: context,
             ),
 

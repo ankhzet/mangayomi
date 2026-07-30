@@ -196,10 +196,7 @@ enum _AniSkipPhase { none, opening, ending }
 bool _firstTime = true;
 
 class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
-    with
-        _AlwaysOnTopStateMixin,
-        TickerProviderStateMixin,
-        WidgetsBindingObserver {
+    with _AlwaysOnTopStateMixin, TickerProviderStateMixin, WidgetsBindingObserver {
   late final GlobalKey<VideoState> _key = GlobalKey<VideoState>();
   late final useLibass = ref.read(useLibassStateProvider);
   late final useMpvConfig = ref.read(useMpvConfigStateProvider);
@@ -224,39 +221,27 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
         if (audioPreferredLang.isNotEmpty) "alang": audioPreferredLang,
         if (enableAudioPitchCorrection) "audio-pitch-correction": "yes",
         "volume-max": "${volumeBoostCap + 100}",
-        if (audioChannel != AudioChannel.reverseStereo)
-          "audio-channels": audioChannel.mpvName,
-        if (audioChannel == AudioChannel.reverseStereo)
-          "af": audioChannel.mpvName,
+        if (audioChannel != AudioChannel.reverseStereo) "audio-channels": audioChannel.mpvName,
+        if (audioChannel == AudioChannel.reverseStereo) "af": audioChannel.mpvName,
       },
       observeProperties: {
         "user-data/aniyomi/show_text": generated.mpv_format.MPV_FORMAT_NODE,
         "user-data/aniyomi/toggle_ui": generated.mpv_format.MPV_FORMAT_NODE,
         "user-data/aniyomi/show_panel": generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/aniyomi/software_keyboard":
-            generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/aniyomi/set_button_title":
-            generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/aniyomi/reset_button_title":
-            generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/aniyomi/software_keyboard": generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/aniyomi/set_button_title": generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/aniyomi/reset_button_title": generated.mpv_format.MPV_FORMAT_NODE,
         "user-data/aniyomi/toggle_button": generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/aniyomi/switch_episode":
-            generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/aniyomi/switch_episode": generated.mpv_format.MPV_FORMAT_NODE,
         "user-data/aniyomi/pause": generated.mpv_format.MPV_FORMAT_NODE,
         "user-data/aniyomi/seek_by": generated.mpv_format.MPV_FORMAT_NODE,
         "user-data/aniyomi/seek_to": generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/aniyomi/seek_by_with_text":
-            generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/aniyomi/seek_to_with_text":
-            generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/aniyomi/launch_int_picker":
-            generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/mangayomi/chapter_titles":
-            generated.mpv_format.MPV_FORMAT_NODE,
-        "user-data/mangayomi/current_chapter":
-            generated.mpv_format.MPV_FORMAT_INT64,
-        "user-data/mangayomi/selected_shader":
-            generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/aniyomi/seek_by_with_text": generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/aniyomi/seek_to_with_text": generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/aniyomi/launch_int_picker": generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/mangayomi/chapter_titles": generated.mpv_format.MPV_FORMAT_NODE,
+        "user-data/mangayomi/current_chapter": generated.mpv_format.MPV_FORMAT_INT64,
+        "user-data/mangayomi/selected_shader": generated.mpv_format.MPV_FORMAT_NODE,
       },
       eventHandler: _handleMpvEvents,
     ),
@@ -311,36 +296,31 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
 
   late final StreamSubscription<Duration> _currentPositionSub;
 
-  late final StreamSubscription<Duration> _currentTotalDurationSub = _player
-      .stream
-      .duration
-      .listen((duration) {
-        _currentTotalDuration.value = duration;
-        discordRpc?.updateChapterTimestamp(_currentPosition.value, duration);
-      });
+  late final StreamSubscription<Duration> _currentTotalDurationSub = _player.stream.duration.listen((duration) {
+    _currentTotalDuration.value = duration;
+    discordRpc?.updateChapterTimestamp(_currentPosition.value, duration);
+  });
 
   bool get hasNextEpisode => _streamController.hasNextEpisode;
 
-  late final StreamSubscription<bool> _completed = _player.stream.completed
-      .listen((val) {
-        if (hasNextEpisode && val && ref.read(autoPlayNextEpisodeProvider)) {
-          if (mounted) {
-            pushToNewEpisode(context, _streamController.getNextEpisode());
-          }
-        }
-        // If the last episode of an Anime has ended, exit fullscreen mode
-        final isFullScreen = ref.read(fullscreenProvider);
-        if (!hasNextEpisode && val && isDesktop && isFullScreen) {
-          setFullScreen(value: false);
-          ref.read(fullscreenProvider.notifier).state = false;
-          widget.desktopFullScreenPlayer.call(false);
-        }
-      });
+  late final StreamSubscription<bool> _completed = _player.stream.completed.listen((val) {
+    if (hasNextEpisode && val && ref.read(autoPlayNextEpisodeProvider)) {
+      if (mounted) {
+        pushToNewEpisode(context, _streamController.getNextEpisode());
+      }
+    }
+    // If the last episode of an Anime has ended, exit fullscreen mode
+    final isFullScreen = ref.read(fullscreenProvider);
+    if (!hasNextEpisode && val && isDesktop && isFullScreen) {
+      setFullScreen(value: false);
+      ref.read(fullscreenProvider.notifier).state = false;
+      widget.desktopFullScreenPlayer.call(false);
+    }
+  });
 
   Future<void> _handleMpvEvents(Pointer<generated.mpv_event> event) async {
     try {
-      if (event.ref.event_id ==
-          generated.mpv_event_id.MPV_EVENT_PROPERTY_CHANGE) {
+      if (event.ref.event_id == generated.mpv_event_id.MPV_EVENT_PROPERTY_CHANGE) {
         final prop = event.ref.data.cast<generated.mpv_event_property>();
         final propName = prop.ref.name.cast<Utf8>().toDartString();
         if (kDebugMode) {
@@ -348,12 +328,10 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
             print("DEBUG 00: $propName - ${prop.ref.format}");
           }
         }
-        if (propName.startsWith("user-data/") &&
-            prop.ref.format == generated.mpv_format.MPV_FORMAT_NODE) {
+        if (propName.startsWith("user-data/") && prop.ref.format == generated.mpv_format.MPV_FORMAT_NODE) {
           final value = prop.ref.data.cast<generated.mpv_node>();
           _handleMpvNodeEvents(propName, value);
-        } else if (propName.startsWith("user-data/") &&
-            prop.ref.format == generated.mpv_format.MPV_FORMAT_INT64) {
+        } else if (propName.startsWith("user-data/") && prop.ref.format == generated.mpv_format.MPV_FORMAT_INT64) {
           final value = prop.ref.data.cast<Int64>().value;
           _handleMpvNumberEvents(propName, value);
         }
@@ -565,10 +543,8 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
                         maxValue: stop,
                         step: step,
                         haptics: true,
-                        textMapper: (numberText) =>
-                            data[1].replaceAll("%d", numberText),
-                        onChanged: (value) =>
-                            setState(() => currentValue = value),
+                        textMapper: (numberText) => data[1].replaceAll("%d", numberText),
+                        onChanged: (value) => setState(() => currentValue = value),
                       ),
                     ],
                   ),
@@ -622,9 +598,7 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
               .map(
                 (e) => (
                   e["title"] as String,
-                  e["timestamp"] is double
-                      ? (e["timestamp"] as double).toInt() * 1000
-                      : (e["timestamp"] as int) * 1000,
+                  e["timestamp"] is double ? (e["timestamp"] as double).toInt() * 1000 : (e["timestamp"] as int) * 1000,
                 ),
               )
               .toList();
@@ -647,15 +621,9 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
 
   Future<void> _initCustomButton() async {
     if (!useMpvConfig) return;
-    final customButtons = isar.customButtons
-        .filter()
-        .idIsNotNull()
-        .sortByPos()
-        .findAllSync();
+    final customButtons = isar.customButtons.filter().idIsNotNull().sortByPos().findAllSync();
     if (customButtons.isEmpty) return;
-    final primaryButton =
-        customButtons.firstWhereOrNull((e) => e.isFavourite ?? false) ??
-        customButtons.first;
+    final primaryButton = customButtons.firstWhereOrNull((e) => e.isFavourite ?? false) ?? customButtons.first;
     final provider = StorageProvider();
     if (!(await provider.requestPermission())) {
       return;
@@ -910,8 +878,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.detached) {
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
       _watchStopwatch.stop();
       _setCurrentPosition(true);
     } else if (state == AppLifecycleState.resumed) {
@@ -967,14 +934,10 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
   Future<void> _initAniSkip() async {
     await _player.stream.buffer.first;
     _streamController.getAniSkipResults((result) {
-      final openingRes = result
-          .where((element) => element.skipType == "op")
-          .toList();
+      final openingRes = result.where((element) => element.skipType == "op").toList();
       _hasOpeningSkip = openingRes.isNotEmpty;
       if (_hasOpeningSkip) _openingResult = openingRes.first;
-      final endingRes = result
-          .where((element) => element.skipType == "ed")
-          .toList();
+      final endingRes = result.where((element) => element.skipType == "ed").toList();
       _hasEndingSkip = endingRes.isNotEmpty;
       if (_hasEndingSkip) _endingResult = endingRes.first;
       if (mounted) {
@@ -1103,9 +1066,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
       child: Column(
         children: videoQuality.map((quality) {
-          final selected =
-              _video.value!.videoTrack!.title == quality.videoTrack!.title ||
-              widget.isLocal;
+          final selected = _video.value!.videoTrack!.title == quality.videoTrack!.title || widget.isLocal;
           return GestureDetector(
             child: textWidget(
               widget.isLocal ? _firstVid.quality : quality.videoTrack!.title!,
@@ -1221,11 +1182,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
     videoSubtitle = videoSubtitle
         .map((e) {
           VideoPrefs vid = e;
-          vid.title =
-              vid.subtitle?.title ??
-              vid.subtitle?.language ??
-              vid.subtitle?.channels ??
-              "";
+          vid.title = vid.subtitle?.title ?? vid.subtitle?.language ?? vid.subtitle?.channels ?? "";
           return vid;
         })
         .toList()
@@ -1240,11 +1197,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
     List<VideoPrefs> videoSubtitleLast = [];
     for (var element in videoSubtitle) {
       final contains = videoSubtitleLast.any((sub) {
-        return (sub.title ??
-                sub.subtitle?.title ??
-                sub.subtitle?.language ??
-                sub.subtitle?.channels ??
-                "None") ==
+        return (sub.title ?? sub.subtitle?.title ?? sub.subtitle?.language ?? sub.subtitle?.channels ?? "None") ==
             (element.title ??
                 element.subtitle?.title ??
                 element.subtitle?.language ??
@@ -1346,18 +1299,10 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
           const SizedBox(height: 30),
           ...videoSubtitleLast.toSet().toList().map((sub) {
             final title =
-                sub.title ??
-                sub.subtitle?.title ??
-                sub.subtitle?.language ??
-                sub.subtitle?.channels ??
-                "None";
+                sub.title ?? sub.subtitle?.title ?? sub.subtitle?.language ?? sub.subtitle?.channels ?? "None";
 
             final selected =
-                (title ==
-                    (subtitle.title ??
-                        subtitle.language ??
-                        subtitle.channels ??
-                        "None")) ||
+                (title == (subtitle.title ?? subtitle.language ?? subtitle.channels ?? "None")) ||
                 (subtitle.id == "no" && title == "None");
             return GestureDetector(
               onTap: () {
@@ -1455,11 +1400,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
     videoAudio = videoAudio
         .map((e) {
           VideoPrefs vid = e;
-          vid.title =
-              vid.audio?.title ??
-              vid.audio?.language ??
-              vid.audio?.channels ??
-              "";
+          vid.title = vid.audio?.title ?? vid.audio?.language ?? vid.audio?.channels ?? "";
           return vid;
         })
         .toList()
@@ -1471,14 +1412,8 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
       child: Column(
         children: videoAudio.toSet().toList().map((aud) {
-          final title =
-              aud.title ??
-              aud.audio?.title ??
-              aud.audio?.language ??
-              aud.audio?.channels ??
-              "None";
-          final selected =
-              (aud.audio == audio) || (audio.id == "no" && title == "None");
+          final title = aud.title ?? aud.audio?.title ?? aud.audio?.language ?? aud.audio?.channels ?? "None";
+          final selected = (aud.audio == audio) || (audio.id == "no" && title == "None");
           return GestureDetector(
             onTap: () {
               Navigator.pop(context);
@@ -1496,8 +1431,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
   // d-pad-focusable option data for the TV settings panel — the same track
   // switching the bottom-sheet widgets do, minus the Navigator.pop (the panel
   // is not a route). Records: (label, selected, onTap).
-  List<({String label, bool selected, VoidCallback onTap})>
-  _tvQualityOptions() {
+  List<({String label, bool selected, VoidCallback onTap})> _tvQualityOptions() {
     List<VideoPrefs> videoQuality = _player.state.tracks.video
         .where(
           (element) => element.w != null && element.h != null && widget.isLocal,
@@ -1517,9 +1451,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
       }
     }
     return videoQuality.map((quality) {
-      final selected =
-          _video.value!.videoTrack!.title == quality.videoTrack!.title ||
-          widget.isLocal;
+      final selected = _video.value!.videoTrack!.title == quality.videoTrack!.title || widget.isLocal;
       return (
         label: widget.isLocal ? _firstVid.quality : quality.videoTrack!.title!,
         selected: selected,
@@ -1542,8 +1474,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
     }).toList();
   }
 
-  List<({String label, bool selected, VoidCallback onTap})>
-  _tvSubtitleOptions() {
+  List<({String label, bool selected, VoidCallback onTap})> _tvSubtitleOptions() {
     List<VideoPrefs> videoSubtitle = _player.state.tracks.subtitle
         .toList()
         .map((e) => VideoPrefs(isLocal: true, subtitle: e))
@@ -1571,11 +1502,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
     final subtitle = _player.state.track.subtitle;
     videoSubtitle = videoSubtitle
         .map((e) {
-          e.title =
-              e.subtitle?.title ??
-              e.subtitle?.language ??
-              e.subtitle?.channels ??
-              "";
+          e.title = e.subtitle?.title ?? e.subtitle?.language ?? e.subtitle?.channels ?? "";
           return e;
         })
         .toList()
@@ -1596,28 +1523,14 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
           "None";
       final contains = last.any(
         (sub) =>
-            (sub.title ??
-                sub.subtitle?.title ??
-                sub.subtitle?.language ??
-                sub.subtitle?.channels ??
-                "None") ==
-            key,
+            (sub.title ?? sub.subtitle?.title ?? sub.subtitle?.language ?? sub.subtitle?.channels ?? "None") == key,
       );
       if (!contains) last.add(element);
     }
     return last.toSet().toList().map((sub) {
-      final title =
-          sub.title ??
-          sub.subtitle?.title ??
-          sub.subtitle?.language ??
-          sub.subtitle?.channels ??
-          "None";
+      final title = sub.title ?? sub.subtitle?.title ?? sub.subtitle?.language ?? sub.subtitle?.channels ?? "None";
       final selected =
-          (title ==
-              (subtitle.title ??
-                  subtitle.language ??
-                  subtitle.channels ??
-                  "None")) ||
+          (title == (subtitle.title ?? subtitle.language ?? subtitle.channels ?? "None")) ||
           (subtitle.id == "no" && title == "None");
       return (
         label: title == "None" ? "Off" : title,
@@ -1659,8 +1572,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
     final audio = _player.state.track.audio;
     videoAudio = videoAudio
         .map((e) {
-          e.title =
-              e.audio?.title ?? e.audio?.language ?? e.audio?.channels ?? "";
+          e.title = e.audio?.title ?? e.audio?.language ?? e.audio?.channels ?? "";
           return e;
         })
         .toList()
@@ -1669,14 +1581,8 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
     videoAudio.sort((a, b) => a.title!.compareTo(b.title!));
     videoAudio.insert(0, VideoPrefs(isLocal: false, audio: AudioTrack.no()));
     return videoAudio.toSet().toList().map((aud) {
-      final title =
-          aud.title ??
-          aud.audio?.title ??
-          aud.audio?.language ??
-          aud.audio?.channels ??
-          "None";
-      final selected =
-          (aud.audio == audio) || (audio.id == "no" && title == "None");
+      final title = aud.title ?? aud.audio?.title ?? aud.audio?.language ?? aud.audio?.channels ?? "None";
+      final selected = (aud.audio == audio) || (audio.id == "no" && title == "None");
       return (
         label: title == "None" ? "Off" : title,
         selected: selected,
@@ -1733,16 +1639,12 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
           valueListenable: _customButton,
           builder: (context, value, child) => (value?.visible ?? true)
               ? ElevatedButton(
-                  onPressed:
-                      value?.onPress ??
-                      () async => await _seekBy(defaultSkipIntroLength),
+                  onPressed: value?.onPress ?? () async => await _seekBy(defaultSkipIntroLength),
                   onLongPress: value?.onLongPress,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      value != null
-                          ? value.currentTitle
-                          : "+$defaultSkipIntroLength",
+                      value != null ? value.currentTitle : "+$defaultSkipIntroLength",
                       style: const TextStyle(fontWeight: FontWeight.w100),
                     ),
                   ),
@@ -1770,8 +1672,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                           child: Text(
                             "${mark.$1} - ${Duration(milliseconds: mark.$2).label()}",
                           ),
-                          onTap: () =>
-                              _player.seek(Duration(milliseconds: mark.$2)),
+                          onTap: () => _player.seek(Duration(milliseconds: mark.$2)),
                         ),
                       )
                       .toList(),
@@ -1817,9 +1718,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
         }
       },
       hasNext: hasNextEpisode,
-      onNext: hasNextEpisode
-          ? () => pushToNewEpisode(context, _streamController.getNextEpisode())
-          : null,
+      onNext: hasNextEpisode ? () => pushToNewEpisode(context, _streamController.getNextEpisode()) : null,
       qualityListenable: _video,
       buildQualityOptions: _buildTvQualityOptions,
       speedListenable: _playbackSpeed,
@@ -1993,11 +1892,10 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                 CustomMaterialDesktopVolumeButton(controller: _controller),
                 ValueListenableBuilder(
                   valueListenable: _tempPosition,
-                  builder: (context, value, child) =>
-                      CustomMaterialDesktopPositionIndicator(
-                        delta: value,
-                        controller: _controller,
-                      ),
+                  builder: (context, value, child) => CustomMaterialDesktopPositionIndicator(
+                    delta: value,
+                    controller: _controller,
+                  ),
                 ),
                 _chapterMarkWidget(),
               ],
@@ -2040,9 +1938,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                     child: Text(
                       mode.$1,
                       style: TextStyle(
-                        fontWeight: _selectedShader.value == mode.$1
-                            ? FontWeight.w900
-                            : FontWeight.normal,
+                        fontWeight: _selectedShader.value == mode.$1 ? FontWeight.w900 : FontWeight.normal,
                       ),
                     ),
                     onTap: () {
@@ -2073,9 +1969,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                     child: Text(
                       mode.$1,
                       style: TextStyle(
-                        fontWeight: _selectedShader.value == mode.$1
-                            ? FontWeight.w900
-                            : FontWeight.normal,
+                        fontWeight: _selectedShader.value == mode.$1 ? FontWeight.w900 : FontWeight.normal,
                       ),
                     ),
                     onTap: () {
@@ -2128,18 +2022,17 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
         PopupMenuButton<double>(
           tooltip: '', // Remove default tooltip "Show menu" for consistency
           icon: const Icon(Icons.speed, color: Colors.white),
-          itemBuilder: (context) =>
-              [0.25, 0.5, 0.75, 1.0, 1.25, 1.50, 1.75, 2.0]
-                  .map(
-                    (speed) => PopupMenuItem<double>(
-                      value: speed,
-                      child: Text("${speed}x"),
-                      onTap: () {
-                        _setPlaybackSpeed(speed);
-                      },
-                    ),
-                  )
-                  .toList(),
+          itemBuilder: (context) => [0.25, 0.5, 0.75, 1.0, 1.25, 1.50, 1.75, 2.0]
+              .map(
+                (speed) => PopupMenuItem<double>(
+                  value: speed,
+                  child: Text("${speed}x"),
+                  onTap: () {
+                    _setPlaybackSpeed(speed);
+                  },
+                ),
+              )
+              .toList(),
         ),
         // PiP button disabled: entering PiP crashes on iOS 26 (see the
         // enableAutoPictureInPicture note above / closed #757). Re-enable with
@@ -2242,14 +2135,10 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                   // Same drawn play/pause switch as the TV player, for a
                   // consistent autoplay toggle across all players.
                   return Tooltip(
-                    message: autoPlay
-                        ? 'Autoplay next episode: on'
-                        : 'Autoplay next episode: off',
+                    message: autoPlay ? 'Autoplay next episode: on' : 'Autoplay next episode: off',
                     child: InkWell(
                       borderRadius: BorderRadius.circular(20),
-                      onTap: () => ref
-                          .read(autoPlayNextEpisodeProvider.notifier)
-                          .toggle(),
+                      onTap: () => ref.read(autoPlayNextEpisodeProvider.notifier).toggle(),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,
@@ -2437,9 +2326,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                   active: true,
                   autoSkip: enableAutoSkip,
                   timeoutLength: aniSkipTimeoutLength,
-                  skipTypeText: isOpening
-                      ? context.l10n.skip_opening
-                      : context.l10n.skip_ending,
+                  skipTypeText: isOpening ? context.l10n.skip_opening : context.l10n.skip_ending,
                   player: _player,
                   aniSkipResult: result,
                 );
@@ -2494,33 +2381,33 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
     return IconButton(
       onPressed: () async {
         onChanged?.call(false);
-        Widget button(String label, IconData icon, Function() onPressed) =>
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    shadowColor: Colors.transparent,
-                  ),
-                  onPressed: onPressed,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(4),
-                        child: Icon(icon),
-                      ),
-                      Text(label),
-                    ],
-                  ),
-                ),
+        Widget button(String label, IconData icon, Function() onPressed) => Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                shadowColor: Colors.transparent,
               ),
-            );
-        final name =
-            "${episode.manga.value!.name} ${episode.name} - ${_currentPosition.value.toString()}"
-                .replaceAll(RegExp(r'[^a-zA-Z0-9 .()\-\s]'), '_');
+              onPressed: onPressed,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Icon(icon),
+                  ),
+                  Text(label),
+                ],
+              ),
+            ),
+          ),
+        );
+        final name = "${episode.manga.value!.name} ${episode.name} - ${_currentPosition.value.toString()}".replaceAll(
+          RegExp(r'[^a-zA-Z0-9 .()\-\s]'),
+          '_',
+        );
         await showModalBottomSheet(
           context: context,
           constraints: BoxConstraints(maxWidth: context.width(1)),
@@ -2571,8 +2458,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                                       ),
                                       actions: [
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                          mainAxisAlignment: MainAxisAlignment.end,
                                           children: [
                                             TextButton(
                                               onPressed: () {
@@ -2583,16 +2469,12 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                                             const SizedBox(width: 15),
                                             TextButton(
                                               onPressed: () {
-                                                final manga =
-                                                    episode.manga.value!;
+                                                final manga = episode.manga.value!;
                                                 isar.writeTxnSync(() {
                                                   isar.mangas.putSync(
                                                     manga
-                                                      ..updatedAt = DateTime.now()
-                                                          .millisecondsSinceEpoch
-                                                      ..customCoverImage =
-                                                          imageBytes
-                                                              ?.getCoverImage,
+                                                      ..updatedAt = DateTime.now().millisecondsSinceEpoch
+                                                      ..customCoverImage = imageBytes?.getCoverImage,
                                                   );
                                                 });
                                                 if (context.mounted) {
@@ -2607,9 +2489,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                                     );
                                   },
                                 );
-                                if (res != null &&
-                                    res == "ok" &&
-                                    context.mounted) {
+                                if (res != null && res == "ok" && context.mounted) {
                                   Navigator.pop(context);
                                   botToast(
                                     context.l10n.cover_updated,
@@ -2628,8 +2508,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                                 includeLibassSubtitles: _includeSubtitles,
                               );
                               if (context.mounted) {
-                                final box =
-                                    context.findRenderObject() as RenderBox?;
+                                final box = context.findRenderObject() as RenderBox?;
                                 await SharePlus.instance.share(
                                   ShareParams(
                                     files: [
@@ -2639,9 +2518,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                                         mimeType: 'image/png',
                                       ),
                                     ],
-                                    sharePositionOrigin:
-                                        box!.localToGlobal(Offset.zero) &
-                                        box.size,
+                                    sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
                                   ),
                                 );
                               }
@@ -2655,8 +2532,7 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
                                 format: "image/png",
                                 includeLibassSubtitles: _includeSubtitles,
                               );
-                              final dir = await StorageProvider()
-                                  .getGalleryDirectory();
+                              final dir = await StorageProvider().getGalleryDirectory();
                               final file = File(
                                 path.join(dir!.path, "$name.png"),
                               );
@@ -2728,10 +2604,8 @@ mp.register_script_message('call_button_${button.id}_long', button${button.id}lo
         // (and arrow-key focus movement with a keyboard) instead of seeking.
         const SingleActivator(LogicalKeyboardKey.keyJ): () => seekBy(-10),
         const SingleActivator(LogicalKeyboardKey.keyL): () => seekBy(10),
-        const SingleActivator(LogicalKeyboardKey.mediaRewind): () =>
-            seekBy(-10),
-        const SingleActivator(LogicalKeyboardKey.mediaFastForward): () =>
-            seekBy(10),
+        const SingleActivator(LogicalKeyboardKey.mediaRewind): () => seekBy(-10),
+        const SingleActivator(LogicalKeyboardKey.mediaFastForward): () => seekBy(10),
         const SingleActivator(LogicalKeyboardKey.mediaTrackNext): () {
           if (hasNextEpisode && mounted) {
             pushToNewEpisode(context, _streamController.getNextEpisode());

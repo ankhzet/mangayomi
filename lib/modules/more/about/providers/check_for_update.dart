@@ -55,8 +55,6 @@ Future<UpdateInfo> _fetchLatestRelease() async {
     release['name'].toString().substringAfter('v').substringBefore('-'),
     release['body'].toString(),
     release['html_url'].toString(),
-    (release['assets'] as List)
-        .map((asset) => asset['browser_download_url'])
-        .toList(),
+    (release['assets'] as List).map((asset) => asset['browser_download_url']).toList(),
   );
 }

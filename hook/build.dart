@@ -10,8 +10,7 @@ void main(List<String> args) async {
       sources: ['lib/ffi/image_decoder.cpp'],
       includes: ['lib/ffi/'],
       flags: [
-        if (input.config.code.targetOS == OS.iOS ||
-            input.config.code.targetOS == OS.macOS) ...[
+        if (input.config.code.targetOS == OS.iOS || input.config.code.targetOS == OS.macOS) ...[
           '-framework',
           'CoreFoundation',
           '-framework',

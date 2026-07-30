@@ -107,14 +107,11 @@ class AppearanceScreen extends ConsumerWidget {
                       'categories) instead of the flat grid',
                     ),
                     value: ref.watch(tvHomeStyleProvider),
-                    onChanged: (v) =>
-                        ref.read(tvHomeStyleProvider.notifier).set(v),
+                    onChanged: (v) => ref.read(tvHomeStyleProvider.notifier).set(v),
                   ),
                 Builder(
                   builder: (context) {
-                    final scale = ref
-                        .watch(appUiScaleStateProvider)
-                        .clamp(0.85, 1.25);
+                    final scale = ref.watch(appUiScaleStateProvider).clamp(0.85, 1.25);
                     return ListTile(
                       leading: const Icon(Icons.aspect_ratio_outlined),
                       title: Text(l10n.app_ui_scale),
@@ -145,12 +142,8 @@ class AppearanceScreen extends ConsumerWidget {
                               divisions: 8,
                               value: scale.toDouble(),
                               label: '${(scale * 100).round()}%',
-                              onChanged: (v) => ref
-                                  .read(appUiScaleStateProvider.notifier)
-                                  .set(v),
-                              onChangeEnd: (v) => ref
-                                  .read(appUiScaleStateProvider.notifier)
-                                  .set(v, end: true),
+                              onChanged: (v) => ref.read(appUiScaleStateProvider.notifier).set(v),
+                              onChangeEnd: (v) => ref.read(appUiScaleStateProvider.notifier).set(v, end: true),
                             ),
                           ),
                         ],

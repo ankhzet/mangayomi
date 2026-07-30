@@ -35,9 +35,7 @@ class SourcesFilterScreen extends ConsumerWidget {
               .watch(fireImmediately: true),
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-              final entries = snapshot.data!
-                  .where((e) => showNSFW || !(e.isNsfw ?? false))
-                  .toList();
+              final entries = snapshot.data!.where((e) => showNSFW || !(e.isNsfw ?? false)).toList();
               return CustomScrollView(
                 slivers: [
                   CustomSliverGroupedListView<Source, String>(

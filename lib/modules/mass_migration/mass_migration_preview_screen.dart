@@ -12,12 +12,10 @@ class MassMigrationPreviewScreen extends StatefulWidget {
   final MassMigrationSourceGroup sourceGroup;
 
   @override
-  State<MassMigrationPreviewScreen> createState() =>
-      _MassMigrationPreviewScreenState();
+  State<MassMigrationPreviewScreen> createState() => _MassMigrationPreviewScreenState();
 }
 
-class _MassMigrationPreviewScreenState
-    extends State<MassMigrationPreviewScreen> {
+class _MassMigrationPreviewScreenState extends State<MassMigrationPreviewScreen> {
   // Indices of the entries that will actually be migrated. Everything starts
   // selected (previous behaviour was "migrate the whole group"), and the user
   // can trim it down.
@@ -87,8 +85,7 @@ class _MassMigrationPreviewScreenState
             title: Text(sourceGroup.sourceName),
             subtitle: Text(
               [
-                if ((sourceGroup.lang ?? '').isNotEmpty)
-                  completeLanguageName(sourceGroup.lang!),
+                if ((sourceGroup.lang ?? '').isNotEmpty) completeLanguageName(sourceGroup.lang!),
                 '${_selected.length}/$total selected',
               ].join(' • '),
             ),
@@ -141,12 +138,10 @@ class _MassMigrationPreviewScreenState
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        manga.name ??
-                                            l10n.mass_migration_unknown_title,
+                                        manga.name ?? l10n.mass_migration_unknown_title,
                                         style: Theme.of(
                                           context,
                                         ).textTheme.titleMedium,
@@ -154,14 +149,8 @@ class _MassMigrationPreviewScreenState
                                       const SizedBox(height: 6),
                                       Text(
                                         [
-                                          if ((manga.author ?? '')
-                                              .trim()
-                                              .isNotEmpty)
-                                            manga.author!,
-                                          if ((manga.artist ?? '')
-                                              .trim()
-                                              .isNotEmpty)
-                                            manga.artist!,
+                                          if ((manga.author ?? '').trim().isNotEmpty) manga.author!,
+                                          if ((manga.artist ?? '').trim().isNotEmpty) manga.artist!,
                                           l10n.mass_migration_chapter_count(
                                             manga.chapters.length,
                                           ),
@@ -178,9 +167,7 @@ class _MassMigrationPreviewScreenState
                             title: l10n.mass_migration_source_chapters,
                             chapters: manga.chapters
                                 .map(
-                                  (chapter) =>
-                                      chapter.name ??
-                                      l10n.mass_migration_unknown_chapter,
+                                  (chapter) => chapter.name ?? l10n.mass_migration_unknown_chapter,
                                 )
                                 .toList(),
                           ),

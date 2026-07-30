@@ -11,8 +11,7 @@ import 'package:mangayomi/models/settings.dart';
 /// newly queued downloads slot in at the end until the user moves them.
 class DownloadQueueOrder {
   /// The saved priority order (Download ids), or an empty list if none.
-  static List<int> get order =>
-      isar.settings.getSync(227)?.downloadQueueOrder ?? const [];
+  static List<int> get order => isar.settings.getSync(227)?.downloadQueueOrder ?? const [];
 
   /// Persists [ids] as the new priority order.
   static void setOrder(List<int> ids) {

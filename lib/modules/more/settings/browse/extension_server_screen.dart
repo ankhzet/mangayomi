@@ -28,8 +28,7 @@ class ExtensionServerScreen extends ConsumerStatefulWidget {
   const ExtensionServerScreen({super.key});
 
   @override
-  ConsumerState<ExtensionServerScreen> createState() =>
-      _ExtensionServerScreenState();
+  ConsumerState<ExtensionServerScreen> createState() => _ExtensionServerScreenState();
 }
 
 class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
@@ -66,31 +65,21 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
   bool get _isInstalled => _serverExists && (!_requiresJre || _jreExists);
 
   bool get _hasUpdateAvailable =>
-      _isInstalled &&
-      _latestRelease != null &&
-      compareVersions(_installedVersion, _latestRelease!.version) < 0;
+      _isInstalled && _latestRelease != null && compareVersions(_installedVersion, _latestRelease!.version) < 0;
 
-  bool get _canDownloadOrUpdate =>
-      !_isDownloading &&
-      _latestRelease != null &&
-      (!_isInstalled || _hasUpdateAvailable);
+  bool get _canDownloadOrUpdate => !_isDownloading && _latestRelease != null && (!_isInstalled || _hasUpdateAvailable);
 
-  bool get _canDetectFilesInSelectedFolder =>
-      !_requiresJre || _selectedInstallDirectory.isNotEmpty;
+  bool get _canDetectFilesInSelectedFolder => !_requiresJre || _selectedInstallDirectory.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
     final androidProxyServer = ref.watch(androidProxyServerStateProvider);
-    final actionLabel = !_isInstalled
-        ? l10n.download
-        : (_hasUpdateAvailable ? l10n.update_files : l10n.up_to_date);
+    final actionLabel = !_isInstalled ? l10n.download : (_hasUpdateAvailable ? l10n.update_files : l10n.up_to_date);
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _showExtensionServerSection
-              ? l10n.android_proxy_server_mihon
-              : l10n.android_proxy_server,
+          _showExtensionServerSection ? l10n.android_proxy_server_mihon : l10n.android_proxy_server,
         ),
       ),
       body: SingleChildScrollView(
@@ -100,9 +89,7 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
           children: [
             if (_showExtensionServerSection) ...[
               Text(
-                _requiresJre
-                    ? l10n.extension_server_intro_with_jre
-                    : l10n.extension_server_intro_ios,
+                _requiresJre ? l10n.extension_server_intro_with_jre : l10n.extension_server_intro_ios,
                 style: TextStyle(color: context.secondaryColor),
               ),
               const SizedBox(height: 20),
@@ -119,31 +106,21 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
                       icon: Icon(
                         _isChecking
                             ? Icons.sync_outlined
-                            : (_isInstalled
-                                  ? Icons.check_circle_outline
-                                  : Icons.error_outline),
+                            : (_isInstalled ? Icons.check_circle_outline : Icons.error_outline),
                       ),
                       label: Text(
-                        _isChecking
-                            ? l10n.checking_files
-                            : (_isInstalled
-                                  ? l10n.files_installed
-                                  : l10n.files_missing),
+                        _isChecking ? l10n.checking_files : (_isInstalled ? l10n.files_installed : l10n.files_missing),
                       ),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: _canDownloadOrUpdate
-                          ? _downloadOrUpdate
-                          : null,
+                      onPressed: _canDownloadOrUpdate ? _downloadOrUpdate : null,
                       icon: Icon(
                         _isInstalled && _hasUpdateAvailable
                             ? Icons.system_update_alt_outlined
-                            : (_isInstalled
-                                  ? Icons.check_circle_outline
-                                  : Icons.download_outlined),
+                            : (_isInstalled ? Icons.check_circle_outline : Icons.download_outlined),
                       ),
                       label: Text(actionLabel),
                     ),
@@ -156,9 +133,7 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
                   if (_requiresJre)
                     Expanded(
                       child: OutlinedButton.icon(
-                        onPressed: _isDownloading
-                            ? null
-                            : _chooseInstallDirectory,
+                        onPressed: _isDownloading ? null : _chooseInstallDirectory,
                         icon: const Icon(Icons.folder_open_outlined),
                         label: Text(l10n.choose_location),
                       ),
@@ -166,15 +141,10 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
                   if (_requiresJre) const SizedBox(width: 12),
                   Expanded(
                     child: OutlinedButton.icon(
-                      onPressed:
-                          _isDownloading || !_canDetectFilesInSelectedFolder
-                          ? null
-                          : _useExistingLocation,
+                      onPressed: _isDownloading || !_canDetectFilesInSelectedFolder ? null : _useExistingLocation,
                       icon: const Icon(Icons.link_outlined),
                       label: Text(
-                        Platform.isIOS
-                            ? l10n.import_existing_jar
-                            : l10n.detect_files_in_selected_folder,
+                        Platform.isIOS ? l10n.import_existing_jar : l10n.detect_files_in_selected_folder,
                       ),
                     ),
                   ),
@@ -195,13 +165,9 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
               ],
               const SizedBox(height: 24),
               ExtensionServerStatusTile(
-                label: Platform.isIOS
-                    ? l10n.app_install_location
-                    : l10n.install_location,
+                label: Platform.isIOS ? l10n.app_install_location : l10n.install_location,
                 value: _selectedInstallDirectory,
-                exists:
-                    _selectedInstallDirectory.isNotEmpty &&
-                    Directory(_selectedInstallDirectory).existsSync(),
+                exists: _selectedInstallDirectory.isNotEmpty && Directory(_selectedInstallDirectory).existsSync(),
               ),
               const SizedBox(height: 12),
               if (_requiresJre) ...[
@@ -261,9 +227,7 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
                         context,
                         proxyServer: androidProxyServer,
                         onConfirm: (server) {
-                          ref
-                              .read(androidProxyServerStateProvider.notifier)
-                              .set(server);
+                          ref.read(androidProxyServerStateProvider.notifier).set(server);
                         },
                       ),
                       icon: const Icon(Icons.edit_outlined),
@@ -476,8 +440,7 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
     final archive = ZipDecoder().decodeBytes(bytes);
     for (final file in archive.files) {
       final outputPath = path.normalize(path.join(installDir.path, file.name));
-      if (!path.isWithin(installDir.path, outputPath) &&
-          outputPath != installDir.path) {
+      if (!path.isWithin(installDir.path, outputPath) && outputPath != installDir.path) {
         continue;
       }
       if (file.isFile) {
@@ -585,19 +548,13 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
   }
 
   Future<_ResolvedFileState> _resolveFileState(_ConfiguredPaths paths) async {
-    final jreExists = !_requiresJre
-        ? true
-        : (paths.jrePath.isNotEmpty && await File(paths.jrePath).exists());
-    final serverExists =
-        paths.extensionServerPath.isNotEmpty &&
-        await File(paths.extensionServerPath).exists();
+    final jreExists = !_requiresJre ? true : (paths.jrePath.isNotEmpty && await File(paths.jrePath).exists());
+    final serverExists = paths.extensionServerPath.isNotEmpty && await File(paths.extensionServerPath).exists();
     final isInstalled = serverExists && (!_requiresJre || jreExists);
     return _ResolvedFileState(
       jreExists: jreExists,
       serverExists: serverExists,
-      installedVersion: isInstalled
-          ? resolveInstalledExtensionServerVersion(paths.extensionServerPath)
-          : '',
+      installedVersion: isInstalled ? resolveInstalledExtensionServerVersion(paths.extensionServerPath) : '',
     );
   }
 
@@ -629,8 +586,7 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
     if (!fileState.isInstalled || latestRelease == null) {
       return '';
     }
-    return compareVersions(fileState.installedVersion, latestRelease.version) >=
-            0
+    return compareVersions(fileState.installedVersion, latestRelease.version) >= 0
         ? l10n.no_newer_proxy_server_release_available
         : '';
   }
@@ -761,8 +717,7 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
   }
 
   bool _hasResolvedPaths(_ResolvedPaths paths) {
-    return (!_requiresJre || paths.jrePath != null) &&
-        paths.extensionServerPath != null;
+    return (!_requiresJre || paths.jrePath != null) && paths.extensionServerPath != null;
   }
 
   Future<void> _persistResolvedPaths(
@@ -863,8 +818,7 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
   }
 
   bool _isDraftOrPrerelease(Map<String, dynamic> release) {
-    return (release['draft'] as bool? ?? false) ||
-        (release['prerelease'] as bool? ?? false);
+    return (release['draft'] as bool? ?? false) || (release['prerelease'] as bool? ?? false);
   }
 
   ExtensionServerRelease? _releaseForAsset(

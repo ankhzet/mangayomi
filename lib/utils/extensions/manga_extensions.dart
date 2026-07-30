@@ -22,9 +22,7 @@ extension MangaExtensions on Manga {
     if (filter == null || filter.isEmpty) {
       return chapters.where((c) => !(c.isRead ?? false)).length;
     }
-    return chapters
-        .where((c) => !(c.isRead ?? false) && !filter.contains(c.scanlator))
-        .length;
+    return chapters.where((c) => !(c.isRead ?? false) && !filter.contains(c.scanlator)).length;
   }
 
   /// Filtered chapters respecting the user's active filters (unread,
@@ -34,23 +32,17 @@ extension MangaExtensions on Manga {
     final settings = isar.settings.getSync(227)!;
 
     final filterUnread =
-        (settings.chapterFilterUnreadList!
-                    .where((e) => e.mangaId == id)
-                    .firstOrNull ??
+        (settings.chapterFilterUnreadList!.where((e) => e.mangaId == id).firstOrNull ??
                 ChapterFilterUnread(mangaId: id, type: 0))
             .type!;
 
     final filterBookmarked =
-        (settings.chapterFilterBookmarkedList!
-                    .where((e) => e.mangaId == id)
-                    .firstOrNull ??
+        (settings.chapterFilterBookmarkedList!.where((e) => e.mangaId == id).firstOrNull ??
                 ChapterFilterBookmarked(mangaId: id, type: 0))
             .type!;
 
     final filterDownloaded =
-        (settings.chapterFilterDownloadedList!
-                    .where((e) => e.mangaId == id)
-                    .firstOrNull ??
+        (settings.chapterFilterDownloadedList!.where((e) => e.mangaId == id).firstOrNull ??
                 ChapterFilterDownloaded(mangaId: id, type: 0))
             .type!;
 
@@ -68,8 +60,7 @@ extension MangaExtensions on Manga {
     );
 
     // Sort by chapter number — DB insertion order is NOT guaranteed to be ascending
-    final data = chapters.toList()
-      ..sort((a, b) => chapNum(a).compareTo(chapNum(b)));
+    final data = chapters.toList()..sort((a, b) => chapNum(a).compareTo(chapNum(b)));
 
     final chapterIds = data.map((c) => c.id).whereType<int>().toList();
     final downloadedIds = (filterDownloaded == 0 || chapterIds.isEmpty)
@@ -112,8 +103,7 @@ extension MangaExtensions on Manga {
     final settings = isar.settings.getSync(227)!;
 
     final sortChapterEntry =
-        settings.sortChapterList!.where((e) => e.mangaId == id).firstOrNull ??
-        SortChapter(mangaId: id, index: 1);
+        settings.sortChapterList!.where((e) => e.mangaId == id).firstOrNull ?? SortChapter(mangaId: id, index: 1);
     final sortIndex = sortChapterEntry.index!;
     final reverse = sortChapterEntry.reverse!;
 
@@ -130,8 +120,7 @@ extension MangaExtensions on Manga {
         // Returns the parsed chapter number for a chapter, used as the primary
         // numeric sort key for cases 0 and 1.
         final numCache = <int?, int>{};
-        int chapNum(Chapter c) => numCache[c.id] ??= recognition
-            .parseChapterNumber(mangaTitle, c.name ?? '');
+        int chapNum(Chapter c) => numCache[c.id] ??= recognition.parseChapterNumber(mangaTitle, c.name ?? '');
         list.sort((a, b) {
           final s = (a.scanlator ?? '').compareTo(b.scanlator ?? '');
           if (s != 0) return s;

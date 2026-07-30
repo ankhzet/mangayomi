@@ -109,23 +109,16 @@ extension ChapterExtension on Chapter {
         .findAllSync();
 
     for (var track in tracks) {
-      final service = isar.trackPreferences
-          .filter()
-          .syncIdIsNotNull()
-          .syncIdEqualTo(track.syncId)
-          .findFirstSync();
+      final service = isar.trackPreferences.filter().syncIdIsNotNull().syncIdEqualTo(track.syncId).findFirstSync();
       if (!(service == null || chapterNumber <= (track.lastChapterRead ?? 0))) {
         if (track.status != TrackStatus.completed) {
           final isFirstRead = (track.lastChapterRead ?? 0) == 0;
           track.lastChapterRead = chapterNumber;
-          if (track.lastChapterRead == track.totalChapter &&
-              (track.totalChapter ?? 0) > 0) {
+          if (track.lastChapterRead == track.totalChapter && (track.totalChapter ?? 0) > 0) {
             track.status = TrackStatus.completed;
             track.finishedReadingDate = DateTime.now().millisecondsSinceEpoch;
           } else {
-            track.status = manga.itemType == ItemType.manga
-                ? TrackStatus.reading
-                : TrackStatus.watching;
+            track.status = manga.itemType == ItemType.manga ? TrackStatus.reading : TrackStatus.watching;
             if (isFirstRead) {
               track.startedReadingDate = DateTime.now().millisecondsSinceEpoch;
             }

@@ -105,9 +105,7 @@ class SubsamplingScaleImageViewController extends ChangeNotifier {
 
   // ── State Getters ──────────────────────────────────────────────────────────
 
-  bool get isReady =>
-      _state?._loadState == LoadState.completed &&
-      (_state?._isInitialized ?? false);
+  bool get isReady => _state?._loadState == LoadState.completed && (_state?._isInitialized ?? false);
   double get scale => _state?._scale ?? 1.0;
   double get minScale => _state?._getMinScale() ?? 1.0;
   ui.Offset get translation => _state?._vTranslate ?? ui.Offset.zero;
@@ -427,14 +425,12 @@ class SubsamplingScaleImageView extends StatefulWidget {
   final Rect? srcRect;
 
   @override
-  State<SubsamplingScaleImageView> createState() =>
-      _SubsamplingScaleImageViewState();
+  State<SubsamplingScaleImageView> createState() => _SubsamplingScaleImageViewState();
 }
 
 // ─── State ────────────────────────────────────────────────────────────────────
 
-class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView>
-    with SingleTickerProviderStateMixin {
+class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView> with SingleTickerProviderStateMixin {
   // Tiling
   late TilingEngine _tilingEngine;
   bool _isInitialized = false;
@@ -530,9 +526,7 @@ class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView>
         widget.resolvedFilePath != oldWidget.resolvedFilePath ||
         (widget.resolvedFilePath == null && widget.image != oldWidget.image);
     final cropChanged = widget.cropBorders != oldWidget.cropBorders;
-    final scaleTypeChanged =
-        widget.minimumScaleType != oldWidget.minimumScaleType ||
-        widget.fit != oldWidget.fit;
+    final scaleTypeChanged = widget.minimumScaleType != oldWidget.minimumScaleType || widget.fit != oldWidget.fit;
 
     if (imageChanged || cropChanged) {
       _isInitialized = false;
@@ -938,12 +932,8 @@ class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView>
       return;
     }
 
-    _sWidth = widget.srcRect != null
-        ? widget.srcRect!.width.toInt()
-        : outSize[0];
-    _sHeight = widget.srcRect != null
-        ? widget.srcRect!.height.toInt()
-        : outSize[1];
+    _sWidth = widget.srcRect != null ? widget.srcRect!.width.toInt() : outSize[0];
+    _sHeight = widget.srcRect != null ? widget.srcRect!.height.toInt() : outSize[1];
 
     if (widget.preloadData != null) {
       widget.preloadData!.resolvedFilePath = path;
@@ -1050,8 +1040,7 @@ class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView>
 
   double _getMaxScale() => widget.maxScale ?? _getMinScale() * 8.0;
 
-  double _clampScale(double scale) =>
-      max(_getMinScale(), min(_getMaxScale(), scale));
+  double _clampScale(double scale) => max(_getMinScale(), min(_getMaxScale(), scale));
 
   // ── Pan clamping ─────────────────────────────────────────────────────────────
 
@@ -1262,8 +1251,7 @@ class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView>
       final bool isUpwards = dy < _quickScaleLastY;
       _quickScaleLastY = dy;
 
-      final double spanDiff =
-          (1 - (dist / _quickScaleLastDistance)).abs() * 0.5;
+      final double spanDiff = (1 - (dist / _quickScaleLastDistance)).abs() * 0.5;
       if (spanDiff > 0.03) {
         final double multiplier = isUpwards ? (1 + spanDiff) : (1 - spanDiff);
         newScale = _clampScale(_scale * multiplier);
@@ -1283,9 +1271,7 @@ class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView>
         final proposedTranslate = _vTranslate + globalDelta;
         final clampedTranslate = _clampTranslate(proposedTranslate, newScale);
 
-        if (widget.pageController != null &&
-            widget.pageController!.hasClients &&
-            _scale <= _getMinScale() * 1.01) {
+        if (widget.pageController != null && widget.pageController!.hasClients && _scale <= _getMinScale() * 1.01) {
           final double excessX = proposedTranslate.dx - clampedTranslate.dx;
           if (excessX != 0) {
             final pos = widget.pageController!.position;
@@ -1338,9 +1324,7 @@ class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView>
     _refreshTiles(load: true);
 
     // Coordinate PageController snapping
-    if (widget.pageController != null &&
-        widget.pageController!.hasClients &&
-        _scale <= _getMinScale() * 1.01) {
+    if (widget.pageController != null && widget.pageController!.hasClients && _scale <= _getMinScale() * 1.01) {
       final double currentPageValue = widget.pageController!.page ?? 0.0;
       final int targetPage = currentPageValue.round();
       widget.pageController!.animateToPage(
@@ -1357,9 +1341,7 @@ class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView>
     final double minScale = _getMinScale();
     final double dtScale = widget.doubleTapZoomScale ?? (minScale * 2.5);
     final double clampedDtScale = min(_getMaxScale(), dtScale);
-    final double targetScale = (_scale > minScale * 1.5)
-        ? minScale
-        : clampedDtScale;
+    final double targetScale = (_scale > minScale * 1.5) ? minScale : clampedDtScale;
 
     if (widget.quickScaleEnabled) {
       _isQuickScaling = true;
@@ -1388,13 +1370,12 @@ class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView>
         curve: Curves.easeInOutCubic,
       ),
     );
-    _translateAnimation =
-        Tween<ui.Offset>(begin: _vTranslate, end: targetTranslate).animate(
-          CurvedAnimation(
-            parent: _animationController,
-            curve: Curves.easeInOutCubic,
-          ),
-        );
+    _translateAnimation = Tween<ui.Offset>(begin: _vTranslate, end: targetTranslate).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOutCubic,
+      ),
+    );
     _animationController.duration = widget.doubleTapZoomDuration;
     _animationController.forward(from: 0.0);
   }
@@ -1405,18 +1386,14 @@ class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView>
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final double screenWidth =
-            MediaQuery.maybeOf(context)?.size.width ?? 300.0;
-        final double screenHeight =
-            MediaQuery.maybeOf(context)?.size.height ?? 300.0;
+        final double screenWidth = MediaQuery.maybeOf(context)?.size.width ?? 300.0;
+        final double screenHeight = MediaQuery.maybeOf(context)?.size.height ?? 300.0;
 
         final double newHeight = constraints.maxHeight.isFinite
             ? constraints.maxHeight
             : (_sHeight > 0 && _sWidth > 0 && constraints.maxWidth.isFinite)
             ? (constraints.maxWidth * _sHeight / _sWidth)
-            : (constraints.minHeight > 0
-                  ? constraints.minHeight
-                  : screenHeight);
+            : (constraints.minHeight > 0 ? constraints.minHeight : screenHeight);
 
         final double newWidth = constraints.maxWidth.isFinite
             ? constraints.maxWidth
@@ -1447,9 +1424,7 @@ class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView>
             LoadState.loading => Center(
               child: _loadingProgress?.expectedTotalBytes != null
                   ? CircularProgressIndicator(
-                      value:
-                          _loadingProgress!.cumulativeBytesLoaded /
-                          _loadingProgress!.expectedTotalBytes!,
+                      value: _loadingProgress!.cumulativeBytesLoaded / _loadingProgress!.expectedTotalBytes!,
                     )
                   : const CircularProgressIndicator(),
             ),
@@ -1468,15 +1443,9 @@ class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView>
         }
 
         return GestureDetector(
-          onScaleStart: widget.zoomEnabled || widget.panEnabled
-              ? _handleScaleStart
-              : null,
-          onScaleUpdate: widget.zoomEnabled || widget.panEnabled
-              ? _handleScaleUpdate
-              : null,
-          onScaleEnd: widget.zoomEnabled || widget.panEnabled
-              ? _handleScaleEnd
-              : null,
+          onScaleStart: widget.zoomEnabled || widget.panEnabled ? _handleScaleStart : null,
+          onScaleUpdate: widget.zoomEnabled || widget.panEnabled ? _handleScaleUpdate : null,
+          onScaleEnd: widget.zoomEnabled || widget.panEnabled ? _handleScaleEnd : null,
           onDoubleTapDown: widget.zoomEnabled ? _handleDoubleTapDown : null,
           child: ClipRect(
             child: SubsamplingImageRenderWidget(

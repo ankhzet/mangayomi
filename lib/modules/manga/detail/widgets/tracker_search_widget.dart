@@ -21,8 +21,7 @@ class TrackerWidgetSearch extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<TrackerWidgetSearch> createState() =>
-      _TrackerWidgetSearchState();
+  ConsumerState<TrackerWidgetSearch> createState() => _TrackerWidgetSearchState();
 }
 
 class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
@@ -90,9 +89,7 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
               child: SizedBox(
                 height: context.height(0.8),
                 child: Column(
-                  mainAxisAlignment: _errorMsg != null
-                      ? MainAxisAlignment.center
-                      : MainAxisAlignment.start,
+                  mainAxisAlignment: _errorMsg != null ? MainAxisAlignment.center : MainAxisAlignment.start,
                   children: [
                     if (_errorMsg != null)
                       Padding(
@@ -114,8 +111,7 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                                 child: Column(
                                   children: [
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Material(
                                           borderRadius: BorderRadius.circular(
@@ -127,16 +123,14 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                                             height: 120,
                                             width: 80,
                                             fit: BoxFit.cover,
-                                            image:
-                                                CustomExtendedNetworkImageProvider(
-                                                  tracks![index].coverUrl!,
-                                                ),
+                                            image: CustomExtendedNetworkImageProvider(
+                                              tracks![index].coverUrl!,
+                                            ),
                                           ),
                                         ),
                                         const SizedBox(width: 10),
                                         Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(
                                               width: context.width(0.6),
@@ -157,8 +151,7 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  tracks![index]
-                                                      .publishingType!,
+                                                  tracks![index].publishingType!,
                                                   style: const TextStyle(
                                                     fontSize: 12,
                                                   ),
@@ -175,8 +168,7 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  tracks![index]
-                                                      .publishingStatus!,
+                                                  tracks![index].publishingStatus!,
                                                   style: const TextStyle(
                                                     fontSize: 12,
                                                   ),

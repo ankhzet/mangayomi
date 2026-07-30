@@ -41,9 +41,7 @@ void doRestore(Ref ref, {required String path, required BuildContext context}) {
     final backupType = checkBackupType(path, archive);
     switch (backupType) {
       case BackupType.mangayomi:
-        final backup =
-            jsonDecode(utf8.decode(archive.files.first.content))
-                as Map<String, dynamic>;
+        final backup = jsonDecode(utf8.decode(archive.files.first.content)) as Map<String, dynamic>;
         ref.read(restoreBackupProvider(backup));
         break;
       case BackupType.kotatsu:
@@ -85,8 +83,7 @@ void showBotToast(String text) {
 enum BackupType { unknown, mangayomi, mihon, aniyomi, kotatsu, neko }
 
 BackupType checkBackupType(String path, Archive archive) {
-  if (path.toLowerCase().contains("mangayomi") &&
-      (archive.files.firstOrNull?.name ?? "").endsWith(".backup.db")) {
+  if (path.toLowerCase().contains("mangayomi") && (archive.files.firstOrNull?.name ?? "").endsWith(".backup.db")) {
     return BackupType.mangayomi;
   } else if (path.toLowerCase().contains("kotatsu") &&
       archive.files.where((f) {
@@ -100,8 +97,7 @@ BackupType checkBackupType(String path, Archive archive) {
           }).length ==
           2) {
     return BackupType.kotatsu;
-  } else if (path.toLowerCase().endsWith(".tachibk") ||
-      path.toLowerCase().endsWith(".proto.gz")) {
+  } else if (path.toLowerCase().endsWith(".tachibk") || path.toLowerCase().endsWith(".proto.gz")) {
     return path.contains("xyz.jmir.tachiyomi.mi") || path.contains("aniyomi.mi")
         ? BackupType.aniyomi
         : path.contains("tachiyomi") || path.contains("mihon")
@@ -121,43 +117,29 @@ void restoreBackup(Ref ref, Map<String, dynamic> backup, {bool full = true}) {
       final manga = (backup["manga"] as List?)
           ?.map((e) => Manga.fromJson(e)..itemType = _convertToItemType(e))
           .toList();
-      final chapters = (backup["chapters"] as List?)
-          ?.map((e) => Chapter.fromJson(e))
-          .toList();
+      final chapters = (backup["chapters"] as List?)?.map((e) => Chapter.fromJson(e)).toList();
       final categories = (backup["categories"] as List?)
           ?.map(
-            (e) =>
-                Category.fromJson(e)
-                  ..forItemType = _convertToItemTypeCategory(e),
+            (e) => Category.fromJson(e)..forItemType = _convertToItemTypeCategory(e),
           )
           .toList();
       final track = (backup["tracks"] as List?)
           ?.map((e) => Track.fromJson(e)..itemType = _convertToItemType(e))
           .toList();
-      final trackPreferences = (backup["trackPreferences"] as List?)
-          ?.map((e) => TrackPreference.fromJson(e))
-          .toList();
+      final trackPreferences = (backup["trackPreferences"] as List?)?.map((e) => TrackPreference.fromJson(e)).toList();
       final history = (backup["history"] as List?)
           ?.map((e) => History.fromJson(e)..itemType = _convertToItemType(e))
           .toList();
-      final downloads = (backup["downloads"] as List?)
-          ?.map((e) => Download.fromJson(e))
-          .toList();
-      final settings = (backup["settings"] as List?)
-          ?.map((e) => Settings.fromJson(e))
-          .toList();
+      final downloads = (backup["downloads"] as List?)?.map((e) => Download.fromJson(e)).toList();
+      final settings = (backup["settings"] as List?)?.map((e) => Settings.fromJson(e)).toList();
       final extensions = (backup["extensions"] as List?)
           ?.map((e) => Source.fromJson(e)..itemType = _convertToItemType(e))
           .toList();
       final sourcesPrefs = (backup["extensions_preferences"] as List?)
           ?.map((e) => SourcePreference.fromJson(e))
           .toList();
-      final updates = (backup["updates"] as List?)
-          ?.map((e) => Update.fromJson(e))
-          .toList();
-      final customButtons = (backup["customButtons"] as List?)
-          ?.map((e) => CustomButton.fromJson(e))
-          .toList();
+      final updates = (backup["updates"] as List?)?.map((e) => Update.fromJson(e)).toList();
+      final customButtons = (backup["customButtons"] as List?)?.map((e) => CustomButton.fromJson(e)).toList();
 
       isar.writeTxnSync(() {
         isar.mangas.clearSync();
@@ -199,17 +181,11 @@ void restoreBackup(Ref ref, Map<String, dynamic> backup, {bool full = true}) {
 
             isar.updates.clearSync();
             if (updates != null) {
-              final tempChapters = isar.chapters
-                  .filter()
-                  .idIsNotNull()
-                  .findAllSync()
-                  .toList();
+              final tempChapters = isar.chapters.filter().idIsNotNull().findAllSync().toList();
               for (var update in updates) {
                 final matchingChapter = tempChapters
                     .where(
-                      (chapter) =>
-                          chapter.mangaId == update.mangaId &&
-                          chapter.name == update.chapterName,
+                      (chapter) => chapter.mangaId == update.mangaId && chapter.name == update.chapterName,
                     )
                     .firstOrNull;
                 if (matchingChapter != null) {
@@ -312,19 +288,13 @@ void restoreKotatsuBackup(Ref ref, Archive archive) {
                 source: tempManga["source"],
                 author: tempManga["author"],
                 artist: null,
-                genre:
-                    (tempManga["tags"] as List?)
-                        ?.map((t) => t["title"] as String)
-                        .toList() ??
-                    [],
+                genre: (tempManga["tags"] as List?)?.map((t) => t["title"] as String).toList() ?? [],
                 imageUrl: tempManga["large_cover_url"],
                 lang: 'en',
                 link: tempManga["url"],
                 name: tempManga["title"],
                 status: Status.values.firstWhere(
-                  (s) =>
-                      s.name.toLowerCase() ==
-                      (tempManga["state"] as String?)?.toLowerCase(),
+                  (s) => s.name.toLowerCase() == (tempManga["state"] as String?)?.toLowerCase(),
                   orElse: () => Status.unknown,
                 ),
                 description: null,
@@ -382,11 +352,7 @@ void restoreTachiBkBackup(Ref ref, String path, BackupType bkType) {
       final sourceId = _protoInt(tempManga.source);
       final categoryOrders = tempManga.categories.map(_protoInt).toSet();
       final manga = Manga(
-        source:
-            backup.backupSources
-                .firstWhereOrNull((src) => _protoInt(src.sourceId) == sourceId)
-                ?.name ??
-            "Unknown",
+        source: backup.backupSources.firstWhereOrNull((src) => _protoInt(src.sourceId) == sourceId)?.name ?? "Unknown",
         author: tempManga.author,
         artist: tempManga.artist,
         genre: tempManga.genre,
@@ -396,10 +362,7 @@ void restoreTachiBkBackup(Ref ref, String path, BackupType bkType) {
         name: tempManga.title,
         status: _convertStatusFromTachiBk(tempManga.status),
         description: tempManga.description,
-        categories: cats
-            .where((cat) => categoryOrders.contains(cat.pos))
-            .map((cat) => cat.id!)
-            .toList(),
+        categories: cats.where((cat) => categoryOrders.contains(cat.pos)).map((cat) => cat.id!).toList(),
         itemType: ItemType.manga,
         favorite: true,
         dateAdded: _protoMillis(tempManga.dateAdded),
@@ -420,17 +383,13 @@ void restoreTachiBkBackup(Ref ref, String path, BackupType bkType) {
               : "${DateTime.now().millisecondsSinceEpoch - _protoInt(tempChapter.dateUpload).abs()}",
           isBookmarked: tempChapter.bookmark,
           isRead: tempChapter.read,
-          lastPageRead: _protoInt(tempChapter.lastPageRead) != 0
-              ? "${_protoInt(tempChapter.lastPageRead)}"
-              : "1",
+          lastPageRead: _protoInt(tempChapter.lastPageRead) != 0 ? "${_protoInt(tempChapter.lastPageRead)}" : "1",
           scanlator: tempChapter.scanlator,
           url: tempChapter.url,
         );
         isar.chapters.putSync(chapter..manga.value = manga);
         chapter.manga.saveSync();
-        if ((history == null ||
-            int.parse(history.date ?? "0") <
-                _protoMillis(tempChapter.lastModifiedAt))) {
+        if ((history == null || int.parse(history.date ?? "0") < _protoMillis(tempChapter.lastModifiedAt))) {
           history = History(
             mangaId: manga.id,
             date: bkType != BackupType.neko
@@ -452,9 +411,7 @@ void restoreTachiBkBackup(Ref ref, String path, BackupType bkType) {
     final animeCategories = backupAnime.backupAnimeCategories.isNotEmpty
         ? backupAnime.backupAnimeCategories
         : backupAnime.legacyBackupAnimeCategories;
-    final animeEntries = backupAnime.backupAnime.isNotEmpty
-        ? backupAnime.backupAnime
-        : backupAnime.legacyBackupAnime;
+    final animeEntries = backupAnime.backupAnime.isNotEmpty ? backupAnime.backupAnime : backupAnime.legacyBackupAnime;
     final animeSources = backupAnime.backupAnimeSources.isNotEmpty
         ? backupAnime.backupAnimeSources
         : backupAnime.legacyBackupAnimeSources;
@@ -489,10 +446,7 @@ void restoreTachiBkBackup(Ref ref, String path, BackupType bkType) {
           name: tempAnime.title,
           status: _convertStatusFromTachiBk(tempAnime.status),
           description: tempAnime.description,
-          categories: cats
-              .where((cat) => categoryOrders.contains(cat.pos))
-              .map((cat) => cat.id!)
-              .toList(),
+          categories: cats.where((cat) => categoryOrders.contains(cat.pos)).map((cat) => cat.id!).toList(),
           itemType: ItemType.anime,
           favorite: true,
           dateAdded: _protoMillis(tempAnime.dateAdded),
@@ -516,9 +470,7 @@ void restoreTachiBkBackup(Ref ref, String path, BackupType bkType) {
           );
           isar.chapters.putSync(episode..manga.value = anime);
           episode.manga.saveSync();
-          if ((history == null ||
-              int.parse(history.date ?? "0") <
-                  _protoMillis(tempEpisode.lastModifiedAt))) {
+          if ((history == null || int.parse(history.date ?? "0") < _protoMillis(tempEpisode.lastModifiedAt))) {
             history = History(
               mangaId: anime.id,
               date: "${_protoMillis(tempEpisode.lastModifiedAt)}",

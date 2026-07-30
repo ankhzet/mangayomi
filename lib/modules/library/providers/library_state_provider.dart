@@ -202,13 +202,9 @@ class MangaFilterUnreadState extends _$MangaFilterUnreadState {
 
   List<Manga> getData() {
     if (getType() == 1) {
-      return mangaList
-          .where((element) => element.chapters.any((chap) => !chap.isRead!))
-          .toList();
+      return mangaList.where((element) => element.chapters.any((chap) => !chap.isRead!)).toList();
     } else if (getType() == 2) {
-      return mangaList
-          .where((element) => element.chapters.every((chap) => chap.isRead!))
-          .toList();
+      return mangaList.where((element) => element.chapters.every((chap) => chap.isRead!)).toList();
     } else {
       return mangaList;
     }
@@ -216,15 +212,11 @@ class MangaFilterUnreadState extends _$MangaFilterUnreadState {
 
   List<Manga> update() {
     if (state == 0) {
-      final data = mangaList
-          .where((element) => element.chapters.any((chap) => !chap.isRead!))
-          .toList();
+      final data = mangaList.where((element) => element.chapters.any((chap) => !chap.isRead!)).toList();
       setType(1);
       return data;
     } else if (state == 1) {
-      final data = mangaList
-          .where((element) => element.chapters.every((chap) => chap.isRead!))
-          .toList();
+      final data = mangaList.where((element) => element.chapters.every((chap) => chap.isRead!)).toList();
       setType(2);
       return data;
     } else {
@@ -279,13 +271,9 @@ class MangaFilterStartedState extends _$MangaFilterStartedState {
 
   List<Manga> getData() {
     if (getType() == 1) {
-      return mangaList
-          .where((element) => element.chapters.any((chap) => !chap.isRead!))
-          .toList();
+      return mangaList.where((element) => element.chapters.any((chap) => !chap.isRead!)).toList();
     } else if (getType() == 2) {
-      return mangaList
-          .where((element) => element.chapters.every((chap) => chap.isRead!))
-          .toList();
+      return mangaList.where((element) => element.chapters.every((chap) => chap.isRead!)).toList();
     } else {
       return mangaList;
     }
@@ -293,15 +281,11 @@ class MangaFilterStartedState extends _$MangaFilterStartedState {
 
   List<Manga> update() {
     if (state == 0) {
-      final data = mangaList
-          .where((element) => element.chapters.any((chap) => !chap.isRead!))
-          .toList();
+      final data = mangaList.where((element) => element.chapters.any((chap) => !chap.isRead!)).toList();
       setType(1);
       return data;
     } else if (state == 1) {
-      final data = mangaList
-          .where((element) => element.chapters.every((chap) => chap.isRead!))
-          .toList();
+      final data = mangaList.where((element) => element.chapters.every((chap) => chap.isRead!)).toList();
       setType(2);
       return data;
     } else {
@@ -743,8 +727,7 @@ class LibraryShowNumbersOfItemsState extends _$LibraryShowNumbersOfItemsState {
 }
 
 @riverpod
-class LibraryShowContinueReadingButtonState
-    extends _$LibraryShowContinueReadingButtonState {
+class LibraryShowContinueReadingButtonState extends _$LibraryShowContinueReadingButtonState {
   @override
   bool build({required ItemType itemType, required Settings settings}) {
     switch (itemType) {

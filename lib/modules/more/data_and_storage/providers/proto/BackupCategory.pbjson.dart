@@ -26,6 +26,6 @@ const BackupCategory$json = {
 };
 
 /// Descriptor for `BackupCategory`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List backupCategoryDescriptor = $convert.base64Decode(
-    'Cg5CYWNrdXBDYXRlZ29yeRISCgRuYW1lGAEgASgJUgRuYW1lEhQKBW9yZGVyGAIgASgDUgVvcm'
-    'RlchIOCgJpZBgDIAEoA1ICaWQSFAoFZmxhZ3MYZCABKANSBWZsYWdz');
+final $typed_data.Uint8List backupCategoryDescriptor =
+    $convert.base64Decode('Cg5CYWNrdXBDYXRlZ29yeRISCgRuYW1lGAEgASgJUgRuYW1lEhQKBW9yZGVyGAIgASgDUgVvcm'
+        'RlchIOCgJpZBgDIAEoA1ICaWQSFAoFZmxhZ3MYZCABKANSBWZsYWdz');

@@ -22,12 +22,7 @@ final checkForUpdateProvider = CheckForUpdateProvider._();
 /// [UpdateInfo] when a newer version exists, `null` otherwise.
 
 final class CheckForUpdateProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<UpdateInfo?>,
-          UpdateInfo?,
-          FutureOr<UpdateInfo?>
-        >
+    extends $FunctionalProvider<AsyncValue<UpdateInfo?>, UpdateInfo?, FutureOr<UpdateInfo?>>
     with $FutureModifier<UpdateInfo?>, $FutureProvider<UpdateInfo?> {
   /// Automatic update-check provider.
   ///
@@ -64,9 +59,7 @@ String _$checkForUpdateHash() => r'7134bb3c6ac01bc16fecf975195a5231d57c6148';
 @ProviderFor(checkForAppUpdates)
 final checkForAppUpdatesProvider = CheckForAppUpdatesProvider._();
 
-final class CheckForAppUpdatesProvider
-    extends $FunctionalProvider<bool, bool, bool>
-    with $Provider<bool> {
+final class CheckForAppUpdatesProvider extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
   CheckForAppUpdatesProvider._()
     : super(
         from: null,
@@ -83,8 +76,7 @@ final class CheckForAppUpdatesProvider
 
   @$internal
   @override
-  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $ProviderElement<bool> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
 
   @override
   bool create(Ref ref) {
@@ -100,5 +92,4 @@ final class CheckForAppUpdatesProvider
   }
 }
 
-String _$checkForAppUpdatesHash() =>
-    r'2243b74d748a90847bacff256cb2ef0a344fee80';
+String _$checkForAppUpdatesHash() => r'2243b74d748a90847bacff256cb2ef0a344fee80';

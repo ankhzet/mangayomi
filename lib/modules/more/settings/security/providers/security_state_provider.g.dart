@@ -12,8 +12,7 @@ part of 'security_state_provider.dart';
 @ProviderFor(AppLockEnabledState)
 final appLockEnabledStateProvider = AppLockEnabledStateProvider._();
 
-final class AppLockEnabledStateProvider
-    extends $NotifierProvider<AppLockEnabledState, bool> {
+final class AppLockEnabledStateProvider extends $NotifierProvider<AppLockEnabledState, bool> {
   AppLockEnabledStateProvider._()
     : super(
         from: null,
@@ -41,8 +40,7 @@ final class AppLockEnabledStateProvider
   }
 }
 
-String _$appLockEnabledStateHash() =>
-    r'cdd466aee9037e776f5adf992e11ccedb8c58e74';
+String _$appLockEnabledStateHash() => r'cdd466aee9037e776f5adf992e11ccedb8c58e74';
 
 abstract class _$AppLockEnabledState extends $Notifier<bool> {
   bool build();
@@ -50,14 +48,7 @@ abstract class _$AppLockEnabledState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -70,8 +61,7 @@ final appUnlockedStateProvider = AppUnlockedStateProvider._();
 
 /// Tracks whether the app is currently unlocked.
 /// Resets to false when app goes to background (if lock is enabled).
-final class AppUnlockedStateProvider
-    extends $NotifierProvider<AppUnlockedState, bool> {
+final class AppUnlockedStateProvider extends $NotifierProvider<AppUnlockedState, bool> {
   /// Tracks whether the app is currently unlocked.
   /// Resets to false when app goes to background (if lock is enabled).
   AppUnlockedStateProvider._()
@@ -112,14 +102,7 @@ abstract class _$AppUnlockedState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

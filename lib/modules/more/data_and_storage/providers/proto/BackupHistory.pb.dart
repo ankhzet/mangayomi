@@ -35,25 +35,21 @@ class BackupHistory extends $pb.GeneratedMessage {
   factory BackupHistory.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(data, registry);
-  factory BackupHistory.fromJson($core.String json,
-          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupHistory.fromJson($core.String json, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(json, registry);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'BackupHistory',
-      createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'url')
-    ..aInt64(2, _omitFieldNames ? '' : 'lastRead', protoName: 'lastRead')
-    ..aInt64(3, _omitFieldNames ? '' : 'readDuration',
-        protoName: 'readDuration')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      $pb.BuilderInfo(_omitMessageNames ? '' : 'BackupHistory', createEmptyInstance: create)
+        ..aOS(1, _omitFieldNames ? '' : 'url')
+        ..aInt64(2, _omitFieldNames ? '' : 'lastRead', protoName: 'lastRead')
+        ..aInt64(3, _omitFieldNames ? '' : 'readDuration', protoName: 'readDuration')
+        ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   BackupHistory clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   BackupHistory copyWith(void Function(BackupHistory) updates) =>
-      super.copyWith((message) => updates(message as BackupHistory))
-          as BackupHistory;
+      super.copyWith((message) => updates(message as BackupHistory)) as BackupHistory;
 
   @$core.override
   $pb.BuilderInfo get info_ => _i;
@@ -62,11 +58,9 @@ class BackupHistory extends $pb.GeneratedMessage {
   static BackupHistory create() => BackupHistory._();
   @$core.override
   BackupHistory createEmptyInstance() => create();
-  static $pb.PbList<BackupHistory> createRepeated() =>
-      $pb.PbList<BackupHistory>();
+  static $pb.PbList<BackupHistory> createRepeated() => $pb.PbList<BackupHistory>();
   @$core.pragma('dart2js:noInline')
-  static BackupHistory getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<BackupHistory>(create);
+  static BackupHistory getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BackupHistory>(create);
   static BackupHistory? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -97,7 +91,5 @@ class BackupHistory extends $pb.GeneratedMessage {
   void clearReadDuration() => $_clearField(3);
 }
 
-const $core.bool _omitFieldNames =
-    $core.bool.fromEnvironment('protobuf.omit_field_names');
-const $core.bool _omitMessageNames =
-    $core.bool.fromEnvironment('protobuf.omit_message_names');
+const $core.bool _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

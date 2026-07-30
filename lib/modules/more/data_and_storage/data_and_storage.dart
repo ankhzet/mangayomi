@@ -50,13 +50,10 @@ class DataAndStorage extends ConsumerWidget {
                               : downloadLocationState.$2,
                           onChanged: (value) async {
                             if (value == downloadLocationState.$1) {
-                              ref
-                                  .read(downloadLocationStateProvider.notifier)
-                                  .set("");
+                              ref.read(downloadLocationStateProvider.notifier).set("");
                               Navigator.pop(context);
                             } else {
-                              String? result =
-                                  await FilePicker.getDirectoryPath();
+                              String? result = await FilePicker.getDirectoryPath();
 
                               if (result != null) {
                                 ref
@@ -110,9 +107,7 @@ class DataAndStorage extends ConsumerWidget {
               },
               title: Text(l10n.download_location),
               subtitle: Text(
-                downloadLocationState.$2.isEmpty
-                    ? downloadLocationState.$1
-                    : downloadLocationState.$2,
+                downloadLocationState.$2.isEmpty ? downloadLocationState.$1 : downloadLocationState.$2,
                 style: TextStyle(fontSize: 11, color: context.secondaryColor),
               ),
             ),
@@ -225,17 +220,14 @@ class DataAndStorage extends ConsumerWidget {
                                       TextButton(
                                         onPressed: () async {
                                           try {
-                                            FilePickerResult? result =
-                                                await FilePicker.pickFiles(
-                                                  allowMultiple: false,
-                                                );
+                                            FilePickerResult? result = await FilePicker.pickFiles(
+                                              allowMultiple: false,
+                                            );
 
-                                            if (result != null &&
-                                                context.mounted) {
+                                            if (result != null && context.mounted) {
                                               ref.watch(
                                                 doRestoreProvider(
-                                                  path:
-                                                      result.files.first.path!,
+                                                  path: result.files.first.path!,
                                                   context: context,
                                                 ),
                                               );
@@ -282,9 +274,7 @@ class DataAndStorage extends ConsumerWidget {
                         child: RadioGroup(
                           groupValue: backupFrequency,
                           onChanged: (value) {
-                            ref
-                                .read(backupFrequencyStateProvider.notifier)
-                                .set(value!);
+                            ref.read(backupFrequencyStateProvider.notifier).set(value!);
                             Navigator.pop(context);
                           },
                           child: SuperListView.builder(
@@ -341,12 +331,10 @@ class DataAndStorage extends ConsumerWidget {
                   ),
                   TvEscapableSlider(
                     enabled: isTv,
-                    onDecrease: () => ref
-                        .read(backupCompressionLevelProvider.notifier)
-                        .set((compression - 1).clamp(0, 9)),
-                    onIncrease: () => ref
-                        .read(backupCompressionLevelProvider.notifier)
-                        .set((compression + 1).clamp(0, 9)),
+                    onDecrease: () =>
+                        ref.read(backupCompressionLevelProvider.notifier).set((compression - 1).clamp(0, 9)),
+                    onIncrease: () =>
+                        ref.read(backupCompressionLevelProvider.notifier).set((compression + 1).clamp(0, 9)),
                     child: Slider(
                       min: 0,
                       max: 9,
@@ -354,14 +342,10 @@ class DataAndStorage extends ConsumerWidget {
                       value: compression.toDouble(),
                       label: compression.toString(),
                       onChanged: (value) {
-                        ref
-                            .read(backupCompressionLevelProvider.notifier)
-                            .update(value.round());
+                        ref.read(backupCompressionLevelProvider.notifier).update(value.round());
                       },
                       onChangeEnd: (value) {
-                        ref
-                            .read(backupCompressionLevelProvider.notifier)
-                            .set(value.round());
+                        ref.read(backupCompressionLevelProvider.notifier).set(value.round());
                       },
                     ),
                   ),
@@ -374,16 +358,12 @@ class DataAndStorage extends ConsumerWidget {
                   String? result = await FilePicker.getDirectoryPath();
 
                   if (result != null) {
-                    ref
-                        .read(autoBackupLocationStateProvider.notifier)
-                        .set(result);
+                    ref.read(autoBackupLocationStateProvider.notifier).set(result);
                   }
                 },
                 title: Text(l10n.backup_location),
                 subtitle: Text(
-                  autoBackupLocation.$2.isEmpty
-                      ? autoBackupLocation.$1
-                      : autoBackupLocation.$2,
+                  autoBackupLocation.$2.isEmpty ? autoBackupLocation.$1 : autoBackupLocation.$2,
                   style: TextStyle(fontSize: 11, color: context.secondaryColor),
                 ),
               ),
@@ -417,9 +397,7 @@ class DataAndStorage extends ConsumerWidget {
             ),
             ListTile(
               title: Text(l10n.clear_chapter_and_episode_cache),
-              onTap: () => ref
-                  .read(totalChapterCacheSizeStateProvider.notifier)
-                  .clearCache(),
+              onTap: () => ref.read(totalChapterCacheSizeStateProvider.notifier).clearCache(),
               subtitle: Text(
                 totalChapterCacheSize,
                 style: TextStyle(fontSize: 11, color: context.secondaryColor),
@@ -431,9 +409,7 @@ class DataAndStorage extends ConsumerWidget {
                 context.l10n.clear_chapter_or_episode_cache_on_app_launch,
               ),
               onChanged: (value) {
-                ref
-                    .read(clearChapterCacheOnAppLaunchStateProvider.notifier)
-                    .set(value);
+                ref.read(clearChapterCacheOnAppLaunchStateProvider.notifier).set(value);
               },
             ),
           ],

@@ -16,8 +16,7 @@ part 'anime_player_controller_provider.g.dart';
 final fullscreenProvider = StateProvider<bool>(() => false);
 
 @riverpod
-class AnimeStreamController extends _$AnimeStreamController
-    with ChapterControllerMixin {
+class AnimeStreamController extends _$AnimeStreamController with ChapterControllerMixin {
   @override
   KeepAliveLink build({required Chapter episode}) {
     _keepAliveLink = ref.keepAlive();
@@ -47,8 +46,7 @@ class AnimeStreamController extends _$AnimeStreamController
   bool get hasPreviousEpisode => hasPreviousChapter;
   bool get hasNextEpisode => hasNextChapter;
 
-  int getEpisodesLength(bool isInFilterList) =>
-      getChaptersLength(isInFilterList);
+  int getEpisodesLength(bool isInFilterList) => getChaptersLength(isInFilterList);
 
   // ---------------------------------------------------------------------------
   // Playback position
@@ -58,9 +56,7 @@ class AnimeStreamController extends _$AnimeStreamController
     if (incognitoMode) return Duration.zero;
     final position = episode.lastPageRead ?? '0';
     return Duration(
-      milliseconds: episode.isRead!
-          ? 0
-          : int.parse(position.isEmpty ? "0" : position),
+      milliseconds: episode.isRead! ? 0 : int.parse(position.isEmpty ? "0" : position),
     );
   }
 
@@ -72,12 +68,8 @@ class AnimeStreamController extends _$AnimeStreamController
     if (episode.isRead!) return;
     if (incognitoMode) return;
     final markEpisodeAsSeenType = ref.read(markEpisodeAsSeenTypeStateProvider);
-    final isWatch =
-        totalDuration != null &&
-            totalDuration != Duration.zero &&
-            duration != Duration.zero
-        ? duration.inSeconds >=
-              ((totalDuration.inSeconds * markEpisodeAsSeenType) / 100).ceil()
+    final isWatch = totalDuration != null && totalDuration != Duration.zero && duration != Duration.zero
+        ? duration.inSeconds >= ((totalDuration.inSeconds * markEpisodeAsSeenType) / 100).ceil()
         : false;
     if (isWatch || save) {
       final ep = episode;

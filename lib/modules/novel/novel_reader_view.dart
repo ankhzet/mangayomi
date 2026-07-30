@@ -62,8 +62,7 @@ class NovelWebView extends ConsumerStatefulWidget {
   }
 }
 
-class _NovelWebViewState extends ConsumerState<NovelWebView>
-    with TickerProviderStateMixin, WidgetsBindingObserver {
+class _NovelWebViewState extends ConsumerState<NovelWebView> with TickerProviderStateMixin, WidgetsBindingObserver {
   late final NovelReaderController _readerController = ref.read(
     novelReaderControllerProvider(chapter: chapter).notifier,
   );
@@ -118,8 +117,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.detached) {
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
       _readingStopwatch.stop();
     } else if (state == AppLifecycleState.resumed) {
       _readingStopwatch.start();
@@ -129,8 +127,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
   late Chapter chapter = widget.chapter;
   EpubNovel? epubBook;
 
-  final StreamController<double> _rebuildDetail =
-      StreamController<double>.broadcast();
+  final StreamController<double> _rebuildDetail = StreamController<double>.broadcast();
   @override
   void initState() {
     super.initState();
@@ -170,8 +167,11 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
   final _keyboardFocusNode = FocusNode();
   bool _showTts = false;
   String? _currentHtmlContent;
-  final ValueNotifier<({int paragraph, int wordStart, int wordEnd})>
-  _ttsProgress = ValueNotifier((paragraph: -1, wordStart: -1, wordEnd: -1));
+  final ValueNotifier<({int paragraph, int wordStart, int wordEnd})> _ttsProgress = ValueNotifier((
+    paragraph: -1,
+    wordStart: -1,
+    wordEnd: -1,
+  ));
   int _ttsTotalBlocks = 0;
   StreamSubscription<int>? _ttsIndexSub;
   StreamSubscription<TtsState>? _ttsStateSub;
@@ -181,8 +181,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
 
   Size get size => View.of(context).physicalSize / pixelRatio;
 
-  Color _backgroundColor(BuildContext context) =>
-      Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.9);
+  Color _backgroundColor(BuildContext context) => Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.9);
 
   void _setFullScreen({bool? value}) async {
     if (isDesktop) {
@@ -246,9 +245,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
     if (!next && !_readerController.hasPreviousChapter) return;
     pushReplacementMangaReaderView(
       context: context,
-      chapter: next
-          ? _readerController.getNextChapter()
-          : _readerController.getPrevChapter(),
+      chapter: next ? _readerController.getNextChapter() : _readerController.getPrevChapter(),
     );
   }
 
@@ -345,13 +342,10 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                               Future.delayed(
                                 const Duration(milliseconds: 100),
                                 () {
-                                  if (!scrolled &&
-                                      _scrollController.hasClients) {
+                                  if (!scrolled && _scrollController.hasClients) {
                                     _scrollController
                                         .animateTo(
-                                          _scrollController
-                                                  .position
-                                                  .maxScrollExtent *
+                                          _scrollController.position.maxScrollExtent *
                                               (double.tryParse(
                                                     chapter.lastPageRead!,
                                                   ) ??
@@ -395,22 +389,15 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                                   valueListenable: _ttsProgress,
                                                   builder: (context, tts, _) {
                                                     String htmlData = data.$1;
-                                                    if (_showTts &&
-                                                        tts.paragraph >= 0) {
-                                                      final result =
-                                                          NovelTtsService
-                                                              .instance
-                                                              .highlightHtml(
-                                                                data.$1,
-                                                                tts.paragraph,
-                                                                wordStart: tts
-                                                                    .wordStart,
-                                                                wordEnd:
-                                                                    tts.wordEnd,
-                                                              );
+                                                    if (_showTts && tts.paragraph >= 0) {
+                                                      final result = NovelTtsService.instance.highlightHtml(
+                                                        data.$1,
+                                                        tts.paragraph,
+                                                        wordStart: tts.wordStart,
+                                                        wordEnd: tts.wordEnd,
+                                                      );
                                                       htmlData = result.$1;
-                                                      _ttsTotalBlocks =
-                                                          result.$2;
+                                                      _ttsTotalBlocks = result.$2;
                                                     }
                                                     return Html(
                                                       data: htmlData,
@@ -421,33 +408,25 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                                           ),
                                                           color: parseColor(
                                                             customTextColor,
-                                                            fallback:
-                                                                Colors.white,
+                                                            fallback: Colors.white,
                                                           ),
-                                                          backgroundColor:
-                                                              parseColor(
-                                                                customBackgroundColor,
-                                                                fallback:
-                                                                    const Color(
-                                                                      0xFF292832,
-                                                                    ),
-                                                              ),
+                                                          backgroundColor: parseColor(
+                                                            customBackgroundColor,
+                                                            fallback: const Color(
+                                                              0xFF292832,
+                                                            ),
+                                                          ),
                                                           margin: Margins.zero,
-                                                          padding:
-                                                              HtmlPaddings.all(
-                                                                padding
-                                                                    .toDouble(),
-                                                              ),
-                                                          lineHeight:
-                                                              LineHeight(
-                                                                lineHeight,
-                                                              ),
-                                                          textAlign:
-                                                              getTextAlign(),
+                                                          padding: HtmlPaddings.all(
+                                                            padding.toDouble(),
+                                                          ),
+                                                          lineHeight: LineHeight(
+                                                            lineHeight,
+                                                          ),
+                                                          textAlign: getTextAlign(),
                                                         ),
                                                         "p": Style(
-                                                          margin:
-                                                              removeExtraSpacing
+                                                          margin: removeExtraSpacing
                                                               ? Margins.only(
                                                                   bottom: 4,
                                                                 )
@@ -457,52 +436,41 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                                           fontSize: FontSize(
                                                             fontSize.toDouble(),
                                                           ),
-                                                          lineHeight:
-                                                              LineHeight(
-                                                                lineHeight,
-                                                              ),
-                                                          textAlign:
-                                                              getTextAlign(),
+                                                          lineHeight: LineHeight(
+                                                            lineHeight,
+                                                          ),
+                                                          textAlign: getTextAlign(),
                                                         ),
                                                         "div": Style(
                                                           fontSize: FontSize(
                                                             fontSize.toDouble(),
                                                           ),
-                                                          lineHeight:
-                                                              LineHeight(
-                                                                lineHeight,
-                                                              ),
-                                                          textAlign:
-                                                              getTextAlign(),
+                                                          lineHeight: LineHeight(
+                                                            lineHeight,
+                                                          ),
+                                                          textAlign: getTextAlign(),
                                                         ),
                                                         "span": Style(
                                                           fontSize: FontSize(
                                                             fontSize.toDouble(),
                                                           ),
-                                                          lineHeight:
-                                                              LineHeight(
-                                                                lineHeight,
-                                                              ),
+                                                          lineHeight: LineHeight(
+                                                            lineHeight,
+                                                          ),
                                                         ),
-                                                        "h1, h2, h3, h4, h5, h6":
-                                                            Style(
-                                                              color: parseColor(
-                                                                customTextColor,
-                                                                fallback: Colors
-                                                                    .white,
-                                                              ),
-                                                              lineHeight:
-                                                                  LineHeight(
-                                                                    lineHeight,
-                                                                  ),
-                                                              textAlign:
-                                                                  getTextAlign(),
-                                                            ),
+                                                        "h1, h2, h3, h4, h5, h6": Style(
+                                                          color: parseColor(
+                                                            customTextColor,
+                                                            fallback: Colors.white,
+                                                          ),
+                                                          lineHeight: LineHeight(
+                                                            lineHeight,
+                                                          ),
+                                                          textAlign: getTextAlign(),
+                                                        ),
                                                         "a": Style(
                                                           color: Colors.blue,
-                                                          textDecoration:
-                                                              TextDecoration
-                                                                  .underline,
+                                                          textDecoration: TextDecoration.underline,
                                                         ),
                                                         "img": Style(
                                                           width: Width(
@@ -516,81 +484,62 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                                             color: Colors.grey,
                                                             width: 1,
                                                           ),
-                                                          margin:
-                                                              Margins.symmetric(
-                                                                vertical: 10,
-                                                              ),
+                                                          margin: Margins.symmetric(
+                                                            vertical: 10,
+                                                          ),
                                                         ),
                                                         "td, th": Style(
                                                           border: Border.all(
                                                             color: Colors.grey,
                                                             width: 0.5,
                                                           ),
-                                                          padding:
-                                                              HtmlPaddings.all(
-                                                                8,
-                                                              ),
+                                                          padding: HtmlPaddings.all(
+                                                            8,
+                                                          ),
                                                         ),
                                                         "th": Style(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          backgroundColor:
-                                                              Colors.grey
-                                                                  .withValues(
-                                                                    alpha: 0.2,
-                                                                  ),
+                                                          fontWeight: FontWeight.bold,
+                                                          backgroundColor: Colors.grey.withValues(
+                                                            alpha: 0.2,
+                                                          ),
                                                         ),
                                                         "blockquote": Style(
                                                           border: Border(
                                                             left: BorderSide(
-                                                              color:
-                                                                  Colors.grey,
+                                                              color: Colors.grey,
                                                               width: 4,
                                                             ),
                                                           ),
-                                                          padding:
-                                                              HtmlPaddings.only(
-                                                                left: 15,
-                                                              ),
-                                                          margin:
-                                                              Margins.symmetric(
-                                                                vertical: 10,
-                                                              ),
-                                                          fontStyle:
-                                                              FontStyle.italic,
+                                                          padding: HtmlPaddings.only(
+                                                            left: 15,
+                                                          ),
+                                                          margin: Margins.symmetric(
+                                                            vertical: 10,
+                                                          ),
+                                                          fontStyle: FontStyle.italic,
                                                         ),
                                                         "pre, code": Style(
-                                                          backgroundColor:
-                                                              Colors.grey
-                                                                  .withValues(
-                                                                    alpha: 0.2,
-                                                                  ),
-                                                          padding:
-                                                              HtmlPaddings.all(
-                                                                8,
-                                                              ),
-                                                          fontFamily:
-                                                              'monospace',
+                                                          backgroundColor: Colors.grey.withValues(
+                                                            alpha: 0.2,
+                                                          ),
+                                                          padding: HtmlPaddings.all(
+                                                            8,
+                                                          ),
+                                                          fontFamily: 'monospace',
                                                         ),
                                                         "hr": Style(
-                                                          margin:
-                                                              Margins.symmetric(
-                                                                vertical: 20,
-                                                              ),
+                                                          margin: Margins.symmetric(
+                                                            vertical: 20,
+                                                          ),
                                                         ),
-                                                        if (_showTts &&
-                                                            tts.paragraph >= 0)
+                                                        if (_showTts && tts.paragraph >= 0)
                                                           "[data-tts-active]": Style(
                                                             backgroundColor:
                                                                 Theme.of(
-                                                                      context,
-                                                                    )
-                                                                    .colorScheme
-                                                                    .primary
-                                                                    .withValues(
-                                                                      alpha:
-                                                                          0.10,
-                                                                    ),
+                                                                  context,
+                                                                ).colorScheme.primary.withValues(
+                                                                  alpha: 0.10,
+                                                                ),
                                                             border: Border(
                                                               left: BorderSide(
                                                                 color: Theme.of(
@@ -599,33 +548,22 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                                                 width: 3,
                                                               ),
                                                             ),
-                                                            padding:
-                                                                HtmlPaddings.only(
-                                                                  left: 8,
-                                                                ),
+                                                            padding: HtmlPaddings.only(
+                                                              left: 8,
+                                                            ),
                                                           ),
-                                                        if (_showTts &&
-                                                            tts.paragraph >= 0)
+                                                        if (_showTts && tts.paragraph >= 0)
                                                           "[data-tts-word]": Style(
                                                             backgroundColor:
                                                                 Theme.of(
-                                                                      context,
-                                                                    )
-                                                                    .colorScheme
-                                                                    .primary
-                                                                    .withValues(
-                                                                      alpha:
-                                                                          0.35,
-                                                                    ),
-                                                            textDecoration:
-                                                                TextDecoration
-                                                                    .underline,
-                                                            textDecorationColor:
-                                                                Theme.of(
-                                                                      context,
-                                                                    )
-                                                                    .colorScheme
-                                                                    .primary,
+                                                                  context,
+                                                                ).colorScheme.primary.withValues(
+                                                                  alpha: 0.35,
+                                                                ),
+                                                            textDecoration: TextDecoration.underline,
+                                                            textDecorationColor: Theme.of(
+                                                              context,
+                                                            ).colorScheme.primary,
                                                           ),
                                                       },
                                                       extensions: [
@@ -635,16 +573,11 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                                             "source",
                                                           },
                                                           builder: (extensionContext) {
-                                                            final element =
-                                                                extensionContext
-                                                                        .node
-                                                                    as dom.Element;
-                                                            final customWidget =
-                                                                _buildCustomWidgets(
-                                                                  element,
-                                                                );
-                                                            if (customWidget !=
-                                                                null) {
+                                                            final element = extensionContext.node as dom.Element;
+                                                            final customWidget = _buildCustomWidgets(
+                                                              element,
+                                                            );
+                                                            if (customWidget != null) {
                                                               return customWidget;
                                                             }
 
@@ -694,9 +627,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                     novelReaderTextColorStateProvider,
                                   );
                                   final scrollPercentage = maxOffset > 0
-                                      ? ((offset / maxOffset) * 100)
-                                            .clamp(0, 100)
-                                            .toInt()
+                                      ? ((offset / maxOffset) * 100).clamp(0, 100).toInt()
                                       : 0;
                                   return Row(
                                     children: [
@@ -752,9 +683,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                         _autoScroll.value = !_autoScroll.value;
                       },
                     ),
-                    if (_ttsSupported &&
-                        _showTts &&
-                        _currentHtmlContent != null)
+                    if (_ttsSupported && _showTts && _currentHtmlContent != null)
                       Positioned(
                         bottom: _isView ? 145 : 0,
                         left: 0,
@@ -775,8 +704,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                 context,
                 Center(child: CircularProgressIndicator()),
               ),
-              error: (err, stack) =>
-                  scaffoldWith(context, Center(child: Text(err.toString()))),
+              error: (err, stack) => scaffoldWith(context, Center(child: Text(err.toString()))),
             ),
           ),
         ),
@@ -916,9 +844,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                 manga.source!,
                 manga.sourceId,
               )!;
-              final url = chapter.url!.startsWith('/')
-                  ? '${source.baseUrl}/${chapter.url!}'
-                  : chapter.url!;
+              final url = chapter.url!.startsWith('/') ? '${source.baseUrl}/${chapter.url!}' : chapter.url!;
               if (Platform.isLinux) {
                 final uri = Uri.parse(url);
                 await launchUrl(
@@ -976,9 +902,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                             : null,
                         icon: Icon(
                           Icons.skip_previous_rounded,
-                          color: hasPrevChapter
-                              ? bodyLargeColor
-                              : bodyLargeColor!.withValues(alpha: 0.4),
+                          color: hasPrevChapter ? bodyLargeColor : bodyLargeColor!.withValues(alpha: 0.4),
                         ),
                       ),
                     ),
@@ -996,9 +920,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                           return Consumer(
                             builder: (context, ref, child) {
                               final scrollPercentage = maxOffset > 0
-                                  ? ((offset / maxOffset) * 100)
-                                        .clamp(0, 100)
-                                        .toInt()
+                                  ? ((offset / maxOffset) * 100).clamp(0, 100).toInt()
                                   : 0;
                               return Row(
                                 children: [
@@ -1020,22 +942,17 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                       child: SliderTheme(
                                         data: SliderTheme.of(context).copyWith(
                                           trackHeight: 2.0,
-                                          thumbShape:
-                                              const RoundSliderThumbShape(
-                                                enabledThumbRadius: 6.0,
-                                              ),
-                                          overlayShape:
-                                              const RoundSliderOverlayShape(
-                                                overlayRadius: 12.0,
-                                              ),
+                                          thumbShape: const RoundSliderThumbShape(
+                                            enabledThumbRadius: 6.0,
+                                          ),
+                                          overlayShape: const RoundSliderOverlayShape(
+                                            overlayRadius: 12.0,
+                                          ),
                                         ),
                                         child: Slider(
                                           onChanged: (value) {
                                             _scrollController.jumpTo(
-                                              _scrollController
-                                                      .position
-                                                      .maxScrollExtent *
-                                                  value,
+                                              _scrollController.position.maxScrollExtent * value,
                                             );
                                           },
                                           value: scrollPercentage / 100,
@@ -1082,9 +999,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                           scaleX: 1,
                           child: Icon(
                             Icons.skip_next_rounded,
-                            color: hasNextChapter
-                                ? bodyLargeColor
-                                : bodyLargeColor!.withValues(alpha: 0.4),
+                            color: hasNextChapter ? bodyLargeColor : bodyLargeColor!.withValues(alpha: 0.4),
                           ),
                         ),
                       ),
@@ -1134,8 +1049,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                         );
                                         ref
                                             .read(
-                                              novelFontSizeStateProvider
-                                                  .notifier,
+                                              novelFontSizeStateProvider.notifier,
                                             )
                                             .set(newFontSize);
                                         setState(() {
@@ -1160,10 +1074,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                           vertical: 6,
                                         ),
                                         decoration: BoxDecoration(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primaryContainer
-                                              .withValues(alpha: 0.5),
+                                          color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.5),
                                           borderRadius: BorderRadius.circular(
                                             8,
                                           ),
@@ -1178,9 +1089,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onPrimaryContainer,
+                                                color: Theme.of(context).colorScheme.onPrimaryContainer,
                                               ),
                                             );
                                           },
@@ -1195,8 +1104,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                         );
                                         ref
                                             .read(
-                                              novelFontSizeStateProvider
-                                                  .notifier,
+                                              novelFontSizeStateProvider.notifier,
                                             )
                                             .set(newFontSize);
                                         setState(() {
@@ -1223,20 +1131,15 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                     });
                                   },
                                   icon: Icon(
-                                    _showTts
-                                        ? Icons.record_voice_over
-                                        : Icons.record_voice_over_outlined,
-                                    color: _showTts
-                                        ? Theme.of(context).colorScheme.primary
-                                        : null,
+                                    _showTts ? Icons.record_voice_over : Icons.record_voice_over_outlined,
+                                    color: _showTts ? Theme.of(context).colorScheme.primary : null,
                                   ),
                                   tooltip: context.l10n.tts,
                                 ),
 
                               IconButton(
                                 onPressed: () async {
-                                  bool autoScrollAreadyFalse =
-                                      _autoScroll.value == false;
+                                  bool autoScrollAreadyFalse = _autoScroll.value == false;
                                   if (!autoScrollAreadyFalse) {
                                     _autoScroll.value = false;
                                   }
@@ -1244,8 +1147,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                     tabs: [
                                       Tab(text: context.l10n.reader),
                                       Tab(text: context.l10n.general),
-                                      if (_ttsSupported)
-                                        Tab(text: context.l10n.tts),
+                                      if (_ttsSupported) Tab(text: context.l10n.tts),
                                     ],
                                     children: [
                                       ReaderSettingsTab(),
@@ -1260,8 +1162,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                     context: context,
                                     vsync: this,
                                   );
-                                  if (!autoScrollAreadyFalse ||
-                                      _autoScroll.value) {
+                                  if (!autoScrollAreadyFalse || _autoScroll.value) {
                                     if (_autoScrollPage.value) {
                                       _autoPagescroll();
                                       _autoScroll.value = true;
@@ -1308,9 +1209,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
       final fileName = src.split("/").last;
       final image = epubBook!.images
           .firstWhereOrNull(
-            (img) =>
-                img.name.endsWith(fileName) ||
-                img.name.contains(fileName.replaceAll('%20', ' ')),
+            (img) => img.name.endsWith(fileName) || img.name.contains(fileName.replaceAll('%20', ' ')),
           )
           ?.content;
 

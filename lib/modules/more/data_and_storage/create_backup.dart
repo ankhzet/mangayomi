@@ -25,9 +25,7 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
 
   void _set(int index, List<int> indexList) {
     if (indexList.contains(index)) {
-      ref
-          .read(backupFrequencyOptionsStateProvider.notifier)
-          .set(indexList.where((e) => e != index).toList());
+      ref.read(backupFrequencyOptionsStateProvider.notifier).set(indexList.where((e) => e != index).toList());
     } else {
       ref.read(backupFrequencyOptionsStateProvider.notifier).set([
         ...indexList,
@@ -168,10 +166,7 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                         onPressed: () async {
                           String? result;
                           if (Platform.isIOS) {
-                            result =
-                                (await StorageProvider()
-                                        .getIosBackupDirectory())!
-                                    .path;
+                            result = (await StorageProvider().getIosBackupDirectory())!.path;
                           } else {
                             result = await FilePicker.getDirectoryPath();
                           }

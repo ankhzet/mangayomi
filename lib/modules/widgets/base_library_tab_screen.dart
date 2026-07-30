@@ -42,9 +42,7 @@ abstract class BaseLibraryTabScreenState<T extends ConsumerStatefulWidget> exten
     // Anime-only layout: only the anime tab (hides manga/novel in History,
     // Updates, and any other screen built on this base).
     if (ref.read(animeOnlyTvModeProvider)) {
-      visibleTabTypes = visibleTabTypes
-          .where((t) => t == ItemType.anime)
-          .toList();
+      visibleTabTypes = visibleTabTypes.where((t) => t == ItemType.anime).toList();
     }
 
     tabController = TabController(length: visibleTabTypes.length, vsync: this);
@@ -69,9 +67,8 @@ abstract class BaseLibraryTabScreenState<T extends ConsumerStatefulWidget> exten
   /// Accent focus tint for a top-bar action icon on Android TV so the focused
   /// icon is clearly visible on a remote; `null` (default) off-TV. Subclasses
   /// use this for the icons they add in [buildExtraActions].
-  Color? tvIconFocusColor(BuildContext context) => isTv
-      ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.4)
-      : null;
+  Color? tvIconFocusColor(BuildContext context) =>
+      isTv ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.4) : null;
 
   /// The tab switcher below the title: TV-home style pills on Android TV, the
   /// classic underline [TabBar] elsewhere. On TV a single visible tab (e.g.

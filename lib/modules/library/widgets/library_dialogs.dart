@@ -51,16 +51,12 @@ void showDeleteMangaDialog({
                     children: [
                       ListTileChapterFilter(
                         label: l10n.from_library,
-                        onTap: () =>
-                            setState(() => deleteFromLib = !deleteFromLib),
+                        onTap: () => setState(() => deleteFromLib = !deleteFromLib),
                         type: deleteFromLib ? 1 : 0,
                       ),
                       ListTileChapterFilter(
-                        label: itemType != ItemType.anime
-                            ? l10n.downloaded_chapters
-                            : l10n.downloaded_episodes,
-                        onTap: () =>
-                            setState(() => deleteDownloads = !deleteDownloads),
+                        label: itemType != ItemType.anime ? l10n.downloaded_chapters : l10n.downloaded_episodes,
+                        onTap: () => setState(() => deleteDownloads = !deleteDownloads),
                         type: deleteDownloads ? 1 : 0,
                       ),
                     ],
@@ -89,8 +85,7 @@ void showDeleteMangaDialog({
                                   // Regular manga: just unfavourite so it disappears from the
                                   // library without losing chapter/history data.
                                   manga.favorite = false;
-                                  manga.updatedAt =
-                                      DateTime.now().millisecondsSinceEpoch;
+                                  manga.updatedAt = DateTime.now().millisecondsSinceEpoch;
                                   isar.mangas.putSync(manga);
                                 }
                               }
@@ -124,8 +119,7 @@ void showDeleteMangaDialog({
                               // remove it too so we don't leave orphaned folders on disk.
                               if (mangaDirectory.isNotEmpty) {
                                 final path = Directory(mangaDirectory);
-                                if (path.existsSync() &&
-                                    path.listSync().isEmpty) {
+                                if (path.existsSync() && path.listSync().isEmpty) {
                                   path.deleteSync(recursive: true);
                                 }
                               }
@@ -133,9 +127,7 @@ void showDeleteMangaDialog({
                           }
 
                           ref.read(mangasListStateProvider.notifier).clear();
-                          ref
-                              .read(isLongPressedStateProvider.notifier)
-                              .update(false);
+                          ref.read(isLongPressedStateProvider.notifier).update(false);
                           if (context.mounted) {
                             Navigator.pop(context);
                           }
@@ -159,10 +151,7 @@ void showDeleteMangaDialog({
 /// Also notifies the sync provider so the removal is propagated.
 void _removeImport(WidgetRef ref, Manga manga) {
   final provider = ref.read(synchingProvider(syncId: 1).notifier);
-  final histories = isar.historys
-      .filter()
-      .mangaIdEqualTo(manga.id)
-      .findAllSync();
+  final histories = isar.historys.filter().mangaIdEqualTo(manga.id).findAllSync();
   for (var history in histories) {
     isar.historys.deleteSync(history.id!);
     provider.addChangedPart(ActionType.removeHistory, history.id, "{}", false);
@@ -213,8 +202,7 @@ String _deleteImport(Manga manga, String mangaDirectory) {
 /// folder if it is left empty.
 Future<String> _deleteDownload(Manga manga, String mangaDirectory) async {
   Directory? mangaDir;
-  final downloadedIds = (await isar.downloads.where().idProperty().findAll())
-      .toSet();
+  final downloadedIds = (await isar.downloads.where().idProperty().findAll()).toSet();
 
   if (downloadedIds.isEmpty) return mangaDirectory;
 
@@ -269,8 +257,7 @@ void showImportLocalDialog(BuildContext context, ItemType itemType) {
                                 style: const TextStyle(fontSize: 10),
                               ),
                               value: splitChapters,
-                              onChanged: (v) =>
-                                  setState(() => splitChapters = v),
+                              onChanged: (v) => setState(() => splitChapters = v),
                             ),
                           Expanded(
                             child: Row(
@@ -301,8 +288,7 @@ void showImportLocalDialog(BuildContext context, ItemType itemType) {
                                         Navigator.pop(context);
                                       },
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           const Icon(Icons.archive_outlined),
                                           Text(

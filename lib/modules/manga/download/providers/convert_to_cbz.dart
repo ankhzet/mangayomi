@@ -96,8 +96,7 @@ List<String> _convertToCBZ(
   (String, String, String, List<String>, ComicInfoData?) datas,
 ) {
   final (chapterDir, mangaDir, chapterName, pageList, comicInfo) = datas;
-  final imagesPaths = pageList.where((path) => path.endsWith('.jpg')).toList()
-    ..sort();
+  final imagesPaths = pageList.where((path) => path.endsWith('.jpg')).toList()..sort();
 
   if (imagesPaths.isEmpty) return imagesPaths;
 

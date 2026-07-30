@@ -18,8 +18,7 @@ class DownloadQueueScreen extends ConsumerStatefulWidget {
   const DownloadQueueScreen({super.key});
 
   @override
-  ConsumerState<DownloadQueueScreen> createState() =>
-      _DownloadQueueScreenState();
+  ConsumerState<DownloadQueueScreen> createState() => _DownloadQueueScreenState();
 }
 
 class _DownloadQueueScreenState extends ConsumerState<DownloadQueueScreen> {
@@ -187,8 +186,7 @@ class _DownloadQueueScreenState extends ConsumerState<DownloadQueueScreen> {
                     begin: 0,
                     end: element.succeeded! / element.total!,
                   ),
-                  builder: (context, value, _) =>
-                      LinearProgressIndicator(value: value),
+                  builder: (context, value, _) => LinearProgressIndicator(value: value),
                 ),
               ],
             ),
@@ -263,10 +261,8 @@ class _DownloadQueueScreenState extends ConsumerState<DownloadQueueScreen> {
       final a = entries
           .where(
             (e) =>
-                '${e.chapter.value?.manga.value?.name}' ==
-                    '${element.chapter.value?.manga.value?.name}' &&
-                '${e.chapter.value?.manga.value?.source}' ==
-                    '${element.chapter.value?.manga.value?.source}',
+                '${e.chapter.value?.manga.value?.name}' == '${element.chapter.value?.manga.value?.name}' &&
+                '${e.chapter.value?.manga.value?.source}' == '${element.chapter.value?.manga.value?.source}',
           )
           .map((e) => (e.id, e.chapter.value?.id))
           .toList();

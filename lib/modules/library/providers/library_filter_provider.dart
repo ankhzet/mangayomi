@@ -43,18 +43,14 @@ List<Manga> filteredLibraryManga(
   required String searchQuery,
   required bool ignoreFiltersOnSearch,
 }) {
-  final downloadedIds =
-      ref.watch(downloadedChapterIdsProvider).asData?.value ?? const <int>{};
-  final trackedIds =
-      ref.watch(trackedMangaIdsProvider).asData?.value ?? const <int>{};
+  final downloadedIds = ref.watch(downloadedChapterIdsProvider).asData?.value ?? const <int>{};
+  final trackedIds = ref.watch(trackedMangaIdsProvider).asData?.value ?? const <int>{};
 
   List<Manga> mangas;
 
   // Skip all filters, just do search
   if (searchQuery.isNotEmpty && ignoreFiltersOnSearch) {
-    mangas = data
-        .where((element) => _matchesSearchQuery(element, searchQuery))
-        .toList();
+    mangas = data.where((element) => _matchesSearchQuery(element, searchQuery)).toList();
   } else {
     mangas = data.where((element) {
       // Filter by download — uses Set lookup instead of per-chapter Isar query
@@ -172,11 +168,7 @@ List<Manga> filteredLibraryManga(
 }
 
 bool _matchesSearchQuery(Manga manga, String query) {
-  final keywords = query
-      .toLowerCase()
-      .split(',')
-      .map((k) => k.trim())
-      .where((k) => k.isNotEmpty);
+  final keywords = query.toLowerCase().split(',').map((k) => k.trim()).where((k) => k.isNotEmpty);
 
   return keywords.any(
     (keyword) =>

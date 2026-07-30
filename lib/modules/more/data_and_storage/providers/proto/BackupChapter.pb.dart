@@ -53,36 +53,30 @@ class BackupChapter extends $pb.GeneratedMessage {
   factory BackupChapter.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(data, registry);
-  factory BackupChapter.fromJson($core.String json,
-          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupChapter.fromJson($core.String json, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(json, registry);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'BackupChapter',
-      createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'url')
-    ..aOS(2, _omitFieldNames ? '' : 'name')
-    ..aOS(3, _omitFieldNames ? '' : 'scanlator')
-    ..aOB(4, _omitFieldNames ? '' : 'read')
-    ..aOB(5, _omitFieldNames ? '' : 'bookmark')
-    ..aInt64(6, _omitFieldNames ? '' : 'lastPageRead',
-        protoName: 'lastPageRead')
-    ..aInt64(7, _omitFieldNames ? '' : 'dateFetch', protoName: 'dateFetch')
-    ..aInt64(8, _omitFieldNames ? '' : 'dateUpload', protoName: 'dateUpload')
-    ..aD(9, _omitFieldNames ? '' : 'chapterNumber',
-        protoName: 'chapterNumber', fieldType: $pb.PbFieldType.OF)
-    ..aInt64(10, _omitFieldNames ? '' : 'sourceOrder', protoName: 'sourceOrder')
-    ..aInt64(11, _omitFieldNames ? '' : 'lastModifiedAt',
-        protoName: 'lastModifiedAt')
-    ..aInt64(12, _omitFieldNames ? '' : 'version')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      $pb.BuilderInfo(_omitMessageNames ? '' : 'BackupChapter', createEmptyInstance: create)
+        ..aOS(1, _omitFieldNames ? '' : 'url')
+        ..aOS(2, _omitFieldNames ? '' : 'name')
+        ..aOS(3, _omitFieldNames ? '' : 'scanlator')
+        ..aOB(4, _omitFieldNames ? '' : 'read')
+        ..aOB(5, _omitFieldNames ? '' : 'bookmark')
+        ..aInt64(6, _omitFieldNames ? '' : 'lastPageRead', protoName: 'lastPageRead')
+        ..aInt64(7, _omitFieldNames ? '' : 'dateFetch', protoName: 'dateFetch')
+        ..aInt64(8, _omitFieldNames ? '' : 'dateUpload', protoName: 'dateUpload')
+        ..aD(9, _omitFieldNames ? '' : 'chapterNumber', protoName: 'chapterNumber', fieldType: $pb.PbFieldType.OF)
+        ..aInt64(10, _omitFieldNames ? '' : 'sourceOrder', protoName: 'sourceOrder')
+        ..aInt64(11, _omitFieldNames ? '' : 'lastModifiedAt', protoName: 'lastModifiedAt')
+        ..aInt64(12, _omitFieldNames ? '' : 'version')
+        ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   BackupChapter clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   BackupChapter copyWith(void Function(BackupChapter) updates) =>
-      super.copyWith((message) => updates(message as BackupChapter))
-          as BackupChapter;
+      super.copyWith((message) => updates(message as BackupChapter)) as BackupChapter;
 
   @$core.override
   $pb.BuilderInfo get info_ => _i;
@@ -91,11 +85,9 @@ class BackupChapter extends $pb.GeneratedMessage {
   static BackupChapter create() => BackupChapter._();
   @$core.override
   BackupChapter createEmptyInstance() => create();
-  static $pb.PbList<BackupChapter> createRepeated() =>
-      $pb.PbList<BackupChapter>();
+  static $pb.PbList<BackupChapter> createRepeated() => $pb.PbList<BackupChapter>();
   @$core.pragma('dart2js:noInline')
-  static BackupChapter getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<BackupChapter>(create);
+  static BackupChapter getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BackupChapter>(create);
   static BackupChapter? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -207,7 +199,5 @@ class BackupChapter extends $pb.GeneratedMessage {
   void clearVersion() => $_clearField(12);
 }
 
-const $core.bool _omitFieldNames =
-    $core.bool.fromEnvironment('protobuf.omit_field_names');
-const $core.bool _omitMessageNames =
-    $core.bool.fromEnvironment('protobuf.omit_message_names');
+const $core.bool _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

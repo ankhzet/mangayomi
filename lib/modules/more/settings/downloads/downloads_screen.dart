@@ -55,9 +55,7 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
               value: deleteDownloadAfterReading,
               title: Text(l10n.delete_download_after_reading),
               onChanged: (value) {
-                ref
-                    .read(deleteDownloadAfterReadingStateProvider.notifier)
-                    .set(value);
+                ref.read(deleteDownloadAfterReadingStateProvider.notifier).set(value);
               },
             ),
             SwitchListTile(
@@ -65,9 +63,7 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
               title: Text(l10n.allow_concurrent_downloads),
               subtitle: Text(l10n.allow_concurrent_downloads_subtitle),
               onChanged: (value) {
-                ref
-                    .read(allowConcurrentDownloadsStateProvider.notifier)
-                    .set(value);
+                ref.read(allowConcurrentDownloadsStateProvider.notifier).set(value);
               },
             ),
             if (allowConcurrentDownloads)
@@ -92,8 +88,7 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                                   step: 1,
                                   haptics: true,
                                   textMapper: (numberText) => numberText,
-                                  onChanged: (value) =>
-                                      setState(() => currentIntValue = value),
+                                  onChanged: (value) => setState(() => currentIntValue = value),
                                 ),
                               ],
                             ),
@@ -116,8 +111,7 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                                 onPressed: () async {
                                   ref
                                       .read(
-                                        concurrentDownloadsStateProvider
-                                            .notifier,
+                                        concurrentDownloadsStateProvider.notifier,
                                       )
                                       .set(currentIntValue);
                                   Navigator.pop(context);
@@ -161,8 +155,7 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                                 step: 1,
                                 haptics: true,
                                 textMapper: (numberText) => numberText,
-                                onChanged: (value) =>
-                                    setState(() => currentDelay = value),
+                                onChanged: (value) => setState(() => currentDelay = value),
                               ),
                             ],
                           ),
@@ -183,8 +176,7 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                               onPressed: () {
                                 ref
                                     .read(
-                                      downloadDelaySecondsStateProvider
-                                          .notifier,
+                                      downloadDelaySecondsStateProvider.notifier,
                                     )
                                     .set(currentDelay);
                                 Navigator.pop(context);
@@ -203,9 +195,7 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
               },
               title: Text(context.l10n.download_delay),
               subtitle: Text(
-                downloadDelaySeconds == 0
-                    ? l10n.download_delay_subtitle
-                    : "$downloadDelaySeconds s (+ jitter)",
+                downloadDelaySeconds == 0 ? l10n.download_delay_subtitle : "$downloadDelaySeconds s (+ jitter)",
                 style: TextStyle(fontSize: 11, color: context.secondaryColor),
               ),
             ),
@@ -332,10 +322,8 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
             Text.rich(
               TextSpan(
                 children: [
-                  for (int i = 1; i < level; i++)
-                    const WidgetSpan(child: SizedBox(width: 20)),
-                  if (level > 0)
-                    WidgetSpan(child: Icon(Icons.subdirectory_arrow_right)),
+                  for (int i = 1; i < level; i++) const WidgetSpan(child: SizedBox(width: 20)),
+                  if (level > 0) WidgetSpan(child: Icon(Icons.subdirectory_arrow_right)),
                   WidgetSpan(child: Icon(Icons.folder)),
                   const WidgetSpan(child: SizedBox(width: 5)),
                   TextSpan(text: data.$1),
@@ -351,10 +339,8 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
       return Text.rich(
         TextSpan(
           children: [
-            for (int i = 1; i < level; i++)
-              const WidgetSpan(child: SizedBox(width: 20)),
-            if (level > 0)
-              WidgetSpan(child: Icon(Icons.subdirectory_arrow_right)),
+            for (int i = 1; i < level; i++) const WidgetSpan(child: SizedBox(width: 20)),
+            if (level > 0) WidgetSpan(child: Icon(Icons.subdirectory_arrow_right)),
             WidgetSpan(child: Icon(data.$2 as IconData)),
             const WidgetSpan(child: SizedBox(width: 5)),
             TextSpan(text: data.$1),
@@ -452,8 +438,7 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                                     content: Text("${l10n.delete} $folder"),
                                     actions: [
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                        mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           TextButton(
                                             onPressed: () {
@@ -464,15 +449,13 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                                           const SizedBox(width: 15),
                                           TextButton(
                                             onPressed: () {
-                                              final temp = localFolders
-                                                  .toList();
+                                              final temp = localFolders.toList();
                                               temp.removeAt(
                                                 temp.indexOf(folder),
                                               );
                                               ref
                                                   .read(
-                                                    localFoldersStateProvider
-                                                        .notifier,
+                                                    localFoldersStateProvider.notifier,
                                                   )
                                                   .set(temp);
                                               Navigator.pop(context);

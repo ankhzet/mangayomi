@@ -50,9 +50,7 @@ class TrackerLibraryImageCard extends StatelessWidget {
                             TextSpan(
                               style: TextStyle(
                                 background: Paint()
-                                  ..color = Theme.of(context)
-                                      .scaffoldBackgroundColor
-                                      .withValues(alpha: 0.75)
+                                  ..color = Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.75)
                                   ..strokeWidth = 20.0
                                   ..strokeJoin = StrokeJoin.round
                                   ..style = PaintingStyle.stroke,
@@ -113,8 +111,7 @@ class TrackerLibraryImageCard extends StatelessWidget {
   void _showCard(BuildContext context, int? mangaId) {
     showDialog(
       context: context,
-      builder: (context) =>
-          TrackerItemCard(track: track, itemType: itemType, mangaId: mangaId),
+      builder: (context) => TrackerItemCard(track: track, itemType: itemType, mangaId: mangaId),
     );
   }
 }

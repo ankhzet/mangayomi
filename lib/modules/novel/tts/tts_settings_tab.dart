@@ -141,9 +141,7 @@ class _TtsSettingsTabState extends ConsumerState<TtsSettingsTab> {
                       divisions: 9,
                       label: '${(speed * 2).toStringAsFixed(1)}x',
                       onChanged: (value) {
-                        ref
-                            .read(ttsSpeechRateStateProvider.notifier)
-                            .set(value);
+                        ref.read(ttsSpeechRateStateProvider.notifier).set(value);
                         NovelTtsService.instance.setSpeed(value);
                       },
                     ),

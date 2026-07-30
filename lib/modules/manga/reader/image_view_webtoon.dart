@@ -62,8 +62,7 @@ class ImageViewWebtoon extends ConsumerStatefulWidget {
   ConsumerState<ImageViewWebtoon> createState() => _ImageViewWebtoonState();
 }
 
-class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon>
-    with TickerProviderStateMixin {
+class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with TickerProviderStateMixin {
   double _scale = 1.0;
   double _baseScale = 1.0;
   Offset _offset = Offset.zero;
@@ -93,32 +92,21 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon>
     _zoomAnimationController.addListener(() {
       final t = _zoomAnimationController.value;
       final curveVal = Curves.easeOutCubic.transform(t);
-      final currentScale =
-          _animStartScale + (_animTargetScale - _animStartScale) * curveVal;
+      final currentScale = _animStartScale + (_animTargetScale - _animStartScale) * curveVal;
 
       final screenWidth = MediaQuery.of(context).size.width;
       final screenHeight = MediaQuery.of(context).size.height;
 
-      final targetDx =
-          _animFocalPointX -
-          (_animFocalPointX - _animStartOffsetDx) *
-              (currentScale / _animStartScale);
+      final targetDx = _animFocalPointX - (_animFocalPointX - _animStartOffsetDx) * (currentScale / _animStartScale);
       final targetDxVal = targetDx;
-      final targetDy =
-          _animFocalPointY -
-          (_animFocalPointY - _animStartOffsetDy) *
-              (currentScale / _animStartScale);
+      final targetDy = _animFocalPointY - (_animFocalPointY - _animStartOffsetDy) * (currentScale / _animStartScale);
       final targetDyVal = targetDy;
 
       final maxDx = (screenWidth * (currentScale - 1)) / 2;
       final maxDy = (screenHeight * (currentScale - 1)) / 2;
 
-      final clampedDx = currentScale > 1.0
-          ? targetDxVal.clamp(-maxDx, maxDx)
-          : 0.0;
-      final clampedDy = currentScale > 1.0
-          ? targetDyVal.clamp(-maxDy, maxDy)
-          : 0.0;
+      final clampedDx = currentScale > 1.0 ? targetDxVal.clamp(-maxDx, maxDx) : 0.0;
+      final clampedDy = currentScale > 1.0 ? targetDyVal.clamp(-maxDy, maxDy) : 0.0;
 
       setState(() {
         _scale = currentScale;
@@ -305,8 +293,7 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon>
       onDoubleTapDown: (details) => _doubleTapPosition = details.localPosition,
       onDoubleTap: () => _toggleScale(_doubleTapPosition),
       child: Transform(
-        transform: Matrix4.diagonal3Values(_scale, _scale, 1.0)
-          ..setTranslationRaw(_offset.dx, _offset.dy, 0.0),
+        transform: Matrix4.diagonal3Values(_scale, _scale, 1.0)..setTranslationRaw(_offset.dx, _offset.dy, 0.0),
         alignment: Alignment.center,
         child: ScrollablePositionedList.separated(
           scrollDirection: widget.scrollDirection,
@@ -362,9 +349,7 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon>
     }
 
     return Padding(
-      padding: widget.isHorizontalContinuous
-          ? EdgeInsets.zero
-          : EdgeInsets.symmetric(horizontal: sidePad),
+      padding: widget.isHorizontalContinuous ? EdgeInsets.zero : EdgeInsets.symmetric(horizontal: sidePad),
       child: ImageViewVertical(
         data: currentPage,
         failedToLoadImage: widget.onFailedToLoadImage,

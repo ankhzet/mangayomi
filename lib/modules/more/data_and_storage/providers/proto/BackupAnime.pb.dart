@@ -69,8 +69,7 @@ class BackupAnime extends $pb.GeneratedMessage {
     if (history != null) result.history.addAll(history);
     if (updateStrategy != null) result.updateStrategy = updateStrategy;
     if (lastModifiedAt != null) result.lastModifiedAt = lastModifiedAt;
-    if (favoriteModifiedAt != null)
-      result.favoriteModifiedAt = favoriteModifiedAt;
+    if (favoriteModifiedAt != null) result.favoriteModifiedAt = favoriteModifiedAt;
     if (version != null) result.version = version;
     if (backgroundUrl != null) result.backgroundUrl = backgroundUrl;
     if (parentId != null) result.parentId = parentId;
@@ -87,13 +86,10 @@ class BackupAnime extends $pb.GeneratedMessage {
   factory BackupAnime.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(data, registry);
-  factory BackupAnime.fromJson($core.String json,
-          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupAnime.fromJson($core.String json, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(json, registry);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'BackupAnime',
-      createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'BackupAnime', createEmptyInstance: create)
     ..aInt64(1, _omitFieldNames ? '' : 'source')
     ..aOS(2, _omitFieldNames ? '' : 'url')
     ..aOS(3, _omitFieldNames ? '' : 'title')
@@ -104,31 +100,22 @@ class BackupAnime extends $pb.GeneratedMessage {
     ..aI(8, _omitFieldNames ? '' : 'status')
     ..aOS(9, _omitFieldNames ? '' : 'thumbnailUrl', protoName: 'thumbnailUrl')
     ..aInt64(13, _omitFieldNames ? '' : 'dateAdded', protoName: 'dateAdded')
-    ..pPM<$0.BackupEpisode>(16, _omitFieldNames ? '' : 'episodes',
-        subBuilder: $0.BackupEpisode.create)
-    ..p<$fixnum.Int64>(
-        17, _omitFieldNames ? '' : 'categories', $pb.PbFieldType.K6)
+    ..pPM<$0.BackupEpisode>(16, _omitFieldNames ? '' : 'episodes', subBuilder: $0.BackupEpisode.create)
+    ..p<$fixnum.Int64>(17, _omitFieldNames ? '' : 'categories', $pb.PbFieldType.K6)
     ..aOB(100, _omitFieldNames ? '' : 'favorite')
     ..aI(101, _omitFieldNames ? '' : 'episodeFlags', protoName: 'episodeFlags')
     ..aI(103, _omitFieldNames ? '' : 'viewerFlags')
-    ..pPM<$1.BackupHistory>(104, _omitFieldNames ? '' : 'history',
-        subBuilder: $1.BackupHistory.create)
-    ..aI(105, _omitFieldNames ? '' : 'updateStrategy',
-        protoName: 'updateStrategy')
-    ..aInt64(106, _omitFieldNames ? '' : 'lastModifiedAt',
-        protoName: 'lastModifiedAt')
-    ..aInt64(107, _omitFieldNames ? '' : 'favoriteModifiedAt',
-        protoName: 'favoriteModifiedAt')
+    ..pPM<$1.BackupHistory>(104, _omitFieldNames ? '' : 'history', subBuilder: $1.BackupHistory.create)
+    ..aI(105, _omitFieldNames ? '' : 'updateStrategy', protoName: 'updateStrategy')
+    ..aInt64(106, _omitFieldNames ? '' : 'lastModifiedAt', protoName: 'lastModifiedAt')
+    ..aInt64(107, _omitFieldNames ? '' : 'favoriteModifiedAt', protoName: 'favoriteModifiedAt')
     ..aInt64(109, _omitFieldNames ? '' : 'version')
-    ..aOS(500, _omitFieldNames ? '' : 'backgroundUrl',
-        protoName: 'backgroundUrl')
+    ..aOS(500, _omitFieldNames ? '' : 'backgroundUrl', protoName: 'backgroundUrl')
     ..aInt64(502, _omitFieldNames ? '' : 'parentId', protoName: 'parentId')
     ..aInt64(503, _omitFieldNames ? '' : 'id')
-    ..aInt64(504, _omitFieldNames ? '' : 'seasonFlags',
-        protoName: 'seasonFlags')
+    ..aInt64(504, _omitFieldNames ? '' : 'seasonFlags', protoName: 'seasonFlags')
     ..aD(505, _omitFieldNames ? '' : 'seasonNumber', protoName: 'seasonNumber')
-    ..aInt64(506, _omitFieldNames ? '' : 'seasonSourceOrder',
-        protoName: 'seasonSourceOrder')
+    ..aInt64(506, _omitFieldNames ? '' : 'seasonSourceOrder', protoName: 'seasonSourceOrder')
     ..aI(507, _omitFieldNames ? '' : 'fetchType', protoName: 'fetchType')
     ..hasRequiredFields = false;
 
@@ -136,8 +123,7 @@ class BackupAnime extends $pb.GeneratedMessage {
   BackupAnime clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   BackupAnime copyWith(void Function(BackupAnime) updates) =>
-      super.copyWith((message) => updates(message as BackupAnime))
-          as BackupAnime;
+      super.copyWith((message) => updates(message as BackupAnime)) as BackupAnime;
 
   @$core.override
   $pb.BuilderInfo get info_ => _i;
@@ -148,8 +134,7 @@ class BackupAnime extends $pb.GeneratedMessage {
   BackupAnime createEmptyInstance() => create();
   static $pb.PbList<BackupAnime> createRepeated() => $pb.PbList<BackupAnime>();
   @$core.pragma('dart2js:noInline')
-  static BackupAnime getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<BackupAnime>(create);
+  static BackupAnime getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BackupAnime>(create);
   static BackupAnime? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -372,7 +357,5 @@ class BackupAnime extends $pb.GeneratedMessage {
   void clearFetchType() => $_clearField(507);
 }
 
-const $core.bool _omitFieldNames =
-    $core.bool.fromEnvironment('protobuf.omit_field_names');
-const $core.bool _omitMessageNames =
-    $core.bool.fromEnvironment('protobuf.omit_message_names');
+const $core.bool _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

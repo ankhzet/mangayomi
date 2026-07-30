@@ -480,9 +480,7 @@ Future<void> _downloadFile(
   try {
     if (itemType != ItemType.anime) {
       final response = await _withRetry(
-        () => client
-            .get(Uri.parse(pageUrl.url), headers: pageUrl.headers)
-            .timeout(const Duration(seconds: 30)),
+        () => client.get(Uri.parse(pageUrl.url), headers: pageUrl.headers).timeout(const Duration(seconds: 30)),
         3,
       );
       if (response.statusCode != 200) {
@@ -503,9 +501,7 @@ Future<void> _downloadFile(
         // then hang forever on this send with no network — the download stalls
         // with no progress, no retry, and no error. Bail so _withRetry cycles
         // and, once exhausted, the failure propagates to the UI.
-        StreamedResponse response = await client
-            .send(request)
-            .timeout(const Duration(seconds: 30));
+        StreamedResponse response = await client.send(request).timeout(const Duration(seconds: 30));
         // Accept any 2xx — including 206 Partial Content, which the server
         // returns when the source extension sends `Range: bytes=0-` on the
         // streaming request (e.g. AnimeGG). Rejecting 206 here caused 3
@@ -541,9 +537,7 @@ Future<void> _downloadFile(
             sink.add(value);
             received += value.length;
             final percent = total > 0 ? (received / total * 100).toInt() : -1;
-            final shouldSend = percent >= 0
-                ? percent != lastPercent
-                : progressWatch.elapsedMilliseconds >= 250;
+            final shouldSend = percent >= 0 ? percent != lastPercent : progressWatch.elapsedMilliseconds >= 250;
             if (shouldSend) {
               lastPercent = percent;
               if (percent < 0) progressWatch.reset();

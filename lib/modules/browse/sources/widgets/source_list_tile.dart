@@ -31,11 +31,7 @@ class SourceListTile extends StatelessWidget {
         onTap: () {
           if (!isLocal) {
             isar.writeTxn(() async {
-              final sources = await isar.sources
-                  .filter()
-                  .idIsNotNull()
-                  .itemTypeEqualTo(itemType)
-                  .findAll();
+              final sources = await isar.sources.filter().idIsNotNull().itemTypeEqualTo(itemType).findAll();
               final updated = sources.map((src) {
                 return src
                   ..lastUsed = src.id == source.id
@@ -101,9 +97,7 @@ class SourceListTile extends StatelessWidget {
           ],
         ),
         title: Text(
-          !isLocal
-              ? source.name!
-              : "${context.l10n.local_source} ${source.itemType.localized(context.l10n)}",
+          !isLocal ? source.name! : "${context.l10n.local_source} ${source.itemType.localized(context.l10n)}",
         ),
         trailing: SizedBox(
           width: 150,
@@ -118,8 +112,7 @@ class SourceListTile extends StatelessWidget {
                     style: const ButtonStyle(
                       padding: WidgetStatePropertyAll(EdgeInsets.all(10)),
                     ),
-                    onPressed: () =>
-                        context.push('/mangaHome', extra: (source, true)),
+                    onPressed: () => context.push('/mangaHome', extra: (source, true)),
                     child: Text(context.l10n.latest),
                   );
                   // }
@@ -175,12 +168,7 @@ class TvSourceRow extends StatelessWidget {
 
   void _openPopular(BuildContext context) {
     if (!isLocal) {
-      final sources = isar.sources
-          .filter()
-          .idIsNotNull()
-          .and()
-          .itemTypeEqualTo(itemType)
-          .findAllSync();
+      final sources = isar.sources.filter().idIsNotNull().and().itemTypeEqualTo(itemType).findAllSync();
       isar.writeTxnSync(() {
         for (var src in sources) {
           isar.sources.putSync(

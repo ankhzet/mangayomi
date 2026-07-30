@@ -25,12 +25,10 @@ class ExtensionListTileWidget extends ConsumerStatefulWidget {
   const ExtensionListTileWidget({super.key, required this.source});
 
   @override
-  ConsumerState<ExtensionListTileWidget> createState() =>
-      _ExtensionListTileWidgetState();
+  ConsumerState<ExtensionListTileWidget> createState() => _ExtensionListTileWidgetState();
 }
 
-class _ExtensionListTileWidgetState
-    extends ConsumerState<ExtensionListTileWidget> {
+class _ExtensionListTileWidgetState extends ConsumerState<ExtensionListTileWidget> {
   bool _isLoading = false;
 
   late final bool _updateAvailable;
@@ -39,11 +37,8 @@ class _ExtensionListTileWidgetState
   @override
   void initState() {
     super.initState();
-    _updateAvailable =
-        compareVersions(widget.source.version!, widget.source.versionLast!) < 0;
-    _sourceNotEmpty =
-        widget.source.sourceCode != null &&
-        widget.source.sourceCode!.isNotEmpty;
+    _updateAvailable = compareVersions(widget.source.version!, widget.source.versionLast!) < 0;
+    _sourceNotEmpty = widget.source.sourceCode != null && widget.source.sourceCode!.isNotEmpty;
   }
 
   Future<void> _handleSourceFetch() async {
@@ -117,8 +112,7 @@ class _ExtensionListTileWidgetState
                         .findAllSync()
                         .map((e) => e.id!)
                         .toList();
-                    final sourcePrefsStringIds = isar
-                        .sourcePreferenceStringValues
+                    final sourcePrefsStringIds = isar.sourcePreferenceStringValues
                         .filter()
                         .sourceIdEqualTo(widget.source.id!)
                         .findAllSync()

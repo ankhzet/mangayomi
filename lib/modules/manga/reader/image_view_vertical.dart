@@ -53,8 +53,7 @@ class ImageViewVertical extends ConsumerWidget {
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (data.index == 0)
-                    SizedBox(height: MediaQuery.of(context).padding.top),
+                  if (data.index == 0) SizedBox(height: MediaQuery.of(context).padding.top),
                   imageWidget,
                 ],
               ),

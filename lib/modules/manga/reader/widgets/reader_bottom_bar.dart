@@ -340,9 +340,7 @@ class ReaderBottomBar extends ConsumerWidget {
                     children: [
                       Icon(
                         Icons.check,
-                        color: readerMode == mode
-                            ? Colors.white
-                            : Colors.transparent,
+                        color: readerMode == mode ? Colors.white : Colors.transparent,
                       ),
                       const SizedBox(width: 7),
                       Text(
@@ -393,9 +391,7 @@ class ReaderBottomBar extends ConsumerWidget {
           IconButton(
             onPressed: !isHorizontalContinuous ? onPageModeToggle : null,
             icon: Icon(
-              _isDoublePageMode
-                  ? CupertinoIcons.book_solid
-                  : CupertinoIcons.book,
+              _isDoublePageMode ? CupertinoIcons.book_solid : CupertinoIcons.book,
             ),
           ),
 
@@ -433,9 +429,7 @@ class PageNumberOverlay extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final label = pageMode == PageMode.doublePage && currentIndex > 0
-        ? _getDoublePageLabel()
-        : '${currentIndex + 1}';
+    final label = pageMode == PageMode.doublePage && currentIndex > 0 ? _getDoublePageLabel() : '${currentIndex + 1}';
 
     return Align(
       alignment: Alignment.bottomCenter,

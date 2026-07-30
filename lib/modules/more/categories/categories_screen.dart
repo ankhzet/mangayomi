@@ -25,8 +25,7 @@ class CategoriesScreen extends ConsumerStatefulWidget {
   ConsumerState<CategoriesScreen> createState() => _CategoriesScreenState();
 }
 
-class _CategoriesScreenState extends ConsumerState<CategoriesScreen>
-    with TickerProviderStateMixin {
+class _CategoriesScreenState extends ConsumerState<CategoriesScreen> with TickerProviderStateMixin {
   late TabController _tabBarController;
   late final List<ItemType> _visibleTabTypes;
   @override
@@ -98,8 +97,7 @@ class CategoriesTab extends ConsumerStatefulWidget {
   ConsumerState<CategoriesTab> createState() => _CategoriesTabState();
 }
 
-class _CategoriesTabState extends ConsumerState<CategoriesTab>
-    with SingleTickerProviderStateMixin {
+class _CategoriesTabState extends ConsumerState<CategoriesTab> with SingleTickerProviderStateMixin {
   List<Category> _entries = [];
   late AnimationController _swapAnimationController;
   int? _animatingFromIndex;
@@ -188,13 +186,9 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab>
 
               Widget itemWidget = _buildCategoryCard(context, category, index);
 
-              if (isDesktop &&
-                  _animatingFromIndex != null &&
-                  _animatingToIndex != null) {
-                if (index == _animatingFromIndex ||
-                    index == _animatingToIndex) {
-                  final isMovingDown =
-                      _animatingFromIndex! < _animatingToIndex!;
+              if (isDesktop && _animatingFromIndex != null && _animatingToIndex != null) {
+                if (index == _animatingFromIndex || index == _animatingToIndex) {
+                  final isMovingDown = _animatingFromIndex! < _animatingToIndex!;
                   final offset = index == _animatingFromIndex
                       ? (isMovingDown ? 1.0 : -1.0)
                       : (isMovingDown ? -1.0 : 1.0);
@@ -277,17 +271,13 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab>
                                       final category = Category(
                                         forItemType: widget.itemType,
                                         name: controller.text,
-                                        updatedAt: DateTime.now()
-                                            .millisecondsSinceEpoch,
+                                        updatedAt: DateTime.now().millisecondsSinceEpoch,
                                       );
                                       isar.writeTxnSync(() {
                                         isar.categorys.putSync(
                                           category..pos = category.id,
                                         );
-                                        final categories = isar.categorys
-                                            .filter()
-                                            .posIsNull()
-                                            .findAllSync();
+                                        final categories = isar.categorys.filter().posIsNull().findAllSync();
                                         for (var category in categories) {
                                           isar.categorys.putSync(
                                             category..pos = category.id,
@@ -409,17 +399,13 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab>
                     IconButton(
                       onPressed: () async {
                         await isar.writeTxn(() async {
-                          category.shouldUpdate =
-                              !(category.shouldUpdate ?? true);
-                          category.updatedAt =
-                              DateTime.now().millisecondsSinceEpoch;
+                          category.shouldUpdate = !(category.shouldUpdate ?? true);
+                          category.updatedAt = DateTime.now().millisecondsSinceEpoch;
                           isar.categorys.put(category);
                         });
                       },
                       icon: Icon(
-                        category.shouldUpdate ?? true
-                            ? Icons.update_outlined
-                            : Icons.update_disabled_outlined,
+                        category.shouldUpdate ?? true ? Icons.update_outlined : Icons.update_disabled_outlined,
                       ),
                     ),
                     SizedBox(width: 10),
@@ -427,15 +413,12 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab>
                       onPressed: () async {
                         await isar.writeTxn(() async {
                           category.hide = !(category.hide ?? false);
-                          category.updatedAt =
-                              DateTime.now().millisecondsSinceEpoch;
+                          category.updatedAt = DateTime.now().millisecondsSinceEpoch;
                           isar.categorys.put(category);
                         });
                       },
                       icon: Icon(
-                        !(category.hide ?? false)
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined,
+                        !(category.hide ?? false) ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                       ),
                     ),
                     SizedBox(width: 10),
@@ -495,10 +478,7 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab>
   Future<void> _removeCategory(Category category, BuildContext context) async {
     await isar.writeTxn(() async {
       // All Items with this category
-      final allItems = await isar.mangas
-          .filter()
-          .categoriesElementEqualTo(category.id!)
-          .findAll();
+      final allItems = await isar.mangas.filter().categoriesElementEqualTo(category.id!).findAll();
       // Remove the category ID from each item's category list
       final updatedItems = allItems.map((manga) {
         final cats = List<int>.from(manga.categories ?? []);
@@ -568,14 +548,12 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab>
                     ),
                     const SizedBox(width: 15),
                     TextButton(
-                      onPressed:
-                          controller.text.isEmpty || isExist || isSameName
+                      onPressed: controller.text.isEmpty || isExist || isSameName
                           ? null
                           : () async {
                               await isar.writeTxn(() async {
                                 category.name = controller.text;
-                                category.updatedAt =
-                                    DateTime.now().millisecondsSinceEpoch;
+                                category.updatedAt = DateTime.now().millisecondsSinceEpoch;
                                 await isar.categorys.put(category);
                               });
                               if (context.mounted) {
@@ -585,8 +563,7 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab>
                       child: Text(
                         l10n.ok,
                         style: TextStyle(
-                          color:
-                              controller.text.isEmpty || isExist || isSameName
+                          color: controller.text.isEmpty || isExist || isSameName
                               ? Theme.of(
                                   context,
                                 ).primaryColor.withValues(alpha: 0.2)

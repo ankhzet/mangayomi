@@ -989,8 +989,7 @@ abstract class _$ShowPagesNumberState extends $Notifier<dynamic> {
 @ProviderFor(KeepScreenOnReaderState)
 final keepScreenOnReaderStateProvider = KeepScreenOnReaderStateProvider._();
 
-final class KeepScreenOnReaderStateProvider
-    extends $NotifierProvider<KeepScreenOnReaderState, bool> {
+final class KeepScreenOnReaderStateProvider extends $NotifierProvider<KeepScreenOnReaderState, bool> {
   KeepScreenOnReaderStateProvider._()
     : super(
         from: null,
@@ -1018,8 +1017,7 @@ final class KeepScreenOnReaderStateProvider
   }
 }
 
-String _$keepScreenOnReaderStateHash() =>
-    r'af1380082a36e449c1c7bed4ea750568362fdf91';
+String _$keepScreenOnReaderStateHash() => r'af1380082a36e449c1c7bed4ea750568362fdf91';
 
 abstract class _$KeepScreenOnReaderState extends $Notifier<bool> {
   bool build();
@@ -1027,14 +1025,7 @@ abstract class _$KeepScreenOnReaderState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -1042,8 +1033,7 @@ abstract class _$KeepScreenOnReaderState extends $Notifier<bool> {
 @ProviderFor(WebtoonSidePaddingState)
 final webtoonSidePaddingStateProvider = WebtoonSidePaddingStateProvider._();
 
-final class WebtoonSidePaddingStateProvider
-    extends $NotifierProvider<WebtoonSidePaddingState, int> {
+final class WebtoonSidePaddingStateProvider extends $NotifierProvider<WebtoonSidePaddingState, int> {
   WebtoonSidePaddingStateProvider._()
     : super(
         from: null,
@@ -1071,8 +1061,7 @@ final class WebtoonSidePaddingStateProvider
   }
 }
 
-String _$webtoonSidePaddingStateHash() =>
-    r'18c3373c23ea9a4cd394d61c184e1258ad529e8c';
+String _$webtoonSidePaddingStateHash() => r'18c3373c23ea9a4cd394d61c184e1258ad529e8c';
 
 abstract class _$WebtoonSidePaddingState extends $Notifier<int> {
   int build();
@@ -1080,14 +1069,7 @@ abstract class _$WebtoonSidePaddingState extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -1095,8 +1077,7 @@ abstract class _$WebtoonSidePaddingState extends $Notifier<int> {
 @ProviderFor(ShowPageGapsState)
 final showPageGapsStateProvider = ShowPageGapsStateProvider._();
 
-final class ShowPageGapsStateProvider
-    extends $NotifierProvider<ShowPageGapsState, bool> {
+final class ShowPageGapsStateProvider extends $NotifierProvider<ShowPageGapsState, bool> {
   ShowPageGapsStateProvider._()
     : super(
         from: null,
@@ -1132,24 +1113,15 @@ abstract class _$ShowPageGapsState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(AutoReadDuplicateChaptersState)
-final autoReadDuplicateChaptersStateProvider =
-    AutoReadDuplicateChaptersStateProvider._();
+final autoReadDuplicateChaptersStateProvider = AutoReadDuplicateChaptersStateProvider._();
 
-final class AutoReadDuplicateChaptersStateProvider
-    extends $NotifierProvider<AutoReadDuplicateChaptersState, bool> {
+final class AutoReadDuplicateChaptersStateProvider extends $NotifierProvider<AutoReadDuplicateChaptersState, bool> {
   AutoReadDuplicateChaptersStateProvider._()
     : super(
         from: null,
@@ -1177,8 +1149,7 @@ final class AutoReadDuplicateChaptersStateProvider
   }
 }
 
-String _$autoReadDuplicateChaptersStateHash() =>
-    r'288816e17fefa753c690cc43a40cfbcf5352b9df';
+String _$autoReadDuplicateChaptersStateHash() => r'288816e17fefa753c690cc43a40cfbcf5352b9df';
 
 abstract class _$AutoReadDuplicateChaptersState extends $Notifier<bool> {
   bool build();
@@ -1186,14 +1157,7 @@ abstract class _$AutoReadDuplicateChaptersState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -1201,8 +1165,7 @@ abstract class _$AutoReadDuplicateChaptersState extends $Notifier<bool> {
 @ProviderFor(InvertColorsState)
 final invertColorsStateProvider = InvertColorsStateProvider._();
 
-final class InvertColorsStateProvider
-    extends $NotifierProvider<InvertColorsState, bool> {
+final class InvertColorsStateProvider extends $NotifierProvider<InvertColorsState, bool> {
   InvertColorsStateProvider._()
     : super(
         from: null,
@@ -1238,14 +1201,7 @@ abstract class _$InvertColorsState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -1253,8 +1209,7 @@ abstract class _$InvertColorsState extends $Notifier<bool> {
 @ProviderFor(GrayscaleState)
 final grayscaleStateProvider = GrayscaleStateProvider._();
 
-final class GrayscaleStateProvider
-    extends $NotifierProvider<GrayscaleState, bool> {
+final class GrayscaleStateProvider extends $NotifierProvider<GrayscaleState, bool> {
   GrayscaleStateProvider._()
     : super(
         from: null,
@@ -1290,14 +1245,7 @@ abstract class _$GrayscaleState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -1305,8 +1253,7 @@ abstract class _$GrayscaleState extends $Notifier<bool> {
 @ProviderFor(ReaderBrightnessState)
 final readerBrightnessStateProvider = ReaderBrightnessStateProvider._();
 
-final class ReaderBrightnessStateProvider
-    extends $NotifierProvider<ReaderBrightnessState, double> {
+final class ReaderBrightnessStateProvider extends $NotifierProvider<ReaderBrightnessState, double> {
   ReaderBrightnessStateProvider._()
     : super(
         from: null,
@@ -1334,8 +1281,7 @@ final class ReaderBrightnessStateProvider
   }
 }
 
-String _$readerBrightnessStateHash() =>
-    r'59be73514f974e078677dad602142edac445689c';
+String _$readerBrightnessStateHash() => r'59be73514f974e078677dad602142edac445689c';
 
 abstract class _$ReaderBrightnessState extends $Notifier<double> {
   double build();
@@ -1343,14 +1289,7 @@ abstract class _$ReaderBrightnessState extends $Notifier<double> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<double, double>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<double, double>,
-              double,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<double, double>, double, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -1358,8 +1297,7 @@ abstract class _$ReaderBrightnessState extends $Notifier<double> {
 @ProviderFor(ReaderContrastState)
 final readerContrastStateProvider = ReaderContrastStateProvider._();
 
-final class ReaderContrastStateProvider
-    extends $NotifierProvider<ReaderContrastState, double> {
+final class ReaderContrastStateProvider extends $NotifierProvider<ReaderContrastState, double> {
   ReaderContrastStateProvider._()
     : super(
         from: null,
@@ -1387,8 +1325,7 @@ final class ReaderContrastStateProvider
   }
 }
 
-String _$readerContrastStateHash() =>
-    r'b423bd15b635bac656e895a6e3b32bc639969e31';
+String _$readerContrastStateHash() => r'b423bd15b635bac656e895a6e3b32bc639969e31';
 
 abstract class _$ReaderContrastState extends $Notifier<double> {
   double build();
@@ -1396,14 +1333,7 @@ abstract class _$ReaderContrastState extends $Notifier<double> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<double, double>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<double, double>,
-              double,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<double, double>, double, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -1411,8 +1341,7 @@ abstract class _$ReaderContrastState extends $Notifier<double> {
 @ProviderFor(ReaderSaturationState)
 final readerSaturationStateProvider = ReaderSaturationStateProvider._();
 
-final class ReaderSaturationStateProvider
-    extends $NotifierProvider<ReaderSaturationState, double> {
+final class ReaderSaturationStateProvider extends $NotifierProvider<ReaderSaturationState, double> {
   ReaderSaturationStateProvider._()
     : super(
         from: null,
@@ -1440,8 +1369,7 @@ final class ReaderSaturationStateProvider
   }
 }
 
-String _$readerSaturationStateHash() =>
-    r'a3918acbb99c3a631256553c553c34abff198a18';
+String _$readerSaturationStateHash() => r'a3918acbb99c3a631256553c553c34abff198a18';
 
 abstract class _$ReaderSaturationState extends $Notifier<double> {
   double build();
@@ -1449,24 +1377,15 @@ abstract class _$ReaderSaturationState extends $Notifier<double> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<double, double>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<double, double>,
-              double,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<double, double>, double, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ReaderNavigationLayoutState)
-final readerNavigationLayoutStateProvider =
-    ReaderNavigationLayoutStateProvider._();
+final readerNavigationLayoutStateProvider = ReaderNavigationLayoutStateProvider._();
 
-final class ReaderNavigationLayoutStateProvider
-    extends $NotifierProvider<ReaderNavigationLayoutState, int> {
+final class ReaderNavigationLayoutStateProvider extends $NotifierProvider<ReaderNavigationLayoutState, int> {
   ReaderNavigationLayoutStateProvider._()
     : super(
         from: null,
@@ -1494,8 +1413,7 @@ final class ReaderNavigationLayoutStateProvider
   }
 }
 
-String _$readerNavigationLayoutStateHash() =>
-    r'680c09d930c2f50a7a949c53196cafa082fe47b8';
+String _$readerNavigationLayoutStateHash() => r'680c09d930c2f50a7a949c53196cafa082fe47b8';
 
 abstract class _$ReaderNavigationLayoutState extends $Notifier<int> {
   int build();
@@ -1503,14 +1421,7 @@ abstract class _$ReaderNavigationLayoutState extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -1518,8 +1429,7 @@ abstract class _$ReaderNavigationLayoutState extends $Notifier<int> {
 @ProviderFor(TtsSpeechRateState)
 final ttsSpeechRateStateProvider = TtsSpeechRateStateProvider._();
 
-final class TtsSpeechRateStateProvider
-    extends $NotifierProvider<TtsSpeechRateState, double> {
+final class TtsSpeechRateStateProvider extends $NotifierProvider<TtsSpeechRateState, double> {
   TtsSpeechRateStateProvider._()
     : super(
         from: null,
@@ -1547,8 +1457,7 @@ final class TtsSpeechRateStateProvider
   }
 }
 
-String _$ttsSpeechRateStateHash() =>
-    r'c59420fd0d1b4435b556b6b93c0ce03bc3b46d2e';
+String _$ttsSpeechRateStateHash() => r'c59420fd0d1b4435b556b6b93c0ce03bc3b46d2e';
 
 abstract class _$TtsSpeechRateState extends $Notifier<double> {
   double build();
@@ -1556,14 +1465,7 @@ abstract class _$TtsSpeechRateState extends $Notifier<double> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<double, double>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<double, double>,
-              double,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<double, double>, double, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -1571,8 +1473,7 @@ abstract class _$TtsSpeechRateState extends $Notifier<double> {
 @ProviderFor(TtsPitchState)
 final ttsPitchStateProvider = TtsPitchStateProvider._();
 
-final class TtsPitchStateProvider
-    extends $NotifierProvider<TtsPitchState, double> {
+final class TtsPitchStateProvider extends $NotifierProvider<TtsPitchState, double> {
   TtsPitchStateProvider._()
     : super(
         from: null,
@@ -1608,14 +1509,7 @@ abstract class _$TtsPitchState extends $Notifier<double> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<double, double>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<double, double>,
-              double,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<double, double>, double, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -1623,8 +1517,7 @@ abstract class _$TtsPitchState extends $Notifier<double> {
 @ProviderFor(TtsLanguageState)
 final ttsLanguageStateProvider = TtsLanguageStateProvider._();
 
-final class TtsLanguageStateProvider
-    extends $NotifierProvider<TtsLanguageState, String?> {
+final class TtsLanguageStateProvider extends $NotifierProvider<TtsLanguageState, String?> {
   TtsLanguageStateProvider._()
     : super(
         from: null,
@@ -1660,14 +1553,7 @@ abstract class _$TtsLanguageState extends $Notifier<String?> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String?, String?>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String?, String?>,
-              String?,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String?, String?>, String?, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -1675,8 +1561,7 @@ abstract class _$TtsLanguageState extends $Notifier<String?> {
 @ProviderFor(TtsVoiceState)
 final ttsVoiceStateProvider = TtsVoiceStateProvider._();
 
-final class TtsVoiceStateProvider
-    extends $NotifierProvider<TtsVoiceState, String?> {
+final class TtsVoiceStateProvider extends $NotifierProvider<TtsVoiceState, String?> {
   TtsVoiceStateProvider._()
     : super(
         from: null,
@@ -1712,14 +1597,7 @@ abstract class _$TtsVoiceState extends $Notifier<String?> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<String?, String?>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String?, String?>,
-              String?,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String?, String?>, String?, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -1727,8 +1605,7 @@ abstract class _$TtsVoiceState extends $Notifier<String?> {
 @ProviderFor(SplitWidePagesState)
 final splitWidePagesStateProvider = SplitWidePagesStateProvider._();
 
-final class SplitWidePagesStateProvider
-    extends $NotifierProvider<SplitWidePagesState, bool> {
+final class SplitWidePagesStateProvider extends $NotifierProvider<SplitWidePagesState, bool> {
   SplitWidePagesStateProvider._()
     : super(
         from: null,
@@ -1756,8 +1633,7 @@ final class SplitWidePagesStateProvider
   }
 }
 
-String _$splitWidePagesStateHash() =>
-    r'c27b7a965cf7b0f5acbf993689185f3c788d67d6';
+String _$splitWidePagesStateHash() => r'c27b7a965cf7b0f5acbf993689185f3c788d67d6';
 
 abstract class _$SplitWidePagesState extends $Notifier<bool> {
   bool build();
@@ -1765,14 +1641,7 @@ abstract class _$SplitWidePagesState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -1780,8 +1649,7 @@ abstract class _$SplitWidePagesState extends $Notifier<bool> {
 @ProviderFor(DualPageInvertState)
 final dualPageInvertStateProvider = DualPageInvertStateProvider._();
 
-final class DualPageInvertStateProvider
-    extends $NotifierProvider<DualPageInvertState, bool> {
+final class DualPageInvertStateProvider extends $NotifierProvider<DualPageInvertState, bool> {
   DualPageInvertStateProvider._()
     : super(
         from: null,
@@ -1809,8 +1677,7 @@ final class DualPageInvertStateProvider
   }
 }
 
-String _$dualPageInvertStateHash() =>
-    r'9ddc66d5b712c5c122e4c264213e24b40a52b5e5';
+String _$dualPageInvertStateHash() => r'9ddc66d5b712c5c122e4c264213e24b40a52b5e5';
 
 abstract class _$DualPageInvertState extends $Notifier<bool> {
   bool build();
@@ -1818,14 +1685,7 @@ abstract class _$DualPageInvertState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -1833,8 +1693,7 @@ abstract class _$DualPageInvertState extends $Notifier<bool> {
 @ProviderFor(DualPageRotateToFitState)
 final dualPageRotateToFitStateProvider = DualPageRotateToFitStateProvider._();
 
-final class DualPageRotateToFitStateProvider
-    extends $NotifierProvider<DualPageRotateToFitState, bool> {
+final class DualPageRotateToFitStateProvider extends $NotifierProvider<DualPageRotateToFitState, bool> {
   DualPageRotateToFitStateProvider._()
     : super(
         from: null,
@@ -1862,8 +1721,7 @@ final class DualPageRotateToFitStateProvider
   }
 }
 
-String _$dualPageRotateToFitStateHash() =>
-    r'2fc96d6e7a33113d3a89c738c5df15193ae71b86';
+String _$dualPageRotateToFitStateHash() => r'2fc96d6e7a33113d3a89c738c5df15193ae71b86';
 
 abstract class _$DualPageRotateToFitState extends $Notifier<bool> {
   bool build();
@@ -1871,24 +1729,15 @@ abstract class _$DualPageRotateToFitState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(DualPageRotateToFitInvertState)
-final dualPageRotateToFitInvertStateProvider =
-    DualPageRotateToFitInvertStateProvider._();
+final dualPageRotateToFitInvertStateProvider = DualPageRotateToFitInvertStateProvider._();
 
-final class DualPageRotateToFitInvertStateProvider
-    extends $NotifierProvider<DualPageRotateToFitInvertState, bool> {
+final class DualPageRotateToFitInvertStateProvider extends $NotifierProvider<DualPageRotateToFitInvertState, bool> {
   DualPageRotateToFitInvertStateProvider._()
     : super(
         from: null,
@@ -1916,8 +1765,7 @@ final class DualPageRotateToFitInvertStateProvider
   }
 }
 
-String _$dualPageRotateToFitInvertStateHash() =>
-    r'44afe65591b107a15325fea77d36e07a26548021';
+String _$dualPageRotateToFitInvertStateHash() => r'44afe65591b107a15325fea77d36e07a26548021';
 
 abstract class _$DualPageRotateToFitInvertState extends $Notifier<bool> {
   bool build();
@@ -1925,14 +1773,7 @@ abstract class _$DualPageRotateToFitInvertState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -1940,8 +1781,7 @@ abstract class _$DualPageRotateToFitInvertState extends $Notifier<bool> {
 @ProviderFor(LandscapeZoomState)
 final landscapeZoomStateProvider = LandscapeZoomStateProvider._();
 
-final class LandscapeZoomStateProvider
-    extends $NotifierProvider<LandscapeZoomState, bool> {
+final class LandscapeZoomStateProvider extends $NotifierProvider<LandscapeZoomState, bool> {
   LandscapeZoomStateProvider._()
     : super(
         from: null,
@@ -1969,8 +1809,7 @@ final class LandscapeZoomStateProvider
   }
 }
 
-String _$landscapeZoomStateHash() =>
-    r'b345f815068658747c1daee6d9af997ed354efb8';
+String _$landscapeZoomStateHash() => r'b345f815068658747c1daee6d9af997ed354efb8';
 
 abstract class _$LandscapeZoomState extends $Notifier<bool> {
   bool build();
@@ -1978,14 +1817,7 @@ abstract class _$LandscapeZoomState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -1993,8 +1825,7 @@ abstract class _$LandscapeZoomState extends $Notifier<bool> {
 @ProviderFor(ZoomStartPositionState)
 final zoomStartPositionStateProvider = ZoomStartPositionStateProvider._();
 
-final class ZoomStartPositionStateProvider
-    extends $NotifierProvider<ZoomStartPositionState, int> {
+final class ZoomStartPositionStateProvider extends $NotifierProvider<ZoomStartPositionState, int> {
   ZoomStartPositionStateProvider._()
     : super(
         from: null,
@@ -2022,8 +1853,7 @@ final class ZoomStartPositionStateProvider
   }
 }
 
-String _$zoomStartPositionStateHash() =>
-    r'4e42aabc355c9c7b879e309e2a7e05db1068a483';
+String _$zoomStartPositionStateHash() => r'4e42aabc355c9c7b879e309e2a7e05db1068a483';
 
 abstract class _$ZoomStartPositionState extends $Notifier<int> {
   int build();
@@ -2031,14 +1861,7 @@ abstract class _$ZoomStartPositionState extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -2046,8 +1869,7 @@ abstract class _$ZoomStartPositionState extends $Notifier<int> {
 @ProviderFor(AutomaticBackgroundState)
 final automaticBackgroundStateProvider = AutomaticBackgroundStateProvider._();
 
-final class AutomaticBackgroundStateProvider
-    extends $NotifierProvider<AutomaticBackgroundState, bool> {
+final class AutomaticBackgroundStateProvider extends $NotifierProvider<AutomaticBackgroundState, bool> {
   AutomaticBackgroundStateProvider._()
     : super(
         from: null,
@@ -2075,8 +1897,7 @@ final class AutomaticBackgroundStateProvider
   }
 }
 
-String _$automaticBackgroundStateHash() =>
-    r'adeef482a7630c03d0eee4eef7bf33aeff71d053';
+String _$automaticBackgroundStateHash() => r'adeef482a7630c03d0eee4eef7bf33aeff71d053';
 
 abstract class _$AutomaticBackgroundState extends $Notifier<bool> {
   bool build();
@@ -2084,14 +1905,7 @@ abstract class _$AutomaticBackgroundState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -2099,8 +1913,7 @@ abstract class _$AutomaticBackgroundState extends $Notifier<bool> {
 @ProviderFor(NavigateToPanState)
 final navigateToPanStateProvider = NavigateToPanStateProvider._();
 
-final class NavigateToPanStateProvider
-    extends $NotifierProvider<NavigateToPanState, bool> {
+final class NavigateToPanStateProvider extends $NotifierProvider<NavigateToPanState, bool> {
   NavigateToPanStateProvider._()
     : super(
         from: null,
@@ -2128,8 +1941,7 @@ final class NavigateToPanStateProvider
   }
 }
 
-String _$navigateToPanStateHash() =>
-    r'f02ade437b1fe984cb465cd975a0fa0e19f365ca';
+String _$navigateToPanStateHash() => r'f02ade437b1fe984cb465cd975a0fa0e19f365ca';
 
 abstract class _$NavigateToPanState extends $Notifier<bool> {
   bool build();
@@ -2137,14 +1949,7 @@ abstract class _$NavigateToPanState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -2152,8 +1957,7 @@ abstract class _$NavigateToPanState extends $Notifier<bool> {
 @ProviderFor(TappingInversionState)
 final tappingInversionStateProvider = TappingInversionStateProvider._();
 
-final class TappingInversionStateProvider
-    extends $NotifierProvider<TappingInversionState, int> {
+final class TappingInversionStateProvider extends $NotifierProvider<TappingInversionState, int> {
   TappingInversionStateProvider._()
     : super(
         from: null,
@@ -2181,8 +1985,7 @@ final class TappingInversionStateProvider
   }
 }
 
-String _$tappingInversionStateHash() =>
-    r'7dd5f3036fdb18d9063febbb82d86e04fb61de3d';
+String _$tappingInversionStateHash() => r'7dd5f3036fdb18d9063febbb82d86e04fb61de3d';
 
 abstract class _$TappingInversionState extends $Notifier<int> {
   int build();
@@ -2190,14 +1993,7 @@ abstract class _$TappingInversionState extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -2205,8 +2001,7 @@ abstract class _$TappingInversionState extends $Notifier<int> {
 @ProviderFor(FlashOnPageChangeState)
 final flashOnPageChangeStateProvider = FlashOnPageChangeStateProvider._();
 
-final class FlashOnPageChangeStateProvider
-    extends $NotifierProvider<FlashOnPageChangeState, bool> {
+final class FlashOnPageChangeStateProvider extends $NotifierProvider<FlashOnPageChangeState, bool> {
   FlashOnPageChangeStateProvider._()
     : super(
         from: null,
@@ -2234,8 +2029,7 @@ final class FlashOnPageChangeStateProvider
   }
 }
 
-String _$flashOnPageChangeStateHash() =>
-    r'528e623f048eb868426b761482765cec0f1a0cad';
+String _$flashOnPageChangeStateHash() => r'528e623f048eb868426b761482765cec0f1a0cad';
 
 abstract class _$FlashOnPageChangeState extends $Notifier<bool> {
   bool build();
@@ -2243,14 +2037,7 @@ abstract class _$FlashOnPageChangeState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -2258,8 +2045,7 @@ abstract class _$FlashOnPageChangeState extends $Notifier<bool> {
 @ProviderFor(FlashDurationState)
 final flashDurationStateProvider = FlashDurationStateProvider._();
 
-final class FlashDurationStateProvider
-    extends $NotifierProvider<FlashDurationState, int> {
+final class FlashDurationStateProvider extends $NotifierProvider<FlashDurationState, int> {
   FlashDurationStateProvider._()
     : super(
         from: null,
@@ -2287,8 +2073,7 @@ final class FlashDurationStateProvider
   }
 }
 
-String _$flashDurationStateHash() =>
-    r'c267a259b6eef748c6537e4a23f96ad4cd7b25eb';
+String _$flashDurationStateHash() => r'c267a259b6eef748c6537e4a23f96ad4cd7b25eb';
 
 abstract class _$FlashDurationState extends $Notifier<int> {
   int build();
@@ -2296,14 +2081,7 @@ abstract class _$FlashDurationState extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -2311,8 +2089,7 @@ abstract class _$FlashDurationState extends $Notifier<int> {
 @ProviderFor(FlashIntervalState)
 final flashIntervalStateProvider = FlashIntervalStateProvider._();
 
-final class FlashIntervalStateProvider
-    extends $NotifierProvider<FlashIntervalState, int> {
+final class FlashIntervalStateProvider extends $NotifierProvider<FlashIntervalState, int> {
   FlashIntervalStateProvider._()
     : super(
         from: null,
@@ -2340,8 +2117,7 @@ final class FlashIntervalStateProvider
   }
 }
 
-String _$flashIntervalStateHash() =>
-    r'8cee27191fcfcb703534d7998f7be4f027fae774';
+String _$flashIntervalStateHash() => r'8cee27191fcfcb703534d7998f7be4f027fae774';
 
 abstract class _$FlashIntervalState extends $Notifier<int> {
   int build();
@@ -2349,14 +2125,7 @@ abstract class _$FlashIntervalState extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -2364,8 +2133,7 @@ abstract class _$FlashIntervalState extends $Notifier<int> {
 @ProviderFor(FlashColorState)
 final flashColorStateProvider = FlashColorStateProvider._();
 
-final class FlashColorStateProvider
-    extends $NotifierProvider<FlashColorState, int> {
+final class FlashColorStateProvider extends $NotifierProvider<FlashColorState, int> {
   FlashColorStateProvider._()
     : super(
         from: null,
@@ -2401,21 +2169,13 @@ abstract class _$FlashColorState extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ShowNavigationOverlayOnStartState)
-final showNavigationOverlayOnStartStateProvider =
-    ShowNavigationOverlayOnStartStateProvider._();
+final showNavigationOverlayOnStartStateProvider = ShowNavigationOverlayOnStartStateProvider._();
 
 final class ShowNavigationOverlayOnStartStateProvider
     extends $NotifierProvider<ShowNavigationOverlayOnStartState, bool> {
@@ -2431,13 +2191,11 @@ final class ShowNavigationOverlayOnStartStateProvider
       );
 
   @override
-  String debugGetCreateSourceHash() =>
-      _$showNavigationOverlayOnStartStateHash();
+  String debugGetCreateSourceHash() => _$showNavigationOverlayOnStartStateHash();
 
   @$internal
   @override
-  ShowNavigationOverlayOnStartState create() =>
-      ShowNavigationOverlayOnStartState();
+  ShowNavigationOverlayOnStartState create() => ShowNavigationOverlayOnStartState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(bool value) {
@@ -2448,8 +2206,7 @@ final class ShowNavigationOverlayOnStartStateProvider
   }
 }
 
-String _$showNavigationOverlayOnStartStateHash() =>
-    r'e847dc6c796d9e807d850ff92b093329607035ac';
+String _$showNavigationOverlayOnStartStateHash() => r'e847dc6c796d9e807d850ff92b093329607035ac';
 
 abstract class _$ShowNavigationOverlayOnStartState extends $Notifier<bool> {
   bool build();
@@ -2457,24 +2214,15 @@ abstract class _$ShowNavigationOverlayOnStartState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(WebtoonDisableZoomOutState)
-final webtoonDisableZoomOutStateProvider =
-    WebtoonDisableZoomOutStateProvider._();
+final webtoonDisableZoomOutStateProvider = WebtoonDisableZoomOutStateProvider._();
 
-final class WebtoonDisableZoomOutStateProvider
-    extends $NotifierProvider<WebtoonDisableZoomOutState, bool> {
+final class WebtoonDisableZoomOutStateProvider extends $NotifierProvider<WebtoonDisableZoomOutState, bool> {
   WebtoonDisableZoomOutStateProvider._()
     : super(
         from: null,
@@ -2502,8 +2250,7 @@ final class WebtoonDisableZoomOutStateProvider
   }
 }
 
-String _$webtoonDisableZoomOutStateHash() =>
-    r'e5a2ad7e4307cfa47607cf9395becc70cf7a47c9';
+String _$webtoonDisableZoomOutStateHash() => r'e5a2ad7e4307cfa47607cf9395becc70cf7a47c9';
 
 abstract class _$WebtoonDisableZoomOutState extends $Notifier<bool> {
   bool build();
@@ -2511,24 +2258,15 @@ abstract class _$WebtoonDisableZoomOutState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(WebtoonDoubleTapZoomEnabledState)
-final webtoonDoubleTapZoomEnabledStateProvider =
-    WebtoonDoubleTapZoomEnabledStateProvider._();
+final webtoonDoubleTapZoomEnabledStateProvider = WebtoonDoubleTapZoomEnabledStateProvider._();
 
-final class WebtoonDoubleTapZoomEnabledStateProvider
-    extends $NotifierProvider<WebtoonDoubleTapZoomEnabledState, bool> {
+final class WebtoonDoubleTapZoomEnabledStateProvider extends $NotifierProvider<WebtoonDoubleTapZoomEnabledState, bool> {
   WebtoonDoubleTapZoomEnabledStateProvider._()
     : super(
         from: null,
@@ -2545,8 +2283,7 @@ final class WebtoonDoubleTapZoomEnabledStateProvider
 
   @$internal
   @override
-  WebtoonDoubleTapZoomEnabledState create() =>
-      WebtoonDoubleTapZoomEnabledState();
+  WebtoonDoubleTapZoomEnabledState create() => WebtoonDoubleTapZoomEnabledState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(bool value) {
@@ -2557,8 +2294,7 @@ final class WebtoonDoubleTapZoomEnabledStateProvider
   }
 }
 
-String _$webtoonDoubleTapZoomEnabledStateHash() =>
-    r'2d1357a9dd732b7e5b8b99ec3f9d7d913bd70937';
+String _$webtoonDoubleTapZoomEnabledStateHash() => r'2d1357a9dd732b7e5b8b99ec3f9d7d913bd70937';
 
 abstract class _$WebtoonDoubleTapZoomEnabledState extends $Notifier<bool> {
   bool build();
@@ -2566,14 +2302,7 @@ abstract class _$WebtoonDoubleTapZoomEnabledState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }
@@ -2581,8 +2310,7 @@ abstract class _$WebtoonDoubleTapZoomEnabledState extends $Notifier<bool> {
 @ProviderFor(ReaderHideThresholdState)
 final readerHideThresholdStateProvider = ReaderHideThresholdStateProvider._();
 
-final class ReaderHideThresholdStateProvider
-    extends $NotifierProvider<ReaderHideThresholdState, int> {
+final class ReaderHideThresholdStateProvider extends $NotifierProvider<ReaderHideThresholdState, int> {
   ReaderHideThresholdStateProvider._()
     : super(
         from: null,
@@ -2610,8 +2338,7 @@ final class ReaderHideThresholdStateProvider
   }
 }
 
-String _$readerHideThresholdStateHash() =>
-    r'bf205952490921347c43288678e289686c985f11';
+String _$readerHideThresholdStateHash() => r'bf205952490921347c43288678e289686c985f11';
 
 abstract class _$ReaderHideThresholdState extends $Notifier<int> {
   int build();
@@ -2619,14 +2346,7 @@ abstract class _$ReaderHideThresholdState extends $Notifier<int> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

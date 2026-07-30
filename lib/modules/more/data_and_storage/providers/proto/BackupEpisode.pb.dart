@@ -61,41 +61,34 @@ class BackupEpisode extends $pb.GeneratedMessage {
   factory BackupEpisode.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(data, registry);
-  factory BackupEpisode.fromJson($core.String json,
-          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupEpisode.fromJson($core.String json, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(json, registry);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'BackupEpisode',
-      createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'url')
-    ..aOS(2, _omitFieldNames ? '' : 'name')
-    ..aOS(3, _omitFieldNames ? '' : 'scanlator')
-    ..aOB(4, _omitFieldNames ? '' : 'seen')
-    ..aOB(5, _omitFieldNames ? '' : 'bookmark')
-    ..aInt64(6, _omitFieldNames ? '' : 'lastSecondSeen',
-        protoName: 'lastSecondSeen')
-    ..aInt64(7, _omitFieldNames ? '' : 'dateFetch', protoName: 'dateFetch')
-    ..aInt64(8, _omitFieldNames ? '' : 'dateUpload', protoName: 'dateUpload')
-    ..aD(9, _omitFieldNames ? '' : 'episodeNumber',
-        protoName: 'episodeNumber', fieldType: $pb.PbFieldType.OF)
-    ..aInt64(10, _omitFieldNames ? '' : 'sourceOrder', protoName: 'sourceOrder')
-    ..aInt64(11, _omitFieldNames ? '' : 'lastModifiedAt',
-        protoName: 'lastModifiedAt')
-    ..aInt64(12, _omitFieldNames ? '' : 'version')
-    ..aInt64(16, _omitFieldNames ? '' : 'totalSeconds',
-        protoName: 'totalSeconds')
-    ..aOB(501, _omitFieldNames ? '' : 'fillermark')
-    ..aOS(502, _omitFieldNames ? '' : 'summary')
-    ..aOS(503, _omitFieldNames ? '' : 'previewUrl', protoName: 'previewUrl')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      $pb.BuilderInfo(_omitMessageNames ? '' : 'BackupEpisode', createEmptyInstance: create)
+        ..aOS(1, _omitFieldNames ? '' : 'url')
+        ..aOS(2, _omitFieldNames ? '' : 'name')
+        ..aOS(3, _omitFieldNames ? '' : 'scanlator')
+        ..aOB(4, _omitFieldNames ? '' : 'seen')
+        ..aOB(5, _omitFieldNames ? '' : 'bookmark')
+        ..aInt64(6, _omitFieldNames ? '' : 'lastSecondSeen', protoName: 'lastSecondSeen')
+        ..aInt64(7, _omitFieldNames ? '' : 'dateFetch', protoName: 'dateFetch')
+        ..aInt64(8, _omitFieldNames ? '' : 'dateUpload', protoName: 'dateUpload')
+        ..aD(9, _omitFieldNames ? '' : 'episodeNumber', protoName: 'episodeNumber', fieldType: $pb.PbFieldType.OF)
+        ..aInt64(10, _omitFieldNames ? '' : 'sourceOrder', protoName: 'sourceOrder')
+        ..aInt64(11, _omitFieldNames ? '' : 'lastModifiedAt', protoName: 'lastModifiedAt')
+        ..aInt64(12, _omitFieldNames ? '' : 'version')
+        ..aInt64(16, _omitFieldNames ? '' : 'totalSeconds', protoName: 'totalSeconds')
+        ..aOB(501, _omitFieldNames ? '' : 'fillermark')
+        ..aOS(502, _omitFieldNames ? '' : 'summary')
+        ..aOS(503, _omitFieldNames ? '' : 'previewUrl', protoName: 'previewUrl')
+        ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   BackupEpisode clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   BackupEpisode copyWith(void Function(BackupEpisode) updates) =>
-      super.copyWith((message) => updates(message as BackupEpisode))
-          as BackupEpisode;
+      super.copyWith((message) => updates(message as BackupEpisode)) as BackupEpisode;
 
   @$core.override
   $pb.BuilderInfo get info_ => _i;
@@ -104,11 +97,9 @@ class BackupEpisode extends $pb.GeneratedMessage {
   static BackupEpisode create() => BackupEpisode._();
   @$core.override
   BackupEpisode createEmptyInstance() => create();
-  static $pb.PbList<BackupEpisode> createRepeated() =>
-      $pb.PbList<BackupEpisode>();
+  static $pb.PbList<BackupEpisode> createRepeated() => $pb.PbList<BackupEpisode>();
   @$core.pragma('dart2js:noInline')
-  static BackupEpisode getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<BackupEpisode>(create);
+  static BackupEpisode getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BackupEpisode>(create);
   static BackupEpisode? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -256,7 +247,5 @@ class BackupEpisode extends $pb.GeneratedMessage {
   void clearPreviewUrl() => $_clearField(503);
 }
 
-const $core.bool _omitFieldNames =
-    $core.bool.fromEnvironment('protobuf.omit_field_names');
-const $core.bool _omitMessageNames =
-    $core.bool.fromEnvironment('protobuf.omit_message_names');
+const $core.bool _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

@@ -322,16 +322,12 @@ class _DisplayTab extends ConsumerWidget {
                       side: selected
                           ? null
                           : BorderSide(
-                              color: context.isLight
-                                  ? Colors.black
-                                  : Colors.white,
+                              color: context.isLight ? Colors.black : Colors.white,
                               width: 0.8,
                             ),
                       shadowColor: Colors.transparent,
                       elevation: 0,
-                      backgroundColor: selected
-                          ? context.primaryColor.withValues(alpha: 0.2)
-                          : Colors.transparent,
+                      backgroundColor: selected ? context.primaryColor.withValues(alpha: 0.2) : Colors.transparent,
                     ),
                     onPressed: () {
                       displayV.setLibraryDisplayType(e);
@@ -362,9 +358,7 @@ class _DisplayTab extends ConsumerWidget {
             child: Column(
               children: [
                 ListTileChapterFilter(
-                  label: itemType != ItemType.anime
-                      ? l10n.downloaded_chapters
-                      : l10n.downloaded_episodes,
+                  label: itemType != ItemType.anime ? l10n.downloaded_chapters : l10n.downloaded_episodes,
                   type: downloadedChapter ? 1 : 0,
                   onTap: () {
                     ref
@@ -395,9 +389,7 @@ class _DisplayTab extends ConsumerWidget {
                   label: l10n.source,
                   type: sourceBadge ? 1 : 0,
                   onTap: () {
-                    ref
-                        .read(librarySourceBadgeProvider.notifier)
-                        .set(!sourceBadge);
+                    ref.read(librarySourceBadgeProvider.notifier).set(!sourceBadge);
                   },
                 ),
                 ListTileChapterFilter(
@@ -488,9 +480,7 @@ class _DisplayTab extends ConsumerWidget {
                   ListTileChapterFilter(
                     label: 'Genre rows',
                     type: ref.watch(tvHomeGenreRowsProvider) ? 1 : 0,
-                    onTap: () => ref
-                        .read(tvHomeGenreRowsProvider.notifier)
-                        .set(!ref.read(tvHomeGenreRowsProvider)),
+                    onTap: () => ref.read(tvHomeGenreRowsProvider.notifier).set(!ref.read(tvHomeGenreRowsProvider)),
                   ),
                 ],
               ),
@@ -510,8 +500,7 @@ class _GridSizeSlider extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final gridSize =
-        ref.watch(libraryGridSizeStateProvider(itemType: itemType)) ?? 0;
+    final gridSize = ref.watch(libraryGridSizeStateProvider(itemType: itemType)) ?? 0;
     return Padding(
       padding: const EdgeInsets.only(left: 8, right: 8, top: 10),
       child: Row(
@@ -522,9 +511,7 @@ class _GridSizeSlider extends ConsumerWidget {
               children: [
                 Text(context.l10n.grid_size),
                 Text(
-                  gridSize == 0
-                      ? context.l10n.default0
-                      : context.l10n.n_per_row(gridSize.toString()),
+                  gridSize == 0 ? context.l10n.default0 : context.l10n.n_per_row(gridSize.toString()),
                 ),
               ],
             ),

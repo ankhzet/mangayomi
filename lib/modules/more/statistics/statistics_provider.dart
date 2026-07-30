@@ -35,11 +35,7 @@ Future<StatisticsData> getStatistics(
   // 75+ manga library exhausts heap on Android and reliably crashes the
   // statistics screen — see issue #543.
 
-  final totalItems = await isar.mangas
-      .filter()
-      .favoriteEqualTo(true)
-      .itemTypeEqualTo(itemType)
-      .count();
+  final totalItems = await isar.mangas.filter().favoriteEqualTo(true).itemTypeEqualTo(itemType).count();
 
   final totalChapters = await isar.chapters
       .filter()
@@ -55,8 +51,7 @@ Future<StatisticsData> getStatistics(
   final downloadedCount = await isar.downloads
       .filter()
       .chapter(
-        (q) =>
-            q.manga((m) => m.favoriteEqualTo(true).itemTypeEqualTo(itemType)),
+        (q) => q.manga((m) => m.favoriteEqualTo(true).itemTypeEqualTo(itemType)),
       )
       .isDownloadEqualTo(true)
       .count();
@@ -77,22 +72,14 @@ Future<StatisticsData> getStatistics(
   for (final id in completedFavouriteIds) {
     final total = await isar.chapters.filter().mangaIdEqualTo(id).count();
     if (total == 0) continue;
-    final unread = await isar.chapters
-        .filter()
-        .mangaIdEqualTo(id)
-        .isReadEqualTo(false)
-        .count();
+    final unread = await isar.chapters.filter().mangaIdEqualTo(id).isReadEqualTo(false).count();
     if (unread == 0) completedItems++;
   }
 
   // Sum reading time without loading full History rows. Project just the
   // int field — Isar returns a List<int?> of plain ints, far cheaper than
   // hydrating every history record.
-  final readingTimes = await isar.historys
-      .filter()
-      .itemTypeEqualTo(itemType)
-      .readingTimeSecondsProperty()
-      .findAll();
+  final readingTimes = await isar.historys.filter().itemTypeEqualTo(itemType).readingTimeSecondsProperty().findAll();
   final totalReadingTimeSeconds = readingTimes.fold<int>(
     0,
     (sum, v) => sum + (v ?? 0),

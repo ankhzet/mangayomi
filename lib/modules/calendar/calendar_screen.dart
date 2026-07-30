@@ -7,8 +7,7 @@ import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/calendar/models/upcoming_ui_model.dart';
 import 'package:mangayomi/modules/calendar/providers/calendar_provider.dart';
 import 'package:mangayomi/modules/calendar/widgets/upcoming_calendar.dart';
-import 'package:mangayomi/modules/calendar/widgets/upcoming_item.dart'
-    as widgets;
+import 'package:mangayomi/modules/calendar/widgets/upcoming_item.dart' as widgets;
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
@@ -191,8 +190,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                 ),
                 UpcomingItem(:final manga) => widgets.UpcomingItem(
                   manga: manga,
-                  onTap: () =>
-                      context.push('/manga-reader/detail', extra: manga.id),
+                  onTap: () => context.push('/manga-reader/detail', extra: manga.id),
                 ),
               };
             }, childCount: items.length),
@@ -291,10 +289,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
     if (manga.smartUpdateDays == null || manga.smartUpdateDays! <= 0) {
       return null;
     }
-    final lastChapter = manga.chapters
-        .filter()
-        .sortByDateUploadDesc()
-        .findFirstSync();
+    final lastChapter = manga.chapters.filter().sortByDateUploadDesc().findFirstSync();
     final lastChapterMs = int.tryParse(lastChapter?.dateUpload ?? '');
     return FetchInterval.computeExpectedDate(
       lastChapterDateMs: lastChapterMs,

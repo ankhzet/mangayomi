@@ -41,8 +41,7 @@ class MinSubsamplingImage extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<MinSubsamplingImage> createState() =>
-      _MinSubsamplingImageState();
+  ConsumerState<MinSubsamplingImage> createState() => _MinSubsamplingImageState();
 }
 
 class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
@@ -63,11 +62,8 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
   void didUpdateWidget(MinSubsamplingImage oldWidget) {
     super.didUpdateWidget(oldWidget);
     final bool dataChanged = widget.data != oldWidget.data;
-    final bool imageLoaded =
-        _uiImage == null && widget.data.decodedImage != null;
-    if (dataChanged ||
-        imageLoaded ||
-        widget.cropBorders != oldWidget.cropBorders) {
+    final bool imageLoaded = _uiImage == null && widget.data.decodedImage != null;
+    if (dataChanged || imageLoaded || widget.cropBorders != oldWidget.cropBorders) {
       _loadImage(
         refresh: dataChanged || widget.cropBorders != oldWidget.cropBorders,
       );
@@ -181,9 +177,7 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
       if (!mounted) return;
 
       final bool isRotated = widget.rotation == 90 || widget.rotation == 270;
-      final double aspect = isRotated
-          ? (croppedHeight / croppedWidth)
-          : (croppedWidth / croppedHeight);
+      final double aspect = isRotated ? (croppedHeight / croppedWidth) : (croppedWidth / croppedHeight);
       double targetWidth;
       double targetHeight;
 
@@ -218,9 +212,7 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
         cancelToken: this,
       );
 
-      if (result == null ||
-          result.pointerAddress == null ||
-          result.error != null) {
+      if (result == null || result.pointerAddress == null || result.error != null) {
         throw Exception(result?.error ?? "Failed to decode region");
       }
 
@@ -300,14 +292,11 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
     }
 
     final placeholderHeight = widget.data.loadedHeight ?? context.height(0.8);
-    final placeholderWidth = widget.isHorizontal
-        ? (widget.data.loadedWidth ?? context.width(0.8))
-        : double.infinity;
+    final placeholderWidth = widget.isHorizontal ? (widget.data.loadedWidth ?? context.width(0.8)) : double.infinity;
 
     if (_isLoading && _uiImage == null) {
       final double progress = _loadingProgress?.expectedTotalBytes != null
-          ? _loadingProgress!.cumulativeBytesLoaded /
-                _loadingProgress!.expectedTotalBytes!
+          ? _loadingProgress!.cumulativeBytesLoaded / _loadingProgress!.expectedTotalBytes!
           : 0;
       return Container(
         color: getBackgroundColor(backgroundColor),

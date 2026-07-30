@@ -104,10 +104,7 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
             final notInstalledEntries = <Source>[];
 
             for (var element in filteredData) {
-              if (repositories
-                      .firstWhereOrNull((e) => e == element.repo)
-                      ?.hidden ??
-                  false) {
+              if (repositories.firstWhereOrNull((e) => e == element.repo)?.hidden ?? false) {
                 continue;
               }
               if (!showNSFW && (element.isNsfw ?? false)) {
@@ -138,12 +135,9 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
               child: CustomScrollView(
                 controller: controller,
                 slivers: [
-                  if (updateEntries.isNotEmpty)
-                    _buildUpdateSection(updateEntries, l10n),
-                  if (installedEntries.isNotEmpty)
-                    _buildInstalledSection(installedEntries, l10n),
-                  if (notInstalledEntries.isNotEmpty)
-                    _buildNotInstalledSection(notInstalledEntries),
+                  if (updateEntries.isNotEmpty) _buildUpdateSection(updateEntries, l10n),
+                  if (installedEntries.isNotEmpty) _buildInstalledSection(installedEntries, l10n),
+                  if (notInstalledEntries.isNotEmpty) _buildNotInstalledSection(notInstalledEntries),
                 ],
               ),
             );
@@ -207,12 +201,10 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
         },
       ),
       itemBuilder: (context, Source element) => Consumer(
-        builder: (context, ref, _) =>
-            ref.watch(extensionListTileWidget(element)),
+        builder: (context, ref, _) => ref.watch(extensionListTileWidget(element)),
       ),
       groupComparator: (group1, group2) => group1.compareTo(group2),
-      itemComparator: (item1, item2) =>
-          item1.name?.compareTo(item2.name ?? '') ?? 0,
+      itemComparator: (item1, item2) => item1.name?.compareTo(item2.name ?? '') ?? 0,
       order: GroupedListOrder.ASC,
     );
   }
@@ -229,12 +221,10 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
         ),
       ),
       itemBuilder: (context, Source element) => Consumer(
-        builder: (context, ref, _) =>
-            ref.watch(extensionListTileWidget(element)),
+        builder: (context, ref, _) => ref.watch(extensionListTileWidget(element)),
       ),
       groupComparator: (group1, group2) => group1.compareTo(group2),
-      itemComparator: (item1, item2) =>
-          item1.name?.compareTo(item2.name ?? '') ?? 0,
+      itemComparator: (item1, item2) => item1.name?.compareTo(item2.name ?? '') ?? 0,
       order: GroupedListOrder.ASC,
     );
   }
@@ -242,8 +232,7 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
   Widget _buildNotInstalledSection(List<Source> notInstalledEntries) {
     return CustomSliverGroupedListView<Source, String>(
       elements: notInstalledEntries,
-      groupBy: (element) =>
-          completeLanguageName(element.lang?.toLowerCase() ?? ''),
+      groupBy: (element) => completeLanguageName(element.lang?.toLowerCase() ?? ''),
       groupSeparatorBuilder: (String groupByValue) => Padding(
         padding: const EdgeInsets.only(left: 12),
         child: Text(
@@ -252,12 +241,10 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
         ),
       ),
       itemBuilder: (context, Source element) => Consumer(
-        builder: (context, ref, _) =>
-            ref.watch(extensionListTileWidget(element)),
+        builder: (context, ref, _) => ref.watch(extensionListTileWidget(element)),
       ),
       groupComparator: (group1, group2) => group1.compareTo(group2),
-      itemComparator: (item1, item2) =>
-          item1.name?.compareTo(item2.name ?? '') ?? 0,
+      itemComparator: (item1, item2) => item1.name?.compareTo(item2.name ?? '') ?? 0,
       order: GroupedListOrder.ASC,
     );
   }

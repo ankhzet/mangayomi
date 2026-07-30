@@ -8,8 +8,7 @@ const extensionServerFallbackVersion = '1.0.0';
 const extensionServerJarPrefix = 'MExtensionServer-';
 const extensionServerReleaseApiUrl =
     'https://api.github.com/repos/kodjodevf/M-Extension-Server/releases?page=1&per_page=10';
-const apkBridgeReleaseUrl =
-    'https://github.com/Schnitzel5/ApkBridge/releases/latest';
+const apkBridgeReleaseUrl = 'https://github.com/Schnitzel5/ApkBridge/releases/latest';
 
 String? extensionServerDirectoryFromPaths({
   required String jrePath,
@@ -37,8 +36,7 @@ Future<String?> findExtensionServerJavaExecutable(Directory root) async {
     return preferredPath;
   }
   await for (final entity in root.list(recursive: true, followLinks: false)) {
-    if (entity is File &&
-        path.basename(entity.path).toLowerCase() == executableName) {
+    if (entity is File && path.basename(entity.path).toLowerCase() == executableName) {
       return entity.path;
     }
   }
@@ -48,9 +46,7 @@ Future<String?> findExtensionServerJavaExecutable(Directory root) async {
 Future<String?> findExtensionServerJar(Directory root) async {
   await for (final entity in root.list(recursive: true, followLinks: false)) {
     final fileName = path.basename(entity.path);
-    if (entity is File &&
-        fileName.startsWith(extensionServerJarPrefix) &&
-        fileName.endsWith('.jar')) {
+    if (entity is File && fileName.startsWith(extensionServerJarPrefix) && fileName.endsWith('.jar')) {
       return entity.path;
     }
   }
@@ -80,17 +76,13 @@ String? extensionServerAssetNameForCurrentPlatform() {
 
 String resolveInstalledExtensionServerVersion(String extensionServerPath) {
   if (extensionServerPath.isEmpty) return '';
-  return extractExtensionServerVersion(path.basename(extensionServerPath)) ??
-      extensionServerFallbackVersion;
+  return extractExtensionServerVersion(path.basename(extensionServerPath)) ?? extensionServerFallbackVersion;
 }
 
 String resolveExtensionServerReleaseVersion(Map<String, dynamic> release) {
   final versionSource =
-      release['tag_name']?.toString() ??
-      release['name']?.toString() ??
-      extensionServerFallbackVersion;
-  return extractExtensionServerVersion(versionSource) ??
-      versionSource.substringAfter('v').substringBefore('-');
+      release['tag_name']?.toString() ?? release['name']?.toString() ?? extensionServerFallbackVersion;
+  return extractExtensionServerVersion(versionSource) ?? versionSource.substringAfter('v').substringBefore('-');
 }
 
 String? extractExtensionServerVersion(String value) {

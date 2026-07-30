@@ -64,9 +64,7 @@ class UpdateErrorsScreen extends ConsumerWidget {
                       IconButton(
                         tooltip: 'Dismiss',
                         icon: const Icon(Icons.close),
-                        onPressed: () => ref
-                            .read(updateErrorsProvider.notifier)
-                            .remove(err.mangaId),
+                        onPressed: () => ref.read(updateErrorsProvider.notifier).remove(err.mangaId),
                       ),
                     ],
                   ),

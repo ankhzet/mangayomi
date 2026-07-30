@@ -420,21 +420,17 @@ class ReaderScreen extends ConsumerWidget {
               value: autoReadDuplChap,
               title: Text(context.l10n.mark_duplicate_chapters_read),
               onChanged: (value) {
-                ref
-                    .read(autoReadDuplicateChaptersStateProvider.notifier)
-                    .set(value);
+                ref.read(autoReadDuplicateChaptersStateProvider.notifier).set(value);
               },
             ),
             ListTile(
               title: Text(context.l10n.webtoon_side_padding),
               subtitle: TvEscapableSlider(
                 enabled: isTv,
-                onDecrease: () => ref
-                    .read(webtoonSidePaddingStateProvider.notifier)
-                    .set((webtoonSidePadding - 1).clamp(0, 50)),
-                onIncrease: () => ref
-                    .read(webtoonSidePaddingStateProvider.notifier)
-                    .set((webtoonSidePadding + 1).clamp(0, 50)),
+                onDecrease: () =>
+                    ref.read(webtoonSidePaddingStateProvider.notifier).set((webtoonSidePadding - 1).clamp(0, 50)),
+                onIncrease: () =>
+                    ref.read(webtoonSidePaddingStateProvider.notifier).set((webtoonSidePadding + 1).clamp(0, 50)),
                 child: Slider(
                   min: 0,
                   max: 50,
@@ -442,9 +438,7 @@ class ReaderScreen extends ConsumerWidget {
                   label: '$webtoonSidePadding%',
                   value: webtoonSidePadding.toDouble(),
                   onChanged: (value) {
-                    ref
-                        .read(webtoonSidePaddingStateProvider.notifier)
-                        .set(value.toInt());
+                    ref.read(webtoonSidePaddingStateProvider.notifier).set(value.toInt());
                   },
                 ),
               ),
@@ -502,8 +496,7 @@ String getReaderModeName(ReaderMode readerMode, BuildContext context) {
     ReaderMode.ltr => context.l10n.reading_mode_left_to_right,
     ReaderMode.rtl => context.l10n.reading_mode_right_to_left,
     ReaderMode.horizontalContinuous => context.l10n.horizontal_continious,
-    ReaderMode.horizontalContinuousRTL =>
-      "${context.l10n.horizontal_continious} (RTL)",
+    ReaderMode.horizontalContinuousRTL => "${context.l10n.horizontal_continious} (RTL)",
     _ => context.l10n.reading_mode_webtoon,
   };
 }

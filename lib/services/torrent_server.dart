@@ -152,9 +152,7 @@ class MTorrentServer {
         webseeds,
         magnetFallbacks.$2,
       );
-      final remoteTorrentSources = !isMagnet && !isFilePath
-          ? _normalizeHttpUrls([url])
-          : const <String>[];
+      final remoteTorrentSources = !isMagnet && !isFilePath ? _normalizeHttpUrls([url]) : const <String>[];
       final effectiveSources = _mergeTorrentFallbacks(
         mergedSources,
         remoteTorrentSources,

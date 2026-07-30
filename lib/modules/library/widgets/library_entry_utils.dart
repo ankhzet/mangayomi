@@ -24,10 +24,7 @@ ImageProvider resolveCoverImage(Manga entry, WidgetRef ref) {
   // source was uninstalled, or a legacy record). Skip source headers in that
   // case instead of force-unwrapping — otherwise the whole tile throws while
   // building and the entry becomes an un-removable "gray square". See #708.
-  final canUseSourceHeaders =
-      !(entry.isLocalArchive ?? false) &&
-      entry.source != null &&
-      entry.lang != null;
+  final canUseSourceHeaders = !(entry.isLocalArchive ?? false) && entry.source != null && entry.lang != null;
   return coverProvider(
     toImgUrl(entry.customCoverFromTracker ?? entry.imageUrl ?? ''),
     headers: canUseSourceHeaders
@@ -123,12 +120,9 @@ class DownloadCountBadge extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final downloadedIds =
-        ref.watch(downloadedChapterIdsProvider).asData?.value ?? const <int>{};
+    final downloadedIds = ref.watch(downloadedChapterIdsProvider).asData?.value ?? const <int>{};
 
-    final count = entry.chapters
-        .where((c) => c.id != null && downloadedIds.contains(c.id))
-        .length;
+    final count = entry.chapters.where((c) => c.id != null && downloadedIds.contains(c.id)).length;
 
     if (count == 0) return const SizedBox.shrink();
 
@@ -158,9 +152,7 @@ class LibraryBadgeWidget extends ConsumerWidget {
 
     int downloadCount = 0;
     if (showDownloaded) {
-      final downloadedIds =
-          ref.watch(downloadedChapterIdsProvider).asData?.value ??
-          const <int>{};
+      final downloadedIds = ref.watch(downloadedChapterIdsProvider).asData?.value ?? const <int>{};
       for (final c in entry.chapters) {
         if (c.id != null && downloadedIds.contains(c.id)) {
           downloadCount++;
@@ -186,8 +178,7 @@ class LibraryBadgeWidget extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (hasLocal) const EntryBadgeChip(label: 'Local'),
-          if (downloadCount > 0)
-            EntryBadgeChip(label: downloadCount.toString()),
+          if (downloadCount > 0) EntryBadgeChip(label: downloadCount.toString()),
           if (unreadCount > 0)
             Padding(
               padding: const EdgeInsets.only(left: 3),

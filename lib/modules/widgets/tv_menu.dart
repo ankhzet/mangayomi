@@ -105,8 +105,7 @@ class _TvMenuState extends State<_TvMenu> {
                     }
                     // Swallow Left/Right so focus cannot slip out sideways to
                     // whatever is behind the dialog.
-                    if (k == LogicalKeyboardKey.arrowLeft ||
-                        k == LogicalKeyboardKey.arrowRight) {
+                    if (k == LogicalKeyboardKey.arrowLeft || k == LogicalKeyboardKey.arrowRight) {
                       return true;
                     }
                     return false;
@@ -157,9 +156,7 @@ class _TvMenuRowState extends State<_TvMenuRow> {
           widget.onPick();
           return KeyEventResult.handled;
         }
-        return widget.onKey(event)
-            ? KeyEventResult.handled
-            : KeyEventResult.ignored;
+        return widget.onKey(event) ? KeyEventResult.handled : KeyEventResult.ignored;
       },
       child: GestureDetector(
         onTap: widget.onPick,
@@ -170,9 +167,7 @@ class _TvMenuRowState extends State<_TvMenuRow> {
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: _focused
-                ? widget.accent.withValues(alpha: 0.30)
-                : Colors.transparent,
+            color: _focused ? widget.accent.withValues(alpha: 0.30) : Colors.transparent,
           ),
           child: Row(
             children: [

@@ -100,8 +100,7 @@ abstract class _$OnlyIncludePinnedSourceState extends $Notifier<bool> {
 @ProviderFor(ShowNSFWState)
 final showNSFWStateProvider = ShowNSFWStateProvider._();
 
-final class ShowNSFWStateProvider
-    extends $NotifierProvider<ShowNSFWState, bool> {
+final class ShowNSFWStateProvider extends $NotifierProvider<ShowNSFWState, bool> {
   ShowNSFWStateProvider._()
     : super(
         from: null,
@@ -137,14 +136,7 @@ abstract class _$ShowNSFWState extends $Notifier<bool> {
   @override
   void runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     element.handleCreate(ref, build);
   }
 }

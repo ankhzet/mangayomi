@@ -39,8 +39,7 @@ class MExtensionServerPlatform {
           if ((jrePath?.isEmpty ?? true) || (serverJarPath?.isEmpty ?? true)) {
             return;
           }
-          if (!await File(jrePath!).exists() ||
-              !await File(serverJarPath!).exists()) {
+          if (!await File(jrePath!).exists() || !await File(serverJarPath!).exists()) {
             return;
           }
           await MExtensionServer().startServer(
@@ -51,9 +50,7 @@ class MExtensionServerPlatform {
         } else {
           await MExtensionServer().startServer(port);
         }
-        ref
-            .read(androidProxyServerStateProvider.notifier)
-            .set("http://127.0.0.1:$port");
+        ref.read(androidProxyServerStateProvider.notifier).set("http://127.0.0.1:$port");
       }
     } catch (e) {
       if (kDebugMode) {

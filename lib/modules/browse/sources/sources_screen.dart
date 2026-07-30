@@ -51,8 +51,7 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
   final Map<int, FocusNode> _latestNodes = {};
   final Map<int, FocusNode> _pinNodes = {};
 
-  FocusNode _node(Map<int, FocusNode> m, int? id) =>
-      m.putIfAbsent(id ?? -1, () => FocusNode());
+  FocusNode _node(Map<int, FocusNode> m, int? id) => m.putIfAbsent(id ?? -1, () => FocusNode());
 
   /// One source entry: the TV 3-button row on Android TV, else the classic tile.
   ///
@@ -101,9 +100,7 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
       child: sourcesStream.when(
         data: (snapshotData) {
           final showNSFW = ref.watch(showNSFWStateProvider);
-          List<Source> sources = snapshotData
-              .where((e) => showNSFW || !(e.isNsfw ?? false))
-              .toList();
+          List<Source> sources = snapshotData.where((e) => showNSFW || !(e.isNsfw ?? false)).toList();
           if (sources.isEmpty) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,

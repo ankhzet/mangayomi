@@ -16,9 +16,7 @@ class TransitionViewVertical extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    final readerMode = ref
-        .read(readerControllerProvider(chapter: data.chapter!).notifier)
-        .getReaderMode();
+    final readerMode = ref.read(readerControllerProvider(chapter: data.chapter!).notifier).getReaderMode();
 
     return SizedBox(
       height: context.height(1),

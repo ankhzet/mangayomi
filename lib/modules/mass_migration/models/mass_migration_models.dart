@@ -59,9 +59,7 @@ class MassMigrationResolvedItem {
 
   bool get hasMatch => selectedCandidate != null;
   bool get canMigrate =>
-      selectedCandidate != null &&
-      destinationPreview != null &&
-      (errorMessage == null || errorMessage!.isEmpty);
+      selectedCandidate != null && destinationPreview != null && (errorMessage == null || errorMessage!.isEmpty);
 
   MassMigrationResolvedItem copyWith({
     MManga? selectedCandidate,
@@ -75,15 +73,9 @@ class MassMigrationResolvedItem {
     return MassMigrationResolvedItem(
       sourceItem: sourceItem,
       searchResult: searchResult,
-      selectedCandidate: keepSelectedCandidate
-          ? selectedCandidate ?? this.selectedCandidate
-          : selectedCandidate,
-      destinationPreview: keepDestinationPreview
-          ? destinationPreview ?? this.destinationPreview
-          : destinationPreview,
-      errorMessage: keepErrorMessage
-          ? errorMessage ?? this.errorMessage
-          : errorMessage,
+      selectedCandidate: keepSelectedCandidate ? selectedCandidate ?? this.selectedCandidate : selectedCandidate,
+      destinationPreview: keepDestinationPreview ? destinationPreview ?? this.destinationPreview : destinationPreview,
+      errorMessage: keepErrorMessage ? errorMessage ?? this.errorMessage : errorMessage,
       shouldMigrate: shouldMigrate ?? this.shouldMigrate,
     );
   }
@@ -93,11 +85,7 @@ List<MassMigrationSourceGroup> buildMassMigrationSourceGroups({
   required ItemType itemType,
   Manga? prioritizedManga,
 }) {
-  final libraryItems = isar.mangas
-      .filter()
-      .favoriteEqualTo(true)
-      .itemTypeEqualTo(itemType)
-      .findAllSync();
+  final libraryItems = isar.mangas.filter().favoriteEqualTo(true).itemTypeEqualTo(itemType).findAllSync();
 
   final grouped = <String, List<Manga>>{};
   for (final manga in libraryItems) {
@@ -116,11 +104,7 @@ List<MassMigrationSourceGroup> buildMassMigrationSourceGroups({
     final first = items.first;
     final source = first.sourceId != null
         ? isar.sources.getSync(first.sourceId!)
-        : isar.sources
-              .filter()
-              .nameEqualTo(first.source)
-              .langEqualTo(first.lang)
-              .findFirstSync();
+        : isar.sources.filter().nameEqualTo(first.source).langEqualTo(first.lang).findFirstSync();
     return MassMigrationSourceGroup(
       sourceName: entry.key,
       source: source,
@@ -161,8 +145,7 @@ List<Source> buildMassMigrationDestinationSources({
         (source) =>
             source.sourceCode != null &&
             (showNSFW || !(source.isNsfw ?? false)) &&
-            !(source.name == sourceGroup.sourceName &&
-                source.lang == sourceGroup.lang),
+            !(source.name == sourceGroup.sourceName && source.lang == sourceGroup.lang),
       )
       .toList();
 

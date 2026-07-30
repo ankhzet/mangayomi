@@ -70,9 +70,7 @@ void main(List<String> args) async {
       // mobile heaps. Mobile gets a tight 64 MB; desktop keeps 256 MB. The
       // encoded-bytes LRU in CustomExtendedNetworkImageProvider (50 MB) is a
       // separate cache and is not affected by this setting.
-      PaintingBinding.instance.imageCache.maximumSizeBytes = isMobile
-          ? 64 << 20
-          : 256 << 20;
+      PaintingBinding.instance.imageCache.maximumSizeBytes = isMobile ? 64 << 20 : 256 << 20;
 
       // Widget-layer errors (build / layout / paint)
       FlutterError.onError = (FlutterErrorDetails details) {
@@ -201,8 +199,7 @@ class MyApp extends ConsumerStatefulWidget {
   ConsumerState<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends ConsumerState<MyApp>
-    with WidgetsBindingObserver, WindowListener {
+class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, WindowListener {
   late AppLinks _appLinks;
   StreamSubscription<Uri>? _linkSubscription;
   Uri? lastUri;
@@ -224,9 +221,7 @@ class _MyAppState extends ConsumerState<MyApp>
       if (ref.read(clearChapterCacheOnAppLaunchStateProvider)) {
         // Watch before calling clearcache to keep it alive, so that _getTotalDiskSpace completes safely
         ref.watch(totalChapterCacheSizeStateProvider);
-        ref
-            .read(totalChapterCacheSizeStateProvider.notifier)
-            .clearCache(showToast: false);
+        ref.read(totalChapterCacheSizeStateProvider.notifier).clearCache(showToast: false);
       }
     });
   }
@@ -234,8 +229,7 @@ class _MyAppState extends ConsumerState<MyApp>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.hidden) {
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.hidden) {
       if (Platform.isLinux) {
         return;
       }
@@ -251,9 +245,7 @@ class _MyAppState extends ConsumerState<MyApp>
   Widget build(BuildContext context) {
     final followSystem = ref.watch(followSystemThemeStateProvider);
     final forcedDark = ref.watch(themeModeStateProvider);
-    final themeMode = followSystem
-        ? ThemeMode.system
-        : (forcedDark ? ThemeMode.dark : ThemeMode.light);
+    final themeMode = followSystem ? ThemeMode.system : (forcedDark ? ThemeMode.dark : ThemeMode.light);
     final locale = ref.watch(l10nLocaleStateProvider);
     final router = ref.watch(routerProvider);
 
@@ -274,10 +266,8 @@ class _MyAppState extends ConsumerState<MyApp>
         if (isTv) {
           content = Shortcuts(
             shortcuts: const <ShortcutActivator, Intent>{
-              SingleActivator(LogicalKeyboardKey.arrowDown):
-                  DirectionalFocusIntent(TraversalDirection.down),
-              SingleActivator(LogicalKeyboardKey.arrowUp):
-                  DirectionalFocusIntent(TraversalDirection.up),
+              SingleActivator(LogicalKeyboardKey.arrowDown): DirectionalFocusIntent(TraversalDirection.down),
+              SingleActivator(LogicalKeyboardKey.arrowUp): DirectionalFocusIntent(TraversalDirection.up),
             },
             child: content,
           );
@@ -289,9 +279,7 @@ class _MyAppState extends ConsumerState<MyApp>
           child: content,
         );
         final base = BotToastInit()(context, scaledChild);
-        final withBackHandler = !isMobile
-            ? _MouseBackButtonHandler(router: router, child: base)
-            : base;
+        final withBackHandler = !isMobile ? _MouseBackButtonHandler(router: router, child: base) : base;
 
         if (!Platform.isLinux) {
           final isUnlocked = ref.watch(appUnlockedStateProvider);
@@ -407,9 +395,7 @@ class _MyAppState extends ConsumerState<MyApp>
                             ),
                           ),
                         ];
-                        ref
-                            .read(extensionsRepoStateProvider(type).notifier)
-                            .set(updated);
+                        ref.read(extensionsRepoStateProvider(type).notifier).set(updated);
                       }
 
                       addRepos(ItemType.manga, mangaRepoUrls);
@@ -465,8 +451,7 @@ class _MyAppState extends ConsumerState<MyApp>
                                 ..pos = await isar.customButtons.count()
                                 ..isFavourite = false
                                 ..id = null
-                                ..updatedAt =
-                                    DateTime.now().millisecondsSinceEpoch,
+                                ..updatedAt = DateTime.now().millisecondsSinceEpoch,
                             );
                           });
                           botToast(l10n.custom_buttons_added);
@@ -508,8 +493,7 @@ class _MyAppState extends ConsumerState<MyApp>
       final dir = await provider.getMpvDirectory();
       final mpvFile = File('${dir!.path}/mpv.conf');
       final inputFile = File('${dir.path}/input.conf');
-      final filesMissing =
-          !(await mpvFile.exists()) && !(await inputFile.exists());
+      final filesMissing = !(await mpvFile.exists()) && !(await inputFile.exists());
       if (filesMissing) {
         final bytes = await rootBundle.load("assets/mangayomi_mpv.zip");
         final archive = ZipDecoder().decodeBytes(bytes.buffer.asUint8List());
@@ -522,12 +506,10 @@ class _MyAppState extends ConsumerState<MyApp>
             await mpvFile.writeAsBytes(file.content);
           } else if (file.name == "input.conf") {
             await inputFile.writeAsBytes(file.content);
-          } else if (file.name.startsWith("shaders/") &&
-              file.name.endsWith(".glsl")) {
+          } else if (file.name.startsWith("shaders/") && file.name.endsWith(".glsl")) {
             final shaderFile = File('$shadersDir/${file.name.split("/").last}');
             await shaderFile.writeAsBytes(file.content);
-          } else if (file.name.startsWith("scripts/") &&
-              (file.name.endsWith(".js") || file.name.endsWith(".lua"))) {
+          } else if (file.name.startsWith("scripts/") && (file.name.endsWith(".js") || file.name.endsWith(".lua"))) {
             final scriptFile = File('$scriptsDir/${file.name.split("/").last}');
             await scriptFile.writeAsBytes(file.content);
           }
@@ -543,10 +525,7 @@ class _MyAppState extends ConsumerState<MyApp>
   }
 
   Future<void> _checkTrackerRefresh() async {
-    final prefs = await isar.trackPreferences
-        .filter()
-        .syncIdIsNotNull()
-        .findAll();
+    final prefs = await isar.trackPreferences.filter().syncIdIsNotNull().findAll();
     for (final pref in prefs) {
       final temp = track.Track(
         syncId: pref.syncId,

@@ -252,9 +252,7 @@ class _TvPlayerControlsState extends State<TvPlayerControls> {
                               return _AutoplayToggle(
                                 accent: accent,
                                 on: on,
-                                onToggle: () => ref
-                                    .read(autoPlayNextEpisodeProvider.notifier)
-                                    .toggle(),
+                                onToggle: () => ref.read(autoPlayNextEpisodeProvider.notifier).toggle(),
                               );
                             },
                           ),
@@ -410,9 +408,7 @@ class _TvFocusableState extends State<_TvFocusable> {
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: _focused
-                ? widget.accent
-                : Colors.black.withValues(alpha: 0.35),
+            color: _focused ? widget.accent : Colors.black.withValues(alpha: 0.35),
           ),
           child: Opacity(opacity: enabled ? 1.0 : 0.4, child: widget.child),
         ),
@@ -508,9 +504,7 @@ class _PillBar extends StatelessWidget {
               builder: (context, trackSnap) {
                 final current = trackSnap.data ?? player.state.track;
                 // Real subtitle tracks only (no "auto"/"no" placeholders).
-                final subs = tracks.subtitle
-                    .where((t) => t.id != 'auto' && t.id != 'no')
-                    .toList();
+                final subs = tracks.subtitle.where((t) => t.id != 'auto' && t.id != 'no').toList();
                 // A "sub" quality already bakes subtitles into the stream, so
                 // hide the subtitle group when one is selected.
                 final subQualitySelected = quality.any(
@@ -729,8 +723,7 @@ class _SpeedMenuState extends State<_SpeedMenu> {
                       return KeyEventResult.handled;
                     }
                     // Swallow Left/Right too, so neither can escape sideways.
-                    if (k == LogicalKeyboardKey.arrowLeft ||
-                        k == LogicalKeyboardKey.arrowRight) {
+                    if (k == LogicalKeyboardKey.arrowLeft || k == LogicalKeyboardKey.arrowRight) {
                       return KeyEventResult.handled;
                     }
                     if (event is KeyDownEvent && _isSelect(k)) {
@@ -752,9 +745,7 @@ class _SpeedMenuState extends State<_SpeedMenu> {
                       borderRadius: BorderRadius.circular(10),
                       child: Ink(
                         decoration: BoxDecoration(
-                          color: i == _index
-                              ? widget.accent.withValues(alpha: 0.18)
-                              : null,
+                          color: i == _index ? widget.accent.withValues(alpha: 0.18) : null,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         padding: const EdgeInsets.symmetric(
@@ -766,8 +757,7 @@ class _SpeedMenuState extends State<_SpeedMenu> {
                             Expanded(
                               child: Text(_SpeedPill._fmt(widget.presets[i])),
                             ),
-                            if ((widget.presets[i] - widget.current).abs() <
-                                0.001)
+                            if ((widget.presets[i] - widget.current).abs() < 0.001)
                               Icon(Icons.check, color: widget.accent),
                           ],
                         ),
@@ -835,9 +825,7 @@ class _AutoplayToggleState extends State<_AutoplayToggle> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             // Theme tint on focus (like the settings toggles), not an outline.
-            color: _focused
-                ? widget.accent.withValues(alpha: 0.25)
-                : Colors.transparent,
+            color: _focused ? widget.accent.withValues(alpha: 0.25) : Colors.transparent,
           ),
           child: AutoplaySwitch(on: widget.on, accent: widget.accent),
         ),
@@ -873,9 +861,7 @@ class AutoplaySwitch extends StatelessWidget {
             height: trackH,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(trackH / 2),
-              color: on
-                  ? accent.withValues(alpha: 0.5)
-                  : Colors.white.withValues(alpha: 0.22),
+              color: on ? accent.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.22),
             ),
           ),
           AnimatedAlign(
@@ -1101,9 +1087,7 @@ class _TvSeekBarState extends State<_TvSeekBar> {
         builder: (context, snapshot) {
           final pos = snapshot.data ?? Duration.zero;
           final dur = widget.player.state.duration;
-          final frac = dur.inMilliseconds > 0
-              ? (pos.inMilliseconds / dur.inMilliseconds).clamp(0.0, 1.0)
-              : 0.0;
+          final frac = dur.inMilliseconds > 0 ? (pos.inMilliseconds / dur.inMilliseconds).clamp(0.0, 1.0) : 0.0;
           final barH = _focused ? 6.0 : 4.0;
           const knob = 16.0;
           return Padding(
@@ -1116,10 +1100,8 @@ class _TvSeekBarState extends State<_TvSeekBar> {
                   return GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTapDown: (d) => _seekToFraction(d.localPosition.dx / w),
-                    onHorizontalDragStart: (d) =>
-                        _seekToFraction(d.localPosition.dx / w),
-                    onHorizontalDragUpdate: (d) =>
-                        _seekToFraction(d.localPosition.dx / w),
+                    onHorizontalDragStart: (d) => _seekToFraction(d.localPosition.dx / w),
+                    onHorizontalDragUpdate: (d) => _seekToFraction(d.localPosition.dx / w),
                     child: Stack(
                       children: [
                         // Track + progress, vertically centred.

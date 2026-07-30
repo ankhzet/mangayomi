@@ -40,9 +40,7 @@ class AboutScreen extends ConsumerWidget {
                     padding: const EdgeInsets.symmetric(vertical: 40),
                     child: Image.asset(
                       "assets/app_icons/icon.png",
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
+                      color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
                       fit: BoxFit.cover,
                       height: 100,
                     ),
@@ -67,8 +65,7 @@ class AboutScreen extends ConsumerWidget {
                             isar.settings.putSync(
                               settings!
                                 ..checkForAppUpdates = value
-                                ..updatedAt =
-                                    DateTime.now().millisecondsSinceEpoch,
+                                ..updatedAt = DateTime.now().millisecondsSinceEpoch,
                             );
                           });
                           ref.invalidate(checkForAppUpdatesProvider);
@@ -127,8 +124,7 @@ class AboutScreen extends ConsumerWidget {
                         ListTile(
                           onTap: () async {
                             final storage = StorageProvider();
-                            final directory = await storage
-                                .getDefaultDirectory();
+                            final directory = await storage.getDefaultDirectory();
                             final file = File(
                               path.join(directory!.path, 'logs.txt'),
                             );
@@ -139,15 +135,12 @@ class AboutScreen extends ConsumerWidget {
                                 );
                               }
                               if (context.mounted) {
-                                final box =
-                                    context.findRenderObject() as RenderBox?;
+                                final box = context.findRenderObject() as RenderBox?;
                                 SharePlus.instance.share(
                                   ShareParams(
                                     files: [XFile(file.path)],
                                     text: "log.txt",
-                                    sharePositionOrigin:
-                                        box!.localToGlobal(Offset.zero) &
-                                        box.size,
+                                    sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
                                   ),
                                 );
                               }

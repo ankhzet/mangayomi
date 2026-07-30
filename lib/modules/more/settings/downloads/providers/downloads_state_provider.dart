@@ -47,8 +47,7 @@ class SaveAsCBZArchiveState extends _$SaveAsCBZArchiveState {
 }
 
 @riverpod
-class DeleteDownloadAfterReadingState
-    extends _$DeleteDownloadAfterReadingState {
+class DeleteDownloadAfterReadingState extends _$DeleteDownloadAfterReadingState {
   @override
   bool build() {
     return isar.settings.getSync(227)!.deleteDownloadAfterReading ?? false;

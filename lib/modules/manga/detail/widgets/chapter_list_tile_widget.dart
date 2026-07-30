@@ -38,9 +38,7 @@ class ChapterListTileWidget extends ConsumerWidget {
     final isLongPressed = ref.watch(isLongPressedStateProvider);
     return Dismissible(
       key: ValueKey('chapter_swipe_${chapter.id}'),
-      direction: isLongPressed
-          ? DismissDirection.none
-          : DismissDirection.horizontal,
+      direction: isLongPressed ? DismissDirection.none : DismissDirection.horizontal,
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.startToEnd) {
           // Swipe right → toggle bookmark
@@ -83,9 +81,7 @@ class ChapterListTileWidget extends ConsumerWidget {
         ),
       ),
       child: Material(
-        color: chapterList.contains(chapter)
-            ? context.primaryColor.withValues(alpha: 0.4)
-            : Colors.transparent,
+        color: chapterList.contains(chapter) ? context.primaryColor.withValues(alpha: 0.4) : Colors.transparent,
         child: GestureDetector(
           onLongPress: () => _handleInteraction(ref),
           onSecondaryTap: () => _handleInteraction(ref),
@@ -97,29 +93,22 @@ class ChapterListTileWidget extends ConsumerWidget {
               width: 2,
               height: 40,
               decoration: BoxDecoration(
-                color: chapter.isRead!
-                    ? Colors.grey.withValues(alpha: 0.3)
-                    : context.primaryColor,
+                color: chapter.isRead! ? Colors.grey.withValues(alpha: 0.3) : context.primaryColor,
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            tileColor: (chapter.isFiller ?? false)
-                ? context.primaryColor.withValues(alpha: 0.15)
-                : null,
+            tileColor: (chapter.isFiller ?? false) ? context.primaryColor.withValues(alpha: 0.15) : null,
             textColor: chapter.isRead!
                 ? context.isLight
                       ? Colors.black.withValues(alpha: 0.4)
                       : Colors.white.withValues(alpha: 0.3)
                 : null,
-            selectedColor: chapter.isRead!
-                ? Colors.white.withValues(alpha: 0.3)
-                : Colors.white,
+            selectedColor: chapter.isRead! ? Colors.white.withValues(alpha: 0.3) : Colors.white,
             onTap: () async => _handleInteraction(ref, context),
             title: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (chapter.thumbnailUrl != null)
-                  _thumbnailPreview(context, chapter.thumbnailUrl),
+                if (chapter.thumbnailUrl != null) _thumbnailPreview(context, chapter.thumbnailUrl),
                 chapter.isBookmarked!
                     ? Icon(
                         Icons.bookmark,
@@ -171,8 +160,7 @@ class ChapterListTileWidget extends ConsumerWidget {
                     style: const TextStyle(fontSize: 11),
                   ),
                 if (!chapter.isRead!)
-                  if (chapter.lastPageRead!.isNotEmpty &&
-                      chapter.lastPageRead != "1")
+                  if (chapter.lastPageRead!.isNotEmpty && chapter.lastPageRead != "1")
                     Row(
                       children: [
                         const Text(' • '),
@@ -186,8 +174,7 @@ class ChapterListTileWidget extends ConsumerWidget {
                                   ).toString().substringBefore("."),
                                 )
                               : l10n.page(
-                                  chapter.manga.value!.itemType ==
-                                          ItemType.manga
+                                  chapter.manga.value!.itemType == ItemType.manga
                                       ? chapter.lastPageRead!
                                       : "${((double.tryParse(chapter.lastPageRead!) ?? 0) * 100).toStringAsFixed(0)} %",
                                 ),
@@ -236,9 +223,7 @@ class ChapterListTileWidget extends ConsumerWidget {
             ),
             trailing:
                 // Downloads are hidden on TV (no offline use case there).
-                isTv ||
-                    !sourceExist ||
-                    (chapter.manga.value!.isLocalArchive ?? false)
+                isTv || !sourceExist || (chapter.manga.value!.isLocalArchive ?? false)
                 ? null
                 : ChapterPageDownload(chapter: chapter),
           ),
@@ -252,9 +237,7 @@ class ChapterListTileWidget extends ConsumerWidget {
     if (isLongPressed) {
       // Shift-click range selection on desktop
       if (HardwareKeyboard.instance.isShiftPressed) {
-        ref
-            .read(chaptersListStateProvider.notifier)
-            .selectRange(chapter, allChapters);
+        ref.read(chaptersListStateProvider.notifier).selectRange(chapter, allChapters);
       } else {
         ref.read(chaptersListStateProvider.notifier).update(chapter);
       }

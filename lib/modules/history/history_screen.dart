@@ -99,8 +99,7 @@ class HistoryTab extends ConsumerStatefulWidget {
   ConsumerState<HistoryTab> createState() => _HistoryTabState();
 }
 
-class _HistoryTabState extends ConsumerState<HistoryTab>
-    with AutomaticKeepAliveClientMixin {
+class _HistoryTabState extends ConsumerState<HistoryTab> with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -187,10 +186,8 @@ class _HistoryTabState extends ConsumerState<HistoryTab>
                                     const SizedBox(width: 12),
                                     Expanded(
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             manga.name!,
@@ -222,8 +219,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab>
                           ),
                         ),
                         TvRowButton(
-                          onTap: () =>
-                              _openDeleteDialog(l10n, manga, element.id),
+                          onTap: () => _openDeleteDialog(l10n, manga, element.id),
                           child: Padding(
                             padding: const EdgeInsets.all(14),
                             child: Icon(
@@ -292,10 +288,8 @@ class _HistoryTabState extends ConsumerState<HistoryTab>
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               manga.name!,
@@ -309,27 +303,20 @@ class _HistoryTabState extends ConsumerState<HistoryTab>
                                               textAlign: TextAlign.start,
                                             ),
                                             Wrap(
-                                              crossAxisAlignment:
-                                                  WrapCrossAlignment.end,
+                                              crossAxisAlignment: WrapCrossAlignment.end,
                                               children: [
                                                 Text(
                                                   chapter.name!,
                                                   style: TextStyle(
                                                     fontSize: 11,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge!
-                                                        .color,
+                                                    color: Theme.of(context).textTheme.bodyLarge!.color,
                                                   ),
                                                 ),
                                                 Text(
                                                   " - ${dateFormatHour(element.date!, context)}",
                                                   style: TextStyle(
                                                     fontSize: 11,
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge!
-                                                        .color,
+                                                    color: Theme.of(context).textTheme.bodyLarge!.color,
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                 ),
@@ -342,8 +329,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab>
                                   ),
                                   IconButton(
                                     focusColor: isTv
-                                        ? Theme.of(context).colorScheme.primary
-                                              .withValues(alpha: 0.4)
+                                        ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.4)
                                         : null,
                                     onPressed: () => _openDeleteDialog(
                                       l10n,
@@ -367,8 +353,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab>
                     ),
                   );
                 },
-                itemComparator: (item1, item2) =>
-                    item1.date!.compareTo(item2.date!),
+                itemComparator: (item1, item2) => item1.date!.compareTo(item2.date!),
                 order: GroupedListOrder.DESC,
               ),
             ],
@@ -442,9 +427,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab>
   ) async {
     isar.writeTxnSync(() {
       isar.historys.deleteSync(deleteId!);
-      ref
-          .read(synchingProvider(syncId: 1).notifier)
-          .addChangedPart(ActionType.removeHistory, deleteId, "{}", false);
+      ref.read(synchingProvider(syncId: 1).notifier).addChangedPart(ActionType.removeHistory, deleteId, "{}", false);
     });
     if (context.mounted) {
       Navigator.pop(context);

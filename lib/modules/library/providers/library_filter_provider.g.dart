@@ -17,9 +17,7 @@ final downloadedChapterIdsProvider = DownloadedChapterIdsProvider._();
 /// Pre-fetches all downloaded chapter IDs in a single Isar query.
 /// Returns a [Set<int>] for O(1) lookup instead of per-chapter queries.
 
-final class DownloadedChapterIdsProvider
-    extends
-        $FunctionalProvider<AsyncValue<Set<int>>, Set<int>, Stream<Set<int>>>
+final class DownloadedChapterIdsProvider extends $FunctionalProvider<AsyncValue<Set<int>>, Set<int>, Stream<Set<int>>>
     with $FutureModifier<Set<int>>, $StreamProvider<Set<int>> {
   /// Pre-fetches all downloaded chapter IDs in a single Isar query.
   /// Returns a [Set<int>] for O(1) lookup instead of per-chapter queries.
@@ -39,8 +37,7 @@ final class DownloadedChapterIdsProvider
 
   @$internal
   @override
-  $StreamProviderElement<Set<int>> $createElement($ProviderPointer pointer) =>
-      $StreamProviderElement(pointer);
+  $StreamProviderElement<Set<int>> $createElement($ProviderPointer pointer) => $StreamProviderElement(pointer);
 
   @override
   Stream<Set<int>> create(Ref ref) {
@@ -48,8 +45,7 @@ final class DownloadedChapterIdsProvider
   }
 }
 
-String _$downloadedChapterIdsHash() =>
-    r'ff409df987e776e8c150e541c5aa48b1d5f9e9b9';
+String _$downloadedChapterIdsHash() => r'ff409df987e776e8c150e541c5aa48b1d5f9e9b9';
 
 /// Pre-fetches all manga IDs that have at least one tracking entry reactively.
 
@@ -58,9 +54,7 @@ final trackedMangaIdsProvider = TrackedMangaIdsProvider._();
 
 /// Pre-fetches all manga IDs that have at least one tracking entry reactively.
 
-final class TrackedMangaIdsProvider
-    extends
-        $FunctionalProvider<AsyncValue<Set<int>>, Set<int>, Stream<Set<int>>>
+final class TrackedMangaIdsProvider extends $FunctionalProvider<AsyncValue<Set<int>>, Set<int>, Stream<Set<int>>>
     with $FutureModifier<Set<int>>, $StreamProvider<Set<int>> {
   /// Pre-fetches all manga IDs that have at least one tracking entry reactively.
   TrackedMangaIdsProvider._()
@@ -79,8 +73,7 @@ final class TrackedMangaIdsProvider
 
   @$internal
   @override
-  $StreamProviderElement<Set<int>> $createElement($ProviderPointer pointer) =>
-      $StreamProviderElement(pointer);
+  $StreamProviderElement<Set<int>> $createElement($ProviderPointer pointer) => $StreamProviderElement(pointer);
 
   @override
   Stream<Set<int>> create(Ref ref) {
@@ -97,8 +90,7 @@ final filteredLibraryMangaProvider = FilteredLibraryMangaFamily._();
 
 /// Filters and sorts a list of [Manga] based on library filter/sort settings.
 
-final class FilteredLibraryMangaProvider
-    extends $FunctionalProvider<List<Manga>, List<Manga>, List<Manga>>
+final class FilteredLibraryMangaProvider extends $FunctionalProvider<List<Manga>, List<Manga>, List<Manga>>
     with $Provider<List<Manga>> {
   /// Filters and sorts a list of [Manga] based on library filter/sort settings.
   FilteredLibraryMangaProvider._({
@@ -137,8 +129,7 @@ final class FilteredLibraryMangaProvider
 
   @$internal
   @override
-  $ProviderElement<List<Manga>> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $ProviderElement<List<Manga>> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
 
   @override
   List<Manga> create(Ref ref) {
@@ -192,8 +183,7 @@ final class FilteredLibraryMangaProvider
   }
 }
 
-String _$filteredLibraryMangaHash() =>
-    r'3a78278a4cd23f79d93c98db3e1c97164194b786';
+String _$filteredLibraryMangaHash() => r'3a78278a4cd23f79d93c98db3e1c97164194b786';
 
 /// Filters and sorts a list of [Manga] based on library filter/sort settings.
 

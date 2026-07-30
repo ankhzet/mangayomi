@@ -33,23 +33,20 @@ class BackupSource extends $pb.GeneratedMessage {
   factory BackupSource.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(data, registry);
-  factory BackupSource.fromJson($core.String json,
-          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+  factory BackupSource.fromJson($core.String json, [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(json, registry);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'BackupSource',
-      createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'name')
-    ..aInt64(2, _omitFieldNames ? '' : 'sourceId', protoName: 'sourceId')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      $pb.BuilderInfo(_omitMessageNames ? '' : 'BackupSource', createEmptyInstance: create)
+        ..aOS(1, _omitFieldNames ? '' : 'name')
+        ..aInt64(2, _omitFieldNames ? '' : 'sourceId', protoName: 'sourceId')
+        ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   BackupSource clone() => deepCopy();
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
   BackupSource copyWith(void Function(BackupSource) updates) =>
-      super.copyWith((message) => updates(message as BackupSource))
-          as BackupSource;
+      super.copyWith((message) => updates(message as BackupSource)) as BackupSource;
 
   @$core.override
   $pb.BuilderInfo get info_ => _i;
@@ -58,11 +55,9 @@ class BackupSource extends $pb.GeneratedMessage {
   static BackupSource create() => BackupSource._();
   @$core.override
   BackupSource createEmptyInstance() => create();
-  static $pb.PbList<BackupSource> createRepeated() =>
-      $pb.PbList<BackupSource>();
+  static $pb.PbList<BackupSource> createRepeated() => $pb.PbList<BackupSource>();
   @$core.pragma('dart2js:noInline')
-  static BackupSource getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<BackupSource>(create);
+  static BackupSource getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BackupSource>(create);
   static BackupSource? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -84,7 +79,5 @@ class BackupSource extends $pb.GeneratedMessage {
   void clearSourceId() => $_clearField(2);
 }
 
-const $core.bool _omitFieldNames =
-    $core.bool.fromEnvironment('protobuf.omit_field_names');
-const $core.bool _omitMessageNames =
-    $core.bool.fromEnvironment('protobuf.omit_message_names');
+const $core.bool _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

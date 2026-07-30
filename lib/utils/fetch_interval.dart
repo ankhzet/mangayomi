@@ -46,12 +46,8 @@ class FetchInterval {
     }
 
     // ── Fetch / updatedAt dates (fallback signal) ──
-    final fetchDates =
-        chapters
-            .where((c) => c.updatedAt != null && c.updatedAt! > 0)
-            .map((c) => c.updatedAt!)
-            .toList()
-          ..sort((a, b) => b.compareTo(a)); // descending
+    final fetchDates = chapters.where((c) => c.updatedAt != null && c.updatedAt! > 0).map((c) => c.updatedAt!).toList()
+      ..sort((a, b) => b.compareTo(a)); // descending
 
     final distinctFetchDays = _distinctDays(
       fetchDates,
@@ -83,15 +79,12 @@ class FetchInterval {
     // If existing nextUpdate is within the grace window, keep it.
     if (currentNextUpdate > 0) {
       final window = getWindow(dateTime);
-      if (currentNextUpdate >= window.$1 &&
-          currentNextUpdate <= window.$2 + 1) {
+      if (currentNextUpdate >= window.$1 && currentNextUpdate <= window.$2 + 1) {
         return currentNextUpdate;
       }
     }
 
-    final latestDate = lastUpdate > 0
-        ? DateTime.fromMillisecondsSinceEpoch(lastUpdate)
-        : dateTime;
+    final latestDate = lastUpdate > 0 ? DateTime.fromMillisecondsSinceEpoch(lastUpdate) : dateTime;
     final latestDay = DateTime(
       latestDate.year,
       latestDate.month,
@@ -105,13 +98,9 @@ class FetchInterval {
         ? interval.abs()
         : _increaseInterval(interval, timeSinceLatest, increaseWhenOver: 10);
 
-    final cycle = effectiveInterval > 0
-        ? timeSinceLatest ~/ effectiveInterval
-        : 0;
+    final cycle = effectiveInterval > 0 ? timeSinceLatest ~/ effectiveInterval : 0;
 
-    return latestDay
-        .add(Duration(days: (cycle + 1) * interval.abs()))
-        .millisecondsSinceEpoch;
+    return latestDay.add(Duration(days: (cycle + 1) * interval.abs())).millisecondsSinceEpoch;
   }
 
   /// Computes the expected next update [DateTime] for a manga, suitable
@@ -159,9 +148,7 @@ class FetchInterval {
       timeSinceLatest,
       increaseWhenOver: 10,
     );
-    final cycle = effectiveInterval > 0
-        ? timeSinceLatest ~/ effectiveInterval
-        : 0;
+    final cycle = effectiveInterval > 0 ? timeSinceLatest ~/ effectiveInterval : 0;
     return latestDay.add(Duration(days: (cycle + 1) * interval));
   }
 
@@ -219,10 +206,9 @@ class FetchInterval {
   static int _medianInterval(List<int> distinctDays) {
     final ranges = <int>[];
     for (var i = 0; i + 1 < distinctDays.length; i++) {
-      final daysDiff =
-          (DateTime.fromMillisecondsSinceEpoch(distinctDays[i]).difference(
-            DateTime.fromMillisecondsSinceEpoch(distinctDays[i + 1]),
-          )).inDays.abs();
+      final daysDiff = (DateTime.fromMillisecondsSinceEpoch(distinctDays[i]).difference(
+        DateTime.fromMillisecondsSinceEpoch(distinctDays[i + 1]),
+      )).inDays.abs();
       ranges.add(daysDiff);
     }
     ranges.sort();

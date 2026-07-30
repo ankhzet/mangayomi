@@ -86,8 +86,7 @@ class _TrackerSectionScreenState extends State<TrackerSectionScreen> {
                         }
                         if (_tracks.isNotEmpty) {
                           return SuperListView.builder(
-                            extentPrecalculationPolicy:
-                                SuperPrecalculationPolicy(),
+                            extentPrecalculationPolicy: SuperPrecalculationPolicy(),
                             scrollDirection: Axis.horizontal,
                             itemCount: _tracks.length,
                             itemBuilder: (context, index) {
@@ -112,8 +111,7 @@ class _TrackerSectionScreenState extends State<TrackerSectionScreen> {
 
   Future<void> _fetchData() async {
     final box = await Hive.openBox("tracker_library");
-    final key =
-        "${widget.section.syncId}-${widget.section.itemType.name}-${widget.section.name}";
+    final key = "${widget.section.syncId}-${widget.section.itemType.name}-${widget.section.name}";
     if (_checkCache(box, key)) return;
     try {
       _errorMessage = "";

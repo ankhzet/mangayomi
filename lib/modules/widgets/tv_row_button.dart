@@ -14,18 +14,12 @@ class TvRowFocusScope extends InheritedNotifier<ValueNotifier<Object?>> {
   });
 
   /// Subscribes: the caller rebuilds whenever the active row changes.
-  static Object? activeRow(BuildContext context) => context
-      .dependOnInheritedWidgetOfExactType<TvRowFocusScope>()
-      ?.notifier
-      ?.value;
+  static Object? activeRow(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<TvRowFocusScope>()?.notifier?.value;
 
   /// Reads without subscribing, for focus callbacks and dispose.
   static ValueNotifier<Object?>? notifierOf(BuildContext context) =>
-      (context
-                  .getElementForInheritedWidgetOfExactType<TvRowFocusScope>()
-                  ?.widget
-              as TvRowFocusScope?)
-          ?.notifier;
+      (context.getElementForInheritedWidgetOfExactType<TvRowFocusScope>()?.widget as TvRowFocusScope?)?.notifier;
 }
 
 /// The shell shared by the TV list rows (Browse sources and extensions).
@@ -211,9 +205,7 @@ class _TvRowButtonState extends State<TvRowButton> {
             borderRadius: BorderRadius.circular(10),
             // Sits on top of the row's band, so it has to stay clearly the
             // brightest thing in the row.
-            color: _focused
-                ? accent.withValues(alpha: 0.32)
-                : Colors.transparent,
+            color: _focused ? accent.withValues(alpha: 0.32) : Colors.transparent,
           ),
           child: widget.child,
         ),

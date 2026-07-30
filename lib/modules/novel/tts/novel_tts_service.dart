@@ -34,8 +34,7 @@ class NovelTtsService {
 
   Stream<TtsState> get stateStream => _stateController.stream;
   Stream<int> get paragraphIndexStream => _paragraphIndexController.stream;
-  Stream<TtsWordProgress> get wordProgressStream =>
-      _wordProgressController.stream;
+  Stream<TtsWordProgress> get wordProgressStream => _wordProgressController.stream;
 
   TtsState _state = TtsState.stopped;
   TtsState get state => _state;
@@ -133,8 +132,7 @@ class NovelTtsService {
     _pausedNatively = false;
   }
 
-  static const _blockSelector =
-      'p, h1, h2, h3, h4, h5, h6, li, blockquote, div';
+  static const _blockSelector = 'p, h1, h2, h3, h4, h5, h6, li, blockquote, div';
 
   List<String> extractParagraphs(String htmlContent) {
     final doc = html_parser.parse(htmlContent);
@@ -502,10 +500,7 @@ class NovelTtsService {
       // Skip this element if it has a descendant block that also has text.
       final childBlocks = el.querySelectorAll(_blockSelector);
       final hasChildBlock = childBlocks.any(
-        (child) =>
-            child != el &&
-            allSet.contains(child) &&
-            child.text.trim().isNotEmpty,
+        (child) => child != el && allSet.contains(child) && child.text.trim().isNotEmpty,
       );
       if (!hasChildBlock) {
         blocks.add(el);

@@ -9,8 +9,7 @@ part 'backup_compression.g.dart';
 class BackupCompressionLevel extends _$BackupCompressionLevel {
   @override
   int build() {
-    return isar.settings.getSync(227)?.backupCompressionLevel ??
-        DeflateLevel.defaultCompression;
+    return isar.settings.getSync(227)?.backupCompressionLevel ?? DeflateLevel.defaultCompression;
   }
 
   void update(int value) => state = value;

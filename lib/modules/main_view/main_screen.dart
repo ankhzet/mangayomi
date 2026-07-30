@@ -34,8 +34,7 @@ final libLocationRegex = RegExp(r"^/(Manga|Anime|Novel)Library$");
 
 /// Nav destinations kept off the anime-only TV layout (the manga & novel
 /// libraries). True means "keep this destination".
-bool _isNotHiddenLibOnTv(String nav) =>
-    nav != "/MangaLibrary" && nav != "/NovelLibrary";
+bool _isNotHiddenLibOnTv(String nav) => nav != "/MangaLibrary" && nav != "/NovelLibrary";
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key, required this.child});
@@ -56,8 +55,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   static final Map<String, String> _hyphenatedLabelsCache = {};
 
-  final Map<String, List<NavigationRailDestination>> _desktopDestinationsCache =
-      {};
+  final Map<String, List<NavigationRailDestination>> _desktopDestinationsCache = {};
   final Map<String, List<Widget>> _mobileDestinationsCache = {};
   void _clearCache() {
     _hyphenatedLabelsCache.clear();
@@ -89,9 +87,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     super.initState();
 
     _navigationOrder = ref.read(navigationOrderStateProvider);
-    _autoSyncFrequency = ref
-        .read(synchingProvider(syncId: 1))
-        .autoSyncFrequency;
+    _autoSyncFrequency = ref.read(synchingProvider(syncId: 1)).autoSyncFrequency;
     final hiddenItems = ref.read(hideItemsStateProvider);
 
     // On the anime-only TV layout, never land on a hidden manga/novel library.
@@ -222,9 +218,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                         (nav) => libLocationRegex.hasMatch(nav),
                       ),
                     ].where((nav) => !hideItems.contains(nav)).toList()
-                  : navigationOrder
-                        .where((nav) => !hideItems.contains(nav))
-                        .toList();
+                  : navigationOrder.where((nav) => !hideItems.contains(nav)).toList();
 
               // Anime-only TV layout: drop the manga & novel library tabs.
               if (ref.watch(animeOnlyTvModeProvider)) {
@@ -249,15 +243,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                     .toList();
               }
 
-              if (isLibSwitch &&
-                  (currentIndex >= dest.length ||
-                      !libLocationRegex.hasMatch(location ?? ""))) {
+              if (isLibSwitch && (currentIndex >= dest.length || !libLocationRegex.hasMatch(location ?? ""))) {
                 currentIndex = 0;
               } else {
                 String? libLocation;
-                if (mergeLibraryNavMobile &&
-                    !context.isTablet &&
-                    !isLibSwitch) {
+                if (mergeLibraryNavMobile && !context.isTablet && !isLibSwitch) {
                   libLocation = location?.replaceAll(
                     libLocationRegex,
                     "_enableLibSwitch",
@@ -282,8 +272,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                       downloadedOnly: downloadedOnly,
                       l10n: l10n,
                     ),
-                  if (!isReadingScreen)
-                    _IncognitoModeBar(incognitoMode: incognitoMode, l10n: l10n),
+                  if (!isReadingScreen) _IncognitoModeBar(incognitoMode: incognitoMode, l10n: l10n),
                   Flexible(
                     child: Scaffold(
                       body: context.isTablet
@@ -294,8 +283,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                               currentIndex: currentIndex,
                               route: route,
                               ref: ref,
-                              buildNavigationWidgetsDesktop:
-                                  _buildNavigationWidgetsDesktop,
+                              buildNavigationWidgetsDesktop: _buildNavigationWidgetsDesktop,
                               child: widget.child,
                             )
                           : widget.child,
@@ -308,8 +296,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                               dest: dest,
                               route: route,
                               ref: ref,
-                              buildNavigationWidgetsMobile:
-                                  _buildNavigationWidgetsMobile,
+                              buildNavigationWidgetsMobile: _buildNavigationWidgetsMobile,
                               onDestinationSelected: (destination) {
                                 if (destination == "_enableLibSwitch") {
                                   setState(() {
@@ -336,9 +323,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   }
 
   static bool _isReadingScreen(String? location) {
-    return location == '/mangaReaderView' ||
-        location == '/animePlayerView' ||
-        location == '/novelReaderView';
+    return location == '/mangaReaderView' || location == '/animePlayerView' || location == '/novelReaderView';
   }
 
   List<NavigationRailDestination> _buildNavigationWidgetsDesktop(
@@ -773,12 +758,8 @@ class _TabletLayoutState extends State<_TabletLayout> {
       // null, because supplying an IconThemeData/TextStyle replaces the rail's
       // own defaults wholesale and would otherwise drop the selected and
       // unselected colouring. All null off TV, so desktop keeps its defaults.
-      selectedIconTheme: isTv
-          ? IconThemeData(size: 28, color: scheme.onSecondaryContainer)
-          : null,
-      unselectedIconTheme: isTv
-          ? IconThemeData(size: 28, color: scheme.onSurfaceVariant)
-          : null,
+      selectedIconTheme: isTv ? IconThemeData(size: 28, color: scheme.onSecondaryContainer) : null,
+      unselectedIconTheme: isTv ? IconThemeData(size: 28, color: scheme.onSurfaceVariant) : null,
       selectedLabelTextStyle: isTv
           ? TextStyle(
               fontSize: 12,
@@ -786,15 +767,9 @@ class _TabletLayoutState extends State<_TabletLayout> {
               color: scheme.onSurface,
             )
           : null,
-      unselectedLabelTextStyle: isTv
-          ? TextStyle(fontSize: 12, color: scheme.onSurfaceVariant)
-          : null,
+      unselectedLabelTextStyle: isTv ? TextStyle(fontSize: 12, color: scheme.onSurfaceVariant) : null,
       destinations: destinations,
-      selectedIndex:
-          (widget.currentIndex >= 0 &&
-              widget.currentIndex < destinations.length)
-          ? widget.currentIndex
-          : 0,
+      selectedIndex: (widget.currentIndex >= 0 && widget.currentIndex < destinations.length) ? widget.currentIndex : 0,
       onDestinationSelected: (newIndex) {
         widget.route.go(widget.dest[newIndex]);
       },
@@ -832,9 +807,7 @@ class _TabletLayoutState extends State<_TabletLayout> {
                 // makes the focused tab clearly visible. No-op off TV.
                 child: Theme(
                   data: Theme.of(context).copyWith(
-                    focusColor: isTv
-                        ? context.primaryColor.withValues(alpha: 0.45)
-                        : Theme.of(context).focusColor,
+                    focusColor: isTv ? context.primaryColor.withValues(alpha: 0.45) : Theme.of(context).focusColor,
                   ),
                   child: navRail,
                 ),
@@ -895,8 +868,7 @@ class _MobileBottomNavigation extends StatelessWidget {
   final List<String> dest;
   final GoRouter route;
   final WidgetRef ref;
-  final List<Widget> Function(WidgetRef, List<String>, BuildContext)
-  buildNavigationWidgetsMobile;
+  final List<Widget> Function(WidgetRef, List<String>, BuildContext) buildNavigationWidgetsMobile;
   final Function(String) onDestinationSelected;
 
   @override
@@ -983,8 +955,7 @@ class _ExtensionBadgeWidget extends ConsumerWidget {
 
         final entries = snapshot.data!
             .where(
-              (element) =>
-                  compareVersions(element.version!, element.versionLast!) < 0,
+              (element) => compareVersions(element.version!, element.versionLast!) < 0,
             )
             .toList();
 

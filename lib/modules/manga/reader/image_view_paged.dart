@@ -8,8 +8,7 @@ import 'package:mangayomi/modules/manga/reader/u_chap_data_preload.dart';
 import 'package:mangayomi/modules/manga/reader/widgets/color_filter_widget.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
-import 'package:mangayomi/modules/manga/reader/subsampling_scale_image_view/subsampling_scale_image_view.dart'
-    as ssiv;
+import 'package:mangayomi/modules/manga/reader/subsampling_scale_image_view/subsampling_scale_image_view.dart' as ssiv;
 import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:mangayomi/modules/more/settings/reader/reader_screen.dart';
 import 'package:mangayomi/modules/manga/reader/widgets/circular_progress_indicator_animate_rotate.dart';
@@ -85,8 +84,7 @@ class _ImageViewPagedState extends ConsumerState<ImageViewPaged> {
     final url = widget.data.pageUrl?.url.trim().toLowerCase() ?? '';
     if (url.contains('.gif')) {
       isAnimated = true;
-    } else if (widget.data.archiveImage != null &&
-        widget.data.archiveImage!.length > 3) {
+    } else if (widget.data.archiveImage != null && widget.data.archiveImage!.length > 3) {
       final bytes = widget.data.archiveImage!;
       if (bytes[0] == 0x47 && bytes[1] == 0x49 && bytes[2] == 0x46) {
         isAnimated = true;
@@ -100,10 +98,7 @@ class _ImageViewPagedState extends ConsumerState<ImageViewPaged> {
           final raf = await file.open();
           try {
             final fBytes = await raf.read(3);
-            if (fBytes.length > 2 &&
-                fBytes[0] == 0x47 &&
-                fBytes[1] == 0x49 &&
-                fBytes[2] == 0x46) {
+            if (fBytes.length > 2 && fBytes[0] == 0x47 && fBytes[1] == 0x49 && fBytes[2] == 0x46) {
               isAnimated = true;
             }
           } finally {
@@ -162,10 +157,7 @@ class _ImageViewPagedState extends ConsumerState<ImageViewPaged> {
 
   void _performLandscapeZoom() {
     final controller = widget.controller;
-    if (controller == null ||
-        !controller.isReady ||
-        !widget.isVisible ||
-        !mounted) {
+    if (controller == null || !controller.isReady || !widget.isVisible || !mounted) {
       return;
     }
     if (_hasLandscapeZoomed) return;
@@ -185,14 +177,11 @@ class _ImageViewPagedState extends ConsumerState<ImageViewPaged> {
     if (minScale <= 0.0) return;
     if ((currentScale - minScale).abs() > 0.01) return;
 
-    final viewHeight =
-        context.size?.height ?? MediaQuery.of(context).size.height;
+    final viewHeight = context.size?.height ?? MediaQuery.of(context).size.height;
     final targetScale = viewHeight / sHeight;
 
     final zoomStart = ref.read(zoomStartPositionStateProvider);
-    final readerMode = ref
-        .read(readerControllerProvider(chapter: widget.data.chapter!).notifier)
-        .getReaderMode();
+    final readerMode = ref.read(readerControllerProvider(chapter: widget.data.chapter!).notifier).getReaderMode();
     final isRightToLeft = readerMode == ReaderMode.rtl;
 
     Offset targetPoint;
@@ -203,9 +192,7 @@ class _ImageViewPagedState extends ConsumerState<ImageViewPaged> {
     } else if (zoomStart == 2) {
       targetPoint = Offset(sWidth / 2, sHeight / 2);
     } else {
-      targetPoint = isRightToLeft
-          ? Offset(sWidth.toDouble(), 0)
-          : const Offset(0, 0);
+      targetPoint = isRightToLeft ? Offset(sWidth.toDouble(), 0) : const Offset(0, 0);
     }
 
     _hasLandscapeZoomed = true;
@@ -245,8 +232,7 @@ class _ImageViewPagedState extends ConsumerState<ImageViewPaged> {
               final int r = byteData.getUint8(0);
               final int g = byteData.getUint8(1);
               final int b = byteData.getUint8(2);
-              final double brightness =
-                  (r * 0.299 + g * 0.587 + b * 0.114) / 255.0;
+              final double brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255.0;
               if (mounted) {
                 setState(() {
                   _autoBgColor = brightness > 0.5 ? Colors.white : Colors.black;
@@ -285,9 +271,7 @@ class _ImageViewPagedState extends ConsumerState<ImageViewPaged> {
 
     // rotation calculation
     int rotation = 0;
-    if (dualPageRotateToFit &&
-        widget.data.loadedWidth != null &&
-        widget.data.loadedHeight != null) {
+    if (dualPageRotateToFit && widget.data.loadedWidth != null && widget.data.loadedHeight != null) {
       if (widget.data.loadedWidth! > widget.data.loadedHeight!) {
         rotation = dualPageRotateToFitInvert ? 270 : 90;
       }
@@ -301,18 +285,14 @@ class _ImageViewPagedState extends ConsumerState<ImageViewPaged> {
       _ => BoxFit.contain,
     };
 
-    if (_resolvedFilePath != widget.data.resolvedFilePath &&
-        widget.data.resolvedFilePath != null) {
+    if (_resolvedFilePath != widget.data.resolvedFilePath && widget.data.resolvedFilePath != null) {
       _resolvedFilePath = widget.data.resolvedFilePath;
     }
 
     final bool isAnimated = _isAnimated;
 
     if (_resolvedFilePath == null && !isAnimated) {
-      final Color bg =
-          pageBgColor ??
-          getBackgroundColor(ref.watch(backgroundColorStateProvider)) ??
-          Colors.black;
+      final Color bg = pageBgColor ?? getBackgroundColor(ref.watch(backgroundColorStateProvider)) ?? Colors.black;
       return Container(
         color: bg,
         child: const Center(

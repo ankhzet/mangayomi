@@ -94,10 +94,8 @@ class ReaderGestureHandler extends StatelessWidget {
 
   // ── helpers ──
 
-  bool get _shouldInvertHorizontal =>
-      tappingInversion == 1 || tappingInversion == 3;
-  bool get _shouldInvertVertical =>
-      tappingInversion == 2 || tappingInversion == 3;
+  bool get _shouldInvertHorizontal => tappingInversion == 1 || tappingInversion == 3;
+  bool get _shouldInvertVertical => tappingInversion == 2 || tappingInversion == 3;
 
   VoidCallback _prev() => isRTL ? onNextPage : onPreviousPage;
   VoidCallback _next() => isRTL ? onPreviousPage : onNextPage;
@@ -137,9 +135,7 @@ class ReaderGestureHandler extends StatelessWidget {
         Expanded(flex: 2, child: _zone(leftAction)),
         Expanded(
           flex: 2,
-          child: hasImageError
-              ? SizedBox(width: context.width(1), height: context.height(0.7))
-              : _uiZone(),
+          child: hasImageError ? SizedBox(width: context.width(1), height: context.height(0.7)) : _uiZone(),
         ),
         Expanded(flex: 2, child: _zone(rightAction)),
       ],
@@ -171,12 +167,8 @@ class ReaderGestureHandler extends StatelessWidget {
   // └───────────────┴───────┘
 
   Widget _buildLShaped(BuildContext context) {
-    final action1 = (_shouldInvertHorizontal ^ _shouldInvertVertical)
-        ? _next()
-        : _prev();
-    final action2 = (_shouldInvertHorizontal ^ _shouldInvertVertical)
-        ? _prev()
-        : _next();
+    final action1 = (_shouldInvertHorizontal ^ _shouldInvertVertical) ? _next() : _prev();
+    final action2 = (_shouldInvertHorizontal ^ _shouldInvertVertical) ? _prev() : _next();
     return Column(
       children: [
         Expanded(
@@ -294,13 +286,9 @@ class _ZoneGestureDetector extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: onTap,
-      onDoubleTapDown: onDoubleTapDown != null
-          ? (details) => onDoubleTapDown!(details.globalPosition)
-          : null,
+      onDoubleTapDown: onDoubleTapDown != null ? (details) => onDoubleTapDown!(details.globalPosition) : null,
       onDoubleTap: onDoubleTap,
-      onSecondaryTapDown: onSecondaryTapDown != null
-          ? (details) => onSecondaryTapDown!(details.globalPosition)
-          : null,
+      onSecondaryTapDown: onSecondaryTapDown != null ? (details) => onSecondaryTapDown!(details.globalPosition) : null,
       onSecondaryTap: onSecondaryTap,
     );
   }

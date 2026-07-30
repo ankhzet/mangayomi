@@ -32,8 +32,7 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
             borderRadius: BorderRadius.circular(5),
             child: Image(
               image: manga.customCoverImage != null
-                  ? MemoryImage(manga.customCoverImage as Uint8List)
-                        as ImageProvider
+                  ? MemoryImage(manga.customCoverImage as Uint8List) as ImageProvider
                   : CustomExtendedNetworkImageProvider(
                       toImgUrl(manga.customCoverFromTracker ?? manga.imageUrl!),
                       headers: ref.watch(
@@ -68,9 +67,7 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 11,
-                    color: chapter.isRead ?? false
-                        ? Colors.grey
-                        : Theme.of(context).textTheme.bodyLarge!.color,
+                    color: chapter.isRead ?? false ? Colors.grey : Theme.of(context).textTheme.bodyLarge!.color,
                   ),
                 ),
               ],
@@ -93,8 +90,7 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
         children: [
           Expanded(
             child: TvRowButton(
-              onTap: () =>
-                  chapter.pushToReaderView(context, ignoreIsRead: true),
+              onTap: () => chapter.pushToReaderView(context, ignoreIsRead: true),
               child: _body(context, ref, manga),
             ),
           ),
@@ -111,9 +107,7 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
       color: Colors.transparent,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        focusColor: isTv
-            ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.2)
-            : null,
+        focusColor: isTv ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.2) : null,
         onTap: () async {
           chapter.pushToReaderView(context, ignoreIsRead: true);
         },

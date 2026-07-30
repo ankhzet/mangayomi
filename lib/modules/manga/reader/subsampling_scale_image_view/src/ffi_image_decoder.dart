@@ -193,10 +193,7 @@ class FfiImageDecoder {
       >('decode_region');
 
   static final void Function(Pointer<Opaque>) _freeDecoder = dylib
-      .lookupFunction<
-        Void Function(Pointer<Opaque>),
-        void Function(Pointer<Opaque>)
-      >('free_decoder');
+      .lookupFunction<Void Function(Pointer<Opaque>), void Function(Pointer<Opaque>)>('free_decoder');
 
   /// Decodes a specific region of the image asynchronously in a background Isolate.
   /// This prevents blocking the main UI thread during disk reads and decoding.
@@ -249,8 +246,7 @@ class FfiImageDecoder {
             if (newCtx.address == 0) {
               responsePort.send({
                 'success': false,
-                'error':
-                    "Failed to initialize decoder for file: ${params.filePath}",
+                'error': "Failed to initialize decoder for file: ${params.filePath}",
               });
               return;
             }
@@ -407,12 +403,8 @@ class FfiImageDecoder {
       //  2. High sampleSize (base/overview layer) before fine detail tiles
       //  3. LIFO within same priority (last-added tile = most recently needed)
       _queue.sort((a, b) {
-        final aPriority = a.action == 'getDimensions'
-            ? 1000
-            : a.params.sampleSize;
-        final bPriority = b.action == 'getDimensions'
-            ? 1000
-            : b.params.sampleSize;
+        final aPriority = a.action == 'getDimensions' ? 1000 : a.params.sampleSize;
+        final bPriority = b.action == 'getDimensions' ? 1000 : b.params.sampleSize;
         return bPriority.compareTo(
           aPriority,
         ); // descending: highest priority last for removeLast

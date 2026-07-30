@@ -225,12 +225,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get mass_migration_destination_source => 'Destination source';
 
   @override
-  String get mass_migration_no_library_items =>
-      'No library items are available for mass migration.';
+  String get mass_migration_no_library_items => 'No library items are available for mass migration.';
 
   @override
-  String get mass_migration_no_destination_sources =>
-      'No installed destination sources are available.';
+  String get mass_migration_no_destination_sources => 'No installed destination sources are available.';
 
   @override
   String get mass_migration_installed => 'Installed';
@@ -258,8 +256,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get mass_migration_select_destination_source =>
-      'Select destination source';
+  String get mass_migration_select_destination_source => 'Select destination source';
 
   @override
   String mass_migration_finding_matches(Object source, Object language) {
@@ -272,12 +269,10 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get mass_migration_waiting_next_item =>
-      'Waiting 2 seconds before the next item...';
+  String get mass_migration_waiting_next_item => 'Waiting 2 seconds before the next item...';
 
   @override
-  String get mass_migration_waiting_next_migration =>
-      'Waiting 2 seconds before the next migration...';
+  String get mass_migration_waiting_next_migration => 'Waiting 2 seconds before the next migration...';
 
   @override
   String mass_migration_matched_so_far(int count) {
@@ -323,8 +318,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get mass_migration_no_items_selected =>
-      'No items selected for migration.';
+  String get mass_migration_no_items_selected => 'No items selected for migration.';
 
   @override
   String mass_migration_migrating_item(int current, int total) {
@@ -335,8 +329,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get mass_migration_complete => 'Mass migration complete';
 
   @override
-  String get mass_migration_complete_success_message =>
-      'All selected items were processed successfully.';
+  String get mass_migration_complete_success_message => 'All selected items were processed successfully.';
 
   @override
   String get mass_migration_complete_partial_message =>
@@ -369,8 +362,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get mass_migration_exit => 'Exit Mass Migration';
 
   @override
-  String get mass_migration_no_destination_match =>
-      'No destination match found';
+  String get mass_migration_no_destination_match => 'No destination match found';
 
   @override
   String mass_migration_query(Object query) {
@@ -496,8 +488,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get edit_categories => 'カテゴリ編集';
 
   @override
-  String get edit_categories_description =>
-      'カテゴリがありません。プラスボタンをタップして、ライブラリを整理するためのカテゴリを作成してください';
+  String get edit_categories_description => 'カテゴリがありません。プラスボタンをタップして、ライブラリを整理するためのカテゴリを作成してください';
 
   @override
   String get add => '追加';
@@ -661,8 +652,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get nsfw_sources_show => 'ソースと拡張機能のリストに表示';
 
   @override
-  String get nsfw_sources_info =>
-      'これは、非公式またはおそらく不正にフラグが付いた拡張機能がアプリ内でNSFW（18+）コンテンツをサーフェスするのを防ぎません';
+  String get nsfw_sources_info => 'これは、非公式またはおそらく不正にフラグが付いた拡張機能がアプリ内でNSFW（18+）コンテンツをサーフェスするのを防ぎません';
 
   @override
   String get version => 'バージョン';
@@ -930,8 +920,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get sync_logged => 'ログイン成功';
 
   @override
-  String get syncing_subtitle =>
-      'セルフホストサーバーを通じて複数デバイス間で進行状況を同期します。詳細はDiscordサーバーをご覧ください！';
+  String get syncing_subtitle => 'セルフホストサーバーを通じて複数デバイス間で進行状況を同期します。詳細はDiscordサーバーをご覧ください！';
 
   @override
   String get last_sync_manga => '最終マンガ同期: ';
@@ -1018,8 +1007,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get reorder_navigation => 'ナビゲーションをカスタマイズ';
 
   @override
-  String get reorder_navigation_description =>
-      'ニーズに合わせて各ナビゲーションを並べ替えたり切り替えたりします。';
+  String get reorder_navigation_description => 'ニーズに合わせて各ナビゲーションを並べ替えたり切り替えたりします。';
 
   @override
   String get full_screen_player => 'フルスクリーンを使用';
@@ -1138,8 +1126,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get page_preload_amount => 'ページプリロード量';
 
   @override
-  String get page_preload_amount_subtitle =>
-      '読取時にプリロードするページ数。値が高いほど、スムーズな読取体験が得られます。ただし、キャッシュとネットワーク使用量が増加します。';
+  String get page_preload_amount_subtitle => '読取時にプリロードするページ数。値が高いほど、スムーズな読取体験が得られます。ただし、キャッシュとネットワーク使用量が増加します。';
 
   @override
   String get image_loading_error => 'この画像を読み込めませんでした';
@@ -1160,8 +1147,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get auto_extensions_updates => '自動拡張機能更新';
 
   @override
-  String get auto_extensions_updates_subtitle =>
-      '新しいバージョンが利用可能な場合は、拡張機能を自動的に更新します。';
+  String get auto_extensions_updates_subtitle => '新しいバージョンが利用可能な場合は、拡張機能を自動的に更新します。';
 
   @override
   String get check_for_app_updates => '起動時にアプリ更新を確認';
@@ -1261,8 +1247,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get backup_options_subtitle => 'バックアップファイルに含める情報';
 
   @override
-  String get backup_and_restore_warning_info =>
-      'バックアップのコピーを他の場所にも保管することをお勧めします';
+  String get backup_and_restore_warning_info => 'バックアップのコピーを他の場所にも保管することをお勧めします';
 
   @override
   String get library_entries => 'ライブラリエントリ';
@@ -1286,15 +1271,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get weekly => '週ごと';
 
   @override
-  String get restore_backup_warning_title =>
-      'バックアップを復元すると、すべての既存データが上書きされます。\\n\\n復元を続けますか？';
+  String get restore_backup_warning_title => 'バックアップを復元すると、すべての既存データが上書きされます。\\n\\n復元を続けますか？';
 
   @override
   String get services => 'サービス';
 
   @override
-  String get tracking_warning_info =>
-      'トラッキングサービスのチャプター進度を更新するための一方向同期。トラッキングボタンから個々のエントリの追跡を設定します。';
+  String get tracking_warning_info => 'トラッキングサービスのチャプター進度を更新するための一方向同期。トラッキングボタンから個々のエントリの追跡を設定します。';
 
   @override
   String get use_page_tap_zones => 'ページタップゾーンを使用';
@@ -1333,8 +1316,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get markEpisodeAsSeenSetting => 'エピソードを視聴済みにするタイミング';
 
   @override
-  String get mark_duplicate_chapters_read =>
-      'Mark duplicate chapter numbers as read';
+  String get mark_duplicate_chapters_read => 'Mark duplicate chapter numbers as read';
 
   @override
   String get default_skip_intro_length => 'デフォルトイントロスキップ長';
@@ -1355,8 +1337,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get default_skip_forward_skip_length => 'デフォルトスキップフォワードスキップ長';
 
   @override
-  String get aniskip_requires_info =>
-      'AniSkipを機能させるには、アニメをMALまたはAnilistで追跡する必要があります。';
+  String get aniskip_requires_info => 'AniSkipを機能させるには、アニメをMALまたはAnilistで追跡する必要があります。';
 
   @override
   String get enable_aniskip => 'AniSkipを有効化';
@@ -1528,8 +1509,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get use_libass_info => 'ネイティブバックエンドにlibassベースの字幕レンダリングを使用します。';
 
   @override
-  String get libass_not_disable_message =>
-      '字幕をカスタマイズできるようにするには、プレーヤー設定で「libassを使用」を無効にしてください。';
+  String get libass_not_disable_message => '字幕をカスタマイズできるようにするには、プレーヤー設定で「libassを使用」を無効にしてください。';
 
   @override
   String get torrent_stream => 'トレントストリーム';
@@ -1556,8 +1536,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get use_native_http_client => 'ネイティブhttpクライアントを使用';
 
   @override
-  String get use_native_http_client_info =>
-      'VPNのようなプラットフォーム機能を自動的にサポートし、HTTP/3のようなより多くのHTTP機能をサポートし、カスタムリダイレクト処理';
+  String get use_native_http_client_info => 'VPNのようなプラットフォーム機能を自動的にサポートし、HTTP/3のようなより多くのHTTP機能をサポートし、カスタムリダイレクト処理';
 
   @override
   String n_hour_ago(Object hour) {
@@ -1608,8 +1587,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cache_cleared => 'キャッシュをクリアしました';
 
   @override
-  String get clear_chapter_or_episode_cache_on_app_launch =>
-      'アプリ起動時にチャプター/エピソードキャッシュをクリア';
+  String get clear_chapter_or_episode_cache_on_app_launch => 'アプリ起動時にチャプター/エピソードキャッシュをクリア';
 
   @override
   String get app_settings => 'アプリ設定';
@@ -1705,8 +1683,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get clear_all_sources => 'すべてのソースをクリア';
 
   @override
-  String get clear_all_sources_msg =>
-      'これによりアプリケーションのすべてのソースが完全に削除されます。続行してもよろしいですか？';
+  String get clear_all_sources_msg => 'これによりアプリケーションのすべてのソースが完全に削除されます。続行してもよろしいですか？';
 
   @override
   String get sources_cleared => 'ソースがクリアされました！！！';
@@ -1738,8 +1715,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get unsupported_repo =>
-      'サポートされていないリポジトリを追加しようとしています。サポートについてはDiscordサーバーを確認してください！';
+  String get unsupported_repo => 'サポートされていないリポジトリを追加しようとしています。サポートについてはDiscordサーバーを確認してください！';
 
   @override
   String get end_of_chapter => 'チャプターの終わり';
@@ -1796,8 +1772,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hide_discord_rpc_incognito => 'シークレットモードでDiscord RPCを非表示';
 
   @override
-  String get rpc_show_reading_watching_progress =>
-      'Discordに現在のチャプターを表示（再起動が必要）';
+  String get rpc_show_reading_watching_progress => 'Discordに現在のチャプターを表示（再起動が必要）';
 
   @override
   String get rpc_show_title => 'Discordに現在のタイトルを表示';
@@ -1889,8 +1864,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get use_yuv420p => 'YUV420Pピクセル形式を使用';
 
   @override
-  String get use_yuv420p_info =>
-      '一部のビデオコーデックで黒い画面を修正し、品質を犠牲にしてパフォーマンスを向上させることもできます';
+  String get use_yuv420p_info => '一部のビデオコーデックで黒い画面を修正し、品質を犠牲にしてパフォーマンスを向上させることもできます';
 
   @override
   String get audio_preferred_languages => '優先言語';
@@ -1903,8 +1877,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get enable_audio_pitch_correction => 'オーディオピッチ補正を有効化';
 
   @override
-  String get enable_audio_pitch_correction_info =>
-      '高速再生時にオーディオが高音になり、低速再生時に低音になるのを防ぎます';
+  String get enable_audio_pitch_correction_info => '高速再生時にオーディオが高音になり、低速再生時に低音になるのを防ぎます';
 
   @override
   String get audio_channels => 'オーディオチャンネル';
@@ -1934,8 +1907,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get calendar_no_data => 'まだデータがありません。';
 
   @override
-  String get calendar_info =>
-      'カレンダーは過去のアップロードに基づいて次のチャプターアップロードを予測できるだけです。一部のデータは100％正確ではない可能性があります！';
+  String get calendar_info => 'カレンダーは過去のアップロードに基づいて次のチャプターアップロードを予測できるだけです。一部のデータは100％正確ではない可能性があります！';
 
   @override
   String in_n_day(Object days) {
@@ -1954,8 +1926,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get clear_library_desc => 'すべてのマンガ、アニメ、および/または小説エントリをクリアする選択';
 
   @override
-  String get clear_library_input =>
-      'すべての関連エントリを削除するには「manga」、「anime」、および/または「novel」と入力してください（カンマ区切り）';
+  String get clear_library_input => 'すべての関連エントリを削除するには「manga」、「anime」、および/または「novel」と入力してください（カンマ区切り）';
 
   @override
   String get watch_order => '視聴順';
@@ -2047,16 +2018,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get app_lock => 'アプリのロック';
 
   @override
-  String get require_biometric_or_device_credential =>
-      'アプリを開くには、生体認証またはデバイスの認証情報が必要です';
+  String get require_biometric_or_device_credential => 'アプリを開くには、生体認証またはデバイスの認証情報が必要です';
 
   @override
-  String get biometric_or_device_credential_not_available =>
-      'このデバイスでは生体認証は使用できません';
+  String get biometric_or_device_credential_not_available => 'このデバイスでは生体認証は使用できません';
 
   @override
-  String get app_lock_description =>
-      'アプリのロックが有効な場合、アプリを開くたびに認証するよう求められます\\nバックグラウンドから戻る場合。';
+  String get app_lock_description => 'アプリのロックが有効な場合、アプリを開くたびに認証するよう求められます\\nバックグラウンドから戻る場合。';
 
   @override
   String get keep_screen_on => '画面をオンに保つ';
@@ -2172,8 +2140,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get import_existing_jar => 'Import existing JAR';
 
   @override
-  String get detect_files_in_selected_folder =>
-      'Detect files in selected folder';
+  String get detect_files_in_selected_folder => 'Detect files in selected folder';
 
   @override
   String get preparing_download => 'Preparing download...';
@@ -2204,12 +2171,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get set_proxy_address => 'Set proxy address';
 
   @override
-  String get no_newer_proxy_server_release_available =>
-      'No newer proxy server release is available.';
+  String get no_newer_proxy_server_release_available => 'No newer proxy server release is available.';
 
   @override
-  String get could_not_check_proxy_server_updates =>
-      'Could not check for proxy server updates.';
+  String get could_not_check_proxy_server_updates => 'Could not check for proxy server updates.';
 
   @override
   String get no_extension_server_bundle_available_for_this_platform =>
@@ -2221,12 +2186,10 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get downloaded_bundle_missing_expected_files =>
-      'The downloaded bundle does not contain the expected files.';
+  String get downloaded_bundle_missing_expected_files => 'The downloaded bundle does not contain the expected files.';
 
   @override
-  String get extension_server_files_ready =>
-      'Extension server files are ready.';
+  String get extension_server_files_ready => 'Extension server files are ready.';
 
   @override
   String get ios_extension_server_import_hint =>
@@ -2236,35 +2199,29 @@ class AppLocalizationsJa extends AppLocalizations {
   String get select_extension_server_folder => 'Select extension server folder';
 
   @override
-  String get selected_folder_does_not_exist =>
-      'The selected folder does not exist.';
+  String get selected_folder_does_not_exist => 'The selected folder does not exist.';
 
   @override
   String get no_extension_server_files_found_in_selected_folder =>
       'No extension server files were found in the selected folder.';
 
   @override
-  String get extension_server_files_linked =>
-      'Extension server files were linked.';
+  String get extension_server_files_linked => 'Extension server files were linked.';
 
   @override
   String get select_extension_server_jar => 'Select extension server JAR';
 
   @override
-  String get selected_file_could_not_be_accessed =>
-      'The selected file could not be accessed.';
+  String get selected_file_could_not_be_accessed => 'The selected file could not be accessed.';
 
   @override
-  String get extension_server_jar_imported =>
-      'Extension server JAR was imported.';
+  String get extension_server_jar_imported => 'Extension server JAR was imported.';
 
   @override
-  String get could_not_launch_apk_bridge_page =>
-      'Could not launch the ApkBridge page.';
+  String get could_not_launch_apk_bridge_page => 'Could not launch the ApkBridge page.';
 
   @override
-  String get proxy_server_ip_hint =>
-      'Server IP (e.g., 10.0.0.5 or https://example.com)';
+  String get proxy_server_ip_hint => 'Server IP (e.g., 10.0.0.5 or https://example.com)';
 
   @override
   String get not_configured => 'Not configured';
@@ -2423,8 +2380,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get app_ui_scale => 'Interface scale';
 
   @override
-  String get app_ui_scale_subtitle =>
-      'Make the interface larger or smaller to suit your screen and viewing distance.';
+  String get app_ui_scale_subtitle => 'Make the interface larger or smaller to suit your screen and viewing distance.';
 
   @override
   String get allow_concurrent_downloads => 'Allow concurrent downloads';
@@ -2437,8 +2393,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get download_delay => 'Download delay';
 
   @override
-  String get download_delay_subtitle =>
-      'Off. Add a wait with random jitter between chapters to be gentler on sources.';
+  String get download_delay_subtitle => 'Off. Add a wait with random jitter between chapters to be gentler on sources.';
 
   @override
   String get save_search => 'Save search';
@@ -2450,8 +2405,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get enter_search_to_save_first => 'Enter a search to save first';
 
   @override
-  String get no_saved_searches =>
-      'No saved searches for this source yet.\nRun a search, then pick \"Save search\".';
+  String get no_saved_searches => 'No saved searches for this source yet.\nRun a search, then pick \"Save search\".';
 
   @override
   String get source => 'ソース';

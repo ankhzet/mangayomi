@@ -342,14 +342,14 @@ class ChapterFilterResultState extends _$ChapterFilterResultState {
   @override
   bool build({required Manga manga}) {
     final downloadFilterType = ref.watch(
-      chapterFilterDownloadedStateProvider(mangaId: manga.id),
+      chapterFilterDownloadedStateProvider(mangaId: manga.id!),
     );
     final unreadFilterType = ref.watch(
-      chapterFilterUnreadStateProvider(mangaId: manga.id),
+      chapterFilterUnreadStateProvider(mangaId: manga.id!),
     );
 
     final bookmarkedFilterType = ref.watch(
-      chapterFilterBookmarkedStateProvider(mangaId: manga.id),
+      chapterFilterBookmarkedStateProvider(mangaId: manga.id!),
     );
     final scanlators = ref.watch(scanlatorsFilterStateProvider(manga));
     return downloadFilterType == 0 && unreadFilterType == 0 && bookmarkedFilterType == 0 && scanlators.$2.isEmpty;

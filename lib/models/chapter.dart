@@ -76,7 +76,7 @@ class Chapter {
   @ignore
   String? _name;
 
-  late Id id;
+  Id? id;
 
   @Index(name: "mangaId")
   int? mangaId;

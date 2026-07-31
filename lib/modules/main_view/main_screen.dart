@@ -1018,7 +1018,17 @@ class _UpdatesBadgeWidget extends ConsumerWidget {
           return icon;
         }
 
-        return Badge(label: Text("${entries.length}"), child: icon);
+        final distinctMangaCount = entries
+            .map((e) => e.chapter.value?.mangaId)
+            .whereType<int>()
+            .toSet()
+            .length;
+
+        if (distinctMangaCount == 0) {
+          return icon;
+        }
+
+        return Badge(label: Text("$distinctMangaCount"), child: icon);
       },
     );
   }

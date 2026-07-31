@@ -210,7 +210,7 @@ class GetIsolateService {
     final completer = Completer<T>();
     late final StreamSubscription sub;
 
-    final timer = Timer(const Duration(seconds: 40), () {
+    final timer = Timer(const Duration(seconds: 60), () {
       if (!completer.isCompleted) {
         sub.cancel();
         responsePort.close();

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:isar_community/isar.dart';
@@ -235,12 +236,21 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
           data: (_) {
             List<Chapter> chapters = widget.manga!.getSortedFilteredChapters();
             ref.read(chaptersListttStateProvider.notifier).set(chapters);
+            // TODO: WB-patch — WB grouped chapters by compositeOrder to
+            // deduplicate scanlator variants before building the tile list:
+            //   final grouped = ChapterGroup.groupChapters(
+            //     chapters, (c) => c.compositeOrder.toDouble());
+            //   return _buildWidget(chapters: grouped, reverse: reverse);
+            // Requires ChapterListTileWidget to accept ChapterGroup<double>.
             return _buildWidget(chapters: chapters);
           },
           error: (Object error, StackTrace stackTrace) {
             return ErrorText(error);
           },
           loading: () {
+            // TODO: WB-patch — WB grouped loading fallback chapters too:
+            //   final grouped = ChapterGroup.groupChapters(
+            //     widget.manga!.chapters, (c) => c.compositeOrder.toDouble());
             return _buildWidget(chapters: widget.manga!.chapters.toList());
           },
         ),
@@ -1756,9 +1766,20 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SelectableText(
-          widget.manga!.name!,
-          style: const TextStyle(fontSize: 20),
+        InkWell(
+          onLongPress: () {
+            Clipboard.setData(ClipboardData(text: widget.manga!.name!));
+            botToast('Copied!', second: 3);
+          },
+          child: Tooltip(
+            message:
+                'ID: @${widget.manga!.id}, Link: ${widget.manga!.link}\nLong press on title to copy name, on source extension to copy link.\nClick source to navigate to settings.',
+            preferBelow: false,
+            child: SelectableText(
+              widget.manga!.name!,
+              style: const TextStyle(fontSize: 20),
+            ),
+          ),
         ),
         widget.titleDescription!,
       ],

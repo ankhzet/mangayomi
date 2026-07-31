@@ -19,6 +19,12 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:mangayomi/utils/platform_utils.dart';
 
+// TODO: WB-patch — WB replaced this widget with a ChapterGroup-based version
+// (accepts ChapterGroup<T> instead of Chapter) for scanlator deduplication.
+// The WB version is simpler (no Dismissible swipe, thumbnails, marquee) but
+// shows a single grouped tile per chapter number. To enable ChapterGroup
+// rendering, port this widget to accept ChapterGroup<T> and update
+// manga_detail_view.dart to pass grouped chapters (see TODO: WB-patch there).
 class ChapterListTileWidget extends ConsumerWidget {
   final Chapter chapter;
   final List<Chapter> chapterList;

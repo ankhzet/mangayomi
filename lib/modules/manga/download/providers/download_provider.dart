@@ -38,6 +38,10 @@ import 'package:path/path.dart' as p;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'download_provider.g.dart';
 
+// Default user agent for HTML/novel page requests.
+const defaultUA =
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36";
+
 @riverpod
 Future<void> addDownloadToQueue(Ref ref, {required Chapter chapter}) async {
   final download = isar.downloads.getSync(chapter.id!);

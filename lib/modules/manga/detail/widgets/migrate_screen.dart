@@ -683,6 +683,9 @@ class _MigrationMangaGlobalImageCardState extends ConsumerState<MigrationMangaGl
   }
 
   Future<void> _migrateManga(MManga preview) async {
+    // TODO: WB-patch — WB replaced migrateLibraryItem with inline chapter
+    // transfer logic using isar_providers.dart and sync_providers.dart.
+    // Kept mass_migration_service.dart here since search_.dart (WB dep) is absent.
     await migrateLibraryItem(
       ref: ref,
       oldManga: widget.oldManga,

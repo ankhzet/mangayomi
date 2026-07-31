@@ -11,6 +11,11 @@ import 'package:mangayomi/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'update_manga_detail_providers.g.dart';
 
+// TODO: WB-patch — WB version used uid-based chapter matching (MChapter.hasUid)
+// with fallback to composite chapter-number matching, and sync-tx approach.
+// Current v0.8.0 uses domain-less URL matching for cross-domain deduplication,
+// duplicate-ID cleanup, cross-scanlator read propagation, and FetchInterval
+// calculation. The v0.8.0 approach is kept here as the more complete solution.
 @riverpod
 Future<dynamic> updateMangaDetail(
   Ref ref, {

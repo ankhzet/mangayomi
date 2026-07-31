@@ -184,3 +184,46 @@ Future<File?> _getCachedImageFile(String url, {String? cacheKey}) async {
 
 /// get md5 from key
 String keyToMd5(String key) => md5.convert(utf8.encode(key)).toString();
+
+extension Sorted<T> on Iterable<T> {
+  Iterable<T> sorted([int Function(T, T)? compare]) {
+    final list = toList();
+    list.sort(compare);
+    return list;
+  }
+}
+
+extension Waiting on Duration {
+  Future<T?> waitFor<T>(Future<T> Function() callback) {
+    bool isReady = false;
+    T? value;
+
+    callback().then((v) {
+      isReady = true;
+      value = v;
+    });
+
+    return Future.doWhile(
+      () => Future.delayed(this, () => !isReady),
+    ).then((void _) => value);
+  }
+
+  Future wait() {
+    return waitFor(() async {
+      return true;
+    });
+  }
+}
+
+extension IterableExtension<T> on Iterable<T> {
+  T? firstWhereOrNull(bool Function(T) test) {
+    for (var element in this) {
+      if (test(element)) return element;
+    }
+    return null;
+  }
+
+  List<T> toUnique({bool growable = false}) {
+    return toList().toSet().toList(growable: growable);
+  }
+}

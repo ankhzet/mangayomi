@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:isar_community/isar.dart';
+import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/category.dart';
 import 'package:mangayomi/models/chapter.dart';
@@ -15,6 +18,7 @@ import 'package:mangayomi/modules/manga/detail/manga_detail_view.dart';
 import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
 import 'package:mangayomi/modules/more/providers/incognito_mode_state_provider.dart';
 import 'package:mangayomi/utils/extensions/chapter_extensions.dart';
+import 'package:mangayomi/utils/utils.dart';
 
 class MangaDetailsView extends ConsumerStatefulWidget {
   final Manga manga;
@@ -82,10 +86,12 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                           .where(
                             (element) => element.mangaId == widget.manga.id,
                           )
+                          .toList()
+                          .reversed
                           .toList();
 
                       if (entries.isNotEmpty && !incognitoMode) {
-                        final chap = entries.last.chapter.value!;
+                        final chap = entries.first.chapter.value!;
                         return CustomFloatingActionBtn(
                           isExtended: !isExtended,
                           label: l10n.resume,
@@ -94,14 +100,19 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                           },
                         );
                       }
+                      return CustomFloatingActionBtn(
+                        isExtended: !isExtended,
+                        label: buttonLabel,
+                        onPressed: () {
+                          widget.manga.chapters.first.pushToReaderView(context);
+                        },
+                      );
                     }
                     return CustomFloatingActionBtn(
                       isExtended: !isExtended,
                       label: buttonLabel,
                       onPressed: () {
-                        widget.manga.chapters.toList().first.pushToReaderView(
-                          context,
-                        );
+                        widget.manga.chapters.first.pushToReaderView(context);
                       },
                     );
                   },
@@ -131,8 +142,30 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                 const SizedBox(width: 4),
                 Text(getMangaStatusName(widget.manga.status, context)),
                 if (!isLocalArchive) const Text(' • '),
-                if (!isLocalArchive) Text(widget.manga.source!),
-                if (!isLocalArchive) Text(' (${widget.manga.lang!.toUpperCase()})'),
+                if (!isLocalArchive)
+                  InkWell(
+                    onTap: () {
+                      final source = getSource(
+                        widget.manga.lang!,
+                        widget.manga.source!,
+                        widget.manga.sourceId,
+                      );
+                      if (source != null) {
+                        context.push('/extension_detail', extra: source);
+                      }
+                    },
+                    onLongPress: () {
+                      if (widget.manga.link != null) {
+                        Clipboard.setData(
+                          ClipboardData(text: widget.manga.link!),
+                        );
+                        botToast('Copied!', second: 3);
+                      }
+                    },
+                    child: Text(widget.manga.source!),
+                  ),
+                if (!isLocalArchive)
+                  Text(' (${widget.manga.lang!.toUpperCase()})'),
                 if (!isLocalArchive && !widget.sourceExist)
                   const Padding(
                     padding: EdgeInsets.all(3),

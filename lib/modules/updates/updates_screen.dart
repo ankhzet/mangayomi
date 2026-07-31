@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/changed.dart';
+import 'package:mangayomi/models/dto/update_group.dart';
 import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
 import 'package:mangayomi/modules/widgets/base_library_tab_screen.dart';
-import 'package:mangayomi/modules/widgets/custom_sliver_grouped_list_view.dart';
 import 'package:isar_community/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
@@ -30,8 +30,56 @@ class UpdatesScreen extends ConsumerStatefulWidget {
 class _UpdatesScreenState extends BaseLibraryTabScreenState<UpdatesScreen> {
   bool _isLoading = false;
 
+  Map<ItemType, int> _getUpdateCounts() {
+    final counts = <ItemType, int>{};
+    for (final type in ItemType.values) {
+      final count = isar.updates
+          .filter()
+          .idIsNotNull()
+          .and()
+          .chapter((q) => q.manga((q) => q.itemTypeEqualTo(type)))
+          .countSync();
+      if (count > 0) {
+        counts[type] = count;
+      }
+    }
+    return counts;
+  }
+
   @override
   String get title => l10nLocalizations(context)!.updates;
+
+  bool get _hasMultipleTypesWithUpdates => _getUpdateCounts().length > 1;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_hasMultipleTypesWithUpdates) {
+      return _buildSingleTypeView();
+    }
+    return super.build(context);
+  }
+
+  Widget _buildSingleTypeView() {
+    final counts = _getUpdateCounts();
+    final itemType = counts.isEmpty ? ItemType.manga : counts.keys.first;
+
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        title: Text(
+          title,
+          style: TextStyle(color: Theme.of(context).hintColor),
+        ),
+        actions: buildExtraActions(context),
+      ),
+      body: UpdateTab(
+        itemType: itemType,
+        query: textEditingController.text,
+        isLoading: _isLoading,
+      ),
+    );
+  }
 
   @override
   Widget buildTab(ItemType type) {
@@ -180,11 +228,55 @@ class _UpdateTabState extends ConsumerState<UpdateTab> with AutomaticKeepAliveCl
         search: widget.query,
       ),
     );
+
+    String getTimePeriodKey(String? timestampStr) {
+      if (timestampStr == null || timestampStr.isEmpty) return 'unknown';
+      final timestamp = int.tryParse(timestampStr);
+      if (timestamp == null) return 'unknown';
+      final now = DateTime.now().millisecondsSinceEpoch;
+      final diff = now - timestamp;
+      final days = diff ~/ (1000 * 60 * 60 * 24);
+
+      if (days <= 1) return 'today';
+      if (days <= 7) return 'week';
+      if (days <= 30) return 'month';
+      if (days <= 365) return 'year';
+      return 'older';
+    }
+
+    String getTimePeriodLabel(String key) {
+      switch (key) {
+        case 'today':
+          return 'Today';
+        case 'week':
+          return 'This week';
+        case 'month':
+          return 'More than a week ago';
+        case 'year':
+          return 'More than a month ago';
+        case 'older':
+          return 'More than a year ago';
+        default:
+          return 'Unknown';
+      }
+    }
+
+    final periodOrder = ['today', 'week', 'month', 'year', 'older', 'unknown'];
+
     return Stack(
       children: [
         update.when(
           data: (entries) {
-            final lastUpdatedList = entries.map((e) => e.chapter.value!.manga.value!.lastUpdate!).toList();
+            final groupedByPeriod = <String, List<Update>>{};
+            for (var entry in entries) {
+              final periodKey = getTimePeriodKey(entry.date);
+              groupedByPeriod.putIfAbsent(periodKey, () => []).add(entry);
+            }
+
+            final lastUpdatedList = entries
+                .map((e) => e.chapter.value?.manga.value?.lastUpdate)
+                .whereType<int>()
+                .toList();
             lastUpdatedList.sort((a, b) => b.compareTo(a));
             final lastUpdated = lastUpdatedList.firstOrNull;
             if (entries.isNotEmpty) {
@@ -217,40 +309,44 @@ class _UpdateTabState extends ConsumerState<UpdateTab> with AutomaticKeepAliveCl
                         ]),
                       ),
                     ),
-                  CustomSliverGroupedListView<Update, String>(
-                    elements: entries,
-                    groupBy: (element) => dateFormat(
-                      element.date!,
-                      context: context,
-                      ref: ref,
-                      forHistoryValue: true,
-                      useRelativeTimesTamps: false,
-                    ),
-                    groupSeparatorBuilder: (String groupByValue) => Padding(
-                      padding: const EdgeInsets.only(bottom: 8, left: 12),
-                      child: Row(
-                        children: [
-                          Text(
-                            dateFormat(
-                              null,
-                              context: context,
-                              stringDate: groupByValue,
-                              ref: ref,
+                  ...periodOrder
+                      .where((p) => groupedByPeriod.containsKey(p))
+                      .expand((periodKey) {
+                        final updatesForPeriod = groupedByPeriod[periodKey]!;
+                        final groupedByManga = UpdateGroup.groupUpdates<int?>(
+                          updatesForPeriod.where((u) => u.chapter.value?.isRead != true),
+                          (update) => update.chapter.value?.mangaId,
+                        );
+                        groupedByManga.sort((a, b) => b.compareTo(a));
+
+                        return [
+                          SliverPadding(
+                            padding: const EdgeInsets.only(
+                              top: 16,
+                              bottom: 8,
+                              left: 12,
+                            ),
+                            sliver: SliverList(
+                              delegate: SliverChildListDelegate.fixed([
+                                Text(getTimePeriodLabel(periodKey)),
+                              ]),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    itemBuilder: (context, element) {
-                      final chapter = element.chapter.value!;
-                      return UpdateChapterListTileWidget(
-                        chapter: chapter,
-                        sourceExist: true,
-                      );
-                    },
-                    itemComparator: (item1, item2) => item1.date!.compareTo(item2.date!),
-                    order: GroupedListOrder.DESC,
-                  ),
+                          SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                                final group = groupedByManga[index];
+                                return UpdateChapterListTileWidget(
+                                  chapter: group.firstOrUnread,
+                                  chapterGroup: group,
+                                  sourceExist: true,
+                                );
+                              },
+                              childCount: groupedByManga.length,
+                            ),
+                          ),
+                        ];
+                      }),
                 ],
               );
             }
@@ -283,18 +379,29 @@ Widget _updateNumbers(WidgetRef ref, ItemType itemType) {
     stream: isar.updates
         .filter()
         .idIsNotNull()
+        .and()
         .chapter((q) => q.manga((q) => q.itemTypeEqualTo(itemType)))
         .watch(fireImmediately: true),
     builder: (context, snapshot) {
-      final count = snapshot.data?.length ?? 0;
-      if (count == 0) return const SizedBox.shrink();
-      return Badge(
-        backgroundColor: Theme.of(context).focusColor,
-        label: Text(
-          count.toString(),
-          style: TextStyle(color: Theme.of(context).textTheme.bodySmall!.color),
-        ),
-      );
+      if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+        final entries = snapshot.data!.toList();
+        final distinctMangaCount = entries
+            .map((e) => e.chapter.value?.mangaId)
+            .whereType<int>()
+            .toSet()
+            .length;
+        if (distinctMangaCount == 0) return const SizedBox.shrink();
+        return Badge(
+          backgroundColor: Theme.of(context).focusColor,
+          label: Text(
+            distinctMangaCount.toString(),
+            style: TextStyle(
+              color: Theme.of(context).textTheme.bodySmall!.color,
+            ),
+          ),
+        );
+      }
+      return Container();
     },
   );
 }

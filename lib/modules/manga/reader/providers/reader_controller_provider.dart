@@ -38,6 +38,9 @@ BoxFit getBoxFit(ScaleType scaleType) {
   };
 }
 
+// Note: WB inlined the mixin methods directly into ReaderController. v0.8.0
+// refactored to ChapterControllerMixin + ChapterReaderSettingsMixin; kept here
+// as the cleaner approach with settings caching (onSettingsMutated / _cachedSettings).
 @riverpod
 class ReaderController extends _$ReaderController with ChapterControllerMixin, ChapterReaderSettingsMixin {
   @override

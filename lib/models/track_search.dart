@@ -1,5 +1,9 @@
 import 'package:hive/hive.dart';
 // part 'track_search.g.dart';
+// TODO: WB-patch — WB migrated this model from Hive to Isar (@collection).
+// Requires: replace hive import with isar_community, add @collection/@Name,
+// change Id? id, remove HiveField/HiveType annotations, run dart run build_runner,
+// and remove Hive.registerAdapter(TrackSearchAdapter()) from main.dart.
 
 @HiveType(typeId: 0, adapterName: "TrackSearchAdapter")
 class TrackSearch {

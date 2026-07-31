@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:isar_community/isar.dart';
 import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
@@ -11,6 +12,11 @@ Stream<List<Manga>> getAllMangaStream(
   required int? categoryId,
   required ItemType itemType,
 }) async* {
+  if (kDebugMode) {
+    final total = isar.mangas.where().findAllSync().length;
+    final fav = isar.mangas.filter().favoriteEqualTo(true).findAllSync().length;
+    debugPrint('[library] total mangas=$total favorite=$fav itemType=$itemType');
+  }
   yield* categoryId == null
       ? isar.mangas
             .filter()

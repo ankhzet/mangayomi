@@ -191,15 +191,7 @@ class StorageProvider {
   }
 
   Future<Directory?> getDatabaseDirectory() async {
-    // On macOS, host the libmdbx / Isar database under Application Support
-    // (app-private, not TCC-gated) instead of Documents. macOS denies
-    // unsigned/sideloaded/dev builds access to ~/Documents when iCloud
-    // "Desktop & Documents Folders" sync is enabled, surfacing as
-    // `IsarError: Cannot open Environment: MdbxError (13): Permission denied`
-    // and a black screen on launch. iOS keeps Documents so the DB remains
-    // visible alongside backups via the Files app. Windows / Linux are
-    // untouched — Documents is the conventional location there.
-    final dir = Platform.isMacOS ? await getApplicationSupportDirectory() : await getApplicationDocumentsDirectory();
+    final dir = await getApplicationDocumentsDirectory();
     String dbDir;
     if (Platform.isAndroid) return dir;
     if (Platform.isIOS) {
@@ -208,9 +200,6 @@ class StorageProvider {
       dbDir = path.join(dir.path, 'databases');
     } else {
       dbDir = path.join(dir.path, 'Mangayomi', 'databases');
-    }
-    if (Platform.isMacOS) {
-      await _migrateLegacyMacosDatabase(dbDir);
     }
     await createDirectorySafely(dbDir);
     return Directory(dbDir);

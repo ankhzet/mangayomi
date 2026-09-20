@@ -300,7 +300,7 @@ P _chapterDeserializeProp<P>(
 }
 
 Id _chapterGetId(Chapter object) {
-  return object.id ?? Isar.autoIncrement;
+  return object.id;
 }
 
 List<IsarLinkBase<dynamic>> _chapterGetLinks(Chapter object) {
@@ -1451,23 +1451,7 @@ extension ChapterQueryFilter
     });
   }
 
-  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> idIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(property: r'id'),
-      );
-    });
-  }
-
-  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> idIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(property: r'id'),
-      );
-    });
-  }
-
-  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> idEqualTo(Id? value) {
+  QueryBuilder<Chapter, Chapter, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'id', value: value),
@@ -1476,7 +1460,7 @@ extension ChapterQueryFilter
   }
 
   QueryBuilder<Chapter, Chapter, QAfterFilterCondition> idGreaterThan(
-    Id? value, {
+    Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1491,7 +1475,7 @@ extension ChapterQueryFilter
   }
 
   QueryBuilder<Chapter, Chapter, QAfterFilterCondition> idLessThan(
-    Id? value, {
+    Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1506,8 +1490,8 @@ extension ChapterQueryFilter
   }
 
   QueryBuilder<Chapter, Chapter, QAfterFilterCondition> idBetween(
-    Id? lower,
-    Id? upper, {
+    Id lower,
+    Id upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {

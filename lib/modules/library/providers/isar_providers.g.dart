@@ -68,7 +68,7 @@ final class GetAllMangaStreamProvider
   }
 }
 
-String _$getAllMangaStreamHash() => r'56d7ee62fa76f0383c30f40d436bebc0f3b4438f';
+String _$getAllMangaStreamHash() => r'10818ef45a5cd3e3b3becd747c3386ed4792cbb1';
 
 final class GetAllMangaStreamFamily extends $Family
     with

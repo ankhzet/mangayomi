@@ -118,9 +118,9 @@ class MangaFilterDownloadedState extends _$MangaFilterDownloadedState {
   int getType() {
     switch (itemType) {
       case ItemType.manga:
-        return settings.libraryFilterMangasDownloadType!;
+        return settings.libraryFilterMangasDownloadType ?? 0;
       case ItemType.anime:
-        return settings.libraryFilterAnimeDownloadType!;
+        return settings.libraryFilterAnimeDownloadType ?? 0;
       default:
         return settings.libraryFilterNovelDownloadType ?? 0;
     }
@@ -172,9 +172,9 @@ class MangaFilterUnreadState extends _$MangaFilterUnreadState {
   int getType() {
     switch (itemType) {
       case ItemType.manga:
-        return settings.libraryFilterMangasUnreadType!;
+        return settings.libraryFilterMangasUnreadType ?? 0;
       case ItemType.anime:
-        return settings.libraryFilterAnimeUnreadType!;
+        return settings.libraryFilterAnimeUnreadType ?? 0;
       default:
         return settings.libraryFilterNovelUnreadType ?? 0;
     }
@@ -241,9 +241,9 @@ class MangaFilterStartedState extends _$MangaFilterStartedState {
   int getType() {
     switch (itemType) {
       case ItemType.manga:
-        return settings.libraryFilterMangasStartedType!;
+        return settings.libraryFilterMangasStartedType ?? 0;
       case ItemType.anime:
-        return settings.libraryFilterAnimeStartedType!;
+        return settings.libraryFilterAnimeStartedType ?? 0;
       default:
         return settings.libraryFilterNovelStartedType ?? 0;
     }
@@ -310,9 +310,9 @@ class MangaFilterBookmarkedState extends _$MangaFilterBookmarkedState {
   int getType() {
     switch (itemType) {
       case ItemType.manga:
-        return settings.libraryFilterMangasBookMarkedType!;
+        return settings.libraryFilterMangasBookMarkedType ?? 0;
       case ItemType.anime:
-        return settings.libraryFilterAnimeBookMarkedType!;
+        return settings.libraryFilterAnimeBookMarkedType ?? 0;
       default:
         return settings.libraryFilterNovelBookMarkedType ?? 0;
     }
@@ -557,9 +557,9 @@ class LibraryShowCategoryTabsState extends _$LibraryShowCategoryTabsState {
   bool build({required ItemType itemType, required Settings settings}) {
     switch (itemType) {
       case ItemType.manga:
-        return settings.libraryShowCategoryTabs!;
+        return settings.libraryShowCategoryTabs ?? false;
       case ItemType.anime:
-        return settings.animeLibraryShowCategoryTabs!;
+        return settings.animeLibraryShowCategoryTabs ?? false;
       default:
         return settings.novelLibraryShowCategoryTabs ?? false;
     }
@@ -592,9 +592,9 @@ class LibraryDownloadedChaptersState extends _$LibraryDownloadedChaptersState {
   bool build({required ItemType itemType, required Settings settings}) {
     switch (itemType) {
       case ItemType.manga:
-        return settings.libraryDownloadedChapters!;
+        return settings.libraryDownloadedChapters ?? false;
       case ItemType.anime:
-        return settings.animeLibraryDownloadedChapters!;
+        return settings.animeLibraryDownloadedChapters ?? false;
       default:
         return settings.novelLibraryDownloadedChapters ?? false;
     }
@@ -627,9 +627,9 @@ class LibraryLanguageState extends _$LibraryLanguageState {
   bool build({required ItemType itemType, required Settings settings}) {
     switch (itemType) {
       case ItemType.manga:
-        return settings.libraryShowLanguage!;
+        return settings.libraryShowLanguage ?? false;
       case ItemType.anime:
-        return settings.animeLibraryShowLanguage!;
+        return settings.animeLibraryShowLanguage ?? false;
       default:
         return settings.novelLibraryShowLanguage ?? false;
     }
@@ -697,9 +697,9 @@ class LibraryShowNumbersOfItemsState extends _$LibraryShowNumbersOfItemsState {
   bool build({required ItemType itemType, required Settings settings}) {
     switch (itemType) {
       case ItemType.manga:
-        return settings.libraryShowNumbersOfItems!;
+        return settings.libraryShowNumbersOfItems ?? false;
       case ItemType.anime:
-        return settings.animeLibraryShowNumbersOfItems!;
+        return settings.animeLibraryShowNumbersOfItems ?? false;
       default:
         return settings.novelLibraryShowNumbersOfItems ?? false;
     }
@@ -732,9 +732,9 @@ class LibraryShowContinueReadingButtonState extends _$LibraryShowContinueReading
   bool build({required ItemType itemType, required Settings settings}) {
     switch (itemType) {
       case ItemType.manga:
-        return settings.libraryShowContinueReadingButton!;
+        return settings.libraryShowContinueReadingButton ?? false;
       case ItemType.anime:
-        return settings.animeLibraryShowContinueReadingButton!;
+        return settings.animeLibraryShowContinueReadingButton ?? false;
       default:
         return settings.novelLibraryShowContinueReadingButton ?? false;
     }

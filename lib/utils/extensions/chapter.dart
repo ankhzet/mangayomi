@@ -6,6 +6,7 @@ import 'package:mangayomi/modules/manga/reader/providers/push_router.dart';
 import 'package:mangayomi/modules/manga/reader/providers/reader_controller_provider.dart';
 import 'package:mangayomi/services/download_manager/download_isolate_pool.dart';
 import 'package:mangayomi/services/download_manager/m_downloader.dart';
+import 'package:mangayomi/utils/extensions/manga_extensions.dart';
 
 extension ChapterExtension on Chapter {
   Future<void> pushToReaderView(
@@ -15,7 +16,7 @@ extension ChapterExtension on Chapter {
     if (ignoreIsRead || !isRead!) {
       await pushMangaReaderView(context: context, chapter: this);
     } else {
-      final filteredChaps = manga.value!.getFilteredChapterList();
+      final filteredChaps = manga.value!.getChapterListForReading();
       bool exist = false;
       for (var filteredChap in filteredChaps.reversed) {
         if (filteredChap.toJson().toString() == toJson().toString()) {

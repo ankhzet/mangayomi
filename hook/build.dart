@@ -11,14 +11,12 @@ void main(List<String> args) async {
       includes: ['lib/ffi/'],
       flags: [
         '-std=c++17',
-        if (input.config.code.targetOS == OS.iOS || input.config.code.targetOS == OS.macOS) ...[
           '-framework',
           'CoreFoundation',
           '-framework',
           'CoreGraphics',
           '-framework',
           'ImageIO',
-        ],
       ],
     );
 

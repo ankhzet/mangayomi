@@ -5,7 +5,7 @@ part 'manga.g.dart';
 @collection
 @Name("Manga")
 class Manga {
-  Id? id;
+  late Id id;
 
   String? name;
 

@@ -35,7 +35,7 @@ class ChapterGroup<T> {
     return list;
   }
 
-  int get mangaId => manga.id;
+  int get mangaId => manga.id!;
 
   String get label {
     final indexes = chapters

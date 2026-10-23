@@ -12,8 +12,7 @@ part of 'download_provider.dart';
 @ProviderFor(addDownloadToQueue)
 final addDownloadToQueueProvider = AddDownloadToQueueFamily._();
 
-final class AddDownloadToQueueProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+final class AddDownloadToQueueProvider extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
     with $FutureModifier<void>, $FutureProvider<void> {
   AddDownloadToQueueProvider._({
     required AddDownloadToQueueFamily super.from,
@@ -38,8 +37,7 @@ final class AddDownloadToQueueProvider
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<void> create(Ref ref) {
@@ -58,11 +56,9 @@ final class AddDownloadToQueueProvider
   }
 }
 
-String _$addDownloadToQueueHash() =>
-    r'35e8e724755be265a9bf167e4641336630a465d2';
+String _$addDownloadToQueueHash() => r'12e0369142d5e58adc66d9c3403c24127cd9ec84';
 
-final class AddDownloadToQueueFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<void>, Chapter> {
+final class AddDownloadToQueueFamily extends $Family with $FunctionalFamilyOverride<FutureOr<void>, Chapter> {
   AddDownloadToQueueFamily._()
     : super(
         retry: null,
@@ -82,13 +78,11 @@ final class AddDownloadToQueueFamily extends $Family
 @ProviderFor(downloadChapter)
 final downloadChapterProvider = DownloadChapterFamily._();
 
-final class DownloadChapterProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+final class DownloadChapterProvider extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
     with $FutureModifier<void>, $FutureProvider<void> {
   DownloadChapterProvider._({
     required DownloadChapterFamily super.from,
-    required ({Chapter chapter, bool? useWifi, VoidCallback? callback})
-    super.argument,
+    required ({Chapter chapter, bool? useWifi, VoidCallback? callback}) super.argument,
   }) : super(
          retry: null,
          name: r'downloadChapterProvider',
@@ -109,14 +103,11 @@ final class DownloadChapterProvider
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<void> create(Ref ref) {
-    final argument =
-        this.argument
-            as ({Chapter chapter, bool? useWifi, VoidCallback? callback});
+    final argument = this.argument as ({Chapter chapter, bool? useWifi, VoidCallback? callback});
     return downloadChapter(
       ref,
       chapter: argument.chapter,
@@ -136,14 +127,10 @@ final class DownloadChapterProvider
   }
 }
 
-String _$downloadChapterHash() => r'c1907fb4b8bf9e60c54b9f647b71c831e0661ffa';
+String _$downloadChapterHash() => r'702a18832ec656beb0aac10faf83b695b65407ed';
 
 final class DownloadChapterFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          FutureOr<void>,
-          ({Chapter chapter, bool? useWifi, VoidCallback? callback})
-        > {
+    with $FunctionalFamilyOverride<FutureOr<void>, ({Chapter chapter, bool? useWifi, VoidCallback? callback})> {
   DownloadChapterFamily._()
     : super(
         retry: null,
@@ -169,8 +156,7 @@ final class DownloadChapterFamily extends $Family
 @ProviderFor(processDownloads)
 final processDownloadsProvider = ProcessDownloadsFamily._();
 
-final class ProcessDownloadsProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+final class ProcessDownloadsProvider extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
     with $FutureModifier<void>, $FutureProvider<void> {
   ProcessDownloadsProvider._({
     required ProcessDownloadsFamily super.from,
@@ -195,8 +181,7 @@ final class ProcessDownloadsProvider
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<void> create(Ref ref) {
@@ -215,10 +200,9 @@ final class ProcessDownloadsProvider
   }
 }
 
-String _$processDownloadsHash() => r'61cfdcfe76480853d4f2102e4435bd3bdc36c939';
+String _$processDownloadsHash() => r'7aa91bc5f5950aabdbb3f7cedd13b588625fd987';
 
-final class ProcessDownloadsFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<void>, bool?> {
+final class ProcessDownloadsFamily extends $Family with $FunctionalFamilyOverride<FutureOr<void>, bool?> {
   ProcessDownloadsFamily._()
     : super(
         retry: null,
@@ -228,8 +212,7 @@ final class ProcessDownloadsFamily extends $Family
         isAutoDispose: true,
       );
 
-  ProcessDownloadsProvider call({bool? useWifi}) =>
-      ProcessDownloadsProvider._(argument: useWifi, from: this);
+  ProcessDownloadsProvider call({bool? useWifi}) => ProcessDownloadsProvider._(argument: useWifi, from: this);
 
   @override
   String toString() => r'processDownloadsProvider';

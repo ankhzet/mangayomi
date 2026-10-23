@@ -1,111 +1,140 @@
-import 'dart:convert';
-import 'package:http_interceptor/http_interceptor.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
-import 'package:mangayomi/services/http/m_client.dart';
+import 'package:mangayomi/services/anilist_discovery.dart';
+import 'package:mangayomi/services/discovery/media_catalog_resolver.dart';
+import 'package:mangayomi/services/discovery/media_lookup_context.dart';
+import 'package:mangayomi/services/discovery/search_target.dart';
+import 'package:mangayomi/services/discovery/trakt_discovery.dart';
+import 'package:mangayomi/utils/extensions/string_extensions.dart';
 
-Future<List<RecommendationResult>?> getRecommendations(
-  String name,
-  ItemType itemType,
-  AlgorithmWeights algorithmWeights,
+/// Recommendations for the title represented by [media].
+///
+/// Anime, manga and novels keep the existing AniList behavior. Mixed video
+/// catalogs require an exact AniList title, year, and format match before they
+/// use anime discovery; a clean miss uses Trakt. Provider failures still
+/// surface instead of silently reclassifying the title.
+///
+/// Errors propagate so the screen can show the provider's real failure instead
+/// of pretending that an unavailable service found no matches.
+///
+/// [algorithmWeights] is retained for call-site compatibility. Neither AniList
+/// nor Trakt exposes compatible weighting controls, so it is unused.
+Future<List<RecommendationResult>> getRecommendations(
+  MediaLookupContext media,
+  AlgorithmWeights algorithmWeights, {
+  TraktDiscovery? trakt,
+  MediaCatalogResolver? catalogResolver,
+}) async {
+  final discovery = trakt ?? TraktDiscovery();
+  final resolved = await (catalogResolver ?? MediaCatalogResolver(trakt: discovery)).resolve(
+    media,
+  );
+  if (resolved.catalog == DiscoveryCatalog.trakt) {
+    final traktType = _traktType(media.kind);
+    if (traktType == null) return const [];
+    final root = resolved.traktRoot ?? await _resolveTraktRoot(media, discovery, traktType);
+    if (root == null) return const [];
+    final recommendations = await discovery.fetchRecommendations(root);
+    return recommendations.map(RecommendationResult.fromTrakt).toList(growable: false);
+  }
+
+  final mediaId = resolved.anilistId ?? await searchMediaId(media.itemType, media.title);
+  if (mediaId == null) return const [];
+  final recommendations = await fetchRecommendations(mediaId);
+  return recommendations
+      .map(
+        (recommendation) => RecommendationResult.fromDiscovery(
+          recommendation,
+          itemType: media.itemType,
+        ),
+      )
+      .toList(growable: false);
+}
+
+Future<TraktRootMedia?> _resolveTraktRoot(
+  MediaLookupContext media,
+  TraktDiscovery discovery,
+  TraktMediaType type,
 ) async {
-  final http = MClient.init(reqcopyWith: {'useDartHttpClient': true});
-  try {
-    final mediaId = await _getSuggest(http, name, itemType);
-    return _getRecommendation(
-      http,
-      mediaId ?? name,
-      itemType,
-      algorithmWeights,
+  if (media.tmdbId case final int tmdbId) {
+    final exact = await discovery.resolveByTmdbId(tmdbId: tmdbId, type: type);
+    if (exact != null) return exact;
+  }
+  if (media.traktId case final int traktId) {
+    final exact = await discovery.resolveByTraktId(
+      traktId: traktId,
+      type: type,
     );
-  } catch (_) {
-    return null;
+    if (exact != null) return exact;
+  }
+  if (media.title.trim().isEmpty) return null;
+  return discovery.resolveByTitle(
+    title: media.title,
+    year: media.year,
+    type: type,
+  );
+}
+
+TraktMediaType? _traktType(MediaKind kind) => switch (kind) {
+  MediaKind.movie => TraktMediaType.movie,
+  MediaKind.show => TraktMediaType.show,
+  MediaKind.unknown || MediaKind.anime => null,
+};
+
+enum RecommendationProvider { anilist, trakt }
+
+/// A catalog rating and its scale.
+///
+/// Neither AniList nor Trakt returns a similarity percentage. Keeping the
+/// provider scale prevents a Trakt 8.7/10 rating from being rendered as 8%.
+class CatalogRating {
+  const CatalogRating({
+    required this.value,
+    required this.maximum,
+    required this.provider,
+  });
+
+  final double value;
+  final double maximum;
+  final RecommendationProvider provider;
+
+  String get valueLabel {
+    if (maximum == 10) return '${value.toStringAsFixed(1)}/10';
+    if (maximum == 100) return '${value.round()}%';
+    return '${value.toStringAsFixed(1)}/${maximum.toStringAsFixed(0)}';
   }
 }
 
-Future<List<RecommendationResult>?> _getRecommendation(
-  InterceptedClient http,
-  String mediaId,
-  ItemType itemType,
-  AlgorithmWeights algorithmWeights,
-) async {
-  final url = "https://anibrain.ai/api/-/recommender/recs/${itemType != ItemType.anime ? "manga" : "anime"}";
-  final res = await http.get(
-    Uri.parse(url),
-    headers: {
-      "priority": "u=1, i",
-      "referer": "https://anibrain.ai/",
-      "user-agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
-    },
-    params: {
-      "filterCountry": '[]',
-      "filterFormat": '${_fillerType(itemType).map((e) => '"$e"').toList()}',
-      "filterGenre": '{}',
-      "filterTag": '{"max":{},"min":{}}',
-      "filterRelease": '[1930,${DateTime.now().year}]',
-      "filterScore": 0,
-      "algorithmWeights": _algorithmWeights(algorithmWeights),
-      "mediaId": mediaId,
-      "mediaType": _mediaType(itemType),
-      "adult": false,
-      "page": 1,
-    },
-  );
-  final data = json.decode(res.body) as Map<String, dynamic>;
-  return (data["data"] as List?)?.map((e) => RecommendationResult.fromJson(e)).toList();
-}
-
-Future<String?> _getSuggest(
-  InterceptedClient http,
-  String name,
-  ItemType itemType,
-) async {
-  final url =
-      "https://anibrain.ai/api/-/recommender/autosuggest?searchValue=$name&mediaType=${_mediaType(itemType)}&adult=false";
-  final res = await http.get(
-    Uri.parse(url),
-    headers: {
-      "priority": "u=1, i",
-      "referer": "https://anibrain.ai/recommender/manga",
-      "user-agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
-    },
-  );
-  final data = json.decode(res.body) as Map<String, dynamic>;
-  final list = (data["data"] as List?)?.map((e) => e["id"]);
-  return list?.firstOrNull;
-}
-
-String _algorithmWeights(AlgorithmWeights algorithmWeights) {
-  final genre = ((algorithmWeights.genre ?? 30) / 100).toStringAsFixed(2);
-  final setting = ((algorithmWeights.setting ?? 15) / 100).toStringAsFixed(2);
-  final synopsis = ((algorithmWeights.synopsis ?? 40) / 100).toStringAsFixed(2);
-  final theme = ((algorithmWeights.theme ?? 20) / 100).toStringAsFixed(2);
-  return '{"genre":$genre,"setting":$setting,"synopsis":$synopsis,"theme":$theme}';
-}
-
-String _mediaType(ItemType itemType) {
-  return switch (itemType) {
-    ItemType.manga => "MANGA",
-    ItemType.anime => "ANIME",
-    ItemType.novel => "NOVEL",
-  };
-}
-
-List<String> _fillerType(ItemType itemType) {
-  return switch (itemType) {
-    ItemType.manga => ["MANGA"],
-    ItemType.anime => ["movie", "ona", "tv"],
-    ItemType.novel => ["NOVEL"],
-  };
-}
-
 class RecommendationResult {
+  const RecommendationResult({
+    required this.id,
+    required this.provider,
+    required this.kind,
+    required this.searchTarget,
+    required this.imgURLs,
+    required this.genres,
+    this.anilistId,
+    this.myanimelistId,
+    this.traktId,
+    this.tmdbId,
+    this.year,
+    this.rating,
+    this.titleRomaji,
+    this.titleEnglish,
+    this.titleNative,
+    this.description,
+  });
+
   final String id;
+  final RecommendationProvider provider;
+  final MediaKind kind;
+  final SearchTarget searchTarget;
   final int? anilistId;
   final int? myanimelistId;
-  final int score;
+  final int? traktId;
+  final int? tmdbId;
+  final int? year;
+  final CatalogRating? rating;
   final String? titleRomaji;
   final String? titleEnglish;
   final String? titleNative;
@@ -113,31 +142,57 @@ class RecommendationResult {
   final List<String> imgURLs;
   final List<String> genres;
 
-  RecommendationResult({
-    required this.id,
-    this.anilistId,
-    this.myanimelistId,
-    required this.score,
-    this.titleRomaji,
-    this.titleEnglish,
-    this.titleNative,
-    this.description,
-    required this.imgURLs,
-    required this.genres,
-  });
+  String get title => titleEnglish ?? titleRomaji ?? titleNative ?? searchTarget.query;
 
-  factory RecommendationResult.fromJson(Map<String, dynamic> json) {
+  factory RecommendationResult.fromDiscovery(
+    DiscoveryMedia media, {
+    required ItemType itemType,
+  }) => RecommendationResult(
+    id: 'anilist:${media.id}',
+    provider: RecommendationProvider.anilist,
+    kind: media.isAnime ? MediaKind.anime : MediaKind.unknown,
+    searchTarget: SearchTarget(query: media.title, itemType: itemType),
+    anilistId: media.id,
+    myanimelistId: media.idMal,
+    year: media.seasonYear,
+    rating: media.averageScore == null
+        ? null
+        : CatalogRating(
+            value: media.averageScore!.toDouble(),
+            maximum: 100,
+            provider: RecommendationProvider.anilist,
+          ),
+    titleRomaji: media.romaji,
+    titleEnglish: media.english,
+    titleNative: media.native,
+    description: media.description?.htmlToPlainText(),
+    imgURLs: media.coverImage != null ? [media.coverImage!] : const [],
+    genres: media.genres,
+  );
+
+  factory RecommendationResult.fromTrakt(TraktRecommendation result) {
+    final media = result.media;
+    final kind = media.type == TraktMediaType.movie ? MediaKind.movie : MediaKind.show;
     return RecommendationResult(
-      id: json["id"],
-      anilistId: json["anilistId"],
-      myanimelistId: json["myanimelistId"],
-      score: json["score"],
-      titleRomaji: json["titleRomaji"],
-      titleEnglish: json["titleEnglish"],
-      titleNative: json["titleNative"],
-      description: json["description"],
-      imgURLs: json["imgURLs"]?.cast<String>() ?? [],
-      genres: json["genres"]?.cast<String>() ?? [],
+      id: media.stableKey,
+      provider: RecommendationProvider.trakt,
+      kind: kind,
+      searchTarget: SearchTarget(query: media.title, itemType: ItemType.anime),
+      traktId: media.ids.trakt,
+      tmdbId: media.ids.tmdb,
+      year: media.year,
+      rating: media.rating == null
+          ? null
+          : CatalogRating(
+              value: media.rating!,
+              maximum: 10,
+              provider: RecommendationProvider.trakt,
+            ),
+      titleEnglish: media.title,
+      titleNative: media.originalTitle,
+      description: media.overview,
+      imgURLs: media.posterUrl == null ? const [] : [media.posterUrl!],
+      genres: media.genres,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:html/dom.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
@@ -6,6 +7,7 @@ import 'package:mangayomi/models/video.dart';
 import 'package:html/parser.dart' as parser;
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
+import 'package:mangayomi/utils/error_toast.dart';
 
 class GogoCdnExtractor {
   final InterceptedClient client = MClient.init(
@@ -23,9 +25,7 @@ class GogoCdnExtractor {
 
       final secretKey = parsedResponse.querySelector('body[class]')!.attributes["class"]!.split('container-').last;
       RegExp(r'container-(\d+)').firstMatch(document)?.group(1);
-      final decryptionKey = RegExp(
-        r'videocontent-(\d+)',
-      ).firstMatch(document)?.group(1);
+      final decryptionKey = RegExp(r'videocontent-(\d+)').firstMatch(document)?.group(1);
       final encryptAjaxParams = MBridge.cryptoHandler(
         RegExp(r'data-value="([^"]+)').firstMatch(document)?.group(1) ?? "",
         iv,
@@ -108,7 +108,8 @@ class GogoCdnExtractor {
         }
       }
       return videoList + autoList;
-    } catch (e) {
+    } catch (e, stackTrace) {
+      recordError(e, stack: stackTrace, source: 'gogocdn_extractor');
       return [];
     }
   }

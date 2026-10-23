@@ -8,10 +8,56 @@ part of 'check_for_update.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+
+@ProviderFor(CheckForAppUpdates)
+final checkForAppUpdatesProvider = CheckForAppUpdatesProvider._();
+
+final class CheckForAppUpdatesProvider extends $NotifierProvider<CheckForAppUpdates, bool> {
+  CheckForAppUpdatesProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'checkForAppUpdatesProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$checkForAppUpdatesHash();
+
+  @$internal
+  @override
+  CheckForAppUpdates create() => CheckForAppUpdates();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$checkForAppUpdatesHash() => r'ae04e9287ba511f636c9e39c2bd67a6e18d337f8';
+
+abstract class _$CheckForAppUpdates extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<bool, bool>;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
+  }
+}
+
 /// Automatic update-check provider.
 ///
 /// Respects the user's [checkForAppUpdatesProvider] preference.  Returns
-/// [UpdateInfo] when a newer version exists, `null` otherwise.
+/// [UpdateInfo] when a newer version exists and downloadable assets are ready,
+/// `null` otherwise.
 
 @ProviderFor(checkForUpdate)
 final checkForUpdateProvider = CheckForUpdateProvider._();
@@ -19,20 +65,17 @@ final checkForUpdateProvider = CheckForUpdateProvider._();
 /// Automatic update-check provider.
 ///
 /// Respects the user's [checkForAppUpdatesProvider] preference.  Returns
-/// [UpdateInfo] when a newer version exists, `null` otherwise.
+/// [UpdateInfo] when a newer version exists and downloadable assets are ready,
+/// `null` otherwise.
 
 final class CheckForUpdateProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<UpdateInfo?>,
-          UpdateInfo?,
-          FutureOr<UpdateInfo?>
-        >
+    extends $FunctionalProvider<AsyncValue<UpdateInfo?>, UpdateInfo?, FutureOr<UpdateInfo?>>
     with $FutureModifier<UpdateInfo?>, $FutureProvider<UpdateInfo?> {
   /// Automatic update-check provider.
   ///
   /// Respects the user's [checkForAppUpdatesProvider] preference.  Returns
-  /// [UpdateInfo] when a newer version exists, `null` otherwise.
+  /// [UpdateInfo] when a newer version exists and downloadable assets are ready,
+  /// `null` otherwise.
   CheckForUpdateProvider._()
     : super(
         from: null,
@@ -60,45 +103,3 @@ final class CheckForUpdateProvider
 }
 
 String _$checkForUpdateHash() => r'7134bb3c6ac01bc16fecf975195a5231d57c6148';
-
-@ProviderFor(checkForAppUpdates)
-final checkForAppUpdatesProvider = CheckForAppUpdatesProvider._();
-
-final class CheckForAppUpdatesProvider
-    extends $FunctionalProvider<bool, bool, bool>
-    with $Provider<bool> {
-  CheckForAppUpdatesProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'checkForAppUpdatesProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$checkForAppUpdatesHash();
-
-  @$internal
-  @override
-  $ProviderElement<bool> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
-
-  @override
-  bool create(Ref ref) {
-    return checkForAppUpdates(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(bool value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<bool>(value),
-    );
-  }
-}
-
-String _$checkForAppUpdatesHash() =>
-    r'2243b74d748a90847bacff256cb2ef0a344fee80';

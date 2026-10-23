@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:shiori/shiori.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:isar_community/isar.dart';
-import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/modules/manga/detail/manga_details_view.dart';
 import 'package:mangayomi/modules/manga/detail/providers/update_manga_detail_providers.dart';
 import 'package:mangayomi/modules/manga/detail/providers/isar_providers.dart';
 import 'package:mangayomi/modules/widgets/error_text.dart';
 import 'package:mangayomi/modules/widgets/progress_center.dart';
+import 'package:mangayomi/repositories/source_repository.dart';
 
 class MangaReaderDetail extends ConsumerStatefulWidget {
   final int mangaId;
@@ -46,19 +46,25 @@ class _MangaReaderDetailState extends ConsumerState<MangaReaderDetail> {
     return Scaffold(
       body: manga.when(
         data: (manga) {
-          return StreamBuilder(
-            stream: isar.sources
-                .filter()
-                .langContains(manga!.lang!, caseSensitive: false)
-                .and()
-                .nameContains(manga.source!, caseSensitive: false)
-                .and()
-                .idIsNotNull()
-                .and()
-                .isActiveEqualTo(true)
-                .and()
-                .isAddedEqualTo(true)
-                .watch(fireImmediately: true),
+          if (manga == null) {
+            return const ProgressCenter();
+          }
+          final hasSourceInfo = manga.lang != null && manga.source != null;
+          return StreamBuilder<List<Source>>(
+            initialData: hasSourceInfo
+                ? sourceRepository.getActiveByItemTypeLangName(
+                    manga.itemType,
+                    manga.lang!,
+                    manga.source!,
+                  )
+                : const [],
+            stream: hasSourceInfo
+                ? sourceRepository.watchActiveByItemTypeLangName(
+                    manga.itemType,
+                    manga.lang!,
+                    manga.source!,
+                  )
+                : const Stream.empty(),
             builder: (context, snapshot) {
               final sourceExist = snapshot.hasData && snapshot.data!.isNotEmpty;
               return RefreshIndicator(
@@ -104,7 +110,7 @@ class _MangaReaderDetailState extends ConsumerState<MangaReaderDetail> {
                         left: 0,
                         right: 0,
                         child: Padding(
-                          padding: EdgeInsets.only(top: 40),
+                          padding: EdgeInsets.only(top: ShioriSpace.s32),
                           child: Center(child: RefreshProgressIndicator()),
                         ),
                       ),

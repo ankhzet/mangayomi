@@ -1,32 +1,46 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'dart:async';
-import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mangayomi/modules/anime/anime_player_view.dart';
+import 'package:mangayomi/modules/anime/widgets/seek_indicator_text.dart';
 import 'package:mangayomi/modules/anime/providers/anime_player_controller_provider.dart';
+import 'package:mangayomi/modules/anime/utils/temporary_playback_speed.dart';
 import 'package:mangayomi/modules/anime/widgets/custom_seekbar.dart';
 import 'package:mangayomi/modules/anime/widgets/indicator_builder.dart';
+import 'package:mangayomi/modules/anime/widgets/player_overlay_surface.dart';
+import 'package:mangayomi/modules/anime/widgets/mobile_player_controls_layout.dart';
+import 'package:mangayomi/modules/anime/widgets/mobile_primary_button_bar.dart';
 import 'package:mangayomi/modules/anime/widgets/subtitle_view.dart';
-import 'package:mangayomi/modules/manga/reader/providers/push_router.dart';
 import 'package:mangayomi/modules/more/settings/player/providers/player_state_provider.dart';
-import 'package:mangayomi/modules/anime/widgets/play_or_pause_button.dart';
+import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:volume_controller/volume_controller.dart';
-import 'package:screen_brightness/screen_brightness.dart';
+import 'package:mangayomi/services/screen_brightness.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:shiori/shiori.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:media_kit_video/media_kit_video_controls/src/controls/extensions/duration.dart';
+import 'package:mangayomi/modules/anime/widgets/temporary_playback_speed_selector.dart';
+import 'package:mangayomi/modules/anime/widgets/mobile_seek_indicator.dart';
 
 class MobileControllerWidget extends ConsumerStatefulWidget {
-  final Function(bool?) doubleSpeed;
   final AnimeStreamController streamController;
   final VideoController videoController;
   final Widget topButtonBarWidget;
   final GlobalKey<VideoState> videoStatekey;
   final Widget bottomButtonBarWidget;
   final ValueNotifier<List<(String, int)>> chapterMarks;
+
+  /// The opening and the ending AniSkip knows, marked on the timeline.
+  final ValueListenable<List<(int, int)>>? skipRanges;
+
+  /// A row just above the panel, on the left: the lock and the skip, as
+  /// desktop's skip sits above its bar.
+  final Widget? abovePanelWidget;
   // Bumped by the player on each d-pad key so the controls reveal on a TV remote.
   final ValueNotifier<int> revealControls;
+  final ValueNotifier<bool>? isLocked;
   const MobileControllerWidget({
     super.key,
     required this.videoController,
@@ -34,9 +48,11 @@ class MobileControllerWidget extends ConsumerStatefulWidget {
     required this.bottomButtonBarWidget,
     required this.streamController,
     required this.videoStatekey,
-    required this.doubleSpeed,
     required this.chapterMarks,
     required this.revealControls,
+    this.isLocked,
+    this.skipRanges,
+    this.abovePanelWidget,
   });
 
   @override
@@ -44,6 +60,8 @@ class MobileControllerWidget extends ConsumerStatefulWidget {
 }
 
 class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget> {
+  static const double _gestureInset = 16;
+
   bool mount = true;
   bool visible = true;
   // Wraps the control buttons; requestFocus()'d on reveal so the d-pad lands on
@@ -54,16 +72,16 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
   // The center play/pause — focused first on reveal so the d-pad lands on the
   // main control rather than the top-bar back button.
   final FocusNode _playPauseFocus = FocusNode(debugLabel: 'playerPlayPause');
-  Duration controlsTransitionDuration = const Duration(milliseconds: 300);
-  Color backdropColor = const Color(0x66000000);
+  Duration controlsTransitionDuration = ShioriMotion.enter;
+  Color backdropColor = ShioriScrim.shadow;
   Timer? _timer;
   late final skipDuration = ref.watch(
     defaultDoubleTapToSkipLengthStateProvider,
   );
   final ValueNotifier<double> _brightnessValue = ValueNotifier(0.0);
   final ValueNotifier<bool> _brightnessIndicator = ValueNotifier(false);
-  StreamSubscription<double>? _brightnessSubscription;
   Timer? _brightnessTimer;
+  bool _brightnessChanged = false;
 
   final ValueNotifier<double> _volumeValue = ValueNotifier(0.0);
   final ValueNotifier<bool> _volumeIndicator = ValueNotifier(false);
@@ -75,6 +93,9 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
   int swipeDuration = 0; // Duration to seek in video
   bool showSwipeDuration = false; // Whether to show the seek duration overlay
   double previousPlaybackSpeed = -1;
+  double? _temporaryPlaybackSpeed;
+  double? _temporaryInitialSpeed;
+  double? _temporarySpeedOriginY;
 
   late bool buffering = widget.videoController.player.state.buffering;
   final controlsHoverDuration = const Duration(seconds: 3);
@@ -83,7 +104,10 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
   bool _hideSeekBackwardButton = false;
   bool _hideSeekForwardButton = false;
   double buttonBarHeight = 100;
-  final bottomButtonBarMargin = const EdgeInsets.only(left: 16.0, right: 8.0);
+  final bottomButtonBarMargin = const EdgeInsets.only(
+    left: ShioriSpace.s16,
+    right: ShioriSpace.s8,
+  );
 
   Duration? _seekBarDeltaValueNotifier;
 
@@ -118,6 +142,7 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
               _mountSeekForwardButton = false;
               _hideSeekBackwardButton = false;
               _hideSeekForwardButton = false;
+              _seekBarDeltaValueNotifier = null;
             }
           });
         }),
@@ -162,9 +187,25 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
     }
   }
 
+  void _onLockChanged() {
+    if (!mounted) return;
+    setState(() {});
+    if (widget.isLocked?.value == true) {
+      if (!visible) {
+        setState(() {
+          mount = true;
+          visible = true;
+        });
+      }
+      _restartHideTimer();
+    }
+  }
+
   @override
   void dispose() {
+    _restorePlaybackSpeed(updateUi: false);
     widget.revealControls.removeListener(_onRevealRequest);
+    widget.isLocked?.removeListener(_onLockChanged);
     _controlsScope.dispose();
     _playPauseFocus.dispose();
     for (final subscription in subscriptions) {
@@ -177,15 +218,11 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
     _volumeIndicator.dispose();
     _brightnessValue.dispose();
     _brightnessIndicator.dispose();
-    _brightnessSubscription?.cancel();
     _volumeController.removeListener();
 
-    // package:screen_brightness
-    Future.microtask(() async {
-      try {
-        await ScreenBrightness.instance.resetApplicationScreenBrightness();
-      } catch (_) {}
-    });
+    // Only if the brightness gesture set one; a reader's own brightness
+    // is never left on.
+    if (_brightnessChanged) unawaited(ScreenBrightness.reset());
     super.dispose();
   }
 
@@ -226,16 +263,38 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
     });
   }
 
-  void onDoubleTapSeekBackward() {
+  Duration _doubleTapSeekTarget(Duration offset, {required bool forward}) {
+    final position = widget.videoController.player.state.position;
+    final duration = widget.videoController.player.state.duration;
+    final target = forward ? position + offset : position - offset;
+    return target.clamp(Duration.zero, duration);
+  }
+
+  void _startDoubleTapSeek({required bool forward}) {
+    _timer?.cancel();
+    final offset = Duration(seconds: skipDuration);
+
     setState(() {
-      _mountSeekBackwardButton = true;
+      mount = false;
+      visible = false;
+      _mountSeekForwardButton = forward;
+      _mountSeekBackwardButton = !forward;
+      _hideSeekForwardButton = false;
+      _hideSeekBackwardButton = false;
+      _seekBarDeltaValueNotifier = _doubleTapSeekTarget(
+        offset,
+        forward: forward,
+      );
     });
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+  }
+
+  void onDoubleTapSeekBackward() {
+    _startDoubleTapSeek(forward: false);
   }
 
   void onDoubleTapSeekForward() {
-    setState(() {
-      _mountSeekForwardButton = true;
-    });
+    _startDoubleTapSeek(forward: true);
   }
 
   void onHorizontalDragUpdate(DragUpdateDetails details) {
@@ -284,6 +343,7 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
   void initState() {
     super.initState();
     widget.revealControls.addListener(_onRevealRequest);
+    widget.isLocked?.addListener(_onLockChanged);
     _volumeController = VolumeController.instance;
 
     Future.microtask(() async {
@@ -299,14 +359,8 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
     });
 
     Future.microtask(() async {
-      try {
-        _brightnessValue.value = await ScreenBrightness.instance.application;
-        _brightnessSubscription = ScreenBrightness.instance.onApplicationScreenBrightnessChanged.listen((value) {
-          if (mounted) {
-            _brightnessValue.value = value;
-          }
-        });
-      } catch (_) {}
+      final current = await ScreenBrightness.current();
+      if (mounted && current != null) _brightnessValue.value = current;
     });
   }
 
@@ -327,10 +381,9 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
   }
 
   Future<void> setBrightness(double value) async {
-    // package:screen_brightness
-    try {
-      await ScreenBrightness.instance.setApplicationScreenBrightness(value);
-    } catch (_) {}
+    _brightnessChanged = true;
+    _brightnessValue.value = value;
+    unawaited(ScreenBrightness.set(value));
     _brightnessIndicator.value = true;
     _brightnessTimer?.cancel();
     _brightnessTimer = Timer(const Duration(milliseconds: 200), () {
@@ -340,8 +393,67 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
     });
   }
 
+  void _startTemporaryPlaybackSpeed(LongPressStartDetails details) {
+    if (widget.isLocked?.value == true || previousPlaybackSpeed != -1) return;
+
+    previousPlaybackSpeed = widget.videoController.player.state.rate;
+    final initialSpeed = initialTemporaryPlaybackSpeed();
+
+    setState(() {
+      _temporaryPlaybackSpeed = initialSpeed;
+      _temporaryInitialSpeed = initialSpeed;
+      _temporarySpeedOriginY = details.localPosition.dy;
+    });
+    HapticFeedback.mediumImpact();
+    unawaited(widget.videoController.player.setRate(initialSpeed));
+  }
+
+  void _updateTemporaryPlaybackSpeed(LongPressMoveUpdateDetails details) {
+    final initialSpeed = _temporaryInitialSpeed;
+    final originY = _temporarySpeedOriginY;
+    if (initialSpeed == null || originY == null) return;
+
+    final speed = temporaryPlaybackSpeedForDrag(
+      initialSpeed: initialSpeed,
+      verticalDelta: details.localPosition.dy - originY,
+    );
+    final speedChanged = speed != _temporaryPlaybackSpeed;
+    if (!speedChanged) return;
+
+    setState(() {
+      _temporaryPlaybackSpeed = speed;
+    });
+
+    HapticFeedback.selectionClick();
+    unawaited(widget.videoController.player.setRate(speed));
+  }
+
+  void _restorePlaybackSpeed({bool updateUi = true}) {
+    if (previousPlaybackSpeed == -1) return;
+
+    final speedToRestore = previousPlaybackSpeed;
+    previousPlaybackSpeed = -1;
+    unawaited(widget.videoController.player.setRate(speedToRestore));
+
+    void clearSelection() {
+      _temporaryPlaybackSpeed = null;
+      _temporaryInitialSpeed = null;
+      _temporarySpeedOriginY = null;
+    }
+
+    if (updateUi && mounted) {
+      setState(clearSelection);
+    } else {
+      clearSelection();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final compactPortrait = usesCompactPortraitPlayerControls(
+      orientation: MediaQuery.orientationOf(context),
+      width: MediaQuery.sizeOf(context).width,
+    );
     return Stack(
       children: [
         Consumer(
@@ -378,47 +490,88 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
                   clipBehavior: Clip.none,
                   alignment: Alignment.center,
                   children: [
-                    Positioned.fill(child: Container(color: backdropColor)),
+                    Positioned.fill(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: onTap,
+                        onLongPressStart: _startTemporaryPlaybackSpeed,
+                        onLongPressMoveUpdate: _updateTemporaryPlaybackSpeed,
+                        onLongPressEnd: (_) => _restorePlaybackSpeed(),
+                        onLongPressCancel: _restorePlaybackSpeed,
+                        child: Stack(
+                          children: [
+                            if (widget.isLocked?.value != true) ...[
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                height: compactPortrait ? 200 : 140,
+                                child: IgnorePointer(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Theme.of(context).colorScheme.scrim.withValues(alpha: 0.75),
+                                          Theme.of(context).colorScheme.scrim.withValues(alpha: 0.35),
+                                          Colors.transparent,
+                                        ],
+                                        stops: const [0.0, 0.65, 1.0],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                            Positioned.fill(
+                              child: Listener(
+                                behavior: HitTestBehavior.translucent,
+                                onPointerCancel: (_) => _restorePlaybackSpeed(),
+                                child: const SizedBox.expand(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     // We are adding 16.0 boundary around the actual controls (which contain the vertical drag gesture detectors).
                     // This will make the hit-test on edges (e.g. swiping to: show status-bar, show navigation-bar, go back in navigation) not activate the swipe gesture annoyingly.
                     Positioned.fill(
-                      left: 16.0,
-                      top: 16.0,
-                      right: 16.0,
-                      bottom: 16.0,
+                      left: _gestureInset,
+                      top: _gestureInset,
+                      right: _gestureInset,
+                      bottom: _gestureInset,
                       child: GestureDetector(
                         onTap: onTap,
                         onDoubleTapDown: _handleTapDown,
                         onDoubleTap: () {
-                          if (_tapPosition != null && _tapPosition!.dx > MediaQuery.of(context).size.width / 2) {
+                          if (widget.isLocked?.value == true) return;
+                          if (_tapPosition != null &&
+                              _tapPosition!.dx > (MediaQuery.sizeOf(context).width - (_gestureInset * 2)) / 2) {
                             onDoubleTapSeekForward();
                           } else {
                             onDoubleTapSeekBackward();
                           }
                         },
-                        onLongPressStart: (e) {
-                          previousPlaybackSpeed = widget.videoController.player.state.rate;
-                          widget.videoController.player.setRate(
-                            previousPlaybackSpeed * 2,
-                          );
-                          widget.doubleSpeed(true);
-                        },
-                        onLongPressEnd: (e) {
-                          if (previousPlaybackSpeed != -1) {
-                            widget.videoController.player.setRate(
-                              previousPlaybackSpeed,
-                            );
-                            previousPlaybackSpeed = -1;
-                            widget.doubleSpeed(false);
-                          }
-                        },
+                        // This detector is above the full-screen background
+                        // detector in the Stack. It must own the long press as
+                        // well as vertical drag so a completed hold wins the
+                        // gesture arena before volume or brightness can start.
+                        onLongPressStart: _startTemporaryPlaybackSpeed,
+                        onLongPressMoveUpdate: _updateTemporaryPlaybackSpeed,
+                        onLongPressEnd: (_) => _restorePlaybackSpeed(),
+                        onLongPressCancel: _restorePlaybackSpeed,
                         onHorizontalDragUpdate: (details) {
+                          if (widget.isLocked?.value == true) return;
                           onHorizontalDragUpdate(details);
                         },
                         onHorizontalDragEnd: (details) {
+                          if (widget.isLocked?.value == true) return;
                           onHorizontalDragEnd();
                         },
                         onVerticalDragUpdate: (e) async {
+                          if (widget.isLocked?.value == true) return;
                           final delta = e.delta.dy;
                           final Offset position = e.localPosition;
 
@@ -436,119 +589,165 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
                             setVolume(result);
                           }
                         },
-                        child: Container(color: const Color(0x00000000)),
+                        child: Listener(
+                          // A platform interruption can cancel the pointer
+                          // after Flutter has accepted the long press.
+                          behavior: HitTestBehavior.translucent,
+                          onPointerCancel: (_) => _restorePlaybackSpeed(),
+                          child: Container(color: Colors.transparent),
+                        ),
                       ),
                     ),
                     if (mount)
-                      Padding(
-                        padding:
-                            (
-                            // Add padding in fullscreen!
-                            isFullscreen(context)
-                            ? MediaQuery.of(context).padding
-                            : Platform.isIOS
-                            ? EdgeInsets.only(
-                                bottom: MediaQuery.of(context).padding.bottom,
-                              )
-                            : EdgeInsets.zero),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            widget.topButtonBarWidget,
-                            // Only display [primaryButtonBar] if [buffering] is false.
-                            Expanded(
-                              child: AnimatedOpacity(
-                                curve: Curves.easeInOut,
-                                opacity: buffering
-                                    ? 0.0
-                                    : showSwipeDuration
-                                    ? 0.0
-                                    : 1.0,
-                                duration: controlsTransitionDuration,
-                                child: Center(
-                                  // Brighter focus highlight on the main controls
-                                  // so the focused button stands out against the
-                                  // dark backdrop on a TV.
-                                  child: Theme(
-                                    data: Theme.of(context).copyWith(
-                                      focusColor: Colors.white.withValues(
-                                        alpha: 0.45,
-                                      ),
-                                    ),
-                                    child: Row(
-                                      children: mobilePrimaryButtonBar(
-                                        context,
-                                        widget.videoStatekey,
-                                        widget.streamController,
-                                        widget.videoController,
-                                        playPauseFocus: _playPauseFocus,
-                                      ),
-                                    ),
+                      if (widget.isLocked?.value == true)
+                        Positioned.fill(
+                          child: MobilePlayerUnlockControl(
+                            tooltip: context.l10n.unlock,
+                            onPressed: () {
+                              HapticFeedback.lightImpact();
+                              widget.isLocked?.value = false;
+                              _restartHideTimer();
+                            },
+                          ),
+                        )
+                      else
+                        MobilePlayerControlsOverlayLayout(
+                          compactPortrait: compactPortrait,
+                          safeInsets: MediaQuery.viewPaddingOf(context),
+                          topControls: widget.topButtonBarWidget,
+                          // Only display [primaryButtonBar] if [buffering] is false.
+                          primaryControls: AnimatedOpacity(
+                            curve: Curves.easeInOut,
+                            opacity: buffering
+                                ? 0.0
+                                : showSwipeDuration
+                                ? 0.0
+                                : 1.0,
+                            duration: controlsTransitionDuration,
+                            child: Center(
+                              // Brighter focus highlight on the main controls
+                              // so the focused button stands out against the
+                              // dark backdrop on a TV.
+                              child: Theme(
+                                data: Theme.of(context).copyWith(
+                                  focusColor: Colors.white.withValues(
+                                    alpha: 0.45,
+                                  ),
+                                ),
+                                child: Row(
+                                  children: mobilePrimaryButtonBar(
+                                    context,
+                                    widget.videoStatekey,
+                                    widget.streamController,
+                                    widget.videoController,
+                                    playPauseFocus: _playPauseFocus,
                                   ),
                                 ),
                               ),
                             ),
-                            Stack(
-                              alignment: Alignment.bottomCenter,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: CustomSeekBar(
-                                    onSeekStart: (value) {
-                                      setState(() {
-                                        swipeDuration = value.inSeconds;
-                                        showSwipeDuration = true;
-                                      });
-                                      _timer?.cancel();
-                                    },
-                                    onSeekEnd: (value) {
-                                      _timer = Timer(controlsHoverDuration, () {
-                                        if (mounted) {
+                          ),
+                          // The timeline and the settings in one panel
+                          // floating over the foot of the picture, as the
+                          // manga reader's: its own ground, so no gradient.
+                          bottomControls: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ?widget.abovePanelWidget,
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                  ShioriSpace.s8,
+                                  0,
+                                  ShioriSpace.s8,
+                                  ShioriSpace.s8,
+                                ),
+                                child: ShioriOverlayPanel(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      CustomSeekBar(
+                                        onSeekStart: (value) {
                                           setState(() {
-                                            visible = false;
+                                            swipeDuration = value.inSeconds;
+                                            showSwipeDuration = true;
                                           });
-                                        }
-                                      });
-                                      setState(() {
-                                        showSwipeDuration = false;
-                                      });
-                                    },
-                                    player: widget.videoController.player,
-                                    chapterMarks: widget.chapterMarks,
+                                          _timer?.cancel();
+                                        },
+                                        onSeekEnd: (value) {
+                                          _timer = Timer(
+                                            controlsHoverDuration,
+                                            () {
+                                              if (mounted) {
+                                                setState(() {
+                                                  visible = false;
+                                                });
+                                              }
+                                            },
+                                          );
+                                          setState(() {
+                                            showSwipeDuration = false;
+                                          });
+                                        },
+                                        player: widget.videoController.player,
+                                        chapterMarks: widget.chapterMarks,
+                                        skipRanges: widget.skipRanges,
+                                      ),
+                                      widget.bottomButtonBarWidget,
+                                    ],
                                   ),
                                 ),
-                                widget.bottomButtonBarWidget,
-                              ],
-                            ),
-                          ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
                   ],
                 ),
               ),
               // // Double-Tap Seek Seek-Bar:
-              if (!mount)
+              if (!mount && widget.isLocked?.value != true)
                 if (_mountSeekBackwardButton || _mountSeekForwardButton || showSwipeDuration)
-                  Column(
-                    children: [
-                      const Spacer(),
-                      Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: MediaQuery.viewPaddingOf(context).left,
+                      right: MediaQuery.viewPaddingOf(context).right,
+                      bottom: MediaQuery.viewPaddingOf(context).bottom,
+                    ),
+                    child: Column(
+                      children: [
+                        const Spacer(),
+                        // The timeline alone while a double tap or a swipe
+                        // seeks, in the same panel as with the controls.
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            ShioriSpace.s8,
+                            0,
+                            ShioriSpace.s8,
+                            ShioriSpace.s8,
+                          ),
+                          child: ShioriOverlayPanel(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: ShioriSpace.s12,
+                              vertical: ShioriSpace.s8,
+                            ),
                             child: CustomSeekBar(
                               delta: _seekBarDeltaValueNotifier,
                               player: widget.videoController.player,
                               chapterMarks: widget.chapterMarks,
+                              skipRanges: widget.skipRanges,
                             ),
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
+              if (_temporaryPlaybackSpeed != null)
+                Positioned.fill(
+                  child: IgnorePointer(
+                    child: TemporaryPlaybackSpeedSelector(
+                      speed: _temporaryPlaybackSpeed!,
+                    ),
+                  ),
+                ),
               // // Buffering Indicator.
               IgnorePointer(
                 child: Padding(
@@ -578,9 +777,7 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
                               }
                               return const SizedBox.shrink();
                             },
-                            child: const CircularProgressIndicator(
-                              color: Color(0xFFFFFFFF),
-                            ),
+                            child: const PlayerBuffering(),
                           ),
                         ),
                       ),
@@ -603,6 +800,8 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
                     child: MediaIndicatorBuilder(
                       value: _volumeValue,
                       isVolumeIndicator: true,
+                      adaptiveMobilePlacement: true,
+                      showAtZero: true,
                     ),
                   ),
                 ),
@@ -618,6 +817,8 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
                     child: MediaIndicatorBuilder(
                       value: _brightnessValue,
                       isVolumeIndicator: false,
+                      adaptiveMobilePlacement: true,
+                      showAtZero: true,
                     ),
                   ),
                 ),
@@ -641,82 +842,96 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
                     children: [
                       Expanded(
                         child: _mountSeekBackwardButton
-                            ? TweenAnimationBuilder<double>(
-                                tween: Tween<double>(
-                                  begin: 0.0,
-                                  end: _hideSeekBackwardButton ? 0.0 : 1.0,
-                                ),
-                                duration: const Duration(milliseconds: 200),
-                                builder: (context, value, child) => Opacity(opacity: value, child: child),
-                                onEnd: () {
-                                  if (_hideSeekBackwardButton) {
-                                    setState(() {
-                                      _hideSeekBackwardButton = false;
-                                      _mountSeekBackwardButton = false;
-                                    });
-                                  }
-                                },
-                                child: _BackwardSeekIndicator(
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _seekBarDeltaValueNotifier = widget.videoController.player.state.position - value;
-                                    });
+                            ? AbsorbPointer(
+                                absorbing: _hideSeekBackwardButton,
+                                child: TweenAnimationBuilder<double>(
+                                  tween: Tween<double>(
+                                    begin: 0.0,
+                                    end: _hideSeekBackwardButton ? 0.0 : 1.0,
+                                  ),
+                                  duration: ShioriMotion.standard,
+                                  builder: (context, value, child) => Opacity(opacity: value, child: child),
+                                  onEnd: () {
+                                    if (_hideSeekBackwardButton) {
+                                      setState(() {
+                                        _hideSeekBackwardButton = false;
+                                        _mountSeekBackwardButton = false;
+                                        _seekBarDeltaValueNotifier = null;
+                                      });
+                                    }
                                   },
-                                  onSubmitted: (value) {
-                                    setState(() {
-                                      _hideSeekBackwardButton = true;
-                                    });
-                                    var result = widget.videoController.player.state.position - value;
-                                    result = result.clamp(
-                                      Duration.zero,
-                                      widget.videoController.player.state.duration,
-                                    );
-                                    widget.videoController.player.seek(
-                                      result,
-                                    );
-                                  },
-                                  skipDuration: skipDuration,
+                                  child: MobileSeekIndicator(
+                                    forward: false,
+                                    compactPortrait: compactPortrait,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _seekBarDeltaValueNotifier = _doubleTapSeekTarget(
+                                          value,
+                                          forward: false,
+                                        );
+                                      });
+                                    },
+                                    onSubmitted: (value) {
+                                      setState(() {
+                                        _hideSeekBackwardButton = true;
+                                      });
+                                      widget.videoController.player.seek(
+                                        _doubleTapSeekTarget(
+                                          value,
+                                          forward: false,
+                                        ),
+                                      );
+                                    },
+                                    skipDuration: skipDuration,
+                                  ),
                                 ),
                               )
                             : const SizedBox(),
                       ),
                       Expanded(
                         child: _mountSeekForwardButton
-                            ? TweenAnimationBuilder<double>(
-                                tween: Tween<double>(
-                                  begin: 0.0,
-                                  end: _hideSeekForwardButton ? 0.0 : 1.0,
-                                ),
-                                duration: const Duration(milliseconds: 200),
-                                builder: (context, value, child) => Opacity(opacity: value, child: child),
-                                onEnd: () {
-                                  if (_hideSeekForwardButton) {
-                                    setState(() {
-                                      _hideSeekForwardButton = false;
-                                      _mountSeekForwardButton = false;
-                                    });
-                                  }
-                                },
-                                child: _ForwardSeekIndicator(
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _seekBarDeltaValueNotifier = widget.videoController.player.state.position + value;
-                                    });
+                            ? AbsorbPointer(
+                                absorbing: _hideSeekForwardButton,
+                                child: TweenAnimationBuilder<double>(
+                                  tween: Tween<double>(
+                                    begin: 0.0,
+                                    end: _hideSeekForwardButton ? 0.0 : 1.0,
+                                  ),
+                                  duration: ShioriMotion.standard,
+                                  builder: (context, value, child) => Opacity(opacity: value, child: child),
+                                  onEnd: () {
+                                    if (_hideSeekForwardButton) {
+                                      setState(() {
+                                        _hideSeekForwardButton = false;
+                                        _mountSeekForwardButton = false;
+                                        _seekBarDeltaValueNotifier = null;
+                                      });
+                                    }
                                   },
-                                  onSubmitted: (value) {
-                                    setState(() {
-                                      _hideSeekForwardButton = true;
-                                    });
-                                    var result = widget.videoController.player.state.position + value;
-                                    result = result.clamp(
-                                      Duration.zero,
-                                      widget.videoController.player.state.duration,
-                                    );
-                                    widget.videoController.player.seek(
-                                      result,
-                                    );
-                                  },
-                                  skipDuration: skipDuration,
+                                  child: MobileSeekIndicator(
+                                    forward: true,
+                                    compactPortrait: compactPortrait,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _seekBarDeltaValueNotifier = _doubleTapSeekTarget(
+                                          value,
+                                          forward: true,
+                                        );
+                                      });
+                                    },
+                                    onSubmitted: (value) {
+                                      setState(() {
+                                        _hideSeekForwardButton = true;
+                                      });
+                                      widget.videoController.player.seek(
+                                        _doubleTapSeekTarget(
+                                          value,
+                                          forward: true,
+                                        ),
+                                      );
+                                    },
+                                    skipDuration: skipDuration,
+                                  ),
                                 ),
                               )
                             : const SizedBox(),
@@ -730,231 +945,4 @@ class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget>
       ],
     );
   }
-}
-
-class _BackwardSeekIndicator extends StatefulWidget {
-  final void Function(Duration) onChanged;
-  final void Function(Duration) onSubmitted;
-  final int skipDuration;
-  const _BackwardSeekIndicator({
-    required this.onChanged,
-    required this.onSubmitted,
-    required this.skipDuration,
-  });
-
-  @override
-  State<_BackwardSeekIndicator> createState() => _BackwardSeekIndicatorState();
-}
-
-class _BackwardSeekIndicatorState extends State<_BackwardSeekIndicator> {
-  late Duration value = Duration(seconds: widget.skipDuration);
-
-  Timer? timer;
-
-  @override
-  void setState(VoidCallback fn) {
-    if (mounted) {
-      super.setState(fn);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    timer = Timer(const Duration(milliseconds: 400), () {
-      widget.onSubmitted.call(value);
-    });
-  }
-
-  void increment() {
-    timer?.cancel();
-    timer = Timer(const Duration(milliseconds: 400), () {
-      widget.onSubmitted.call(value);
-    });
-    widget.onChanged.call(value);
-    setState(() {
-      value += Duration(seconds: widget.skipDuration);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0x88767676), Color(0x00767676)],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
-      ),
-      child: InkWell(
-        splashColor: const Color(0x44767676),
-        onTap: increment,
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.fast_rewind,
-                size: 24.0,
-                color: Color(0xFFFFFFFF),
-              ),
-              const SizedBox(height: 8.0),
-              Text(
-                '${value.inSeconds} seconds',
-                style: const TextStyle(
-                  fontSize: 12.0,
-                  color: Color(0xFFFFFFFF),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _ForwardSeekIndicator extends StatefulWidget {
-  final void Function(Duration) onChanged;
-  final void Function(Duration) onSubmitted;
-  final int skipDuration;
-  const _ForwardSeekIndicator({
-    required this.onChanged,
-    required this.onSubmitted,
-    required this.skipDuration,
-  });
-
-  @override
-  State<_ForwardSeekIndicator> createState() => _ForwardSeekIndicatorState();
-}
-
-class _ForwardSeekIndicatorState extends State<_ForwardSeekIndicator> {
-  late Duration value = Duration(seconds: widget.skipDuration);
-
-  Timer? timer;
-
-  @override
-  void setState(VoidCallback fn) {
-    if (mounted) {
-      super.setState(fn);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    timer = Timer(const Duration(milliseconds: 400), () {
-      widget.onSubmitted.call(value);
-    });
-  }
-
-  void increment() {
-    timer?.cancel();
-    timer = Timer(const Duration(milliseconds: 400), () {
-      widget.onSubmitted.call(value);
-    });
-    widget.onChanged.call(value);
-    setState(() {
-      value += Duration(seconds: widget.skipDuration);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0x00767676), Color(0x88767676)],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
-      ),
-      child: InkWell(
-        splashColor: const Color(0x44767676),
-        onTap: increment,
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.fast_forward,
-                size: 24.0,
-                color: Color(0xFFFFFFFF),
-              ),
-              const SizedBox(height: 8.0),
-              Text(
-                '${value.inSeconds} seconds',
-                style: const TextStyle(
-                  fontSize: 12.0,
-                  color: Color(0xFFFFFFFF),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-List<Widget> mobilePrimaryButtonBar(
-  BuildContext context,
-  GlobalKey<VideoState> key,
-  AnimeStreamController streamController,
-  VideoController controller, {
-  FocusNode? playPauseFocus,
-}) {
-  bool hasPrevEpisode =
-      streamController.getEpisodeIndex().$1 + 1 !=
-      streamController.getEpisodesLength(streamController.getEpisodeIndex().$2);
-  bool hasNextEpisode = streamController.getEpisodeIndex().$1 != 0;
-  final isFullScreen = isFullscreen(context);
-  return [
-    const Spacer(flex: 3),
-    IconButton(
-      onPressed: hasPrevEpisode
-          ? () {
-              if (isFullScreen) {
-                key.currentState?.exitFullscreen();
-              }
-              pushReplacementMangaReaderView(
-                context: context,
-                chapter: streamController.getPrevEpisode(),
-              );
-            }
-          : null,
-      icon: Icon(
-        Icons.skip_previous,
-        size: 35,
-        color: hasPrevEpisode ? Colors.white : Colors.grey,
-      ),
-    ),
-    const Spacer(),
-    CustomPlayOrPauseButton(controller: controller, focusNode: playPauseFocus),
-    const Spacer(),
-    IconButton(
-      onPressed: hasNextEpisode
-          ? () {
-              if (isFullScreen) {
-                key.currentState?.exitFullscreen();
-              }
-              pushReplacementMangaReaderView(
-                context: context,
-                chapter: streamController.getNextEpisode(),
-              );
-            }
-          : null,
-      icon: Icon(
-        Icons.skip_next,
-        size: 35,
-        color: hasPrevEpisode ? Colors.white : Colors.grey,
-      ),
-    ),
-    const Spacer(flex: 3),
-  ];
 }

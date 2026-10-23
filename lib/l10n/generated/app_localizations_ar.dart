@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -264,7 +265,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String mass_migration_finding_matches(Object source, Object language) {
-    return 'البحث عن مطابقات في $source • $language';
+    return 'البحث عن مطابقات في $source · $language';
   }
 
   @override
@@ -513,6 +514,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get name => 'اسم';
 
   @override
+  String label_value(Object label, Object value) {
+    return '$label: $value';
+  }
+
+  @override
+  String get url => 'الرابط';
+
+  @override
   String get category_name_required => '*مطلوب';
 
   @override
@@ -564,6 +573,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pure_black_dark_mode => 'الوضع المظلم الأسود النقي';
+
+  @override
+  String get tint_surfaces_with_palette => 'تلوين الأسطح بلوحة الألوان';
+
+  @override
+  String get tint_surfaces_with_palette_subtitle =>
+      'يلوّن الخلفيات والبطاقات والأشرطة باللوحة المختارة، كما في السابق. عند الإيقاف تبقى محايدة ولا تلوّن اللوحة إلا لون التمييز.';
+
+  @override
+  String get novel_reader_font => 'خط قارئ الروايات';
+
+  @override
+  String get novel_reader_font_subtitle => 'يستخدمه الخط الافتراضي في قارئ الروايات. يستخدم باقي التطبيق خط Figtree.';
 
   @override
   String get timestamp => 'طابع الوقت';
@@ -672,6 +694,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get version => 'الإصدار';
 
   @override
+  String beta_version(Object version) {
+    return 'تجريبي ($version)';
+  }
+
+  @override
   String get check_for_update => 'التحقق من التحديثات';
 
   @override
@@ -725,6 +752,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get unknown => 'غير معروف';
 
   @override
+  String get empty_placeholder => 'فارغ';
+
+  @override
+  String get error => 'خطأ';
+
+  @override
+  String error_with_message(Object error) {
+    return 'خطأ: $error';
+  }
+
+  @override
+  String get no_pages_available => 'خطأ: لا توجد صفحات متاحة';
+
+  @override
   String get set_categories => 'ضبط الفئات';
 
   @override
@@ -755,6 +796,90 @@ class AppLocalizationsAr extends AppLocalizations {
   String get source_title => 'عنوان المصدر';
 
   @override
+  String get create_extension => 'إنشاء إضافة';
+
+  @override
+  String get developer_mode => 'وضع المطور';
+
+  @override
+  String get developer_mode_subtitle => 'إظهار أدوات مطور الإضافات (إنشاء إضافة، تعديل الكود)';
+
+  @override
+  String get choose_extension_language => 'اختر لغة الإضافة';
+
+  @override
+  String get lang => 'اللغة';
+
+  @override
+  String get base_url => 'الرابط الأساسي';
+
+  @override
+  String get api_url_optional => 'رابط API (اختياري)';
+
+  @override
+  String get icon_url => 'رابط الأيقونة';
+
+  @override
+  String get source_icon_url => 'رابط أيقونة المصدر';
+
+  @override
+  String get notes => 'ملاحظات';
+
+  @override
+  String get extension_name_example => 'مثال: myAnime';
+
+  @override
+  String get language_code_example => 'مثال: ar';
+
+  @override
+  String get base_url_example => 'مثال: https://example.com';
+
+  @override
+  String get api_url_example => 'مثال: https://api.example.com';
+
+  @override
+  String get extension_notes_example => 'مثال: هذه الإضافة تتطلب تسجيل الدخول';
+
+  @override
+  String get type => 'النوع';
+
+  @override
+  String get target => 'الهدف';
+
+  @override
+  String get source_type_single => 'فردي';
+
+  @override
+  String get source_type_multi => 'متعدد';
+
+  @override
+  String get source_type_torrent => 'تورنت';
+
+  @override
+  String get source_language_dart => 'Dart';
+
+  @override
+  String get source_language_javascript => 'JavaScript';
+
+  @override
+  String get source_language_lnreader_compiled_js => 'JS مجمع لـ LNReader';
+
+  @override
+  String get source_created_successfully => 'تم إنشاء المصدر بنجاح';
+
+  @override
+  String get source_already_exists => 'المصدر موجود بالفعل';
+
+  @override
+  String get error_when_creating_source => 'خطأ أثناء إنشاء المصدر';
+
+  @override
+  String get cookies_deleted => 'تم حذف ملفات تعريف الارتباط!';
+
+  @override
+  String get delete_all_cookies => 'حذف جميع ملفات تعريف الارتباط';
+
+  @override
   String get chapter_number => 'رقم الفصل';
 
   @override
@@ -766,6 +891,11 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String n_chapters(Object n) {
     return '$n فصول';
+  }
+
+  @override
+  String missing_chapters(Object count) {
+    return 'فصول مفقودة: $count';
   }
 
   @override
@@ -928,9 +1058,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get syncing => 'مزامنة';
 
   @override
-  String get sync_password => 'كلمة المرور (على الأقل 8 أحرف)';
-
-  @override
   String get sync_logged => 'تم تسجيل الدخول بنجاح';
 
   @override
@@ -938,19 +1065,13 @@ class AppLocalizationsAr extends AppLocalizations {
       'قم بمزامنة تقدمك عبر أجهزة متعددة عبر خادم مستضاف ذاتيًا. اطّلع على خادم الخلاف الخاص بنا لمزيد من المعلومات!';
 
   @override
-  String get last_sync_manga => 'آخر مزامنة مانغا في:';
+  String get last_sync => 'آخر مزامنة في: ';
 
   @override
-  String get last_sync_history => 'آخر مزامنة للتاريخ في:';
-
-  @override
-  String get last_sync_update => 'آخر مزامنة تحديث في:';
+  String get sync_login_browser => 'تسجيل الدخول باستخدام المتصفح';
 
   @override
   String get sync_server => 'عنوان خادم المزامنة';
-
-  @override
-  String get sync_login_invalid_creds => 'بريد إلكتروني أو كلمة مرور غير صحيحة';
 
   @override
   String get sync_starting => 'بدء المزامنة...';
@@ -960,6 +1081,17 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get sync_failed => 'فشل المزامنة';
+
+  @override
+  String get sync_restore_in_progress => 'تم تخطي المزامنة — الاستعادة قيد التقدم';
+
+  @override
+  String sync_progress_percent(Object percent) {
+    return 'جارٍ المزامنة… $percent%';
+  }
+
+  @override
+  String get sync_progress_indeterminate => 'جارٍ المزامنة…';
 
   @override
   String get sync_button_sync => 'مزامنة التقدم';
@@ -975,6 +1107,24 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get sync_button_download_info => 'ستستبدل هذه العملية البيانات المحلية بالكامل بالبيانات البعيدة!';
+
+  @override
+  String get sync_status_not_configured => 'غير متصل';
+
+  @override
+  String get sync_status_checking => 'جارٍ التحقق من الاتصال...';
+
+  @override
+  String get sync_status_connected => 'متصل';
+
+  @override
+  String get sync_status_unauthorized => 'انتهت الجلسة، يرجى تسجيل الدخول مرة أخرى';
+
+  @override
+  String get sync_status_unreachable => 'تعذر الوصول إلى الخادم';
+
+  @override
+  String get sync_section_general => 'عام';
 
   @override
   String get sync_on => 'تمكين المزامنة';
@@ -1025,6 +1175,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get reorder_navigation_description => 'أعد ترتيب وتبديل كل تنقل حسب احتياجاتك.';
 
   @override
+  String get floating_navigation_bar => 'شريط تنقل عائم';
+
+  @override
+  String get floating_navigation_bar_description => 'استخدام كبسولة عائمة بدل شريط التنقل الثابت.';
+
+  @override
   String get full_screen_player => 'استخدام الشاشة الكاملة';
 
   @override
@@ -1036,8 +1192,13 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String n_episodes(Object n) {
+  String n_episodes(int n) {
     return '$n حلقات';
+  }
+
+  @override
+  String missing_episodes(Object count) {
+    return 'حلقات مفقودة: $count';
   }
 
   @override
@@ -1109,6 +1270,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String uninstall_extension(Object ext) {
     return 'هل ترغب في إلغاء تثبيت امتداد $ext؟';
   }
+
+  @override
+  String double_tap_search_hint(Object type) {
+    return 'انقر مرتين للبحث في كل $type';
+  }
+
+  @override
+  String get show_nav_double_tap_tooltip => 'إظهار تلميح البحث بالنقر المزدوج';
+
+  @override
+  String get show_nav_double_tap_tooltip_subtitle =>
+      'إظهار تلميح على وجهات مانغا/أنمي/روايات يوضح أن النقر المزدوج يفتح البحث الشامل.';
+
+  @override
+  String already_in_library(Object source, Object title) {
+    return '\"$title\" موجود بالفعل في مكتبتك عبر $source.';
+  }
+
+  @override
+  String get add_anyway => 'إضافة على أي حال';
 
   @override
   String get langauage => 'اللغة';
@@ -1242,6 +1423,37 @@ class AppLocalizationsAr extends AppLocalizations {
   String get restore_backup => 'استعادة النسخة الاحتياطية';
 
   @override
+  String get encrypt_backups => 'تشفير النسخ الاحتياطية';
+
+  @override
+  String get encrypt_backups_info => 'حماية النسخ بكلمة مرور باستخدام تشفير AES';
+
+  @override
+  String get no_secure_storage => 'لم يتم العثور على تخزين آمن';
+
+  @override
+  String get no_keyring_warning =>
+      'لا يتوفر في النظام خدمة إدارة المفاتيح، لذا لا يمكن حفظ كلمة المرور بأمان.\n\nهل تريد حفظها غير مشفرة في قاعدة البيانات المحلية؟';
+
+  @override
+  String get enter_backup_password => 'أدخل كلمة مرور النسخة الاحتياطية';
+
+  @override
+  String get incorrect_password_try_again => 'كلمة المرور غير صحيحة، حاول مجدداً.';
+
+  @override
+  String get set_backup_password => 'تعيين كلمة مرور النسخة الاحتياطية';
+
+  @override
+  String get confirm_password => 'تأكيد كلمة المرور';
+
+  @override
+  String get passwords_do_not_match => 'كلمتا المرور غير متطابقتين';
+
+  @override
+  String get password_required_to_restore => 'يلزم إدخال كلمة المرور لاستعادة هذه النسخة.';
+
+  @override
   String get restore_backup_subtitle => 'استعادة المكتبة من ملف النسخة الاحتياطية';
 
   @override
@@ -1291,6 +1503,40 @@ class AppLocalizationsAr extends AppLocalizations {
       'استعادة النسخة الاحتياطية ستؤدي إلى الكتابة فوق جميع البيانات الحالية.\n\nهل تريد الاستمرار في الاستعادة؟';
 
   @override
+  String get restore_sync_question_title => 'مزامنة هذه الاستعادة؟';
+
+  @override
+  String get restore_sync_question_message => 'هذا الجهاز متصل بخادم مزامنة. هل تريد رفع البيانات المستعادة الآن؟';
+
+  @override
+  String get restore_sync_question_confirm => 'نعم، مزامنة';
+
+  @override
+  String get restore_sync_question_deny => 'لا، تعطيل المزامنة';
+
+  @override
+  String get sync_disabled_after_restore => 'تم تعطيل المزامنة. يمكنك تفعيلها من الإعدادات.';
+
+  @override
+  String get restore_sync_disabled_question_title => 'المزامنة معطلة حالياً';
+
+  @override
+  String get restore_sync_disabled_question_message =>
+      'المزامنة متوقفة. هل تريد إعادة تفعيلها ورفع البيانات المستعادة إلى الخادم؟';
+
+  @override
+  String get restore_sync_question_reenable => 'نعم، إعادة تفعيل ومزامنة';
+
+  @override
+  String get restore_sync_question_keep_disabled => 'الإبقاء معطلة';
+
+  @override
+  String get restore_sync_uploading => 'جارٍ مزامنة البيانات المستعادة مع الخادم…';
+
+  @override
+  String get restore_sync_upload_success => 'تمت مزامنة البيانات المستعادة مع الخادم';
+
+  @override
   String get services => 'الخدمات';
 
   @override
@@ -1334,7 +1580,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get markEpisodeAsSeenSetting => 'في أي نقطة لوضع علامة على الحلقة كمشاهدة';
 
   @override
-  String get mark_duplicate_chapters_read => 'Mark duplicate chapter numbers as read';
+  String get mark_duplicate_chapters_read => 'ضع علامة على أرقام الفصول المكررة كمقروءة';
 
   @override
   String get default_skip_intro_length => 'طول تخطي المقدمة الافتراضي';
@@ -1530,6 +1776,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get libass_not_disable_message => 'عطل `استخدام libass` في إعدادات المشغل لتتمكن من تخصيص الترجمة.';
 
   @override
+  String get override_ass_subtitles => 'تجاوز ترجمات ASS';
+
+  @override
+  String get override_ass_subtitles_info => 'تطبيق نمط مخصص على ترجمات ASS/SSA';
+
+  @override
   String get torrent_stream => 'بث التورنت';
 
   @override
@@ -1657,10 +1909,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get custom_dns => 'DNS مخصص (اتركه فارغًا لاستخدام DNS النظام)';
 
   @override
-  String get android_proxy_server => 'خادم بروكسي Android (ApkBridge)';
+  String get android_proxy_server => 'خادم بروكسي Android (M-Extension-Server)';
 
   @override
-  String get get_apk_bridge => 'احصل على ApkBridge';
+  String get get_m_extension_server => 'احصل على M-Extension-Server';
 
   @override
   String get get_sync_server => 'احصل على خادم المزامنة من هنا';
@@ -1690,7 +1942,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get url_cannot_be_empty => 'لا يمكن أن يكون عنوان URL فارغًا';
 
   @override
-  String get url_must_end_with_dot_json => 'يجب أن ينتهي عنوان URL بـ .json';
+  String get url_must_end_with_dot_json_or_dot_pb => 'يجب أن ينتهي عنوان URL بـ .json / .pb';
 
   @override
   String get repo_url => 'عنوان URL للمستودع';
@@ -1711,7 +1963,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get repo_added => 'تمت إضافة مستودع المصدر!';
 
   @override
+  String get repo_already_exists => 'المستودع موجود بالفعل!';
+
+  @override
   String get add_repo => 'إضافة مستودع؟';
+
+  @override
+  String get add_repo_sources_to_add => 'قوائم الإضافات التي ستُضاف:';
+
+  @override
+  String get add_repo_warning => 'تعمل الإضافات من هذه المستودعات داخل التطبيق. لا تضف إلا المستودعات التي تثق بها.';
 
   @override
   String get genre_search_library => 'بحث النوع في المكتبة';
@@ -1800,15 +2061,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get rpc_show_cover_image => 'إظهار صورة الغلاف الحالية في Discord';
 
   @override
-  String get sync_enable_histories => 'مزامنة بيانات السجل';
-
-  @override
-  String get sync_enable_updates => 'مزامنة بيانات التحديث';
-
-  @override
-  String get sync_enable_settings => 'مزامنة الإعدادات';
-
-  @override
   String get enable_mpv => 'تمكين تظليل / سكريبتات mpv';
 
   @override
@@ -1858,6 +2110,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get custom_buttons_startup => 'كود lua (عند بدء التشغيل)';
+
+  @override
+  String get custom_buttons_add_warning =>
+      'يشغّل هذا الزر شيفرة Lua أدناه في مشغل الفيديو، وهي قادرة على الوصول إلى ملفاتك وتشغيل البرامج. لا تضفه إلا إذا كنت تثق بمصدر هذا الرابط.';
 
   @override
   String n_days(Object n) {
@@ -1921,6 +2177,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get subtitle_speed => 'السرعة';
 
   @override
+  String get tracks => 'المسارات';
+
+  @override
+  String get playback_speed => 'سرعة التشغيل';
+
+  @override
+  String get shaders => 'المظللات (Shaders)';
+
+  @override
+  String get video_fit => 'ملاءمة';
+
+  @override
   String get calendar => 'التقويم';
 
   @override
@@ -1954,10 +2222,60 @@ class AppLocalizationsAr extends AppLocalizations {
   String get watch_order => 'ترتيب المشاهدة';
 
   @override
+  String get watch_order_role_current => 'الحالي';
+
+  @override
+  String get watch_order_role_previous => 'السابق';
+
+  @override
+  String get watch_order_role_next => 'التالي';
+
+  @override
+  String get watch_order_source_release_order => 'ترتيب الإصدار';
+
+  @override
+  String watch_order_source_community_list(String name, String author) {
+    return '$name بواسطة $author';
+  }
+
+  @override
+  String watch_order_source_official_collection(String name) {
+    return 'مجموعة Trakt الرسمية: $name';
+  }
+
+  @override
+  String watch_order_source_trakt_collection(String name) {
+    return 'مجموعة Trakt: $name';
+  }
+
+  @override
+  String watch_order_source_seasons(String title) {
+    return 'مواسم $title';
+  }
+
+  @override
+  String get watch_order_select_source => 'مصدر الترتيب';
+
+  @override
+  String watch_order_season(int number) {
+    return 'الموسم $number';
+  }
+
+  @override
+  String watch_order_episode(int number) {
+    return 'الحلقة $number';
+  }
+
+  @override
   String get sequels => 'الأجزاء التالية';
 
   @override
   String get recommendations_similarity => 'التشابه:';
+
+  @override
+  String recommendation_rating_accessibility(String rating) {
+    return 'التقييم $rating';
+  }
 
   @override
   String get local_folder_structure => 'هيكل المجلد المحلي';
@@ -1972,10 +2290,103 @@ class AppLocalizationsAr extends AppLocalizations {
   String get rescan_local_folder => 'إعادة فحص جميع المجلدات المحلية الآن';
 
   @override
+  String get default_download_destination => 'مجلد التنزيل الافتراضي';
+
+  @override
+  String get ask_download_destination => 'السؤال عن وجهة التنزيل';
+
+  @override
+  String get ask_download_destination_desc => 'اختيار مجلد محلي عند كل تنزيل.';
+
+  @override
+  String get select_download_destination => 'تحديد وجهة التنزيل';
+
+  @override
+  String get clear_local_library => 'مسح المكتبة المحلية';
+
+  @override
+  String get clear_local_library_desc => 'إزالة المجلدات والأرشيفات المحلية من المكتبة.';
+
+  @override
+  String get clear_local_library_msg => 'سيؤدي هذا إلى إزالة المجلدات المحلية من المكتبة دون حذف الملفات من القرص.';
+
+  @override
+  String get custom => 'مخصص';
+
+  @override
+  String get no_local_folder_available_for_downloads => 'لا يوجد مجلد محلي متاح للتنزيلات';
+
+  @override
+  String failed_to_create_cbz(Object error) {
+    return 'فشل إنشاء CBZ: $error';
+  }
+
+  @override
+  String error_reading_cover_image(Object error) {
+    return 'خطأ في قراءة صورة الغلاف: $error';
+  }
+
+  @override
+  String error_reading_metadata(Object error) {
+    return 'خطأ في قراءة البيانات الوصفية: $error';
+  }
+
+  @override
+  String error_saving_chapter_episode_to_library(Object error) {
+    return 'خطأ في الحفظ بالمكتبة: $error';
+  }
+
+  @override
+  String error_reading_chapter_cover_image(Object error) {
+    return 'خطأ في قراءة غلاف الفصل: $error';
+  }
+
+  @override
+  String error_reading_archive_cover_image(Object error) {
+    return 'خطأ في قراءة غلاف الأرشيف: $error';
+  }
+
+  @override
+  String error_getting_local_library(Object error) {
+    return 'خطأ في جلب المكتبة المحلية: $error';
+  }
+
+  @override
   String get export_metadata => 'تصدير البيانات الوصفية';
 
   @override
   String get exported => 'تم التصدير';
+
+  @override
+  String failed_to_export_metadata(Object error) {
+    return 'فشل تصدير البيانات الوصفية: $error';
+  }
+
+  @override
+  String unrecognized_chapter_numbers(Object count) {
+    return 'تعذر ترقيم $count فصول تلقائياً.';
+  }
+
+  @override
+  String get cloudflare_resolution_webview_server_start_failed => 'تعذر بدء خادم حل Cloudflare.';
+
+  @override
+  String tracker_token_expired(Object tracker) {
+    return 'انتهت صلاحية رمز $tracker';
+  }
+
+  @override
+  String get video_list_empty => 'قائمة الفيديو فارغة';
+
+  @override
+  String playback_speed_multiplier(Object value) {
+    return 'x$value';
+  }
+
+  @override
+  String could_not_launch_url(Object url) {
+    return 'تعذر فتح $url';
+  }
 
   @override
   String get text_size => 'حجم النص:';
@@ -2028,6 +2439,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get authenticating => 'جاري المصادقة...';
 
   @override
+  String get lock => 'قفل';
+
+  @override
   String get unlock => 'فتح القفل';
 
   @override
@@ -2066,6 +2480,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get brightness => 'السطوع';
+
+  @override
+  String get volume => 'مستوى الصوت';
 
   @override
   String get contrast => 'التباين';
@@ -2187,8 +2604,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get latest_version => 'أحدث إصدار';
 
   @override
-  String get apkbridge_description =>
-      'استخدم ApkBridge عندما تحتاج إلى وكيل جهاز أندرويد منفصل. اضبط عنوان الوكيل هنا وقم بتحميل APK من GitHub.';
+  String get m_extension_server_description =>
+      'استخدم M-Extension-Server عندما تحتاج إلى وكيل جهاز أندرويد منفصل. اضبط عنوان الوكيل هنا وقم بتحميل APK من GitHub.';
 
   @override
   String get set_proxy_address => 'ضبط عنوان الوكيل';
@@ -2240,7 +2657,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get extension_server_jar_imported => 'تم استيراد ملف JAR لخادم الإضافات.';
 
   @override
-  String get could_not_launch_apk_bridge_page => 'تعذر تشغيل صفحة ApkBridge.';
+  String get could_not_launch_apk_bridge_page => 'تعذر تشغيل صفحة M-Extension-Server.';
 
   @override
   String get proxy_server_ip_hint => 'عنوان IP للخادم (مثلاً 10.0.0.5 أو https://example.com)';
@@ -2249,48 +2666,72 @@ class AppLocalizationsAr extends AppLocalizations {
   String get not_configured => 'غير مهيأ';
 
   @override
+  String get zero_interpreter => 'مترجم Zero';
+
+  @override
+  String get zero_interpreter_description => 'التحكم في خادم مترجم Zero تلقائياً أو يدوياً.';
+
+  @override
+  String get start_server_on_launch => 'تشغيل الخادم عند بدء التطبيق';
+
+  @override
+  String get runtime_status => 'حالة التشغيل';
+
+  @override
+  String get running => 'قيد التشغيل';
+
+  @override
+  String get stopped => 'متوقف';
+
+  @override
+  String get start => 'بدء';
+
+  @override
+  String get stop => 'إيقاف';
+
+  @override
   String get webview => 'عرض الويب';
 
   @override
-  String get tts => 'Text-to-Speech';
+  String get tts => 'تحويل النص إلى كلام';
 
   @override
-  String get tts_speed => 'Speed';
+  String get tts_speed => 'السرعة';
 
   @override
-  String get tts_pitch => 'Pitch';
+  String get tts_pitch => 'التيمبر';
 
   @override
-  String get tts_language => 'Language';
+  String get tts_language => 'اللغة';
 
   @override
-  String get tts_voice => 'Voice';
+  String get tts_voice => 'الصوت';
 
   @override
-  String get tts_stop => 'Stop';
+  String get tts_stop => 'إيقاف';
 
   @override
-  String get tts_play => 'Play';
+  String get tts_play => 'تشغيل';
 
   @override
-  String get tts_pause => 'Pause';
+  String get tts_pause => 'إيقاف مؤقت';
 
   @override
-  String get tts_previous => 'Previous paragraph';
+  String get tts_previous => 'الفقرة السابقة';
 
   @override
-  String get tts_next => 'Next paragraph';
+  String get tts_next => 'الفقرة التالية';
 
   @override
   String tts_paragraph_progress(Object current, Object total) {
-    return 'Paragraph $current of $total';
+    return 'الفقرة $current من $total';
   }
 
   @override
-  String get tts_settings => 'TTS Settings';
+  String get tts_settings => 'إعدادات TTS';
 
   @override
-  String get tts_default => 'Default';
+  String get tts_default => 'افتراضي';
 
   @override
   String get webtoon_disable_zoom_out => 'تعطيل التصغير في الويب تون';
@@ -2315,6 +2756,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get dual_page_rotate_to_fit_invert => 'عكس اتجاه التدوير';
+
+  @override
+  String get double_page_single_first_page => 'الصفحة الأولى مفردة';
+
+  @override
+  String get double_page_single_first_page_subtitle => 'عرض الصفحة الأولى بمفردها في وضع الصفحتين';
+
+  @override
+  String get double_page_auto => 'صفحة مزدوجة تلقائياً';
+
+  @override
+  String get double_page_auto_subtitle => 'التبديل إلى وضع الصفحة المزدوجة تلقائياً في الوضع الأفقي';
 
   @override
   String get landscape_zoom => 'تكبير تلقائي للوضع الأفقي';
@@ -2399,36 +2852,1397 @@ class AppLocalizationsAr extends AppLocalizations {
   String get error_no_pages_available => 'خطأ: لا توجد صفحات متاحة';
 
   @override
-  String get app_ui_scale => 'Interface scale';
+  String get app_ui_scale => 'حجم الواجهة';
 
   @override
-  String get app_ui_scale_subtitle => 'Make the interface larger or smaller to suit your screen and viewing distance.';
+  String get app_ui_scale_subtitle => 'اجعل الواجهة أكبر أو أصغر لتناسب شاشتك ومسافة المشاهدة.';
 
   @override
-  String get allow_concurrent_downloads => 'Allow concurrent downloads';
+  String get allow_concurrent_downloads => 'السماح بالتنزيلات المتزامنة';
 
   @override
   String get allow_concurrent_downloads_subtitle =>
-      'Download from different sources at the same time. A single source still downloads one chapter at a time so it isn\'t overloaded. Turn off to download one at a time everywhere.';
+      'قم بالتنزيل من مصادر مختلفة في نفس الوقت. يقوم مصدر واحد فقط بتنزيل فصل واحد في المرة حتى لا يتم الإرهاق. أطفئها للتنزيل واحدة تلو الأخرى في كل مكان.';
 
   @override
-  String get download_delay => 'Download delay';
+  String get download_delay => 'تأخير التنزيل';
 
   @override
-  String get download_delay_subtitle => 'Off. Add a wait with random jitter between chapters to be gentler on sources.';
+  String get download_delay_subtitle => 'إيقاف. أضف انتظارًا مع اهتزاز عشوائي بين الفصول لتكون أكثر لطفًا على المصادر.';
 
   @override
-  String get save_search => 'Save search';
+  String get save_search => 'حفظ البحث';
 
   @override
-  String get saved_searches => 'Saved searches';
+  String get saved_searches => 'عمليات البحث المحفوظة';
 
   @override
-  String get enter_search_to_save_first => 'Enter a search to save first';
+  String get enter_search_to_save_first => 'أدخل بحثًا لحفظه أولاً';
 
   @override
-  String get no_saved_searches => 'No saved searches for this source yet.\nRun a search, then pick \"Save search\".';
+  String get no_saved_searches =>
+      'لا توجد عمليات بحث محفوظة لهذا المصدر حتى الآن.\nقم بإجراء بحث، ثم اختر \"حفظ البحث\".';
 
   @override
-  String get source => 'Source';
+  String get source => 'المصدر';
+
+  @override
+  String get something_went_wrong => 'حدث خطأ ما';
+
+  @override
+  String get startup_failed => 'تعذر على Mangayomi إكمال بدء التشغيل';
+
+  @override
+  String sources_with_no_results(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مصدراً بلا نتائج',
+      few: '$count مصادر بلا نتائج',
+      one: 'مصدر واحد بلا نتائج',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get import_mode_title => 'كيف تريد الاستيراد؟';
+
+  @override
+  String get import_mode_message => 'اختر دمج هذه النسخة مع المكتبة الحالية أو استبدال المكتبة بأكملها.';
+
+  @override
+  String get import_mode_keep_existing => 'دمج';
+
+  @override
+  String get import_mode_keep_existing_subtitle => 'إضافة السلاسل الجديدة وتحديث المطابقة. لن يتم حذف أي شيء.';
+
+  @override
+  String get import_mode_replace => 'استبدال';
+
+  @override
+  String get import_mode_replace_subtitle => 'حذف المكتبة الحالية واستبدالها بهذه النسخة.';
+
+  @override
+  String get replace_summary_title => 'جاهز لاستبدال المكتبة';
+
+  @override
+  String replace_summary_message(Object currentCount, Object backupCount) {
+    return 'سيؤدي هذا إلى حذف $currentCount سلسلة واستبدالها بـ $backupCount سلسلة.';
+  }
+
+  @override
+  String get replace_summary_confirm => 'استبدال';
+
+  @override
+  String replace_result_message(Object count) {
+    return 'تم استبدال المكتبة بـ $count سلسلة من النسخة الاحتياطية.';
+  }
+
+  @override
+  String get category_conflict_title => 'تم العثور على تصنيفات موجودة';
+
+  @override
+  String get category_conflict_message => 'تحتوي النسخة على تصنيفات موجودة بالفعل في المكتبة.';
+
+  @override
+  String get category_conflict_keep => 'احتفاظ — دمج في التصنيف الموجود';
+
+  @override
+  String get category_conflict_delete => 'حذف — ترك السلاسل بدون تصنيف';
+
+  @override
+  String get source_conflict_title => 'المصادر غير موجودة';
+
+  @override
+  String get source_conflict_message => 'بعض المصادر لا تطابق أي إضافة مثبتة.';
+
+  @override
+  String get source_conflict_keep => 'الاحتفاظ بالاسم الأصلي';
+
+  @override
+  String get import_summary_title => 'جاهز للاستيراد';
+
+  @override
+  String import_summary_message(Object newSeries, Object updatedSeries, Object newChapters) {
+    return '$newSeries سلسلة جديدة، وتحديث $updatedSeries، وإضافة $newChapters فصول.';
+  }
+
+  @override
+  String get import_summary_confirm => 'استيراد';
+
+  @override
+  String import_result_message(Object newSeries, Object updatedSeries, Object newChapters) {
+    return 'تم استيراد $newSeries جديدة، وتحديث $updatedSeries، وإضافة $newChapters فصول.';
+  }
+
+  @override
+  String get roll_back => 'تراجع';
+
+  @override
+  String get roll_back_confirm_message => 'استعادة المكتبة إلى اللقطة المحفوظة قبل هذا التغيير مباشرة.';
+
+  @override
+  String get roll_back_done => 'تم التراجع إلى اللقطة السابقة.';
+
+  @override
+  String get restoring_backup => 'جارٍ استعادة المكتبة…';
+
+  @override
+  String get roll_back_last_change => 'التراجع عن آخر تغيير';
+
+  @override
+  String roll_back_last_change_subtitle(Object date, Object description) {
+    return 'لقطة من $date — $description';
+  }
+
+  @override
+  String roll_back_available_count(Object count) {
+    return '$count تغييرات متاحة للتراجع';
+  }
+
+  @override
+  String get delete_source_title => 'حذف مصدر ومانغاته';
+
+  @override
+  String get delete_source_subtitle => 'حذف جميع مانغات المصدر وفصوله وتنزيلاته وسجله من المكتبة.';
+
+  @override
+  String get delete_source_pick_title => 'اختر مصدراً لحذفه';
+
+  @override
+  String get delete_source_empty => 'لم يتم العثور على مصادر في المكتبة.';
+
+  @override
+  String delete_source_confirm_title(Object sourceName) {
+    return 'حذف $sourceName؟';
+  }
+
+  @override
+  String delete_source_confirm_message(
+    Object mangaCount,
+    Object chapterCount,
+    Object historyCount,
+    Object updateCount,
+  ) {
+    return 'سيؤدي هذا إلى حذف نهائي لـ $mangaCount مانغا و$chapterCount فصول و$historyCount سجلات.';
+  }
+
+  @override
+  String get delete_source_also_remove_extension => 'إزالة الإضافة المثبتة أيضاً';
+
+  @override
+  String get delete_source_keep_history => 'الاحتفاظ بسجل القراءة';
+
+  @override
+  String get delete_source_keep_downloads => 'الاحتفاظ بسجلات التنزيل';
+
+  @override
+  String get delete_source_button => 'حذف';
+
+  @override
+  String delete_source_result_message(Object mangaCount, Object sourceName) {
+    return 'تم حذف $mangaCount مانغا من $sourceName.';
+  }
+
+  @override
+  String get merge_manga_title => 'دمج المانغا المكررة';
+
+  @override
+  String get merge_manga_subtitle => 'البحث عن مانغا بنفس العنوان تحت نفس المصدر ودمجها معاً.';
+
+  @override
+  String get merge_manga_none_found => 'لم يتم العثور على مانغا مكررة.';
+
+  @override
+  String get merge_manga_pick_title => 'مانغا مكررة محتملة';
+
+  @override
+  String get merge_manga_choose_primary_title => 'إلى أي مانغا يجب دمج البقية؟';
+
+  @override
+  String get merge_manga_choose_primary_message => 'سيتم دمج الفصول والسجل والتتبع في المانغا المختارة دون حذف شيء.';
+
+  @override
+  String merge_manga_chapters_subtitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count فصلاً',
+      few: '$count فصول',
+      one: 'فصل واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get merge_manga_button => 'دمج';
+
+  @override
+  String merge_manga_result_message(Object count, Object mangaName) {
+    return 'تم دمج $count مانغا مكررة في $mangaName.';
+  }
+
+  @override
+  String get merge_preview_title => 'تأكيد الدمج';
+
+  @override
+  String merge_manga_preview_message(
+    Object totalChapters,
+    Object duplicateChapters,
+    Object keptChapters,
+    Object duplicateTracks,
+  ) {
+    return 'تم العثور على $totalChapters فصول. سيتم تجاهل $duplicateChapters مكررة وإضافة $keptChapters.';
+  }
+
+  @override
+  String get memory_overlay => 'إظهار استخدام الذاكرة';
+
+  @override
+  String get memory_overlay_subtitle =>
+      'قراءة مباشرة لاستهلاك الذاكرة في التطبيق. للقياس على الجهاز بدلاً من التخمين: راقبها أثناء التمرير في المكتبة أو قراءة فصل.';
+
+  @override
+  String get beta => 'تجريبي';
+
+  @override
+  String get error_reports => 'تقارير الأخطاء';
+
+  @override
+  String get error_reports_subtitle => 'الأخطاء المسجلة وطريقة الإبلاغ عنها';
+
+  @override
+  String get error_reports_empty => 'لم تحدث أي أخطاء.';
+
+  @override
+  String get error_reports_likely_cause => 'السبب المحتمل';
+
+  @override
+  String get error_reports_report => 'إبلاغ على GitHub';
+
+  @override
+  String get error_reports_banner => 'واجه Mangayomi خطأ';
+
+  @override
+  String get error_reports_banner_action => 'عرض';
+
+  @override
+  String get error_reports_copy => 'نسخ';
+
+  @override
+  String get error_reports_copied => 'تم النسخ إلى الحافظة';
+
+  @override
+  String get error_reports_clear => 'مسح';
+
+  @override
+  String get error_reports_extension_failure =>
+      'هذا الخطأ ناتج عن إضافة وليس من تطبيق Mangayomi. تتم كتابة الإضافات وصيانتها بواسطة مسؤولي المستودع الذي قمت بتثبيت هذا المصدر منه، لذا يجب إصلاحه هناك. اسم المصدر وما كنت تفتحه هي تفاصيل مفيدة لتقديمها لهم.';
+
+  @override
+  String get error_reports_already_reported => 'تم الإبلاغ مسبقاً';
+
+  @override
+  String get error_reports_expected_failure =>
+      'عادةً ما يعود هذا إلى المصدر أو الشبكة وليس التطبيق: رابط منتهي الصلاحية، أو خادم معطل، أو انقطاع في الاتصال. يستحق الإبلاغ فقط إذا استمر في الحدوث على مصدر يعمل في أماكن أخرى.';
+
+  @override
+  String get share_unavailable_copied => 'المشاركة غير متاحة، تم النسخ إلى الحافظة.';
+
+  @override
+  String get onboarding_title => 'مرحباً بك في Mangayomi';
+
+  @override
+  String get onboarding_language_title => 'اختر لغتك';
+
+  @override
+  String get onboarding_language_body => 'يُعرض Mangayomi بهذه اللغة. يمكنك تغييرها لاحقًا من المظهر.';
+
+  @override
+  String get onboarding_nav_grouped_body =>
+      'احتفظ بعلامة تبويب لكل مكتبة، أو اجمعها خلف علامة تبويب واحدة للمكتبة، مع التحديثات والسجل خلف علامة تبويب واحدة للنشاط.';
+
+  @override
+  String get onboarding_nav_grouped => 'علامات تبويب مجمّعة';
+
+  @override
+  String get onboarding_nav_grouped_inside => 'يُبدَّل كل تبويب مجمّع من أعلى شاشته';
+
+  @override
+  String get onboarding_libraries_body => 'اختر ما تقرأه وتشاهده.';
+
+  @override
+  String get onboarding_nav_title => 'مكتباتك';
+
+  @override
+  String get onboarding_nav_split => 'تبويب لكل نوع';
+
+  @override
+  String get onboarding_next => 'التالي';
+
+  @override
+  String get onboarding_restore => 'استعادة نسخة احتياطية';
+
+  @override
+  String get onboarding_or_local => 'أو استخدام ملفات موجودة لديك';
+
+  @override
+  String get onboarding_local_folder => 'إضافة مجلد';
+
+  @override
+  String onboarding_local_existing(Object count) {
+    return '$count مجلدات معدة بالفعل';
+  }
+
+  @override
+  String get onboarding_local_any_type => 'يدعم المانغا والأنمي والروايات.';
+
+  @override
+  String get onboarding_local_scanning => 'جارٍ فحص المجلد';
+
+  @override
+  String onboarding_local_found(Object count) {
+    return 'تم العثور على $count عناوين';
+  }
+
+  @override
+  String get onboarding_local_remove => 'إزالة المجلد';
+
+  @override
+  String get onboarding_local_in_downloads => 'هذا مجلد تنزيلات التطبيق.';
+
+  @override
+  String get onboarding_local_empty => 'لم يتم العثور على شيء. اختر المجلد الرئيسي.';
+
+  @override
+  String get onboarding_repo_failed => 'تعذر قراءة المستودع.';
+
+  @override
+  String get onboarding_repo_title => 'إضافة مصدر';
+
+  @override
+  String get onboarding_body => 'أضف مستودعاً لتتمكن من تثبيت الإضافات وتصفحها.';
+
+  @override
+  String get onboarding_add => 'إضافة مستودع';
+
+  @override
+  String get onboarding_skip => 'تخطي الآن';
+
+  @override
+  String get onboarding_continue => 'متابعة';
+
+  @override
+  String get onboarding_later => 'يمكنك إضافته لاحقاً من الإعدادات > تصفح.';
+
+  @override
+  String get onboarding_replay => 'عرض شاشة الترحيب';
+
+  @override
+  String get onboarding_replay_subtitle => 'فتح شاشة الإعداد الأولى مجدداً.';
+
+  @override
+  String get missing_source_check_title => 'فحص المصادر المفقودة';
+
+  @override
+  String get missing_source_check_subtitle => 'العثور على عناصر لم يتم تثبيت إضافاتها.';
+
+  @override
+  String get missing_source_check_none_found => 'جميع مصادر المكتبة مثبتة.';
+
+  @override
+  String missing_source_check_result_title(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مصدراً مفقوداً',
+      few: '$count مصادر مفقودة',
+      one: 'مصدر واحد مفقود',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String global_search_no_sources(String itemType) {
+    return 'لا توجد مصادر $itemType مثبتة.';
+  }
+
+  @override
+  String get global_search_no_sources_hint => 'أضف مستودعاً ضمن قسم التصفح، ثم قم بتثبيت إضافة له.';
+
+  @override
+  String global_search_only_pinned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مصدراً',
+      few: '$count مصادر',
+      one: 'مصدر واحد',
+    );
+    return 'لديك $_temp0 لهذا، ولكن يتم البحث في المصادر المثبتة فقط.';
+  }
+
+  @override
+  String get global_search_only_pinned_hint =>
+      'قم بتثبيت أحدها، أو أوقف تشغيل \"تضمين المصادر المثبتة فقط\" في إعدادات التصفح.';
+
+  @override
+  String get global_search_all_nsfw => 'جميع مصادرك لهذا مصنفة كـ NSFW وهي مخفية.';
+
+  @override
+  String get global_search_all_nsfw_hint => 'قم بتفعيل مصادر NSFW في إعدادات التصفح للبحث فيها.';
+
+  @override
+  String get missing_source_check_result_message => 'تشير هذه العناصر إلى مصادر غير مثبتة. اضغط لنقلها أو ثبت الإضافة.';
+
+  @override
+  String get related_titles => 'ذات صلة';
+
+  @override
+  String get related_none => 'لم يتم العثور على أي أعمال ذات صلة بهذا العنوان.';
+
+  @override
+  String get relation_adaptation => 'اقتباس';
+
+  @override
+  String get relation_sequel => 'تكملة';
+
+  @override
+  String get relation_prequel => 'جزء سابق';
+
+  @override
+  String get relation_parent => 'القصة الرئيسية';
+
+  @override
+  String get relation_side_story => 'قصة جانبية';
+
+  @override
+  String get relation_spin_off => 'عمل مشتق (Spin-off)';
+
+  @override
+  String get relation_alternative => 'نسخة بديلة';
+
+  @override
+  String get auto_library_update => 'تحديثات المكتبة التلقائية';
+
+  @override
+  String get auto_library_update_subtitle => 'التحقق من وجود فصول جديدة لكل عنصر في مكتبتك عند بدء تشغيل التطبيق.';
+
+  @override
+  String get auto_library_update_never => 'أبداً';
+
+  @override
+  String get auto_library_update_12_hours => 'كل 12 ساعة';
+
+  @override
+  String get auto_library_update_daily => 'يومياً';
+
+  @override
+  String get auto_library_update_2_days => 'كل يومين';
+
+  @override
+  String get auto_library_update_weekly => 'أسبوعياً';
+
+  @override
+  String get auto_library_update_wifi_only => 'عبر Wi-Fi فقط';
+
+  @override
+  String get auto_library_update_wifi_only_subtitle => 'تخطي التحديث المجدول أثناء استخدام بيانات الجوال.';
+
+  @override
+  String get padding => 'الهامش';
+
+  @override
+  String get page_mode => 'وضع الصفحة';
+
+  @override
+  String get single_page => 'صفحة مفردة';
+
+  @override
+  String get double_page => 'صفحة مزدوجة';
+
+  @override
+  String get speed => 'السرعة';
+
+  @override
+  String get theme_dark => 'داكن';
+
+  @override
+  String get theme_light => 'فاتح';
+
+  @override
+  String get theme_black => 'أسود';
+
+  @override
+  String get theme_sepia => 'سيبيا';
+
+  @override
+  String get decrease => 'تقليل';
+
+  @override
+  String get increase => 'زيادة';
+
+  @override
+  String get chapter_swipe_actions => 'إجراءات سحب الفصل';
+
+  @override
+  String get chapter_swipe_start => 'السحب لليمين';
+
+  @override
+  String get chapter_swipe_end => 'السحب لليسار';
+
+  @override
+  String get chapter_swipe_toggle_bookmark => 'تبديل الإشارة المرجعية';
+
+  @override
+  String get chapter_swipe_toggle_read => 'تبديل حالة القراءة';
+
+  @override
+  String get chapter_swipe_download => 'تنزيل';
+
+  @override
+  String get chapter_swipe_disabled => 'معطل';
+
+  @override
+  String get update_errors => 'أخطاء التحديث';
+
+  @override
+  String get no_update_errors => 'لا توجد أخطاء تحديث';
+
+  @override
+  String get clear_all => 'مسح الكل';
+
+  @override
+  String get dismiss => 'إغلاق';
+
+  @override
+  String get previous_episode => 'الحلقة السابقة';
+
+  @override
+  String get clear_logs => 'مسح السجلات';
+
+  @override
+  String get bold => 'عريض';
+
+  @override
+  String get italic => 'مائل';
+
+  @override
+  String get color_yellow => 'أصفر';
+
+  @override
+  String get color_cyan => 'سماوي';
+
+  @override
+  String get color_green => 'أخضر';
+
+  @override
+  String get color_orange => 'برتقالي';
+
+  @override
+  String get continue_watching => 'متابعة المشاهدة';
+
+  @override
+  String get search_your_anime => 'ابحث في الأنمي الخاص بك';
+
+  @override
+  String get category => 'الفئة';
+
+  @override
+  String get hidden_categories => 'الفئات المخفية';
+
+  @override
+  String get new_category => 'فئة جديدة';
+
+  @override
+  String get local => 'محلي';
+
+  @override
+  String get tv_home_rows => 'الصفوف';
+
+  @override
+  String get genre_rows => 'صفوف التصنيفات';
+
+  @override
+  String get share_backup_file => 'مشاركة نسخة Mangayomi الاحتياطية';
+
+  @override
+  String get close => 'إغلاق';
+
+  @override
+  String get migrate_source => 'ترحيل المصدر';
+
+  @override
+  String get cloudflare_bypass_proxy => 'وكيل تجاوز Cloudflare';
+
+  @override
+  String get custom_doh_url => 'رابط DoH مخصص';
+
+  @override
+  String get custom_doh_url_helper => 'يجب أن يكون نقطة DoH (JSON) عبر https';
+
+  @override
+  String get anime_only_tv_layout => 'تخطيط التلفاز للأنمي فقط';
+
+  @override
+  String get anime_only_beta => 'الأنمي فقط (تجريبي)';
+
+  @override
+  String get tv_home_beta => 'رئيسية التلفاز (تجريبي)';
+
+  @override
+  String get tv_player_beta => 'مشغل التلفاز (تجريبي)';
+
+  @override
+  String get mark_as_read => 'تعليم كمقروء';
+
+  @override
+  String get mark_as_unread => 'تعليم كغير مقروء';
+
+  @override
+  String get bookmark => 'إشارة مرجعية';
+
+  @override
+  String get remove_bookmark => 'إزالة الإشارة المرجعية';
+
+  @override
+  String get mark_below_as_read => 'تعليم ما بالأسفل كمقروء';
+
+  @override
+  String get previous_chapter => 'الفصل السابق';
+
+  @override
+  String get pin => 'تثبيت';
+
+  @override
+  String get go_forward => 'التقدم';
+
+  @override
+  String get invert_selection => 'عكس التحديد';
+
+  @override
+  String get show_password => 'إظهار كلمة المرور';
+
+  @override
+  String get hide_password => 'إخفاء كلمة المرور';
+
+  @override
+  String get always_on_top => 'دائمًا في المقدمة';
+
+  @override
+  String get mute => 'كتم الصوت';
+
+  @override
+  String get unmute => 'إلغاء الكتم';
+
+  @override
+  String get exit_fullscreen => 'الخروج من ملء الشاشة';
+
+  @override
+  String get play => 'تشغيل';
+
+  @override
+  String get pause => 'إيقاف مؤقت';
+
+  @override
+  String get switch_tracker => 'تبديل المتتبع';
+
+  @override
+  String get rename => 'إعادة التسمية';
+
+  @override
+  String get show_category => 'إظهار الفئة';
+
+  @override
+  String get hide_category => 'إخفاء الفئة';
+
+  @override
+  String get update_with_library => 'التحديث مع المكتبة';
+
+  @override
+  String get skip_updates => 'التخطي عند تحديث المكتبة';
+
+  @override
+  String get show_repository => 'إظهار المستودع';
+
+  @override
+  String get hide_repository => 'إخفاء المستودع';
+
+  @override
+  String get set_as_default => 'تعيين كافتراضي';
+
+  @override
+  String get change_display_mode => 'تغيير وضع العرض';
+
+  @override
+  String get back_to_results => 'العودة إلى النتائج';
+
+  @override
+  String get activity => 'النشاط';
+
+  @override
+  String get group_nav_destinations => 'تجميع التنقل';
+
+  @override
+  String get group_nav_destinations_subtitle =>
+      'تبويب مكتبة واحد بمبدّل للمانغا والأنمي والروايات، وتبويب نشاط واحد للتحديثات والسجل';
+
+  @override
+  String get search_all_sources => 'البحث في كل المصادر';
+
+  @override
+  String get continue_reading => 'متابعة';
+
+  @override
+  String get show_continue_shelf => 'إظهار ما تقرأه';
+
+  @override
+  String get show_continue_shelf_subtitle => 'صف للسلاسل الجارية أعلى المكتبة';
+
+  @override
+  String get excluded => 'مستبعد';
+
+  @override
+  String get remove_filter => 'إزالة الفلتر';
+
+  @override
+  String get current_chapter => 'الفصل الحالي';
+
+  @override
+  String get series => 'السلسلة';
+
+  @override
+  String get chapters_read => 'الفصول المقروءة';
+
+  @override
+  String get search_settings => 'البحث في الإعدادات';
+
+  @override
+  String get search_settings_hint => 'اكتب اسم إعداد أو كلمة من وصفه';
+
+  @override
+  String reading_mode_for(String name) {
+    return 'وضع القراءة لـ $name';
+  }
+
+  @override
+  String default_is(String name) {
+    return 'الافتراضي: $name';
+  }
+
+  @override
+  String get use_default => 'استخدام الافتراضي';
+
+  @override
+  String get is_the_default => 'هذا وضع القراءة الافتراضي لديك';
+
+  @override
+  String get page_layout => 'تخطيط الصفحة والتكبير';
+
+  @override
+  String get reader_section_mode_summary => 'الوضع الافتراضي، التحجيم، الخلفية، التحميل المسبق، ملء الشاشة';
+
+  @override
+  String get reader_section_layout_summary => 'الصفحات العريضة، الصفحات المزدوجة، التكبير الأفقي';
+
+  @override
+  String get reader_section_navigation_summary => 'مناطق اللمس، التخطيط، إخفاء القائمة، وميض الصفحة';
+
+  @override
+  String get reader_section_swipe_summary => 'ما يفعله سحب فصل في قائمة';
+
+  @override
+  String get all_reader_settings => 'كل إعدادات القارئ';
+
+  @override
+  String get undo => 'تراجع';
+
+  @override
+  String get removed_from_history => 'أُزيل من السجل';
+
+  @override
+  String n_new_chapters(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count فصول جديدة',
+      one: 'فصل جديد واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get page_color_white => 'أبيض';
+
+  @override
+  String get page_color_black => 'أسود';
+
+  @override
+  String get page_color_night => 'ليلي';
+
+  @override
+  String get page_color_sepia => 'بني داكن';
+
+  @override
+  String get page_color_coffee => 'قهوة';
+
+  @override
+  String get page_color_silver => 'فضي';
+
+  @override
+  String get page_color_graphite => 'جرافيت';
+
+  @override
+  String get page_color_mist => 'ضباب';
+
+  @override
+  String get page_color_paper => 'ورق';
+
+  @override
+  String get page_color_sky => 'سماء';
+
+  @override
+  String get page_color_mint => 'نعناع';
+
+  @override
+  String get page_color_honey => 'عسل';
+
+  @override
+  String next_episode_in(int seconds) {
+    return 'الحلقة التالية بعد $seconds ث';
+  }
+
+  @override
+  String get stay_on_this_episode => 'البقاء في هذه الحلقة';
+
+  @override
+  String get got_it => 'فهمت';
+
+  @override
+  String get gesture_brightness => 'اسحب لأعلى أو لأسفل على اليسار لضبط السطوع';
+
+  @override
+  String get gesture_volume => 'اسحب لأعلى أو لأسفل على اليمين لضبط الصوت';
+
+  @override
+  String get gesture_double_tap_skip => 'انقر مرتين على أحد الجانبين للرجوع أو التقدم';
+
+  @override
+  String get gesture_drag_seek => 'اسحب جانبيًا للتنقل في الفيديو';
+
+  @override
+  String get gesture_long_press_speed => 'اضغط مطولًا للتسريع';
+
+  @override
+  String get tap_to_continue => 'انقر في أي مكان للمتابعة';
+
+  @override
+  String get empty_library_hint => 'ابحث عن سلسلة في التصفح وأضفها إلى مكتبتك.';
+
+  @override
+  String get more_filters => 'مزيد من الفلاتر';
+
+  @override
+  String get resume_all_downloads => 'استئناف كل التنزيلات';
+
+  @override
+  String get download_failed => 'فشل';
+
+  @override
+  String get download_all => 'تنزيل الكل';
+
+  @override
+  String n_chapters_queued(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count فصول في قائمة الانتظار',
+      one: 'فصل واحد في قائمة الانتظار',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String n_selected(int count) {
+    return 'تم تحديد $count';
+  }
+
+  @override
+  String get settings_general_summary => 'اللغة، تحديثات المكتبة، الشبكة';
+
+  @override
+  String get settings_appearance_summary => 'السمة، لوحة الألوان، التنقل، الخط';
+
+  @override
+  String get settings_novel_reader_summary => 'الخط، لون الصفحة، القراءة الصوتية';
+
+  @override
+  String get settings_player_summary => 'التشغيل، الترجمات، الصوت، فك الترميز';
+
+  @override
+  String get settings_downloads_summary => 'الموقع، Wi-Fi فقط، التنزيلات المتزامنة';
+
+  @override
+  String get settings_tracking_summary => 'MyAnimeList وAniList وKitsu وغيرها';
+
+  @override
+  String get settings_syncing_summary => 'أبقِ تقدمك متزامنًا على خادمك الخاص';
+
+  @override
+  String get settings_browse_summary => 'الإضافات، المستودعات، المصادر';
+
+  @override
+  String get settings_security_summary => 'قفل التطبيق';
+
+  @override
+  String get settings_about_summary => 'الإصدار، التحديثات، تقارير الأخطاء';
+
+  @override
+  String minutes_left(int minutes) {
+    return '≈ تبقى $minutes د';
+  }
+
+  @override
+  String get group_playback => 'التشغيل';
+
+  @override
+  String get group_subtitles => 'الترجمات';
+
+  @override
+  String get group_screen => 'الشاشة';
+
+  @override
+  String get aniskip => 'AniSkip';
+
+  @override
+  String seconds_short(int n) {
+    return '$n ث';
+  }
+
+  @override
+  String unknown_language_codes(String codes) {
+    return 'رمز لغة غير معروف: $codes';
+  }
+
+  @override
+  String get group_network => 'الشبكة';
+
+  @override
+  String get group_discord => 'Discord';
+
+  @override
+  String invalid_url(String scheme) {
+    return 'أدخل رابطًا يبدأ بـ $scheme';
+  }
+
+  @override
+  String get group_cleanup => 'التنظيف';
+
+  @override
+  String remove_entries_confirm(int n) {
+    return 'إزالة $n من العناصر وسجلها؟ لا يمكن التراجع عن ذلك.';
+  }
+
+  @override
+  String get group_library_maintenance => 'صيانة المكتبة';
+
+  @override
+  String get group_diagnostics => 'التشخيص';
+
+  @override
+  String get update_no_notes => 'لا توجد ملاحظات إصدار.';
+
+  @override
+  String update_download_failed(String error) {
+    return 'فشل التنزيل: $error';
+  }
+
+  @override
+  String get update_network_error => 'خطأ في الشبكة أثناء التنزيل.';
+
+  @override
+  String get update_write_failed => 'تعذّرت كتابة ملف APK.';
+
+  @override
+  String get deselect_all => 'إلغاء تحديد الكل';
+
+  @override
+  String update_failed_count(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'تعذّر تحديث $count من العناصر',
+      one: 'تعذّر تحديث عنصر واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sort_ascending => 'تصاعدي';
+
+  @override
+  String get sort_descending => 'تنازلي';
+
+  @override
+  String get not_downloaded => 'غير منزَّل';
+
+  @override
+  String n_tracked(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count من العناصر متتبَّعة',
+      one: 'عنصر واحد متتبَّع',
+      zero: 'لا شيء متتبَّع بعد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get no_tracker_connected => 'لا يوجد متتبع متصل';
+
+  @override
+  String get no_tracker_connected_message => 'سجّل الدخول إلى خدمة من الإعدادات › التتبع لرؤية قوائمها هنا.';
+
+  @override
+  String get edit_metadata => 'تعديل البيانات الوصفية';
+
+  @override
+  String get group_modes => 'الأوضاع';
+
+  @override
+  String get group_app => 'التطبيق';
+
+  @override
+  String get group_sources_services => 'المصادر والخدمات';
+
+  @override
+  String n_sources(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count من المصادر',
+      one: 'مصدر واحد',
+      zero: 'لا توجد مصادر',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tv_player_beta_subtitle => 'تشغيل: المشغل المصمم لجهاز التحكم بالتلفاز. إيقاف: المشغل الأصلي.';
+
+  @override
+  String get anime_only_beta_subtitle => 'إخفاء المانغا والروايات في كامل التطبيق. أوقفه لإظهار كل شيء.';
+
+  @override
+  String download_queue_start_failed(String error) {
+    return 'تعذّر بدء قائمة التنزيل: $error';
+  }
+
+  @override
+  String get group_interface => 'الواجهة';
+
+  @override
+  String get group_navigation => 'التنقل';
+
+  @override
+  String get tv_home_beta_subtitle => 'رئيسية أنمي على شكل صفوف (المتابعة، الحلقات الجديدة، الفئات) بدل الشبكة المسطحة';
+
+  @override
+  String get cloudflare_bypass_proxy_hint => 'عنوان FlareSolverr أو Byparr اختياري';
+
+  @override
+  String get cloudflare_bypass_proxy_message => 'نقطة FlareSolverr أو Byparr. اتركه فارغًا لإيقافه.';
+
+  @override
+  String get group_explore => 'استكشاف';
+
+  @override
+  String get explore_recommendations_subtitle => 'عناوين مشابهة لهذا';
+
+  @override
+  String get explore_related_subtitle => 'اقتباساته وأعماله الجانبية ونسخه الأخرى';
+
+  @override
+  String get explore_watch_order_subtitle => 'ترتيب مشاهدة القصة كاملة';
+
+  @override
+  String get explore_sequels_subtitle => 'ما يأتي بعده، من متتبعك';
+
+  @override
+  String get tap_zone_menu => 'القائمة';
+
+  @override
+  String get tap_zone_previous => 'السابق';
+
+  @override
+  String get tap_zone_next => 'التالي';
+
+  @override
+  String get back_to_series => 'العودة إلى السلسلة';
+
+  @override
+  String get keyboard_shortcuts => 'اختصارات لوحة المفاتيح';
+
+  @override
+  String get shortcut_previous_page => 'الصفحة السابقة';
+
+  @override
+  String get shortcut_next_page => 'الصفحة التالية';
+
+  @override
+  String get shortcut_toggle_bars => 'إظهار الأشرطة أو إخفاؤها';
+
+  @override
+  String get shortcut_zoom_in => 'تكبير';
+
+  @override
+  String get shortcut_zoom_out => 'تصغير';
+
+  @override
+  String get shortcut_zoom_reset => 'ملاءمة الصفحة';
+
+  @override
+  String get shortcut_leave => 'مغادرة القارئ';
+
+  @override
+  String get shortcut_show => 'إظهار هذه الاختصارات';
+
+  @override
+  String get color_red => 'أحمر';
+
+  @override
+  String get color_blue => 'أزرق';
+
+  @override
+  String get color_opacity => 'العتامة';
+
+  @override
+  String get volume_keys_paging => 'تقليب الصفحات بأزرار الصوت';
+
+  @override
+  String get volume_keys_paging_ios =>
+      'يُبقى الصوت عند المنتصف أثناء القراءة كي يعمل الزران، ويعود كما كان عند المغادرة.';
+
+  @override
+  String get volume_keys_inverted => 'عكس أزرار الصوت';
+
+  @override
+  String get reader_orientation => 'اتجاه الشاشة';
+
+  @override
+  String get orientation_free => 'اتباع الجهاز';
+
+  @override
+  String get orientation_portrait => 'عمودي';
+
+  @override
+  String get orientation_landscape => 'أفقي';
+
+  @override
+  String get screen_brightness => 'سطوع الشاشة';
+
+  @override
+  String get screen_brightness_system => 'يتبع النظام';
+
+  @override
+  String get shortcut_play_pause => 'تشغيل أو إيقاف مؤقت';
+
+  @override
+  String shortcut_seek_back(int n) {
+    return 'الرجوع $n ث';
+  }
+
+  @override
+  String shortcut_seek_forward(int n) {
+    return 'التقدم $n ث';
+  }
+
+  @override
+  String get shortcut_volume_up => 'رفع الصوت';
+
+  @override
+  String get shortcut_volume_down => 'خفض الصوت';
+
+  @override
+  String get shortcut_mute => 'كتم الصوت أو إلغاؤه';
+
+  @override
+  String shortcut_skip_intro(int n) {
+    return 'تخطي المقدمة ($n ث)';
+  }
+
+  @override
+  String get shortcut_previous_frame => 'الإطار السابق';
+
+  @override
+  String get shortcut_next_frame => 'الإطار التالي';
+
+  @override
+  String get shortcut_shaders => 'مظللات Anime4K';
+
+  @override
+  String get shortcut_shaders_off => 'إيقاف المظللات';
+
+  @override
+  String get autoplay_next_on => 'التشغيل التلقائي للحلقة التالية: مفعّل';
+
+  @override
+  String get autoplay_next_off => 'التشغيل التلقائي للحلقة التالية: معطّل';
+
+  @override
+  String get autoplay_next => 'تشغيل الحلقة التالية تلقائيًا';
+
+  @override
+  String get next_episode_short => 'التالي';
+
+  @override
+  String get subtitle_preview_sample => 'الرحلة مستمرة.';
+
+  @override
+  String get text_style => 'النمط';
+
+  @override
+  String get code_editor => 'محرر الشيفرة';
+
+  @override
+  String get code_view_code => 'الشيفرة';
+
+  @override
+  String get code_view_test => 'اختبار';
+
+  @override
+  String get code_view_console => 'وحدة التحكم';
+
+  @override
+  String get code_function => 'الدالة';
+
+  @override
+  String get code_page => 'الصفحة';
+
+  @override
+  String get code_query => 'الاستعلام';
+
+  @override
+  String get code_url => 'URL';
+
+  @override
+  String get code_html => 'HTML';
+
+  @override
+  String get code_execute => 'تشغيل';
+
+  @override
+  String get code_executing => 'جارٍ التشغيل…';
+
+  @override
+  String get code_no_result => 'لا نتيجة بعد';
+
+  @override
+  String get code_no_result_message => 'شغّل دالة لرؤية ما تُرجعه.';
+
+  @override
+  String get code_console => 'وحدة التحكم';
+
+  @override
+  String get code_no_logs => 'لا سجلات بعد';
+
+  @override
+  String get tv_empty_anime_library => 'مكتبة الأنمي فارغة';
+
+  @override
+  String get tv_empty_anime_library_hint => 'أضف أنمي من التصفح لملء الصفحة الرئيسية';
+
+  @override
+  String get browse_anime => 'تصفح الأنمي';
+
+  @override
+  String get no_episodes_yet => 'لا حلقات بعد';
+
+  @override
+  String get filler => 'حلقة حشو';
+
+  @override
+  String get obsolete => 'قديمة';
+
+  @override
+  String every_n_days(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'كل $n أيام',
+      one: 'كل يوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get update_interval_unknown => 'لا يوجد تقدير';
+
+  @override
+  String get group_reading => 'القراءة';
+
+  @override
+  String get group_reading_watching => 'القراءة والمشاهدة';
+
+  @override
+  String get novel_reader => 'قارئ الروايات';
+
+  @override
+  String get all_languages => 'كل اللغات';
+
+  @override
+  String get custom_dns_title => 'DNS مخصص';
+
+  @override
+  String get custom_dns_system => 'DNS النظام';
+
+  @override
+  String get calendar_format_month => 'شهر';
+
+  @override
+  String get calendar_format_two_weeks => 'أسبوعان';
+
+  @override
+  String get calendar_format_week => 'أسبوع';
+
+  @override
+  String get read_count => 'مقروءة';
+
+  @override
+  String get watched_count => 'مُشاهَدة';
+
+  @override
+  String get source_code_error_title => 'لم تعمل شيفرة هذا المصدر';
+
+  @override
+  String source_code_error_failed(String what) {
+    return 'فشل $what: استخدمت الشاشة قيمة احتياطية لتتمكن من المتابعة';
+  }
+
+  @override
+  String get copy_error => 'نسخ';
+
+  @override
+  String get error_copied => 'تم نسخ الخطأ';
+
+  @override
+  String get no_categories_yet => 'لا توجد فئات بعد';
+
+  @override
+  String get no_categories_yet_message => 'نظّم مكتبتك في فئات تسمّيها وترتّبها بنفسك.';
+
+  @override
+  String get settings_keyboard_shortcuts_summary => 'أعد تعيين مفاتيح القارئ والمشغل';
+
+  @override
+  String get shortcut_reset_all => 'إعادة تعيين كل الاختصارات';
+
+  @override
+  String get shortcut_press_key => 'اضغط على مفتاح…';
+
+  @override
+  String shortcut_key_in_use(String action) {
+    return 'مستخدم بالفعل في: $action';
+  }
 }

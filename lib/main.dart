@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:app_links/app_links.dart';
 import 'package:archive/archive.dart';
 import 'package:bot_toast/bot_toast.dart';
@@ -8,36 +9,44 @@ import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:shiori/shiori.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:isar_community/isar.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/models/custom_button.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/source.dart';
+import 'package:mangayomi/repositories/custom_button_repository.dart';
+import 'package:mangayomi/repositories/db.dart';
+import 'package:mangayomi/repositories/track_repository.dart';
+export 'package:mangayomi/repositories/db.dart';
+export 'package:mangayomi/services/http/m_client.dart' show webViewEnvironment, customDns;
 import 'package:mangayomi/models/track.dart' as track;
-import 'package:mangayomi/models/track_preference.dart';
-import 'package:mangayomi/models/track_search.dart';
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
 import 'package:mangayomi/modules/more/data_and_storage/providers/storage_usage.dart';
 import 'package:mangayomi/modules/more/settings/browse/providers/browse_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/general/providers/general_state_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
+import 'package:mangayomi/modules/onboarding/onboarding_screen.dart';
+import 'package:mangayomi/modules/onboarding/providers/onboarding_state_provider.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/router/router.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/theme_mode_state_provider.dart';
 import 'package:mangayomi/l10n/generated/app_localizations.dart';
+import 'package:mangayomi/services/library_updater.dart';
+import 'package:mangayomi/services/sync_server.dart';
 import 'package:mangayomi/services/http/m_client.dart';
-import 'package:mangayomi/services/isolate_service.dart';
 import 'package:mangayomi/services/m_extension_server.dart';
 import 'package:mangayomi/services/download_manager/m_downloader.dart';
 import 'package:mangayomi/src/rust/frb_generated.dart';
 import 'package:mangayomi/utils/discord_rpc.dart';
+import 'package:mangayomi/services/crash_native.dart';
+import 'package:mangayomi/services/crash_report.dart';
 import 'package:mangayomi/utils/log/logger.dart';
+import 'package:mangayomi/utils/client_id.dart';
 import 'package:mangayomi/utils/platform_utils.dart';
 import 'package:mangayomi/utils/url_protocol/api.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/theme_provider.dart';
@@ -50,14 +59,13 @@ import 'package:window_manager/window_manager.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/services.dart' show rootBundle, LogicalKeyboardKey;
 import 'package:mangayomi/utils/window_geometry.dart';
-import 'package:mangayomi/modules/manga/reader/subsampling_scale_image_view/subsampling_scale_image_view.dart';
+import 'package:mangayomi/modules/more/settings/general/providers/memory_probe_provider.dart';
+import 'package:mangayomi/modules/widgets/memory_overlay.dart';
 import 'package:mangayomi/modules/widgets/app_ui_scale.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/app_ui_scale_state_provider.dart';
+import 'package:mangayomi/utils/error_toast.dart';
+export 'package:mangayomi/services/discord_rpc.dart' show discordRpc;
 
-late Isar isar;
-DiscordRPC? discordRpc;
-WebViewEnvironment? webViewEnvironment;
-String? customDns;
 void main(List<String> args) async {
   // Zone-level catch-all for anything that slips through both layers
   runZonedGuarded(
@@ -67,9 +75,7 @@ void main(List<String> args) async {
 
       // Cap the decoded image cache so a large library grid can't fill the
       // default 100 MB ceiling with full-resolution covers and OOM constrained
-      // mobile heaps. Mobile gets a tight 64 MB; desktop keeps 256 MB. The
-      // encoded-bytes LRU in CustomExtendedNetworkImageProvider (50 MB) is a
-      // separate cache and is not affected by this setting.
+      // mobile heaps. Mobile gets a tight 64 MB; desktop keeps 256 MB.
       PaintingBinding.instance.imageCache.maximumSizeBytes = isMobile ? 64 << 20 : 256 << 20;
 
       // Widget-layer errors (build / layout / paint)
@@ -78,6 +84,11 @@ void main(List<String> args) async {
         AppLogger.log(
           'FlutterError: ${details.exceptionAsString()}\n${details.stack}',
           logLevel: LogLevel.error,
+        );
+        CrashReports.record(
+          source: 'FlutterError',
+          error: details.exceptionAsString(),
+          stack: details.stack,
         );
       };
 
@@ -88,6 +99,11 @@ void main(List<String> args) async {
           'PlatformDispatcher error: $error\n$stack',
           logLevel: LogLevel.error,
         );
+        CrashReports.record(
+          source: 'PlatformDispatcher',
+          error: error,
+          stack: stack,
+        );
         return true; // handled — prevent app termination
       };
 
@@ -97,6 +113,20 @@ void main(List<String> args) async {
       // can start, browse and read online without it. The permission is still
       // requested lazily by `createDirectorySafely` / `initDB` the first time a
       // public path actually needs to be written (e.g. a download). See #740.
+      // Caught errors are kept for everyone, unlike the verbose log behind
+      // "Enable logs". Anything raised before this is held in memory and
+      // written out here.
+      unawaited(
+        storage
+            .getDefaultDirectory()
+            .then((directory) async {
+              await CrashReports.init(directory);
+              // After CrashReports, because a native crash from the last run
+              // is recorded into it.
+              await NativeCrashHandler.init(directory);
+            })
+            .catchError((_) {}),
+      );
       // Any failure before runApp would otherwise leave a blank window, so
       // surface it on the startup error screen instead.
       Object? startupError;
@@ -120,6 +150,11 @@ void main(List<String> args) async {
         'runZonedGuarded error: $error\n$stack',
         logLevel: LogLevel.error,
       );
+      CrashReports.record(
+        source: 'runZonedGuarded',
+        error: error,
+        stack: stack,
+      );
     },
   );
 }
@@ -130,25 +165,14 @@ Future<void> _initPlatform() async {
   // Detect Android TV / leanback so the UI can branch on form factor.
   // No-op on other platforms. See #729.
   await initIsTv();
-  await getIsolateService.start();
-  await ffiImageDecoder.start();
+  // Expensive worker isolates start lazily on first use instead of delaying
+  // the first frame.
   if (!isMobile) {
     await windowManager.ensureInitialized();
     await WindowGeometry.restore();
   }
   if (Platform.isWindows) {
     registerProtocolHandler("mangayomi");
-  }
-  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
-    final availableVersion = await WebViewEnvironment.getAvailableVersion();
-    if (availableVersion != null) {
-      final document = await getApplicationDocumentsDirectory();
-      webViewEnvironment = await WebViewEnvironment.create(
-        settings: WebViewEnvironmentSettings(
-          userDataFolder: p.join(document.path, 'flutter_inappwebview'),
-        ),
-      );
-    }
   }
 }
 
@@ -166,7 +190,12 @@ class _StartupErrorApp extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.error_outline, size: 64, color: Colors.red),
+                const Icon(
+                  Symbols.error_outline_rounded,
+                  fill: 1,
+                  size: 64,
+                  color: Colors.red,
+                ),
                 const SizedBox(height: 16),
                 const Text(
                   'Failed to start Mangayomi',
@@ -186,18 +215,56 @@ class _StartupErrorApp extends StatelessWidget {
   }
 }
 
+/// The tracker library cache moved from Hive to Isar. Remove the box Hive
+/// left behind, in the directory `Hive.initFlutter` used to open it.
+Future<void> _deleteLegacyHiveCache() async {
+  try {
+    final docs = await getApplicationDocumentsDirectory();
+    final dir = Platform.isAndroid
+        ? docs.path
+        : p.join(
+            docs.path,
+            isApple ? "databases" : p.join("Mangayomi", "databases"),
+          );
+    for (final name in ["tracker_library.hive", "tracker_library.lock"]) {
+      final file = File(p.join(dir, name));
+      if (await file.exists()) await file.delete();
+    }
+  } catch (error, stackTrace) {
+    recordError(error, stack: stackTrace, source: 'main');
+  }
+}
+
 Future<void> _postLaunchInit(StorageProvider storage) async {
   await AppLogger.init();
+  // Backfills clientId on rows saved before that field existed. Runs on every
+  // launch rather than gating on a version check - once caught up it's just
+  // six empty indexed lookups, so there's no real cost to checking again.
+  unawaited(backfillMissingClientIds());
   unawaited(MDownloader.initializeIsolatePool(poolSize: 6));
-  final hivePath = isApple ? "databases" : p.join("Mangayomi", "databases");
-  await Hive.initFlutter(Platform.isAndroid ? "" : hivePath);
-  Hive.registerAdapter(TrackSearchAdapter());
+  unawaited(_deleteLegacyHiveCache());
   if (isDesktop && !kDebugMode) {
     discordRpc = DiscordRPC(applicationId: "1395040506677039157");
     await discordRpc?.initialize();
   }
   await storage.deleteBtDirectory();
   await webviewServer();
+  // Deferred until after runApp() creates the window: on Windows,
+  // WebViewEnvironment.create() needs COM initialized on a thread with an
+  // active message pump, which doesn't exist yet during main()'s pre-launch
+  // setup. Running it here (post-first-frame territory) avoids the
+  // "CoInitialize has not been called" PlatformException.
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
+    final availableVersion = await WebViewEnvironment.getAvailableVersion();
+    if (availableVersion != null) {
+      final document = await getApplicationDocumentsDirectory();
+      webViewEnvironment = await WebViewEnvironment.create(
+        settings: WebViewEnvironmentSettings(
+          userDataFolder: p.join(document.path, 'flutter_inappwebview'),
+        ),
+      );
+    }
+  }
 }
 
 class MyApp extends ConsumerStatefulWidget {
@@ -219,13 +286,33 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
     if (!isMobile) windowManager.addListener(this);
     initializeDateFormatting();
     customDns = ref.read(customDnsStateProvider);
-    _checkTrackerRefresh();
     _initDeepLinks();
     _setupMpvConfig();
-    unawaited(ref.read(scanLocalLibraryProvider.future));
+
+    // Tracker refresh and the local-library filesystem scan compete with the
+    // first paint for network/CPU; run them shortly after the UI is up.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(seconds: 2), () {
+        if (!mounted) return;
+        _checkTrackerRefresh();
+        unawaited(ref.read(scanLocalLibraryProvider.future));
+      });
+    });
+
+    // The scheduled library refresh and auto-sync, when due. They go last and
+    // stay quiet: launch is already busy, and these walk data or hit network.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(seconds: 5), () {
+        if (!mounted) return;
+        unawaited(autoUpdateLibraryIfDue(ref));
+        unawaited(autoSyncIfDue(ref));
+      });
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      MExtensionServerPlatform(ref).startServer();
+      if (!Platform.isIOS || ref.read(autoStartExtensionServerOnLaunchStateProvider)) {
+        MExtensionServerPlatform(ref).startServer();
+      }
       if (ref.read(clearChapterCacheOnAppLaunchStateProvider)) {
         // Watch before calling clearcache to keep it alive, so that _getTotalDiskSpace completes safely
         ref.watch(totalChapterCacheSizeStateProvider);
@@ -242,10 +329,17 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
         return;
       }
       // Lock the app when going to background (if lock is enabled)
-      final lockEnabled = isar.settings.getSync(227)!.appLockEnabled ?? false;
+      final lockEnabled = ref.read(appLockEnabledStateProvider);
       if (lockEnabled) {
         ref.read(appUnlockedStateProvider.notifier).lock();
       }
+    } else if (state == AppLifecycleState.resumed) {
+      // Launch is the other trigger for the scheduled refresh, so without this
+      // a session that stays open for days - a desktop one, typically - would
+      // never run one. The interval check makes this a no-op the rest of the
+      // time.
+      unawaited(autoUpdateLibraryIfDue(ref));
+      unawaited(autoSyncIfDue(ref));
     }
   }
 
@@ -267,6 +361,31 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
       supportedLocales: AppLocalizations.supportedLocales,
       builder: (context, child) {
         Widget content = child ?? const SizedBox.shrink();
+        // First launch of a fresh install: the app has no sources of its own,
+        // so say so before dropping the user into an empty Browse. Gating here
+        // rather than in the router keeps the TV shortcuts, the UI scale and
+        // the toast host below wrapping it exactly as they wrap everything else.
+        // Fading rather than swapping. The first run used to vanish in a
+        // single frame onto whatever the router had underneath it, which is
+        // also the frame the browse branch is still building in, so the end of
+        // the flow was the roughest part of it.
+        final onboarding = !ref.watch(onboardingCompletedStateProvider);
+        content = AnimatedSwitcher(
+          duration: const Duration(milliseconds: 380),
+          // The app fades up over most of the window while the first run
+          // holds, then leaves. Crossing them evenly showed both at half
+          // strength through the middle, which reads as a flicker.
+          switchInCurve: const Interval(0.35, 1, curve: Curves.easeOut),
+          switchOutCurve: const Interval(0, 0.5, curve: Curves.easeIn),
+          child: onboarding ? const OnboardingScreen() : KeyedSubtree(key: const ValueKey('app'), child: content),
+        );
+        // The theme's ground behind every page: a page transition fades the
+        // page it leaves, and the window's black showed through on a light
+        // theme.
+        content = ColoredBox(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: content,
+        );
         // On TV, a single-line text field consumes Up/Down for the text cursor,
         // trapping focus so the remote can't reach the surrounding buttons (a
         // dialog's Cancel/Add, etc.). Remap Up/Down to move focus app-wide: a
@@ -300,6 +419,21 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
           }
         }
 
+        // Sits above everything, including the lock screen, because a
+        // measurement is not worth taking if navigating away ends it.
+        if (ref.watch(memoryOverlayVisibleProvider)) {
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              withBackHandler,
+              MemoryOverlay(
+                probe: ref.read(memoryProbeProvider),
+                onClose: () => ref.read(memoryOverlayVisibleProvider.notifier).set(false),
+              ),
+            ],
+          );
+        }
+
         return withBackHandler;
       },
       routeInformationParser: router.routeInformationParser,
@@ -325,8 +459,17 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
     super.dispose();
   }
 
+  // Linux emits `resize`/`move` while the window is being resized or moved;
+  // Windows and macOS emit `resized`/`moved` once it settles. Handle both, or
+  // the geometry is never saved on Linux and the window size is not remembered.
+  @override
+  void onWindowResize() => WindowGeometry.save();
+
   @override
   void onWindowResized() => WindowGeometry.save();
+
+  @override
+  void onWindowMove() => WindowGeometry.save();
 
   @override
   void onWindowMoved() => WindowGeometry.save();
@@ -353,27 +496,55 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
           final context = navigatorKey.currentContext;
           if (context == null || !context.mounted) return;
           final l10n = context.l10n;
+          // repo_name and repo_url are only labels the link chooses for
+          // itself; the *_url lists are what actually gets installed. Show
+          // those, or a link can borrow a trusted repo's name for its own.
+          final sourcesToAdd = [
+            for (final url in mangaRepoUrls ?? const <String>[]) (l10n.manga, url),
+            for (final url in animeRepoUrls ?? const <String>[]) (l10n.anime, url),
+            for (final url in novelRepoUrls ?? const <String>[]) (l10n.novel, url),
+          ];
+          if (sourcesToAdd.isEmpty) return;
           showDialog(
             context: navigatorKey.currentContext!,
             builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text(l10n.add_repo),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("${l10n.name}: ${repoName ?? 'Unknown'}"),
-                    const SizedBox(height: 8),
-                    Text("URL: ${repoUrl ?? 'Unknown'}"),
-                  ],
+              return ShioriDialog(
+                title: l10n.add_repo,
+                content: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.label_value(l10n.name, repoName ?? l10n.unknown),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(l10n.label_value(l10n.url, repoUrl ?? l10n.unknown)),
+                      const SizedBox(height: 16),
+                      Text(l10n.add_repo_sources_to_add),
+                      const SizedBox(height: 4),
+                      for (final (type, url) in sourcesToAdd)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: SelectableText(l10n.label_value(type, url)),
+                        ),
+                      const SizedBox(height: 16),
+                      Text(
+                        l10n.add_repo_warning,
+                        style: TextStyle(
+                          color: context.shiori.color.error.foreground,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 actions: [
-                  TextButton(
-                    child: Text(l10n.cancel),
+                  ShioriButton.quiet(
+                    label: l10n.cancel,
                     onPressed: () => Navigator.of(context).pop(),
                   ),
-                  FilledButton(
-                    child: Text(l10n.add),
+                  ShioriButton(
+                    label: l10n.add,
                     onPressed: () async {
                       if (context.mounted) Navigator.of(context).pop();
 
@@ -388,27 +559,45 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
                         return;
                       }
 
-                      void addRepos(ItemType type, List<String>? urls) {
+                      Future<void> addRepos(
+                        ItemType type,
+                        List<String>? urls,
+                      ) async {
                         if (urls == null) return;
                         final current = ref.read(
                           extensionsRepoStateProvider(type),
                         );
-                        final updated = [
-                          ...current,
-                          ...urls.map(
-                            (e) => Repo(
-                              name: repoName,
-                              jsonUrl: e,
-                              website: repoUrl,
-                            ),
-                          ),
-                        ];
-                        ref.read(extensionsRepoStateProvider(type).notifier).set(updated);
+                        final existingUrls = current
+                            .map((r) => r.jsonUrl?.trim().toLowerCase())
+                            .whereType<String>()
+                            .toSet();
+                        final newRepos = urls
+                            .where((e) {
+                              final clean = e.trim().toLowerCase();
+                              return !existingUrls.contains(clean) &&
+                                  !existingUrls.contains('$clean/') &&
+                                  !existingUrls.contains(
+                                    clean.endsWith('/') ? clean.substring(0, clean.length - 1) : clean,
+                                  );
+                            })
+                            .map(
+                              (e) => Repo(
+                                name: repoName,
+                                jsonUrl: e,
+                                website: repoUrl,
+                              ),
+                            )
+                            .toList();
+                        if (newRepos.isEmpty) return;
+                        final updated = [...current, ...newRepos];
+                        await ref.read(extensionsRepoStateProvider(type).notifier).set(updated);
                       }
 
-                      addRepos(ItemType.manga, mangaRepoUrls);
-                      addRepos(ItemType.anime, animeRepoUrls);
-                      addRepos(ItemType.novel, novelRepoUrls);
+                      await Future.wait([
+                        addRepos(ItemType.manga, mangaRepoUrls),
+                        addRepos(ItemType.anime, animeRepoUrls),
+                        addRepos(ItemType.novel, novelRepoUrls),
+                      ]);
                       botToast(l10n.repo_added);
                     },
                   ),
@@ -425,43 +614,81 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
           }
           final l10n = context.l10n;
           for (final buttonRaw in buttonDataRaw) {
-            final buttonData = jsonDecode(
-              utf8.decode(base64.decode(buttonRaw)),
-            );
+            final Object? buttonData;
+            try {
+              buttonData = jsonDecode(utf8.decode(base64.decode(buttonRaw)));
+            } catch (_) {
+              continue;
+            }
             if (buttonData is Map<String, dynamic>) {
               final customButton = CustomButton.fromJson(buttonData);
+              // The button's code becomes an mpv Lua script, which can touch
+              // the filesystem and spawn processes. Show every line of it
+              // before it is saved, not just the title the link picked.
+              final codeSections = [
+                (l10n.custom_buttons_js_code, customButton.codePress),
+                (l10n.custom_buttons_js_code_long, customButton.codeLongPress),
+                (l10n.custom_buttons_startup, customButton.codeStartup),
+              ].where((s) => s.$2?.trim().isNotEmpty ?? false);
               await showDialog(
                 context: navigatorKey.currentContext!,
                 builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text(l10n.custom_buttons_add),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "${l10n.name}: ${customButton.title ?? 'Unknown'}",
-                        ),
-                      ],
+                  return ShioriDialog(
+                    title: l10n.custom_buttons_add,
+                    content: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.label_value(
+                              l10n.name,
+                              customButton.title ?? l10n.unknown,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            l10n.custom_buttons_add_warning,
+                            style: TextStyle(
+                              color: context.shiori.color.error.foreground,
+                            ),
+                          ),
+                          for (final (label, code) in codeSections) ...[
+                            const SizedBox(height: 16),
+                            Text(label),
+                            const SizedBox(height: 4),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(8),
+                              color: context.shiori.color.ink2,
+                              child: SelectableText(
+                                code!,
+                                style: const TextStyle(
+                                  fontFamily: 'monospace',
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
                     ),
                     actions: [
-                      TextButton(
-                        child: Text(l10n.cancel),
+                      ShioriButton.quiet(
+                        label: l10n.cancel,
                         onPressed: () => Navigator.of(context).pop(),
                       ),
-                      FilledButton(
-                        child: Text(l10n.add),
+                      ShioriButton(
+                        label: l10n.add,
                         onPressed: () async {
                           if (context.mounted) Navigator.of(context).pop();
-                          await isar.writeTxn(() async {
-                            await isar.customButtons.put(
-                              customButton
-                                ..pos = await isar.customButtons.count()
-                                ..isFavourite = false
-                                ..id = null
-                                ..updatedAt = DateTime.now().millisecondsSinceEpoch,
-                            );
-                          });
+                          final pos = await customButtonRepository.count();
+                          await customButtonRepository.save(
+                            customButton
+                              ..pos = pos
+                              ..isFavourite = false
+                              ..id = null,
+                          );
                           botToast(l10n.custom_buttons_added);
                         },
                       ),
@@ -480,15 +707,16 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
   Future<bool> _checkValidUrls(List<String> urls) async {
     final http = MClient.init(reqcopyWith: {'useDartHttpClient': true});
     for (final url in urls) {
-      final req = await http.get(Uri.parse(url));
       try {
+        final req = await http.get(Uri.parse(url));
         final sourceList = (jsonDecode(req.body) as List).map(
           (e) => Source.fromJson(e),
         );
         if (sourceList.firstOrNull?.name == null) {
           return false;
         }
-      } catch (err) {
+      } catch (err, stackTrace) {
+        recordError(err, stack: stackTrace, source: 'main');
         return false;
       }
     }
@@ -499,29 +727,35 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
     try {
       final provider = StorageProvider();
       final dir = await provider.getMpvDirectory();
-      final mpvFile = File('${dir!.path}/mpv.conf');
-      final inputFile = File('${dir.path}/input.conf');
+      final mpvFile = File(p.join(dir!.path, 'mpv.conf'));
+      final inputFile = File(p.join(dir.path, 'input.conf'));
       final filesMissing = !(await mpvFile.exists()) && !(await inputFile.exists());
       if (filesMissing) {
         final bytes = await rootBundle.load("assets/mangayomi_mpv.zip");
         final archive = ZipDecoder().decodeBytes(bytes.buffer.asUint8List());
-        String shadersDir = p.join(dir.path, 'shaders');
-        await Directory(shadersDir).create(recursive: true);
-        String scriptsDir = p.join(dir.path, 'scripts');
-        await Directory(scriptsDir).create(recursive: true);
+        final shadersDir = Directory(p.join(dir.path, 'shaders'));
+        final scriptsDir = Directory(p.join(dir.path, 'scripts'));
+        await Future.wait([
+          shadersDir.create(recursive: true),
+          scriptsDir.create(recursive: true),
+        ]);
+
+        final List<Future> writes = [];
         for (final file in archive.files) {
-          if (file.name == "mpv.conf") {
-            await mpvFile.writeAsBytes(file.content);
-          } else if (file.name == "input.conf") {
-            await inputFile.writeAsBytes(file.content);
-          } else if (file.name.startsWith("shaders/") && file.name.endsWith(".glsl")) {
-            final shaderFile = File('$shadersDir/${file.name.split("/").last}');
-            await shaderFile.writeAsBytes(file.content);
-          } else if (file.name.startsWith("scripts/") && (file.name.endsWith(".js") || file.name.endsWith(".lua"))) {
-            final scriptFile = File('$scriptsDir/${file.name.split("/").last}');
-            await scriptFile.writeAsBytes(file.content);
+          final name = file.name;
+          if (name == "mpv.conf") {
+            writes.add(mpvFile.writeAsBytes(file.content));
+          } else if (name == "input.conf") {
+            writes.add(inputFile.writeAsBytes(file.content));
+          } else if (name.startsWith("shaders/") && name.endsWith(".glsl")) {
+            final shaderFile = File(p.join(shadersDir.path, p.basename(name)));
+            writes.add(shaderFile.writeAsBytes(file.content));
+          } else if (name.startsWith("scripts/") && (name.endsWith(".js") || name.endsWith(".lua"))) {
+            final scriptFile = File(p.join(scriptsDir.path, p.basename(name)));
+            writes.add(scriptFile.writeAsBytes(file.content));
           }
         }
+        await Future.wait(writes);
       }
     } catch (e) {
       // Best-effort: on Android the mpv config dir is in shared storage, which
@@ -533,7 +767,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
   }
 
   Future<void> _checkTrackerRefresh() async {
-    final prefs = await isar.trackPreferences.filter().syncIdIsNotNull().findAll();
+    final prefs = await trackRepository.getAllPreferencesWithSyncId();
     for (final pref in prefs) {
       final temp = track.Track(
         syncId: pref.syncId,

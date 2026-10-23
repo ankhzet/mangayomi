@@ -1,27 +1,94 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:shiori/shiori.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/modules/manga/reader/widgets/double_page_view.dart';
 import 'package:mangayomi/modules/manga/reader/image_view_vertical.dart';
 import 'package:mangayomi/modules/manga/reader/u_chap_data_preload.dart';
 import 'package:mangayomi/modules/manga/reader/widgets/transition_view_vertical.dart';
-import 'package:mangayomi/modules/more/settings/reader/reader_screen.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:mangayomi/modules/manga/reader/utils/reader_page_index_math.dart';
 import 'package:mangayomi/models/settings.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 
-/// Main widget for virtual reading that replaces ScrollablePositionedList
+/// A specialized [ScaleGestureRecognizer] for the webtoon reader.
+///
+/// When unzoomed ([canPanCallback] returns false), single-pointer pans are
+/// rejected from the gesture arena so that normal 1-finger vertical scrolls
+/// pass directly to the underlying scrollable widget without competition,
+/// delay, or stutter.
+///
+/// Two-finger pinches (and 1-finger panning when already zoomed) are accepted
+/// as normal scale gestures.
+class WebtoonScaleGestureRecognizer extends ScaleGestureRecognizer {
+  WebtoonScaleGestureRecognizer({
+    super.debugOwner,
+    super.supportedDevices,
+    super.allowedButtonsFilter,
+    this.canPanCallback,
+  });
+
+  bool Function()? canPanCallback;
+
+  @visibleForTesting
+  GestureDisposition resolveDisposition(GestureDisposition disposition) {
+    if (disposition == GestureDisposition.accepted) {
+      final canPan = canPanCallback?.call() ?? false;
+      if (!canPan && pointerCount < 2) {
+        return GestureDisposition.rejected;
+      }
+    }
+    return disposition;
+  }
+
+  @override
+  void resolve(GestureDisposition disposition) {
+    super.resolve(resolveDisposition(disposition));
+  }
+
+  /// How far a pointer must move, while zoomed, before the pan claims the
+  /// gesture. Under the list's own drag slop, so a zoomed page pans instead
+  /// of the list scrolling, but above the jitter of a tap, so a double tap
+  /// can still reset the zoom.
+  static const double zoomedPanSlop = kTouchSlop / 2;
+
+  final Map<int, Offset> _pointerDownAt = {};
+
+  @override
+  void addAllowedPointer(PointerDownEvent event) {
+    _pointerDownAt[event.pointer] = event.position;
+    super.addAllowedPointer(event);
+  }
+
+  @override
+  void handleEvent(PointerEvent event) {
+    if (event is PointerMoveEvent && canPanCallback?.call() == true) {
+      final downAt = _pointerDownAt[event.pointer];
+      if (downAt != null && (event.position - downAt).distance > zoomedPanSlop) {
+        resolve(GestureDisposition.accepted);
+      }
+    }
+    super.handleEvent(event);
+  }
+
+  @override
+  void stopTrackingPointer(int pointer) {
+    _pointerDownAt.remove(pointer);
+    super.stopTrackingPointer(pointer);
+  }
+}
+
+/// Main widget for virtual reading using SuperListView from super_sliver_list
 class ImageViewWebtoon extends ConsumerStatefulWidget {
   final List<UChapDataPreload> pages;
-  final ItemScrollController itemScrollController;
-  final ScrollOffsetController scrollOffsetController;
-  final ItemPositionsListener itemPositionsListener;
+  final ListController listController;
+  final ScrollController scrollController;
   final Axis scrollDirection;
   final double minCacheExtent;
   final int initialScrollIndex;
   final ScrollPhysics physics;
   final Function(UChapDataPreload data) onLongPressData;
-  final Function(bool) onFailedToLoadImage;
+  final Function(int index, bool failed) onFailedToLoadImage;
   final BackgroundColor backgroundColor;
   final bool isDoublePageMode;
   final bool isHorizontalContinuous;
@@ -31,13 +98,13 @@ class ImageViewWebtoon extends ConsumerStatefulWidget {
   final bool reverse;
   final bool zoomOutDisabled;
   final bool doubleTapZoomEnabled;
+  final void Function(int index)? onPageImageLoaded;
 
   const ImageViewWebtoon({
     super.key,
     required this.pages,
-    required this.itemScrollController,
-    required this.scrollOffsetController,
-    required this.itemPositionsListener,
+    required this.listController,
+    required this.scrollController,
     required this.scrollDirection,
     required this.minCacheExtent,
     required this.initialScrollIndex,
@@ -54,6 +121,7 @@ class ImageViewWebtoon extends ConsumerStatefulWidget {
     this.zoomOutDisabled = false,
     this.doubleTapZoomEnabled = true,
     this.onImageLoaded,
+    this.onPageImageLoaded,
   });
 
   final Function(int index, double width, double height)? onImageLoaded;
@@ -68,20 +136,57 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
   Offset _offset = Offset.zero;
   Offset _baseOffset = Offset.zero;
   Offset _pinchStartFocalPoint = Offset.zero;
+  Offset _lastGlobalFocalPoint = Offset.zero;
+  int _previousPointerCount = 0;
 
+  // QuickScale (one-finger double-tap and drag zoom)
+  bool _isQuickScaling = false;
+  double _quickScaleLastY = 0.0;
+  double _quickScaleLastDistance = -1.0;
+  Offset? _quickScaleCenter;
+
+  late final ValueNotifier<Matrix4> _transformNotifier;
   late final AnimationController _zoomAnimationController;
 
   double _animStartScale = 1.0;
   double _animTargetScale = 1.0;
-  double _animFocalPointX = 0.0;
-  double _animFocalPointY = 0.0;
-  double _animStartOffsetDx = 0.0;
-  double _animStartOffsetDy = 0.0;
+  Offset _animStartOffset = Offset.zero;
+  Offset _animTargetOffset = Offset.zero;
 
   Offset _doubleTapPosition = Offset.zero;
+
   @override
   void initState() {
     super.initState();
+    if (widget.initialScrollIndex > 0) {
+      void jump([int attempt = 0]) {
+        if (!mounted) return;
+        if (widget.listController.isAttached && widget.scrollController.hasClients) {
+          // Keep restoration index-based, like ScrollablePositionedList. The
+          // controller accounts for reverse/RTL and estimated item extents.
+          widget.listController.jumpToItem(
+            index: widget.initialScrollIndex,
+            scrollController: widget.scrollController,
+            alignment: 0.0,
+          );
+          if (attempt < 5) {
+            final range = widget.listController.visibleRange;
+            if (range == null || widget.initialScrollIndex < range.$1 || widget.initialScrollIndex > range.$2) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                jump(attempt + 1);
+              });
+            }
+          }
+        } else if (attempt < 5) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            jump(attempt + 1);
+          });
+        }
+      }
+
+      WidgetsBinding.instance.addPostFrameCallback((_) => jump());
+    }
+    _transformNotifier = ValueNotifier(Matrix4.identity());
     final doubleTapAnimationValue = ref.read(
       doubleTapAnimationSpeedStateProvider,
     );
@@ -92,27 +197,15 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
     _zoomAnimationController.addListener(() {
       final t = _zoomAnimationController.value;
       final curveVal = Curves.easeOutCubic.transform(t);
-      final currentScale = _animStartScale + (_animTargetScale - _animStartScale) * curveVal;
-
-      final screenWidth = MediaQuery.of(context).size.width;
-      final screenHeight = MediaQuery.of(context).size.height;
-
-      final targetDx = _animFocalPointX - (_animFocalPointX - _animStartOffsetDx) * (currentScale / _animStartScale);
-      final targetDxVal = targetDx;
-      final targetDy = _animFocalPointY - (_animFocalPointY - _animStartOffsetDy) * (currentScale / _animStartScale);
-      final targetDyVal = targetDy;
-
-      final maxDx = (screenWidth * (currentScale - 1)) / 2;
-      final maxDy = (screenHeight * (currentScale - 1)) / 2;
-
-      final clampedDx = currentScale > 1.0 ? targetDxVal.clamp(-maxDx, maxDx) : 0.0;
-      final clampedDy = currentScale > 1.0 ? targetDyVal.clamp(-maxDy, maxDy) : 0.0;
-
-      setState(() {
-        _scale = currentScale;
-        _offset = Offset(clampedDx, clampedDy);
-      });
+      _scale = _animStartScale + (_animTargetScale - _animStartScale) * curveVal;
+      _offset = Offset.lerp(_animStartOffset, _animTargetOffset, curveVal) ?? _offset;
+      _updateMatrix();
     });
+  }
+
+  void _updateMatrix() {
+    _transformNotifier.value = Matrix4.diagonal3Values(_scale, _scale, 1.0)
+      ..setTranslationRaw(_offset.dx, _offset.dy, 0.0);
   }
 
   Duration _durationForSpeed(int speed) {
@@ -130,6 +223,50 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
     return _durationForSpeed(doubleTapAnimationValue);
   }
 
+  void _animateTo(
+    double targetScale,
+    Offset targetOffset, {
+    Duration? duration,
+  }) {
+    if (_zoomAnimationController.isAnimating) {
+      _zoomAnimationController.stop();
+    }
+    _animStartScale = _scale;
+    _animTargetScale = targetScale;
+    _animStartOffset = _offset;
+    _animTargetOffset = targetOffset;
+
+    _zoomAnimationController.duration = duration ?? _doubleTapAnimationDuration();
+    _zoomAnimationController.forward(from: 0.0);
+  }
+
+  void _animateZoomToFocalPoint(double targetScale, Offset localFocalPoint) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    final focalX = localFocalPoint.dx - screenWidth / 2;
+    final focalY = localFocalPoint.dy - screenHeight / 2;
+
+    double targetDx;
+    double targetDy;
+
+    if (targetScale <= 1.0) {
+      targetDx = 0.0;
+      targetDy = 0.0;
+    } else {
+      targetDx = focalX - (focalX - _offset.dx) * (targetScale / _scale);
+      targetDy = focalY - (focalY - _offset.dy) * (targetScale / _scale);
+
+      final maxDx = (screenWidth * (targetScale - 1)) / 2;
+      final maxDy = (screenHeight * (targetScale - 1)) / 2;
+
+      targetDx = targetDx.clamp(-maxDx, maxDx);
+      targetDy = targetDy.clamp(-maxDy, maxDy);
+    }
+
+    _animateTo(targetScale, Offset(targetDx, targetDy));
+  }
+
   void _handleScaleStart(ScaleStartDetails details) {
     if (_zoomAnimationController.isAnimating) {
       _zoomAnimationController.stop();
@@ -137,196 +274,322 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
     _baseScale = _scale;
     _baseOffset = _offset;
     _pinchStartFocalPoint = details.localFocalPoint;
+    _lastGlobalFocalPoint = details.focalPoint;
+    _previousPointerCount = details.pointerCount;
+    if (details.pointerCount > 1) {
+      _isQuickScaling = false;
+    }
+    _quickScaleLastDistance = -1.0;
   }
 
   void _handleScaleUpdate(ScaleUpdateDetails details) {
     if (_zoomAnimationController.isAnimating) return;
 
-    final newScale = (_baseScale * details.scale).clamp(
-      widget.zoomOutDisabled ? 1.0 : 0.5,
-      5.0,
-    );
+    // If unzoomed and only 1 pointer is touching, ignore scale updates so
+    // that normal scrolling remains 100% native without matrix recalculation.
+    if (_scale <= 1.01 && details.pointerCount <= 1 && !_isQuickScaling) {
+      return;
+    }
+
+    if (details.pointerCount != _previousPointerCount) {
+      _baseScale = _scale;
+      _baseOffset = _offset;
+      _pinchStartFocalPoint = details.localFocalPoint;
+      _lastGlobalFocalPoint = details.focalPoint;
+      _previousPointerCount = details.pointerCount;
+    }
 
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final isVertical = widget.scrollDirection == Axis.vertical;
 
-    double newDx;
-    double newDy;
+    double newScale = _scale;
+    double newDx = _offset.dx;
+    double newDy = _offset.dy;
 
-    final maxDx = (screenWidth * (newScale - 1)) / 2;
-    final maxDy = (screenHeight * (newScale - 1)) / 2;
+    if (_isQuickScaling && _quickScaleCenter != null) {
+      final double dy = details.localFocalPoint.dy;
+      final double dist = (dy - _pinchStartFocalPoint.dy).abs() * 2 + 20;
 
-    if (details.pointerCount == 1) {
-      final dragDeltaX = details.localFocalPoint.dx - _pinchStartFocalPoint.dx;
-      final dragDeltaY = details.localFocalPoint.dy - _pinchStartFocalPoint.dy;
+      if (_quickScaleLastDistance < 0) _quickScaleLastDistance = dist;
+      final bool isUpwards = dy < _quickScaleLastY;
+      _quickScaleLastY = dy;
 
-      final tempDx = _baseOffset.dx + dragDeltaX;
-      final tempDy = _baseOffset.dy + dragDeltaY;
+      final double spanDiff = (1 - (dist / _quickScaleLastDistance)).abs() * 0.5;
+      if (spanDiff > 0.02) {
+        final double multiplier = isUpwards ? (1 + spanDiff) : (1 - spanDiff);
+        newScale = (_scale * multiplier).clamp(
+          widget.zoomOutDisabled ? 1.0 : 0.5,
+          5.0,
+        );
 
-      if (isVertical) {
-        newDx = tempDx.clamp(-maxDx, maxDx);
-
-        if (tempDy > maxDy) {
-          newDy = maxDy;
-          final overflowY = tempDy - maxDy;
-          try {
-            widget.scrollOffsetController.animateScroll(
-              offset: -overflowY,
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeOutCubic,
-            );
-          } catch (_) {}
-        } else if (tempDy < -maxDy) {
-          newDy = -maxDy;
-          final overflowY = tempDy - (-maxDy);
-          try {
-            widget.scrollOffsetController.animateScroll(
-              offset: -overflowY,
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeOutCubic,
-            );
-          } catch (_) {}
-        } else {
-          newDy = tempDy;
-        }
-      } else {
-        newDy = tempDy.clamp(-maxDy, maxDy);
-
-        if (tempDx > maxDx) {
-          newDx = maxDx;
-          final overflowX = tempDx - maxDx;
-          try {
-            widget.scrollOffsetController.animateScroll(
-              offset: -overflowX,
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeOutCubic,
-            );
-          } catch (_) {}
-        } else if (tempDx < -maxDx) {
-          newDx = -maxDx;
-          final overflowX = tempDx - (-maxDx);
-          try {
-            widget.scrollOffsetController.animateScroll(
-              offset: -overflowX,
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeOutCubic,
-            );
-          } catch (_) {}
-        } else {
-          newDx = tempDx;
-        }
+        final focalX = _quickScaleCenter!.dx - screenWidth / 2;
+        final focalY = _quickScaleCenter!.dy - screenHeight / 2;
+        newDx = focalX - (focalX - _baseOffset.dx) * (newScale / _baseScale);
+        newDy = focalY - (focalY - _baseOffset.dy) * (newScale / _baseScale);
       }
-    } else {
+      _quickScaleLastDistance = dist;
+    } else if (details.pointerCount > 1 && details.scale != 1.0) {
+      newScale = (_baseScale * details.scale).clamp(
+        widget.zoomOutDisabled ? 1.0 : 0.5,
+        5.0,
+      );
+
       final focalX = details.localFocalPoint.dx - screenWidth / 2;
       final focalY = details.localFocalPoint.dy - screenHeight / 2;
       newDx = focalX - (focalX - _baseOffset.dx) * (newScale / _baseScale);
       newDy = focalY - (focalY - _baseOffset.dy) * (newScale / _baseScale);
+    } else if (details.pointerCount == 1 && !_isQuickScaling) {
+      final globalDelta = details.focalPoint - _lastGlobalFocalPoint;
+      _lastGlobalFocalPoint = details.focalPoint;
+      final proposedOffset = _offset + globalDelta;
+
+      final maxDx = (screenWidth * (_scale - 1).clamp(0.0, double.infinity)) / 2;
+      final maxDy = (screenHeight * (_scale - 1).clamp(0.0, double.infinity)) / 2;
+
+      final clampedOffset = Offset(
+        proposedOffset.dx.clamp(-maxDx, maxDx),
+        proposedOffset.dy.clamp(-maxDy, maxDy),
+      );
+      final overflow = proposedOffset - clampedOffset;
+      newDx = clampedOffset.dx;
+      newDy = clampedOffset.dy;
+
+      final parentOverflow = isVertical ? overflow.dy : overflow.dx;
+      if (parentOverflow != 0 && widget.scrollController.hasClients) {
+        final target = (widget.scrollController.offset - parentOverflow).clamp(
+          0.0,
+          widget.scrollController.position.maxScrollExtent,
+        );
+        widget.scrollController.jumpTo(target);
+      }
     }
+
+    final maxDx = (screenWidth * (newScale - 1)) / 2;
+    final maxDy = (screenHeight * (newScale - 1)) / 2;
 
     final clampedDx = newScale > 1.0 ? newDx.clamp(-maxDx, maxDx) : 0.0;
     final clampedDy = newScale > 1.0 ? newDy.clamp(-maxDy, maxDy) : 0.0;
 
-    setState(() {
-      _scale = newScale;
-      _offset = Offset(clampedDx, clampedDy);
-    });
+    _scale = newScale;
+    _offset = Offset(clampedDx, clampedDy);
+    _updateMatrix();
   }
 
   void _handleScaleEnd(ScaleEndDetails details) {
+    _isQuickScaling = false;
+
+    // 1. Rebound spring if zoomed out below 1.0
     if (_scale < 1.0) {
-      _animateZoom(
-        1.0,
-        Offset(
-          MediaQuery.of(context).size.width / 2,
-          MediaQuery.of(context).size.height / 2,
-        ),
-      );
+      _animateTo(1.0, Offset.zero, duration: ShioriMotion.standard);
+      return;
+    }
+
+    // 2. Fling inertia momentum if panning while zoomed
+    if (_scale > 1.0) {
+      final velocity = details.velocity.pixelsPerSecond;
+      if (velocity.distance > 400) {
+        final screenWidth = MediaQuery.of(context).size.width;
+        final screenHeight = MediaQuery.of(context).size.height;
+        final maxDx = (screenWidth * (_scale - 1).clamp(0.0, double.infinity)) / 2;
+        final maxDy = (screenHeight * (_scale - 1).clamp(0.0, double.infinity)) / 2;
+
+        final targetDx = (_offset.dx + velocity.dx * 0.2).clamp(-maxDx, maxDx);
+        final targetDy = (_offset.dy + velocity.dy * 0.2).clamp(-maxDy, maxDy);
+
+        if ((Offset(targetDx, targetDy) - _offset).distance > 8) {
+          _animateTo(
+            _scale,
+            Offset(targetDx, targetDy),
+            duration: const Duration(seconds: 1),
+          );
+        }
+      }
     }
   }
 
-  void _animateZoom(double targetScale, Offset localFocalPoint) {
-    if (_zoomAnimationController.isAnimating) {
-      _zoomAnimationController.stop();
-    }
-
-    _animStartScale = _scale;
-    _animTargetScale = targetScale;
-
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
-    _animFocalPointX = localFocalPoint.dx - screenWidth / 2;
-    _animFocalPointY = localFocalPoint.dy - screenHeight / 2;
-
-    _animStartOffsetDx = _offset.dx;
-    _animStartOffsetDy = _offset.dy;
-
-    _zoomAnimationController.duration = _doubleTapAnimationDuration();
-    _zoomAnimationController.forward(from: 0.0);
+  void _handleDoubleTapDown(TapDownDetails details) {
+    _doubleTapPosition = details.localPosition;
+    _isQuickScaling = true;
+    _quickScaleLastY = details.localPosition.dy;
+    _quickScaleLastDistance = -1.0;
+    _quickScaleCenter = details.localPosition;
   }
 
   void _toggleScale(Offset localFocalPoint) {
     if (!widget.doubleTapZoomEnabled || !mounted) return;
     if (_zoomAnimationController.isAnimating) return;
 
-    if (_scale == 1.0) {
-      _animateZoom(2.0, localFocalPoint);
+    _isQuickScaling = false;
+
+    if (_scale <= 1.05) {
+      _animateZoomToFocalPoint(2.5, localFocalPoint);
     } else {
-      _animateZoom(1.0, localFocalPoint);
+      _animateZoomToFocalPoint(1.0, localFocalPoint);
     }
   }
 
   @override
   void dispose() {
     _zoomAnimationController.dispose();
+    _transformNotifier.dispose();
     super.dispose();
+  }
+
+  int _calculateItemCount(bool singleFirst) {
+    if (widget.isDoublePageMode && !widget.isHorizontalContinuous) {
+      if (widget.pages.isEmpty) return 0;
+      return ReaderPageIndexMath.buildSpreads(
+        widget.pages,
+        singleFirst: singleFirst,
+      ).length;
+    }
+    return widget.pages.length;
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    final singleFirst = ref.watch(doublePageSingleFirstPageStateProvider);
+    final dualPageRotateToFit = ref.watch(dualPageRotateToFitStateProvider);
+    final dualPageRotateToFitInvert = ref.watch(
+      dualPageRotateToFitInvertStateProvider,
+    );
+    final itemCount = _calculateItemCount(singleFirst);
+
+    return RawGestureDetector(
       behavior: HitTestBehavior.translucent,
-      onScaleStart: _handleScaleStart,
-      onScaleUpdate: _handleScaleUpdate,
-      onScaleEnd: _handleScaleEnd,
-      onDoubleTapDown: (details) => _doubleTapPosition = details.localPosition,
-      onDoubleTap: () => _toggleScale(_doubleTapPosition),
-      child: Transform(
-        transform: Matrix4.diagonal3Values(_scale, _scale, 1.0)..setTranslationRaw(_offset.dx, _offset.dy, 0.0),
-        alignment: Alignment.center,
-        child: ScrollablePositionedList.separated(
+      gestures: <Type, GestureRecognizerFactory>{
+        WebtoonScaleGestureRecognizer: GestureRecognizerFactoryWithHandlers<WebtoonScaleGestureRecognizer>(
+          () => WebtoonScaleGestureRecognizer(),
+          (instance) {
+            instance.canPanCallback = () => _scale > 1.01;
+            instance
+              ..onStart = _handleScaleStart
+              ..onUpdate = _handleScaleUpdate
+              ..onEnd = _handleScaleEnd;
+          },
+        ),
+        if (widget.doubleTapZoomEnabled)
+          DoubleTapGestureRecognizer: GestureRecognizerFactoryWithHandlers<DoubleTapGestureRecognizer>(
+            () => DoubleTapGestureRecognizer(),
+            (instance) {
+              instance
+                ..onDoubleTapDown = _handleDoubleTapDown
+                ..onDoubleTap = () {
+                  _toggleScale(_doubleTapPosition);
+                }
+                ..onDoubleTapCancel = () {
+                  _isQuickScaling = false;
+                };
+            },
+          ),
+      },
+      child: ValueListenableBuilder<Matrix4>(
+        valueListenable: _transformNotifier,
+        child: SuperListView.builder(
           scrollDirection: widget.scrollDirection,
           reverse: widget.reverse,
-          minCacheExtent: widget.minCacheExtent,
-          initialScrollIndex: widget.initialScrollIndex,
-          itemCount: widget.pages.length,
+          cacheExtent: widget.minCacheExtent,
+          itemCount: itemCount,
           physics: widget.physics,
-          itemScrollController: widget.itemScrollController,
-          scrollOffsetController: widget.scrollOffsetController,
-          itemPositionsListener: widget.itemPositionsListener,
-          itemBuilder: (context, index) => _buildItem(context, index),
-          separatorBuilder: _buildSeparator,
+          controller: widget.scrollController,
+          listController: widget.listController,
+          extentEstimation: _estimateExtent,
+          itemBuilder: (context, index) => _buildItem(
+            context,
+            index,
+            itemCount,
+            singleFirst,
+            dualPageRotateToFit,
+            dualPageRotateToFitInvert,
+          ),
         ),
+        builder: (context, matrix, child) {
+          return Transform(
+            transform: matrix,
+            alignment: Alignment.center,
+            child: child,
+          );
+        },
       ),
     );
   }
 
-  Widget _buildItem(BuildContext context, int index) {
-    final currentPage = widget.pages[index];
-    final uniqueKey = ValueKey(
-      '${currentPage.chapter?.id ?? "trans"}-${currentPage.index ?? index}',
-    );
+  double _estimateExtent(int? index, double crossAxisExtent) {
+    if (index != null && index >= 0 && index < widget.pages.length) {
+      final page = widget.pages[index];
+      if (page.loadedWidth != null && page.loadedHeight != null && page.loadedWidth! > 0) {
+        if (widget.isHorizontalContinuous) {
+          return crossAxisExtent * (page.loadedWidth! / page.loadedHeight!);
+        } else {
+          return crossAxisExtent * (page.loadedHeight! / page.loadedWidth!);
+        }
+      }
+    }
 
-    return KeyedSubtree(
-      key: uniqueKey,
-      child: (widget.isDoublePageMode && !widget.isHorizontalContinuous)
-          ? _buildDoublePageItem(context, index)
-          : _buildSinglePageItem(context, index),
-    );
+    // Look for any loaded page in the chapter to use as aspect ratio heuristic
+    double? sampleAspect;
+    for (final p in widget.pages) {
+      if (p.loadedWidth != null && p.loadedHeight != null && p.loadedWidth! > 0) {
+        sampleAspect = p.loadedHeight! / p.loadedWidth!;
+        break;
+      }
+    }
+
+    if (widget.isHorizontalContinuous) {
+      return crossAxisExtent * (sampleAspect != null ? (1.0 / sampleAspect) : 0.7);
+    } else {
+      if (sampleAspect != null) {
+        return crossAxisExtent * sampleAspect;
+      }
+      return widget.readerMode == ReaderMode.webtoon ? crossAxisExtent * 2.5 : crossAxisExtent * 1.4;
+    }
   }
 
-  Widget _buildSinglePageItem(BuildContext context, int index) {
+  Widget _buildItem(
+    BuildContext context,
+    int index,
+    int itemCount,
+    bool singleFirst,
+    bool dualPageRotateToFit,
+    bool dualPageRotateToFitInvert,
+  ) {
+    Widget item;
+    if (widget.isDoublePageMode && !widget.isHorizontalContinuous) {
+      item = _buildDoublePageItem(context, index, singleFirst);
+    } else {
+      final currentPage = widget.pages[index];
+      final uniqueKey = ValueKey(currentPage.widgetKey(index));
+
+      item = KeyedSubtree(
+        key: uniqueKey,
+        child: _buildSinglePageItem(
+          context,
+          index,
+          dualPageRotateToFit,
+          dualPageRotateToFitInvert,
+        ),
+      );
+    }
+
+    if (widget.showPageGaps && widget.readerMode != ReaderMode.webtoon && index < itemCount - 1) {
+      item = Padding(
+        padding: widget.isHorizontalContinuous
+            ? const EdgeInsets.only(right: ShioriSpace.s8)
+            : const EdgeInsets.only(bottom: ShioriSpace.s8),
+        child: item,
+      );
+    }
+
+    return item;
+  }
+
+  Widget _buildSinglePageItem(
+    BuildContext context,
+    int index,
+    bool dualPageRotateToFit,
+    bool dualPageRotateToFitInvert,
+  ) {
     final currentPage = widget.pages[index];
     final double sidePad = widget.webtoonSidePadding > 0
         ? MediaQuery.of(context).size.width * widget.webtoonSidePadding / 100
@@ -336,10 +599,6 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
       return TransitionViewVertical(data: currentPage);
     }
 
-    final dualPageRotateToFit = ref.watch(dualPageRotateToFitStateProvider);
-    final dualPageRotateToFitInvert = ref.watch(
-      dualPageRotateToFitInvertStateProvider,
-    );
     int rotation = 0;
     if (dualPageRotateToFit &&
         currentPage.loadedWidth != null &&
@@ -348,60 +607,65 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
       rotation = dualPageRotateToFitInvert ? 270 : 90;
     }
 
+    final uniqueKey = ValueKey('single-${currentPage.widgetKey(index)}');
+
     return Padding(
+      key: uniqueKey,
       padding: widget.isHorizontalContinuous ? EdgeInsets.zero : EdgeInsets.symmetric(horizontal: sidePad),
       child: ImageViewVertical(
         data: currentPage,
-        failedToLoadImage: widget.onFailedToLoadImage,
+        failedToLoadImage: (failed) => widget.onFailedToLoadImage(index, failed),
         onLongPressData: widget.onLongPressData,
         isHorizontal: widget.isHorizontalContinuous,
         rotation: rotation,
         onImageLoaded: (width, height) {
           widget.onImageLoaded?.call(index, width, height);
+          widget.onPageImageLoaded?.call(index);
         },
       ),
     );
   }
 
-  Widget _buildDoublePageItem(BuildContext context, int index) {
+  Widget _buildDoublePageItem(
+    BuildContext context,
+    int index,
+    bool singleFirst,
+  ) {
     final pageLength = widget.pages.length;
-    if (index >= pageLength) {
-      return const SizedBox.shrink();
-    }
-
-    final int index1 = index * 2 - 1;
-    final int index2 = index1 + 1;
-
-    final List<UChapDataPreload?> datas = index == 0
-        ? [widget.pages[0], null]
-        : [
-            index1 < pageLength ? widget.pages[index1] : null,
-            index2 < pageLength ? widget.pages[index2] : null,
-          ];
-
-    return DoublePageView.vertical(
-      pages: datas,
-      backgroundColor: widget.backgroundColor,
-      onFailedToLoadImage: widget.onFailedToLoadImage,
-      onLongPressData: widget.onLongPressData,
+    final spreads = ReaderPageIndexMath.buildSpreads(
+      widget.pages,
+      singleFirst: singleFirst,
     );
-  }
 
-  Widget _buildSeparator(BuildContext context, int index) {
-    if (!widget.showPageGaps || widget.readerMode == ReaderMode.webtoon) {
+    if (index >= spreads.length) {
       return const SizedBox.shrink();
     }
 
-    if (widget.isHorizontalContinuous) {
-      return VerticalDivider(
-        color: getBackgroundColor(widget.backgroundColor),
-        width: 6,
-      );
-    } else {
-      return Divider(
-        color: getBackgroundColor(widget.backgroundColor),
-        height: 6,
-      );
+    final spread = spreads[index];
+    final index1 = spread.firstIndex;
+    final index2 = spread.secondIndex;
+
+    if (index1 >= pageLength) {
+      return const SizedBox.shrink();
     }
+
+    final page1 = widget.pages[index1];
+    final page2 = (index2 != null && index2 < pageLength) ? widget.pages[index2] : null;
+
+    final List<UChapDataPreload?> datas = [page1, page2];
+
+    final uniqueKey = ValueKey(
+      'double-${page1.widgetKey(index1)}-${page2?.widgetKey(index1 + 1) ?? "none"}',
+    );
+
+    return KeyedSubtree(
+      key: uniqueKey,
+      child: DoublePageView.vertical(
+        pages: datas,
+        backgroundColor: widget.backgroundColor,
+        onFailedToLoadImage: (failed) => widget.onFailedToLoadImage(index1, failed),
+        onLongPressData: widget.onLongPressData,
+      ),
+    );
   }
 }

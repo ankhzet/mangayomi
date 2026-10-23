@@ -15,8 +15,7 @@ final traktTvProvider = TraktTvFamily._();
 final class TraktTvProvider extends $NotifierProvider<TraktTv, void> {
   TraktTvProvider._({
     required TraktTvFamily super.from,
-    required ({int syncId, ItemType? itemType, dynamic widgetRef})
-    super.argument,
+    required ({int syncId, ItemType? itemType, dynamic widgetRef}) super.argument,
   }) : super(
          retry: null,
          name: r'traktTvProvider',
@@ -58,17 +57,10 @@ final class TraktTvProvider extends $NotifierProvider<TraktTv, void> {
   }
 }
 
-String _$traktTvHash() => r'6843c07d55eb4daec6fd99a14037d2cefd51f8de';
+String _$traktTvHash() => r'f33612b5a16234af0d317be1979ddd0bd0cefc58';
 
 final class TraktTvFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          TraktTv,
-          void,
-          void,
-          void,
-          ({int syncId, ItemType? itemType, dynamic widgetRef})
-        > {
+    with $ClassFamilyOverride<TraktTv, void, void, void, ({int syncId, ItemType? itemType, dynamic widgetRef})> {
   TraktTvFamily._()
     : super(
         retry: null,
@@ -92,8 +84,7 @@ final class TraktTvFamily extends $Family
 }
 
 abstract class _$TraktTv extends $Notifier<void> {
-  late final _$args =
-      ref.$arg as ({int syncId, ItemType? itemType, dynamic widgetRef});
+  late final _$args = ref.$arg as ({int syncId, ItemType? itemType, dynamic widgetRef});
   int get syncId => _$args.syncId;
   ItemType? get itemType => _$args.itemType;
   dynamic get widgetRef => _$args.widgetRef;
@@ -105,17 +96,10 @@ abstract class _$TraktTv extends $Notifier<void> {
   });
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<void, void>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<void, void>,
-              void,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(
+    final element = ref.element as $ClassProviderElement<AnyNotifier<void, void>, void, Object?, Object?>;
+    return element.handleCreate(
       ref,
       () => build(
         syncId: _$args.syncId,

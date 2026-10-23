@@ -13,12 +13,7 @@ part of 'statistics_provider.dart';
 final getStatisticsProvider = GetStatisticsFamily._();
 
 final class GetStatisticsProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<StatisticsData>,
-          StatisticsData,
-          FutureOr<StatisticsData>
-        >
+    extends $FunctionalProvider<AsyncValue<StatisticsData>, StatisticsData, FutureOr<StatisticsData>>
     with $FutureModifier<StatisticsData>, $FutureProvider<StatisticsData> {
   GetStatisticsProvider._({
     required GetStatisticsFamily super.from,
@@ -64,10 +59,9 @@ final class GetStatisticsProvider
   }
 }
 
-String _$getStatisticsHash() => r'b7b308baca48da577b70b7278b0628b3517d59de';
+String _$getStatisticsHash() => r'645a8acdb9439a51cf57d24e6fcd5e59ff68d9f2';
 
-final class GetStatisticsFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<StatisticsData>, ItemType> {
+final class GetStatisticsFamily extends $Family with $FunctionalFamilyOverride<FutureOr<StatisticsData>, ItemType> {
   GetStatisticsFamily._()
     : super(
         retry: null,
@@ -77,8 +71,7 @@ final class GetStatisticsFamily extends $Family
         isAutoDispose: true,
       );
 
-  GetStatisticsProvider call({required ItemType itemType}) =>
-      GetStatisticsProvider._(argument: itemType, from: this);
+  GetStatisticsProvider call({required ItemType itemType}) => GetStatisticsProvider._(argument: itemType, from: this);
 
   @override
   String toString() => r'getStatisticsProvider';

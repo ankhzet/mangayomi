@@ -12,8 +12,7 @@ part of 'migration.dart';
 @ProviderFor(migration)
 final migrationProvider = MigrationProvider._();
 
-final class MigrationProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+final class MigrationProvider extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
     with $FutureModifier<void>, $FutureProvider<void> {
   MigrationProvider._()
     : super(
@@ -31,8 +30,7 @@ final class MigrationProvider
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<void> create(Ref ref) {
@@ -40,4 +38,4 @@ final class MigrationProvider
   }
 }
 
-String _$migrationHash() => r'43d62ddf79798d616ac7d11ce50a47551ef42c98';
+String _$migrationHash() => r'277da41af1a17c4412636f9eda23327de4ba5cfb';

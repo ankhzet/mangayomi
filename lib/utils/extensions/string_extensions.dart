@@ -1,5 +1,7 @@
 import 'dart:ffi';
+
 import 'package:ffi/ffi.dart';
+import 'package:html/parser.dart' show parseFragment;
 
 extension StringExtensions on String {
   String substringAfter(String pattern) {
@@ -47,15 +49,29 @@ extension StringExtensions on String {
   }
 
   String get getUrlWithoutDomain {
-    final uri = Uri.parse(replaceAll(' ', '%20'));
-    String out = uri.path;
-    if (uri.query.isNotEmpty) {
-      out += '?${uri.query}';
+    try {
+      final uri = Uri.parse(replaceAll(' ', '%20'));
+      String out = uri.path;
+      if (uri.query.isNotEmpty) {
+        out += '?${uri.query}';
+      }
+      if (uri.fragment.isNotEmpty) {
+        out += '#${uri.fragment}';
+      }
+      return out.isEmpty ? this : out;
+    } catch (_) {
+      return this;
     }
-    if (uri.fragment.isNotEmpty) {
-      out += '#${uri.fragment}';
-    }
-    return out;
+  }
+
+  String htmlToPlainText() {
+    if (trim().isEmpty) return '';
+    final withBreaks = replaceAll(
+      RegExp(r'<br\s*/?>', caseSensitive: false),
+      ' ',
+    );
+    final text = parseFragment(withBreaks).text ?? '';
+    return text.replaceAll(RegExp(r'\s+'), ' ').trim();
   }
 
   bool isMediaVideo() {

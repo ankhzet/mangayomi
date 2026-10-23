@@ -37,9 +37,7 @@ class FetchInterval {
             .toList()
           ..sort((a, b) => b.compareTo(a)); // descending
 
-    final distinctUploadDays = _distinctDays(
-      uploadDates,
-    ).take(chapterWindow).toList();
+    final distinctUploadDays = _distinctDays(uploadDates).take(chapterWindow).toList();
 
     if (distinctUploadDays.length >= 3) {
       return _medianInterval(distinctUploadDays);
@@ -49,9 +47,7 @@ class FetchInterval {
     final fetchDates = chapters.where((c) => c.updatedAt != null && c.updatedAt! > 0).map((c) => c.updatedAt!).toList()
       ..sort((a, b) => b.compareTo(a)); // descending
 
-    final distinctFetchDays = _distinctDays(
-      fetchDates,
-    ).take(chapterWindow).toList();
+    final distinctFetchDays = _distinctDays(fetchDates).take(chapterWindow).toList();
 
     if (distinctFetchDays.length >= 3) {
       return _medianInterval(distinctFetchDays);

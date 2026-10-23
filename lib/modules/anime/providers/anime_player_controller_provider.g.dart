@@ -12,8 +12,7 @@ part of 'anime_player_controller_provider.dart';
 @ProviderFor(AnimeStreamController)
 final animeStreamControllerProvider = AnimeStreamControllerFamily._();
 
-final class AnimeStreamControllerProvider
-    extends $NotifierProvider<AnimeStreamController, KeepAliveLink> {
+final class AnimeStreamControllerProvider extends $NotifierProvider<AnimeStreamController, KeepAliveLink> {
   AnimeStreamControllerProvider._({
     required AnimeStreamControllerFamily super.from,
     required Chapter super.argument,
@@ -58,18 +57,10 @@ final class AnimeStreamControllerProvider
   }
 }
 
-String _$animeStreamControllerHash() =>
-    r'8bb6a7346f0b51b1d7807cf56728bbbaba05c4bc';
+String _$animeStreamControllerHash() => r'cda99f0e0d2d8508e97c493ab6e4b310c973cac2';
 
 final class AnimeStreamControllerFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          AnimeStreamController,
-          KeepAliveLink,
-          KeepAliveLink,
-          KeepAliveLink,
-          Chapter
-        > {
+    with $ClassFamilyOverride<AnimeStreamController, KeepAliveLink, KeepAliveLink, KeepAliveLink, Chapter> {
   AnimeStreamControllerFamily._()
     : super(
         retry: null,
@@ -93,16 +84,11 @@ abstract class _$AnimeStreamController extends $Notifier<KeepAliveLink> {
   KeepAliveLink build({required Chapter episode});
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<KeepAliveLink, KeepAliveLink>;
     final element =
         ref.element
-            as $ClassProviderElement<
-              AnyNotifier<KeepAliveLink, KeepAliveLink>,
-              KeepAliveLink,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, () => build(episode: _$args));
+            as $ClassProviderElement<AnyNotifier<KeepAliveLink, KeepAliveLink>, KeepAliveLink, Object?, Object?>;
+    return element.handleCreate(ref, () => build(episode: _$args));
   }
 }

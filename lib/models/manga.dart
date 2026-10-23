@@ -7,6 +7,9 @@ part 'manga.g.dart';
 class Manga {
   late Id id;
 
+  @Index()
+  int? clientId;
+
   String? name;
 
   String? link;
@@ -24,13 +27,16 @@ class Manga {
 
   bool? isManga;
 
+  @Index()
   @enumerated
   late ItemType itemType;
 
   List<String>? genre;
 
+  @Index(composite: [CompositeIndex('itemType')])
   bool? favorite;
 
+  @Index(type: IndexType.hash)
   String? source;
 
   String? lang;
@@ -61,6 +67,7 @@ class Manga {
 
   Manga({
     this.id = Isar.autoIncrement,
+    this.clientId,
     required this.source,
     required this.author,
     required this.artist,
@@ -90,12 +97,13 @@ class Manga {
     author = json['author'];
     artist = json['artist'];
     categories = json['categories']?.cast<int>();
+    clientId = json['clientId'];
     customCoverImage = json['customCoverImage']?.cast<int>();
     dateAdded = json['dateAdded'];
     description = json['description'];
     favorite = json['favorite']!;
     genre = json['genre']?.cast<String>();
-    id = json['id'];
+    id = json['id'] ?? Isar.autoIncrement;
     imageUrl = json['imageUrl'];
     isLocalArchive = json['isLocalArchive'];
     isManga = json['isManga'];
@@ -117,6 +125,7 @@ class Manga {
     'author': author,
     'artist': artist,
     'categories': categories,
+    'clientId': clientId,
     'customCoverImage': customCoverImage,
     'dateAdded': dateAdded,
     'description': description,

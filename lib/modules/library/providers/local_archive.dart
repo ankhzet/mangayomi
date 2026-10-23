@@ -1,13 +1,16 @@
 import 'dart:typed_data';
+
 import 'package:file_picker/file_picker.dart';
-import 'package:mangayomi/eval/model/m_bridge.dart';
-import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/manga/archive_reader/models/models.dart';
+import 'package:mangayomi/repositories/chapter_repository.dart';
+import 'package:mangayomi/repositories/manga_repository.dart';
 import 'package:mangayomi/modules/manga/archive_reader/providers/archive_reader_providers.dart';
 import 'package:mangayomi/src/rust/api/epub.dart';
+import 'package:mangayomi/utils/manga_cover_actions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+export 'package:mangayomi/utils/manga_cover_actions.dart' show Uint8ListExtensions;
 part 'local_archive.g.dart';
 
 @riverpod
@@ -20,16 +23,16 @@ Future importArchivesFromFile(
 }) async {
   final keepAlile = ref.keepAlive();
   try {
-    FilePickerResult? result = await FilePicker.pickFiles(
-      allowMultiple: true,
+    List<PlatformFile> files = await FilePicker.pickFiles(
       type: FileType.custom,
       allowedExtensions: switch (itemType) {
         ItemType.manga => ['cbz', 'zip'],
         ItemType.anime => ['mp4', 'mov', 'avi', 'flv', 'wmv', 'mpeg', 'mkv'],
         ItemType.novel => ['epub'],
       },
+      linuxOptions: const LinuxOptions(lockParentWindow: true),
     );
-    if (result != null) {
+    if (files.isNotEmpty) {
       final dateNow = DateTime.now().millisecondsSinceEpoch;
       final manga =
           mManga ??
@@ -42,7 +45,7 @@ Future importArchivesFromFile(
             imageUrl: '',
             lang: '',
             link: '',
-            name: _getName(result.files.first.path!),
+            name: _getName(files.first.path!),
             dateAdded: dateNow,
             lastUpdate: dateNow,
             status: Status.unknown,
@@ -53,7 +56,7 @@ Future importArchivesFromFile(
             sourceId: null,
           );
 
-      for (var file in result.files.reversed.toList()) {
+      for (var file in files.reversed) {
         (String, LocalExtensionType, Uint8List, String)? data = itemType == ItemType.manga
             ? await ref.watch(
                 getArchivesDataFromFileProvider(file.path!).future,
@@ -66,8 +69,8 @@ Future importArchivesFromFile(
             manga.customCoverImage = data!.$3.getCoverImage;
           }
         }
-        await isar.writeTxn(() async {
-          final mangaId = await isar.mangas.put(manga);
+        await mangaRepository.writeTransactionAsync(() async {
+          final mangaId = await mangaRepository.putAsync(manga);
           final List<Chapter> chapters = [];
           if (itemType == ItemType.novel) {
             final book = await parseEpubFromPath(
@@ -76,7 +79,7 @@ Future importArchivesFromFile(
             );
 
             if (book.cover != null) {
-              await isar.mangas.put(
+              await mangaRepository.putAsync(
                 manga..customCoverImage = book.cover!.getCoverImage,
               );
             }
@@ -117,7 +120,7 @@ Future importArchivesFromFile(
             );
           }
           for (final chapter in chapters) {
-            await isar.chapters.put(chapter);
+            await chapterRepository.putAsync(chapter);
             await chapter.manga.save();
           }
         });
@@ -141,17 +144,4 @@ String _getName(String path) {
         RegExp(r'\.(mp4|mov|avi|flv|wmv|mpeg|mkv|cbz|zip|cbt|tar|epub)'),
         '',
       );
-}
-
-extension Uint8ListExtensions on Uint8List {
-  Uint8List? get getCoverImage {
-    final length = lengthInBytes / (1024 * 1024);
-    if (length < 5) {
-      return this;
-    }
-    botToast(
-      "Cover image is larger than 5MB (${length.toStringAsFixed(2)}MB). Skipping cover image.",
-    );
-    return null;
-  }
 }

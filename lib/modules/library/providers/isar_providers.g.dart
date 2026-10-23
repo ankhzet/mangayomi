@@ -13,12 +13,7 @@ part of 'isar_providers.dart';
 final getAllMangaStreamProvider = GetAllMangaStreamFamily._();
 
 final class GetAllMangaStreamProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<Manga>>,
-          List<Manga>,
-          Stream<List<Manga>>
-        >
+    extends $FunctionalProvider<AsyncValue<List<Manga>>, List<Manga>, Stream<List<Manga>>>
     with $FutureModifier<List<Manga>>, $StreamProvider<List<Manga>> {
   GetAllMangaStreamProvider._({
     required GetAllMangaStreamFamily super.from,
@@ -68,14 +63,10 @@ final class GetAllMangaStreamProvider
   }
 }
 
-String _$getAllMangaStreamHash() => r'10818ef45a5cd3e3b3becd747c3386ed4792cbb1';
+String _$getAllMangaStreamHash() => r'95240271805b7dc64e47c37b7e6fcf5d06d32cab';
 
 final class GetAllMangaStreamFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          Stream<List<Manga>>,
-          ({int? categoryId, ItemType itemType})
-        > {
+    with $FunctionalFamilyOverride<Stream<List<Manga>>, ({int? categoryId, ItemType itemType})> {
   GetAllMangaStreamFamily._()
     : super(
         retry: null,
@@ -98,16 +89,10 @@ final class GetAllMangaStreamFamily extends $Family
 }
 
 @ProviderFor(getAllMangaWithoutCategoriesStream)
-final getAllMangaWithoutCategoriesStreamProvider =
-    GetAllMangaWithoutCategoriesStreamFamily._();
+final getAllMangaWithoutCategoriesStreamProvider = GetAllMangaWithoutCategoriesStreamFamily._();
 
 final class GetAllMangaWithoutCategoriesStreamProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<Manga>>,
-          List<Manga>,
-          Stream<List<Manga>>
-        >
+    extends $FunctionalProvider<AsyncValue<List<Manga>>, List<Manga>, Stream<List<Manga>>>
     with $FutureModifier<List<Manga>>, $StreamProvider<List<Manga>> {
   GetAllMangaWithoutCategoriesStreamProvider._({
     required GetAllMangaWithoutCategoriesStreamFamily super.from,
@@ -121,8 +106,7 @@ final class GetAllMangaWithoutCategoriesStreamProvider
        );
 
   @override
-  String debugGetCreateSourceHash() =>
-      _$getAllMangaWithoutCategoriesStreamHash();
+  String debugGetCreateSourceHash() => _$getAllMangaWithoutCategoriesStreamHash();
 
   @override
   String toString() {
@@ -145,8 +129,7 @@ final class GetAllMangaWithoutCategoriesStreamProvider
 
   @override
   bool operator ==(Object other) {
-    return other is GetAllMangaWithoutCategoriesStreamProvider &&
-        other.argument == argument;
+    return other is GetAllMangaWithoutCategoriesStreamProvider && other.argument == argument;
   }
 
   @override
@@ -155,8 +138,7 @@ final class GetAllMangaWithoutCategoriesStreamProvider
   }
 }
 
-String _$getAllMangaWithoutCategoriesStreamHash() =>
-    r'd330e69b9f0a503afa283f4f0cec03879fe63d25';
+String _$getAllMangaWithoutCategoriesStreamHash() => r'7e22e4f7c5ebe653eb6b40e85d1bf7fedc86e2cb';
 
 final class GetAllMangaWithoutCategoriesStreamFamily extends $Family
     with $FunctionalFamilyOverride<Stream<List<Manga>>, ItemType> {
@@ -183,14 +165,8 @@ final class GetAllMangaWithoutCategoriesStreamFamily extends $Family
 @ProviderFor(getSettingsStream)
 final getSettingsStreamProvider = GetSettingsStreamProvider._();
 
-final class GetSettingsStreamProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<Settings>>,
-          List<Settings>,
-          Stream<List<Settings>>
-        >
-    with $FutureModifier<List<Settings>>, $StreamProvider<List<Settings>> {
+final class GetSettingsStreamProvider extends $FunctionalProvider<AsyncValue<Settings>, Settings, Stream<Settings>>
+    with $FutureModifier<Settings>, $StreamProvider<Settings> {
   GetSettingsStreamProvider._()
     : super(
         from: null,
@@ -207,14 +183,12 @@ final class GetSettingsStreamProvider
 
   @$internal
   @override
-  $StreamProviderElement<List<Settings>> $createElement(
-    $ProviderPointer pointer,
-  ) => $StreamProviderElement(pointer);
+  $StreamProviderElement<Settings> $createElement($ProviderPointer pointer) => $StreamProviderElement(pointer);
 
   @override
-  Stream<List<Settings>> create(Ref ref) {
+  Stream<Settings> create(Ref ref) {
     return getSettingsStream(ref);
   }
 }
 
-String _$getSettingsStreamHash() => r'c5a51e0e3473b25d2365025832a27ed2cc029b27';
+String _$getSettingsStreamHash() => r'bbd743d60324ae71865df45d563399f8189de8f1';

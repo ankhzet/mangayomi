@@ -12,8 +12,7 @@ part of 'reader_state_provider.dart';
 @ProviderFor(DefaultReadingModeState)
 final defaultReadingModeStateProvider = DefaultReadingModeStateProvider._();
 
-final class DefaultReadingModeStateProvider
-    extends $NotifierProvider<DefaultReadingModeState, ReaderMode> {
+final class DefaultReadingModeStateProvider extends $NotifierProvider<DefaultReadingModeState, ReaderMode> {
   DefaultReadingModeStateProvider._()
     : super(
         from: null,
@@ -41,33 +40,24 @@ final class DefaultReadingModeStateProvider
   }
 }
 
-String _$defaultReadingModeStateHash() =>
-    r'6125feb2aff79c017dc55ea2faa2591916af051a';
+String _$defaultReadingModeStateHash() => r'e450969aaf4ca328bf835cc75a48fcd6eb025a5b';
 
 abstract class _$DefaultReadingModeState extends $Notifier<ReaderMode> {
   ReaderMode build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<ReaderMode, ReaderMode>;
     final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<ReaderMode, ReaderMode>,
-              ReaderMode,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+        ref.element as $ClassProviderElement<AnyNotifier<ReaderMode, ReaderMode>, ReaderMode, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(AnimatePageTransitionsState)
-final animatePageTransitionsStateProvider =
-    AnimatePageTransitionsStateProvider._();
+final animatePageTransitionsStateProvider = AnimatePageTransitionsStateProvider._();
 
-final class AnimatePageTransitionsStateProvider
-    extends $NotifierProvider<AnimatePageTransitionsState, bool> {
+final class AnimatePageTransitionsStateProvider extends $NotifierProvider<AnimatePageTransitionsState, bool> {
   AnimatePageTransitionsStateProvider._()
     : super(
         from: null,
@@ -95,33 +85,23 @@ final class AnimatePageTransitionsStateProvider
   }
 }
 
-String _$animatePageTransitionsStateHash() =>
-    r'b65e7a08d290f4ec6b9616eb70ce2830b51582e6';
+String _$animatePageTransitionsStateHash() => r'2306d7ca1e417a1148ec4a5550e69fdc76bf6987';
 
 abstract class _$AnimatePageTransitionsState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(DoubleTapAnimationSpeedState)
-final doubleTapAnimationSpeedStateProvider =
-    DoubleTapAnimationSpeedStateProvider._();
+final doubleTapAnimationSpeedStateProvider = DoubleTapAnimationSpeedStateProvider._();
 
-final class DoubleTapAnimationSpeedStateProvider
-    extends $NotifierProvider<DoubleTapAnimationSpeedState, int> {
+final class DoubleTapAnimationSpeedStateProvider extends $NotifierProvider<DoubleTapAnimationSpeedState, int> {
   DoubleTapAnimationSpeedStateProvider._()
     : super(
         from: null,
@@ -149,32 +129,23 @@ final class DoubleTapAnimationSpeedStateProvider
   }
 }
 
-String _$doubleTapAnimationSpeedStateHash() =>
-    r'6b7b88dd088b7c8328960553b3a8fd17066030a6';
+String _$doubleTapAnimationSpeedStateHash() => r'6e1a8f3c19f40f854a93edc10800ca5b07fff1a9';
 
 abstract class _$DoubleTapAnimationSpeedState extends $Notifier<int> {
   int build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(CropBordersState)
 final cropBordersStateProvider = CropBordersStateProvider._();
 
-final class CropBordersStateProvider
-    extends $NotifierProvider<CropBordersState, bool> {
+final class CropBordersStateProvider extends $NotifierProvider<CropBordersState, bool> {
   CropBordersStateProvider._()
     : super(
         from: null,
@@ -202,31 +173,23 @@ final class CropBordersStateProvider
   }
 }
 
-String _$cropBordersStateHash() => r'b8a38a59e240909f81a5faad44b54d3ced025de8';
+String _$cropBordersStateHash() => r'f71dc6c6cc1004d5b13c4ee12772d25052f3eb62';
 
 abstract class _$CropBordersState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ScaleTypeState)
 final scaleTypeStateProvider = ScaleTypeStateProvider._();
 
-final class ScaleTypeStateProvider
-    extends $NotifierProvider<ScaleTypeState, ScaleType> {
+final class ScaleTypeStateProvider extends $NotifierProvider<ScaleTypeState, ScaleType> {
   ScaleTypeStateProvider._()
     : super(
         from: null,
@@ -254,31 +217,24 @@ final class ScaleTypeStateProvider
   }
 }
 
-String _$scaleTypeStateHash() => r'07f29cba7193242795134b6d37bb393210a191a1';
+String _$scaleTypeStateHash() => r'aed1ea0a2fb9b2a8214dda8ba782a4670a266be9';
 
 abstract class _$ScaleTypeState extends $Notifier<ScaleType> {
   ScaleType build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<ScaleType, ScaleType>;
     final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<ScaleType, ScaleType>,
-              ScaleType,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+        ref.element as $ClassProviderElement<AnyNotifier<ScaleType, ScaleType>, ScaleType, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(PagePreloadAmountState)
 final pagePreloadAmountStateProvider = PagePreloadAmountStateProvider._();
 
-final class PagePreloadAmountStateProvider
-    extends $NotifierProvider<PagePreloadAmountState, int> {
+final class PagePreloadAmountStateProvider extends $NotifierProvider<PagePreloadAmountState, int> {
   PagePreloadAmountStateProvider._()
     : super(
         from: null,
@@ -306,32 +262,23 @@ final class PagePreloadAmountStateProvider
   }
 }
 
-String _$pagePreloadAmountStateHash() =>
-    r'45e9810e73e93b7a88a1a3b876da73123024cc71';
+String _$pagePreloadAmountStateHash() => r'd6d99a681ea3e499ea911040321ebd39bbf117a2';
 
 abstract class _$PagePreloadAmountState extends $Notifier<int> {
   int build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(BackgroundColorState)
 final backgroundColorStateProvider = BackgroundColorStateProvider._();
 
-final class BackgroundColorStateProvider
-    extends $NotifierProvider<BackgroundColorState, BackgroundColor> {
+final class BackgroundColorStateProvider extends $NotifierProvider<BackgroundColorState, BackgroundColor> {
   BackgroundColorStateProvider._()
     : super(
         from: null,
@@ -359,32 +306,233 @@ final class BackgroundColorStateProvider
   }
 }
 
-String _$backgroundColorStateHash() =>
-    r'4abc4c6b95bf97fe50a3290da94cddf935fa96da';
+String _$backgroundColorStateHash() => r'47d170fccf6c6ac6abfd9c954cfde34fedfc8082';
 
 abstract class _$BackgroundColorState extends $Notifier<BackgroundColor> {
   BackgroundColor build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<BackgroundColor, BackgroundColor>;
     final element =
         ref.element
-            as $ClassProviderElement<
-              AnyNotifier<BackgroundColor, BackgroundColor>,
-              BackgroundColor,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+            as $ClassProviderElement<AnyNotifier<BackgroundColor, BackgroundColor>, BackgroundColor, Object?, Object?>;
+    return element.handleCreate(ref, build);
+  }
+}
+
+/// The screen's brightness while a reader is open, 1 to 100, or -1 to
+/// leave it to the system.
+
+@ProviderFor(ReaderScreenBrightnessState)
+final readerScreenBrightnessStateProvider = ReaderScreenBrightnessStateProvider._();
+
+/// The screen's brightness while a reader is open, 1 to 100, or -1 to
+/// leave it to the system.
+final class ReaderScreenBrightnessStateProvider extends $NotifierProvider<ReaderScreenBrightnessState, int> {
+  /// The screen's brightness while a reader is open, 1 to 100, or -1 to
+  /// leave it to the system.
+  ReaderScreenBrightnessStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'readerScreenBrightnessStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$readerScreenBrightnessStateHash();
+
+  @$internal
+  @override
+  ReaderScreenBrightnessState create() => ReaderScreenBrightnessState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(int value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<int>(value),
+    );
+  }
+}
+
+String _$readerScreenBrightnessStateHash() => r'f9447aa65f3fadbe03ccdceb4c9bd547909c0b72';
+
+/// The screen's brightness while a reader is open, 1 to 100, or -1 to
+/// leave it to the system.
+
+abstract class _$ReaderScreenBrightnessState extends $Notifier<int> {
+  int build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<int, int>;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, build);
+  }
+}
+
+/// How the readers hold the screen: 0 follows the device, 1 portrait,
+/// 2 landscape.
+
+@ProviderFor(ReaderOrientationState)
+final readerOrientationStateProvider = ReaderOrientationStateProvider._();
+
+/// How the readers hold the screen: 0 follows the device, 1 portrait,
+/// 2 landscape.
+final class ReaderOrientationStateProvider extends $NotifierProvider<ReaderOrientationState, int> {
+  /// How the readers hold the screen: 0 follows the device, 1 portrait,
+  /// 2 landscape.
+  ReaderOrientationStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'readerOrientationStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$readerOrientationStateHash();
+
+  @$internal
+  @override
+  ReaderOrientationState create() => ReaderOrientationState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(int value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<int>(value),
+    );
+  }
+}
+
+String _$readerOrientationStateHash() => r'656e212b6d32b2840c0797c36cfcf6cec61e9d46';
+
+/// How the readers hold the screen: 0 follows the device, 1 portrait,
+/// 2 landscape.
+
+abstract class _$ReaderOrientationState extends $Notifier<int> {
+  int build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<int, int>;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, build);
+  }
+}
+
+/// Whether the volume buttons turn the reader's pages.
+
+@ProviderFor(VolumeKeysPagingState)
+final volumeKeysPagingStateProvider = VolumeKeysPagingStateProvider._();
+
+/// Whether the volume buttons turn the reader's pages.
+final class VolumeKeysPagingStateProvider extends $NotifierProvider<VolumeKeysPagingState, bool> {
+  /// Whether the volume buttons turn the reader's pages.
+  VolumeKeysPagingStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'volumeKeysPagingStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$volumeKeysPagingStateHash();
+
+  @$internal
+  @override
+  VolumeKeysPagingState create() => VolumeKeysPagingState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$volumeKeysPagingStateHash() => r'e4f94ebf2781ed82b54b928838bec4097a70efd5';
+
+/// Whether the volume buttons turn the reader's pages.
+
+abstract class _$VolumeKeysPagingState extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<bool, bool>;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
+  }
+}
+
+/// Whether volume up turns forward rather than back.
+
+@ProviderFor(VolumeKeysInvertedState)
+final volumeKeysInvertedStateProvider = VolumeKeysInvertedStateProvider._();
+
+/// Whether volume up turns forward rather than back.
+final class VolumeKeysInvertedStateProvider extends $NotifierProvider<VolumeKeysInvertedState, bool> {
+  /// Whether volume up turns forward rather than back.
+  VolumeKeysInvertedStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'volumeKeysInvertedStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$volumeKeysInvertedStateHash();
+
+  @$internal
+  @override
+  VolumeKeysInvertedState create() => VolumeKeysInvertedState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$volumeKeysInvertedStateHash() => r'392b9bbfd8dfb4532f8300b267a43876f439ab27';
+
+/// Whether volume up turns forward rather than back.
+
+abstract class _$VolumeKeysInvertedState extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<bool, bool>;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(UsePageTapZonesState)
 final usePageTapZonesStateProvider = UsePageTapZonesStateProvider._();
 
-final class UsePageTapZonesStateProvider
-    extends $NotifierProvider<UsePageTapZonesState, bool> {
+final class UsePageTapZonesStateProvider extends $NotifierProvider<UsePageTapZonesState, bool> {
   UsePageTapZonesStateProvider._()
     : super(
         from: null,
@@ -412,32 +560,23 @@ final class UsePageTapZonesStateProvider
   }
 }
 
-String _$usePageTapZonesStateHash() =>
-    r'8bdfc5d257eeba63bb4f4ff3ceda766bcc58dc37';
+String _$usePageTapZonesStateHash() => r'819291e54970fbe0093c62407609a0b037a2a1bf';
 
 abstract class _$UsePageTapZonesState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(FullScreenReaderState)
 final fullScreenReaderStateProvider = FullScreenReaderStateProvider._();
 
-final class FullScreenReaderStateProvider
-    extends $NotifierProvider<FullScreenReaderState, bool> {
+final class FullScreenReaderStateProvider extends $NotifierProvider<FullScreenReaderState, bool> {
   FullScreenReaderStateProvider._()
     : super(
         from: null,
@@ -465,32 +604,23 @@ final class FullScreenReaderStateProvider
   }
 }
 
-String _$fullScreenReaderStateHash() =>
-    r'6685d29e04c71975c3442a5299299e761ff72997';
+String _$fullScreenReaderStateHash() => r'2357c5e29f054b477bd508a9e293b3d4d4e52883';
 
 abstract class _$FullScreenReaderState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(NavigationOrderState)
 final navigationOrderStateProvider = NavigationOrderStateProvider._();
 
-final class NavigationOrderStateProvider
-    extends $NotifierProvider<NavigationOrderState, List<String>> {
+final class NavigationOrderStateProvider extends $NotifierProvider<NavigationOrderState, List<String>> {
   NavigationOrderStateProvider._()
     : super(
         from: null,
@@ -518,32 +648,24 @@ final class NavigationOrderStateProvider
   }
 }
 
-String _$navigationOrderStateHash() =>
-    r'7b40ce1b52f02ebac46ed6d0d5ab9ff9590b6885';
+String _$navigationOrderStateHash() => r'7d18e3b34cad79446220ed47138d59892896b479';
 
 abstract class _$NavigationOrderState extends $Notifier<List<String>> {
   List<String> build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<List<String>, List<String>>;
     final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<List<String>, List<String>>,
-              List<String>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+        ref.element as $ClassProviderElement<AnyNotifier<List<String>, List<String>>, List<String>, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(HideItemsState)
 final hideItemsStateProvider = HideItemsStateProvider._();
 
-final class HideItemsStateProvider
-    extends $NotifierProvider<HideItemsState, List<String>> {
+final class HideItemsStateProvider extends $NotifierProvider<HideItemsState, List<String>> {
   HideItemsStateProvider._()
     : super(
         from: null,
@@ -571,32 +693,24 @@ final class HideItemsStateProvider
   }
 }
 
-String _$hideItemsStateHash() => r'3e719a5dfb38c1510214f7bcd8dbd786a13c4566';
+String _$hideItemsStateHash() => r'53a68542706afd8da39af6a574e1a6548f627ef2';
 
 abstract class _$HideItemsState extends $Notifier<List<String>> {
   List<String> build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<List<String>, List<String>>;
     final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<List<String>, List<String>>,
-              List<String>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+        ref.element as $ClassProviderElement<AnyNotifier<List<String>, List<String>>, List<String>, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(MergeLibraryNavMobileState)
-final mergeLibraryNavMobileStateProvider =
-    MergeLibraryNavMobileStateProvider._();
+final mergeLibraryNavMobileStateProvider = MergeLibraryNavMobileStateProvider._();
 
-final class MergeLibraryNavMobileStateProvider
-    extends $NotifierProvider<MergeLibraryNavMobileState, bool> {
+final class MergeLibraryNavMobileStateProvider extends $NotifierProvider<MergeLibraryNavMobileState, bool> {
   MergeLibraryNavMobileStateProvider._()
     : super(
         from: null,
@@ -624,32 +738,23 @@ final class MergeLibraryNavMobileStateProvider
   }
 }
 
-String _$mergeLibraryNavMobileStateHash() =>
-    r'9b7979f6fb9082dd48a90447d44715628d312116';
+String _$mergeLibraryNavMobileStateHash() => r'4db6036c59cb984fce4564a8134a8390122ed112';
 
 abstract class _$MergeLibraryNavMobileState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(NovelFontSizeState)
 final novelFontSizeStateProvider = NovelFontSizeStateProvider._();
 
-final class NovelFontSizeStateProvider
-    extends $NotifierProvider<NovelFontSizeState, int> {
+final class NovelFontSizeStateProvider extends $NotifierProvider<NovelFontSizeState, int> {
   NovelFontSizeStateProvider._()
     : super(
         from: null,
@@ -677,32 +782,23 @@ final class NovelFontSizeStateProvider
   }
 }
 
-String _$novelFontSizeStateHash() =>
-    r'9e4fa59d8c6b06b36ce485671ee059f8c4a7445e';
+String _$novelFontSizeStateHash() => r'936d26f6f6d4f5db39d5f5b7618ed4de42353432';
 
 abstract class _$NovelFontSizeState extends $Notifier<int> {
   int build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(NovelTextAlignState)
 final novelTextAlignStateProvider = NovelTextAlignStateProvider._();
 
-final class NovelTextAlignStateProvider
-    extends $NotifierProvider<NovelTextAlignState, NovelTextAlign> {
+final class NovelTextAlignStateProvider extends $NotifierProvider<NovelTextAlignState, NovelTextAlign> {
   NovelTextAlignStateProvider._()
     : super(
         from: null,
@@ -730,32 +826,25 @@ final class NovelTextAlignStateProvider
   }
 }
 
-String _$novelTextAlignStateHash() =>
-    r'383ff78e9ce21503e163f13d5b87dd021aef6ab4';
+String _$novelTextAlignStateHash() => r'2e903073dae3dfdce09ab7c4f7b682c5d1ad01d4';
 
 abstract class _$NovelTextAlignState extends $Notifier<NovelTextAlign> {
   NovelTextAlign build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<NovelTextAlign, NovelTextAlign>;
     final element =
         ref.element
-            as $ClassProviderElement<
-              AnyNotifier<NovelTextAlign, NovelTextAlign>,
-              NovelTextAlign,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+            as $ClassProviderElement<AnyNotifier<NovelTextAlign, NovelTextAlign>, NovelTextAlign, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(NovelReaderThemeState)
 final novelReaderThemeStateProvider = NovelReaderThemeStateProvider._();
 
-final class NovelReaderThemeStateProvider
-    extends $NotifierProvider<NovelReaderThemeState, String> {
+final class NovelReaderThemeStateProvider extends $NotifierProvider<NovelReaderThemeState, String> {
   NovelReaderThemeStateProvider._()
     : super(
         from: null,
@@ -783,32 +872,23 @@ final class NovelReaderThemeStateProvider
   }
 }
 
-String _$novelReaderThemeStateHash() =>
-    r'3149f8ea16353f770b57cce9f27f3e63d062ee7b';
+String _$novelReaderThemeStateHash() => r'0b9af2ab3115fc1ce64b90c6e8edfd7bb1a9ef5d';
 
 abstract class _$NovelReaderThemeState extends $Notifier<String> {
   String build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String, String>,
-              String,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(NovelReaderTextColorState)
 final novelReaderTextColorStateProvider = NovelReaderTextColorStateProvider._();
 
-final class NovelReaderTextColorStateProvider
-    extends $NotifierProvider<NovelReaderTextColorState, String> {
+final class NovelReaderTextColorStateProvider extends $NotifierProvider<NovelReaderTextColorState, String> {
   NovelReaderTextColorStateProvider._()
     : super(
         from: null,
@@ -836,32 +916,23 @@ final class NovelReaderTextColorStateProvider
   }
 }
 
-String _$novelReaderTextColorStateHash() =>
-    r'28a1987b49a9b0a209c4848dfa4c8c730432c75d';
+String _$novelReaderTextColorStateHash() => r'836dc0e2c49b431b35156ae51ae207c8ea7dc0c6';
 
 abstract class _$NovelReaderTextColorState extends $Notifier<String> {
   String build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String, String>,
-              String,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(NovelReaderPaddingState)
 final novelReaderPaddingStateProvider = NovelReaderPaddingStateProvider._();
 
-final class NovelReaderPaddingStateProvider
-    extends $NotifierProvider<NovelReaderPaddingState, int> {
+final class NovelReaderPaddingStateProvider extends $NotifierProvider<NovelReaderPaddingState, int> {
   NovelReaderPaddingStateProvider._()
     : super(
         from: null,
@@ -889,33 +960,23 @@ final class NovelReaderPaddingStateProvider
   }
 }
 
-String _$novelReaderPaddingStateHash() =>
-    r'572f1a7134c499a9a5107d29552beca9a5fd55ea';
+String _$novelReaderPaddingStateHash() => r'b9017b6741fb725e05a414f3e528f514923538f0';
 
 abstract class _$NovelReaderPaddingState extends $Notifier<int> {
   int build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(NovelReaderLineHeightState)
-final novelReaderLineHeightStateProvider =
-    NovelReaderLineHeightStateProvider._();
+final novelReaderLineHeightStateProvider = NovelReaderLineHeightStateProvider._();
 
-final class NovelReaderLineHeightStateProvider
-    extends $NotifierProvider<NovelReaderLineHeightState, double> {
+final class NovelReaderLineHeightStateProvider extends $NotifierProvider<NovelReaderLineHeightState, double> {
   NovelReaderLineHeightStateProvider._()
     : super(
         from: null,
@@ -943,33 +1004,67 @@ final class NovelReaderLineHeightStateProvider
   }
 }
 
-String _$novelReaderLineHeightStateHash() =>
-    r'cc21fb550eecf8d7869c076ab47647afd2873996';
+String _$novelReaderLineHeightStateHash() => r'8614713b5407d697d200d3d8e14b7653fe5424bf';
 
 abstract class _$NovelReaderLineHeightState extends $Notifier<double> {
   double build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<double, double>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<double, double>,
-              double,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<double, double>, double, Object?, Object?>;
+    return element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(NovelFontFamilyState)
+final novelFontFamilyStateProvider = NovelFontFamilyStateProvider._();
+
+final class NovelFontFamilyStateProvider extends $NotifierProvider<NovelFontFamilyState, String?> {
+  NovelFontFamilyStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'novelFontFamilyStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$novelFontFamilyStateHash();
+
+  @$internal
+  @override
+  NovelFontFamilyState create() => NovelFontFamilyState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(String? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<String?>(value),
+    );
+  }
+}
+
+String _$novelFontFamilyStateHash() => r'153e6631fecfee6ca5b9d72de00e4aa020a3f78d';
+
+abstract class _$NovelFontFamilyState extends $Notifier<String?> {
+  String? build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<String?, String?>;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String?, String?>, String?, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(NovelShowScrollPercentageState)
-final novelShowScrollPercentageStateProvider =
-    NovelShowScrollPercentageStateProvider._();
+final novelShowScrollPercentageStateProvider = NovelShowScrollPercentageStateProvider._();
 
-final class NovelShowScrollPercentageStateProvider
-    extends $NotifierProvider<NovelShowScrollPercentageState, bool> {
+final class NovelShowScrollPercentageStateProvider extends $NotifierProvider<NovelShowScrollPercentageState, bool> {
   NovelShowScrollPercentageStateProvider._()
     : super(
         from: null,
@@ -997,30 +1092,21 @@ final class NovelShowScrollPercentageStateProvider
   }
 }
 
-String _$novelShowScrollPercentageStateHash() =>
-    r'adc9cb5def293fa4ed8b367929e7538f6f056b76';
+String _$novelShowScrollPercentageStateHash() => r'5e3a9ce6d113832f0aba70b743ab1822b6d1afda';
 
 abstract class _$NovelShowScrollPercentageState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(NovelRemoveExtraParagraphSpacingState)
-final novelRemoveExtraParagraphSpacingStateProvider =
-    NovelRemoveExtraParagraphSpacingStateProvider._();
+final novelRemoveExtraParagraphSpacingStateProvider = NovelRemoveExtraParagraphSpacingStateProvider._();
 
 final class NovelRemoveExtraParagraphSpacingStateProvider
     extends $NotifierProvider<NovelRemoveExtraParagraphSpacingState, bool> {
@@ -1036,13 +1122,11 @@ final class NovelRemoveExtraParagraphSpacingStateProvider
       );
 
   @override
-  String debugGetCreateSourceHash() =>
-      _$novelRemoveExtraParagraphSpacingStateHash();
+  String debugGetCreateSourceHash() => _$novelRemoveExtraParagraphSpacingStateHash();
 
   @$internal
   @override
-  NovelRemoveExtraParagraphSpacingState create() =>
-      NovelRemoveExtraParagraphSpacingState();
+  NovelRemoveExtraParagraphSpacingState create() => NovelRemoveExtraParagraphSpacingState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(bool value) {
@@ -1053,32 +1137,23 @@ final class NovelRemoveExtraParagraphSpacingStateProvider
   }
 }
 
-String _$novelRemoveExtraParagraphSpacingStateHash() =>
-    r'5c784a57ce5ee57524317dd00d4b40020e5e0582';
+String _$novelRemoveExtraParagraphSpacingStateHash() => r'ba3b09ecbf0d85907fbf23f88469b27aef2d4826';
 
 abstract class _$NovelRemoveExtraParagraphSpacingState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(NovelTapToScrollState)
 final novelTapToScrollStateProvider = NovelTapToScrollStateProvider._();
 
-final class NovelTapToScrollStateProvider
-    extends $NotifierProvider<NovelTapToScrollState, bool> {
+final class NovelTapToScrollStateProvider extends $NotifierProvider<NovelTapToScrollState, bool> {
   NovelTapToScrollStateProvider._()
     : super(
         from: null,
@@ -1106,32 +1181,23 @@ final class NovelTapToScrollStateProvider
   }
 }
 
-String _$novelTapToScrollStateHash() =>
-    r'4ad09be8c324b019bd1d94cd8d77ef6077bd2100';
+String _$novelTapToScrollStateHash() => r'01d62665dca6bb284d877b20c53c2034773c8764';
 
 abstract class _$NovelTapToScrollState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ShowPagesNumberState)
 final showPagesNumberStateProvider = ShowPagesNumberStateProvider._();
 
-final class ShowPagesNumberStateProvider
-    extends $NotifierProvider<ShowPagesNumberState, dynamic> {
+final class ShowPagesNumberStateProvider extends $NotifierProvider<ShowPagesNumberState, bool> {
   ShowPagesNumberStateProvider._()
     : super(
         from: null,
@@ -1151,40 +1217,31 @@ final class ShowPagesNumberStateProvider
   ShowPagesNumberState create() => ShowPagesNumberState();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(dynamic value) {
+  Override overrideWithValue(bool value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<dynamic>(value),
+      providerOverride: $SyncValueProvider<bool>(value),
     );
   }
 }
 
-String _$showPagesNumberStateHash() =>
-    r'c0b72cae1168bc911e0174bd8934842c245eee1b';
+String _$showPagesNumberStateHash() => r'2f0da463ab4d00ba519fd662813106aaaa0a4fb8';
 
-abstract class _$ShowPagesNumberState extends $Notifier<dynamic> {
-  dynamic build();
+abstract class _$ShowPagesNumberState extends $Notifier<bool> {
+  bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
-    final ref = this.ref as $Ref<dynamic, dynamic>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<dynamic, dynamic>,
-              dynamic,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<bool, bool>;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(KeepScreenOnReaderState)
 final keepScreenOnReaderStateProvider = KeepScreenOnReaderStateProvider._();
 
-final class KeepScreenOnReaderStateProvider
-    extends $NotifierProvider<KeepScreenOnReaderState, bool> {
+final class KeepScreenOnReaderStateProvider extends $NotifierProvider<KeepScreenOnReaderState, bool> {
   KeepScreenOnReaderStateProvider._()
     : super(
         from: null,
@@ -1212,32 +1269,23 @@ final class KeepScreenOnReaderStateProvider
   }
 }
 
-String _$keepScreenOnReaderStateHash() =>
-    r'af1380082a36e449c1c7bed4ea750568362fdf91';
+String _$keepScreenOnReaderStateHash() => r'd37c237f230f873588375066a6061897f939cc12';
 
 abstract class _$KeepScreenOnReaderState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(WebtoonSidePaddingState)
 final webtoonSidePaddingStateProvider = WebtoonSidePaddingStateProvider._();
 
-final class WebtoonSidePaddingStateProvider
-    extends $NotifierProvider<WebtoonSidePaddingState, int> {
+final class WebtoonSidePaddingStateProvider extends $NotifierProvider<WebtoonSidePaddingState, int> {
   WebtoonSidePaddingStateProvider._()
     : super(
         from: null,
@@ -1265,32 +1313,23 @@ final class WebtoonSidePaddingStateProvider
   }
 }
 
-String _$webtoonSidePaddingStateHash() =>
-    r'18c3373c23ea9a4cd394d61c184e1258ad529e8c';
+String _$webtoonSidePaddingStateHash() => r'2e3551345e1b6b7ba37bc1050a9831e89e6e1781';
 
 abstract class _$WebtoonSidePaddingState extends $Notifier<int> {
   int build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ShowPageGapsState)
 final showPageGapsStateProvider = ShowPageGapsStateProvider._();
 
-final class ShowPageGapsStateProvider
-    extends $NotifierProvider<ShowPageGapsState, bool> {
+final class ShowPageGapsStateProvider extends $NotifierProvider<ShowPageGapsState, bool> {
   ShowPageGapsStateProvider._()
     : super(
         from: null,
@@ -1318,32 +1357,23 @@ final class ShowPageGapsStateProvider
   }
 }
 
-String _$showPageGapsStateHash() => r'323f636fb897e977d93159f836ddc5ec707a03d6';
+String _$showPageGapsStateHash() => r'44f93a1aaaa538cae95ccd8ffbe84148e3ae7792';
 
 abstract class _$ShowPageGapsState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(AutoReadDuplicateChaptersState)
-final autoReadDuplicateChaptersStateProvider =
-    AutoReadDuplicateChaptersStateProvider._();
+final autoReadDuplicateChaptersStateProvider = AutoReadDuplicateChaptersStateProvider._();
 
-final class AutoReadDuplicateChaptersStateProvider
-    extends $NotifierProvider<AutoReadDuplicateChaptersState, bool> {
+final class AutoReadDuplicateChaptersStateProvider extends $NotifierProvider<AutoReadDuplicateChaptersState, bool> {
   AutoReadDuplicateChaptersStateProvider._()
     : super(
         from: null,
@@ -1371,32 +1401,23 @@ final class AutoReadDuplicateChaptersStateProvider
   }
 }
 
-String _$autoReadDuplicateChaptersStateHash() =>
-    r'288816e17fefa753c690cc43a40cfbcf5352b9df';
+String _$autoReadDuplicateChaptersStateHash() => r'556a6f81990bcd0d042edc364933a9f7250dc1cd';
 
 abstract class _$AutoReadDuplicateChaptersState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(InvertColorsState)
 final invertColorsStateProvider = InvertColorsStateProvider._();
 
-final class InvertColorsStateProvider
-    extends $NotifierProvider<InvertColorsState, bool> {
+final class InvertColorsStateProvider extends $NotifierProvider<InvertColorsState, bool> {
   InvertColorsStateProvider._()
     : super(
         from: null,
@@ -1424,31 +1445,23 @@ final class InvertColorsStateProvider
   }
 }
 
-String _$invertColorsStateHash() => r'5ea55fa4eace6cefb7f2a2fcbaada1e7bcd9365d';
+String _$invertColorsStateHash() => r'ee39d6f4e403a0add0b7e7907076e13ce9af7f1a';
 
 abstract class _$InvertColorsState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(GrayscaleState)
 final grayscaleStateProvider = GrayscaleStateProvider._();
 
-final class GrayscaleStateProvider
-    extends $NotifierProvider<GrayscaleState, bool> {
+final class GrayscaleStateProvider extends $NotifierProvider<GrayscaleState, bool> {
   GrayscaleStateProvider._()
     : super(
         from: null,
@@ -1476,31 +1489,23 @@ final class GrayscaleStateProvider
   }
 }
 
-String _$grayscaleStateHash() => r'33f6b38bd7de6fb19d8f4eda1358a6bb674e1d47';
+String _$grayscaleStateHash() => r'71b4ad9f296fe22cb7cfcb625784e2bd692b8072';
 
 abstract class _$GrayscaleState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ReaderBrightnessState)
 final readerBrightnessStateProvider = ReaderBrightnessStateProvider._();
 
-final class ReaderBrightnessStateProvider
-    extends $NotifierProvider<ReaderBrightnessState, double> {
+final class ReaderBrightnessStateProvider extends $NotifierProvider<ReaderBrightnessState, double> {
   ReaderBrightnessStateProvider._()
     : super(
         from: null,
@@ -1528,32 +1533,23 @@ final class ReaderBrightnessStateProvider
   }
 }
 
-String _$readerBrightnessStateHash() =>
-    r'59be73514f974e078677dad602142edac445689c';
+String _$readerBrightnessStateHash() => r'9a5e298363f4ec6b96f9cf9777fb808fb0052217';
 
 abstract class _$ReaderBrightnessState extends $Notifier<double> {
   double build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<double, double>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<double, double>,
-              double,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<double, double>, double, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ReaderContrastState)
 final readerContrastStateProvider = ReaderContrastStateProvider._();
 
-final class ReaderContrastStateProvider
-    extends $NotifierProvider<ReaderContrastState, double> {
+final class ReaderContrastStateProvider extends $NotifierProvider<ReaderContrastState, double> {
   ReaderContrastStateProvider._()
     : super(
         from: null,
@@ -1581,32 +1577,23 @@ final class ReaderContrastStateProvider
   }
 }
 
-String _$readerContrastStateHash() =>
-    r'b423bd15b635bac656e895a6e3b32bc639969e31';
+String _$readerContrastStateHash() => r'8af00e6759e8a0c8db63d9e09b7cdcde21abeab9';
 
 abstract class _$ReaderContrastState extends $Notifier<double> {
   double build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<double, double>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<double, double>,
-              double,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<double, double>, double, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ReaderSaturationState)
 final readerSaturationStateProvider = ReaderSaturationStateProvider._();
 
-final class ReaderSaturationStateProvider
-    extends $NotifierProvider<ReaderSaturationState, double> {
+final class ReaderSaturationStateProvider extends $NotifierProvider<ReaderSaturationState, double> {
   ReaderSaturationStateProvider._()
     : super(
         from: null,
@@ -1634,33 +1621,23 @@ final class ReaderSaturationStateProvider
   }
 }
 
-String _$readerSaturationStateHash() =>
-    r'a3918acbb99c3a631256553c553c34abff198a18';
+String _$readerSaturationStateHash() => r'83cc480f8a84dea239902954fb35b133b5b8c20b';
 
 abstract class _$ReaderSaturationState extends $Notifier<double> {
   double build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<double, double>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<double, double>,
-              double,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<double, double>, double, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ReaderNavigationLayoutState)
-final readerNavigationLayoutStateProvider =
-    ReaderNavigationLayoutStateProvider._();
+final readerNavigationLayoutStateProvider = ReaderNavigationLayoutStateProvider._();
 
-final class ReaderNavigationLayoutStateProvider
-    extends $NotifierProvider<ReaderNavigationLayoutState, int> {
+final class ReaderNavigationLayoutStateProvider extends $NotifierProvider<ReaderNavigationLayoutState, int> {
   ReaderNavigationLayoutStateProvider._()
     : super(
         from: null,
@@ -1688,32 +1665,23 @@ final class ReaderNavigationLayoutStateProvider
   }
 }
 
-String _$readerNavigationLayoutStateHash() =>
-    r'680c09d930c2f50a7a949c53196cafa082fe47b8';
+String _$readerNavigationLayoutStateHash() => r'b021ad7bc7e0593149dc0482c88a3fe95bc54319';
 
 abstract class _$ReaderNavigationLayoutState extends $Notifier<int> {
   int build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(TtsSpeechRateState)
 final ttsSpeechRateStateProvider = TtsSpeechRateStateProvider._();
 
-final class TtsSpeechRateStateProvider
-    extends $NotifierProvider<TtsSpeechRateState, double> {
+final class TtsSpeechRateStateProvider extends $NotifierProvider<TtsSpeechRateState, double> {
   TtsSpeechRateStateProvider._()
     : super(
         from: null,
@@ -1741,32 +1709,23 @@ final class TtsSpeechRateStateProvider
   }
 }
 
-String _$ttsSpeechRateStateHash() =>
-    r'c59420fd0d1b4435b556b6b93c0ce03bc3b46d2e';
+String _$ttsSpeechRateStateHash() => r'a6a202fe0e2e43d95704d0df9567043124cb25f4';
 
 abstract class _$TtsSpeechRateState extends $Notifier<double> {
   double build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<double, double>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<double, double>,
-              double,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<double, double>, double, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(TtsPitchState)
 final ttsPitchStateProvider = TtsPitchStateProvider._();
 
-final class TtsPitchStateProvider
-    extends $NotifierProvider<TtsPitchState, double> {
+final class TtsPitchStateProvider extends $NotifierProvider<TtsPitchState, double> {
   TtsPitchStateProvider._()
     : super(
         from: null,
@@ -1794,31 +1753,23 @@ final class TtsPitchStateProvider
   }
 }
 
-String _$ttsPitchStateHash() => r'bb784b9ae5ced137678f68918aa5d1430a0d4bc9';
+String _$ttsPitchStateHash() => r'b2d21c6a0a6f082bf217a1cc367e344cdb132017';
 
 abstract class _$TtsPitchState extends $Notifier<double> {
   double build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<double, double>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<double, double>,
-              double,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<double, double>, double, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(TtsLanguageState)
 final ttsLanguageStateProvider = TtsLanguageStateProvider._();
 
-final class TtsLanguageStateProvider
-    extends $NotifierProvider<TtsLanguageState, String?> {
+final class TtsLanguageStateProvider extends $NotifierProvider<TtsLanguageState, String?> {
   TtsLanguageStateProvider._()
     : super(
         from: null,
@@ -1846,31 +1797,23 @@ final class TtsLanguageStateProvider
   }
 }
 
-String _$ttsLanguageStateHash() => r'5a91ad875c52cb87022e44d11d3db2d68dce9976';
+String _$ttsLanguageStateHash() => r'b5b9a9919fdef04f1f1c8f8c5dd568739bacb5a0';
 
 abstract class _$TtsLanguageState extends $Notifier<String?> {
   String? build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<String?, String?>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String?, String?>,
-              String?,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String?, String?>, String?, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(TtsVoiceState)
 final ttsVoiceStateProvider = TtsVoiceStateProvider._();
 
-final class TtsVoiceStateProvider
-    extends $NotifierProvider<TtsVoiceState, String?> {
+final class TtsVoiceStateProvider extends $NotifierProvider<TtsVoiceState, String?> {
   TtsVoiceStateProvider._()
     : super(
         from: null,
@@ -1898,31 +1841,23 @@ final class TtsVoiceStateProvider
   }
 }
 
-String _$ttsVoiceStateHash() => r'c132058e15997489fe2ef2712c22688f65aa6b99';
+String _$ttsVoiceStateHash() => r'199b43c16e823e0b1197038e25b8b131e1fcd221';
 
 abstract class _$TtsVoiceState extends $Notifier<String?> {
   String? build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<String?, String?>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String?, String?>,
-              String?,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String?, String?>, String?, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(SplitWidePagesState)
 final splitWidePagesStateProvider = SplitWidePagesStateProvider._();
 
-final class SplitWidePagesStateProvider
-    extends $NotifierProvider<SplitWidePagesState, bool> {
+final class SplitWidePagesStateProvider extends $NotifierProvider<SplitWidePagesState, bool> {
   SplitWidePagesStateProvider._()
     : super(
         from: null,
@@ -1950,32 +1885,23 @@ final class SplitWidePagesStateProvider
   }
 }
 
-String _$splitWidePagesStateHash() =>
-    r'c27b7a965cf7b0f5acbf993689185f3c788d67d6';
+String _$splitWidePagesStateHash() => r'd36cde97af3dd9df15a65ddffce38a81ee2058ef';
 
 abstract class _$SplitWidePagesState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(DualPageInvertState)
 final dualPageInvertStateProvider = DualPageInvertStateProvider._();
 
-final class DualPageInvertStateProvider
-    extends $NotifierProvider<DualPageInvertState, bool> {
+final class DualPageInvertStateProvider extends $NotifierProvider<DualPageInvertState, bool> {
   DualPageInvertStateProvider._()
     : super(
         from: null,
@@ -2003,32 +1929,23 @@ final class DualPageInvertStateProvider
   }
 }
 
-String _$dualPageInvertStateHash() =>
-    r'9ddc66d5b712c5c122e4c264213e24b40a52b5e5';
+String _$dualPageInvertStateHash() => r'966a2d3d38e05852f433c942eb542c6ad5de5edd';
 
 abstract class _$DualPageInvertState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(DualPageRotateToFitState)
 final dualPageRotateToFitStateProvider = DualPageRotateToFitStateProvider._();
 
-final class DualPageRotateToFitStateProvider
-    extends $NotifierProvider<DualPageRotateToFitState, bool> {
+final class DualPageRotateToFitStateProvider extends $NotifierProvider<DualPageRotateToFitState, bool> {
   DualPageRotateToFitStateProvider._()
     : super(
         from: null,
@@ -2056,33 +1973,23 @@ final class DualPageRotateToFitStateProvider
   }
 }
 
-String _$dualPageRotateToFitStateHash() =>
-    r'2fc96d6e7a33113d3a89c738c5df15193ae71b86';
+String _$dualPageRotateToFitStateHash() => r'4058d8217c9c81b2fc0714545ba5407f53dcda48';
 
 abstract class _$DualPageRotateToFitState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(DualPageRotateToFitInvertState)
-final dualPageRotateToFitInvertStateProvider =
-    DualPageRotateToFitInvertStateProvider._();
+final dualPageRotateToFitInvertStateProvider = DualPageRotateToFitInvertStateProvider._();
 
-final class DualPageRotateToFitInvertStateProvider
-    extends $NotifierProvider<DualPageRotateToFitInvertState, bool> {
+final class DualPageRotateToFitInvertStateProvider extends $NotifierProvider<DualPageRotateToFitInvertState, bool> {
   DualPageRotateToFitInvertStateProvider._()
     : super(
         from: null,
@@ -2110,32 +2017,111 @@ final class DualPageRotateToFitInvertStateProvider
   }
 }
 
-String _$dualPageRotateToFitInvertStateHash() =>
-    r'44afe65591b107a15325fea77d36e07a26548021';
+String _$dualPageRotateToFitInvertStateHash() => r'd4001f41ff78e32f67dd3ba4976d4d465cc63304';
 
 abstract class _$DualPageRotateToFitInvertState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(DoublePageSingleFirstPageState)
+final doublePageSingleFirstPageStateProvider = DoublePageSingleFirstPageStateProvider._();
+
+final class DoublePageSingleFirstPageStateProvider extends $NotifierProvider<DoublePageSingleFirstPageState, bool> {
+  DoublePageSingleFirstPageStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'doublePageSingleFirstPageStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$doublePageSingleFirstPageStateHash();
+
+  @$internal
+  @override
+  DoublePageSingleFirstPageState create() => DoublePageSingleFirstPageState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$doublePageSingleFirstPageStateHash() => r'a5dd791ed8050e465b7f30130c42ce059c2fccf6';
+
+abstract class _$DoublePageSingleFirstPageState extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<bool, bool>;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(DoublePageAutoState)
+final doublePageAutoStateProvider = DoublePageAutoStateProvider._();
+
+final class DoublePageAutoStateProvider extends $NotifierProvider<DoublePageAutoState, bool> {
+  DoublePageAutoStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'doublePageAutoStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$doublePageAutoStateHash();
+
+  @$internal
+  @override
+  DoublePageAutoState create() => DoublePageAutoState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$doublePageAutoStateHash() => r'74c5e1fe37a11529b640356cb1899efa3c89c5f4';
+
+abstract class _$DoublePageAutoState extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<bool, bool>;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(LandscapeZoomState)
 final landscapeZoomStateProvider = LandscapeZoomStateProvider._();
 
-final class LandscapeZoomStateProvider
-    extends $NotifierProvider<LandscapeZoomState, bool> {
+final class LandscapeZoomStateProvider extends $NotifierProvider<LandscapeZoomState, bool> {
   LandscapeZoomStateProvider._()
     : super(
         from: null,
@@ -2163,32 +2149,23 @@ final class LandscapeZoomStateProvider
   }
 }
 
-String _$landscapeZoomStateHash() =>
-    r'b345f815068658747c1daee6d9af997ed354efb8';
+String _$landscapeZoomStateHash() => r'3967dc50c83c782194d1dc6fe53a57b46b90088b';
 
 abstract class _$LandscapeZoomState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ZoomStartPositionState)
 final zoomStartPositionStateProvider = ZoomStartPositionStateProvider._();
 
-final class ZoomStartPositionStateProvider
-    extends $NotifierProvider<ZoomStartPositionState, int> {
+final class ZoomStartPositionStateProvider extends $NotifierProvider<ZoomStartPositionState, int> {
   ZoomStartPositionStateProvider._()
     : super(
         from: null,
@@ -2216,85 +2193,23 @@ final class ZoomStartPositionStateProvider
   }
 }
 
-String _$zoomStartPositionStateHash() =>
-    r'4e42aabc355c9c7b879e309e2a7e05db1068a483';
+String _$zoomStartPositionStateHash() => r'b1b08fce23f83049c314371812b30722593308e8';
 
 abstract class _$ZoomStartPositionState extends $Notifier<int> {
   int build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
-  }
-}
-
-@ProviderFor(AutomaticBackgroundState)
-final automaticBackgroundStateProvider = AutomaticBackgroundStateProvider._();
-
-final class AutomaticBackgroundStateProvider
-    extends $NotifierProvider<AutomaticBackgroundState, bool> {
-  AutomaticBackgroundStateProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'automaticBackgroundStateProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$automaticBackgroundStateHash();
-
-  @$internal
-  @override
-  AutomaticBackgroundState create() => AutomaticBackgroundState();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(bool value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<bool>(value),
-    );
-  }
-}
-
-String _$automaticBackgroundStateHash() =>
-    r'adeef482a7630c03d0eee4eef7bf33aeff71d053';
-
-abstract class _$AutomaticBackgroundState extends $Notifier<bool> {
-  bool build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(NavigateToPanState)
 final navigateToPanStateProvider = NavigateToPanStateProvider._();
 
-final class NavigateToPanStateProvider
-    extends $NotifierProvider<NavigateToPanState, bool> {
+final class NavigateToPanStateProvider extends $NotifierProvider<NavigateToPanState, bool> {
   NavigateToPanStateProvider._()
     : super(
         from: null,
@@ -2322,32 +2237,23 @@ final class NavigateToPanStateProvider
   }
 }
 
-String _$navigateToPanStateHash() =>
-    r'f02ade437b1fe984cb465cd975a0fa0e19f365ca';
+String _$navigateToPanStateHash() => r'978651685d000c9875e4fc728a64cfd0f2039bda';
 
 abstract class _$NavigateToPanState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(TappingInversionState)
 final tappingInversionStateProvider = TappingInversionStateProvider._();
 
-final class TappingInversionStateProvider
-    extends $NotifierProvider<TappingInversionState, int> {
+final class TappingInversionStateProvider extends $NotifierProvider<TappingInversionState, int> {
   TappingInversionStateProvider._()
     : super(
         from: null,
@@ -2375,32 +2281,23 @@ final class TappingInversionStateProvider
   }
 }
 
-String _$tappingInversionStateHash() =>
-    r'7dd5f3036fdb18d9063febbb82d86e04fb61de3d';
+String _$tappingInversionStateHash() => r'd1ad4959b0e9c3af38d0d4ad48d80aaef9ce3060';
 
 abstract class _$TappingInversionState extends $Notifier<int> {
   int build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(FlashOnPageChangeState)
 final flashOnPageChangeStateProvider = FlashOnPageChangeStateProvider._();
 
-final class FlashOnPageChangeStateProvider
-    extends $NotifierProvider<FlashOnPageChangeState, bool> {
+final class FlashOnPageChangeStateProvider extends $NotifierProvider<FlashOnPageChangeState, bool> {
   FlashOnPageChangeStateProvider._()
     : super(
         from: null,
@@ -2428,32 +2325,23 @@ final class FlashOnPageChangeStateProvider
   }
 }
 
-String _$flashOnPageChangeStateHash() =>
-    r'528e623f048eb868426b761482765cec0f1a0cad';
+String _$flashOnPageChangeStateHash() => r'f56332586210e902821cf4c4dd4b1fdc200f9073';
 
 abstract class _$FlashOnPageChangeState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(FlashDurationState)
 final flashDurationStateProvider = FlashDurationStateProvider._();
 
-final class FlashDurationStateProvider
-    extends $NotifierProvider<FlashDurationState, int> {
+final class FlashDurationStateProvider extends $NotifierProvider<FlashDurationState, int> {
   FlashDurationStateProvider._()
     : super(
         from: null,
@@ -2481,32 +2369,23 @@ final class FlashDurationStateProvider
   }
 }
 
-String _$flashDurationStateHash() =>
-    r'c267a259b6eef748c6537e4a23f96ad4cd7b25eb';
+String _$flashDurationStateHash() => r'dfb8cc81ac37ccf821e7fff309e6b798a5413135';
 
 abstract class _$FlashDurationState extends $Notifier<int> {
   int build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(FlashIntervalState)
 final flashIntervalStateProvider = FlashIntervalStateProvider._();
 
-final class FlashIntervalStateProvider
-    extends $NotifierProvider<FlashIntervalState, int> {
+final class FlashIntervalStateProvider extends $NotifierProvider<FlashIntervalState, int> {
   FlashIntervalStateProvider._()
     : super(
         from: null,
@@ -2534,32 +2413,23 @@ final class FlashIntervalStateProvider
   }
 }
 
-String _$flashIntervalStateHash() =>
-    r'8cee27191fcfcb703534d7998f7be4f027fae774';
+String _$flashIntervalStateHash() => r'2bee7e673f9a2f3dad62c6450e9dbe71d342eaa0';
 
 abstract class _$FlashIntervalState extends $Notifier<int> {
   int build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(FlashColorState)
 final flashColorStateProvider = FlashColorStateProvider._();
 
-final class FlashColorStateProvider
-    extends $NotifierProvider<FlashColorState, int> {
+final class FlashColorStateProvider extends $NotifierProvider<FlashColorState, int> {
   FlashColorStateProvider._()
     : super(
         from: null,
@@ -2587,29 +2457,21 @@ final class FlashColorStateProvider
   }
 }
 
-String _$flashColorStateHash() => r'75930031561086c021f6069a44af12d68dde7538';
+String _$flashColorStateHash() => r'a04a6604f5fbd72ccb6a82eac0eeacc1c7f9ded5';
 
 abstract class _$FlashColorState extends $Notifier<int> {
   int build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ShowNavigationOverlayOnStartState)
-final showNavigationOverlayOnStartStateProvider =
-    ShowNavigationOverlayOnStartStateProvider._();
+final showNavigationOverlayOnStartStateProvider = ShowNavigationOverlayOnStartStateProvider._();
 
 final class ShowNavigationOverlayOnStartStateProvider
     extends $NotifierProvider<ShowNavigationOverlayOnStartState, bool> {
@@ -2625,13 +2487,11 @@ final class ShowNavigationOverlayOnStartStateProvider
       );
 
   @override
-  String debugGetCreateSourceHash() =>
-      _$showNavigationOverlayOnStartStateHash();
+  String debugGetCreateSourceHash() => _$showNavigationOverlayOnStartStateHash();
 
   @$internal
   @override
-  ShowNavigationOverlayOnStartState create() =>
-      ShowNavigationOverlayOnStartState();
+  ShowNavigationOverlayOnStartState create() => ShowNavigationOverlayOnStartState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(bool value) {
@@ -2642,33 +2502,23 @@ final class ShowNavigationOverlayOnStartStateProvider
   }
 }
 
-String _$showNavigationOverlayOnStartStateHash() =>
-    r'e847dc6c796d9e807d850ff92b093329607035ac';
+String _$showNavigationOverlayOnStartStateHash() => r'bf6fde876bb3bf0afa71b4793eaffbdeec6b3137';
 
 abstract class _$ShowNavigationOverlayOnStartState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(WebtoonDisableZoomOutState)
-final webtoonDisableZoomOutStateProvider =
-    WebtoonDisableZoomOutStateProvider._();
+final webtoonDisableZoomOutStateProvider = WebtoonDisableZoomOutStateProvider._();
 
-final class WebtoonDisableZoomOutStateProvider
-    extends $NotifierProvider<WebtoonDisableZoomOutState, bool> {
+final class WebtoonDisableZoomOutStateProvider extends $NotifierProvider<WebtoonDisableZoomOutState, bool> {
   WebtoonDisableZoomOutStateProvider._()
     : super(
         from: null,
@@ -2696,33 +2546,23 @@ final class WebtoonDisableZoomOutStateProvider
   }
 }
 
-String _$webtoonDisableZoomOutStateHash() =>
-    r'e5a2ad7e4307cfa47607cf9395becc70cf7a47c9';
+String _$webtoonDisableZoomOutStateHash() => r'663d9a9db77475093a63d9916e7d3d36acf0a29c';
 
 abstract class _$WebtoonDisableZoomOutState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(WebtoonDoubleTapZoomEnabledState)
-final webtoonDoubleTapZoomEnabledStateProvider =
-    WebtoonDoubleTapZoomEnabledStateProvider._();
+final webtoonDoubleTapZoomEnabledStateProvider = WebtoonDoubleTapZoomEnabledStateProvider._();
 
-final class WebtoonDoubleTapZoomEnabledStateProvider
-    extends $NotifierProvider<WebtoonDoubleTapZoomEnabledState, bool> {
+final class WebtoonDoubleTapZoomEnabledStateProvider extends $NotifierProvider<WebtoonDoubleTapZoomEnabledState, bool> {
   WebtoonDoubleTapZoomEnabledStateProvider._()
     : super(
         from: null,
@@ -2739,8 +2579,7 @@ final class WebtoonDoubleTapZoomEnabledStateProvider
 
   @$internal
   @override
-  WebtoonDoubleTapZoomEnabledState create() =>
-      WebtoonDoubleTapZoomEnabledState();
+  WebtoonDoubleTapZoomEnabledState create() => WebtoonDoubleTapZoomEnabledState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(bool value) {
@@ -2751,32 +2590,23 @@ final class WebtoonDoubleTapZoomEnabledStateProvider
   }
 }
 
-String _$webtoonDoubleTapZoomEnabledStateHash() =>
-    r'2d1357a9dd732b7e5b8b99ec3f9d7d913bd70937';
+String _$webtoonDoubleTapZoomEnabledStateHash() => r'56bc112f67520acadcb035bd31d8749bd757f54f';
 
 abstract class _$WebtoonDoubleTapZoomEnabledState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ReaderHideThresholdState)
 final readerHideThresholdStateProvider = ReaderHideThresholdStateProvider._();
 
-final class ReaderHideThresholdStateProvider
-    extends $NotifierProvider<ReaderHideThresholdState, int> {
+final class ReaderHideThresholdStateProvider extends $NotifierProvider<ReaderHideThresholdState, int> {
   ReaderHideThresholdStateProvider._()
     : super(
         from: null,
@@ -2804,23 +2634,119 @@ final class ReaderHideThresholdStateProvider
   }
 }
 
-String _$readerHideThresholdStateHash() =>
-    r'bf205952490921347c43288678e289686c985f11';
+String _$readerHideThresholdStateHash() => r'7bce8198f707777de00cdba98372f3310cf9b862';
 
 abstract class _$ReaderHideThresholdState extends $Notifier<int> {
   int build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(ChapterSwipeStartActionState)
+final chapterSwipeStartActionStateProvider = ChapterSwipeStartActionStateProvider._();
+
+final class ChapterSwipeStartActionStateProvider
+    extends $NotifierProvider<ChapterSwipeStartActionState, ChapterSwipeAction> {
+  ChapterSwipeStartActionStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'chapterSwipeStartActionStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$chapterSwipeStartActionStateHash();
+
+  @$internal
+  @override
+  ChapterSwipeStartActionState create() => ChapterSwipeStartActionState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ChapterSwipeAction value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ChapterSwipeAction>(value),
+    );
+  }
+}
+
+String _$chapterSwipeStartActionStateHash() => r'cdfdfa8c5a41cbfcca7c4b0168ac059ba61f27ad';
+
+abstract class _$ChapterSwipeStartActionState extends $Notifier<ChapterSwipeAction> {
+  ChapterSwipeAction build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<ChapterSwipeAction, ChapterSwipeAction>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
+              AnyNotifier<ChapterSwipeAction, ChapterSwipeAction>,
+              ChapterSwipeAction,
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(ChapterSwipeEndActionState)
+final chapterSwipeEndActionStateProvider = ChapterSwipeEndActionStateProvider._();
+
+final class ChapterSwipeEndActionStateProvider
+    extends $NotifierProvider<ChapterSwipeEndActionState, ChapterSwipeAction> {
+  ChapterSwipeEndActionStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'chapterSwipeEndActionStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$chapterSwipeEndActionStateHash();
+
+  @$internal
+  @override
+  ChapterSwipeEndActionState create() => ChapterSwipeEndActionState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ChapterSwipeAction value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ChapterSwipeAction>(value),
+    );
+  }
+}
+
+String _$chapterSwipeEndActionStateHash() => r'43addead95db6cd05d4384ea7bad72bc9fa72c31';
+
+abstract class _$ChapterSwipeEndActionState extends $Notifier<ChapterSwipeAction> {
+  ChapterSwipeAction build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<ChapterSwipeAction, ChapterSwipeAction>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<ChapterSwipeAction, ChapterSwipeAction>,
+              ChapterSwipeAction,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
   }
 }

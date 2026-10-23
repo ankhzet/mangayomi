@@ -1,8 +1,8 @@
-import 'package:isar_community/isar.dart';
 import 'package:mangayomi/eval/model/m_manga.dart';
-import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/source.dart';
+import 'package:mangayomi/repositories/manga_repository.dart';
+import 'package:mangayomi/repositories/source_repository.dart';
 
 class MassMigrationSourceGroup {
   const MassMigrationSourceGroup({
@@ -84,8 +84,9 @@ class MassMigrationResolvedItem {
 List<MassMigrationSourceGroup> buildMassMigrationSourceGroups({
   required ItemType itemType,
   Manga? prioritizedManga,
+  List<Manga>? selectedMangas,
 }) {
-  final libraryItems = isar.mangas.filter().favoriteEqualTo(true).itemTypeEqualTo(itemType).findAllSync();
+  final libraryItems = selectedMangas ?? mangaRepository.getFavoritesByItemType(itemType);
 
   final grouped = <String, List<Manga>>{};
   for (final manga in libraryItems) {
@@ -103,8 +104,8 @@ List<MassMigrationSourceGroup> buildMassMigrationSourceGroups({
       );
     final first = items.first;
     final source = first.sourceId != null
-        ? isar.sources.getSync(first.sourceId!)
-        : isar.sources.filter().nameEqualTo(first.source).langEqualTo(first.lang).findFirstSync();
+        ? sourceRepository.getById(first.sourceId!)
+        : sourceRepository.findByNameAndLang(first.source, first.lang);
     return MassMigrationSourceGroup(
       sourceName: entry.key,
       source: source,
@@ -136,11 +137,8 @@ List<Source> buildMassMigrationDestinationSources({
   required MassMigrationSourceGroup sourceGroup,
   required bool showNSFW,
 }) {
-  final sources = isar.sources
-      .filter()
-      .isAddedEqualTo(true)
-      .itemTypeEqualTo(sourceGroup.itemType)
-      .findAllSync()
+  final sources = sourceRepository
+      .getInstalledByItemType(sourceGroup.itemType)
       .where(
         (source) =>
             source.sourceCode != null &&

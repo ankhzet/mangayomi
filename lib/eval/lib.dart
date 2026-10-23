@@ -6,9 +6,12 @@ import 'dart/service.dart';
 import 'javascript/service.dart';
 import 'mihon/service.dart';
 import 'lnreader/service.dart';
+import 'aidoku/service.dart';
 
 ExtensionService getExtensionService(Source source, String androidProxyServer) {
-  if ((source.isActive != true) || (source.sourceCode?.isNotEmpty != true)) {
+  // Empty or broken code still goes to its real service so the failure
+  // reaches SourceCodeErrors (and the source's error banner).
+  if (source.isActive != true) {
     return DummyExtensionService(source);
   }
 
@@ -20,7 +23,34 @@ ExtensionService getExtensionService(Source source, String androidProxyServer) {
       androidProxyServer,
     ),
     SourceCodeLanguage.lnreader => LNReaderExtensionService(source),
+    SourceCodeLanguage.aidoku => AidokuExtensionService(source),
   };
+}
+
+/// Creating an extension service evaluates the entire extension source, which
+/// is far too slow for UI-thread paths (headers, filters, preferences, ...).
+/// This keeps a small pool of live services keyed by source version so those
+/// paths pay the spin-up cost once. Returned instances are shared — callers
+/// must NOT dispose them; evicted instances are disposed here.
+const _cachedServiceLimit = 6;
+final _serviceCache = <String, ExtensionService>{};
+
+ExtensionService getCachedExtensionService(
+  Source source,
+  String androidProxyServer,
+) {
+  final key = '${source.id}|${source.version}|${source.sourceCode?.hashCode}|$androidProxyServer';
+  final cached = _serviceCache.remove(key);
+  if (cached != null) {
+    _serviceCache[key] = cached; // re-insert as most recently used
+    return cached;
+  }
+  final service = getExtensionService(source, androidProxyServer);
+  _serviceCache[key] = service;
+  if (_serviceCache.length > _cachedServiceLimit) {
+    _serviceCache.remove(_serviceCache.keys.first)?.dispose();
+  }
+  return service;
 }
 
 Future<T> withExtensionService<T>(

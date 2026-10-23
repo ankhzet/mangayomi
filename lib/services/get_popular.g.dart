@@ -12,8 +12,7 @@ part of 'get_popular.dart';
 @ProviderFor(getPopular)
 final getPopularProvider = GetPopularFamily._();
 
-final class GetPopularProvider
-    extends $FunctionalProvider<AsyncValue<MPages?>, MPages?, FutureOr<MPages?>>
+final class GetPopularProvider extends $FunctionalProvider<AsyncValue<MPages?>, MPages?, FutureOr<MPages?>>
     with $FutureModifier<MPages?>, $FutureProvider<MPages?> {
   GetPopularProvider._({
     required GetPopularFamily super.from,
@@ -38,8 +37,7 @@ final class GetPopularProvider
 
   @$internal
   @override
-  $FutureProviderElement<MPages?> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<MPages?> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<MPages?> create(Ref ref) {
@@ -58,14 +56,10 @@ final class GetPopularProvider
   }
 }
 
-String _$getPopularHash() => r'7e1139bc0f6a3a495fa0dc59d450bc7fd70f36a8';
+String _$getPopularHash() => r'51ed21ca8117b04eaae3d7adefcb9f57d56e4911';
 
 final class GetPopularFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          FutureOr<MPages?>,
-          ({Source source, int page})
-        > {
+    with $FunctionalFamilyOverride<FutureOr<MPages?>, ({Source source, int page})> {
   GetPopularFamily._()
     : super(
         retry: null,

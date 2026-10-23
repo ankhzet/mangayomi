@@ -5,6 +5,7 @@ import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/xpath_selector.dart';
+import 'package:mangayomi/utils/error_toast.dart';
 
 class StreamWishExtractor {
   final InterceptedClient client = MClient.init(
@@ -17,9 +18,7 @@ class StreamWishExtractor {
     try {
       final response = await client.get(Uri.parse(url), headers: headers);
 
-      final jsEval = xpathSelector(
-        response.body,
-      ).queryXPath('//script[contains(text(), "m3u8")]/text()').attrs;
+      final jsEval = xpathSelector(response.body).queryXPath('//script[contains(text(), "m3u8")]/text()').attrs;
       if (jsEval.isEmpty) {
         return [];
       }
@@ -64,7 +63,8 @@ class StreamWishExtractor {
       });
 
       return videoList;
-    } catch (_) {
+    } catch (error, stackTrace) {
+      recordError(error, stack: stackTrace, source: 'streamwish_extractor');
       return [];
     }
   }

@@ -13,12 +13,7 @@ part of 'extensions_provider.dart';
 final getExtensionsStreamProvider = GetExtensionsStreamFamily._();
 
 final class GetExtensionsStreamProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<Source>>,
-          List<Source>,
-          Stream<List<Source>>
-        >
+    extends $FunctionalProvider<AsyncValue<List<Source>>, List<Source>, Stream<List<Source>>>
     with $FutureModifier<List<Source>>, $StreamProvider<List<Source>> {
   GetExtensionsStreamProvider._({
     required GetExtensionsStreamFamily super.from,
@@ -64,11 +59,9 @@ final class GetExtensionsStreamProvider
   }
 }
 
-String _$getExtensionsStreamHash() =>
-    r'18790d3d4a7f52e5e7239c8726dcd09bb51d803a';
+String _$getExtensionsStreamHash() => r'9b75909791610244bdbd420ec7d722108cfb7f33';
 
-final class GetExtensionsStreamFamily extends $Family
-    with $FunctionalFamilyOverride<Stream<List<Source>>, ItemType> {
+final class GetExtensionsStreamFamily extends $Family with $FunctionalFamilyOverride<Stream<List<Source>>, ItemType> {
   GetExtensionsStreamFamily._()
     : super(
         retry: null,
@@ -78,8 +71,7 @@ final class GetExtensionsStreamFamily extends $Family
         isAutoDispose: true,
       );
 
-  GetExtensionsStreamProvider call(ItemType itemType) =>
-      GetExtensionsStreamProvider._(argument: itemType, from: this);
+  GetExtensionsStreamProvider call(ItemType itemType) => GetExtensionsStreamProvider._(argument: itemType, from: this);
 
   @override
   String toString() => r'getExtensionsStreamProvider';

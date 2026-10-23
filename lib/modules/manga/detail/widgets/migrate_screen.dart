@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:shiori/shiori.dart';
+import 'package:mangayomi/modules/browse/sources/widgets/source_list_tile.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:isar_community/isar.dart';
 import 'package:mangayomi/eval/model/m_manga.dart';
 import 'package:mangayomi/eval/model/m_pages.dart';
-import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/category.dart';
+import 'package:mangayomi/repositories/category_repository.dart';
+import 'package:mangayomi/repositories/manga_repository.dart';
+import 'package:mangayomi/repositories/source_repository.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/track_search.dart';
 import 'package:mangayomi/modules/library/widgets/search_text_form_field.dart';
@@ -13,21 +15,17 @@ import 'package:mangayomi/modules/mass_migration/services/mass_migration_service
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
 import 'package:mangayomi/modules/manga/detail/widgets/chapter_filter_list_tile_widget.dart';
 import 'package:mangayomi/modules/more/settings/browse/providers/browse_state_provider.dart';
+import 'package:mangayomi/modules/widgets/error_state.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/services/get_detail.dart';
 import 'package:mangayomi/services/search.dart';
-import 'package:mangayomi/utils/cached_network.dart';
 import 'package:mangayomi/utils/date.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
-import 'package:mangayomi/utils/constant.dart';
-import 'package:mangayomi/utils/headers.dart';
 import 'package:mangayomi/utils/language.dart';
-import 'package:mangayomi/modules/widgets/bottom_text_widget.dart';
+import 'package:mangayomi/modules/widgets/global_search_result_card.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 import 'package:mangayomi/utils/platform_utils.dart';
-import 'package:flutter/services.dart';
-import 'package:mangayomi/modules/widgets/tv_pill.dart';
 
 class MigrationScreen extends ConsumerStatefulWidget {
   final Manga manga;
@@ -42,15 +40,8 @@ class _MigrationScreenScreenState extends ConsumerState<MigrationScreen> {
   String _query = "";
   final _textEditingController = TextEditingController();
   late final List<Source> sourceList = ref.read(onlyIncludePinnedSourceStateProvider)
-      ? isar.sources.filter().isPinnedEqualTo(true).and().itemTypeEqualTo(widget.manga.itemType).findAllSync()
-      : isar.sources
-            .filter()
-            .idIsNotNull()
-            .and()
-            .isAddedEqualTo(true)
-            .and()
-            .itemTypeEqualTo(widget.manga.itemType)
-            .findAllSync();
+      ? sourceRepository.getPinnedByItemType(widget.manga.itemType)
+      : sourceRepository.getAddedByItemType(widget.manga.itemType);
   // Set once the first source row with results has taken the TV autofocus, so
   // no other row steals it afterwards.
   bool _autofocusClaimed = false;
@@ -114,17 +105,14 @@ class _MigrationScreenScreenState extends ConsumerState<MigrationScreen> {
               extentPrecalculationPolicy: SuperPrecalculationPolicy(),
               itemBuilder: (context, index) {
                 final source = sourceList[index];
-                return SizedBox(
-                  height: 260,
-                  child: MigrationSourceSearchScreen(
-                    key: ValueKey(query),
-                    query: query,
-                    manga: widget.manga,
-                    source: source,
-                    trackSearch: widget.trackSearch,
-                    isFirst: index == 0,
-                    claimAutofocus: isTv ? _claimAutofocus : null,
-                  ),
+                return MigrationSourceSearchScreen(
+                  key: ValueKey(query),
+                  query: query,
+                  manga: widget.manga,
+                  source: source,
+                  trackSearch: widget.trackSearch,
+                  isFirst: index == 0,
+                  claimAutofocus: isTv ? _claimAutofocus : null,
                 );
               },
             )
@@ -220,49 +208,69 @@ class _MigrationSourceSearchScreenState extends ConsumerState<MigrationSourceSea
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
 
-    return Scaffold(
-      body: SizedBox(
-        height: 260,
-        child: Column(
-          children: [
-            ListTile(
-              dense: true,
-              title: Text(widget.source.name!),
-              subtitle: Text(
-                completeLanguageName(widget.source.lang!),
-                style: const TextStyle(fontSize: 10),
-              ),
+    // IntrinsicHeight instead of a fixed pixel height: sizes to the actual
+    // (up to 2-line) title instead of a magic number that kept overflowing.
+    return IntrinsicHeight(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            dense: true,
+            leading: SourceIcon(iconUrl: widget.source.iconUrl),
+            title: Text(widget.source.name!),
+            subtitle: Text(
+              languageName(context, widget.source.lang!),
+              style: context.shiori.caption,
             ),
-            Flexible(
-              child: _isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : Builder(
-                      builder: (context) {
-                        if (_errorMessage.isNotEmpty) {
-                          return Center(child: Text(_errorMessage));
-                        }
-                        if (pages!.list.isNotEmpty) {
-                          return SuperListView.builder(
-                            extentPrecalculationPolicy: SuperPrecalculationPolicy(),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: pages!.list.length,
-                            itemBuilder: (context, index) {
-                              return MigrationMangaGlobalImageCard(
+          ),
+          _isLoading
+              ? const SizedBox(
+                  height: 60,
+                  child: Center(child: ShioriLoading.inline()),
+                )
+              : Builder(
+                  builder: (context) {
+                    if (_errorMessage.isNotEmpty) {
+                      return ErrorState(
+                        compact: true,
+                        detail: _errorMessage,
+                        onRetry: () {
+                          setState(() {
+                            _isLoading = true;
+                            _errorMessage = "";
+                          });
+                          _init();
+                        },
+                      );
+                    }
+                    if (pages!.list.isNotEmpty) {
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            for (var index = 0; index < pages!.list.length; index++)
+                              MigrationMangaGlobalImageCard(
                                 oldManga: widget.manga,
                                 manga: pages!.list[index],
                                 source: widget.source,
                                 trackSearch: widget.trackSearch,
                                 autofocus: _autofocusFirst && index == 0,
-                              );
-                            },
-                          );
-                        }
-                        return Center(child: Text(l10n.no_result));
-                      },
-                    ),
-            ),
-          ],
-        ),
+                              ),
+                          ],
+                        ),
+                      );
+                    }
+                    return SizedBox(
+                      height: 60,
+                      child: ShioriEmptyState(
+                        icon: Symbols.search_off_rounded,
+                        title: l10n.no_result,
+                        compact: true,
+                      ),
+                    );
+                  },
+                ),
+        ],
       ),
     );
   }
@@ -288,148 +296,22 @@ class MigrationMangaGlobalImageCard extends ConsumerStatefulWidget {
   ConsumerState<MigrationMangaGlobalImageCard> createState() => _MigrationMangaGlobalImageCardState();
 }
 
-class _MigrationMangaGlobalImageCardState extends ConsumerState<MigrationMangaGlobalImageCard>
-    with AutomaticKeepAliveClientMixin<MigrationMangaGlobalImageCard> {
-  bool _focused = false;
-
+class _MigrationMangaGlobalImageCardState extends ConsumerState<MigrationMangaGlobalImageCard> {
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     final l10n = l10nLocalizations(context)!;
-    final getMangaDetail = widget.manga;
-    // A bare GestureDetector never takes focus, so on a remote these covers were
-    // unreachable. Match the global-search / library covers: focusable, accent
-    // ring plus a lift, opens on OK.
-    return Focus(
+    return GlobalSearchResultCard(
+      manga: widget.manga,
+      source: widget.source,
       autofocus: widget.autofocus,
-      onFocusChange: (f) {
-        setState(() => _focused = f);
-        if (f && context.mounted && Scrollable.maybeOf(context) != null) {
-          Scrollable.ensureVisible(
-            context,
-            alignment: 0.5,
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeOut,
-          );
-        }
-      },
-      onKeyEvent: (node, event) {
-        if (event is KeyDownEvent && tvIsSelectKey(event.logicalKey)) {
-          _showMigrateDialog(context, l10n);
-          return KeyEventResult.handled;
-        }
-        return KeyEventResult.ignored;
-      },
       // Padding outside the scale so the focused cover grows into it.
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 130),
-          curve: Curves.easeOut,
-          transform: Matrix4.identity()
-            ..scaleByDouble(
-              _focused ? 1.06 : 1.0,
-              _focused ? 1.06 : 1.0,
-              _focused ? 1.06 : 1.0,
-              1,
-            ),
-          transformAlignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: _focused ? context.primaryColor : Colors.transparent,
-              width: 2,
-            ),
-          ),
-          child: GestureDetector(
-            onTap: () => _showMigrateDialog(context, l10n),
-            child: StreamBuilder(
-              stream: isar.mangas
-                  .filter()
-                  .langEqualTo(widget.source.lang)
-                  .nameEqualTo(getMangaDetail.name)
-                  .sourceEqualTo(widget.source.name)
-                  .watch(fireImmediately: true),
-              builder: (context, snapshot) {
-                final hasData = snapshot.hasData && snapshot.data!.isNotEmpty;
-                return Stack(
-                  children: [
-                    SizedBox(
-                      width: 110,
-                      child: Column(
-                        children: [
-                          Builder(
-                            builder: (context) {
-                              if (hasData && snapshot.data!.first.customCoverImage != null) {
-                                return Image.memory(
-                                  snapshot.data!.first.customCoverImage as Uint8List,
-                                );
-                              }
-                              return ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: cachedNetworkImage(
-                                  headers: ref.watch(
-                                    headersProvider(
-                                      source: widget.source.name!,
-                                      lang: widget.source.lang!,
-                                      sourceId: widget.source.id,
-                                    ),
-                                  ),
-                                  imageUrl: toImgUrl(
-                                    hasData
-                                        ? snapshot.data!.first.customCoverFromTracker ??
-                                              snapshot.data!.first.imageUrl ??
-                                              ""
-                                        : getMangaDetail.imageUrl ?? "",
-                                  ),
-                                  width: 110,
-                                  height: 150,
-                                  fit: BoxFit.cover,
-                                ),
-                              );
-                            },
-                          ),
-                          BottomTextWidget(
-                            fontSize: 12.0,
-                            text: widget.manga.name!,
-                            isLoading: true,
-                            textColor: Theme.of(
-                              context,
-                            ).textTheme.bodyLarge!.color,
-                            isComfortableGrid: true,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: 110,
-                      height: 150,
-                      color: hasData && snapshot.data!.first.favorite! ? Colors.black.withValues(alpha: 0.7) : null,
-                    ),
-                    if (hasData && snapshot.data!.first.favorite!)
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        child: Padding(
-                          padding: const EdgeInsets.all(4),
-                          child: Icon(
-                            Icons.collections_bookmark,
-                            color: context.primaryColor,
-                          ),
-                        ),
-                      ),
-                  ],
-                );
-              },
-            ),
-          ),
-        ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: ShioriSpace.s8,
+        vertical: ShioriSpace.s8,
       ),
+      onActivate: () => _showMigrateDialog(context, l10n),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 
   void _showMigrateDialog(BuildContext context, dynamic l10n) {
     ref
@@ -444,10 +326,8 @@ class _MigrationMangaGlobalImageCardState extends ConsumerState<MigrationMangaGl
             showDialog(
               context: context,
               builder: (ctx) {
-                return AlertDialog(
-                  title: Text(
-                    widget.trackSearch == null ? l10n.migrate_confirm : l10n.track_library_add_confirm,
-                  ),
+                return ShioriDialog(
+                  title: widget.trackSearch == null ? l10n.migrate_confirm : l10n.track_library_add_confirm,
                   content: preview.chapters != null
                       ? SizedBox(
                           height: ctx.height(0.5),
@@ -460,48 +340,19 @@ class _MigrationMangaGlobalImageCardState extends ConsumerState<MigrationMangaGl
                                   itemCount: preview.chapters!.length,
                                   itemBuilder: (context, index) {
                                     final chapter = preview.chapters![index];
-                                    return ListTile(
-                                      title: Row(
-                                        children: [
-                                          Flexible(
-                                            child: Text(
-                                              preview.chapters![index].name!,
-                                              style: const TextStyle(
-                                                fontSize: 13,
-                                              ),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      subtitle: Row(
-                                        children: [
-                                          Text(
-                                            chapter.dateUpload == null || chapter.dateUpload!.isEmpty
-                                                ? ""
-                                                : dateFormat(
-                                                    chapter.dateUpload!,
-                                                    ref: ref,
-                                                    context: context,
-                                                  ),
-                                            style: const TextStyle(
-                                              fontSize: 11,
-                                            ),
-                                          ),
-                                          if (chapter.scanlator?.isNotEmpty ?? false)
-                                            Row(
-                                              children: [
-                                                const Text(' • '),
-                                                Text(
-                                                  chapter.scanlator!,
-                                                  style: TextStyle(
-                                                    fontSize: 11,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                        ],
-                                      ),
+                                    final date = chapter.dateUpload?.isNotEmpty ?? false
+                                        ? dateFormat(
+                                            chapter.dateUpload!,
+                                            ref: ref,
+                                            context: context,
+                                          )
+                                        : '';
+                                    return ShioriListRow(
+                                      title: chapter.name!,
+                                      subtitle: [
+                                        if (date.isNotEmpty) date,
+                                        if (chapter.scanlator?.isNotEmpty ?? false) chapter.scanlator!,
+                                      ].join(' · '),
                                     );
                                   },
                                 ),
@@ -511,33 +362,25 @@ class _MigrationMangaGlobalImageCardState extends ConsumerState<MigrationMangaGl
                         )
                       : Text(l10n.n_chapters(0)),
                   actions: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(ctx);
-                          },
-                          child: Text(l10n.cancel),
-                        ),
-                        const SizedBox(width: 15),
-                        Consumer(
-                          builder: (context, ref, child) => TextButton(
-                            onPressed: () async {
-                              if (widget.trackSearch == null) {
-                                await _migrateManga(preview);
-                                if (ctx.mounted) {
-                                  Navigator.pop(ctx);
-                                  Navigator.pop(ctx);
-                                }
-                              } else {
-                                await _addTrackManga(context);
-                              }
-                            },
-                            child: Text(l10n.ok),
-                          ),
-                        ),
-                      ],
+                    ShioriButton.quiet(
+                      label: l10n.cancel,
+                      onPressed: () => Navigator.pop(ctx),
+                    ),
+                    Consumer(
+                      builder: (context, ref, child) => ShioriButton(
+                        label: widget.trackSearch == null ? l10n.migrate : l10n.add,
+                        onPressed: () async {
+                          if (widget.trackSearch == null) {
+                            await _migrateManga(preview);
+                            if (ctx.mounted) {
+                              Navigator.pop(ctx);
+                              Navigator.pop(ctx);
+                            }
+                          } else {
+                            await _addTrackManga(context);
+                          }
+                        },
+                      ),
                     ),
                   ],
                 );
@@ -555,17 +398,14 @@ class _MigrationMangaGlobalImageCardState extends ConsumerState<MigrationMangaGl
         return StatefulBuilder(
           builder: (context, setState) {
             final l10n = l10nLocalizations(context)!;
-            return AlertDialog(
-              title: Text(l10n.set_categories),
+            return ShioriDialog(
+              title: l10n.set_categories,
               content: SizedBox(
                 width: context.width(0.8),
                 child: StreamBuilder(
-                  stream: isar.categorys
-                      .filter()
-                      .idIsNotNull()
-                      .and()
-                      .forItemTypeEqualTo(widget.oldManga.itemType)
-                      .watch(fireImmediately: true),
+                  stream: categoryRepository.watchByItemType(
+                    widget.oldManga.itemType,
+                  ),
                   builder: (context, snapshot) {
                     if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                       final entries = snapshot.data!;
@@ -594,85 +434,70 @@ class _MigrationMangaGlobalImageCardState extends ConsumerState<MigrationMangaGl
                 ),
               ),
               actions: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        context.push(
-                          "/categories",
-                          extra: (
-                            true,
-                            widget.oldManga.itemType == ItemType.manga
-                                ? 0
-                                : widget.oldManga.itemType == ItemType.anime
-                                ? 1
-                                : 2,
-                          ),
-                        );
-                        Navigator.pop(context);
-                      },
-                      child: Text(l10n.edit),
-                    ),
-                    Row(
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text(l10n.cancel),
-                        ),
-                        const SizedBox(width: 15),
-                        TextButton(
-                          onPressed: () async {
-                            final model = widget.manga;
-                            final manga = Manga(
-                              name: model.name,
-                              artist: model.artist,
-                              author: model.author,
-                              description: model.description,
-                              imageUrl: model.imageUrl,
-                              link: model.link,
-                              genre: model.genre,
-                              status: model.status ?? Status.unknown,
-                              source: widget.source.name,
-                              lang: widget.source.lang,
+                ShioriButton.quiet(
+                  label: l10n.edit,
+                  onPressed: () {
+                    context.push(
+                      "/categories",
+                      extra: (
+                        true,
+                        widget.oldManga.itemType == ItemType.manga
+                            ? 0
+                            : widget.oldManga.itemType == ItemType.anime
+                            ? 1
+                            : 2,
+                      ),
+                    );
+                    Navigator.pop(context);
+                  },
+                ),
+                ShioriButton.quiet(
+                  label: l10n.cancel,
+                  onPressed: () => Navigator.pop(context),
+                ),
+                ShioriButton(
+                  label: l10n.ok,
+                  onPressed: () async {
+                    final model = widget.manga;
+                    final manga = Manga(
+                      name: model.name,
+                      artist: model.artist,
+                      author: model.author,
+                      description: model.description,
+                      imageUrl: model.imageUrl,
+                      link: model.link,
+                      genre: model.genre,
+                      status: model.status ?? Status.unknown,
+                      source: widget.source.name,
+                      lang: widget.source.lang,
+                      itemType: widget.oldManga.itemType,
+                      favorite: true,
+                      categories: categoryIds,
+                      dateAdded: DateTime.now().millisecondsSinceEpoch,
+                      updatedAt: DateTime.now().millisecondsSinceEpoch,
+                      sourceId: widget.source.id,
+                    );
+                    final mangaId = await mangaRepository.put(manga);
+                    if (mangaId != -1) {
+                      await ref
+                          .read(
+                            trackStateProvider(
+                              track: null,
                               itemType: widget.oldManga.itemType,
-                              favorite: true,
-                              categories: categoryIds,
-                              dateAdded: DateTime.now().millisecondsSinceEpoch,
-                              updatedAt: DateTime.now().millisecondsSinceEpoch,
-                              sourceId: widget.source.id,
-                            );
-                            int mangaId = -1;
-                            isar.writeTxnSync(() {
-                              mangaId = isar.mangas.putSync(manga);
-                            });
-                            if (mangaId != -1) {
-                              await ref
-                                  .read(
-                                    trackStateProvider(
-                                      track: null,
-                                      itemType: widget.oldManga.itemType,
-                                      widgetRef: ref,
-                                    ).notifier,
-                                  )
-                                  .setTrackSearch(
-                                    widget.trackSearch!,
-                                    mangaId,
-                                    widget.trackSearch!.syncId!,
-                                  );
-                            }
-                            if (context.mounted) {
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            }
-                          },
-                          child: Text(l10n.ok),
-                        ),
-                      ],
-                    ),
-                  ],
+                              widgetRef: ref,
+                            ).notifier,
+                          )
+                          .setTrackSearch(
+                            widget.trackSearch!,
+                            mangaId,
+                            widget.trackSearch!.syncId!,
+                          );
+                    }
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    }
+                  },
                 ),
               ],
             );

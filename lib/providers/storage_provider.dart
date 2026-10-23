@@ -1,10 +1,11 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:isar_community/isar.dart';
 import 'package:mangayomi/eval/model/source_preference.dart';
-import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/category.dart';
+import 'package:mangayomi/repositories/settings_repository.dart';
 import 'package:mangayomi/models/changed.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/custom_button.dart';
@@ -12,21 +13,43 @@ import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/models/update.dart';
 import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
+import 'package:mangayomi/models/backup_password_fallback.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/models/sync_preference.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/models/track_preference.dart';
+import 'package:mangayomi/models/tracker_library_cache.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
 import 'package:mangayomi/utils/platform_utils.dart';
 
+@visibleForTesting
+String? linuxDocumentsFallbackPath(Map<String, String> environment) {
+  final home = environment['HOME']?.trim();
+  return home == null || home.isEmpty ? null : home;
+}
+
 class StorageProvider {
   static final StorageProvider _instance = StorageProvider._internal();
   StorageProvider._internal();
   factory StorageProvider() => _instance;
+
+  /// `path_provider_linux` asks `xdg-user-dir` for Documents. Minimal desktop
+  /// environments may not provide that executable, which must not prevent the
+  /// database or downloads from initializing. Fall back to HOME on Linux.
+  Future<Directory> _documentsDirectory() async {
+    try {
+      return await getApplicationDocumentsDirectory();
+    } catch (_) {
+      if (!Platform.isLinux) rethrow;
+      final home = linuxDocumentsFallbackPath(Platform.environment);
+      if (home == null) rethrow;
+      return Directory(home);
+    }
+  }
 
   Future<bool> requestPermission() async {
     if (!Platform.isAndroid) return true;
@@ -53,7 +76,7 @@ class StorageProvider {
     if (Platform.isAndroid) {
       directory = Directory("/storage/emulated/0/Mangayomi/");
     } else {
-      final dir = await getApplicationDocumentsDirectory();
+      final dir = await _documentsDirectory();
       // The documents dir in iOS is already named "Mangayomi".
       // Appending "Mangayomi" to the documents dir would create
       // unnecessarily nested Mangayomi/Mangayomi/ folder.
@@ -77,9 +100,12 @@ class StorageProvider {
     return await dir.exists() ? dir : null;
   }
 
-  Future<Directory?> getExtensionServerDirectory() async {
+  Future<Directory> getExtensionServerDirectory() async {
     final defaultDirectory = await getDefaultDirectory();
-    String dbDir = path.join(defaultDirectory!.path, 'extension_server');
+    if (defaultDirectory == null) {
+      throw StateError('The app storage directory is unavailable');
+    }
+    String dbDir = path.join(defaultDirectory.path, 'extension_server');
     await Directory(dbDir).create(recursive: true);
     return Directory(dbDir);
   }
@@ -127,11 +153,11 @@ class StorageProvider {
     return Directory(dbDir);
   }
 
-  Future<Directory?> getDirectory() async {
+  Future<Directory?> getDirectory({Settings? settings}) async {
     Directory? directory;
     String dPath = "";
     try {
-      final setting = isar.settings.getSync(227);
+      final setting = settings ?? settingsRepository.currentOrNull;
       dPath = setting?.downloadLocation ?? "";
     } catch (e) {
       if (kDebugMode) {
@@ -143,7 +169,7 @@ class StorageProvider {
         dPath.isEmpty ? "/storage/emulated/0/Mangayomi/" : "$dPath/",
       );
     } else {
-      final dir = await getApplicationDocumentsDirectory();
+      final dir = await _documentsDirectory();
       final p = dPath.isEmpty ? dir.path : dPath;
       // The documents dir in iOS is already named "Mangayomi".
       // Appending "Mangayomi" to the documents dir would create
@@ -154,7 +180,10 @@ class StorageProvider {
     return directory;
   }
 
-  Future<Directory?> getMangaMainDirectory(Chapter chapter) async {
+  Future<Directory?> getMangaMainDirectory(
+    Chapter chapter, {
+    Settings? settings,
+  }) async {
     final manga = chapter.manga.value!;
     final itemType = chapter.manga.value!.itemType;
     final itemTypePath = itemType == ItemType.manga
@@ -162,7 +191,7 @@ class StorageProvider {
         : itemType == ItemType.anime
         ? "Anime"
         : "Novel";
-    final dir = await getDirectory();
+    final dir = await getDirectory(settings: settings);
     return Directory(
       path.join(
         dir!.path,
@@ -191,7 +220,7 @@ class StorageProvider {
   }
 
   Future<Directory?> getDatabaseDirectory() async {
-    final dir = await getApplicationDocumentsDirectory();
+    final dir = await _documentsDirectory();
     String dbDir;
     if (Platform.isAndroid) return dir;
     if (Platform.isIOS) {
@@ -297,28 +326,30 @@ class StorageProvider {
         SyncPreferenceSchema,
         SourcePreferenceSchema,
         SourcePreferenceStringValueSchema,
+        BackupPasswordFallbackSchema,
+        TrackerLibraryCacheSchema,
       ],
       directory: dir!.path,
       name: "mangayomiDb",
       inspector: inspector,
     );
     try {
-      final settings = await isar.settings.filter().idEqualTo(227).findFirst();
+      final settings = await isar.settings.get(227);
       if (settings == null) {
+        // TV defaults to dark on first run (a fresh library). Only the
+        // initial Settings row is seeded, so switching to light later sticks.
         await isar.writeTxn(
-          // TV defaults to dark on first run (a fresh library). Only the
-          // initial Settings row is seeded, so switching to light later sticks.
           () async => isar.settings.put(Settings()..themeIsDark = isTv),
         );
       }
     } catch (_) {
       if (await requestPermission()) {
         try {
-          final settings = await isar.settings.filter().idEqualTo(227).findFirst();
+          final settings = await isar.settings.get(227);
           if (settings == null) {
+            // TV defaults to dark on first run (a fresh library). Only the
+            // initial Settings row is seeded, so switching to light later sticks.
             await isar.writeTxn(
-              // TV defaults to dark on first run (a fresh library). Only the
-              // initial Settings row is seeded, so switching to light later sticks.
               () async => isar.settings.put(Settings()..themeIsDark = isTv),
             );
           }
@@ -335,22 +366,23 @@ class StorageProvider {
     }
 
     final prefs = await isar.trackPreferences.filter().syncIdIsNotNull().findAll();
-    await isar.writeTxn(() async {
-      for (final pref in prefs) {
-        await isar.trackPreferences.put(pref..refreshing = true);
-      }
-    });
+    if (prefs.isNotEmpty) {
+      await isar.writeTxn(
+        () => isar.trackPreferences.putAll([
+          for (final pref in prefs) pref..refreshing = true,
+        ]),
+      );
+    }
 
     final customButton = await isar.customButtons.filter().idIsNotNull().findFirst();
     if (customButton == null) {
-      await isar.writeTxn(() async {
-        await isar.customButtons.put(
+      await isar.writeTxn(
+        () => isar.customButtons.put(
           CustomButton(
             title: "+85 s",
             codePress: """local intro_length = mp.get_property_native("user-data/current-anime/intro-length")
 aniyomi.right_seek_by(intro_length)""",
-            codeLongPress:
-                """aniyomi.int_picker("Change intro length", "%ds", 0, 255, 1, "user-data/current-anime/intro-length")""",
+            codeLongPress: """aniyomi.int_picker("Change intro length", "%ds", 0, 255, 1, "user-data/current-anime/intro-length")""",
             codeStartup: """function update_button(_, length)
   if length ~= nil then
     if length == 0 then
@@ -368,10 +400,9 @@ if \$isPrimary then
 end""",
             isFavourite: true,
             pos: 0,
-            updatedAt: DateTime.now().millisecondsSinceEpoch,
           ),
-        );
-      });
+        ),
+      );
     }
 
     return isar;

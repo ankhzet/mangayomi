@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 import 'dart:isolate';
+
 import 'package:ffi/ffi.dart';
 import 'package:flutter/foundation.dart';
 
@@ -69,6 +70,7 @@ class FfiImageDecoder {
   static DynamicLibrary? _dylib;
 
   bool _isRunning = false;
+  Future<void>? _startFuture;
   Isolate? _cIsolate;
   ReceivePort? _receivePort;
   SendPort? _sendPort;
@@ -95,17 +97,25 @@ class FfiImageDecoder {
     });
   }
 
-  Future<void> start() async {
-    if (!_isRunning) {
-      try {
-        await _initCIsolate();
-      } catch (e, stackTrace) {
-        if (kDebugMode) {
-          print('Error starting FFI isolate: $e');
-          print(stackTrace);
-        }
-        await stop();
+  Future<void> start() {
+    if (_isRunning) {
+      return Future.value();
+    }
+    _startFuture ??= _doStart();
+    return _startFuture!;
+  }
+
+  Future<void> _doStart() async {
+    try {
+      await _initCIsolate();
+    } catch (e, stackTrace) {
+      if (kDebugMode) {
+        print('Error starting FFI isolate: $e');
+        print(stackTrace);
       }
+      await stop();
+    } finally {
+      _startFuture = null;
     }
   }
 
@@ -140,6 +150,38 @@ class FfiImageDecoder {
         } catch (_) {
           _dylib = DynamicLibrary.process();
         }
+      } else if (Platform.isWindows) {
+        final exeDir = File(Platform.resolvedExecutable).parent.path;
+        final candidates = [
+          "$exeDir\\subsampling_scale_image_view.dll",
+          "subsampling_scale_image_view.dll",
+          "libsubsampling_scale_image_view.dll",
+          "$exeDir\\libsubsampling_scale_image_view.dll",
+          "${Directory.current.path}\\build\\native_assets\\windows\\subsampling_scale_image_view.dll",
+          "$exeDir\\..\\..\\..\\native_assets\\windows\\subsampling_scale_image_view.dll",
+        ];
+        for (final path in candidates) {
+          try {
+            _dylib = DynamicLibrary.open(path);
+            if (_dylib != null) break;
+          } catch (_) {}
+        }
+        _dylib ??= DynamicLibrary.process();
+      } else if (Platform.isLinux) {
+        final exeDir = File(Platform.resolvedExecutable).parent.path;
+        final candidates = [
+          "$exeDir/lib/libsubsampling_scale_image_view.so",
+          "$exeDir/libsubsampling_scale_image_view.so",
+          "libsubsampling_scale_image_view.so",
+          "${Directory.current.path}/build/native_assets/linux/libsubsampling_scale_image_view.so",
+        ];
+        for (final path in candidates) {
+          try {
+            _dylib = DynamicLibrary.open(path);
+            if (_dylib != null) break;
+          } catch (_) {}
+        }
+        _dylib ??= DynamicLibrary.process();
       } else {
         _dylib = DynamicLibrary.process();
       }
@@ -208,7 +250,7 @@ class FfiImageDecoder {
     // lruOrder tracks insertion order; LinkedHashMap isn't directly available in isolate
     // so we use a plain Map (Dart Maps maintain insertion order since Dart 2) as O(1) ordered set.
     final Map<String, bool> lruOrder = {};
-    const int maxCacheSize = 10;
+    const int maxCacheSize = 5;
 
     receivePort.listen((message) async {
       if (message is Map<String, dynamic>) {
@@ -396,12 +438,9 @@ class FfiImageDecoder {
   }
 
   void _processNext() {
-    // Dispatch up to _maxConcurrent jobs simultaneously.
-    while (_activeJobs < _maxConcurrent && _queue.isNotEmpty) {
-      // Priority ordering:
-      //  1. getDimensions jobs first (they block image init)
-      //  2. High sampleSize (base/overview layer) before fine detail tiles
-      //  3. LIFO within same priority (last-added tile = most recently needed)
+    // Sort once before dispatching, not per iteration.
+    // Priority: getDimensions first, then high sampleSize (base layer), LIFO within.
+    if (_queue.length > 1) {
       _queue.sort((a, b) {
         final aPriority = a.action == 'getDimensions' ? 1000 : a.params.sampleSize;
         final bPriority = b.action == 'getDimensions' ? 1000 : b.params.sampleSize;
@@ -409,7 +448,9 @@ class FfiImageDecoder {
           aPriority,
         ); // descending: highest priority last for removeLast
       });
+    }
 
+    while (_activeJobs < _maxConcurrent && _queue.isNotEmpty) {
       final job = _queue.removeLast();
       _activeJobs++;
 
@@ -494,17 +535,21 @@ class FfiImageDecoder {
   }
 
   Future<void> stop() async {
-    if (!_isRunning) {
+    _startFuture = null;
+    if (!_isRunning && _cIsolate == null && _receivePort == null) {
       return;
     }
 
-    _sendPort?.send('dispose');
+    try {
+      _sendPort?.send('dispose');
+    } catch (_) {}
     _cIsolate?.kill(priority: Isolate.immediate);
     _receivePort?.close();
     _sendPort = null;
     _cIsolate = null;
     _receivePort = null;
     _isRunning = false;
+    _activeJobs = 0;
 
     for (final job in _queue) {
       if (!job.completer.isCompleted) {

@@ -1,5 +1,8 @@
 import 'dart:convert';
+
 import 'package:mangayomi/services/http/m_client.dart';
+import 'package:mangayomi/utils/constant.dart';
+import 'package:mangayomi/utils/error_toast.dart';
 
 Future<List<ImdbTitle>> fetchImdbTitles(String query) async {
   final http = MClient.init(reqcopyWith: {'useDartHttpClient': true});
@@ -9,13 +12,13 @@ Future<List<ImdbTitle>> fetchImdbTitles(String query) async {
       Uri.parse(url),
       headers: {
         "accept": "application/json",
-        "user-agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+        "user-agent": metadataApiUserAgent,
       },
     );
     final data = json.decode(res.body) as Map<String, dynamic>;
     return (data["titles"] as List?)?.map((e) => ImdbTitle.fromJson(e)).toList() ?? [];
-  } catch (_) {
+  } catch (error, stackTrace) {
+    recordError(error, stack: stackTrace, source: 'fetch_subtitles');
     return [];
   }
 }
@@ -28,13 +31,13 @@ Future<List<ImdbEpisode>?> fetchImdbEpisodes(String imdbId) async {
       Uri.parse(url),
       headers: {
         "accept": "application/json",
-        "user-agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+        "user-agent": metadataApiUserAgent,
       },
     );
     final data = json.decode(res.body) as Map<String, dynamic>;
     return (data["episodes"] as List?)?.map((e) => ImdbEpisode.fromJson(e)).toList();
-  } catch (_) {
+  } catch (error, stackTrace) {
+    recordError(error, stack: stackTrace, source: 'fetch_subtitles');
     return null;
   }
 }
@@ -47,13 +50,13 @@ Future<List<ImdbSubtitle>?> fetchImdbSubtitles(String imdbId) async {
       Uri.parse(url),
       headers: {
         "accept": "application/json",
-        "user-agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+        "user-agent": metadataApiUserAgent,
       },
     );
     final data = json.decode(res.body) as List?;
     return data?.map((e) => ImdbSubtitle.fromJson(e)).where((e) => e.url != null).toList();
-  } catch (_) {
+  } catch (error, stackTrace) {
+    recordError(error, stack: stackTrace, source: 'fetch_subtitles');
     return null;
   }
 }

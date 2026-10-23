@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shiori/shiori.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/modules/mass_migration/mass_migration_preview_screen.dart';
 import 'package:mangayomi/modules/mass_migration/models/mass_migration_models.dart';
@@ -13,6 +14,7 @@ class MassMigrationSourceSelectionScreen extends StatelessWidget {
   const MassMigrationSourceSelectionScreen({
     required this.itemType,
     this.prioritizedManga,
+    this.selectedMangas,
     super.key,
   });
 
@@ -23,22 +25,25 @@ class MassMigrationSourceSelectionScreen extends StatelessWidget {
   /// Null when opened library-wide (e.g. from More) rather than from a manga.
   final Manga? prioritizedManga;
 
+  /// Optional: specific mangas selected by the user to migrate.
+  final List<Manga>? selectedMangas;
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final sourceGroups = buildMassMigrationSourceGroups(
       itemType: itemType,
       prioritizedManga: prioritizedManga,
+      selectedMangas: selectedMangas,
     );
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.mass_migration_title)),
       body: sourceGroups.isEmpty
-          ? Center(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Text(l10n.mass_migration_no_library_items),
-              ),
+          ? ShioriEmptyState(
+              icon: Symbols.collections_bookmark_rounded,
+              title: l10n.mass_migration_no_library_items,
+              compact: true,
             )
           : ListView.separated(
               padding: tvPageInsets,
@@ -57,11 +62,11 @@ class MassMigrationSourceSelectionScreen extends StatelessWidget {
                   title: Text(sourceGroup.sourceName),
                   subtitle: Text(
                     [
-                      if ((sourceGroup.lang ?? '').isNotEmpty) completeLanguageName(sourceGroup.lang!),
+                      if ((sourceGroup.lang ?? '').isNotEmpty) languageName(context, sourceGroup.lang!),
                       l10n.mass_migration_item_count(sourceGroup.count),
-                    ].join(' • '),
+                    ].join(' · '),
                   ),
-                  trailing: const Icon(Icons.chevron_right),
+                  trailing: const Icon(Symbols.chevron_right_rounded, fill: 1),
                 );
                 if (isTv) {
                   return TvListRow(

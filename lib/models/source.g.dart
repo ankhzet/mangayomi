@@ -7,7 +7,7 @@ part of 'source.dart';
 // **************************************************************************
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types, experimental_member_use
 
 extension GetSourceCollection on Isar {
   IsarCollection<Source> get sources => this.collection();
@@ -138,14 +138,59 @@ const SourceSchema = CollectionSchema(
   deserialize: _sourceDeserialize,
   deserializeProp: _sourceDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'isActive': IndexSchema(
+      id: 8092228061260947457,
+      name: r'isActive',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'isActive',
+          type: IndexType.value,
+          caseSensitive: false,
+        ),
+      ],
+    ),
+    r'isAdded': IndexSchema(
+      id: -4682463929871168094,
+      name: r'isAdded',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'isAdded',
+          type: IndexType.value,
+          caseSensitive: false,
+        ),
+      ],
+    ),
+    r'itemType_isAdded': IndexSchema(
+      id: 9096664885738703977,
+      name: r'itemType_isAdded',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'itemType',
+          type: IndexType.value,
+          caseSensitive: false,
+        ),
+        IndexPropertySchema(
+          name: r'isAdded',
+          type: IndexType.value,
+          caseSensitive: false,
+        ),
+      ],
+    ),
+  },
   links: {},
   embeddedSchemas: {r'Repo': RepoSchema},
 
   getId: _sourceGetId,
   getLinks: _sourceGetLinks,
   attach: _sourceAttach,
-  version: '3.3.2',
+  version: '3.4.1',
 );
 
 int _sourceEstimateSize(
@@ -235,8 +280,7 @@ int _sourceEstimateSize(
   {
     final value = object.repo;
     if (value != null) {
-      bytesCount +=
-          3 + RepoSchema.estimateSize(value, allOffsets[Repo]!, allOffsets);
+      bytesCount += 3 + RepoSchema.estimateSize(value, allOffsets[Repo]!, allOffsets);
     }
   }
   {
@@ -345,9 +389,7 @@ Source _sourceDeserialize(
     isNsfw: reader.readBoolOrNull(offsets[15]),
     isObsolete: reader.readBoolOrNull(offsets[16]),
     isPinned: reader.readBoolOrNull(offsets[17]),
-    itemType:
-        _SourceitemTypeValueEnumMap[reader.readByteOrNull(offsets[19])] ??
-        ItemType.manga,
+    itemType: _SourceitemTypeValueEnumMap[reader.readByteOrNull(offsets[19])] ?? ItemType.manga,
     lang: reader.readStringOrNull(offsets[20]),
     lastUsed: reader.readBoolOrNull(offsets[21]),
     name: reader.readStringOrNull(offsets[22]),
@@ -420,9 +462,7 @@ P _sourceDeserializeProp<P>(
     case 18:
       return (reader.readBool(offset)) as P;
     case 19:
-      return (_SourceitemTypeValueEnumMap[reader.readByteOrNull(offset)] ??
-              ItemType.manga)
-          as P;
+      return (_SourceitemTypeValueEnumMap[reader.readByteOrNull(offset)] ?? ItemType.manga) as P;
     case 20:
       return (reader.readStringOrNull(offset)) as P;
     case 21:
@@ -435,11 +475,10 @@ P _sourceDeserializeProp<P>(
       return (reader.readStringOrNull(offset)) as P;
     case 25:
       return (reader.readObjectOrNull<Repo>(
-            offset,
-            RepoSchema.deserialize,
-            allOffsets,
-          ))
-          as P;
+        offset,
+        RepoSchema.deserialize,
+        allOffsets,
+      )) as P;
     case 26:
       return (reader.readStringOrNull(offset)) as P;
     case 27:
@@ -476,12 +515,14 @@ const _SourcesourceCodeLanguageEnumValueMap = {
   'javascript': 1,
   'mihon': 2,
   'lnreader': 3,
+  'aidoku': 4,
 };
 const _SourcesourceCodeLanguageValueEnumMap = {
   0: SourceCodeLanguage.dart,
   1: SourceCodeLanguage.javascript,
   2: SourceCodeLanguage.mihon,
   3: SourceCodeLanguage.lnreader,
+  4: SourceCodeLanguage.aidoku,
 };
 
 Id _sourceGetId(Source object) {
@@ -500,6 +541,30 @@ extension SourceQueryWhereSort on QueryBuilder<Source, Source, QWhere> {
   QueryBuilder<Source, Source, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhere> anyIsActive() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'isActive'),
+      );
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhere> anyIsAdded() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'isAdded'),
+      );
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhere> anyItemTypeIsAdded() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'itemType_isAdded'),
+      );
     });
   }
 }
@@ -572,6 +637,346 @@ extension SourceQueryWhere on QueryBuilder<Source, Source, QWhereClause> {
       );
     });
   }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> isActiveIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'isActive', value: [null]),
+      );
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> isActiveIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'isActive',
+          lower: [null],
+          includeLower: false,
+          upper: [],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> isActiveEqualTo(
+    bool? isActive,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'isActive', value: [isActive]),
+      );
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> isActiveNotEqualTo(
+    bool? isActive,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'isActive',
+                lower: [],
+                upper: [isActive],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'isActive',
+                lower: [isActive],
+                includeLower: false,
+                upper: [],
+              ),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'isActive',
+                lower: [isActive],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'isActive',
+                lower: [],
+                upper: [isActive],
+                includeUpper: false,
+              ),
+            );
+      }
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> isAddedIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'isAdded', value: [null]),
+      );
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> isAddedIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'isAdded',
+          lower: [null],
+          includeLower: false,
+          upper: [],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> isAddedEqualTo(
+    bool? isAdded,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(indexName: r'isAdded', value: [isAdded]),
+      );
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> isAddedNotEqualTo(
+    bool? isAdded,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'isAdded',
+                lower: [],
+                upper: [isAdded],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'isAdded',
+                lower: [isAdded],
+                includeLower: false,
+                upper: [],
+              ),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'isAdded',
+                lower: [isAdded],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'isAdded',
+                lower: [],
+                upper: [isAdded],
+                includeUpper: false,
+              ),
+            );
+      }
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> itemTypeEqualToAnyIsAdded(
+    ItemType itemType,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(
+          indexName: r'itemType_isAdded',
+          value: [itemType],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> itemTypeNotEqualToAnyIsAdded(
+    ItemType itemType,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'itemType_isAdded',
+                lower: [],
+                upper: [itemType],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'itemType_isAdded',
+                lower: [itemType],
+                includeLower: false,
+                upper: [],
+              ),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'itemType_isAdded',
+                lower: [itemType],
+                includeLower: false,
+                upper: [],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'itemType_isAdded',
+                lower: [],
+                upper: [itemType],
+                includeUpper: false,
+              ),
+            );
+      }
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> itemTypeGreaterThanAnyIsAdded(
+    ItemType itemType, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'itemType_isAdded',
+          lower: [itemType],
+          includeLower: include,
+          upper: [],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> itemTypeLessThanAnyIsAdded(
+    ItemType itemType, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'itemType_isAdded',
+          lower: [],
+          upper: [itemType],
+          includeUpper: include,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> itemTypeBetweenAnyIsAdded(
+    ItemType lowerItemType,
+    ItemType upperItemType, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'itemType_isAdded',
+          lower: [lowerItemType],
+          includeLower: includeLower,
+          upper: [upperItemType],
+          includeUpper: includeUpper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> itemTypeEqualToIsAddedIsNull(
+    ItemType itemType,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(
+          indexName: r'itemType_isAdded',
+          value: [itemType, null],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> itemTypeEqualToIsAddedIsNotNull(ItemType itemType) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.between(
+          indexName: r'itemType_isAdded',
+          lower: [itemType, null],
+          includeLower: false,
+          upper: [itemType],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> itemTypeIsAddedEqualTo(
+    ItemType itemType,
+    bool? isAdded,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IndexWhereClause.equalTo(
+          indexName: r'itemType_isAdded',
+          value: [itemType, isAdded],
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Source, Source, QAfterWhereClause> itemTypeEqualToIsAddedNotEqualTo(ItemType itemType, bool? isAdded) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'itemType_isAdded',
+                lower: [itemType],
+                upper: [itemType, isAdded],
+                includeUpper: false,
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'itemType_isAdded',
+                lower: [itemType, isAdded],
+                includeLower: false,
+                upper: [itemType],
+              ),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'itemType_isAdded',
+                lower: [itemType, isAdded],
+                includeLower: false,
+                upper: [itemType],
+              ),
+            )
+            .addWhereClause(
+              IndexWhereClause.between(
+                indexName: r'itemType_isAdded',
+                lower: [itemType],
+                upper: [itemType, isAdded],
+                includeUpper: false,
+              ),
+            );
+      }
+    });
+  }
 }
 
 extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
@@ -583,8 +988,7 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition>
-  additionalParamsIsNotNull() {
+  QueryBuilder<Source, Source, QAfterFilterCondition> additionalParamsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'additionalParams'),
@@ -607,8 +1011,7 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition>
-  additionalParamsGreaterThan(
+  QueryBuilder<Source, Source, QAfterFilterCondition> additionalParamsGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -663,8 +1066,10 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition>
-  additionalParamsStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<Source, Source, QAfterFilterCondition> additionalParamsStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -721,8 +1126,7 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition>
-  additionalParamsIsEmpty() {
+  QueryBuilder<Source, Source, QAfterFilterCondition> additionalParamsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'additionalParams', value: ''),
@@ -730,8 +1134,7 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition>
-  additionalParamsIsNotEmpty() {
+  QueryBuilder<Source, Source, QAfterFilterCondition> additionalParamsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'additionalParams', value: ''),
@@ -1395,8 +1798,7 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition>
-  dateFormatLocaleIsNotNull() {
+  QueryBuilder<Source, Source, QAfterFilterCondition> dateFormatLocaleIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'dateFormatLocale'),
@@ -1419,8 +1821,7 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition>
-  dateFormatLocaleGreaterThan(
+  QueryBuilder<Source, Source, QAfterFilterCondition> dateFormatLocaleGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1475,8 +1876,10 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition>
-  dateFormatLocaleStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<Source, Source, QAfterFilterCondition> dateFormatLocaleStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -1533,8 +1936,7 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition>
-  dateFormatLocaleIsEmpty() {
+  QueryBuilder<Source, Source, QAfterFilterCondition> dateFormatLocaleIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'dateFormatLocale', value: ''),
@@ -1542,8 +1944,7 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition>
-  dateFormatLocaleIsNotEmpty() {
+  QueryBuilder<Source, Source, QAfterFilterCondition> dateFormatLocaleIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'dateFormatLocale', value: ''),
@@ -2933,8 +3334,7 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition>
-  preferenceListIsNotNull() {
+  QueryBuilder<Source, Source, QAfterFilterCondition> preferenceListIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'preferenceList'),
@@ -3080,8 +3480,7 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition>
-  preferenceListIsNotEmpty() {
+  QueryBuilder<Source, Source, QAfterFilterCondition> preferenceListIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'preferenceList', value: ''),
@@ -3277,8 +3676,7 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition>
-  sourceCodeLanguageGreaterThan(
+  QueryBuilder<Source, Source, QAfterFilterCondition> sourceCodeLanguageGreaterThan(
     SourceCodeLanguage value, {
     bool include = false,
   }) {
@@ -3293,8 +3691,10 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition>
-  sourceCodeLanguageLessThan(SourceCodeLanguage value, {bool include = false}) {
+  QueryBuilder<Source, Source, QAfterFilterCondition> sourceCodeLanguageLessThan(
+    SourceCodeLanguage value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -3479,8 +3879,7 @@ extension SourceQueryFilter on QueryBuilder<Source, Source, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterFilterCondition>
-  sourceCodeUrlIsNotEmpty() {
+  QueryBuilder<Source, Source, QAfterFilterCondition> sourceCodeUrlIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'sourceCodeUrl', value: ''),
@@ -5313,8 +5712,7 @@ extension SourceQueryProperty on QueryBuilder<Source, Source, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Source, SourceCodeLanguage, QQueryOperations>
-  sourceCodeLanguageProperty() {
+  QueryBuilder<Source, SourceCodeLanguage, QQueryOperations> sourceCodeLanguageProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'sourceCodeLanguage');
     });

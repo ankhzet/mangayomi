@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/page.dart';
@@ -63,7 +64,7 @@ class MDownloader {
     while (true) {
       try {
         attempts++;
-        return await operation();
+        return await operation().timeout(const Duration(seconds: 30));
       } catch (e) {
         if (attempts >= maxRetries) {
           throw MDownloaderException(

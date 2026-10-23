@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mangayomi/modules/anime/widgets/player_overlay_surface.dart';
+import 'package:shiori/shiori.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/services/aniskip.dart';
 import 'package:media_kit/media_kit.dart';
@@ -68,78 +70,68 @@ class _AniSkipCountDownButtonState extends ConsumerState<AniSkipCountDownButton>
 
   @override
   Widget build(BuildContext context) {
-    return widget.active && !widget.autoSkip
-        ? _isCompleted
-              ? const SizedBox.shrink()
-              : AnimatedBuilder(
-                  animation: _controller,
-                  builder: (context, child) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: MaterialButton(
-                        padding: const EdgeInsets.all(0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        onPressed: () {
-                          _seekTo();
-                        },
-                        child: Container(
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            color: Colors.black54,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          width: 200,
-                          child: Stack(
-                            children: [
-                              RotatedBox(
-                                quarterTurns: 0,
-                                child: Container(
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: SizedBox.fromSize(
-                                    size: const Size(200, 40),
-                                    child: LinearProgressIndicator(
-                                      color: Colors.red,
-                                      value: 1 - _controller.value,
-                                      backgroundColor: Colors.transparent,
-                                    ),
-                                  ),
-                                ),
+    if (!widget.active || widget.autoSkip || _isCompleted) {
+      return const SizedBox.shrink();
+    }
+    final tokens = context.shiori;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: ShioriSpace.s32),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(ShioriShape.pill),
+          onTap: _seekTo,
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              final remaining = widget.timeoutLength - (_controller.duration! * _controller.value).inSeconds;
+              return ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: tokens.density.minTarget,
+                ),
+                child: PlayerOverlaySurface(
+                  padding: const EdgeInsetsDirectional.fromSTEB(
+                    ShioriSpace.s8,
+                    ShioriSpace.s8,
+                    ShioriSpace.s16,
+                    ShioriSpace.s8,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: ShioriSpace.s12,
+                    children: [
+                      SizedBox.square(
+                        dimension: 22,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            CircularProgressIndicator(
+                              value: 1 - _controller.value,
+                              strokeWidth: 2.5,
+                              color: tokens.color.accentInk,
+                              backgroundColor: Colors.white.withValues(
+                                alpha: Alphas.hairline,
                               ),
-                              Positioned.fill(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Text(
-                                        widget.skipTypeText.toUpperCase(),
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        (widget.timeoutLength - (_controller.duration! * _controller.value).inSeconds)
-                                            .toString(),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                            ),
+                            Text(
+                              '$remaining',
+                              style: TextStyle(
+                                fontSize: tokens.text.badge.fontSize,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                    );
-                  },
-                )
-        : const SizedBox.shrink();
+                      Text(widget.skipTypeText),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
   }
 }

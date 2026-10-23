@@ -15,8 +15,7 @@ final simklProvider = SimklFamily._();
 final class SimklProvider extends $NotifierProvider<Simkl, void> {
   SimklProvider._({
     required SimklFamily super.from,
-    required ({int syncId, ItemType? itemType, dynamic widgetRef})
-    super.argument,
+    required ({int syncId, ItemType? itemType, dynamic widgetRef}) super.argument,
   }) : super(
          retry: null,
          name: r'simklProvider',
@@ -58,17 +57,10 @@ final class SimklProvider extends $NotifierProvider<Simkl, void> {
   }
 }
 
-String _$simklHash() => r'a5311b207d0bfb5b34911633ee73d5d77ebde6cf';
+String _$simklHash() => r'16ffd5e25d7de26f156b3d40a67ed469548a2db8';
 
 final class SimklFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          Simkl,
-          void,
-          void,
-          void,
-          ({int syncId, ItemType? itemType, dynamic widgetRef})
-        > {
+    with $ClassFamilyOverride<Simkl, void, void, void, ({int syncId, ItemType? itemType, dynamic widgetRef})> {
   SimklFamily._()
     : super(
         retry: null,
@@ -92,8 +84,7 @@ final class SimklFamily extends $Family
 }
 
 abstract class _$Simkl extends $Notifier<void> {
-  late final _$args =
-      ref.$arg as ({int syncId, ItemType? itemType, dynamic widgetRef});
+  late final _$args = ref.$arg as ({int syncId, ItemType? itemType, dynamic widgetRef});
   int get syncId => _$args.syncId;
   ItemType? get itemType => _$args.itemType;
   dynamic get widgetRef => _$args.widgetRef;
@@ -105,17 +96,10 @@ abstract class _$Simkl extends $Notifier<void> {
   });
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<void, void>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<void, void>,
-              void,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(
+    final element = ref.element as $ClassProviderElement<AnyNotifier<void, void>, void, Object?, Object?>;
+    return element.handleCreate(
       ref,
       () => build(
         syncId: _$args.syncId,

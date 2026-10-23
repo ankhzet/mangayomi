@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/settings.dart';
+
 import 'package:mangayomi/providers/storage_provider.dart';
+import 'package:mangayomi/repositories/settings_repository.dart';
 import 'package:path/path.dart' as path;
 
 class AppLogger {
@@ -11,20 +11,19 @@ class AppLogger {
   static bool _initialized = false;
   static bool _busy = false;
 
-  /// Messages logged before [init] completes (e.g. startup failures), written
-  /// out once the sink opens. Bounded so a disabled logger can't grow it.
-  static final List<String> _pending = [];
+  // Startup errors are raised before the settings are read, so they are held
+  // here until init decides whether to write them. Bounded so a disabled
+  // logger cannot grow without limit.
   static const _maxPending = 200;
-  static bool _resolved = false;
+  static final List<String> _pending = [];
 
   /// Initialize the logger
   static Future<void> init() async {
     if (_initialized || _busy) return;
     _busy = true;
     try {
-      final enabled = (await isar.settings.get(227))?.enableLogs ?? false;
+      final enabled = (await settingsRepository.currentAsync)?.enableLogs ?? false;
       if (!enabled) {
-        _resolved = true;
         _pending.clear();
         return;
       }
@@ -42,11 +41,13 @@ class AppLogger {
 
       _sink = _logFile!.openWrite(mode: FileMode.append);
       _initialized = true;
-      _resolved = true;
+
+      for (final line in _pending) {
+        _sink!.writeln(line);
+      }
+      _pending.clear();
 
       log('\n\nLogger initialized\n\n');
-      _pending.forEach(_sink!.writeln);
-      _pending.clear();
     } finally {
       _busy = false;
     }
@@ -59,12 +60,12 @@ class AppLogger {
         '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
 
     final logMessage = '[$timestamp][${logLevel.toString()}] $message';
-    if (_initialized && _sink != null) {
-      _sink!.writeln(logMessage);
+    if (!_initialized || _sink == null) {
+      if (_pending.length >= _maxPending) _pending.removeAt(0);
+      _pending.add(logMessage);
       return;
     }
-    if (_resolved) return;
-    if (_pending.length < _maxPending) _pending.add(logMessage);
+    _sink!.writeln(logMessage);
   }
 
   static Future<void> dispose() async {

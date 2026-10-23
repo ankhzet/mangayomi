@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:shiori/shiori.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 
 const defaultUserAgent =
     "Mozilla/5.0 (Linux; Android 13; 22081212UG Build/TKQ1.220829.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/114.0.5735.131 Mobile Safari/537.36";
+
+/// Used only for requests to AniList, imdbapi.dev, subtitle/watch-order services
+/// NOT sent to installed sources. Those Cloudflare-protected APIs reject
+/// non-browser UAs, and the user's configurable [defaultUserAgent]-derived
+/// setting is tuned for source scraping, not guaranteed to pass Cloudflare's
+/// checks. Fixed here intentionally; bump when it starts getting rejected.
+const metadataApiUserAgent =
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36";
+
+/// `icon-black.png`, `icon-red.png`, `icon.png`
+const appIconAssets = [
+  'assets/app_icons/icon-black.png',
+  'assets/app_icons/icon-red.png',
+  'assets/app_icons/icon.png',
+];
+
+/// `transparent.png`
+const transparentAsset = 'assets/transparent.png';
 
 String getMangaStatusName(Status status, BuildContext context) {
   final l10n = l10nLocalizations(context)!;
@@ -20,12 +39,12 @@ String getMangaStatusName(Status status, BuildContext context) {
 
 IconData getMangaStatusIcon(Status status) {
   return switch (status) {
-    Status.ongoing => Icons.schedule_rounded,
-    Status.onHiatus => Icons.pause_circle_rounded,
-    Status.canceled => Icons.cancel_rounded,
-    Status.completed => Icons.done_all_outlined,
-    Status.publishingFinished => Icons.done,
-    _ => Icons.block_outlined,
+    Status.ongoing => Symbols.schedule_rounded,
+    Status.onHiatus => Symbols.pause_circle_rounded,
+    Status.canceled => Symbols.cancel_rounded,
+    Status.completed => Symbols.done_all_rounded,
+    Status.publishingFinished => Symbols.done_rounded,
+    _ => Symbols.block_rounded,
   };
 }
 
@@ -64,7 +83,7 @@ TrackStatus toTrackStatus(TrackStatus status, ItemType itemType, int syncId) {
     ),
     2 => (
       "assets/trackers_icons/tracker_anilist.webp",
-      "Anilist",
+      "AniList",
       const Color.fromRGBO(51, 37, 50, 1),
     ),
     3 => (
@@ -89,4 +108,9 @@ String toImgUrl(String url) {
   return url.isEmpty ? _emptyImg : url;
 }
 
-const _emptyImg = "https://upload.wikimedia.org/wikipedia/commons/1/12/White_background.png";
+/// A series with no cover gets a transparent pixel, decoded on the spot, so
+/// the cover's own ground shows. It was a white image fetched from
+/// Wikimedia: a request to a third party for every coverless series, a
+/// white card in the dark theme, and a failure offline.
+const _emptyImg =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";

@@ -78,7 +78,10 @@ class Chapter {
 
   late Id id;
 
-  @Index(name: "mangaId")
+  @Index()
+  int? clientId;
+
+  @Index(composite: [CompositeIndex('isRead')])
   int? mangaId;
 
   String? get name => calculateTitle(compositeOrder, _name);
@@ -94,8 +97,10 @@ class Chapter {
 
   String? scanlator;
 
+  @Index()
   bool? isBookmarked;
 
+  @Index()
   bool? isRead;
 
   String? lastPageRead;
@@ -184,6 +189,7 @@ class Chapter {
 
   Chapter({
     this.id = Isar.autoIncrement,
+    this.clientId,
     required this.mangaId,
     required String? name,
     this.url = '',
@@ -204,8 +210,9 @@ class Chapter {
 
   Chapter.fromJson(Map<String, dynamic> json) {
     archivePath = json['archivePath'];
+    clientId = json['clientId'];
     dateUpload = json['dateUpload'];
-    id = json['id'];
+    id = json['id'] ?? Isar.autoIncrement;
     isBookmarked = json['isBookmarked'];
     isRead = json['isRead'];
     lastPageRead = json['lastPageRead'];
@@ -224,6 +231,7 @@ class Chapter {
 
   Map<String, dynamic> toJson() => {
     'archivePath': archivePath,
+    'clientId': clientId,
     'dateUpload': dateUpload,
     'id': id,
     'isBookmarked': isBookmarked,

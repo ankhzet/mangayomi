@@ -1,8 +1,7 @@
-import 'package:flutter/foundation.dart';
-import 'package:isar_community/isar.dart';
-import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
+import 'package:mangayomi/repositories/manga_repository.dart';
+import 'package:mangayomi/repositories/settings_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'isar_providers.g.dart';
 
@@ -11,49 +10,19 @@ Stream<List<Manga>> getAllMangaStream(
   Ref ref, {
   required int? categoryId,
   required ItemType itemType,
-}) async* {
-  if (kDebugMode) {
-    final total = isar.mangas.where().findAllSync().length;
-    final fav = isar.mangas.filter().favoriteEqualTo(true).findAllSync().length;
-    debugPrint('[library] total mangas=$total favorite=$fav itemType=$itemType');
-  }
-  yield* categoryId == null
-      ? isar.mangas
-            .filter()
-            .favoriteEqualTo(true)
-            .and()
-            .itemTypeEqualTo(itemType)
-            .watch(fireImmediately: true)
-      : isar.mangas
-            .filter()
-            .favoriteEqualTo(true)
-            .categoriesIsNotEmpty()
-            .categoriesElementEqualTo(categoryId)
-            .and()
-            .itemTypeEqualTo(itemType)
-            .watch(fireImmediately: true);
+}) {
+  return mangaRepository.watchFavorites(itemType, categoryId: categoryId);
 }
 
 @riverpod
 Stream<List<Manga>> getAllMangaWithoutCategoriesStream(
   Ref ref, {
   required ItemType itemType,
-}) async* {
-  yield* isar.mangas
-      .filter()
-      .favoriteEqualTo(true)
-      .categoriesIsEmpty()
-      .and()
-      .itemTypeEqualTo(itemType)
-      .or()
-      .categoriesIsNull()
-      .favoriteEqualTo(true)
-      .and()
-      .itemTypeEqualTo(itemType)
-      .watch(fireImmediately: true);
+}) {
+  return mangaRepository.watchFavoritesWithoutCategories(itemType);
 }
 
 @riverpod
-Stream<List<Settings>> getSettingsStream(Ref ref) async* {
-  yield* isar.settings.filter().idIsNotNull().and().idEqualTo(227).watch(fireImmediately: true);
+Stream<Settings> getSettingsStream(Ref ref) {
+  return settingsRepository.watch();
 }

@@ -10,8 +10,7 @@ part of 'add_torrent.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(addTorrentFromUrlOrFromFile)
-final addTorrentFromUrlOrFromFileProvider =
-    AddTorrentFromUrlOrFromFileFamily._();
+final addTorrentFromUrlOrFromFileProvider = AddTorrentFromUrlOrFromFileFamily._();
 
 final class AddTorrentFromUrlOrFromFileProvider
     extends $FunctionalProvider<AsyncValue<dynamic>, dynamic, FutureOr<dynamic>>
@@ -39,8 +38,7 @@ final class AddTorrentFromUrlOrFromFileProvider
 
   @$internal
   @override
-  $FutureProviderElement<dynamic> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<dynamic> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<dynamic> create(Ref ref) {
@@ -55,8 +53,7 @@ final class AddTorrentFromUrlOrFromFileProvider
 
   @override
   bool operator ==(Object other) {
-    return other is AddTorrentFromUrlOrFromFileProvider &&
-        other.argument == argument;
+    return other is AddTorrentFromUrlOrFromFileProvider && other.argument == argument;
   }
 
   @override
@@ -65,15 +62,10 @@ final class AddTorrentFromUrlOrFromFileProvider
   }
 }
 
-String _$addTorrentFromUrlOrFromFileHash() =>
-    r'dda4b3571f496c6822c0a1621228fc0f846b43c6';
+String _$addTorrentFromUrlOrFromFileHash() => r'b9f26cf836835a2f9cb5523df5784116105beff9';
 
 final class AddTorrentFromUrlOrFromFileFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          FutureOr<dynamic>,
-          (Manga?, {bool init, String? url})
-        > {
+    with $FunctionalFamilyOverride<FutureOr<dynamic>, (Manga?, {bool init, String? url})> {
   AddTorrentFromUrlOrFromFileFamily._()
     : super(
         retry: null,

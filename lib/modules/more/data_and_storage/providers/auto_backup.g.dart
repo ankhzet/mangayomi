@@ -12,8 +12,7 @@ part of 'auto_backup.dart';
 @ProviderFor(BackupFrequencyState)
 final backupFrequencyStateProvider = BackupFrequencyStateProvider._();
 
-final class BackupFrequencyStateProvider
-    extends $NotifierProvider<BackupFrequencyState, int> {
+final class BackupFrequencyStateProvider extends $NotifierProvider<BackupFrequencyState, int> {
   BackupFrequencyStateProvider._()
     : super(
         from: null,
@@ -41,33 +40,23 @@ final class BackupFrequencyStateProvider
   }
 }
 
-String _$backupFrequencyStateHash() =>
-    r'2e73e3fe54456978ff92f49cdc67e84f2af6de7c';
+String _$backupFrequencyStateHash() => r'024555164a32d29b5e4ceea7526fb6eee2b97414';
 
 abstract class _$BackupFrequencyState extends $Notifier<int> {
   int build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(BackupFrequencyOptionsState)
-final backupFrequencyOptionsStateProvider =
-    BackupFrequencyOptionsStateProvider._();
+final backupFrequencyOptionsStateProvider = BackupFrequencyOptionsStateProvider._();
 
-final class BackupFrequencyOptionsStateProvider
-    extends $NotifierProvider<BackupFrequencyOptionsState, List<int>> {
+final class BackupFrequencyOptionsStateProvider extends $NotifierProvider<BackupFrequencyOptionsState, List<int>> {
   BackupFrequencyOptionsStateProvider._()
     : super(
         from: null,
@@ -95,32 +84,24 @@ final class BackupFrequencyOptionsStateProvider
   }
 }
 
-String _$backupFrequencyOptionsStateHash() =>
-    r'9aa31bef65e0e2f20b306ed17ff058df2f24a635';
+String _$backupFrequencyOptionsStateHash() => r'8935109dcde30adac4ae1d9ec1b87f2dd3965d00';
 
 abstract class _$BackupFrequencyOptionsState extends $Notifier<List<int>> {
   List<int> build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<List<int>, List<int>>;
     final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<List<int>, List<int>>,
-              List<int>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+        ref.element as $ClassProviderElement<AnyNotifier<List<int>, List<int>>, List<int>, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(AutoBackupLocationState)
 final autoBackupLocationStateProvider = AutoBackupLocationStateProvider._();
 
-final class AutoBackupLocationStateProvider
-    extends $NotifierProvider<AutoBackupLocationState, (String, String)> {
+final class AutoBackupLocationStateProvider extends $NotifierProvider<AutoBackupLocationState, (String, String)> {
   AutoBackupLocationStateProvider._()
     : super(
         from: null,
@@ -148,14 +129,13 @@ final class AutoBackupLocationStateProvider
   }
 }
 
-String _$autoBackupLocationStateHash() =>
-    r'c189f31917e32ce25ff195641ee449d969326b9b';
+String _$autoBackupLocationStateHash() => r'ef65fcd5133f4a5b45f00069b3f7030fe5487c25';
 
 abstract class _$AutoBackupLocationState extends $Notifier<(String, String)> {
   (String, String) build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<(String, String), (String, String)>;
     final element =
         ref.element
@@ -165,15 +145,14 @@ abstract class _$AutoBackupLocationState extends $Notifier<(String, String)> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(checkAndBackup)
 final checkAndBackupProvider = CheckAndBackupProvider._();
 
-final class CheckAndBackupProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+final class CheckAndBackupProvider extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
     with $FutureModifier<void>, $FutureProvider<void> {
   CheckAndBackupProvider._()
     : super(
@@ -191,8 +170,7 @@ final class CheckAndBackupProvider
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<void> create(Ref ref) {
@@ -200,4 +178,4 @@ final class CheckAndBackupProvider
   }
 }
 
-String _$checkAndBackupHash() => r'7b1aabd24ab2a523571751df931576608b7f0e89';
+String _$checkAndBackupHash() => r'433c39a082ac1b6a22de555c2f00c331c15a726a';

@@ -12,8 +12,7 @@ part of 'state_provider.dart';
 @ProviderFor(SubtitleSettingsState)
 final subtitleSettingsStateProvider = SubtitleSettingsStateProvider._();
 
-final class SubtitleSettingsStateProvider
-    extends $NotifierProvider<SubtitleSettingsState, PlayerSubtitleSettings> {
+final class SubtitleSettingsStateProvider extends $NotifierProvider<SubtitleSettingsState, PlayerSubtitleSettings> {
   SubtitleSettingsStateProvider._()
     : super(
         from: null,
@@ -41,17 +40,14 @@ final class SubtitleSettingsStateProvider
   }
 }
 
-String _$subtitleSettingsStateHash() =>
-    r'410485b55561b7a307c7a55f6798bca225f39830';
+String _$subtitleSettingsStateHash() => r'c717aed7de35640792cf678304b8c2edef32ba45';
 
-abstract class _$SubtitleSettingsState
-    extends $Notifier<PlayerSubtitleSettings> {
+abstract class _$SubtitleSettingsState extends $Notifier<PlayerSubtitleSettings> {
   PlayerSubtitleSettings build();
   @$mustCallSuper
   @override
-  void runBuild() {
-    final ref =
-        this.ref as $Ref<PlayerSubtitleSettings, PlayerSubtitleSettings>;
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<PlayerSubtitleSettings, PlayerSubtitleSettings>;
     final element =
         ref.element
             as $ClassProviderElement<
@@ -60,6 +56,6 @@ abstract class _$SubtitleSettingsState
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

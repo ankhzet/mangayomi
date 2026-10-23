@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
+
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:html/parser.dart' as html_parser;
 import 'package:html/dom.dart' as dom;
@@ -25,7 +26,8 @@ class NovelTtsService {
   NovelTtsService._();
   static final NovelTtsService instance = NovelTtsService._();
   static const _manualInterruptionWindow = Duration(milliseconds: 500);
-  bool get _isSupported => !Platform.isLinux;
+  bool get isSupported => !Platform.isLinux;
+  bool get _isSupported => isSupported;
 
   FlutterTts? _flutterTts;
   final _stateController = StreamController<TtsState>.broadcast();
@@ -58,45 +60,52 @@ class NovelTtsService {
   Future<void> _ensureInitialized() async {
     if (!_isSupported) return;
     if (_flutterTts != null) return;
-    _flutterTts = FlutterTts();
+    // Only assigned on full success below, so a failed init can be retried
+    // instead of leaving _flutterTts non-null with nothing wired up.
+    final tts = FlutterTts();
+    try {
+      tts.setCompletionHandler(() {
+        if (_isManualInterruptionActive) return;
+        _onParagraphComplete();
+      });
 
-    _flutterTts!.setCompletionHandler(() {
-      if (_isManualInterruptionActive) return;
-      _onParagraphComplete();
-    });
+      tts.setCancelHandler(() {
+        if (_isManualInterruptionActive) return;
+        _setState(TtsState.stopped);
+      });
 
-    _flutterTts!.setCancelHandler(() {
-      if (_isManualInterruptionActive) return;
-      _setState(TtsState.stopped);
-    });
+      tts.setErrorHandler((msg) {
+        _setState(TtsState.stopped);
+      });
 
-    _flutterTts!.setErrorHandler((msg) {
-      _setState(TtsState.stopped);
-    });
+      tts.setProgressHandler((
+        String text,
+        int startOffset,
+        int endOffset,
+        String word,
+      ) {
+        if (_state == TtsState.playing) {
+          final absoluteStart = startOffset + _currentUtteranceOffset;
+          final absoluteEnd = endOffset + _currentUtteranceOffset;
+          _currentWordStart = absoluteStart;
+          _currentWordEnd = absoluteEnd;
+          _wordProgressController.add(
+            TtsWordProgress(
+              paragraphIndex: _currentIndex,
+              startOffset: absoluteStart,
+              endOffset: absoluteEnd,
+              word: word,
+            ),
+          );
+        }
+      });
 
-    _flutterTts!.setProgressHandler((
-      String text,
-      int startOffset,
-      int endOffset,
-      String word,
-    ) {
-      if (_state == TtsState.playing) {
-        final absoluteStart = startOffset + _currentUtteranceOffset;
-        final absoluteEnd = endOffset + _currentUtteranceOffset;
-        _currentWordStart = absoluteStart;
-        _currentWordEnd = absoluteEnd;
-        _wordProgressController.add(
-          TtsWordProgress(
-            paragraphIndex: _currentIndex,
-            startOffset: absoluteStart,
-            endOffset: absoluteEnd,
-            word: word,
-          ),
-        );
-      }
-    });
-
-    await _flutterTts!.awaitSpeakCompletion(true);
+      await tts.awaitSpeakCompletion(true);
+      _flutterTts = tts;
+    } catch (_) {
+      _flutterTts = null;
+      rethrow;
+    }
   }
 
   void _setState(TtsState s) {
@@ -257,7 +266,14 @@ class NovelTtsService {
 
     _currentUtteranceOffset = startOffset;
     _resumeOffset = startOffset;
-    await _flutterTts!.speak(paragraph.substring(startOffset));
+    try {
+      await _flutterTts!.speak(paragraph.substring(startOffset));
+    } catch (_) {
+      // Without this, a failed platform-channel call leaves state stuck at
+      // playing forever, since no completion/error callback fires for it.
+      _setState(TtsState.stopped);
+      rethrow;
+    }
   }
 
   void _onParagraphComplete() {

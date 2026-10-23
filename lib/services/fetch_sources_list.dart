@@ -1,16 +1,19 @@
 import 'dart:convert';
-import 'dart:io';
+
 import 'package:http_interceptor/http_interceptor.dart';
-import 'package:isar_community/isar.dart';
 import 'package:mangayomi/eval/model/filter.dart';
 import 'package:mangayomi/eval/model/source_preference.dart';
-import 'package:mangayomi/main.dart';
+import 'package:mangayomi/repositories/source_repository.dart';
+import 'package:mangayomi/eval/aidoku/service.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/services/isolate_service.dart';
+import 'package:mangayomi/services/extension_store_service.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:mangayomi/utils/log/logger.dart';
+import 'package:mangayomi/utils/error_toast.dart';
 
 Future<void> fetchSourcesList({
   int? id,
@@ -24,102 +27,95 @@ Future<void> fetchSourcesList({
   final url = repo?.jsonUrl;
   if (url == null) return;
 
-  final req = await http.get(Uri.parse(url));
+  if (repo != null && (repo.name == null || repo.name!.isEmpty || repo.name == '.dist' || repo.name == 'dist')) {
+    final uri = Uri.tryParse(url);
+    if (uri != null && uri.host == 'raw.githubusercontent.com' && uri.pathSegments.length >= 2) {
+      repo.name = uri.pathSegments[1];
+    }
+  }
+
   final info = await PackageInfo.fromPlatform();
 
-  final sourceList = (jsonDecode(req.body) as List)
-      .expand((e) sync* {
-        if (e['name'] != null &&
-            e['pkg'] != null &&
-            e['version'] != null &&
-            e['code'] != null &&
-            e['lang'] != null &&
-            e['nsfw'] != null &&
-            e['sources'] != null &&
-            e['apk'] != null) {
-          final repoUrl = url.replaceAll("/index.min.json", "");
-          final sources = e['sources'] as List;
-          for (final source in sources) {
-            final src = Source.fromJson(e)
-              ..apiUrl = ''
-              ..appMinVerReq = ''
-              ..dateFormat = ''
-              ..dateFormatLocale = ''
-              ..hasCloudflare = false
-              ..headers = ''
-              ..isActive = true
-              ..isAdded = false
-              ..isFullData = false
-              ..isNsfw = e['nsfw'] == 1
-              ..isPinned = false
-              ..lastUsed = false
-              ..sourceCode = ''
-              ..typeSource = ''
-              ..versionLast = '0.0.1'
-              ..isObsolete = false
-              ..isLocal = false
-              ..name = source['name']
-              ..lang = source['lang']
-              ..baseUrl = source['baseUrl']
-              ..sourceCodeUrl = "$repoUrl/apk/${e['apk']}"
-              ..sourceCodeLanguage = SourceCodeLanguage.mihon
-              ..itemType =
-                  (e['pkg'] as String).startsWith(
-                    "eu.kanade.tachiyomi.animeextension",
-                  )
-                  ? ItemType.anime
-                  : ItemType.manga
-              ..iconUrl = "$repoUrl/icon/${e['pkg']}.png"
-              ..notes = Platform.isAndroid
-                  ? null
-                  : "Requires Android Proxy Server (ApkBridge) for installing and using the extensions!";
-            src.id = 'mihon-${source['id']}'.hashCode;
-            yield src;
-          }
-        } else if (e['id'] is String &&
-            e['name'] != null &&
-            e['site'] != null &&
-            e['lang'] != null &&
-            e['version'] != null &&
-            e['url'] != null &&
-            e['iconUrl'] != null) {
-          final src = Source.fromJson(e)
-            ..apiUrl = ''
-            ..appMinVerReq = ''
-            ..dateFormat = ''
-            ..dateFormatLocale = ''
-            ..hasCloudflare = false
-            ..headers = ''
-            ..isActive = true
-            ..isAdded = false
-            ..isFullData = false
-            ..isNsfw = false
-            ..isPinned = false
-            ..lastUsed = false
-            ..sourceCode = ''
-            ..typeSource = ''
-            ..versionLast = '0.0.1'
-            ..isObsolete = false
-            ..isLocal = false
-            ..lang = _convertLang(e)
-            ..baseUrl = e['site']
-            ..sourceCodeUrl = e['url']
-            ..sourceCodeLanguage = SourceCodeLanguage.lnreader
-            ..itemType = ItemType.novel
-            ..notes = "Performance might be poor due to limited engine";
-          src.id = 'lnreader-plugin-"${src.name}"."${src.lang}"'.hashCode;
-          yield src;
-        } else {
-          yield Source.fromJson(e);
+  List<Source> sourceList = [];
+
+  // Try parsing with ExtensionStoreService (.pb, NetworkExtensionStore JSON, or legacy min.json)
+  final storeResult = await ExtensionStoreService.fetchStore(url, http);
+  if (storeResult != null && storeResult.sources.isNotEmpty) {
+    sourceList = storeResult.sources
+        .where(
+          (source) =>
+              source.itemType == itemType &&
+              (source.sourceCodeLanguage == SourceCodeLanguage.aidoku ||
+                  source.sourceCodeLanguage == SourceCodeLanguage.lnreader ||
+                  source.appMinVerReq == null ||
+                  source.appMinVerReq!.isEmpty ||
+                  compareVersions(info.version, source.appMinVerReq!) > -1),
+        )
+        .toList();
+  } else {
+    // Fallback parsing for non-Mihon direct JSON lists (LNReader or custom format)
+    try {
+      final req = await http.get(Uri.parse(url));
+      if (req.statusCode == 200) {
+        final decoded = jsonDecode(req.body);
+        if (decoded is List) {
+          sourceList = decoded
+              .expand((e) sync* {
+                if (e['id'] is String &&
+                    e['name'] != null &&
+                    e['site'] != null &&
+                    e['lang'] != null &&
+                    e['version'] != null &&
+                    e['url'] != null &&
+                    e['iconUrl'] != null) {
+                  final src = Source.fromJson(e)
+                    ..apiUrl = ''
+                    ..appMinVerReq = ''
+                    ..dateFormat = ''
+                    ..dateFormatLocale = ''
+                    ..hasCloudflare = false
+                    ..headers = ''
+                    ..isActive = true
+                    ..isAdded = false
+                    ..isFullData = false
+                    ..isNsfw = false
+                    ..isPinned = false
+                    ..lastUsed = false
+                    ..sourceCode = ''
+                    ..typeSource = ''
+                    ..versionLast = e['version'] ?? '0.0.1'
+                    ..isObsolete = false
+                    ..isLocal = false
+                    ..lang = _convertLang(e)
+                    ..baseUrl = e['site']
+                    ..sourceCodeUrl = e['url']
+                    ..sourceCodeLanguage = SourceCodeLanguage.lnreader
+                    ..itemType = ItemType.novel
+                    ..notes = "Performance might be poor due to limited engine";
+                  src.id = 'lnreader-plugin-"${src.name}"."${src.lang}"'.hashCode;
+                  yield src;
+                } else {
+                  yield Source.fromJson(e);
+                }
+              })
+              .where(
+                (source) =>
+                    source.itemType == itemType &&
+                    (source.appMinVerReq == null ||
+                        source.appMinVerReq!.isEmpty ||
+                        compareVersions(info.version, source.appMinVerReq!) > -1),
+              )
+              .toList();
         }
-      })
-      .where(
-        (source) =>
-            source.itemType == itemType &&
-            source.appMinVerReq != null &&
-            compareVersions(info.version, source.appMinVerReq!) > -1,
-      )
-      .toList();
+      }
+    } catch (e, st) {
+      // A failure here drops sources from the list with no sign of why.
+      AppLogger.log(
+        'fetchSourcesList: filtering sources failed: $e\n$st',
+        logLevel: LogLevel.error,
+      );
+    }
+  }
 
   if (id != null) {
     final matchingSource = sourceList.firstWhere(
@@ -131,7 +127,7 @@ Future<void> fetchSourcesList({
     }
   } else {
     for (var source in sourceList) {
-      final existingSource = await isar.sources.get(source.id!);
+      final existingSource = await sourceRepository.findByIdAsync(source.id!);
       if (existingSource == null) {
         await _addNewSource(source, repo, itemType);
         continue;
@@ -141,9 +137,9 @@ Future<void> fetchSourcesList({
       if (autoUpdateExtensions) {
         await _updateSource(source, androidProxyServer, repo, itemType);
       } else {
-        await isar.writeTxn(() async {
-          isar.sources.put(existingSource..versionLast = source.version);
-        });
+        await sourceRepository.save(
+          existingSource..versionLast = source.version,
+        );
       }
     }
   }
@@ -159,7 +155,10 @@ Future<void> _updateSource(
 ) async {
   final http = MClient.init(reqcopyWith: {'useDartHttpClient': true});
   final req = await http.get(Uri.parse(source.sourceCodeUrl!));
-  final sourceCode = source.sourceCodeLanguage == SourceCodeLanguage.mihon ? base64.encode(req.bodyBytes) : req.body;
+  final sourceCode =
+      (source.sourceCodeLanguage == SourceCodeLanguage.mihon || source.sourceCodeLanguage == SourceCodeLanguage.aidoku)
+      ? base64.encode(req.bodyBytes)
+      : req.body;
 
   Map<String, String> headers = {};
   bool? supportLatest;
@@ -179,6 +178,15 @@ Future<void> _updateSource(
       source,
       androidProxyServer,
     );
+  } else if (source.sourceCodeLanguage == SourceCodeLanguage.aidoku) {
+    final service = AidokuExtensionService(source);
+    try {
+      headers = service.getHeaders();
+      supportLatest = service.supportsLatest;
+      filterList = await service.fetchFilterList();
+    } finally {
+      service.dispose();
+    }
   } else {
     headers = await getIsolateService.get<Map<String, String>>(
       source: source,
@@ -186,12 +194,15 @@ Future<void> _updateSource(
     );
   }
 
+  final existing = source.id != null ? sourceRepository.getById(source.id!) : null;
   final updatedSource = Source()
     ..headers = jsonEncode(headers)
     ..supportLatest = supportLatest
     ..filterList = filterList != null ? jsonEncode(filterList.toJson()) : null
     ..preferenceList = preferenceList != null ? jsonEncode(preferenceList.map((e) => e.toJson()).toList()) : null
     ..isAdded = true
+    ..isPinned = existing?.isPinned ?? false
+    ..lastUsed = existing?.lastUsed ?? false
     ..sourceCode = sourceCode
     ..sourceCodeUrl = source.sourceCodeUrl
     ..id = source.id
@@ -217,7 +228,7 @@ Future<void> _updateSource(
     ..repo = repo
     ..updatedAt = DateTime.now().millisecondsSinceEpoch;
 
-  await isar.writeTxn(() async => isar.sources.put(updatedSource));
+  await sourceRepository.save(updatedSource);
 }
 
 Future<void> _addNewSource(Source source, Repo? repo, ItemType itemType) async {
@@ -245,7 +256,7 @@ Future<void> _addNewSource(Source source, Repo? repo, ItemType itemType) async {
     ..notes = source.notes
     ..repo = repo
     ..updatedAt = DateTime.now().millisecondsSinceEpoch;
-  await isar.writeTxn(() async => isar.sources.put(newSource));
+  await sourceRepository.save(newSource);
 }
 
 Future<void> checkIfSourceIsObsolete(
@@ -255,13 +266,7 @@ Future<void> checkIfSourceIsObsolete(
 ) async {
   if (sourceList.isEmpty) return;
 
-  final sources = await isar.sources
-      .filter()
-      .idIsNotNull()
-      .itemTypeEqualTo(itemType)
-      .and()
-      .isLocalEqualTo(false)
-      .findAll();
+  final sources = await sourceRepository.getNonLocalByItemType(itemType);
 
   if (sources.isEmpty) return;
 
@@ -270,34 +275,47 @@ Future<void> checkIfSourceIsObsolete(
   if (sourceIds.isEmpty) return;
 
   final toUpdate = <Source>[];
+  final toDelete = <int>[];
   for (var source in sources) {
     final isNowObsolete = !sourceIds.contains(source.id) && source.repo?.jsonUrl == repo.jsonUrl;
 
+    if (!(source.isAdded ?? false) && isNowObsolete) {
+      // Not installed and gone from the repo: nothing to install, so
+      // remove the dead row instead of leaving it in the browse list.
+      toDelete.add(source.id!);
+      continue;
+    }
     if (source.isObsolete != isNowObsolete) {
       source.isObsolete = isNowObsolete;
       source.updatedAt = DateTime.now().millisecondsSinceEpoch;
       toUpdate.add(source);
     }
   }
-  if (toUpdate.isEmpty) return;
-
-  await isar.writeTxn(() => isar.sources.putAll(toUpdate));
+  if (toUpdate.isNotEmpty) {
+    await sourceRepository.putAll(toUpdate);
+  }
+  if (toDelete.isNotEmpty) {
+    await sourceRepository.deleteAll(toDelete);
+  }
 }
 
 int compareVersions(String version1, String version2) {
-  final v1Parts = version1.split('.');
-  final v2Parts = version2.split('.');
-  final minLength = v1Parts.length < v2Parts.length ? v1Parts.length : v2Parts.length;
+  final clean1 = version1.trim().replaceFirst(RegExp(r'^[vV]'), '').split(RegExp(r'[-+]')).first;
+  final clean2 = version2.trim().replaceFirst(RegExp(r'^[vV]'), '').split(RegExp(r'[-+]')).first;
 
-  for (var i = 0; i < minLength; i++) {
-    final v1Value = int.parse(v1Parts[i].padRight(2, '0'));
-    final v2Value = int.parse(v2Parts[i].padRight(2, '0'));
+  final v1Parts = clean1.split('.');
+  final v2Parts = clean2.split('.');
+  final maxLength = v1Parts.length > v2Parts.length ? v1Parts.length : v2Parts.length;
+
+  for (var i = 0; i < maxLength; i++) {
+    final v1Value = i < v1Parts.length ? (int.tryParse(v1Parts[i]) ?? 0) : 0;
+    final v2Value = i < v2Parts.length ? (int.tryParse(v2Parts[i]) ?? 0) : 0;
 
     final comparison = v1Value.compareTo(v2Value);
     if (comparison != 0) return comparison;
   }
 
-  return v1Parts.length.compareTo(v2Parts.length);
+  return 0;
 }
 
 Future<Map<String, String>> fetchHeadersDalvik(
@@ -309,7 +327,12 @@ Future<Map<String, String>> fetchHeadersDalvik(
     final name = source.itemType == ItemType.anime ? "Anime" : "Manga";
     final res = await client.post(
       Uri.parse("$androidProxyServer/dalvik"),
-      body: jsonEncode({"method": "headers$name", "data": source.sourceCode}),
+      body: jsonEncode({
+        "method": "headers$name",
+        "data": source.sourceCode,
+        "lang": source.lang,
+        "sourceId": source.id?.toString(),
+      }),
     );
     final data = jsonDecode(res.body) as List;
     final Map<String, String> headers = {};
@@ -317,7 +340,8 @@ Future<Map<String, String>> fetchHeadersDalvik(
       headers[data[i]] = data[i + 1];
     }
     return headers;
-  } catch (_) {
+  } catch (error, stackTrace) {
+    recordError(error, stack: stackTrace, source: 'fetch_sources_list');
     return {};
   }
 }
@@ -334,10 +358,13 @@ Future<bool> fetchSupportLatestDalvik(
       body: jsonEncode({
         "method": "supportLatest$name",
         "data": source.sourceCode,
+        "lang": source.lang,
+        "sourceId": source.id?.toString(),
       }),
     );
     return res.body.trim() == "true";
-  } catch (_) {
+  } catch (error, stackTrace) {
+    recordError(error, stack: stackTrace, source: 'fetch_sources_list');
     return false;
   }
 }
@@ -351,12 +378,18 @@ Future<FilterList?> fetchFilterListDalvik(
     final name = source.itemType == ItemType.anime ? "Anime" : "Manga";
     final res = await client.post(
       Uri.parse("$androidProxyServer/dalvik"),
-      body: jsonEncode({"method": "filters$name", "data": source.sourceCode}),
+      body: jsonEncode({
+        "method": "filters$name",
+        "data": source.sourceCode,
+        "lang": source.lang,
+        "sourceId": source.id?.toString(),
+      }),
     );
     final data = jsonDecode(res.body) as List;
 
     return FilterList(filtersFromJson(data));
-  } catch (_) {
+  } catch (error, stackTrace) {
+    recordError(error, stack: stackTrace, source: 'fetch_sources_list');
     return null;
   }
 }
@@ -436,6 +469,8 @@ Future<List<SourcePreference>?> fetchPreferencesDalvik(
       body: jsonEncode({
         "method": "preferences$name",
         "data": source.sourceCode,
+        "lang": source.lang,
+        "sourceId": source.id?.toString(),
       }),
     );
     final data = jsonDecode(res.body) as List;
@@ -446,48 +481,12 @@ Future<List<SourcePreference>?> fetchPreferencesDalvik(
             ..sourceId = source.id,
         )
         .toList();
-  } catch (_) {
+  } catch (error, stackTrace) {
+    recordError(error, stack: stackTrace, source: 'fetch_sources_list');
     return null;
   }
 }
 
 String _convertLang(dynamic e) {
-  final lang = e['lang'];
-  if (lang is String) {
-    switch (lang) {
-      case "‎العربية":
-        return "ar";
-      case "中文, 汉语, 漢語":
-        return "zh";
-      case "English":
-        return "en";
-      case "Français":
-        return "fr";
-      case "Bahasa Indonesia":
-        return "id";
-      case "日本語":
-        return "ja";
-      case "조선말, 한국어":
-        return "ko";
-      case "Polski":
-        return "pl";
-      case "Português":
-        return "pt";
-      case "Русский":
-        return "ru";
-      case "Español":
-        return "es";
-      case "ไทย":
-        return "th";
-      case "Türkçe":
-        return "tr";
-      case "Українська":
-        return "uk";
-      case "Tiếng Việt":
-        return "vi";
-      default:
-        return "all";
-    }
-  }
-  return "all";
+  return ExtensionStoreService.convertLnreaderLang(e);
 }

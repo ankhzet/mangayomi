@@ -12,8 +12,7 @@ part of 'state_providers.dart';
 @ProviderFor(ChaptersListState)
 final chaptersListStateProvider = ChaptersListStateProvider._();
 
-final class ChaptersListStateProvider
-    extends $NotifierProvider<ChaptersListState, List<Chapter>> {
+final class ChaptersListStateProvider extends $NotifierProvider<ChaptersListState, List<Chapter>> {
   ChaptersListStateProvider._()
     : super(
         from: null,
@@ -47,25 +46,19 @@ abstract class _$ChaptersListState extends $Notifier<List<Chapter>> {
   List<Chapter> build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<List<Chapter>, List<Chapter>>;
     final element =
         ref.element
-            as $ClassProviderElement<
-              AnyNotifier<List<Chapter>, List<Chapter>>,
-              List<Chapter>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+            as $ClassProviderElement<AnyNotifier<List<Chapter>, List<Chapter>>, List<Chapter>, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(IsLongPressedState)
 final isLongPressedStateProvider = IsLongPressedStateProvider._();
 
-final class IsLongPressedStateProvider
-    extends $NotifierProvider<IsLongPressedState, bool> {
+final class IsLongPressedStateProvider extends $NotifierProvider<IsLongPressedState, bool> {
   IsLongPressedStateProvider._()
     : super(
         from: null,
@@ -93,84 +86,23 @@ final class IsLongPressedStateProvider
   }
 }
 
-String _$isLongPressedStateHash() =>
-    r'26fe435e8381046a30e3f6c4495303946aa3aaa7';
+String _$isLongPressedStateHash() => r'26fe435e8381046a30e3f6c4495303946aa3aaa7';
 
 abstract class _$IsLongPressedState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
-  }
-}
-
-@ProviderFor(IsExtendedState)
-final isExtendedStateProvider = IsExtendedStateProvider._();
-
-final class IsExtendedStateProvider
-    extends $NotifierProvider<IsExtendedState, bool> {
-  IsExtendedStateProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'isExtendedStateProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$isExtendedStateHash();
-
-  @$internal
-  @override
-  IsExtendedState create() => IsExtendedState();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(bool value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<bool>(value),
-    );
-  }
-}
-
-String _$isExtendedStateHash() => r'e386098118bdebf67d489a4a2f49b017e02b27bf';
-
-abstract class _$IsExtendedState extends $Notifier<bool> {
-  bool build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(SortChapterState)
 final sortChapterStateProvider = SortChapterStateFamily._();
 
-final class SortChapterStateProvider
-    extends $NotifierProvider<SortChapterState, SortChapter> {
+final class SortChapterStateProvider extends $NotifierProvider<SortChapterState, SortChapter> {
   SortChapterStateProvider._({
     required SortChapterStateFamily super.from,
     required int super.argument,
@@ -215,17 +147,10 @@ final class SortChapterStateProvider
   }
 }
 
-String _$sortChapterStateHash() => r'a6e547fd4badfa14ecb9270054c7e166dfc6e238';
+String _$sortChapterStateHash() => r'8e65b527dcff876aa2e8d34db8aece6ad83b4d5b';
 
 final class SortChapterStateFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          SortChapterState,
-          SortChapter,
-          SortChapter,
-          SortChapter,
-          int
-        > {
+    with $ClassFamilyOverride<SortChapterState, SortChapter, SortChapter, SortChapter, int> {
   SortChapterStateFamily._()
     : super(
         retry: null,
@@ -235,8 +160,7 @@ final class SortChapterStateFamily extends $Family
         isAutoDispose: true,
       );
 
-  SortChapterStateProvider call({required int mangaId}) =>
-      SortChapterStateProvider._(argument: mangaId, from: this);
+  SortChapterStateProvider call({required int mangaId}) => SortChapterStateProvider._(argument: mangaId, from: this);
 
   @override
   String toString() => r'sortChapterStateProvider';
@@ -249,26 +173,18 @@ abstract class _$SortChapterState extends $Notifier<SortChapter> {
   SortChapter build({required int mangaId});
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<SortChapter, SortChapter>;
     final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<SortChapter, SortChapter>,
-              SortChapter,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, () => build(mangaId: _$args));
+        ref.element as $ClassProviderElement<AnyNotifier<SortChapter, SortChapter>, SortChapter, Object?, Object?>;
+    return element.handleCreate(ref, () => build(mangaId: _$args));
   }
 }
 
 @ProviderFor(ChapterFilterDownloadedState)
-final chapterFilterDownloadedStateProvider =
-    ChapterFilterDownloadedStateFamily._();
+final chapterFilterDownloadedStateProvider = ChapterFilterDownloadedStateFamily._();
 
-final class ChapterFilterDownloadedStateProvider
-    extends $NotifierProvider<ChapterFilterDownloadedState, int> {
+final class ChapterFilterDownloadedStateProvider extends $NotifierProvider<ChapterFilterDownloadedState, int> {
   ChapterFilterDownloadedStateProvider._({
     required ChapterFilterDownloadedStateFamily super.from,
     required int super.argument,
@@ -304,8 +220,7 @@ final class ChapterFilterDownloadedStateProvider
 
   @override
   bool operator ==(Object other) {
-    return other is ChapterFilterDownloadedStateProvider &&
-        other.argument == argument;
+    return other is ChapterFilterDownloadedStateProvider && other.argument == argument;
   }
 
   @override
@@ -314,12 +229,10 @@ final class ChapterFilterDownloadedStateProvider
   }
 }
 
-String _$chapterFilterDownloadedStateHash() =>
-    r'1a4309b9dff1fd9d1dc0c09eab18629ee9fe8d66';
+String _$chapterFilterDownloadedStateHash() => r'43e6381f896ed2af70da6eea1d8b9081af12073b';
 
 final class ChapterFilterDownloadedStateFamily extends $Family
-    with
-        $ClassFamilyOverride<ChapterFilterDownloadedState, int, int, int, int> {
+    with $ClassFamilyOverride<ChapterFilterDownloadedState, int, int, int, int> {
   ChapterFilterDownloadedStateFamily._()
     : super(
         retry: null,
@@ -343,25 +256,17 @@ abstract class _$ChapterFilterDownloadedState extends $Notifier<int> {
   int build({required int mangaId});
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, () => build(mangaId: _$args));
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, () => build(mangaId: _$args));
   }
 }
 
 @ProviderFor(ChapterFilterUnreadState)
 final chapterFilterUnreadStateProvider = ChapterFilterUnreadStateFamily._();
 
-final class ChapterFilterUnreadStateProvider
-    extends $NotifierProvider<ChapterFilterUnreadState, int> {
+final class ChapterFilterUnreadStateProvider extends $NotifierProvider<ChapterFilterUnreadState, int> {
   ChapterFilterUnreadStateProvider._({
     required ChapterFilterUnreadStateFamily super.from,
     required int super.argument,
@@ -397,8 +302,7 @@ final class ChapterFilterUnreadStateProvider
 
   @override
   bool operator ==(Object other) {
-    return other is ChapterFilterUnreadStateProvider &&
-        other.argument == argument;
+    return other is ChapterFilterUnreadStateProvider && other.argument == argument;
   }
 
   @override
@@ -407,8 +311,7 @@ final class ChapterFilterUnreadStateProvider
   }
 }
 
-String _$chapterFilterUnreadStateHash() =>
-    r'95b34a7b0fd3282f8a2c0626c06ac251585fffec';
+String _$chapterFilterUnreadStateHash() => r'757be3a687541fd7a07aec0cae37d2d94cabe7c7';
 
 final class ChapterFilterUnreadStateFamily extends $Family
     with $ClassFamilyOverride<ChapterFilterUnreadState, int, int, int, int> {
@@ -435,26 +338,17 @@ abstract class _$ChapterFilterUnreadState extends $Notifier<int> {
   int build({required int mangaId});
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, () => build(mangaId: _$args));
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, () => build(mangaId: _$args));
   }
 }
 
 @ProviderFor(ChapterFilterBookmarkedState)
-final chapterFilterBookmarkedStateProvider =
-    ChapterFilterBookmarkedStateFamily._();
+final chapterFilterBookmarkedStateProvider = ChapterFilterBookmarkedStateFamily._();
 
-final class ChapterFilterBookmarkedStateProvider
-    extends $NotifierProvider<ChapterFilterBookmarkedState, int> {
+final class ChapterFilterBookmarkedStateProvider extends $NotifierProvider<ChapterFilterBookmarkedState, int> {
   ChapterFilterBookmarkedStateProvider._({
     required ChapterFilterBookmarkedStateFamily super.from,
     required int super.argument,
@@ -490,8 +384,7 @@ final class ChapterFilterBookmarkedStateProvider
 
   @override
   bool operator ==(Object other) {
-    return other is ChapterFilterBookmarkedStateProvider &&
-        other.argument == argument;
+    return other is ChapterFilterBookmarkedStateProvider && other.argument == argument;
   }
 
   @override
@@ -500,12 +393,10 @@ final class ChapterFilterBookmarkedStateProvider
   }
 }
 
-String _$chapterFilterBookmarkedStateHash() =>
-    r'639c257c1a77766438abf3b19cb61aa0eb7a8db6';
+String _$chapterFilterBookmarkedStateHash() => r'727ae579b1cb33520515312833a328f48bb5695a';
 
 final class ChapterFilterBookmarkedStateFamily extends $Family
-    with
-        $ClassFamilyOverride<ChapterFilterBookmarkedState, int, int, int, int> {
+    with $ClassFamilyOverride<ChapterFilterBookmarkedState, int, int, int, int> {
   ChapterFilterBookmarkedStateFamily._()
     : super(
         retry: null,
@@ -529,25 +420,17 @@ abstract class _$ChapterFilterBookmarkedState extends $Notifier<int> {
   int build({required int mangaId});
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, () => build(mangaId: _$args));
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, () => build(mangaId: _$args));
   }
 }
 
 @ProviderFor(ChapterFilterResultState)
 final chapterFilterResultStateProvider = ChapterFilterResultStateFamily._();
 
-final class ChapterFilterResultStateProvider
-    extends $NotifierProvider<ChapterFilterResultState, bool> {
+final class ChapterFilterResultStateProvider extends $NotifierProvider<ChapterFilterResultState, bool> {
   ChapterFilterResultStateProvider._({
     required ChapterFilterResultStateFamily super.from,
     required Manga super.argument,
@@ -583,8 +466,7 @@ final class ChapterFilterResultStateProvider
 
   @override
   bool operator ==(Object other) {
-    return other is ChapterFilterResultStateProvider &&
-        other.argument == argument;
+    return other is ChapterFilterResultStateProvider && other.argument == argument;
   }
 
   @override
@@ -593,18 +475,10 @@ final class ChapterFilterResultStateProvider
   }
 }
 
-String _$chapterFilterResultStateHash() =>
-    r'ed7adcf7a9d34c3614547735b48789bb004f49cd';
+String _$chapterFilterResultStateHash() => r'ed7adcf7a9d34c3614547735b48789bb004f49cd';
 
 final class ChapterFilterResultStateFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          ChapterFilterResultState,
-          bool,
-          bool,
-          bool,
-          Manga
-        > {
+    with $ClassFamilyOverride<ChapterFilterResultState, bool, bool, bool, Manga> {
   ChapterFilterResultStateFamily._()
     : super(
         retry: null,
@@ -628,25 +502,17 @@ abstract class _$ChapterFilterResultState extends $Notifier<bool> {
   bool build({required Manga manga});
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, () => build(manga: _$args));
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, () => build(manga: _$args));
   }
 }
 
 @ProviderFor(ChapterSetIsBookmarkState)
 final chapterSetIsBookmarkStateProvider = ChapterSetIsBookmarkStateFamily._();
 
-final class ChapterSetIsBookmarkStateProvider
-    extends $NotifierProvider<ChapterSetIsBookmarkState, void> {
+final class ChapterSetIsBookmarkStateProvider extends $NotifierProvider<ChapterSetIsBookmarkState, void> {
   ChapterSetIsBookmarkStateProvider._({
     required ChapterSetIsBookmarkStateFamily super.from,
     required Manga super.argument,
@@ -682,8 +548,7 @@ final class ChapterSetIsBookmarkStateProvider
 
   @override
   bool operator ==(Object other) {
-    return other is ChapterSetIsBookmarkStateProvider &&
-        other.argument == argument;
+    return other is ChapterSetIsBookmarkStateProvider && other.argument == argument;
   }
 
   @override
@@ -692,18 +557,10 @@ final class ChapterSetIsBookmarkStateProvider
   }
 }
 
-String _$chapterSetIsBookmarkStateHash() =>
-    r'23b56105244d0aeed6ae9c27cee1897de8a306af';
+String _$chapterSetIsBookmarkStateHash() => r'316618dea926b49a2136bc99f3903dd31f25e713';
 
 final class ChapterSetIsBookmarkStateFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          ChapterSetIsBookmarkState,
-          void,
-          void,
-          void,
-          Manga
-        > {
+    with $ClassFamilyOverride<ChapterSetIsBookmarkState, void, void, void, Manga> {
   ChapterSetIsBookmarkStateFamily._()
     : super(
         retry: null,
@@ -727,25 +584,17 @@ abstract class _$ChapterSetIsBookmarkState extends $Notifier<void> {
   void build({required Manga manga});
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<void, void>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<void, void>,
-              void,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, () => build(manga: _$args));
+    final element = ref.element as $ClassProviderElement<AnyNotifier<void, void>, void, Object?, Object?>;
+    return element.handleCreate(ref, () => build(manga: _$args));
   }
 }
 
 @ProviderFor(ChapterSetIsReadState)
 final chapterSetIsReadStateProvider = ChapterSetIsReadStateFamily._();
 
-final class ChapterSetIsReadStateProvider
-    extends $NotifierProvider<ChapterSetIsReadState, void> {
+final class ChapterSetIsReadStateProvider extends $NotifierProvider<ChapterSetIsReadState, void> {
   ChapterSetIsReadStateProvider._({
     required ChapterSetIsReadStateFamily super.from,
     required Manga super.argument,
@@ -790,8 +639,7 @@ final class ChapterSetIsReadStateProvider
   }
 }
 
-String _$chapterSetIsReadStateHash() =>
-    r'b75796ed2dd03bf3167258bcdf064817e8fa69c9';
+String _$chapterSetIsReadStateHash() => r'99684a54942f0e2f944245af177237c6fe9aa507';
 
 final class ChapterSetIsReadStateFamily extends $Family
     with $ClassFamilyOverride<ChapterSetIsReadState, void, void, void, Manga> {
@@ -818,25 +666,17 @@ abstract class _$ChapterSetIsReadState extends $Notifier<void> {
   void build({required Manga manga});
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<void, void>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<void, void>,
-              void,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, () => build(manga: _$args));
+    final element = ref.element as $ClassProviderElement<AnyNotifier<void, void>, void, Object?, Object?>;
+    return element.handleCreate(ref, () => build(manga: _$args));
   }
 }
 
 @ProviderFor(ChapterSetDownloadState)
 final chapterSetDownloadStateProvider = ChapterSetDownloadStateFamily._();
 
-final class ChapterSetDownloadStateProvider
-    extends $NotifierProvider<ChapterSetDownloadState, void> {
+final class ChapterSetDownloadStateProvider extends $NotifierProvider<ChapterSetDownloadState, void> {
   ChapterSetDownloadStateProvider._({
     required ChapterSetDownloadStateFamily super.from,
     required Manga super.argument,
@@ -872,8 +712,7 @@ final class ChapterSetDownloadStateProvider
 
   @override
   bool operator ==(Object other) {
-    return other is ChapterSetDownloadStateProvider &&
-        other.argument == argument;
+    return other is ChapterSetDownloadStateProvider && other.argument == argument;
   }
 
   @override
@@ -882,12 +721,10 @@ final class ChapterSetDownloadStateProvider
   }
 }
 
-String _$chapterSetDownloadStateHash() =>
-    r'cb89abd653c018b762eb405634c7f8ca0ee8e99b';
+String _$chapterSetDownloadStateHash() => r'a43f0db26dfff790b30239a16f650b4c35a74e10';
 
 final class ChapterSetDownloadStateFamily extends $Family
-    with
-        $ClassFamilyOverride<ChapterSetDownloadState, void, void, void, Manga> {
+    with $ClassFamilyOverride<ChapterSetDownloadState, void, void, void, Manga> {
   ChapterSetDownloadStateFamily._()
     : super(
         retry: null,
@@ -911,25 +748,17 @@ abstract class _$ChapterSetDownloadState extends $Notifier<void> {
   void build({required Manga manga});
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<void, void>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<void, void>,
-              void,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, () => build(manga: _$args));
+    final element = ref.element as $ClassProviderElement<AnyNotifier<void, void>, void, Object?, Object?>;
+    return element.handleCreate(ref, () => build(manga: _$args));
   }
 }
 
 @ProviderFor(ChaptersListttState)
 final chaptersListttStateProvider = ChaptersListttStateProvider._();
 
-final class ChaptersListttStateProvider
-    extends $NotifierProvider<ChaptersListttState, List<Chapter>> {
+final class ChaptersListttStateProvider extends $NotifierProvider<ChaptersListttState, List<Chapter>> {
   ChaptersListttStateProvider._()
     : super(
         from: null,
@@ -957,24 +786,18 @@ final class ChaptersListttStateProvider
   }
 }
 
-String _$chaptersListttStateHash() =>
-    r'f45ebd9a5b1fd86b279e263813098564830c2536';
+String _$chaptersListttStateHash() => r'650aa1e850906be07c4dbea63a5e3340185a60a1';
 
 abstract class _$ChaptersListttState extends $Notifier<List<Chapter>> {
   List<Chapter> build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<List<Chapter>, List<Chapter>>;
     final element =
         ref.element
-            as $ClassProviderElement<
-              AnyNotifier<List<Chapter>, List<Chapter>>,
-              List<Chapter>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+            as $ClassProviderElement<AnyNotifier<List<Chapter>, List<Chapter>>, List<Chapter>, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }
 
@@ -982,11 +805,7 @@ abstract class _$ChaptersListttState extends $Notifier<List<Chapter>> {
 final scanlatorsFilterStateProvider = ScanlatorsFilterStateFamily._();
 
 final class ScanlatorsFilterStateProvider
-    extends
-        $NotifierProvider<
-          ScanlatorsFilterState,
-          (List<String>, List<String>, List<String>)
-        > {
+    extends $NotifierProvider<ScanlatorsFilterState, (List<String>, List<String>, List<String>)> {
   ScanlatorsFilterStateProvider._({
     required ScanlatorsFilterStateFamily super.from,
     required Manga super.argument,
@@ -1016,8 +835,7 @@ final class ScanlatorsFilterStateProvider
   Override overrideWithValue((List<String>, List<String>, List<String>) value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride:
-          $SyncValueProvider<(List<String>, List<String>, List<String>)>(value),
+      providerOverride: $SyncValueProvider<(List<String>, List<String>, List<String>)>(value),
     );
   }
 
@@ -1032,8 +850,7 @@ final class ScanlatorsFilterStateProvider
   }
 }
 
-String _$scanlatorsFilterStateHash() =>
-    r'f5220568e29e0c0efaac862fb0dce166f7be3172';
+String _$scanlatorsFilterStateHash() => r'ec533b9b81b8d0f6d6229bd9c342c430975df885';
 
 final class ScanlatorsFilterStateFamily extends $Family
     with
@@ -1053,39 +870,30 @@ final class ScanlatorsFilterStateFamily extends $Family
         isAutoDispose: true,
       );
 
-  ScanlatorsFilterStateProvider call(Manga manga) =>
-      ScanlatorsFilterStateProvider._(argument: manga, from: this);
+  ScanlatorsFilterStateProvider call(Manga manga) => ScanlatorsFilterStateProvider._(argument: manga, from: this);
 
   @override
   String toString() => r'scanlatorsFilterStateProvider';
 }
 
-abstract class _$ScanlatorsFilterState
-    extends $Notifier<(List<String>, List<String>, List<String>)> {
+abstract class _$ScanlatorsFilterState extends $Notifier<(List<String>, List<String>, List<String>)> {
   late final _$args = ref.$arg as Manga;
   Manga get manga => _$args;
 
   (List<String>, List<String>, List<String>) build(Manga manga);
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref =
-        this.ref
-            as $Ref<
-              (List<String>, List<String>, List<String>),
-              (List<String>, List<String>, List<String>)
-            >;
+        this.ref as $Ref<(List<String>, List<String>, List<String>), (List<String>, List<String>, List<String>)>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<
-                (List<String>, List<String>, List<String>),
-                (List<String>, List<String>, List<String>)
-              >,
+              AnyNotifier<(List<String>, List<String>, List<String>), (List<String>, List<String>, List<String>)>,
               (List<String>, List<String>, List<String>),
               Object?,
               Object?
             >;
-    element.handleCreate(ref, () => build(_$args));
+    return element.handleCreate(ref, () => build(_$args));
   }
 }

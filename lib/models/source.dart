@@ -18,8 +18,10 @@ class Source {
 
   String? lang;
 
+  @Index()
   bool? isActive;
 
+  @Index()
   bool? isAdded;
 
   bool? isPinned;
@@ -63,6 +65,7 @@ class Source {
 
   bool? isManga;
 
+  @Index(composite: [CompositeIndex('isAdded')])
   @enumerated
   late ItemType itemType;
 
@@ -214,4 +217,4 @@ class Source {
   }
 }
 
-enum SourceCodeLanguage { dart, javascript, mihon, lnreader }
+enum SourceCodeLanguage { dart, javascript, mihon, lnreader, aidoku }

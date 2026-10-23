@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter_qjs/quickjs/ffi.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:http_interceptor/http_interceptor.dart';
@@ -7,12 +8,31 @@ import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/models/track_preference.dart';
 import 'package:mangayomi/models/track_search.dart';
-import 'package:mangayomi/modules/more/settings/track/myanimelist/model.dart';
-import 'package:mangayomi/modules/more/settings/track/providers/track_providers.dart';
+import 'package:mangayomi/models/oauth.dart';
+import 'package:mangayomi/providers/track_providers.dart';
 import 'package:mangayomi/services/http/m_client.dart';
+
 import 'base_tracker.dart';
+import 'tracker_account.dart';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:mangayomi/utils/error_toast.dart';
 part 'simkl.g.dart';
+
+/// Which Simkl library a mangayomi library maps to.
+///
+/// Simkl keeps anime apart from tv, with their own endpoints. Asking the tv
+/// ones for an anime is why tracked entries landed under TV Shows (#922):
+/// searching `/search/tv` for "frieren" returns nothing, while
+/// `/search/anime` returns the series.
+///
+/// Manga stays mapped onto movies, which is what it already did. Simkl has no
+/// manga library and changing that is a separate question.
+String simklMediaType(bool isManga) => isManga ? "movies" : "anime";
+
+/// The same choice where Simkl uses the singular: a search path and a public
+/// URL.
+String simklSearchType(bool isManga) => isManga ? "tv" : "anime";
 
 @riverpod
 class Simkl extends _$Simkl implements BaseTracker {
@@ -53,7 +73,8 @@ class Simkl extends _$Simkl implements BaseTracker {
       _saveOAuth(username, oAuth);
 
       return true;
-    } catch (_) {
+    } catch (error, stackTrace) {
+      recordError(error, stack: stackTrace, source: 'simkl');
       return false;
     }
   }
@@ -64,7 +85,9 @@ class Simkl extends _$Simkl implements BaseTracker {
     String rankingType = "trending",
   }) async {
     /// isManga <> isMovie
-    final type = isManga ? "movies" : "tv";
+    // Simkl keeps anime apart from tv, with its own endpoints. Asking the tv
+    // ones for an anime is why entries landed under TV Shows (#922).
+    final type = simklMediaType(isManga);
     final accessToken = await _getAccessToken();
     final url = Uri.parse('$_baseApiUrl/$type/$rankingType').replace(
       queryParameters: {
@@ -103,14 +126,16 @@ class Simkl extends _$Simkl implements BaseTracker {
 
   @override
   Future<List<TrackSearch>> fetchUserData({bool isManga = true}) async {
-    final type = isManga ? "movies" : "shows";
-    final nodeType = isManga ? "movie" : "show";
+    final type = simklMediaType(isManga);
     final accessToken = await _getAccessToken();
     final url = Uri.parse('$_baseApiUrl/sync/all-items/$type');
     final result = await _makeGetRequest(url, accessToken);
     final data = jsonDecode(result.body) as Map<String, dynamic>?;
     return (data?[type] as List?)?.map((e) {
-          final node = e[nodeType];
+          // Simkl models anime as shows internally, so an entry under the
+          // anime key can still arrive with a "show" node. Accept either
+          // rather than depend on which one this account happens to get.
+          final node = e['anime'] ?? e['show'] ?? e['movie'];
           return TrackSearch(
             mediaId: node['ids']?['simkl'],
             summary: 'No summary available.',
@@ -121,7 +146,7 @@ class Simkl extends _$Simkl implements BaseTracker {
             title: node['title'] ?? 'Unknown Title',
             score: 0,
             startDate: "",
-            publishingType: isManga ? "movie" : "tv",
+            publishingType: isManga ? "movie" : "anime",
             publishingStatus: e["status"],
             trackingUrl: "https://simkl.com/$type/${node['ids']?['simkl']}",
             syncId: syncId,
@@ -133,9 +158,8 @@ class Simkl extends _$Simkl implements BaseTracker {
   @override
   Future<Track?> findLibItem(Track track, bool isManga) async {
     final accessToken = await _getAccessToken();
-    final url = Uri.parse(
-      '$_baseApiUrl/sync/watched/',
-    ).replace(queryParameters: {"extended": "episodes,specials,counters"});
+    final url = Uri.parse('$_baseApiUrl/sync/watched/')
+        .replace(queryParameters: {"extended": "episodes,specials,counters"});
     final result = await _makePostRequest(url, accessToken, [
       {"simkl": track.mediaId},
     ]);
@@ -195,7 +219,7 @@ class Simkl extends _$Simkl implements BaseTracker {
           );
         }).toList() ??
         [];
-    final urlSeries = Uri.parse('$_baseApiUrl/search/tv').replace(
+    final urlSeries = Uri.parse('$_baseApiUrl/search/${simklSearchType(isManga)}').replace(
       queryParameters: {
         'q': query,
         'extended': 'full',
@@ -215,9 +239,9 @@ class Simkl extends _$Simkl implements BaseTracker {
             title: e['title'] ?? 'Unknown Title',
             score: (e["ratings"]?["simkl"]?["rating"] as num?)?.toDouble(),
             startDate: e["release_date"] ?? "",
-            publishingType: "tv",
+            publishingType: simklSearchType(isManga),
             publishingStatus: e["status"],
-            trackingUrl: "https://simkl.com/tv/${e['ids']?['simkl_id'] ?? e['ids']?['simkl']}",
+            trackingUrl: "https://simkl.com/${simklSearchType(isManga)}/${e['ids']?['simkl_id'] ?? e['ids']?['simkl']}",
             syncId: syncId,
           );
         }).toList() ??
@@ -325,25 +349,31 @@ class Simkl extends _$Simkl implements BaseTracker {
     return OAuth.fromJson(json)..clientId = clientId;
   }
 
-  void _saveOAuth(String username, OAuth oAuth) {
+  void _saveOAuth(TrackerAccount user, OAuth oAuth) {
     widgetRef
         .read(tracksProvider(syncId: syncId).notifier)
         .login(
           TrackPreference(
             syncId: syncId,
-            username: username,
+            username: user.id,
+            displayName: user.name,
+            avatarUrl: user.avatarUrl,
             prefs: "",
             oAuth: jsonEncode(oAuth.toJson()),
           ),
         );
   }
 
-  Future<String> _getUserName(String accessToken) async {
+  /// The account behind the token.
+  ///
+  /// Same split as AniList: the id is what other calls need, the name is what
+  /// a person recognises, and `/users/settings` answers with both already.
+  Future<TrackerAccount> _getUserName(String accessToken) async {
     final response = await _makeGetRequest(
       Uri.parse('$_baseApiUrl/users/settings'),
       accessToken,
     );
-    return "${jsonDecode(response.body)['account']['id']}";
+    return simklAccount(jsonDecode(response.body) as Map<String, dynamic>);
   }
 
   String _authUrl() {

@@ -13,12 +13,7 @@ part of 'updates.dart';
 final getWatchedEntriesProvider = GetWatchedEntriesProvider._();
 
 final class GetWatchedEntriesProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<Manga>>,
-          List<Manga>,
-          Stream<List<Manga>>
-        >
+    extends $FunctionalProvider<AsyncValue<List<Manga>>, List<Manga>, Stream<List<Manga>>>
     with $FutureModifier<List<Manga>>, $StreamProvider<List<Manga>> {
   GetWatchedEntriesProvider._()
     : super(

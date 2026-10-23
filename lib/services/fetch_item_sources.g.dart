@@ -12,8 +12,7 @@ part of 'fetch_item_sources.dart';
 @ProviderFor(fetchItemSourcesList)
 final fetchItemSourcesListProvider = FetchItemSourcesListFamily._();
 
-final class FetchItemSourcesListProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+final class FetchItemSourcesListProvider extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
     with $FutureModifier<void>, $FutureProvider<void> {
   FetchItemSourcesListProvider._({
     required FetchItemSourcesListFamily super.from,
@@ -38,13 +37,11 @@ final class FetchItemSourcesListProvider
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<void> create(Ref ref) {
-    final argument =
-        this.argument as ({int? id, bool reFresh, ItemType itemType});
+    final argument = this.argument as ({int? id, bool reFresh, ItemType itemType});
     return fetchItemSourcesList(
       ref,
       id: argument.id,
@@ -64,15 +61,10 @@ final class FetchItemSourcesListProvider
   }
 }
 
-String _$fetchItemSourcesListHash() =>
-    r'219aed67d2329f03101f2270e2f344bf70eff128';
+String _$fetchItemSourcesListHash() => r'9296f418845ccbb8ece140870b38000361befe28';
 
 final class FetchItemSourcesListFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          FutureOr<void>,
-          ({int? id, bool reFresh, ItemType itemType})
-        > {
+    with $FunctionalFamilyOverride<FutureOr<void>, ({int? id, bool reFresh, ItemType itemType})> {
   FetchItemSourcesListFamily._()
     : super(
         retry: null,

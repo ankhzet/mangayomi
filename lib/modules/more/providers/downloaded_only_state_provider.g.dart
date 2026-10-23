@@ -12,8 +12,7 @@ part of 'downloaded_only_state_provider.dart';
 @ProviderFor(DownloadedOnlyState)
 final downloadedOnlyStateProvider = DownloadedOnlyStateProvider._();
 
-final class DownloadedOnlyStateProvider
-    extends $NotifierProvider<DownloadedOnlyState, bool> {
+final class DownloadedOnlyStateProvider extends $NotifierProvider<DownloadedOnlyState, bool> {
   DownloadedOnlyStateProvider._()
     : super(
         from: null,
@@ -41,23 +40,15 @@ final class DownloadedOnlyStateProvider
   }
 }
 
-String _$downloadedOnlyStateHash() =>
-    r'09c451617c435ca59554546f5d3090d20c961bfe';
+String _$downloadedOnlyStateHash() => r'928a7883b58004f2ff6e384778b8b5de3811b73d';
 
 abstract class _$DownloadedOnlyState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
+    return element.handleCreate(ref, build);
   }
 }

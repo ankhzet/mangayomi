@@ -59,8 +59,7 @@ final class CurrentIndexProvider extends $NotifierProvider<CurrentIndex, int> {
 
 String _$currentIndexHash() => r'e0b5e5b8a2afa5e8df699784009720334e1c9e80';
 
-final class CurrentIndexFamily extends $Family
-    with $ClassFamilyOverride<CurrentIndex, int, int, int, Chapter> {
+final class CurrentIndexFamily extends $Family with $ClassFamilyOverride<CurrentIndex, int, int, int, Chapter> {
   CurrentIndexFamily._()
     : super(
         retry: null,
@@ -70,8 +69,7 @@ final class CurrentIndexFamily extends $Family
         isAutoDispose: true,
       );
 
-  CurrentIndexProvider call(Chapter chapter) =>
-      CurrentIndexProvider._(argument: chapter, from: this);
+  CurrentIndexProvider call(Chapter chapter) => CurrentIndexProvider._(argument: chapter, from: this);
 
   @override
   String toString() => r'currentIndexProvider';
@@ -84,25 +82,17 @@ abstract class _$CurrentIndex extends $Notifier<int> {
   int build(Chapter chapter);
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, () => build(_$args));
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
+    return element.handleCreate(ref, () => build(_$args));
   }
 }
 
 @ProviderFor(ReaderController)
 final readerControllerProvider = ReaderControllerFamily._();
 
-final class ReaderControllerProvider
-    extends $NotifierProvider<ReaderController, KeepAliveLink> {
+final class ReaderControllerProvider extends $NotifierProvider<ReaderController, KeepAliveLink> {
   ReaderControllerProvider._({
     required ReaderControllerFamily super.from,
     required Chapter super.argument,
@@ -147,17 +137,10 @@ final class ReaderControllerProvider
   }
 }
 
-String _$readerControllerHash() => r'00be8cd2fec117f587bd57c09de8c1d3124171fb';
+String _$readerControllerHash() => r'6bb071c4a49abbb6150f70e0c028e66c10efa421';
 
 final class ReaderControllerFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          ReaderController,
-          KeepAliveLink,
-          KeepAliveLink,
-          KeepAliveLink,
-          Chapter
-        > {
+    with $ClassFamilyOverride<ReaderController, KeepAliveLink, KeepAliveLink, KeepAliveLink, Chapter> {
   ReaderControllerFamily._()
     : super(
         retry: null,
@@ -181,16 +164,11 @@ abstract class _$ReaderController extends $Notifier<KeepAliveLink> {
   KeepAliveLink build({required Chapter chapter});
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<KeepAliveLink, KeepAliveLink>;
     final element =
         ref.element
-            as $ClassProviderElement<
-              AnyNotifier<KeepAliveLink, KeepAliveLink>,
-              KeepAliveLink,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, () => build(chapter: _$args));
+            as $ClassProviderElement<AnyNotifier<KeepAliveLink, KeepAliveLink>, KeepAliveLink, Object?, Object?>;
+    return element.handleCreate(ref, () => build(chapter: _$args));
   }
 }

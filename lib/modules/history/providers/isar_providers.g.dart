@@ -13,12 +13,7 @@ part of 'isar_providers.dart';
 final getAllHistoryStreamProvider = GetAllHistoryStreamFamily._();
 
 final class GetAllHistoryStreamProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<History>>,
-          List<History>,
-          Stream<List<History>>
-        >
+    extends $FunctionalProvider<AsyncValue<List<History>>, List<History>, Stream<List<History>>>
     with $FutureModifier<List<History>>, $StreamProvider<List<History>> {
   GetAllHistoryStreamProvider._({
     required GetAllHistoryStreamFamily super.from,
@@ -68,15 +63,10 @@ final class GetAllHistoryStreamProvider
   }
 }
 
-String _$getAllHistoryStreamHash() =>
-    r'0f374dfdb3636b06da2f6786066a1737b645a4b6';
+String _$getAllHistoryStreamHash() => r'fc843a797aa95e371c6634f43240de780f87f15e';
 
 final class GetAllHistoryStreamFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          Stream<List<History>>,
-          ({ItemType itemType, String search})
-        > {
+    with $FunctionalFamilyOverride<Stream<List<History>>, ({ItemType itemType, String search})> {
   GetAllHistoryStreamFamily._()
     : super(
         retry: null,
@@ -98,16 +88,55 @@ final class GetAllHistoryStreamFamily extends $Family
   String toString() => r'getAllHistoryStreamProvider';
 }
 
+@ProviderFor(ActiveHistoryItemTypeState)
+final activeHistoryItemTypeStateProvider = ActiveHistoryItemTypeStateProvider._();
+
+final class ActiveHistoryItemTypeStateProvider extends $NotifierProvider<ActiveHistoryItemTypeState, ItemType> {
+  ActiveHistoryItemTypeStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'activeHistoryItemTypeStateProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$activeHistoryItemTypeStateHash();
+
+  @$internal
+  @override
+  ActiveHistoryItemTypeState create() => ActiveHistoryItemTypeState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ItemType value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ItemType>(value),
+    );
+  }
+}
+
+String _$activeHistoryItemTypeStateHash() => r'881ae706e2908719952fd9f6c935a5847aaf8d7f';
+
+abstract class _$ActiveHistoryItemTypeState extends $Notifier<ItemType> {
+  ItemType build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<ItemType, ItemType>;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<ItemType, ItemType>, ItemType, Object?, Object?>;
+    return element.handleCreate(ref, build);
+  }
+}
+
 @ProviderFor(getAllUpdateStream)
 final getAllUpdateStreamProvider = GetAllUpdateStreamFamily._();
 
 final class GetAllUpdateStreamProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<Update>>,
-          List<Update>,
-          Stream<List<Update>>
-        >
+    extends $FunctionalProvider<AsyncValue<List<Update>>, List<Update>, Stream<List<Update>>>
     with $FutureModifier<List<Update>>, $StreamProvider<List<Update>> {
   GetAllUpdateStreamProvider._({
     required GetAllUpdateStreamFamily super.from,
@@ -157,15 +186,10 @@ final class GetAllUpdateStreamProvider
   }
 }
 
-String _$getAllUpdateStreamHash() =>
-    r'd02b3a80d14947681e2684dd4b3c76e2545339aa';
+String _$getAllUpdateStreamHash() => r'd1a3e3b9ce4b77f3c1c1f3d8ac880520fcc19e94';
 
 final class GetAllUpdateStreamFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          Stream<List<Update>>,
-          ({ItemType itemType, String search})
-        > {
+    with $FunctionalFamilyOverride<Stream<List<Update>>, ({ItemType itemType, String search})> {
   GetAllUpdateStreamFamily._()
     : super(
         retry: null,

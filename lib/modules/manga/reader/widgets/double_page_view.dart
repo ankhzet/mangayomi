@@ -49,8 +49,7 @@ class DoublePageView extends StatefulWidget {
 
   /// Called with this view's PhotoViewController and true once it exists,
   /// then with false when the view is disposed.
-  final void Function(PhotoViewController controller, bool attached)?
-  onControllerChanged;
+  final void Function(PhotoViewController controller, bool attached)? onControllerChanged;
 
   /// Callback when an image finishes loading with its dimensions.
   final void Function(int index, double width, double height)? onImageLoaded;
@@ -118,8 +117,7 @@ class _DoublePageViewState extends State<DoublePageView> with TickerProviderStat
   StreamSubscription? _zoomSubscription;
 
   Duration _doubleTapAnimationDuration() {
-    final doubleTapAnimationValue =
-        settingsRepository.current.doubleTapAnimationSpeed ?? 1;
+    final doubleTapAnimationValue = settingsRepository.current.doubleTapAnimationSpeed ?? 1;
     return switch (doubleTapAnimationValue) {
       0 => const Duration(milliseconds: 10),
       1 => const Duration(milliseconds: 800),
@@ -262,9 +260,7 @@ class _DoublePageViewState extends State<DoublePageView> with TickerProviderStat
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         // Add top padding for first page
-        if (widget.addTopPadding &&
-            widget.pages.isNotEmpty &&
-            widget.pages[0]?.index == 0)
+        if (widget.addTopPadding && widget.pages.isNotEmpty && widget.pages[0]?.index == 0)
           SizedBox(height: MediaQuery.of(context).padding.top),
         _buildPageRow(),
       ],

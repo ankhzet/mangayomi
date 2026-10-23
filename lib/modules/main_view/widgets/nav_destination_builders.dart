@@ -10,8 +10,7 @@ import 'package:shiori/shiori.dart';
 /// Builds and caches navigation destinations for the desktop rail and mobile bottom bar.
 class NavDestinationBuilders {
   final Map<String, String> _hyphenatedLabelsCache = {};
-  final Map<String, List<NavigationRailDestination>> _desktopDestinationsCache =
-      {};
+  final Map<String, List<NavigationRailDestination>> _desktopDestinationsCache = {};
   final Map<String, List<Widget>> _mobileDestinationsCache = {};
 
   void clearCache() {
@@ -64,9 +63,7 @@ class NavDestinationBuilders {
 
     if (dest.contains(NavGroup.library)) {
       destinations[dest.indexOf(NavGroup.library)] = NavigationRailDestination(
-        padding: isTv
-            ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8)
-            : null,
+        padding: isTv ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8) : null,
         selectedIcon: const Icon(Symbols.collections_bookmark_rounded, fill: 1),
         icon: const Icon(Symbols.collections_bookmark_rounded),
         label: Padding(
@@ -77,9 +74,7 @@ class NavDestinationBuilders {
     }
     if (dest.contains(NavGroup.activity)) {
       destinations[dest.indexOf(NavGroup.activity)] = NavigationRailDestination(
-        padding: isTv
-            ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8)
-            : null,
+        padding: isTv ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8) : null,
         selectedIcon: UpdatesBadgeWidget(
           icon: const Icon(Symbols.notifications_rounded, fill: 1),
           ref: ref,
@@ -96,9 +91,7 @@ class NavDestinationBuilders {
     }
     if (dest.contains("/MangaLibrary")) {
       destinations[dest.indexOf("/MangaLibrary")] = NavigationRailDestination(
-        padding: isTv
-            ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8)
-            : null,
+        padding: isTv ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8) : null,
         selectedIcon: navTooltipIcon(
           showTooltip,
           l10n.double_tap_search_hint(l10n.manga),
@@ -117,9 +110,7 @@ class NavDestinationBuilders {
     }
     if (dest.contains("/AnimeLibrary")) {
       destinations[dest.indexOf("/AnimeLibrary")] = NavigationRailDestination(
-        padding: isTv
-            ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8)
-            : null,
+        padding: isTv ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8) : null,
         selectedIcon: navTooltipIcon(
           showTooltip,
           l10n.double_tap_search_hint(l10n.anime),
@@ -138,9 +129,7 @@ class NavDestinationBuilders {
     }
     if (dest.contains("/NovelLibrary")) {
       destinations[dest.indexOf("/NovelLibrary")] = NavigationRailDestination(
-        padding: isTv
-            ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8)
-            : null,
+        padding: isTv ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8) : null,
         selectedIcon: navTooltipIcon(
           showTooltip,
           l10n.double_tap_search_hint(l10n.novel),
@@ -159,9 +148,7 @@ class NavDestinationBuilders {
     }
     if (dest.contains("/updates")) {
       destinations[dest.indexOf("/updates")] = NavigationRailDestination(
-        padding: isTv
-            ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8)
-            : null,
+        padding: isTv ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8) : null,
         selectedIcon: UpdatesBadgeWidget(
           icon: const Icon(Symbols.new_releases_rounded, fill: 1),
           ref: ref,
@@ -184,9 +171,7 @@ class NavDestinationBuilders {
     }
     if (dest.contains("/history")) {
       destinations[dest.indexOf("/history")] = NavigationRailDestination(
-        padding: isTv
-            ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8)
-            : null,
+        padding: isTv ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8) : null,
         selectedIcon: const Icon(Symbols.history_rounded, fill: 1),
         icon: const Icon(Symbols.history_rounded),
         label: Padding(
@@ -197,9 +182,7 @@ class NavDestinationBuilders {
     }
     if (dest.contains("/browse")) {
       destinations[dest.indexOf("/browse")] = NavigationRailDestination(
-        padding: isTv
-            ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8)
-            : null,
+        padding: isTv ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8) : null,
         selectedIcon: ExtensionBadgeWidget(
           icon: const Icon(Symbols.explore_rounded, fill: 1),
           ref: ref,
@@ -216,9 +199,7 @@ class NavDestinationBuilders {
     }
     if (dest.contains("/more")) {
       destinations[dest.indexOf("/more")] = NavigationRailDestination(
-        padding: isTv
-            ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8)
-            : null,
+        padding: isTv ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8) : null,
         selectedIcon: const Icon(Symbols.more_horiz_rounded, fill: 1),
         icon: const Icon(Symbols.more_horiz_rounded),
         label: Padding(
@@ -229,9 +210,7 @@ class NavDestinationBuilders {
     }
     if (dest.contains("/trackerLibrary")) {
       destinations[dest.indexOf("/trackerLibrary")] = NavigationRailDestination(
-        padding: isTv
-            ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8)
-            : null,
+        padding: isTv ? const EdgeInsets.symmetric(vertical: ShioriSpace.s8) : null,
         selectedIcon: const Icon(Symbols.account_tree_rounded, fill: 1),
         icon: const Icon(Symbols.account_tree_rounded),
         label: Padding(

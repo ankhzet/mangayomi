@@ -41,11 +41,7 @@ class SyncListile extends ConsumerWidget {
       title: text ?? l10n.sync_server,
       subtitle: text != null
           ? null
-          : (isLogged
-                ? ((preference.server ?? '').isEmpty
-                      ? l10n.log_out
-                      : preference.server)
-                : l10n.login),
+          : (isLogged ? ((preference.server ?? '').isEmpty ? l10n.log_out : preference.server) : l10n.login),
       dimmed: !enabled,
       trailing: isLogged
           ? Icon(
@@ -60,8 +56,7 @@ class SyncListile extends ConsumerWidget {
           ? () => showLogOutDialog(
               context,
               serviceName: l10n.sync_server,
-              onLogOut: () =>
-                  ref.read(synchingProvider(syncId: id).notifier).logout(),
+              onLogOut: () => ref.read(synchingProvider(syncId: id).notifier).logout(),
             )
           : onTap,
     );

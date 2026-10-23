@@ -97,8 +97,7 @@ class LibraryGridSizeState extends _$LibraryGridSizeState {
 }
 
 @riverpod
-class MangaFilterDownloadedState extends _$MangaFilterDownloadedState
-    with TriStateFilterField, TriStateFilterCycle {
+class MangaFilterDownloadedState extends _$MangaFilterDownloadedState with TriStateFilterField, TriStateFilterCycle {
   @override
   int build({
     required List<Manga> mangaList,
@@ -125,8 +124,7 @@ class MangaFilterDownloadedState extends _$MangaFilterDownloadedState
 }
 
 @riverpod
-class MangaFilterUnreadState extends _$MangaFilterUnreadState
-    with TriStateFilterField, TriStateFilterCycle {
+class MangaFilterUnreadState extends _$MangaFilterUnreadState with TriStateFilterField, TriStateFilterCycle {
   @override
   int build({
     required List<Manga> mangaList,
@@ -153,8 +151,7 @@ class MangaFilterUnreadState extends _$MangaFilterUnreadState
 }
 
 @riverpod
-class MangaFilterStartedState extends _$MangaFilterStartedState
-    with TriStateFilterField, TriStateFilterCycle {
+class MangaFilterStartedState extends _$MangaFilterStartedState with TriStateFilterField, TriStateFilterCycle {
   @override
   int build({
     required List<Manga> mangaList,
@@ -181,8 +178,7 @@ class MangaFilterStartedState extends _$MangaFilterStartedState
 }
 
 @riverpod
-class MangaFilterBookmarkedState extends _$MangaFilterBookmarkedState
-    with TriStateFilterField, TriStateFilterCycle {
+class MangaFilterBookmarkedState extends _$MangaFilterBookmarkedState with TriStateFilterField, TriStateFilterCycle {
   @override
   int build({
     required List<Manga> mangaList,
@@ -211,8 +207,7 @@ class MangaFilterBookmarkedState extends _$MangaFilterBookmarkedState
 // ── Completed filter ──────────────────────────────────────────────────────────
 
 @riverpod
-class MangaFilterCompletedState extends _$MangaFilterCompletedState
-    with TriStateFilterField, TriStateFilterCycle {
+class MangaFilterCompletedState extends _$MangaFilterCompletedState with TriStateFilterField, TriStateFilterCycle {
   @override
   int build({
     required List<Manga> mangaList,
@@ -241,8 +236,7 @@ class MangaFilterCompletedState extends _$MangaFilterCompletedState
 // ── Tracking filter ───────────────────────────────────────────────────────────
 
 @riverpod
-class MangaFilterTrackingState extends _$MangaFilterTrackingState
-    with TriStateFilterField, TriStateFilterCycle {
+class MangaFilterTrackingState extends _$MangaFilterTrackingState with TriStateFilterField, TriStateFilterCycle {
   @override
   int build({
     required List<Manga> mangaList,

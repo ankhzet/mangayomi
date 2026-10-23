@@ -398,8 +398,7 @@ List<TrackLibrarySection> _sectionsAL(
               ref,
               syncId,
               ItemType.anime,
-              rankingType:
-                  "sort: [UPDATED_AT_DESC, POPULARITY_DESC], status: RELEASING",
+              rankingType: "sort: [UPDATED_AT_DESC, POPULARITY_DESC], status: RELEASING",
             ),
             itemType: ItemType.anime,
           ),
@@ -447,8 +446,7 @@ List<TrackLibrarySection> _sectionsAL(
               ref,
               syncId,
               ItemType.manga,
-              rankingType:
-                  "sort: [UPDATED_AT_DESC, POPULARITY_DESC], status: RELEASING",
+              rankingType: "sort: [UPDATED_AT_DESC, POPULARITY_DESC], status: RELEASING",
             ),
           ),
         ];

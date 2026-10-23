@@ -40,9 +40,7 @@ class SyncConnectionState extends _$SyncConnectionState {
 
   Future<void> _check(String server, String authToken) async {
     final http = MClient.init(reqcopyWith: {'useDartHttpClient': true});
-    final url = server.endsWith('/')
-        ? server.substring(0, server.length - 1)
-        : server;
+    final url = server.endsWith('/') ? server.substring(0, server.length - 1) : server;
     SyncConnectionStatus result;
     try {
       final response = await http

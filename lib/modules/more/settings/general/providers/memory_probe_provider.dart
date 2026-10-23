@@ -30,5 +30,4 @@ class MemoryOverlayVisible extends Notifier<bool> {
   }
 }
 
-final memoryOverlayVisibleProvider =
-    NotifierProvider<MemoryOverlayVisible, bool>(MemoryOverlayVisible.new);
+final memoryOverlayVisibleProvider = NotifierProvider<MemoryOverlayVisible, bool>(MemoryOverlayVisible.new);

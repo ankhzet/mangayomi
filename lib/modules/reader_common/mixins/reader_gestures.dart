@@ -31,8 +31,7 @@ List<(ReaderShortcut, List<String>)> readerShortcutKeys({
   KeyBindings bindings = defaultKeyBindings,
 }) {
   List<String> keys(ReaderShortcut shortcut) => [
-    for (final label in keyLabels(bindings[shortcut]!))
-      isReverseHorizontal ? _swapArrows(label) : label,
+    for (final label in keyLabels(bindings[shortcut]!)) isReverseHorizontal ? _swapArrows(label) : label,
   ];
   return [
     for (final shortcut in ReaderShortcut.values)
@@ -56,20 +55,19 @@ String _swapArrows(String label) => switch (label) {
 };
 
 /// What [shortcut] does, in the reader's language.
-String readerShortcutLabel(ReaderShortcut shortcut, AppLocalizations l10n) =>
-    switch (shortcut) {
-      ReaderShortcut.previousPage => l10n.shortcut_previous_page,
-      ReaderShortcut.nextPage => l10n.shortcut_next_page,
-      ReaderShortcut.previousChapter => l10n.previous_chapter,
-      ReaderShortcut.nextChapter => l10n.next_chapter,
-      ReaderShortcut.toggleBars => l10n.shortcut_toggle_bars,
-      ReaderShortcut.fullScreen => l10n.fullscreen,
-      ReaderShortcut.zoomIn => l10n.shortcut_zoom_in,
-      ReaderShortcut.zoomOut => l10n.shortcut_zoom_out,
-      ReaderShortcut.zoomReset => l10n.shortcut_zoom_reset,
-      ReaderShortcut.leave => l10n.shortcut_leave,
-      ReaderShortcut.showShortcuts => l10n.shortcut_show,
-    };
+String readerShortcutLabel(ReaderShortcut shortcut, AppLocalizations l10n) => switch (shortcut) {
+  ReaderShortcut.previousPage => l10n.shortcut_previous_page,
+  ReaderShortcut.nextPage => l10n.shortcut_next_page,
+  ReaderShortcut.previousChapter => l10n.previous_chapter,
+  ReaderShortcut.nextChapter => l10n.next_chapter,
+  ReaderShortcut.toggleBars => l10n.shortcut_toggle_bars,
+  ReaderShortcut.fullScreen => l10n.fullscreen,
+  ReaderShortcut.zoomIn => l10n.shortcut_zoom_in,
+  ReaderShortcut.zoomOut => l10n.shortcut_zoom_out,
+  ReaderShortcut.zoomReset => l10n.shortcut_zoom_reset,
+  ReaderShortcut.leave => l10n.shortcut_leave,
+  ReaderShortcut.showShortcuts => l10n.shortcut_show,
+};
 
 /// Handler for keyboard shortcuts in the reader.
 ///
@@ -118,9 +116,7 @@ class ReaderKeyboardHandler {
   bool handleKeyEvent(KeyEvent event, {bool isReverseHorizontal = false}) {
     if (event is! KeyDownEvent) return false;
     var key = event.logicalKey;
-    if (key == LogicalKeyboardKey.question ||
-        key == LogicalKeyboardKey.slash ||
-        key == LogicalKeyboardKey.f1) {
+    if (key == LogicalKeyboardKey.question || key == LogicalKeyboardKey.slash || key == LogicalKeyboardKey.f1) {
       return _run(onShowShortcuts);
     }
     // Right to left, the horizontal arrows turn the other way.
@@ -164,8 +160,7 @@ class ReaderKeyboardHandler {
     return KeyboardListener(
       autofocus: true,
       focusNode: focusNode ?? FocusNode(),
-      onKeyEvent: (event) =>
-          handleKeyEvent(event, isReverseHorizontal: isReverseHorizontal),
+      onKeyEvent: (event) => handleKeyEvent(event, isReverseHorizontal: isReverseHorizontal),
       child: child,
     );
   }

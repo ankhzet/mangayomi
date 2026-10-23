@@ -64,8 +64,7 @@ class WebtoonScaleGestureRecognizer extends ScaleGestureRecognizer {
   void handleEvent(PointerEvent event) {
     if (event is PointerMoveEvent && canPanCallback?.call() == true) {
       final downAt = _pointerDownAt[event.pointer];
-      if (downAt != null &&
-          (event.position - downAt).distance > zoomedPanSlop) {
+      if (downAt != null && (event.position - downAt).distance > zoomedPanSlop) {
         resolve(GestureDisposition.accepted);
       }
     }
@@ -162,8 +161,7 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
     if (widget.initialScrollIndex > 0) {
       void jump([int attempt = 0]) {
         if (!mounted) return;
-        if (widget.listController.isAttached &&
-            widget.scrollController.hasClients) {
+        if (widget.listController.isAttached && widget.scrollController.hasClients) {
           // Keep restoration index-based, like ScrollablePositionedList. The
           // controller accounts for reverse/RTL and estimated item extents.
           widget.listController.jumpToItem(
@@ -173,9 +171,7 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
           );
           if (attempt < 5) {
             final range = widget.listController.visibleRange;
-            if (range == null ||
-                widget.initialScrollIndex < range.$1 ||
-                widget.initialScrollIndex > range.$2) {
+            if (range == null || widget.initialScrollIndex < range.$1 || widget.initialScrollIndex > range.$2) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 jump(attempt + 1);
               });
@@ -201,10 +197,8 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
     _zoomAnimationController.addListener(() {
       final t = _zoomAnimationController.value;
       final curveVal = Curves.easeOutCubic.transform(t);
-      _scale =
-          _animStartScale + (_animTargetScale - _animStartScale) * curveVal;
-      _offset =
-          Offset.lerp(_animStartOffset, _animTargetOffset, curveVal) ?? _offset;
+      _scale = _animStartScale + (_animTargetScale - _animStartScale) * curveVal;
+      _offset = Offset.lerp(_animStartOffset, _animTargetOffset, curveVal) ?? _offset;
       _updateMatrix();
     });
   }
@@ -242,8 +236,7 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
     _animStartOffset = _offset;
     _animTargetOffset = targetOffset;
 
-    _zoomAnimationController.duration =
-        duration ?? _doubleTapAnimationDuration();
+    _zoomAnimationController.duration = duration ?? _doubleTapAnimationDuration();
     _zoomAnimationController.forward(from: 0.0);
   }
 
@@ -322,8 +315,7 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
       final bool isUpwards = dy < _quickScaleLastY;
       _quickScaleLastY = dy;
 
-      final double spanDiff =
-          (1 - (dist / _quickScaleLastDistance)).abs() * 0.5;
+      final double spanDiff = (1 - (dist / _quickScaleLastDistance)).abs() * 0.5;
       if (spanDiff > 0.02) {
         final double multiplier = isUpwards ? (1 + spanDiff) : (1 - spanDiff);
         newScale = (_scale * multiplier).clamp(
@@ -352,10 +344,8 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
       _lastGlobalFocalPoint = details.focalPoint;
       final proposedOffset = _offset + globalDelta;
 
-      final maxDx =
-          (screenWidth * (_scale - 1).clamp(0.0, double.infinity)) / 2;
-      final maxDy =
-          (screenHeight * (_scale - 1).clamp(0.0, double.infinity)) / 2;
+      final maxDx = (screenWidth * (_scale - 1).clamp(0.0, double.infinity)) / 2;
+      final maxDy = (screenHeight * (_scale - 1).clamp(0.0, double.infinity)) / 2;
 
       final clampedOffset = Offset(
         proposedOffset.dx.clamp(-maxDx, maxDx),
@@ -401,10 +391,8 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
       if (velocity.distance > 400) {
         final screenWidth = MediaQuery.of(context).size.width;
         final screenHeight = MediaQuery.of(context).size.height;
-        final maxDx =
-            (screenWidth * (_scale - 1).clamp(0.0, double.infinity)) / 2;
-        final maxDy =
-            (screenHeight * (_scale - 1).clamp(0.0, double.infinity)) / 2;
+        final maxDx = (screenWidth * (_scale - 1).clamp(0.0, double.infinity)) / 2;
+        final maxDy = (screenHeight * (_scale - 1).clamp(0.0, double.infinity)) / 2;
 
         final targetDx = (_offset.dx + velocity.dx * 0.2).clamp(-maxDx, maxDx);
         final targetDy = (_offset.dy + velocity.dy * 0.2).clamp(-maxDy, maxDy);
@@ -471,32 +459,30 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
     return RawGestureDetector(
       behavior: HitTestBehavior.translucent,
       gestures: <Type, GestureRecognizerFactory>{
-        WebtoonScaleGestureRecognizer:
-            GestureRecognizerFactoryWithHandlers<WebtoonScaleGestureRecognizer>(
-              () => WebtoonScaleGestureRecognizer(),
-              (instance) {
-                instance.canPanCallback = () => _scale > 1.01;
-                instance
-                  ..onStart = _handleScaleStart
-                  ..onUpdate = _handleScaleUpdate
-                  ..onEnd = _handleScaleEnd;
-              },
-            ),
+        WebtoonScaleGestureRecognizer: GestureRecognizerFactoryWithHandlers<WebtoonScaleGestureRecognizer>(
+          () => WebtoonScaleGestureRecognizer(),
+          (instance) {
+            instance.canPanCallback = () => _scale > 1.01;
+            instance
+              ..onStart = _handleScaleStart
+              ..onUpdate = _handleScaleUpdate
+              ..onEnd = _handleScaleEnd;
+          },
+        ),
         if (widget.doubleTapZoomEnabled)
-          DoubleTapGestureRecognizer:
-              GestureRecognizerFactoryWithHandlers<DoubleTapGestureRecognizer>(
-                () => DoubleTapGestureRecognizer(),
-                (instance) {
-                  instance
-                    ..onDoubleTapDown = _handleDoubleTapDown
-                    ..onDoubleTap = () {
-                      _toggleScale(_doubleTapPosition);
-                    }
-                    ..onDoubleTapCancel = () {
-                      _isQuickScaling = false;
-                    };
-                },
-              ),
+          DoubleTapGestureRecognizer: GestureRecognizerFactoryWithHandlers<DoubleTapGestureRecognizer>(
+            () => DoubleTapGestureRecognizer(),
+            (instance) {
+              instance
+                ..onDoubleTapDown = _handleDoubleTapDown
+                ..onDoubleTap = () {
+                  _toggleScale(_doubleTapPosition);
+                }
+                ..onDoubleTapCancel = () {
+                  _isQuickScaling = false;
+                };
+            },
+          ),
       },
       child: ValueListenableBuilder<Matrix4>(
         valueListenable: _transformNotifier,
@@ -532,9 +518,7 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
   double _estimateExtent(int? index, double crossAxisExtent) {
     if (index != null && index >= 0 && index < widget.pages.length) {
       final page = widget.pages[index];
-      if (page.loadedWidth != null &&
-          page.loadedHeight != null &&
-          page.loadedWidth! > 0) {
+      if (page.loadedWidth != null && page.loadedHeight != null && page.loadedWidth! > 0) {
         if (widget.isHorizontalContinuous) {
           return crossAxisExtent * (page.loadedWidth! / page.loadedHeight!);
         } else {
@@ -546,24 +530,19 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
     // Look for any loaded page in the chapter to use as aspect ratio heuristic
     double? sampleAspect;
     for (final p in widget.pages) {
-      if (p.loadedWidth != null &&
-          p.loadedHeight != null &&
-          p.loadedWidth! > 0) {
+      if (p.loadedWidth != null && p.loadedHeight != null && p.loadedWidth! > 0) {
         sampleAspect = p.loadedHeight! / p.loadedWidth!;
         break;
       }
     }
 
     if (widget.isHorizontalContinuous) {
-      return crossAxisExtent *
-          (sampleAspect != null ? (1.0 / sampleAspect) : 0.7);
+      return crossAxisExtent * (sampleAspect != null ? (1.0 / sampleAspect) : 0.7);
     } else {
       if (sampleAspect != null) {
         return crossAxisExtent * sampleAspect;
       }
-      return widget.readerMode == ReaderMode.webtoon
-          ? crossAxisExtent * 2.5
-          : crossAxisExtent * 1.4;
+      return widget.readerMode == ReaderMode.webtoon ? crossAxisExtent * 2.5 : crossAxisExtent * 1.4;
     }
   }
 
@@ -593,9 +572,7 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
       );
     }
 
-    if (widget.showPageGaps &&
-        widget.readerMode != ReaderMode.webtoon &&
-        index < itemCount - 1) {
+    if (widget.showPageGaps && widget.readerMode != ReaderMode.webtoon && index < itemCount - 1) {
       item = Padding(
         padding: widget.isHorizontalContinuous
             ? const EdgeInsets.only(right: ShioriSpace.s8)
@@ -634,13 +611,10 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
 
     return Padding(
       key: uniqueKey,
-      padding: widget.isHorizontalContinuous
-          ? EdgeInsets.zero
-          : EdgeInsets.symmetric(horizontal: sidePad),
+      padding: widget.isHorizontalContinuous ? EdgeInsets.zero : EdgeInsets.symmetric(horizontal: sidePad),
       child: ImageViewVertical(
         data: currentPage,
-        failedToLoadImage: (failed) =>
-            widget.onFailedToLoadImage(index, failed),
+        failedToLoadImage: (failed) => widget.onFailedToLoadImage(index, failed),
         onLongPressData: widget.onLongPressData,
         isHorizontal: widget.isHorizontalContinuous,
         rotation: rotation,
@@ -676,9 +650,7 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
     }
 
     final page1 = widget.pages[index1];
-    final page2 = (index2 != null && index2 < pageLength)
-        ? widget.pages[index2]
-        : null;
+    final page2 = (index2 != null && index2 < pageLength) ? widget.pages[index2] : null;
 
     final List<UChapDataPreload?> datas = [page1, page2];
 
@@ -691,8 +663,7 @@ class _ImageViewWebtoonState extends ConsumerState<ImageViewWebtoon> with Ticker
       child: DoublePageView.vertical(
         pages: datas,
         backgroundColor: widget.backgroundColor,
-        onFailedToLoadImage: (failed) =>
-            widget.onFailedToLoadImage(index1, failed),
+        onFailedToLoadImage: (failed) => widget.onFailedToLoadImage(index1, failed),
         onLongPressData: widget.onLongPressData,
       ),
     );

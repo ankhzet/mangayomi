@@ -10,8 +10,7 @@ part of 'backup_password_fallback.dart';
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types, experimental_member_use
 
 extension GetBackupPasswordFallbackCollection on Isar {
-  IsarCollection<BackupPasswordFallback> get backupPasswordFallbacks =>
-      this.collection();
+  IsarCollection<BackupPasswordFallback> get backupPasswordFallbacks => this.collection();
 }
 
 const BackupPasswordFallbackSchema = CollectionSchema(
@@ -108,10 +107,8 @@ void _backupPasswordFallbackAttach(
   object.id = id;
 }
 
-extension BackupPasswordFallbackQueryWhereSort
-    on QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QWhere> {
-  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterWhere>
-  anyId() {
+extension BackupPasswordFallbackQueryWhereSort on QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QWhere> {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
@@ -119,29 +116,14 @@ extension BackupPasswordFallbackQueryWhereSort
 }
 
 extension BackupPasswordFallbackQueryWhere
-    on
-        QueryBuilder<
-          BackupPasswordFallback,
-          BackupPasswordFallback,
-          QWhereClause
-        > {
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterWhereClause
-  >
-  idEqualTo(Id id) {
+    on QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QWhereClause> {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(lower: id, upper: id));
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterWhereClause
-  >
-  idNotEqualTo(Id id) {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -163,12 +145,10 @@ extension BackupPasswordFallbackQueryWhere
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterWhereClause
-  >
-  idGreaterThan(Id id, {bool include = false}) {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterWhereClause> idGreaterThan(
+    Id id, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -176,12 +156,10 @@ extension BackupPasswordFallbackQueryWhere
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterWhereClause
-  >
-  idLessThan(Id id, {bool include = false}) {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterWhereClause> idLessThan(
+    Id id, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -189,12 +167,7 @@ extension BackupPasswordFallbackQueryWhere
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterWhereClause
-  >
-  idBetween(
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -214,18 +187,8 @@ extension BackupPasswordFallbackQueryWhere
 }
 
 extension BackupPasswordFallbackQueryFilter
-    on
-        QueryBuilder<
-          BackupPasswordFallback,
-          BackupPasswordFallback,
-          QFilterCondition
-        > {
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterFilterCondition
-  >
-  idEqualTo(Id value) {
+    on QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QFilterCondition> {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'id', value: value),
@@ -233,12 +196,10 @@ extension BackupPasswordFallbackQueryFilter
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterFilterCondition
-  >
-  idGreaterThan(Id value, {bool include = false}) {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterFilterCondition> idGreaterThan(
+    Id value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -250,12 +211,10 @@ extension BackupPasswordFallbackQueryFilter
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterFilterCondition
-  >
-  idLessThan(Id value, {bool include = false}) {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterFilterCondition> idLessThan(
+    Id value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -267,12 +226,7 @@ extension BackupPasswordFallbackQueryFilter
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterFilterCondition
-  >
-  idBetween(
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -291,12 +245,7 @@ extension BackupPasswordFallbackQueryFilter
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterFilterCondition
-  >
-  passwordIsNull() {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterFilterCondition> passwordIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'password'),
@@ -304,12 +253,7 @@ extension BackupPasswordFallbackQueryFilter
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterFilterCondition
-  >
-  passwordIsNotNull() {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterFilterCondition> passwordIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'password'),
@@ -317,12 +261,10 @@ extension BackupPasswordFallbackQueryFilter
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterFilterCondition
-  >
-  passwordEqualTo(String? value, {bool caseSensitive = true}) {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterFilterCondition> passwordEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -334,12 +276,7 @@ extension BackupPasswordFallbackQueryFilter
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterFilterCondition
-  >
-  passwordGreaterThan(
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterFilterCondition> passwordGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -356,12 +293,7 @@ extension BackupPasswordFallbackQueryFilter
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterFilterCondition
-  >
-  passwordLessThan(
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterFilterCondition> passwordLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -378,12 +310,7 @@ extension BackupPasswordFallbackQueryFilter
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterFilterCondition
-  >
-  passwordBetween(
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterFilterCondition> passwordBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -404,12 +331,10 @@ extension BackupPasswordFallbackQueryFilter
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterFilterCondition
-  >
-  passwordStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterFilterCondition> passwordStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -421,12 +346,10 @@ extension BackupPasswordFallbackQueryFilter
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterFilterCondition
-  >
-  passwordEndsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterFilterCondition> passwordEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -438,12 +361,10 @@ extension BackupPasswordFallbackQueryFilter
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterFilterCondition
-  >
-  passwordContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterFilterCondition> passwordContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -455,12 +376,10 @@ extension BackupPasswordFallbackQueryFilter
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterFilterCondition
-  >
-  passwordMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterFilterCondition> passwordMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -472,12 +391,7 @@ extension BackupPasswordFallbackQueryFilter
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterFilterCondition
-  >
-  passwordIsEmpty() {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterFilterCondition> passwordIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'password', value: ''),
@@ -485,12 +399,7 @@ extension BackupPasswordFallbackQueryFilter
     });
   }
 
-  QueryBuilder<
-    BackupPasswordFallback,
-    BackupPasswordFallback,
-    QAfterFilterCondition
-  >
-  passwordIsNotEmpty() {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterFilterCondition> passwordIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'password', value: ''),
@@ -500,32 +409,19 @@ extension BackupPasswordFallbackQueryFilter
 }
 
 extension BackupPasswordFallbackQueryObject
-    on
-        QueryBuilder<
-          BackupPasswordFallback,
-          BackupPasswordFallback,
-          QFilterCondition
-        > {}
+    on QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QFilterCondition> {}
 
 extension BackupPasswordFallbackQueryLinks
-    on
-        QueryBuilder<
-          BackupPasswordFallback,
-          BackupPasswordFallback,
-          QFilterCondition
-        > {}
+    on QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QFilterCondition> {}
 
-extension BackupPasswordFallbackQuerySortBy
-    on QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QSortBy> {
-  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterSortBy>
-  sortByPassword() {
+extension BackupPasswordFallbackQuerySortBy on QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QSortBy> {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterSortBy> sortByPassword() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'password', Sort.asc);
     });
   }
 
-  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterSortBy>
-  sortByPasswordDesc() {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterSortBy> sortByPasswordDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'password', Sort.desc);
     });
@@ -533,35 +429,26 @@ extension BackupPasswordFallbackQuerySortBy
 }
 
 extension BackupPasswordFallbackQuerySortThenBy
-    on
-        QueryBuilder<
-          BackupPasswordFallback,
-          BackupPasswordFallback,
-          QSortThenBy
-        > {
-  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterSortBy>
-  thenById() {
+    on QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QSortThenBy> {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterSortBy>
-  thenByIdDesc() {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterSortBy>
-  thenByPassword() {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterSortBy> thenByPassword() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'password', Sort.asc);
     });
   }
 
-  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterSortBy>
-  thenByPasswordDesc() {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QAfterSortBy> thenByPasswordDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'password', Sort.desc);
     });
@@ -570,8 +457,9 @@ extension BackupPasswordFallbackQuerySortThenBy
 
 extension BackupPasswordFallbackQueryWhereDistinct
     on QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QDistinct> {
-  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QDistinct>
-  distinctByPassword({bool caseSensitive = true}) {
+  QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QDistinct> distinctByPassword({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'password', caseSensitive: caseSensitive);
     });
@@ -579,20 +467,14 @@ extension BackupPasswordFallbackQueryWhereDistinct
 }
 
 extension BackupPasswordFallbackQueryProperty
-    on
-        QueryBuilder<
-          BackupPasswordFallback,
-          BackupPasswordFallback,
-          QQueryProperty
-        > {
+    on QueryBuilder<BackupPasswordFallback, BackupPasswordFallback, QQueryProperty> {
   QueryBuilder<BackupPasswordFallback, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<BackupPasswordFallback, String?, QQueryOperations>
-  passwordProperty() {
+  QueryBuilder<BackupPasswordFallback, String?, QQueryOperations> passwordProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'password');
     });

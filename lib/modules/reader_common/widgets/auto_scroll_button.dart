@@ -54,13 +54,10 @@ class ReaderAutoScrollButton extends StatelessWidget {
                           0,
                           0,
                           ShioriSpace.s12,
-                          MediaQuery.paddingOf(context).bottom +
-                              ShioriSpace.s12,
+                          MediaQuery.paddingOf(context).bottom + ShioriSpace.s12,
                         ),
                         child: IconButton(
-                          tooltip: isPlaying
-                              ? context.l10n.pause
-                              : context.l10n.play,
+                          tooltip: isPlaying ? context.l10n.pause : context.l10n.play,
                           onPressed: onToggle,
                           style: IconButton.styleFrom(
                             backgroundColor: ShioriScrim.underText,
@@ -68,9 +65,7 @@ class ReaderAutoScrollButton extends StatelessWidget {
                           ),
                           icon: Icon(
                             fill: 1,
-                            isPlaying
-                                ? Symbols.pause_rounded
-                                : Symbols.play_arrow_rounded,
+                            isPlaying ? Symbols.pause_rounded : Symbols.play_arrow_rounded,
                           ),
                         ),
                       ),

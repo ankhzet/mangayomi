@@ -47,8 +47,7 @@ class ReaderOrientationRow extends ConsumerWidget {
         ShioriChoice(1, l10n.orientation_portrait),
         ShioriChoice(2, l10n.orientation_landscape),
       ],
-      onChanged: (v) =>
-          ref.read(readerOrientationStateProvider.notifier).set(v),
+      onChanged: (v) => ref.read(readerOrientationStateProvider.notifier).set(v),
     );
   }
 }

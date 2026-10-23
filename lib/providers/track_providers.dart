@@ -49,8 +49,7 @@ class Tracks extends _$Tracks {
 }
 
 @riverpod
-class UpdateProgressAfterReadingState
-    extends _$UpdateProgressAfterReadingState {
+class UpdateProgressAfterReadingState extends _$UpdateProgressAfterReadingState {
   @override
   bool build() {
     return settingsRepository.current.updateProgressAfterReading ?? true;

@@ -25,9 +25,7 @@ class DownloadedChapter {
   /// count is only known once it is unpacked.
   final int pageCount;
 
-  const DownloadedChapter.fromArchive(File this.archive)
-    : pagesDirectory = null,
-      pageCount = 0;
+  const DownloadedChapter.fromArchive(File this.archive) : pagesDirectory = null, pageCount = 0;
 
   const DownloadedChapter.fromPages(
     Directory this.pagesDirectory, {

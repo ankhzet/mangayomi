@@ -192,8 +192,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
       widget.manga!,
       incognito: ref.watch(incognitoModeStateProvider),
     );
-    final onJumpToCurrent =
-        current != null && chapters.any((c) => c.id == current.id)
+    final onJumpToCurrent = current != null && chapters.any((c) => c.id == current.id)
         ? () => _jumpTo(chapters, current)
         : null;
     final isLongPressed = ref.watch(isLongPressedStateProvider);
@@ -262,77 +261,45 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                                   : MainAxisAlignment.start,
                                               children: [
                                                 Container(
-                                                  height: chapters.isEmpty
-                                                      ? context.height(1)
-                                                      : null,
-                                                  color:
-                                                      context.shiori.color.ink0,
+                                                  height: chapters.isEmpty ? context.height(1) : null,
+                                                  color: context.shiori.color.ink0,
                                                   child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.symmetric(
-                                                          horizontal:
-                                                              ShioriSpace.s8,
-                                                        ),
+                                                    padding: const EdgeInsets.symmetric(
+                                                      horizontal: ShioriSpace.s8,
+                                                    ),
                                                     child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisSize: MainAxisSize.min,
                                                       children: [
                                                         Text(
-                                                          widget
-                                                                      .manga!
-                                                                      .itemType !=
-                                                                  ItemType.anime
+                                                          widget.manga!.itemType != ItemType.anime
                                                               ? l10n.n_chapters(
-                                                                  chapters
-                                                                      .length,
+                                                                  chapters.length,
                                                                 )
                                                               : l10n.n_episodes(
-                                                                  chapters
-                                                                      .length,
+                                                                  chapters.length,
                                                                 ),
-                                                          style: context
-                                                              .shiori
-                                                              .text
-                                                              .section
-                                                              .copyWith(
-                                                                color: context
-                                                                    .shiori
-                                                                    .color
-                                                                    .fg,
-                                                              ),
+                                                          style: context.shiori.text.section.copyWith(
+                                                            color: context.shiori.color.fg,
+                                                          ),
                                                         ),
                                                         Builder(
                                                           builder: (context) {
-                                                            final missing = widget
-                                                                .manga!
-                                                                .missingChapterCount();
+                                                            final missing = widget.manga!.missingChapterCount();
                                                             if (missing <= 0) {
                                                               return const SizedBox.shrink();
                                                             }
                                                             return Text(
-                                                              widget.manga!.itemType !=
-                                                                      ItemType
-                                                                          .anime
+                                                              widget.manga!.itemType != ItemType.anime
                                                                   ? l10n.missing_chapters(
                                                                       missing,
                                                                     )
                                                                   : l10n.missing_episodes(
                                                                       missing,
                                                                     ),
-                                                              style: context
-                                                                  .shiori
-                                                                  .text
-                                                                  .meta
-                                                                  .copyWith(
-                                                                    color: context
-                                                                        .shiori
-                                                                        .color
-                                                                        .error
-                                                                        .foreground,
-                                                                  ),
+                                                              style: context.shiori.text.meta.copyWith(
+                                                                color: context.shiori.color.error.foreground,
+                                                              ),
                                                             );
                                                           },
                                                         ),
@@ -343,19 +310,14 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                                 const Spacer(),
                                                 if (onJumpToCurrent != null)
                                                   ShioriButton.quiet(
-                                                    icon: Symbols
-                                                        .my_location_rounded,
+                                                    icon: Symbols.my_location_rounded,
                                                     label: l10n.current_chapter,
                                                     onPressed: onJumpToCurrent,
                                                   ),
                                                 if (isLocalArchive)
                                                   ShioriButton.secondary(
                                                     icon: Symbols.add_rounded,
-                                                    label:
-                                                        widget
-                                                                .manga!
-                                                                .itemType !=
-                                                            ItemType.anime
+                                                    label: widget.manga!.itemType != ItemType.anime
                                                         ? l10n.add_chapters
                                                         : l10n.add_episodes,
                                                     onPressed: () async {
@@ -366,9 +328,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                                           manga: manga,
                                                         );
                                                       } else {
-                                                        final splitChapters =
-                                                            manga.itemType ==
-                                                                ItemType.novel
+                                                        final splitChapters = manga.itemType == ItemType.novel
                                                             ? await showSplitChaptersDialog(
                                                                 context,
                                                               )
@@ -399,8 +359,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                     : MangaInfoHeader(
                                         manga: widget.manga!,
                                         isLocalArchive: isLocalArchive,
-                                        titleDescription:
-                                            widget.titleDescription!,
+                                        titleDescription: widget.titleDescription!,
                                         action: widget.action!,
                                         chapterLength: chapters.length,
                                         onJumpToCurrent: onJumpToCurrent,
@@ -434,23 +393,15 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
               bool checkFirstBookmarked = chap.isNotEmpty && chap.first.isBookmarked! && getLength1;
               bool checkReadBookmarked = chap.isNotEmpty && chap.first.isRead! && getLength1;
               final l10n = l10nLocalizations(context)!;
-              final downloadedIds =
-                  ref.watch(downloadedChapterIdsProvider).asData?.value ??
-                  const <int>{};
-              final isDownloaded = chap
-                  .where((c) => downloadedIds.contains(c.id))
-                  .toSet();
+              final downloadedIds = ref.watch(downloadedChapterIdsProvider).asData?.value ?? const <int>{};
+              final isDownloaded = chap.where((c) => downloadedIds.contains(c.id)).toSet();
               return BottomSelectBar(
                 isVisible: isLongPressed,
                 actions: [
                   BottomSelectButton(
-                    tooltip: checkFirstBookmarked
-                        ? l10n.remove_bookmark
-                        : l10n.bookmark,
+                    tooltip: checkFirstBookmarked ? l10n.remove_bookmark : l10n.bookmark,
                     icon: Icon(
-                      checkFirstBookmarked
-                          ? Symbols.bookmark_remove_rounded
-                          : Symbols.bookmark_add_rounded,
+                      checkFirstBookmarked ? Symbols.bookmark_remove_rounded : Symbols.bookmark_add_rounded,
                     ),
                     onPressed: () {
                       final chapters = ref.watch(chaptersListStateProvider);
@@ -463,20 +414,14 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                         updatedChapters.add(chapter);
                       }
                       chapterRepository.putAll(updatedChapters);
-                      ref
-                          .read(isLongPressedStateProvider.notifier)
-                          .update(false);
+                      ref.read(isLongPressedStateProvider.notifier).update(false);
                       ref.read(chaptersListStateProvider.notifier).clear();
                     },
                   ),
                   BottomSelectButton(
-                    tooltip: checkReadBookmarked
-                        ? l10n.mark_as_unread
-                        : l10n.mark_as_read,
+                    tooltip: checkReadBookmarked ? l10n.mark_as_unread : l10n.mark_as_read,
                     icon: Icon(
-                      checkReadBookmarked
-                          ? Symbols.remove_done_rounded
-                          : Symbols.done_all_rounded,
+                      checkReadBookmarked ? Symbols.remove_done_rounded : Symbols.done_all_rounded,
                     ),
                     onPressed: () {
                       final chapters = ref.watch(chaptersListStateProvider);
@@ -509,9 +454,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                         updatedChapters,
                         widget.manga!,
                       );
-                      ref
-                          .read(isLongPressedStateProvider.notifier)
-                          .update(false);
+                      ref.read(isLongPressedStateProvider.notifier).update(false);
                       ref.read(chaptersListStateProvider.notifier).clear();
                     },
                   ),
@@ -538,9 +481,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                           updatedChapters,
                           widget.manga!,
                         );
-                        ref
-                            .read(isLongPressedStateProvider.notifier)
-                            .update(false);
+                        ref.read(isLongPressedStateProvider.notifier).update(false);
                         ref.read(chaptersListStateProvider.notifier).clear();
                       },
                     ),
@@ -554,9 +495,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                           context,
                           ref.read(chaptersListStateProvider),
                         );
-                        ref
-                            .read(isLongPressedStateProvider.notifier)
-                            .update(false);
+                        ref.read(isLongPressedStateProvider.notifier).update(false);
                         ref.read(chaptersListStateProvider.notifier).clear();
                       },
                     ),
@@ -590,11 +529,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                   ? Text(
                                       warningMessage,
                                       style: TextStyle(
-                                        color: context
-                                            .shiori
-                                            .color
-                                            .error
-                                            .foreground,
+                                        color: context.shiori.color.error.foreground,
                                       ),
                                     )
                                   : null,
@@ -609,9 +544,7 @@ class _MangaDetailViewState extends ConsumerState<MangaDetailView> with TickerPr
                                   onPressed: () async {
                                     final navigator = Navigator.of(context);
                                     if (isLocalArchive) {
-                                      final idsToDelete = selectedChapters
-                                          .map((c) => c.id!)
-                                          .toList();
+                                      final idsToDelete = selectedChapters.map((c) => c.id!).toList();
                                       await chapterRepository.deleteAll(
                                         idsToDelete,
                                       );

@@ -64,26 +64,19 @@ class ExtensionStoreService {
       if (firstByte == 0x5B) {
         String? repoName;
         String? repoWebsite;
-        final baseUrlMatch = RegExp(r'^(.*)/[^/]+\.json$')
-            .firstMatch(currentUrl);
-        final baseUrl = baseUrlMatch != null
-            ? baseUrlMatch.group(1)!
-            : currentUrl;
+        final baseUrlMatch = RegExp(r'^(.*)/[^/]+\.json$').firstMatch(currentUrl);
+        final baseUrl = baseUrlMatch != null ? baseUrlMatch.group(1)! : currentUrl;
         try {
           final repoRes = await client.get(Uri.parse('$baseUrl/repo.json'));
           if (repoRes.statusCode == 200) {
             final repoJson = jsonDecode(repoRes.body);
             if (repoJson is Map) {
-              if (repoJson['index_v2'] != null &&
-                  (repoJson['index_v2'] as String).isNotEmpty) {
+              if (repoJson['index_v2'] != null && (repoJson['index_v2'] as String).isNotEmpty) {
                 // Redirect to V2 index (.pb or JSON store)
                 return await fetchStore(repoJson['index_v2'] as String, client);
               }
-              repoName =
-                  (repoJson['meta']?['name'] ?? repoJson['name']) as String?;
-              repoWebsite =
-                  (repoJson['meta']?['website'] ?? repoJson['website'])
-                      as String?;
+              repoName = (repoJson['meta']?['name'] ?? repoJson['name']) as String?;
+              repoWebsite = (repoJson['meta']?['website'] ?? repoJson['website']) as String?;
             }
           }
         } catch (e, st) {
@@ -108,8 +101,7 @@ class ExtensionStoreService {
         final jsonMap = jsonDecode(text);
         if (jsonMap is Map<String, dynamic>) {
           // Check for index_v2 redirect in legacy repo JSON
-          if (jsonMap['index_v2'] != null &&
-              (jsonMap['index_v2'] as String).isNotEmpty) {
+          if (jsonMap['index_v2'] != null && (jsonMap['index_v2'] as String).isNotEmpty) {
             return await fetchStore(jsonMap['index_v2'] as String, client);
           }
 
@@ -134,18 +126,14 @@ class ExtensionStoreService {
     try {
       final store = NetworkExtensionStore.fromBuffer(bytes);
       final repoName = store.name.isNotEmpty ? store.name : 'Mihon Repo';
-      final website = store.hasField(4) && store.contact.website.isNotEmpty
-          ? store.contact.website
-          : null;
+      final website = store.hasField(4) && store.contact.website.isNotEmpty ? store.contact.website : null;
 
       List<ExtensionStoreItem> extensionItems = [];
 
       if (store.hasField(101) && store.extensionList.extensions.isNotEmpty) {
         extensionItems = store.extensionList.extensions;
       } else if (store.extensionListUrl.isNotEmpty) {
-        final resolvedListUrl = Uri.parse(indexUrl)
-            .resolve(store.extensionListUrl)
-            .toString();
+        final resolvedListUrl = Uri.parse(indexUrl).resolve(store.extensionListUrl).toString();
         final listRes = await client.get(Uri.parse(resolvedListUrl));
         if (listRes.statusCode == 200 && listRes.bodyBytes.isNotEmpty) {
           final listBytes = _decompressIfGzipped(listRes.bodyBytes);
@@ -199,23 +187,15 @@ class ExtensionStoreService {
       }
 
       final meta = jsonMap['meta'] as Map<String, dynamic>?;
-      final repoName =
-          (meta?['name'] as String?) ??
-          (jsonMap['name'] as String?) ??
-          'Mihon Repo';
-      final website =
-          (meta?['website'] as String?) ??
-          (jsonMap['contact']?['website'] as String?);
+      final repoName = (meta?['name'] as String?) ?? (jsonMap['name'] as String?) ?? 'Mihon Repo';
+      final website = (meta?['website'] as String?) ?? (jsonMap['contact']?['website'] as String?);
 
       List<dynamic> rawExtensions = [];
 
       if (jsonMap['extensionList']?['extensions'] is List) {
         rawExtensions = jsonMap['extensionList']['extensions'] as List;
-      } else if (jsonMap['extensionListUrl'] is String &&
-          (jsonMap['extensionListUrl'] as String).isNotEmpty) {
-        final listUrl = Uri.parse(indexUrl)
-            .resolve(jsonMap['extensionListUrl'] as String)
-            .toString();
+      } else if (jsonMap['extensionListUrl'] is String && (jsonMap['extensionListUrl'] as String).isNotEmpty) {
+        final listUrl = Uri.parse(indexUrl).resolve(jsonMap['extensionListUrl'] as String).toString();
         final listRes = await client.get(Uri.parse(listUrl));
         if (listRes.statusCode == 200) {
           final listBytes = _decompressIfGzipped(listRes.bodyBytes);
@@ -254,8 +234,7 @@ class ExtensionStoreService {
 
       for (final e in rawSources) {
         if (e is! Map<String, dynamic>) continue;
-        final rawDownloadUrl =
-            (e['downloadURL'] as String?) ?? (e['file'] as String?);
+        final rawDownloadUrl = (e['downloadURL'] as String?) ?? (e['file'] as String?);
         final rawIconUrl = (e['iconURL'] as String?) ?? (e['icon'] as String?);
 
         final downloadUrl = rawDownloadUrl != null && rawDownloadUrl.isNotEmpty
@@ -263,20 +242,13 @@ class ExtensionStoreService {
             : '';
         final iconUrl = rawIconUrl != null && rawIconUrl.isNotEmpty
             ? baseUri.resolve(rawIconUrl).toString()
-            : (e['id'] != null
-                  ? baseUri.resolve('icons/${e['id']}.png').toString()
-                  : '');
+            : (e['id'] != null ? baseUri.resolve('icons/${e['id']}.png').toString() : '');
 
-        final langs =
-            (e['languages'] as List?)?.map((l) => l.toString()).toList() ??
-            [(e['lang'] as String?) ?? 'all'];
+        final langs = (e['languages'] as List?)?.map((l) => l.toString()).toList() ?? [(e['lang'] as String?) ?? 'all'];
 
         final rating = e['contentRating'] ?? e['nsfw'] ?? 0;
-        final isNsfw = rating is int
-            ? rating >= 2
-            : (rating == true || rating == 1);
-        final baseUrl =
-            (e['baseURL'] as String?) ?? (e['url'] as String?) ?? '';
+        final isNsfw = rating is int ? rating >= 2 : (rating == true || rating == 1);
+        final baseUrl = (e['baseURL'] as String?) ?? (e['url'] as String?) ?? '';
         final name = (e['name'] as String?) ?? (e['id'] as String?) ?? 'Source';
         final version = e['version'] != null ? '${e['version']}.0.0' : '1.0.0';
 
@@ -342,8 +314,7 @@ class ExtensionStoreService {
         if (e is! Map<String, dynamic>) continue;
         if (e['file'] != null && (e['file'] as String).endsWith('.aix')) {
           final langs =
-              (e['languages'] as List?)?.map((l) => l.toString()).toList() ??
-              [(e['lang'] as String?) ?? 'all'];
+              (e['languages'] as List?)?.map((l) => l.toString()).toList() ?? [(e['lang'] as String?) ?? 'all'];
           final isNsfw = (e['nsfw'] ?? 0) != 0;
           final icon = e['icon'] != null
               ? (e['icon'] as String).startsWith('http')
@@ -495,11 +466,9 @@ class ExtensionStoreService {
       String? defaultRepoWebsite = website;
       final uri = Uri.tryParse(indexUrl);
       if (uri != null) {
-        if (uri.host == 'raw.githubusercontent.com' &&
-            uri.pathSegments.length >= 2) {
+        if (uri.host == 'raw.githubusercontent.com' && uri.pathSegments.length >= 2) {
           defaultRepoName = uri.pathSegments[1];
-          defaultRepoWebsite ??=
-              'https://github.com/${uri.pathSegments[0]}/${uri.pathSegments[1]}';
+          defaultRepoWebsite ??= 'https://github.com/${uri.pathSegments[0]}/${uri.pathSegments[1]}';
         } else {
           final segments = uri.pathSegments
               .where(
@@ -516,16 +485,10 @@ class ExtensionStoreService {
         }
       }
 
-      final repoName =
-          (name != null &&
-              name.isNotEmpty &&
-              !name.endsWith('.json') &&
-              name != '.dist' &&
-              name != 'dist')
+      final repoName = (name != null && name.isNotEmpty && !name.endsWith('.json') && name != '.dist' && name != 'dist')
           ? name
           : defaultRepoName;
-      final repoWebsite =
-          (defaultRepoWebsite != null && defaultRepoWebsite.isNotEmpty)
+      final repoWebsite = (defaultRepoWebsite != null && defaultRepoWebsite.isNotEmpty)
           ? defaultRepoWebsite
           : repoBaseUrl;
 
@@ -560,9 +523,7 @@ class ExtensionStoreService {
           ? baseUri.resolve(ext.resources.iconUrl).toString()
           : '';
 
-      final itemType = pkgName.startsWith('eu.kanade.tachiyomi.animeextension')
-          ? ItemType.anime
-          : ItemType.manga;
+      final itemType = pkgName.startsWith('eu.kanade.tachiyomi.animeextension') ? ItemType.anime : ItemType.manga;
 
       for (final src in ext.sources) {
         final source = Source()
@@ -610,47 +571,27 @@ class ExtensionStoreService {
 
     for (final e in rawExtensions) {
       if (e is! Map<String, dynamic>) continue;
-      final pkgName =
-          (e['packageName'] as String?) ?? (e['pkg'] as String?) ?? '';
-      final versionName =
-          (e['versionName'] as String?) ?? (e['version'] as String?) ?? '0.0.1';
+      final pkgName = (e['packageName'] as String?) ?? (e['pkg'] as String?) ?? '';
+      final versionName = (e['versionName'] as String?) ?? (e['version'] as String?) ?? '0.0.1';
       final contentWarning = e['contentWarning'];
-      final isNsfw = contentWarning is int
-          ? contentWarning >= 2
-          : (e['nsfw'] == 1 || e['nsfw'] == true);
+      final isNsfw = contentWarning is int ? contentWarning >= 2 : (e['nsfw'] == 1 || e['nsfw'] == true);
 
       final resources = e['resources'] as Map<String, dynamic>?;
-      final rawApkUrl =
-          (resources?['apkUrl'] as String?) ??
-          (e['apk'] != null ? 'apk/${e['apk']}' : '');
-      final rawIconUrl =
-          (resources?['iconUrl'] as String?) ??
-          (pkgName.isNotEmpty ? 'icon/$pkgName.png' : '');
+      final rawApkUrl = (resources?['apkUrl'] as String?) ?? (e['apk'] != null ? 'apk/${e['apk']}' : '');
+      final rawIconUrl = (resources?['iconUrl'] as String?) ?? (pkgName.isNotEmpty ? 'icon/$pkgName.png' : '');
 
-      final apkUrl = rawApkUrl.isNotEmpty
-          ? baseUri.resolve(rawApkUrl).toString()
-          : '';
-      final iconUrl = rawIconUrl.isNotEmpty
-          ? baseUri.resolve(rawIconUrl).toString()
-          : '';
+      final apkUrl = rawApkUrl.isNotEmpty ? baseUri.resolve(rawApkUrl).toString() : '';
+      final iconUrl = rawIconUrl.isNotEmpty ? baseUri.resolve(rawIconUrl).toString() : '';
 
-      final itemType = pkgName.startsWith('eu.kanade.tachiyomi.animeextension')
-          ? ItemType.anime
-          : ItemType.manga;
+      final itemType = pkgName.startsWith('eu.kanade.tachiyomi.animeextension') ? ItemType.anime : ItemType.manga;
 
       final srcList = e['sources'] as List?;
       if (srcList != null) {
         for (final srcJson in srcList) {
           if (srcJson is! Map<String, dynamic>) continue;
           final srcName = (srcJson['name'] as String?) ?? '';
-          final srcLang =
-              (srcJson['language'] as String?) ??
-              (srcJson['lang'] as String?) ??
-              'all';
-          final srcBaseUrl =
-              (srcJson['homeUrl'] as String?) ??
-              (srcJson['baseUrl'] as String?) ??
-              '';
+          final srcLang = (srcJson['language'] as String?) ?? (srcJson['lang'] as String?) ?? 'all';
+          final srcBaseUrl = (srcJson['homeUrl'] as String?) ?? (srcJson['baseUrl'] as String?) ?? '';
           final srcId = srcJson['id'];
 
           final source = Source()
@@ -708,10 +649,8 @@ class ExtensionStoreService {
         final srcMap = s as Map<String, dynamic>;
         return ExtensionStoreSource(
           name: srcMap['name'] as String?,
-          language:
-              (srcMap['language'] as String?) ?? (srcMap['lang'] as String?),
-          homeUrl:
-              (srcMap['homeUrl'] as String?) ?? (srcMap['baseUrl'] as String?),
+          language: (srcMap['language'] as String?) ?? (srcMap['lang'] as String?),
+          homeUrl: (srcMap['homeUrl'] as String?) ?? (srcMap['baseUrl'] as String?),
         );
       }),
     );

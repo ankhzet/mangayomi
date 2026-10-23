@@ -138,12 +138,8 @@ class _NavPreviewItem extends StatelessWidget {
     // the bar and takes the bar's. Colouring both from the indicator put a
     // near white label on a light grey bar under the rose schemes, which made
     // the current entry the one word in the row you could not read.
-    final iconColor = selected
-        ? scheme.onSecondaryContainer
-        : context.shiori.color.fgMuted;
-    final labelColor = selected
-        ? context.shiori.color.fg
-        : context.shiori.color.fgMuted;
+    final iconColor = selected ? scheme.onSecondaryContainer : context.shiori.color.fgMuted;
+    final labelColor = selected ? context.shiori.color.fg : context.shiori.color.fgMuted;
     return Flexible(
       child: Column(
         mainAxisSize: MainAxisSize.min,

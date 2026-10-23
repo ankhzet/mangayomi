@@ -66,8 +66,7 @@ class MassMigrationResolvedItemCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        item.sourceItem.name ??
-                            l10n.mass_migration_unknown_title,
+                        item.sourceItem.name ?? l10n.mass_migration_unknown_title,
                         style: context.shiori.text.section.copyWith(
                           color: context.shiori.color.fg,
                         ),
@@ -75,13 +74,10 @@ class MassMigrationResolvedItemCard extends StatelessWidget {
                       const SizedBox(height: ShioriSpace.s8),
                       Text(
                         item.hasMatch
-                            ? (item.selectedCandidate?.name ??
-                                  l10n.mass_migration_unknown_match)
+                            ? (item.selectedCandidate?.name ?? l10n.mass_migration_unknown_match)
                             : l10n.mass_migration_no_destination_match,
                         style: context.shiori.text.row.copyWith(
-                          color: item.hasMatch
-                              ? context.shiori.color.fg
-                              : context.shiori.color.fgMuted,
+                          color: item.hasMatch ? context.shiori.color.fg : context.shiori.color.fgMuted,
                         ),
                       ),
                       const SizedBox(height: ShioriSpace.s8),
@@ -137,12 +133,8 @@ class MassMigrationResolvedItemCard extends StatelessWidget {
                 const Spacer(),
                 if (item.searchResult.candidates.length > 1)
                   ShioriButton.quiet(
-                    onPressed: isLoadingCandidate
-                        ? null
-                        : onPickAnotherCandidate,
-                    label: isLoadingCandidate
-                        ? l10n.mass_migration_loading
-                        : l10n.mass_migration_choose_another_result,
+                    onPressed: isLoadingCandidate ? null : onPickAnotherCandidate,
+                    label: isLoadingCandidate ? l10n.mass_migration_loading : l10n.mass_migration_choose_another_result,
                   ),
               ],
             ),

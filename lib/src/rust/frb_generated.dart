@@ -84,8 +84,7 @@ abstract class RustLibApi extends BaseApi {
   Future<AidokuSource> crateApiAidokuWasmAidokuSourceCreate({
     required List<int> wasmBytes,
     required String sourceKey,
-    required FutureOr<AidokuNetResponse> Function(AidokuNetRequest)
-    requestHandler,
+    required FutureOr<AidokuNetResponse> Function(AidokuNetRequest) requestHandler,
     required FutureOr<void> Function(String) printHandler,
     required FutureOr<AidokuJsResponse> Function(AidokuJsRequest) jsHandler,
   });
@@ -247,16 +246,13 @@ abstract class RustLibApi extends BaseApi {
     required String value,
   });
 
-  RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_AidokuSource;
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_AidokuSource;
 
-  RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_AidokuSource;
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_AidokuSource;
 
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_AidokuSourcePtr;
 
-  RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_CancellationToken;
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_CancellationToken;
 
   RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_CancellationToken;
 
@@ -287,8 +283,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Future<AidokuSource> crateApiAidokuWasmAidokuSourceCreate({
     required List<int> wasmBytes,
     required String sourceKey,
-    required FutureOr<AidokuNetResponse> Function(AidokuNetRequest)
-    requestHandler,
+    required FutureOr<AidokuNetResponse> Function(AidokuNetRequest) requestHandler,
     required FutureOr<void> Function(String) printHandler,
     required FutureOr<AidokuJsResponse> Function(AidokuJsRequest) jsHandler,
   }) {
@@ -335,17 +330,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceCreateConstMeta =>
-      const TaskConstMeta(
-        debugName: "AidokuSource_create",
-        argNames: [
-          "wasmBytes",
-          "sourceKey",
-          "requestHandler",
-          "printHandler",
-          "jsHandler",
-        ],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceCreateConstMeta => const TaskConstMeta(
+    debugName: "AidokuSource_create",
+    argNames: [
+      "wasmBytes",
+      "sourceKey",
+      "requestHandler",
+      "printHandler",
+      "jsHandler",
+    ],
+  );
 
   @override
   Future<void> crateApiAidokuWasmAidokuSourceDispose({
@@ -377,11 +371,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceDisposeConstMeta =>
-      const TaskConstMeta(
-        debugName: "AidokuSource_dispose",
-        argNames: ["that"],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceDisposeConstMeta => const TaskConstMeta(
+    debugName: "AidokuSource_dispose",
+    argNames: ["that"],
+  );
 
   @override
   Future<AidokuSourceFeatures> crateApiAidokuWasmAidokuSourceFeatures({
@@ -413,11 +406,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceFeaturesConstMeta =>
-      const TaskConstMeta(
-        debugName: "AidokuSource_features",
-        argNames: ["that"],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceFeaturesConstMeta => const TaskConstMeta(
+    debugName: "AidokuSource_features",
+    argNames: ["that"],
+  );
 
   @override
   Future<String?> crateApiAidokuWasmAidokuSourceGetBaseUrl({
@@ -449,11 +441,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceGetBaseUrlConstMeta =>
-      const TaskConstMeta(
-        debugName: "AidokuSource_get_base_url",
-        argNames: ["that"],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceGetBaseUrlConstMeta => const TaskConstMeta(
+    debugName: "AidokuSource_get_base_url",
+    argNames: ["that"],
+  );
 
   @override
   Future<List<AidokuFilter>> crateApiAidokuWasmAidokuSourceGetFilters({
@@ -485,11 +476,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceGetFiltersConstMeta =>
-      const TaskConstMeta(
-        debugName: "AidokuSource_get_filters",
-        argNames: ["that"],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceGetFiltersConstMeta => const TaskConstMeta(
+    debugName: "AidokuSource_get_filters",
+    argNames: ["that"],
+  );
 
   @override
   Future<AidokuImageRequest?> crateApiAidokuWasmAidokuSourceGetImageRequest({
@@ -525,11 +515,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceGetImageRequestConstMeta =>
-      const TaskConstMeta(
-        debugName: "AidokuSource_get_image_request",
-        argNames: ["that", "url", "context"],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceGetImageRequestConstMeta => const TaskConstMeta(
+    debugName: "AidokuSource_get_image_request",
+    argNames: ["that", "url", "context"],
+  );
 
   @override
   Future<List<AidokuListing>> crateApiAidokuWasmAidokuSourceGetListings({
@@ -561,11 +550,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceGetListingsConstMeta =>
-      const TaskConstMeta(
-        debugName: "AidokuSource_get_listings",
-        argNames: ["that"],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceGetListingsConstMeta => const TaskConstMeta(
+    debugName: "AidokuSource_get_listings",
+    argNames: ["that"],
+  );
 
   @override
   Future<AidokuMangaPage> crateApiAidokuWasmAidokuSourceGetMangaList({
@@ -603,11 +591,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceGetMangaListConstMeta =>
-      const TaskConstMeta(
-        debugName: "AidokuSource_get_manga_list",
-        argNames: ["that", "listingId", "listingName", "page"],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceGetMangaListConstMeta => const TaskConstMeta(
+    debugName: "AidokuSource_get_manga_list",
+    argNames: ["that", "listingId", "listingName", "page"],
+  );
 
   @override
   Future<AidokuManga> crateApiAidokuWasmAidokuSourceGetMangaUpdate({
@@ -645,11 +632,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceGetMangaUpdateConstMeta =>
-      const TaskConstMeta(
-        debugName: "AidokuSource_get_manga_update",
-        argNames: ["that", "manga", "needsDetails", "needsChapters"],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceGetMangaUpdateConstMeta => const TaskConstMeta(
+    debugName: "AidokuSource_get_manga_update",
+    argNames: ["that", "manga", "needsDetails", "needsChapters"],
+  );
 
   @override
   Future<List<AidokuPage>> crateApiAidokuWasmAidokuSourceGetPageList({
@@ -685,11 +671,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceGetPageListConstMeta =>
-      const TaskConstMeta(
-        debugName: "AidokuSource_get_page_list",
-        argNames: ["that", "manga", "chapter"],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceGetPageListConstMeta => const TaskConstMeta(
+    debugName: "AidokuSource_get_page_list",
+    argNames: ["that", "manga", "chapter"],
+  );
 
   @override
   Future<bool> crateApiAidokuWasmAidokuSourceHandleBasicLogin({
@@ -727,11 +712,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceHandleBasicLoginConstMeta =>
-      const TaskConstMeta(
-        debugName: "AidokuSource_handle_basic_login",
-        argNames: ["that", "key", "username", "password"],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceHandleBasicLoginConstMeta => const TaskConstMeta(
+    debugName: "AidokuSource_handle_basic_login",
+    argNames: ["that", "key", "username", "password"],
+  );
 
   @override
   Future<AidokuDeepLink?> crateApiAidokuWasmAidokuSourceHandleDeepLink({
@@ -765,11 +749,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceHandleDeepLinkConstMeta =>
-      const TaskConstMeta(
-        debugName: "AidokuSource_handle_deep_link",
-        argNames: ["that", "url"],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceHandleDeepLinkConstMeta => const TaskConstMeta(
+    debugName: "AidokuSource_handle_deep_link",
+    argNames: ["that", "url"],
+  );
 
   @override
   Future<String> crateApiAidokuWasmAidokuSourceHandleMigration({
@@ -807,11 +790,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceHandleMigrationConstMeta =>
-      const TaskConstMeta(
-        debugName: "AidokuSource_handle_migration",
-        argNames: ["that", "kind", "mangaKey", "chapterKey"],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceHandleMigrationConstMeta => const TaskConstMeta(
+    debugName: "AidokuSource_handle_migration",
+    argNames: ["that", "kind", "mangaKey", "chapterKey"],
+  );
 
   @override
   Future<bool> crateApiAidokuWasmAidokuSourceHandleWebLogin({
@@ -847,11 +829,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceHandleWebLoginConstMeta =>
-      const TaskConstMeta(
-        debugName: "AidokuSource_handle_web_login",
-        argNames: ["that", "key", "cookies"],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceHandleWebLoginConstMeta => const TaskConstMeta(
+    debugName: "AidokuSource_handle_web_login",
+    argNames: ["that", "key", "cookies"],
+  );
 
   @override
   Future<AidokuMangaPage> crateApiAidokuWasmAidokuSourceSearchMangaList({
@@ -889,11 +870,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceSearchMangaListConstMeta =>
-      const TaskConstMeta(
-        debugName: "AidokuSource_search_manga_list",
-        argNames: ["that", "query", "page", "filters"],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceSearchMangaListConstMeta => const TaskConstMeta(
+    debugName: "AidokuSource_search_manga_list",
+    argNames: ["that", "query", "page", "filters"],
+  );
 
   @override
   Future<AidokuChapter> crateApiAidokuWasmAidokuChapterDefault() {
@@ -1000,11 +980,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuNetResponseDefaultConstMeta =>
-      const TaskConstMeta(
-        debugName: "aidoku_net_response_default",
-        argNames: [],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuNetResponseDefaultConstMeta => const TaskConstMeta(
+    debugName: "aidoku_net_response_default",
+    argNames: [],
+  );
 
   @override
   Future<AidokuSourceFeatures> crateApiAidokuWasmAidokuSourceFeaturesDefault() {
@@ -1030,11 +1009,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceFeaturesDefaultConstMeta =>
-      const TaskConstMeta(
-        debugName: "aidoku_source_features_default",
-        argNames: [],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmAidokuSourceFeaturesDefaultConstMeta => const TaskConstMeta(
+    debugName: "aidoku_source_features_default",
+    argNames: [],
+  );
 
   @override
   Future<void> crateApiRhttpHttpCancelRequest({
@@ -1217,11 +1195,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiRarExtractRarArchiveConstMeta =>
-      const TaskConstMeta(
-        debugName: "extract_rar_archive",
-        argNames: ["archivePath"],
-      );
+  TaskConstMeta get kCrateApiRarExtractRarArchiveConstMeta => const TaskConstMeta(
+    debugName: "extract_rar_archive",
+    argNames: ["archivePath"],
+  );
 
   @override
   Future<LocalRarMetadata> crateApiRarExtractRarMetadata({
@@ -1250,11 +1227,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiRarExtractRarMetadataConstMeta =>
-      const TaskConstMeta(
-        debugName: "extract_rar_metadata",
-        argNames: ["archivePath"],
-      );
+  TaskConstMeta get kCrateApiRarExtractRarMetadataConstMeta => const TaskConstMeta(
+    debugName: "extract_rar_metadata",
+    argNames: ["archivePath"],
+  );
 
   @override
   Future<String> crateApiEpubGetChapterContent({
@@ -1546,11 +1522,10 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     );
   }
 
-  TaskConstMeta get kCrateApiAidokuWasmSetAidokuDefaultSettingConstMeta =>
-      const TaskConstMeta(
-        debugName: "set_aidoku_default_setting",
-        argNames: ["key", "valueType", "value"],
-      );
+  TaskConstMeta get kCrateApiAidokuWasmSetAidokuDefaultSettingConstMeta => const TaskConstMeta(
+    debugName: "set_aidoku_default_setting",
+    argNames: ["key", "valueType", "value"],
+  );
 
   Future<void> Function(int, dynamic)
   encode_DartFn_Inputs_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken_Output_unit_AnyhowException(
@@ -1624,8 +1599,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     };
   }
 
-  Future<void> Function(int, dynamic)
-  encode_DartFn_Inputs_String_Output_unit_AnyhowException(
+  Future<void> Function(int, dynamic) encode_DartFn_Inputs_String_Output_unit_AnyhowException(
     FutureOr<void> Function(String) raw,
   ) {
     return (callId, rawArg0) async {
@@ -1659,8 +1633,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     };
   }
 
-  Future<void> Function(int, dynamic)
-  encode_DartFn_Inputs_aidoku_js_request_Output_aidoku_js_response_AnyhowException(
+  Future<void> Function(int, dynamic) encode_DartFn_Inputs_aidoku_js_request_Output_aidoku_js_response_AnyhowException(
     FutureOr<AidokuJsResponse> Function(AidokuJsRequest) raw,
   ) {
     return (callId, rawArg0) async {
@@ -1729,8 +1702,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     };
   }
 
-  Future<void> Function(int, dynamic)
-  encode_DartFn_Inputs_http_response_Output_unit_AnyhowException(
+  Future<void> Function(int, dynamic) encode_DartFn_Inputs_http_response_Output_unit_AnyhowException(
     FutureOr<void> Function(HttpResponse) raw,
   ) {
     return (callId, rawArg0) async {
@@ -1798,16 +1770,13 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     };
   }
 
-  RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_AidokuSource => wire
-      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource;
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_AidokuSource =>
+      wire.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource;
 
-  RustArcDecrementStrongCountFnType
-  get rust_arc_decrement_strong_count_AidokuSource => wire
-      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource;
+  RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_AidokuSource =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource;
 
-  RustArcIncrementStrongCountFnType
-  get rust_arc_increment_strong_count_CancellationToken => wire
+  RustArcIncrementStrongCountFnType get rust_arc_increment_strong_count_CancellationToken => wire
       .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken;
 
   RustArcDecrementStrongCountFnType get rust_arc_decrement_strong_count_CancellationToken => wire
@@ -1842,8 +1811,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  AidokuSource
-  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
+  AidokuSource dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -1876,8 +1844,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  AidokuSource
-  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
+  AidokuSource dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -1885,8 +1852,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  CancellationToken
-  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
+  CancellationToken dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -1925,8 +1891,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  FutureOr<void> Function(String)
-  dco_decode_DartFn_Inputs_String_Output_unit_AnyhowException(dynamic raw) {
+  FutureOr<void> Function(String) dco_decode_DartFn_Inputs_String_Output_unit_AnyhowException(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     throw UnimplementedError('');
   }
@@ -1950,8 +1915,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  FutureOr<void> Function(HttpResponse)
-  dco_decode_DartFn_Inputs_http_response_Output_unit_AnyhowException(
+  FutureOr<void> Function(HttpResponse) dco_decode_DartFn_Inputs_http_response_Output_unit_AnyhowException(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -1976,8 +1940,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Map<String, String> dco_decode_Map_String_String_None(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return Map.fromEntries(
-      dco_decode_list_record_string_string(raw)
-          .map((e) => MapEntry(e.$1, e.$2)),
+      dco_decode_list_record_string_string(raw).map((e) => MapEntry(e.$1, e.$2)),
     );
   }
 
@@ -1987,14 +1950,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return Map.fromEntries(
-      dco_decode_list_record_string_list_string(raw)
-          .map((e) => MapEntry(e.$1, e.$2)),
+      dco_decode_list_record_string_list_string(raw).map((e) => MapEntry(e.$1, e.$2)),
     );
   }
 
   @protected
-  AidokuSource
-  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
+  AidokuSource dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -2002,8 +1963,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  CancellationToken
-  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
+  CancellationToken dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -2050,8 +2010,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   AidokuChapter dco_decode_aidoku_chapter(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 10)
-      throw Exception('unexpected arr length: expect 10 but see ${arr.length}');
+    if (arr.length != 10) throw Exception('unexpected arr length: expect 10 but see ${arr.length}');
     return AidokuChapter(
       key: dco_decode_String(arr[0]),
       title: dco_decode_opt_String(arr[1]),
@@ -2070,8 +2029,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   AidokuDeepLink dco_decode_aidoku_deep_link(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 3)
-      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    if (arr.length != 3) throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
     return AidokuDeepLink(
       mangaKey: dco_decode_opt_String(arr[0]),
       chapterKey: dco_decode_opt_String(arr[1]),
@@ -2083,8 +2041,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   AidokuFilter dco_decode_aidoku_filter(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 5)
-      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    if (arr.length != 5) throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
     return AidokuFilter(
       id: dco_decode_String(arr[0]),
       title: dco_decode_opt_String(arr[1]),
@@ -2140,8 +2097,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   AidokuImageRequest dco_decode_aidoku_image_request(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 3)
-      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    if (arr.length != 3) throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
     return AidokuImageRequest(
       url: dco_decode_String(arr[0]),
       headers: dco_decode_list_record_string_string(arr[1]),
@@ -2159,8 +2115,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   AidokuJsRequest dco_decode_aidoku_js_request(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 4)
-      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    if (arr.length != 4) throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
     return AidokuJsRequest(
       contextId: dco_decode_i_32(arr[0]),
       action: dco_decode_aidoku_js_action(arr[1]),
@@ -2173,8 +2128,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   AidokuJsResponse dco_decode_aidoku_js_response(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 3)
-      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    if (arr.length != 3) throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
     return AidokuJsResponse(
       success: dco_decode_bool(arr[0]),
       result: dco_decode_opt_String(arr[1]),
@@ -2186,8 +2140,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   AidokuListing dco_decode_aidoku_listing(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 3)
-      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    if (arr.length != 3) throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
     return AidokuListing(
       id: dco_decode_String(arr[0]),
       name: dco_decode_String(arr[1]),
@@ -2199,8 +2152,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   AidokuManga dco_decode_aidoku_manga(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 15)
-      throw Exception('unexpected arr length: expect 15 but see ${arr.length}');
+    if (arr.length != 15) throw Exception('unexpected arr length: expect 15 but see ${arr.length}');
     return AidokuManga(
       sourceKey: dco_decode_String(arr[0]),
       key: dco_decode_String(arr[1]),
@@ -2224,8 +2176,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   AidokuMangaPage dco_decode_aidoku_manga_page(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 2)
-      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    if (arr.length != 2) throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
     return AidokuMangaPage(
       entries: dco_decode_list_aidoku_manga(arr[0]),
       hasNextPage: dco_decode_bool(arr[1]),
@@ -2236,8 +2187,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   AidokuNetRequest dco_decode_aidoku_net_request(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 5)
-      throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
+    if (arr.length != 5) throw Exception('unexpected arr length: expect 5 but see ${arr.length}');
     return AidokuNetRequest(
       method: dco_decode_String(arr[0]),
       url: dco_decode_String(arr[1]),
@@ -2251,8 +2201,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   AidokuNetResponse dco_decode_aidoku_net_response(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 4)
-      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    if (arr.length != 4) throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
     return AidokuNetResponse(
       statusCode: dco_decode_u_16(arr[0]),
       headers: dco_decode_list_record_string_string(arr[1]),
@@ -2290,8 +2239,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   AidokuSourceFeatures dco_decode_aidoku_source_features(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 12)
-      throw Exception('unexpected arr length: expect 12 but see ${arr.length}');
+    if (arr.length != 12) throw Exception('unexpected arr length: expect 12 but see ${arr.length}');
     return AidokuSourceFeatures(
       providesListings: dco_decode_bool(arr[0]),
       providesHome: dco_decode_bool(arr[1]),
@@ -2692,8 +2640,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   LocalRarArchive dco_decode_local_rar_archive(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 4)
-      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    if (arr.length != 4) throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
     return LocalRarArchive(
       name: dco_decode_String(arr[0]),
       coverImage: dco_decode_opt_list_prim_u_8_strict(arr[1]),
@@ -2706,8 +2653,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   LocalRarImage dco_decode_local_rar_image(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 2)
-      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    if (arr.length != 2) throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
     return LocalRarImage(
       name: dco_decode_String(arr[0]),
       image: dco_decode_list_prim_u_8_strict(arr[1]),
@@ -2718,8 +2664,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   LocalRarMetadata dco_decode_local_rar_metadata(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 3)
-      throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
+    if (arr.length != 3) throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
     return LocalRarMetadata(
       name: dco_decode_String(arr[0]),
       coverImage: dco_decode_list_prim_u_8_strict(arr[1]),
@@ -2776,9 +2721,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
-    return raw == null
-        ? null
-        : dco_decode_box_autoadd_aidoku_image_request(raw);
+    return raw == null ? null : dco_decode_box_autoadd_aidoku_image_request(raw);
   }
 
   @protected
@@ -3052,8 +2995,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  AidokuSource
-  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
+  AidokuSource sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -3098,8 +3040,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  AidokuSource
-  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
+  AidokuSource sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -3110,8 +3051,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  CancellationToken
-  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
+  CancellationToken sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -3165,8 +3105,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  AidokuSource
-  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
+  AidokuSource sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -3177,8 +3116,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  CancellationToken
-  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
+  CancellationToken sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -4576,8 +4514,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void
-  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
+  void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
     AidokuSource self,
     SseSerializer serializer,
   ) {
@@ -4589,8 +4526,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void
-  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
+  void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
     CancellationToken self,
     SseSerializer serializer,
   ) {
@@ -4626,8 +4562,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void
-  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
+  void sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
     AidokuSource self,
     SseSerializer serializer,
   ) {
@@ -4639,8 +4574,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void
-  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
+  void sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
     CancellationToken self,
     SseSerializer serializer,
   ) {
@@ -4709,8 +4643,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void
-  sse_encode_DartFn_Inputs_aidoku_js_request_Output_aidoku_js_response_AnyhowException(
+  void sse_encode_DartFn_Inputs_aidoku_js_request_Output_aidoku_js_response_AnyhowException(
     FutureOr<AidokuJsResponse> Function(AidokuJsRequest) self,
     SseSerializer serializer,
   ) {
@@ -4724,8 +4657,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void
-  sse_encode_DartFn_Inputs_aidoku_net_request_Output_aidoku_net_response_AnyhowException(
+  void sse_encode_DartFn_Inputs_aidoku_net_request_Output_aidoku_net_response_AnyhowException(
     FutureOr<AidokuNetResponse> Function(AidokuNetRequest) self,
     SseSerializer serializer,
   ) {
@@ -4802,8 +4734,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void
-  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
+  void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerAidokuSource(
     AidokuSource self,
     SseSerializer serializer,
   ) {
@@ -4815,8 +4746,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void
-  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
+  void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerCancellationToken(
     CancellationToken self,
     SseSerializer serializer,
   ) {
@@ -5648,8 +5578,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
-  void
-  sse_encode_opt_AutoExplicit_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRequestClient(
+  void sse_encode_opt_AutoExplicit_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRequestClient(
     RequestClient? self,
     SseSerializer serializer,
   ) {
@@ -6089,33 +6018,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
 @sealed
 class AidokuSourceImpl extends RustOpaque implements AidokuSource {
   // Not to be used by end users
-  AidokuSourceImpl.frbInternalDcoDecode(List<dynamic> wire)
-    : super.frbInternalDcoDecode(wire, _kStaticData);
+  AidokuSourceImpl.frbInternalDcoDecode(List<dynamic> wire) : super.frbInternalDcoDecode(wire, _kStaticData);
 
   // Not to be used by end users
   AidokuSourceImpl.frbInternalSseDecode(BigInt ptr, int externalSizeOnNative)
     : super.frbInternalSseDecode(ptr, externalSizeOnNative, _kStaticData);
 
   static final _kStaticData = RustArcStaticData(
-    rustArcIncrementStrongCount:
-        RustLib.instance.api.rust_arc_increment_strong_count_AidokuSource,
-    rustArcDecrementStrongCount:
-        RustLib.instance.api.rust_arc_decrement_strong_count_AidokuSource,
-    rustArcDecrementStrongCountPtr:
-        RustLib.instance.api.rust_arc_decrement_strong_count_AidokuSourcePtr,
+    rustArcIncrementStrongCount: RustLib.instance.api.rust_arc_increment_strong_count_AidokuSource,
+    rustArcDecrementStrongCount: RustLib.instance.api.rust_arc_decrement_strong_count_AidokuSource,
+    rustArcDecrementStrongCountPtr: RustLib.instance.api.rust_arc_decrement_strong_count_AidokuSourcePtr,
   );
 
-  Future<void> dispose() =>
-      RustLib.instance.api.crateApiAidokuWasmAidokuSourceDispose(that: this);
+  Future<void> dispose() => RustLib.instance.api.crateApiAidokuWasmAidokuSourceDispose(that: this);
 
-  Future<AidokuSourceFeatures> features() =>
-      RustLib.instance.api.crateApiAidokuWasmAidokuSourceFeatures(that: this);
+  Future<AidokuSourceFeatures> features() => RustLib.instance.api.crateApiAidokuWasmAidokuSourceFeatures(that: this);
 
-  Future<String?> getBaseUrl() =>
-      RustLib.instance.api.crateApiAidokuWasmAidokuSourceGetBaseUrl(that: this);
+  Future<String?> getBaseUrl() => RustLib.instance.api.crateApiAidokuWasmAidokuSourceGetBaseUrl(that: this);
 
-  Future<List<AidokuFilter>> getFilters() =>
-      RustLib.instance.api.crateApiAidokuWasmAidokuSourceGetFilters(that: this);
+  Future<List<AidokuFilter>> getFilters() => RustLib.instance.api.crateApiAidokuWasmAidokuSourceGetFilters(that: this);
 
   Future<AidokuImageRequest?> getImageRequest({
     required String url,
@@ -6126,8 +6047,8 @@ class AidokuSourceImpl extends RustOpaque implements AidokuSource {
     context: context,
   );
 
-  Future<List<AidokuListing>> getListings() => RustLib.instance.api
-      .crateApiAidokuWasmAidokuSourceGetListings(that: this);
+  Future<List<AidokuListing>> getListings() =>
+      RustLib.instance.api.crateApiAidokuWasmAidokuSourceGetListings(that: this);
 
   Future<AidokuMangaPage> getMangaList({
     required String listingId,
@@ -6171,10 +6092,8 @@ class AidokuSourceImpl extends RustOpaque implements AidokuSource {
     password: password,
   );
 
-  Future<AidokuDeepLink?> handleDeepLink({required String url}) => RustLib
-      .instance
-      .api
-      .crateApiAidokuWasmAidokuSourceHandleDeepLink(that: this, url: url);
+  Future<AidokuDeepLink?> handleDeepLink({required String url}) =>
+      RustLib.instance.api.crateApiAidokuWasmAidokuSourceHandleDeepLink(that: this, url: url);
 
   Future<String> handleMigration({
     required int kind,

@@ -30,8 +30,7 @@ Future<dynamic> updateMangaDetail(
 
     manga.chapters.loadSync();
 
-    if ((manga.isLocalArchive ?? false) ||
-        (manga.chapters.isNotEmpty && isInit)) {
+    if ((manga.isLocalArchive ?? false) || (manga.chapters.isNotEmpty && isInit)) {
       return;
     }
     final source = getSource(
@@ -51,13 +50,7 @@ Future<dynamic> updateMangaDetail(
       getDetailProvider(url: manga.link!, source: source).future,
     );
 
-    final genre =
-        getManga.genre
-            ?.map((e) => e.toString().trim())
-            .toList()
-            .toSet()
-            .toList() ??
-        [];
+    final genre = getManga.genre?.map((e) => e.toString().trim()).toList().toSet().toList() ?? [];
 
     final imgUrl = getManga.imageUrl.trimmedOrDefault(manga.imageUrl);
     final now = DateTime.now().millisecondsSinceEpoch;
@@ -72,11 +65,8 @@ Future<dynamic> updateMangaDetail(
       ..genre = (genre.isEmpty ? null : genre) ?? manga.genre ?? []
       ..author = getManga.author.trimmedOrDefault(manga.author) ?? ""
       ..artist = getManga.artist.trimmedOrDefault(manga.artist) ?? ""
-      ..status = getManga.status == Status.unknown
-          ? manga.status
-          : getManga.status ?? Status.unknown
-      ..description =
-          getManga.description.trimmedOrDefault(manga.description) ?? ""
+      ..status = getManga.status == Status.unknown ? manga.status : getManga.status ?? Status.unknown
+      ..description = getManga.description.trimmedOrDefault(manga.description) ?? ""
       ..link = getManga.link.trimmedOrDefault(manga.link)
       ..source = manga.source
       ..lang = manga.lang
@@ -115,9 +105,7 @@ Future<dynamic> updateMangaDetail(
         ..imageUrl = metadata.imageUrl
         // Storage paths include the work/chapter labels. Metadata changes must
         // not strand completed archives or partial download folders.
-        ..name = consolidated.storageIds.isNotEmpty
-            ? current.name
-            : metadata.name
+        ..name = consolidated.storageIds.isNotEmpty ? current.name : metadata.name
         ..genre = metadata.genre
         ..author = metadata.author
         ..artist = metadata.artist
@@ -168,8 +156,7 @@ Future<dynamic> updateMangaDetail(
             existingByComposite[compositeKey] = candidate;
           }
         } else {
-          final priorHasState =
-              (prior.isRead ?? false) || (prior.lastPageRead ?? '').isNotEmpty;
+          final priorHasState = (prior.isRead ?? false) || (prior.lastPageRead ?? '').isNotEmpty;
           final keep = priorHasState ? prior : candidate;
           if (urlKey != null) existingByUrl[urlKey] = keep;
           if (compositeKey != null) existingByComposite[compositeKey] = keep;
@@ -183,8 +170,7 @@ Future<dynamic> updateMangaDetail(
       for (final c in existingChapters) {
         final key = identityOf(c, withScanlator: false);
         if (key != null) {
-          readByEpisode[key] =
-              (readByEpisode[key] ?? false) || (c.isRead ?? false);
+          readByEpisode[key] = (readByEpisode[key] ?? false) || (c.isRead ?? false);
         }
       }
 
@@ -204,29 +190,22 @@ Future<dynamic> updateMangaDetail(
                 chap.name!,
                 chap.scanlator ?? '',
               );
-        final episodeKey = chap.name == null
-            ? null
-            : recognition.chapterIdentityKey(manga.name!, chap.name!);
+        final episodeKey = chap.name == null ? null : recognition.chapterIdentityKey(manga.name!, chap.name!);
 
         if (!seenKeys.add(key)) continue;
         if (compositeKey != null && !seenKeys.add('c:$compositeKey')) {
           continue;
         }
 
-        final existing =
-            existingByUrl[key] ??
-            (compositeKey != null ? existingByComposite[compositeKey] : null);
+        final existing = existingByUrl[key] ?? (compositeKey != null ? existingByComposite[compositeKey] : null);
 
         if (existing == null) {
-          final alreadyRead =
-              episodeKey != null && (readByEpisode[episodeKey] ?? false);
+          final alreadyRead = episodeKey != null && (readByEpisode[episodeKey] ?? false);
 
           final newChapter = Chapter(
             name: chap.name!,
             url: url,
-            dateUpload: chap.dateUpload == null
-                ? now.toString()
-                : chap.dateUpload.toString(),
+            dateUpload: chap.dateUpload == null ? now.toString() : chap.dateUpload.toString(),
             scanlator: chap.scanlator ?? '',
             mangaId: savedMangaId,
             updatedAt: now,
@@ -249,11 +228,8 @@ Future<dynamic> updateMangaDetail(
 
           newChapters.add(newChapter);
         } else {
-          final active =
-              consolidated.activeIds.contains(existing.id) ||
-              isDownloadScheduled(existing.id);
-          final stored =
-              consolidated.storageIds.contains(existing.id) || active;
+          final active = consolidated.activeIds.contains(existing.id) || isDownloadScheduled(existing.id);
+          final stored = consolidated.storageIds.contains(existing.id) || active;
           if (!active && existing.url != url) {
             ChapterCache().remove(existing);
           }
@@ -317,9 +293,7 @@ Future<dynamic> updateMangaDetail(
         }
       }
 
-      final allChapters = newChapters.isEmpty
-          ? existingChapters
-          : [...existingChapters, ...newChapters];
+      final allChapters = newChapters.isEmpty ? existingChapters : [...existingChapters, ...newChapters];
       if (allChapters.isNotEmpty) {
         final interval = FetchInterval.calculateInterval(allChapters);
         manga

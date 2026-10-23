@@ -36,8 +36,7 @@ class MobileSeekIndicator extends StatefulWidget {
   State<MobileSeekIndicator> createState() => _SeekIndicatorState();
 }
 
-class _SeekIndicatorState extends State<MobileSeekIndicator>
-    with SingleTickerProviderStateMixin {
+class _SeekIndicatorState extends State<MobileSeekIndicator> with SingleTickerProviderStateMixin {
   static const _chevronAnimationDuration = ShioriMotion.standard;
 
   late Duration _value;
@@ -101,9 +100,7 @@ class _SeekIndicatorState extends State<MobileSeekIndicator>
     final seconds = _value.inSeconds.abs();
     final directionLabel = l10n == null
         ? (widget.forward ? 'Seek forward' : 'Seek backward')
-        : (widget.forward
-              ? l10n.shortcut_seek_forward(seconds)
-              : l10n.shortcut_seek_back(seconds));
+        : (widget.forward ? l10n.shortcut_seek_forward(seconds) : l10n.shortcut_seek_back(seconds));
     final direction = widget.forward ? 1.0 : -1.0;
     final chevrons = SizedBox(
       width: 54,
@@ -112,11 +109,8 @@ class _SeekIndicatorState extends State<MobileSeekIndicator>
         animation: _chevronController,
         builder: (context, child) {
           final progress = _chevronController.value;
-          final trailingOpacity = progress <= 0.55
-              ? progress / 0.55
-              : (1 - progress) / 0.45;
-          final leadingOpacity =
-              0.7 + (Curves.easeOut.transform(progress) * 0.3);
+          final trailingOpacity = progress <= 0.55 ? progress / 0.55 : (1 - progress) / 0.45;
+          final leadingOpacity = 0.7 + (Curves.easeOut.transform(progress) * 0.3);
           return Stack(
             clipBehavior: Clip.none,
             alignment: Alignment.center,
@@ -131,9 +125,7 @@ class _SeekIndicatorState extends State<MobileSeekIndicator>
                   opacity: trailingOpacity,
                   child: Icon(
                     fill: 1,
-                    widget.forward
-                        ? Symbols.keyboard_arrow_right_rounded
-                        : Symbols.keyboard_arrow_left_rounded,
+                    widget.forward ? Symbols.keyboard_arrow_right_rounded : Symbols.keyboard_arrow_left_rounded,
                     size: 32,
                     color: Colors.white,
                     shadows: const [_seekFeedbackShadow],
@@ -150,9 +142,7 @@ class _SeekIndicatorState extends State<MobileSeekIndicator>
                   opacity: leadingOpacity,
                   child: Icon(
                     fill: 1,
-                    widget.forward
-                        ? Symbols.keyboard_arrow_right_rounded
-                        : Symbols.keyboard_arrow_left_rounded,
+                    widget.forward ? Symbols.keyboard_arrow_right_rounded : Symbols.keyboard_arrow_left_rounded,
                     size: 32,
                     color: Colors.white,
                     shadows: const [_seekFeedbackShadow],
@@ -200,9 +190,7 @@ class _SeekIndicatorState extends State<MobileSeekIndicator>
           child: Padding(
             padding: visualPadding,
             child: Align(
-              alignment: widget.forward
-                  ? Alignment.centerRight
-                  : Alignment.centerLeft,
+              alignment: widget.forward ? Alignment.centerRight : Alignment.centerLeft,
               child: Padding(
                 padding: EdgeInsets.only(
                   left: 18 + (widget.forward ? 0 : safeInsets.left),
@@ -210,9 +198,7 @@ class _SeekIndicatorState extends State<MobileSeekIndicator>
                 ),
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  alignment: widget.forward
-                      ? Alignment.centerRight
-                      : Alignment.centerLeft,
+                  alignment: widget.forward ? Alignment.centerRight : Alignment.centerLeft,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: widget.forward

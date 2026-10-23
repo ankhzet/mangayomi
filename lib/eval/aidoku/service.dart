@@ -60,9 +60,7 @@ class AidokuExtensionService implements ExtensionService {
         'AidokuService:HTTP',
         'Response: ${response.statusCode} (${response.bodyBytes.length} bytes) for ${req.url}',
       );
-      final headers = response.headers.entries
-          .map((e) => (e.key, e.value))
-          .toList();
+      final headers = response.headers.entries.map((e) => (e.key, e.value)).toList();
       return rust.AidokuNetResponse(
         statusCode: response.statusCode,
         headers: headers,
@@ -129,8 +127,7 @@ class AidokuExtensionService implements ExtensionService {
           );
         }
       }
-    } else if (source.sourceCodeUrl != null &&
-        source.sourceCodeUrl!.isNotEmpty) {
+    } else if (source.sourceCodeUrl != null && source.sourceCodeUrl!.isNotEmpty) {
       final file = File(source.sourceCodeUrl!);
       if (file.existsSync()) {
         _aidokuSource = await aidoku.Source.loadFromAix(
@@ -161,10 +158,7 @@ class AidokuExtensionService implements ExtensionService {
         dynamic val;
         if (pref.listPreference != null) {
           final p = pref.listPreference!;
-          val =
-              (p.entryValues != null &&
-                  p.valueIndex != null &&
-                  p.valueIndex! < p.entryValues!.length)
+          val = (p.entryValues != null && p.valueIndex != null && p.valueIndex! < p.entryValues!.length)
               ? p.entryValues![p.valueIndex!]
               : p.valueIndex;
         } else if (pref.checkBoxPreference != null) {
@@ -195,8 +189,7 @@ class AidokuExtensionService implements ExtensionService {
   }
 
   @override
-  String get sourceBaseUrl =>
-      _aidokuSource?.urls.firstOrNull ?? source.baseUrl ?? '';
+  String get sourceBaseUrl => _aidokuSource?.urls.firstOrNull ?? source.baseUrl ?? '';
 
   @override
   bool get supportsLatest => _aidokuSource?.features.providesListings ?? true;
@@ -215,9 +208,7 @@ class AidokuExtensionService implements ExtensionService {
 
     final key = _aidokuSource?.key;
     final activeUrl = key != null
-        ? (aidoku.SettingsStore.shared.object('$key.url') ??
-                  aidoku.SettingsStore.shared.object('url'))
-              ?.toString()
+        ? (aidoku.SettingsStore.shared.object('$key.url') ?? aidoku.SettingsStore.shared.object('url'))?.toString()
         : aidoku.SettingsStore.shared.object('url')?.toString();
     final baseUrl = (activeUrl != null && activeUrl.isNotEmpty)
         ? activeUrl
@@ -234,8 +225,7 @@ class AidokuExtensionService implements ExtensionService {
     }
 
     headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
-    headers['Accept'] =
-        'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8';
+    headers['Accept'] = 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8';
 
     if (source.headers != null && source.headers!.isNotEmpty) {
       try {
@@ -260,9 +250,7 @@ class AidokuExtensionService implements ExtensionService {
     if (s.features.providesListings && listings.isNotEmpty) {
       final popularListing = listings.firstWhere(
         (l) =>
-            l.id == 'popular' ||
-            l.name.toLowerCase().contains('popular') ||
-            l.name.toLowerCase().contains('trending'),
+            l.id == 'popular' || l.name.toLowerCase().contains('popular') || l.name.toLowerCase().contains('trending'),
         orElse: () => listings.first,
       );
       final res = await s.getMangaList(popularListing, page);
@@ -279,10 +267,7 @@ class AidokuExtensionService implements ExtensionService {
     final listings = await s.getListings();
     if (s.features.providesListings && listings.isNotEmpty) {
       final latestListing = listings.firstWhere(
-        (l) =>
-            l.id == 'latest' ||
-            l.name.toLowerCase().contains('latest') ||
-            l.name.toLowerCase().contains('update'),
+        (l) => l.id == 'latest' || l.name.toLowerCase().contains('latest') || l.name.toLowerCase().contains('update'),
         orElse: () => listings.last,
       );
       final res = await s.getMangaList(latestListing, page);
@@ -391,9 +376,7 @@ class AidokuExtensionService implements ExtensionService {
       final content = p.content;
       if (content is aidoku.PageContentText) {
         final text = content.text;
-        if (text.contains('<p>') ||
-            text.contains('<div>') ||
-            text.contains('<article>')) {
+        if (text.contains('<p>') || text.contains('<div>') || text.contains('<article>')) {
           buffer.writeln(text);
         } else {
           final lines = text.split('\n');
@@ -417,8 +400,7 @@ class AidokuExtensionService implements ExtensionService {
 
   @override
   m_filter.FilterList getFilterList() {
-    List<aidoku.Filter> filters =
-        _cachedFilters ?? _aidokuSource?.getSearchFiltersSync() ?? [];
+    List<aidoku.Filter> filters = _cachedFilters ?? _aidokuSource?.getSearchFiltersSync() ?? [];
     if (filters.isEmpty) {
       final code = source.sourceCode ?? '';
       if (code.isNotEmpty) {
@@ -449,9 +431,7 @@ class AidokuExtensionService implements ExtensionService {
         } catch (_) {}
       }
     }
-    if (filters.isEmpty &&
-        source.filterList != null &&
-        source.filterList!.isNotEmpty) {
+    if (filters.isEmpty && source.filterList != null && source.filterList!.isNotEmpty) {
       try {
         return m_filter.FilterList.fromJson(jsonDecode(source.filterList!));
       } catch (_) {}
@@ -510,11 +490,9 @@ class AidokuExtensionService implements ExtensionService {
           final optVal = (ids != null && i < ids.length) ? ids[i] : optName;
           if (canExclude) {
             int state = 0;
-            if (defaultIncluded.contains(optVal) ||
-                defaultIncluded.contains(optName)) {
+            if (defaultIncluded.contains(optVal) || defaultIncluded.contains(optName)) {
               state = 1;
-            } else if (defaultExcluded.contains(optVal) ||
-                defaultExcluded.contains(optName)) {
+            } else if (defaultExcluded.contains(optVal) || defaultExcluded.contains(optName)) {
               state = 2;
             }
             groupItems.add(
@@ -527,9 +505,7 @@ class AidokuExtensionService implements ExtensionService {
               ),
             );
           } else {
-            final isChecked =
-                defaultIncluded.contains(optVal) ||
-                defaultIncluded.contains(optName);
+            final isChecked = defaultIncluded.contains(optVal) || defaultIncluded.contains(optName);
             groupItems.add(
               m_filter.CheckBoxFilter(
                 filterId,
@@ -574,9 +550,7 @@ class AidokuExtensionService implements ExtensionService {
         }
       } else if (config is aidoku.FilterTypeSort) {
         final options = config.options;
-        final optionItems = options
-            .map((opt) => m_filter.SelectFilterOption(opt, opt, 'SelectOption'))
-            .toList();
+        final optionItems = options.map((opt) => m_filter.SelectFilterOption(opt, opt, 'SelectOption')).toList();
         list.add(
           m_filter.SortFilter(
             filterId,
@@ -704,14 +678,12 @@ class AidokuExtensionService implements ExtensionService {
       if (key.isEmpty) return;
 
       final currentVal =
-          aidoku.SettingsStore.shared.object('$sourceKey.$key') ??
-          aidoku.SettingsStore.shared.object(key);
+          aidoku.SettingsStore.shared.object('$sourceKey.$key') ?? aidoku.SettingsStore.shared.object(key);
 
       if (val is aidoku.ToggleSetting) {
         final bool isChecked = currentVal is bool
             ? currentVal
-            : (currentVal?.toString().toLowerCase() == 'true' ||
-                  val.defaultValue);
+            : (currentVal?.toString().toLowerCase() == 'true' || val.defaultValue);
         preferences.add(
           SourcePreference(
             key: key,
@@ -727,9 +699,7 @@ class AidokuExtensionService implements ExtensionService {
         final entries = val.titles ?? val.values;
         final entryValues = val.values;
         final selectedVal =
-            currentVal?.toString() ??
-            val.defaultValue ??
-            (entryValues.isNotEmpty ? entryValues.first : '');
+            currentVal?.toString() ?? val.defaultValue ?? (entryValues.isNotEmpty ? entryValues.first : '');
         var idx = entryValues.indexOf(selectedVal);
         if (idx < 0) idx = 0;
         preferences.add(
@@ -780,9 +750,7 @@ class AidokuExtensionService implements ExtensionService {
         final entryValues = List.generate(entries.length, (i) => i.toString());
         final selectedIdx = currentVal is int
             ? currentVal
-            : (int.tryParse(currentVal?.toString() ?? '') ??
-                  val.defaultValue ??
-                  0);
+            : (int.tryParse(currentVal?.toString() ?? '') ?? val.defaultValue ?? 0);
         preferences.add(
           SourcePreference(
             key: key,
@@ -876,15 +844,9 @@ class AidokuExtensionService implements ExtensionService {
 
     final chapters = m.chapters?.map((c) {
       return MChapter(
-        name:
-            c.title ??
-            (c.chapterNumber != null
-                ? 'Chapter ${c.chapterNumber}'
-                : 'Chapter'),
+        name: c.title ?? (c.chapterNumber != null ? 'Chapter ${c.chapterNumber}' : 'Chapter'),
         url: '${c.url ?? ''}|${c.key}|$mangaKey|$mangaUrl',
-        dateUpload: c.dateUploaded != null
-            ? '${c.dateUploaded!.millisecondsSinceEpoch}'
-            : null,
+        dateUpload: c.dateUploaded != null ? '${c.dateUploaded!.millisecondsSinceEpoch}' : null,
         scanlator: c.scanlators?.join(', '),
         thumbnailUrl: c.thumbnail,
       );
@@ -1084,9 +1046,7 @@ class AidokuExtensionService implements ExtensionService {
       if (chapterIdx != -1 && chapterIdx + 1 < uri.pathSegments.length) {
         return uri.pathSegments[chapterIdx + 1];
       }
-      final segments = uri.pathSegments
-          .where((s) => s.isNotEmpty && s != 'index.html')
-          .toList();
+      final segments = uri.pathSegments.where((s) => s.isNotEmpty && s != 'index.html').toList();
       if (segments.isNotEmpty) {
         if (segments.length > 1 && int.tryParse(segments.last) != null) {
           return segments[segments.length - 2];

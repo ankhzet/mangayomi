@@ -114,8 +114,7 @@ class SyncEntityApplier {
     final incoming = wire['updatedAt'] as int;
     final existing = categoryRepository.getByClientId(wire['clientId'] as int);
     if (existing != null && (existing.updatedAt ?? 0) >= incoming) return;
-    final category =
-        existing ?? Category(name: '', forItemType: ItemType.manga);
+    final category = existing ?? Category(name: '', forItemType: ItemType.manga);
     category
       ..clientId = wire['clientId'] as int
       ..name = wire['name'] as String
@@ -141,10 +140,7 @@ class SyncEntityApplier {
     if (existing != null && (existing.updatedAt ?? 0) >= incoming) return;
 
     final categoryClientIds = (wire['categoryClientIds'] as List?)?.cast<int>();
-    final localCategoryIds = categoryClientIds
-        ?.map((id) => categoryRepository.getByClientId(id)?.id)
-        .nonNulls
-        .toList();
+    final localCategoryIds = categoryClientIds?.map((id) => categoryRepository.getByClientId(id)?.id).nonNulls.toList();
 
     final manga =
         existing ??
@@ -202,9 +198,7 @@ class SyncEntityApplier {
     );
     if (existing != null && (existing.updatedAt ?? 0) >= incoming) return;
 
-    final chapter =
-        existing ??
-        Chapter(mangaId: mangaLocal.id, name: wire['name'] as String?);
+    final chapter = existing ?? Chapter(mangaId: mangaLocal.id, name: wire['name'] as String?);
     chapter
       ..clientId = clientId
       ..mangaId = mangaLocal.id
@@ -241,9 +235,7 @@ class SyncEntityApplier {
     );
     if (existing != null && (existing.updatedAt ?? 0) >= incoming) return;
 
-    final track =
-        existing ??
-        Track(status: trackStatusFromWire(wire['status'] as String?));
+    final track = existing ?? Track(status: trackStatusFromWire(wire['status'] as String?));
     track
       ..clientId = clientId
       ..mangaId = mangaLocal.id
@@ -349,8 +341,7 @@ class SyncEntityApplier {
     data['updatedAt'] = incomingUpdatedAt;
     final settings = Settings.fromJson(data);
     settingsRepository.putSync(
-      _preserveDeviceLocalSettings(settings, oldSettings)
-        ..cookiesList = oldSettings.cookiesList,
+      _preserveDeviceLocalSettings(settings, oldSettings)..cookiesList = oldSettings.cookiesList,
     );
     return true;
   }

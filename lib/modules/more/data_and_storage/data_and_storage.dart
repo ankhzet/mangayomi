@@ -35,9 +35,7 @@ class DataAndStorage extends ConsumerWidget {
     final l10n = l10nLocalizations(context)!;
     final compression = ref.watch(backupCompressionLevelProvider);
     final backupEncryptionEnabled = ref.watch(backupEncryptionEnabledProvider);
-    final downloadPath = downloadLocationState.$2.isEmpty
-        ? downloadLocationState.$1
-        : downloadLocationState.$2;
+    final downloadPath = downloadLocationState.$2.isEmpty ? downloadLocationState.$1 : downloadLocationState.$2;
     return Scaffold(
       appBar: AppBar(title: Text(l10n.data_and_storage)),
       body: ListView(
@@ -51,8 +49,7 @@ class DataAndStorage extends ConsumerWidget {
                 icon: Symbols.folder_open_rounded,
                 title: l10n.download_location,
                 subtitle: downloadPath,
-                onTap: () =>
-                    _pickDownloadLocation(context, ref, downloadLocationState),
+                onTap: () => _pickDownloadLocation(context, ref, downloadLocationState),
               ),
             ],
           ),
@@ -111,24 +108,19 @@ class DataAndStorage extends ConsumerWidget {
                   ).indexed)
                     ShioriChoice(i, name),
                 ],
-                onChanged: (v) =>
-                    ref.read(backupFrequencyStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(backupFrequencyStateProvider.notifier).set(v),
               ),
               if (!Platform.isIOS)
                 ShioriSettingRow(
                   icon: Symbols.folder_rounded,
                   title: l10n.backup_location,
-                  subtitle: autoBackupLocation.$2.isEmpty
-                      ? autoBackupLocation.$1
-                      : autoBackupLocation.$2,
+                  subtitle: autoBackupLocation.$2.isEmpty ? autoBackupLocation.$1 : autoBackupLocation.$2,
                   onTap: () async {
                     final result = await FilePicker.getDirectoryPath(
                       linuxOptions: const LinuxOptions(lockParentWindow: true),
                     );
                     if (result != null) {
-                      ref
-                          .read(autoBackupLocationStateProvider.notifier)
-                          .set(result);
+                      ref.read(autoBackupLocationStateProvider.notifier).set(result);
                     }
                   },
                 ),
@@ -139,9 +131,7 @@ class DataAndStorage extends ConsumerWidget {
                 value: backupEncryptionEnabled,
                 onChanged: (value) async {
                   if (!value) {
-                    await ref
-                        .read(backupEncryptionEnabledProvider.notifier)
-                        .set(false);
+                    await ref.read(backupEncryptionEnabledProvider.notifier).set(false);
                     await BackupPasswordStorage.clear();
                     return;
                   }
@@ -149,9 +139,7 @@ class DataAndStorage extends ConsumerWidget {
                     context,
                   );
                   if (saved == true) {
-                    await ref
-                        .read(backupEncryptionEnabledProvider.notifier)
-                        .set(true);
+                    await ref.read(backupEncryptionEnabledProvider.notifier).set(true);
                   }
                 },
               ),
@@ -166,16 +154,10 @@ class DataAndStorage extends ConsumerWidget {
                 max: 9,
                 divisions: 9,
                 defaultValue: DeflateLevel.defaultCompression.toDouble(),
-                onReset: () => ref
-                    .read(backupCompressionLevelProvider.notifier)
-                    .set(DeflateLevel.defaultCompression),
+                onReset: () => ref.read(backupCompressionLevelProvider.notifier).set(DeflateLevel.defaultCompression),
                 resetTooltip: l10n.reset,
-                onChanged: (v) => ref
-                    .read(backupCompressionLevelProvider.notifier)
-                    .update(v.round()),
-                onChangeEnd: (v) => ref
-                    .read(backupCompressionLevelProvider.notifier)
-                    .set(v.round()),
+                onChanged: (v) => ref.read(backupCompressionLevelProvider.notifier).update(v.round()),
+                onChangeEnd: (v) => ref.read(backupCompressionLevelProvider.notifier).set(v.round()),
               ),
             ],
           ),
@@ -198,16 +180,12 @@ class DataAndStorage extends ConsumerWidget {
                 icon: Symbols.cleaning_services_rounded,
                 title: l10n.clear_chapter_and_episode_cache,
                 subtitle: totalChapterCacheSize,
-                onTap: () => ref
-                    .read(totalChapterCacheSizeStateProvider.notifier)
-                    .clearCache(),
+                onTap: () => ref.read(totalChapterCacheSizeStateProvider.notifier).clearCache(),
               ),
               ShioriSwitchRow(
                 title: l10n.clear_chapter_or_episode_cache_on_app_launch,
                 value: clearChapterCacheOnAppLaunch,
-                onChanged: (v) => ref
-                    .read(clearChapterCacheOnAppLaunchStateProvider.notifier)
-                    .set(v),
+                onChanged: (v) => ref.read(clearChapterCacheOnAppLaunchStateProvider.notifier).set(v),
               ),
             ],
           ),

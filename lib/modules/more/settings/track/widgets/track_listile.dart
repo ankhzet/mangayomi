@@ -34,9 +34,7 @@ class TrackListile extends ConsumerWidget {
       // a series' sheet listed the same "Add tracking" once per tracker.
       title: trackInfos(id).$2,
       // What a tap does, or who is signed in.
-      subtitle:
-          text ??
-          (isLogged ? (preference.accountLabel ?? l10n.log_out) : l10n.login),
+      subtitle: text ?? (isLogged ? (preference.accountLabel ?? l10n.log_out) : l10n.login),
       trailing: isLogged
           ? Icon(
               Symbols.check_circle_rounded,
@@ -48,8 +46,7 @@ class TrackListile extends ConsumerWidget {
           ? () => showLogOutDialog(
               context,
               serviceName: trackInfos(id).$2,
-              onLogOut: () =>
-                  ref.read(tracksProvider(syncId: id).notifier).logout(),
+              onLogOut: () => ref.read(tracksProvider(syncId: id).notifier).logout(),
             )
           : onTap,
     );

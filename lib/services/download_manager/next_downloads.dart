@@ -11,15 +11,13 @@ List<Chapter> selectNextDownloads(
   if (count <= 0) return [];
   final unavailable = downloads
       .where(
-        (download) =>
-            download.isDownload == true || download.isStartDownload == true,
+        (download) => download.isDownload == true || download.isStartDownload == true,
       )
       .map((download) => download.id)
       .toSet();
   return chapters
       .where(
-        (chapter) =>
-            chapter.isRead != true && !unavailable.contains(chapter.id),
+        (chapter) => chapter.isRead != true && !unavailable.contains(chapter.id),
       )
       .take(count)
       .toList();

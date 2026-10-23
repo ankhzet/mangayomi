@@ -60,18 +60,14 @@ Future<GetChapterPagesModel> getChapterPages(
     List<Uint8List?> archiveImages = [];
     bool pagesFromCache = false;
     final isLocalArchive = (chapter.archivePath ?? '').isNotEmpty;
-    final resolvedArchivePath = isLocalArchive
-        ? await resolveLocalArchivePath(chapter.archivePath!)
-        : null;
+    final resolvedArchivePath = isLocalArchive ? await resolveLocalArchivePath(chapter.archivePath!) : null;
 
     // A downloaded chapter has to open from disk, not from its source. Finding
     // the local copy before any network call is what lets it open with the
     // extension uninstalled, the site down, or no connection at all: getPageList
     // used to run first and its failure took the whole chapter down even though
     // every page was already on disk.
-    final downloaded = isLocalArchive
-        ? null
-        : await findDownloadedChapter(chapter);
+    final downloaded = isLocalArchive ? null : await findDownloadedChapter(chapter);
     if (downloaded?.pagesDirectory != null) path = downloaded!.pagesDirectory;
 
     if (!chapter.manga.value!.isLocalArchive!) {
@@ -111,9 +107,7 @@ Future<GetChapterPagesModel> getChapterPages(
       localImagePaths: <String?>[],
     );
 
-    final archivePath = isLocalArchive
-        ? resolvedArchivePath
-        : downloaded?.archive?.path;
+    final archivePath = isLocalArchive ? resolvedArchivePath : downloaded?.archive?.path;
 
     if (pageUrls.isNotEmpty || archivePath != null || downloaded != null) {
       if (archivePath != null) {
@@ -132,9 +126,7 @@ Future<GetChapterPagesModel> getChapterPages(
       } else {
         // With no urls from the cache and none from the source, the folder on
         // disk is the only thing that knows how many pages there are.
-        final pageCount = pageUrls.isNotEmpty
-            ? pageUrls.length
-            : downloaded!.pageCount;
+        final pageCount = pageUrls.isNotEmpty ? pageUrls.length : downloaded!.pageCount;
         for (var i = 0; i < pageCount; i++) {
           archiveImages.add(null);
           chapterModel.localImagePaths.add(null);
@@ -155,10 +147,7 @@ Future<GetChapterPagesModel> getChapterPages(
           pageUrls.add(PageUrl(""));
         }
       }
-      if (!incognitoMode &&
-          !pagesFromCache &&
-          downloaded == null &&
-          pageUrls.isNotEmpty) {
+      if (!incognitoMode && !pagesFromCache && downloaded == null && pageUrls.isNotEmpty) {
         await ChapterCache().putPageListToCache(chapter, pageUrls);
       }
       for (var i = 0; i < pageUrls.length; i++) {
@@ -172,9 +161,7 @@ Future<GetChapterPagesModel> getChapterPages(
             i,
             chapterModel,
             i,
-            localImagePath: i < chapterModel.localImagePaths.length
-                ? chapterModel.localImagePaths[i]
-                : null,
+            localImagePath: i < chapterModel.localImagePaths.length ? chapterModel.localImagePaths[i] : null,
           ),
         );
       }

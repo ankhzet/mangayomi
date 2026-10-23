@@ -41,23 +41,16 @@ class AndroidProxyGroup extends ConsumerWidget {
         ShioriSettingRow(
           icon: Symbols.edit_rounded,
           title: l10n.set_proxy_address,
-          subtitle: androidProxyServer.isEmpty
-              ? l10n.not_configured
-              : androidProxyServer,
+          subtitle: androidProxyServer.isEmpty ? l10n.not_configured : androidProxyServer,
           trailing: Icon(
-            androidProxyServer.isNotEmpty
-                ? Symbols.check_circle_rounded
-                : Symbols.error_rounded,
+            androidProxyServer.isNotEmpty ? Symbols.check_circle_rounded : Symbols.error_rounded,
             fill: 1,
-            color: androidProxyServer.isNotEmpty
-                ? c.completed.foreground
-                : c.offline.foreground,
+            color: androidProxyServer.isNotEmpty ? c.completed.foreground : c.offline.foreground,
           ),
           onTap: () => showAndroidProxyServerDialog(
             context,
             proxyServer: androidProxyServer,
-            onConfirm: (server) =>
-                ref.read(androidProxyServerStateProvider.notifier).set(server),
+            onConfirm: (server) => ref.read(androidProxyServerStateProvider.notifier).set(server),
           ),
         ),
         ShioriSettingRow(

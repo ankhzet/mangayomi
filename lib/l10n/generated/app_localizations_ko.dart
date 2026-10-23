@@ -67,12 +67,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get last_update_check => '최근 업데이트 확인';
 
   @override
-  String last_entry_delete_warning(
-    num count,
-    Object entryType,
-    Object entryTypePlural,
-    Object mediaType,
-  ) {
+  String last_entry_delete_warning(num count, Object entryType, Object entryTypePlural, Object mediaType) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -330,12 +325,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get mass_migration_complete => '일괄 마이그레이션 완료';
 
   @override
-  String get mass_migration_complete_success_message =>
-      '선택한 모든 항목이 성공적으로 처리되었습니다.';
+  String get mass_migration_complete_success_message => '선택한 모든 항목이 성공적으로 처리되었습니다.';
 
   @override
-  String get mass_migration_complete_partial_message =>
-      '마이그레이션이 완료되었지만 수동으로 확인해야 할 항목이 일부 있습니다.';
+  String get mass_migration_complete_partial_message => '마이그레이션이 완료되었지만 수동으로 확인해야 할 항목이 일부 있습니다.';
 
   @override
   String mass_migration_route_summary(Object source, Object destination) {
@@ -490,8 +483,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get edit_categories => '카테고리 편집';
 
   @override
-  String get edit_categories_description =>
-      '카테고리가 없습니다. 플러스 버튼을 눌러 보관함을 정리할 카테고리를 만들어보세요.';
+  String get edit_categories_description => '카테고리가 없습니다. 플러스 버튼을 눌러 보관함을 정리할 카테고리를 만들어보세요.';
 
   @override
   String get add => '추가';
@@ -567,15 +559,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tint_surfaces_with_palette => '팔레트로 표면 물들이기';
 
   @override
-  String get tint_surfaces_with_palette_subtitle =>
-      '예전처럼 배경, 카드, 바를 선택한 팔레트로 물들입니다. 끄면 중립색으로 남고 팔레트는 강조색에만 쓰입니다.';
+  String get tint_surfaces_with_palette_subtitle => '예전처럼 배경, 카드, 바를 선택한 팔레트로 물들입니다. 끄면 중립색으로 남고 팔레트는 강조색에만 쓰입니다.';
 
   @override
   String get novel_reader_font => '소설 리더 글꼴';
 
   @override
-  String get novel_reader_font_subtitle =>
-      '소설 리더의 기본 글꼴에 사용됩니다. 앱의 나머지 부분은 Figtree를 사용합니다.';
+  String get novel_reader_font_subtitle => '소설 리더의 기본 글꼴에 사용됩니다. 앱의 나머지 부분은 Figtree를 사용합니다.';
 
   @override
   String get timestamp => '타임스탬프';
@@ -677,8 +667,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get nsfw_sources_show => '소스 및 확장 프로그램 목록에 표시';
 
   @override
-  String get nsfw_sources_info =>
-      '이 설정을 꺼도 비공식적이거나 플래그가 잘못 지정된 확장 프로그램에서 NSFW(18+) 콘텐츠가 노출되는 것을 막지는 못합니다.';
+  String get nsfw_sources_info => '이 설정을 꺼도 비공식적이거나 플래그가 잘못 지정된 확장 프로그램에서 NSFW(18+) 콘텐츠가 노출되는 것을 막지는 못합니다.';
 
   @override
   String get version => '버전';
@@ -1051,8 +1040,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get sync_logged => '로그인 성공';
 
   @override
-  String get syncing_subtitle =>
-      '셀프 호스팅 서버를 통해 여러 기기 간에 진행 상황을 동기화합니다. 자세한 내용은 디스코드 서버를 확인하세요!';
+  String get syncing_subtitle => '셀프 호스팅 서버를 통해 여러 기기 간에 진행 상황을 동기화합니다. 자세한 내용은 디스코드 서버를 확인하세요!';
 
   @override
   String get last_sync => '마지막 동기화: ';
@@ -1090,15 +1078,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get sync_button_upload => '업로드 전용';
 
   @override
-  String get sync_button_upload_info =>
-      '이 기기의 데이터가 서버의 데이터에 덮어씌워집니다. 서버의 데이터는 삭제되지 않습니다.';
+  String get sync_button_upload_info => '이 기기의 데이터가 서버의 데이터에 덮어씌워집니다. 서버의 데이터는 삭제되지 않습니다.';
 
   @override
   String get sync_button_download => '다운로드 전용';
 
   @override
-  String get sync_button_download_info =>
-      '서버에서 모든 데이터를 가져옵니다. 이 기기의 데이터는 삭제되지 않습니다.';
+  String get sync_button_download_info => '서버에서 모든 데이터를 가져옵니다. 이 기기의 데이터는 삭제되지 않습니다.';
 
   @override
   String get sync_status_not_configured => '연결되지 않음';
@@ -1164,15 +1150,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get reorder_navigation => '내비게이션 사용자 설정';
 
   @override
-  String get reorder_navigation_description =>
-      '필요에 따라 내비게이션 순서를 변경하고 켜거나 끌 수 있습니다.';
+  String get reorder_navigation_description => '필요에 따라 내비게이션 순서를 변경하고 켜거나 끌 수 있습니다.';
 
   @override
   String get floating_navigation_bar => '떠 있는 내비게이션 바';
 
   @override
-  String get floating_navigation_bar_description =>
-      '고정된 내비게이션 바 대신 떠 있는 캡슐을 사용합니다.';
+  String get floating_navigation_bar_description => '고정된 내비게이션 바 대신 떠 있는 캡슐을 사용합니다.';
 
   @override
   String get full_screen_player => '전체 화면 사용';
@@ -1274,8 +1258,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get show_nav_double_tap_tooltip => '더블 탭 검색 힌트 표시';
 
   @override
-  String get show_nav_double_tap_tooltip_subtitle =>
-      '만화/애니/소설 탭에서 더블 탭하면 전체 검색이 열린다는 툴팁을 표시합니다.';
+  String get show_nav_double_tap_tooltip_subtitle => '만화/애니/소설 탭에서 더블 탭하면 전체 검색이 열린다는 툴팁을 표시합니다.';
 
   @override
   String already_in_library(Object source, Object title) {
@@ -1316,8 +1299,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get page_preload_amount => '미리 불러올 페이지 수';
 
   @override
-  String get page_preload_amount_subtitle =>
-      '읽을 때 미리 로드할 페이지 수입니다. 값이 클수록 읽기가 더 부드러워지지만 캐시 및 네트워크 사용량이 늘어납니다.';
+  String get page_preload_amount_subtitle => '읽을 때 미리 로드할 페이지 수입니다. 값이 클수록 읽기가 더 부드러워지지만 캐시 및 네트워크 사용량이 늘어납니다.';
 
   @override
   String get image_loading_error => '이 이미지를 불러올 수 없습니다';
@@ -1338,8 +1320,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get auto_extensions_updates => '자동 확장 프로그램 업데이트';
 
   @override
-  String get auto_extensions_updates_subtitle =>
-      '새 버전이 있을 때 자동으로 확장 프로그램을 업데이트합니다.';
+  String get auto_extensions_updates_subtitle => '새 버전이 있을 때 자동으로 확장 프로그램을 업데이트합니다.';
 
   @override
   String get check_for_app_updates => '시작 시 앱 업데이트 확인';
@@ -1494,8 +1475,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get weekly => '매주';
 
   @override
-  String get restore_backup_warning_title =>
-      '백업을 복원하면 기존 데이터를 모두 덮어씁니다.\n\n복원을 계속하시겠습니까?';
+  String get restore_backup_warning_title => '백업을 복원하면 기존 데이터를 모두 덮어씁니다.\n\n복원을 계속하시겠습니까?';
 
   @override
   String get restore_sync_question_title => '이 복원 데이터를 동기화하시겠습니까?';
@@ -1517,8 +1497,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get restore_sync_disabled_question_title => '현재 동기화가 비활성화되어 있습니다';
 
   @override
-  String get restore_sync_disabled_question_message =>
-      '동기화가 꺼져 있습니다. 다시 켜서 이 복원된 데이터를 서버에 업로드하시겠습니까?';
+  String get restore_sync_disabled_question_message => '동기화가 꺼져 있습니다. 다시 켜서 이 복원된 데이터를 서버에 업로드하시겠습니까?';
 
   @override
   String get restore_sync_question_reenable => '예, 다시 활성화 및 동기화';
@@ -1536,8 +1515,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get services => '서비스';
 
   @override
-  String get tracking_warning_info =>
-      '트래킹 서비스의 챕터 진행 상황을 업데이트하기 위한 단방향 동기화입니다. 각 항목의 트래킹 버튼에서 개별 항목에 대한 트래킹을 설정하세요.';
+  String get tracking_warning_info => '트래킹 서비스의 챕터 진행 상황을 업데이트하기 위한 단방향 동기화입니다. 각 항목의 트래킹 버튼에서 개별 항목에 대한 트래킹을 설정하세요.';
 
   @override
   String get use_page_tap_zones => '페이지 탭 영역 사용';
@@ -1597,8 +1575,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get default_skip_forward_skip_length => '기본 앞으로 건너뛰기 시간';
 
   @override
-  String get aniskip_requires_info =>
-      'AniSkip이 작동하려면 애니를 MAL이나 Anilist로 트래킹해야 합니다.';
+  String get aniskip_requires_info => 'AniSkip이 작동하려면 애니를 MAL이나 Anilist로 트래킹해야 합니다.';
 
   @override
   String get enable_aniskip => 'AniSkip 활성화';
@@ -1770,8 +1747,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get use_libass_info => '기본 백엔드에 libass 기반 자막 렌더링을 사용합니다.';
 
   @override
-  String get libass_not_disable_message =>
-      '자막을 사용자 지정하려면 플레이어 설정에서 `libass 사용`을 비활성화하세요.';
+  String get libass_not_disable_message => '자막을 사용자 지정하려면 플레이어 설정에서 `libass 사용`을 비활성화하세요.';
 
   @override
   String get override_ass_subtitles => 'ASS 자막 재정의';
@@ -1856,8 +1832,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get cache_cleared => '캐시 지워짐';
 
   @override
-  String get clear_chapter_or_episode_cache_on_app_launch =>
-      '앱 시작 시 화/에피소드 캐시 지우기';
+  String get clear_chapter_or_episode_cache_on_app_launch => '앱 시작 시 화/에피소드 캐시 지우기';
 
   @override
   String get app_settings => '앱 설정';
@@ -1941,8 +1916,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get url_cannot_be_empty => 'URL은 비워둘 수 없습니다.';
 
   @override
-  String get url_must_end_with_dot_json_or_dot_pb =>
-      'URL은 .json / .pb로 끝나야 합니다.';
+  String get url_must_end_with_dot_json_or_dot_pb => 'URL은 .json / .pb로 끝나야 합니다.';
 
   @override
   String get repo_url => '저장소 URL';
@@ -1972,8 +1946,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get add_repo_sources_to_add => '추가될 확장 프로그램 목록:';
 
   @override
-  String get add_repo_warning =>
-      '이 저장소의 확장 프로그램은 앱 안에서 실행됩니다. 신뢰하는 저장소만 추가하세요.';
+  String get add_repo_warning => '이 저장소의 확장 프로그램은 앱 안에서 실행됩니다. 신뢰하는 저장소만 추가하세요.';
 
   @override
   String get genre_search_library => '보관함에서 장르 검색';
@@ -1996,8 +1969,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get unsupported_repo =>
-      '지원되지 않는 저장소를 추가하려고 했습니다. 도움이 필요하면 디스코드 서버를 확인하세요!';
+  String get unsupported_repo => '지원되지 않는 저장소를 추가하려고 했습니다. 도움이 필요하면 디스코드 서버를 확인하세요!';
 
   @override
   String get end_of_chapter => '이번 화 끝';
@@ -2054,8 +2026,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get hide_discord_rpc_incognito => '시크릿 모드 중 Discord RPC 숨기기';
 
   @override
-  String get rpc_show_reading_watching_progress =>
-      'Discord에 현재 진행 중인 화/에피소드 표시 (재시작 필요)';
+  String get rpc_show_reading_watching_progress => 'Discord에 현재 진행 중인 화/에피소드 표시 (재시작 필요)';
 
   @override
   String get rpc_show_title => 'Discord에 현재 제목 표시';
@@ -2142,8 +2113,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get use_yuv420p => 'YUV420P 픽셀 포맷 사용';
 
   @override
-  String get use_yuv420p_info =>
-      '일부 비디오 코덱의 검은 화면을 수정할 수 있으며, 화질을 희생하여 성능을 향상시킬 수도 있습니다.';
+  String get use_yuv420p_info => '일부 비디오 코덱의 검은 화면을 수정할 수 있으며, 화질을 희생하여 성능을 향상시킬 수도 있습니다.';
 
   @override
   String get audio_preferred_languages => '선호하는 언어';
@@ -2156,8 +2126,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get enable_audio_pitch_correction => '오디오 피치 보정 활성화';
 
   @override
-  String get enable_audio_pitch_correction_info =>
-      '빠른 속도에서 오디오가 고음이 되거나 느린 속도에서 저음이 되는 것을 방지합니다.';
+  String get enable_audio_pitch_correction_info => '빠른 속도에서 오디오가 고음이 되거나 느린 속도에서 저음이 되는 것을 방지합니다.';
 
   @override
   String get audio_channels => '오디오 채널';
@@ -2199,8 +2168,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get calendar_no_data => '아직 데이터가 없습니다.';
 
   @override
-  String get calendar_info =>
-      '캘린더는 이전 업로드 기록을 기반으로 다음 화 업로드를 예측할 뿐입니다. 일부 데이터는 100% 정확하지 않을 수 있습니다!';
+  String get calendar_info => '캘린더는 이전 업로드 기록을 기반으로 다음 화 업로드를 예측할 뿐입니다. 일부 데이터는 100% 정확하지 않을 수 있습니다!';
 
   @override
   String in_n_day(Object days) {
@@ -2219,8 +2187,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get clear_library_desc => '모든 만화, 애니 또는 소설 항목 삭제 선택';
 
   @override
-  String get clear_library_input =>
-      '모든 관련 항목을 제거하려면 \'manga\', \'anime\', 또는 \'novel\' (쉼표로 구분)을 입력하세요';
+  String get clear_library_input => '모든 관련 항목을 제거하려면 \'manga\', \'anime\', 또는 \'novel\' (쉼표로 구분)을 입력하세요';
 
   @override
   String get watch_order => '시청 순서';
@@ -2312,15 +2279,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get clear_local_library_desc => '보관함에서 로컬 폴더 및 압축 파일 항목을 제거합니다.';
 
   @override
-  String get clear_local_library_msg =>
-      '보관함에서 로컬 폴더 및 압축 파일 항목이 제거됩니다. 디스크에 있는 파일은 삭제되지 않습니다.';
+  String get clear_local_library_msg => '보관함에서 로컬 폴더 및 압축 파일 항목이 제거됩니다. 디스크에 있는 파일은 삭제되지 않습니다.';
 
   @override
   String get custom => '사용자 정의';
 
   @override
-  String get no_local_folder_available_for_downloads =>
-      '다운로드할 수 있는 로컬 폴더가 없습니다';
+  String get no_local_folder_available_for_downloads => '다운로드할 수 있는 로컬 폴더가 없습니다';
 
   @override
   String failed_to_create_cbz(Object error) {
@@ -2374,8 +2339,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get cloudflare_resolution_webview_server_start_failed =>
-      'Cloudflare 확인 웹뷰 서버를 시작할 수 없습니다.';
+  String get cloudflare_resolution_webview_server_start_failed => 'Cloudflare 확인 웹뷰 서버를 시작할 수 없습니다.';
 
   @override
   String tracker_token_expired(Object tracker) {
@@ -2461,16 +2425,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get app_lock => '앱 잠금';
 
   @override
-  String get require_biometric_or_device_credential =>
-      '앱을 열 때 생체 인식 또는 기기 자격 증명 요구';
+  String get require_biometric_or_device_credential => '앱을 열 때 생체 인식 또는 기기 자격 증명 요구';
 
   @override
-  String get biometric_or_device_credential_not_available =>
-      '이 기기에서는 생체 인증을 사용할 수 없습니다';
+  String get biometric_or_device_credential_not_available => '이 기기에서는 생체 인증을 사용할 수 없습니다';
 
   @override
-  String get app_lock_description =>
-      '앱 잠금이 활성화되면 앱을 열거나 백그라운드에서 다시 돌아올 때마다 인증을 요구합니다.';
+  String get app_lock_description => '앱 잠금이 활성화되면 앱을 열거나 백그라운드에서 다시 돌아올 때마다 인증을 요구합니다.';
 
   @override
   String get keep_screen_on => '화면 켜짐 유지';
@@ -2553,8 +2514,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get android_proxy_server_mihon => 'Android 프록시 서버 (Mihon)';
 
   @override
-  String get android_proxy_server_mihon_description =>
-      'Mihon 확장 프로그램을 사용하는 데 필요한 프록시 서버를 다운로드하고 설정합니다.';
+  String get android_proxy_server_mihon_description => 'Mihon 확장 프로그램을 사용하는 데 필요한 프록시 서버를 다운로드하고 설정합니다.';
 
   @override
   String get mihon_proxy_server => 'Mihon 프록시 서버';
@@ -2564,8 +2524,7 @@ class AppLocalizationsKo extends AppLocalizations {
       'Mihon 확장 프로그램을 사용하기 전에 프록시 서버 번들을 다운로드하세요. 번들에는 JRE 및 확장 프로그램 서버 JAR이 포함되어 있습니다.';
 
   @override
-  String get extension_server_intro_ios =>
-      'Mihon 확장 프로그램을 사용하기 전에 프록시 서버 JAR을 다운로드하세요. iOS는 확장 프로그램 서버 JAR만 필요합니다.';
+  String get extension_server_intro_ios => 'Mihon 확장 프로그램을 사용하기 전에 프록시 서버 JAR을 다운로드하세요. iOS는 확장 프로그램 서버 JAR만 필요합니다.';
 
   @override
   String get checking_files => '파일 확인 중';
@@ -2620,15 +2579,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get set_proxy_address => '프록시 주소 설정';
 
   @override
-  String get no_newer_proxy_server_release_available =>
-      '사용 가능한 새로운 프록시 서버 릴리스가 없습니다.';
+  String get no_newer_proxy_server_release_available => '사용 가능한 새로운 프록시 서버 릴리스가 없습니다.';
 
   @override
   String get could_not_check_proxy_server_updates => '프록시 서버 업데이트를 확인할 수 없습니다.';
 
   @override
-  String get no_extension_server_bundle_available_for_this_platform =>
-      '이 플랫폼에서 사용할 수 있는 확장 프로그램 서버 번들이 없습니다.';
+  String get no_extension_server_bundle_available_for_this_platform => '이 플랫폼에서 사용할 수 있는 확장 프로그램 서버 번들이 없습니다.';
 
   @override
   String failed_to_download_bundle(Object statusCode) {
@@ -2636,15 +2593,13 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get downloaded_bundle_missing_expected_files =>
-      '다운로드한 번들에 예상된 파일이 없습니다.';
+  String get downloaded_bundle_missing_expected_files => '다운로드한 번들에 예상된 파일이 없습니다.';
 
   @override
   String get extension_server_files_ready => '확장 프로그램 서버 파일이 준비되었습니다.';
 
   @override
-  String get ios_extension_server_import_hint =>
-      'iOS에서는 서버가 앱 샌드박스 내에 설치됩니다. 다운로드한 파일을 가져오려면 \"기존 JAR 가져오기\"를 사용하세요.';
+  String get ios_extension_server_import_hint => 'iOS에서는 서버가 앱 샌드박스 내에 설치됩니다. 다운로드한 파일을 가져오려면 \"기존 JAR 가져오기\"를 사용하세요.';
 
   @override
   String get select_extension_server_folder => '확장 프로그램 서버 폴더 선택';
@@ -2653,8 +2608,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get selected_folder_does_not_exist => '선택한 폴더가 존재하지 않습니다.';
 
   @override
-  String get no_extension_server_files_found_in_selected_folder =>
-      '선택한 폴더에서 확장 프로그램 서버 파일을 찾을 수 없습니다.';
+  String get no_extension_server_files_found_in_selected_folder => '선택한 폴더에서 확장 프로그램 서버 파일을 찾을 수 없습니다.';
 
   @override
   String get extension_server_files_linked => '확장 프로그램 서버 파일이 연결되었습니다.';
@@ -2669,12 +2623,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get extension_server_jar_imported => '확장 프로그램 서버 JAR을 가져왔습니다.';
 
   @override
-  String get could_not_launch_apk_bridge_page =>
-      'M-Extension-Server 페이지를 시작할 수 없습니다.';
+  String get could_not_launch_apk_bridge_page => 'M-Extension-Server 페이지를 시작할 수 없습니다.';
 
   @override
-  String get proxy_server_ip_hint =>
-      '서버 IP (예: 10.0.0.5 또는 https://example.com)';
+  String get proxy_server_ip_hint => '서버 IP (예: 10.0.0.5 또는 https://example.com)';
 
   @override
   String get not_configured => '구성되지 않음';
@@ -2683,8 +2635,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get zero_interpreter => 'Zero 인터프리터';
 
   @override
-  String get zero_interpreter_description =>
-      'Zero 인터프리터 서버를 자동으로 또는 수동으로 제어합니다.';
+  String get zero_interpreter_description => 'Zero 인터프리터 서버를 자동으로 또는 수동으로 제어합니다.';
 
   @override
   String get start_server_on_launch => '시작 시 서버 시작';
@@ -2776,8 +2727,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get double_page_single_first_page => '첫 페이지는 한 장으로';
 
   @override
-  String get double_page_single_first_page_subtitle =>
-      '두 페이지 모드에서 첫 번째 페이지만 단일 페이지로 표시합니다';
+  String get double_page_single_first_page_subtitle => '두 페이지 모드에서 첫 번째 페이지만 단일 페이지로 표시합니다';
 
   @override
   String get double_page_auto => '자동 두 쪽 보기';
@@ -2884,8 +2834,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get download_delay => '다운로드 지연';
 
   @override
-  String get download_delay_subtitle =>
-      '꺼짐. 소스에 부담을 덜 주기 위해 다운로드 사이에 무작위 대기 시간을 추가합니다.';
+  String get download_delay_subtitle => '꺼짐. 소스에 부담을 덜 주기 위해 다운로드 사이에 무작위 대기 시간을 추가합니다.';
 
   @override
   String get save_search => '검색 저장';
@@ -2897,8 +2846,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get enter_search_to_save_first => '먼저 저장할 검색어를 입력하세요';
 
   @override
-  String get no_saved_searches =>
-      '이 소스에 아직 저장된 검색이 없습니다.\n검색을 실행한 다음 \"검색 저장\"을 선택하세요.';
+  String get no_saved_searches => '이 소스에 아직 저장된 검색이 없습니다.\n검색을 실행한 다음 \"검색 저장\"을 선택하세요.';
 
   @override
   String get source => '소스';
@@ -2924,15 +2872,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get import_mode_title => '어떻게 가져오시겠습니까?';
 
   @override
-  String get import_mode_message =>
-      '이 백업을 현재 보관함에 병합할지, 아니면 전체 보관함을 백업으로 덮어쓸지 선택하세요.';
+  String get import_mode_message => '이 백업을 현재 보관함에 병합할지, 아니면 전체 보관함을 백업으로 덮어쓸지 선택하세요.';
 
   @override
   String get import_mode_keep_existing => '병합';
 
   @override
-  String get import_mode_keep_existing_subtitle =>
-      '새로운 시리즈를 추가하고 일치하는 시리즈를 업데이트합니다. 현재 보관함의 항목은 제거되지 않습니다.';
+  String get import_mode_keep_existing_subtitle => '새로운 시리즈를 추가하고 일치하는 시리즈를 업데이트합니다. 현재 보관함의 항목은 제거되지 않습니다.';
 
   @override
   String get import_mode_replace => '덮어쓰기';
@@ -2983,11 +2929,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get import_summary_title => '가져올 준비가 되었습니다';
 
   @override
-  String import_summary_message(
-    Object newSeries,
-    Object updatedSeries,
-    Object newChapters,
-  ) {
+  String import_summary_message(Object newSeries, Object updatedSeries, Object newChapters) {
     return '새로운 시리즈 $newSeries개, 업데이트할 기존 시리즈 $updatedSeries개, 새로 추가될 화 $newChapters개입니다. 보관함에 이미 있는 항목은 제거되지 않습니다.';
   }
 
@@ -2995,11 +2937,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get import_summary_confirm => '가져오기';
 
   @override
-  String import_result_message(
-    Object newSeries,
-    Object updatedSeries,
-    Object newChapters,
-  ) {
+  String import_result_message(Object newSeries, Object updatedSeries, Object newChapters) {
     return '새로운 시리즈 $newSeries개 가져옴, 기존 시리즈 $updatedSeries개 업데이트됨, 화 $newChapters개 추가됨.';
   }
 
@@ -3007,8 +2945,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get roll_back => '롤백';
 
   @override
-  String get roll_back_confirm_message =>
-      '이 변경 직전에 생성된 스냅샷으로 보관함을 복원하여 방금 수행한 모든 작업을 취소합니다.';
+  String get roll_back_confirm_message => '이 변경 직전에 생성된 스냅샷으로 보관함을 복원하여 방금 수행한 모든 작업을 취소합니다.';
 
   @override
   String get roll_back_done => '변경 전 스냅샷으로 롤백되었습니다.';
@@ -3033,8 +2970,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get delete_source_title => '소스 및 해당 만화 삭제';
 
   @override
-  String get delete_source_subtitle =>
-      '소스를 선택하고 보관함에 있는 모든 만화를 챕터, 다운로드, 기록, 트래킹과 함께 제거합니다.';
+  String get delete_source_subtitle => '소스를 선택하고 보관함에 있는 모든 만화를 챕터, 다운로드, 기록, 트래킹과 함께 제거합니다.';
 
   @override
   String get delete_source_pick_title => '삭제할 소스 선택';
@@ -3078,8 +3014,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get merge_manga_title => '중복 만화 병합';
 
   @override
-  String get merge_manga_subtitle =>
-      '동일한 소스에 동일한 제목의 만화를 찾아 (예: 중복 소스 병합 후) 보관할 항목을 삭제하지 않고 하나로 통합합니다.';
+  String get merge_manga_subtitle => '동일한 소스에 동일한 제목의 만화를 찾아 (예: 중복 소스 병합 후) 보관할 항목을 삭제하지 않고 하나로 통합합니다.';
 
   @override
   String get merge_manga_none_found => '중복된 만화가 발견되지 않았습니다.';
@@ -3091,8 +3026,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get merge_manga_choose_primary_title => '어떤 항목으로 병합하시겠습니까?';
 
   @override
-  String get merge_manga_choose_primary_message =>
-      '다른 항목의 챕터, 기록 및 트래킹이 선택한 항목으로 병합됩니다. 삭제되는 항목은 없습니다.';
+  String get merge_manga_choose_primary_message => '다른 항목의 챕터, 기록 및 트래킹이 선택한 항목으로 병합됩니다. 삭제되는 항목은 없습니다.';
 
   @override
   String merge_manga_chapters_subtitle(int count) {
@@ -3130,8 +3064,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get memory_overlay => '메모리 사용량 표시';
 
   @override
-  String get memory_overlay_subtitle =>
-      '앱이 점유 중인 메모리를 실시간으로 표시합니다. 추측이 아닌 기기에서 직접 측정하려면 보관함을 스크롤하거나 화를 읽을 때 확인하세요.';
+  String get memory_overlay_subtitle => '앱이 점유 중인 메모리를 실시간으로 표시합니다. 추측이 아닌 기기에서 직접 측정하려면 보관함을 스크롤하거나 화를 읽을 때 확인하세요.';
 
   @override
   String get beta => '베타';
@@ -3143,8 +3076,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get error_reports_subtitle => '앱에서 발생한 오류 및 보고 방법';
 
   @override
-  String get error_reports_empty =>
-      '문제가 발생하지 않았습니다. 앱에서 잡아낸 오류가 여기에 보관되어 보고할 수 있습니다.';
+  String get error_reports_empty => '문제가 발생하지 않았습니다. 앱에서 잡아낸 오류가 여기에 보관되어 보고할 수 있습니다.';
 
   @override
   String get error_reports_likely_cause => '예상되는 원인';
@@ -3179,8 +3111,7 @@ class AppLocalizationsKo extends AppLocalizations {
       '이 문제는 대개 앱 오류보다는 소스 자체나 네트워크 오류로 인해 발생합니다 (예: 만료된 링크, 서버 다운, 연결 끊김). 다른 곳에서는 잘 작동하는 소스에서 이 오류가 계속 발생할 경우에만 보고하는 것이 좋습니다.';
 
   @override
-  String get share_unavailable_copied =>
-      '이 플랫폼에서는 공유 기능을 사용할 수 없어 클립보드에 복사되었습니다.';
+  String get share_unavailable_copied => '이 플랫폼에서는 공유 기능을 사용할 수 없어 클립보드에 복사되었습니다.';
 
   @override
   String get onboarding_title => 'Mangayomi에 오신 것을 환영합니다';
@@ -3189,12 +3120,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get onboarding_language_title => '언어 선택';
 
   @override
-  String get onboarding_language_body =>
-      'Mangayomi가 이 언어로 표시됩니다. 나중에 테마 설정에서 변경할 수 있습니다.';
+  String get onboarding_language_body => 'Mangayomi가 이 언어로 표시됩니다. 나중에 테마 설정에서 변경할 수 있습니다.';
 
   @override
-  String get onboarding_nav_grouped_body =>
-      '라이브러리마다 탭을 따로 두거나, 하나의 라이브러리 탭으로 묶고 업데이트와 기록은 하나의 활동 탭으로 묶을 수 있습니다.';
+  String get onboarding_nav_grouped_body => '라이브러리마다 탭을 따로 두거나, 하나의 라이브러리 탭으로 묶고 업데이트와 기록은 하나의 활동 탭으로 묶을 수 있습니다.';
 
   @override
   String get onboarding_nav_grouped => '그룹화된 탭';
@@ -3203,8 +3132,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get onboarding_nav_grouped_inside => '그룹화된 각 탭은 화면 상단에서 전환합니다';
 
   @override
-  String get onboarding_libraries_body =>
-      '읽거나 볼 카테고리를 선택하세요. 선택하지 않은 항목은 하단 바에 표시되지 않으며 나중에 설정의 모양 메뉴에서 변경할 수 있습니다.';
+  String get onboarding_libraries_body => '읽거나 볼 카테고리를 선택하세요. 선택하지 않은 항목은 하단 바에 표시되지 않으며 나중에 설정의 모양 메뉴에서 변경할 수 있습니다.';
 
   @override
   String get onboarding_nav_title => '보관함 설정';
@@ -3230,8 +3158,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get onboarding_local_any_type =>
-      '만화, 애니, 소설 모두 가능합니다. 각 작품은 폴더 안의 내용을 기반으로 알맞은 보관함에 배정됩니다.';
+  String get onboarding_local_any_type => '만화, 애니, 소설 모두 가능합니다. 각 작품은 폴더 안의 내용을 기반으로 알맞은 보관함에 배정됩니다.';
 
   @override
   String get onboarding_local_scanning => '폴더 스캔 중';
@@ -3245,12 +3172,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get onboarding_local_remove => '해당 폴더 제거';
 
   @override
-  String get onboarding_local_in_downloads =>
-      '이곳은 앱의 다운로드 폴더입니다. 이 폴더를 추가하면 앱이 관리하는 보관함의 두 번째 로컬 사본이 만들어집니다.';
+  String get onboarding_local_in_downloads => '이곳은 앱의 다운로드 폴더입니다. 이 폴더를 추가하면 앱이 관리하는 보관함의 두 번째 로컬 사본이 만들어집니다.';
 
   @override
-  String get onboarding_local_empty =>
-      '아무것도 찾지 못했습니다. 단일 만화가 아니라 여러 만화 폴더가 들어있는 최상위 폴더를 선택하세요.';
+  String get onboarding_local_empty => '아무것도 찾지 못했습니다. 단일 만화가 아니라 여러 만화 폴더가 들어있는 최상위 폴더를 선택하세요.';
 
   @override
   String get onboarding_repo_failed => '해당 저장소를 읽을 수 없습니다. 주소와 연결 상태를 확인하세요.';
@@ -3259,8 +3184,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get onboarding_repo_title => '소스 추가';
 
   @override
-  String get onboarding_body =>
-      'Mangayomi에는 기본 소스가 포함되어 있지 않습니다. 저장소를 추가하면 확장 프로그램을 설치하여 탐색할 수 있습니다.';
+  String get onboarding_body => 'Mangayomi에는 기본 소스가 포함되어 있지 않습니다. 저장소를 추가하면 확장 프로그램을 설치하여 탐색할 수 있습니다.';
 
   @override
   String get onboarding_add => '저장소 추가';
@@ -3307,8 +3231,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get global_search_no_sources_hint =>
-      '탐색 메뉴에서 저장소를 추가한 후 해당 확장 프로그램을 설치하세요.';
+  String get global_search_no_sources_hint => '탐색 메뉴에서 저장소를 추가한 후 해당 확장 프로그램을 설치하세요.';
 
   @override
   String global_search_only_pinned(int count) {
@@ -3322,12 +3245,10 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get global_search_only_pinned_hint =>
-      '하나를 고정하거나, 탐색 설정에서 \"고정된 소스만 포함\"을 끄세요.';
+  String get global_search_only_pinned_hint => '하나를 고정하거나, 탐색 설정에서 \"고정된 소스만 포함\"을 끄세요.';
 
   @override
-  String get global_search_all_nsfw =>
-      '이 유형에 대한 모든 소스가 NSFW로 표시되어 있으며 숨겨져 있습니다.';
+  String get global_search_all_nsfw => '이 유형에 대한 모든 소스가 NSFW로 표시되어 있으며 숨겨져 있습니다.';
 
   @override
   String get global_search_all_nsfw_hint => '검색하려면 탐색 설정에서 NSFW 소스를 활성화하세요.';
@@ -3367,8 +3288,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get auto_library_update => '보관함 자동 업데이트';
 
   @override
-  String get auto_library_update_subtitle =>
-      '앱이 시작될 때 보관함의 모든 항목에 새로운 화가 있는지 확인합니다.';
+  String get auto_library_update_subtitle => '앱이 시작될 때 보관함의 모든 항목에 새로운 화가 있는지 확인합니다.';
 
   @override
   String get auto_library_update_never => '사용 안 함';
@@ -3389,8 +3309,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get auto_library_update_wifi_only => 'Wi-Fi에서만';
 
   @override
-  String get auto_library_update_wifi_only_subtitle =>
-      '모바일 데이터 사용 중에는 예약된 업데이트를 건너뜁니다.';
+  String get auto_library_update_wifi_only_subtitle => '모바일 데이터 사용 중에는 예약된 업데이트를 건너뜁니다.';
 
   @override
   String get padding => '여백';
@@ -3627,8 +3546,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get group_nav_destinations => '내비게이션 묶기';
 
   @override
-  String get group_nav_destinations_subtitle =>
-      '만화, 애니메이션, 소설을 전환하는 라이브러리 탭 하나와 업데이트와 기록을 위한 활동 탭 하나';
+  String get group_nav_destinations_subtitle => '만화, 애니메이션, 소설을 전환하는 라이브러리 탭 하나와 업데이트와 기록을 위한 활동 탭 하나';
 
   @override
   String get search_all_sources => '모든 소스 검색';
@@ -3945,8 +3863,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get no_tracker_connected => '연결된 트래커 없음';
 
   @override
-  String get no_tracker_connected_message =>
-      '설정 › 트래킹에서 서비스에 로그인하면 여기에 목록이 표시됩니다.';
+  String get no_tracker_connected_message => '설정 › 트래킹에서 서비스에 로그인하면 여기에 목록이 표시됩니다.';
 
   @override
   String get edit_metadata => '메타데이터 편집';
@@ -3990,15 +3907,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get group_navigation => '내비게이션';
 
   @override
-  String get tv_home_beta_subtitle =>
-      '평평한 격자 대신 행으로 구성된 애니메이션 홈(이어서 보기, 새 에피소드, 카테고리)';
+  String get tv_home_beta_subtitle => '평평한 격자 대신 행으로 구성된 애니메이션 홈(이어서 보기, 새 에피소드, 카테고리)';
 
   @override
   String get cloudflare_bypass_proxy_hint => '선택 사항: FlareSolverr 또는 Byparr 주소';
 
   @override
-  String get cloudflare_bypass_proxy_message =>
-      'FlareSolverr 또는 Byparr 엔드포인트입니다. 비워 두면 꺼집니다.';
+  String get cloudflare_bypass_proxy_message => 'FlareSolverr 또는 Byparr 엔드포인트입니다. 비워 두면 꺼집니다.';
 
   @override
   String get group_explore => '탐색';
@@ -4067,8 +3982,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get volume_keys_paging => '음량 버튼으로 페이지 넘기기';
 
   @override
-  String get volume_keys_paging_ios =>
-      '읽는 동안 두 버튼이 모두 작동하도록 음량을 절반으로 유지하고, 나가면 원래대로 돌아갑니다.';
+  String get volume_keys_paging_ios => '읽는 동안 두 버튼이 모두 작동하도록 음량을 절반으로 유지하고, 나가면 원래대로 돌아갑니다.';
 
   @override
   String get volume_keys_inverted => '음량 버튼 반전';

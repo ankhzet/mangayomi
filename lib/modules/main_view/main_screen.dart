@@ -33,8 +33,7 @@ class MainScreen extends ConsumerStatefulWidget {
   ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends ConsumerState<MainScreen>
-    with MainScreenLifecycleMixin {
+class _MainScreenState extends ConsumerState<MainScreen> with MainScreenLifecycleMixin {
   late final String _defaultLocation;
   late final List<String> _navigationOrder;
 
@@ -83,9 +82,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
   /// The first library the user actually has visible, in their own nav order.
   String? _firstVisibleLibrary() {
     final hidden = ref.read(hideItemsStateProvider);
-    final order = ref.read(animeOnlyTvModeProvider)
-        ? _navigationOrder.where(isNotHiddenLibOnTv)
-        : _navigationOrder;
+    final order = ref.read(animeOnlyTvModeProvider) ? _navigationOrder.where(isNotHiddenLibOnTv) : _navigationOrder;
     for (final nav in order) {
       if (libLocationRegex.hasMatch(nav) && !hidden.contains(nav)) return nav;
     }
@@ -103,8 +100,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
     var changed = false;
     if (notification is ScrollUpdateNotification) {
       final metrics = notification.metrics;
-      if (metrics.maxScrollExtent <= 0 ||
-          metrics.pixels <= metrics.minScrollExtent) {
+      if (metrics.maxScrollExtent <= 0 || metrics.pixels <= metrics.minScrollExtent) {
         changed = _navShrink.reset();
       } else {
         changed = _navShrink.update(notification.scrollDelta ?? 0);
@@ -119,9 +115,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
   }
 
   static bool _isReadingScreen(String? location) {
-    return location == '/mangaReaderView' ||
-        location == '/animePlayerView' ||
-        location == '/novelReaderView';
+    return location == '/mangaReaderView' || location == '/animePlayerView' || location == '/novelReaderView';
   }
 
   @override
@@ -186,9 +180,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
 
               if (grouped) {
                 dest = groupDestinations(dest);
-              } else if (mergeLibraryNavMobile &&
-                  !prefersNavRail &&
-                  !isLibSwitch) {
+              } else if (mergeLibraryNavMobile && !prefersNavRail && !isLibSwitch) {
                 dest = dest
                     .map((nav) {
                       if ([
@@ -213,10 +205,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
                 final group = NavGroup.of(location);
                 if (grouped && group != null && dest.contains(group)) {
                   libLocation = group;
-                } else if (!grouped &&
-                    mergeLibraryNavMobile &&
-                    !prefersNavRail &&
-                    !isLibSwitch) {
+                } else if (!grouped && mergeLibraryNavMobile && !prefersNavRail && !isLibSwitch) {
                   libLocation = location?.replaceAll(
                     libLocationRegex,
                     "_enableLibSwitch",
@@ -264,8 +253,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
                                   currentIndex: currentIndex,
                                   route: route,
                                   ref: ref,
-                                  buildNavigationWidgetsDesktop: _navBuilders
-                                      .buildNavigationWidgetsDesktop,
+                                  buildNavigationWidgetsDesktop: _navBuilders.buildNavigationWidgetsDesktop,
                                   child: widget.child,
                                 )
                               : widget.child,
@@ -282,8 +270,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
                                 useFloatingNav: useFloatingNav,
                                 shrink: _navShrink.shrunk ? 1.0 : 0.0,
                                 onWake: _wakeNav,
-                                buildNavigationWidgetsMobile:
-                                    _navBuilders.buildNavigationWidgetsMobile,
+                                buildNavigationWidgetsMobile: _navBuilders.buildNavigationWidgetsMobile,
                                 onDestinationSelected: (destination) {
                                   if (destination == "_enableLibSwitch") {
                                     setState(() {
@@ -295,8 +282,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
                                       final target = _firstVisibleLibrary();
                                       if (target != null) route.go(target);
                                     }
-                                  } else if (destination ==
-                                      "_disableLibSwitch") {
+                                  } else if (destination == "_disableLibSwitch") {
                                     setState(() {
                                       isLibSwitch = false;
                                     });

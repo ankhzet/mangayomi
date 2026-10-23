@@ -30,9 +30,7 @@ class MassMigrationSummaryPhase extends StatelessWidget {
     final l10n = context.l10n;
     final total = sourceGroup.items.length;
     final matchedCount = resolvedItems.where((item) => item.hasMatch).length;
-    final tone = failedItems.isEmpty
-        ? context.shiori.color.completed
-        : context.shiori.color.offline;
+    final tone = failedItems.isEmpty ? context.shiori.color.completed : context.shiori.color.offline;
     final successTone = tone.foreground;
 
     return Container(
@@ -57,9 +55,7 @@ class MassMigrationSummaryPhase extends StatelessWidget {
                     borderRadius: BorderRadius.circular(ShioriShape.card),
                   ),
                   child: Icon(
-                    failedItems.isEmpty
-                        ? Symbols.task_alt_rounded
-                        : Symbols.done_all_rounded,
+                    failedItems.isEmpty ? Symbols.task_alt_rounded : Symbols.done_all_rounded,
                     color: successTone,
                     size: 30,
                   ),

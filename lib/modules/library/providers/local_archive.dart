@@ -10,8 +10,7 @@ import 'package:mangayomi/modules/manga/archive_reader/providers/archive_reader_
 import 'package:mangayomi/src/rust/api/epub.dart';
 import 'package:mangayomi/utils/manga_cover_actions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-export 'package:mangayomi/utils/manga_cover_actions.dart'
-    show Uint8ListExtensions;
+export 'package:mangayomi/utils/manga_cover_actions.dart' show Uint8ListExtensions;
 part 'local_archive.g.dart';
 
 @riverpod
@@ -58,8 +57,7 @@ Future importArchivesFromFile(
           );
 
       for (var file in files.reversed) {
-        (String, LocalExtensionType, Uint8List, String)? data =
-            itemType == ItemType.manga
+        (String, LocalExtensionType, Uint8List, String)? data = itemType == ItemType.manga
             ? await ref.watch(
                 getArchivesDataFromFileProvider(file.path!).future,
               )

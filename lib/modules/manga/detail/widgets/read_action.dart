@@ -70,8 +70,7 @@ class ReadActionButton extends ConsumerWidget {
             : next != null && anyRead && !(next.isRead ?? false)
             ? '${l10n.continue_reading} · ${next.name}'
             : start,
-        onPressed: () =>
-            (resume ?? next ?? chapters.first).pushToReaderView(context),
+        onPressed: () => (resume ?? next ?? chapters.first).pushToReaderView(context),
       ),
     );
   }

@@ -58,8 +58,7 @@ mixin ReaderAutoScroll<T extends StatefulWidget> on State<T>, TickerProvider {
       _lastAutoScrollTick = elapsed;
       return;
     }
-    final double dt =
-        (elapsed - _lastAutoScrollTick).inMicroseconds / 1000000.0;
+    final double dt = (elapsed - _lastAutoScrollTick).inMicroseconds / 1000000.0;
     _lastAutoScrollTick = elapsed;
 
     if (dt <= 0 || dt > 0.1) return;

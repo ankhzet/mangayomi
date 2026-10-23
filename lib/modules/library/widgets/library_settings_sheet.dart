@@ -479,9 +479,7 @@ class _DisplayTab extends ConsumerWidget {
                     return ListTileChapterFilter(
                       label: l10n.show_continue_shelf,
                       type: showShelf ? 1 : 0,
-                      onTap: () => ref
-                          .read(continueShelfProvider.notifier)
-                          .set(!showShelf),
+                      onTap: () => ref.read(continueShelfProvider.notifier).set(!showShelf),
                     );
                   },
                 ),
@@ -538,8 +536,7 @@ class _GridSizeSlider extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final gridSize =
-        ref.watch(libraryGridSizeStateProvider(itemType: itemType)) ?? 0;
+    final gridSize = ref.watch(libraryGridSizeStateProvider(itemType: itemType)) ?? 0;
     final notifier = ref.read(
       libraryGridSizeStateProvider(itemType: itemType).notifier,
     );
@@ -550,9 +547,7 @@ class _GridSizeSlider extends ConsumerWidget {
       max: 7,
       divisions: 7,
       // 0 lets the screen width decide.
-      valueLabel: (v) => v == 0
-          ? context.l10n.default0
-          : context.l10n.n_per_row(v.round().toString()),
+      valueLabel: (v) => v == 0 ? context.l10n.default0 : context.l10n.n_per_row(v.round().toString()),
       onChanged: (v) => notifier.set(v.round()),
       onChangeEnd: (v) => notifier.set(v.round(), end: true),
     );

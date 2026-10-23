@@ -31,12 +31,8 @@ class ChapterPageDownload extends ConsumerWidget {
   void _sendFile(BuildContext context) async {
     final files = (await _downloadedFiles()).map((e) => XFile(e.path)).toList();
     if (files.isNotEmpty && context.mounted) {
-      final box = context.mounted
-          ? context.findRenderObject() as RenderBox?
-          : null;
-      final origin = box != null && box.hasSize
-          ? (box.localToGlobal(Offset.zero) & box.size)
-          : null;
+      final box = context.mounted ? context.findRenderObject() as RenderBox? : null;
+      final origin = box != null && box.hasSize ? (box.localToGlobal(Offset.zero) & box.size) : null;
       shareOrCopy(
         ShareParams(
           files: files,
@@ -138,8 +134,7 @@ class ChapterPageDownload extends ConsumerWidget {
               }
 
               // 2. Failed download state
-              if ((download.failed ?? 0) > 0 &&
-                  download.isStartDownload != true) {
+              if ((download.failed ?? 0) > 0 && download.isStartDownload != true) {
                 return _statusMenu(
                   context,
                   tooltip: l10n.download_failed,

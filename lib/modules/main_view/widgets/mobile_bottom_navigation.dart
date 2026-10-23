@@ -27,8 +27,7 @@ class MainMobileBottomNavigation extends StatelessWidget {
   final List<String> dest;
   final GoRouter route;
   final WidgetRef ref;
-  final List<Widget> Function(WidgetRef, List<String>, BuildContext)
-  buildNavigationWidgetsMobile;
+  final List<Widget> Function(WidgetRef, List<String>, BuildContext) buildNavigationWidgetsMobile;
   final Function(String) onDestinationSelected;
   final bool useFloatingNav;
   final double shrink;

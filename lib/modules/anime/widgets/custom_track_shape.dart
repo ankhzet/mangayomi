@@ -35,10 +35,7 @@ class CustomTrackShape extends SliderTrackShape {
     bool? isDiscrete,
   }) {
     final double thumbWidth =
-        sliderTheme.thumbShape
-            ?.getPreferredSize(isEnabled ?? true, isDiscrete ?? false)
-            .width ??
-        12.0;
+        sliderTheme.thumbShape?.getPreferredSize(isEnabled ?? true, isDiscrete ?? false).width ?? 12.0;
     final double trackHeight = sliderTheme.trackHeight ?? 4.0;
 
     final double trackTop = offset.dy + (parentBox.size.height - trackHeight) / 2;
@@ -70,12 +67,8 @@ class CustomTrackShape extends SliderTrackShape {
       isDiscrete: isDiscrete,
     );
 
-    final double activeFraction = maxValue > 0
-        ? (currentPosition / maxValue).clamp(0.0, 1.0)
-        : 0.0;
-    final double bufferFraction = maxValue > 0
-        ? (bufferPosition / maxValue).clamp(0.0, 1.0)
-        : 0.0;
+    final double activeFraction = maxValue > 0 ? (currentPosition / maxValue).clamp(0.0, 1.0) : 0.0;
+    final double bufferFraction = maxValue > 0 ? (bufferPosition / maxValue).clamp(0.0, 1.0) : 0.0;
 
     final double currentPositionWidth = trackWidth * activeFraction;
     final double bufferPositionWidth = trackWidth * bufferFraction;
@@ -85,9 +78,7 @@ class CustomTrackShape extends SliderTrackShape {
 
     // 1. Inactive full track (M3 base)
     final inactivePaint = Paint()
-      ..color =
-          sliderTheme.inactiveTrackColor ??
-          Colors.white.withValues(alpha: Alphas.hairline)
+      ..color = sliderTheme.inactiveTrackColor ?? Colors.white.withValues(alpha: Alphas.hairline)
       ..style = PaintingStyle.fill;
     canvas.drawRRect(
       RRect.fromRectAndRadius(trackRect, trackRadius),
@@ -106,9 +97,7 @@ class CustomTrackShape extends SliderTrackShape {
         trackRect.bottom,
       );
       final bufferPaint = Paint()
-        ..color =
-            sliderTheme.secondaryActiveTrackColor ??
-            Colors.white.withValues(alpha: Alphas.disabled)
+        ..color = sliderTheme.secondaryActiveTrackColor ?? Colors.white.withValues(alpha: Alphas.disabled)
         ..style = PaintingStyle.fill;
       canvas.drawRRect(
         RRect.fromRectAndRadius(bufferRect, trackRadius),

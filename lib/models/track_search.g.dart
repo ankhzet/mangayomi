@@ -234,10 +234,8 @@ P _trackSearchDeserializeProp<P>(
   }
 }
 
-extension TrackSearchQueryFilter
-    on QueryBuilder<TrackSearch, TrackSearch, QFilterCondition> {
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  coverUrlIsNull() {
+extension TrackSearchQueryFilter on QueryBuilder<TrackSearch, TrackSearch, QFilterCondition> {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> coverUrlIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'coverUrl'),
@@ -245,8 +243,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  coverUrlIsNotNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> coverUrlIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'coverUrl'),
@@ -269,8 +266,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  coverUrlGreaterThan(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> coverUrlGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -287,8 +283,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  coverUrlLessThan(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> coverUrlLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -326,8 +321,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  coverUrlStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> coverUrlStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -339,8 +336,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  coverUrlEndsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> coverUrlEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -352,8 +351,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  coverUrlContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> coverUrlContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -380,8 +381,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  coverUrlIsEmpty() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> coverUrlIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'coverUrl', value: ''),
@@ -389,8 +389,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  coverUrlIsNotEmpty() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> coverUrlIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'coverUrl', value: ''),
@@ -398,8 +397,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  finishedReadingDateIsNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> finishedReadingDateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'finishedReadingDate'),
@@ -407,8 +405,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  finishedReadingDateIsNotNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> finishedReadingDateIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'finishedReadingDate'),
@@ -416,8 +413,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  finishedReadingDateEqualTo(int? value) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> finishedReadingDateEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'finishedReadingDate', value: value),
@@ -425,8 +421,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  finishedReadingDateGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> finishedReadingDateGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -438,8 +436,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  finishedReadingDateLessThan(int? value, {bool include = false}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> finishedReadingDateLessThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -451,8 +451,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  finishedReadingDateBetween(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> finishedReadingDateBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -546,8 +545,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  lastChapterReadIsNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> lastChapterReadIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'lastChapterRead'),
@@ -555,8 +553,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  lastChapterReadIsNotNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> lastChapterReadIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'lastChapterRead'),
@@ -564,8 +561,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  lastChapterReadEqualTo(int? value) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> lastChapterReadEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'lastChapterRead', value: value),
@@ -573,8 +569,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  lastChapterReadGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> lastChapterReadGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -586,8 +584,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  lastChapterReadLessThan(int? value, {bool include = false}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> lastChapterReadLessThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -599,8 +599,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  lastChapterReadBetween(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> lastChapterReadBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -619,8 +618,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  libraryIdIsNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> libraryIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'libraryId'),
@@ -628,8 +626,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  libraryIdIsNotNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> libraryIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'libraryId'),
@@ -637,8 +634,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  libraryIdEqualTo(int? value) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> libraryIdEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'libraryId', value: value),
@@ -646,8 +642,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  libraryIdGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> libraryIdGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -659,8 +657,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  libraryIdLessThan(int? value, {bool include = false}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> libraryIdLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -672,8 +669,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  libraryIdBetween(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> libraryIdBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -692,8 +688,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  mediaIdIsNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> mediaIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'mediaId'),
@@ -701,8 +696,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  mediaIdIsNotNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> mediaIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'mediaId'),
@@ -720,8 +714,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  mediaIdGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> mediaIdGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -767,8 +760,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingStatusIsNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingStatusIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'publishingStatus'),
@@ -776,8 +768,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingStatusIsNotNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingStatusIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'publishingStatus'),
@@ -785,8 +776,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingStatusEqualTo(String? value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingStatusEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -798,8 +791,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingStatusGreaterThan(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingStatusGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -816,8 +808,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingStatusLessThan(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingStatusLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -834,8 +825,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingStatusBetween(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingStatusBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -856,8 +846,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingStatusStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingStatusStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -869,8 +861,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingStatusEndsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingStatusEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -882,8 +876,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingStatusContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingStatusContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -895,8 +891,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingStatusMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingStatusMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -908,8 +906,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingStatusIsEmpty() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingStatusIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'publishingStatus', value: ''),
@@ -917,8 +914,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingStatusIsNotEmpty() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingStatusIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'publishingStatus', value: ''),
@@ -926,8 +922,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingTypeIsNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingTypeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'publishingType'),
@@ -935,8 +930,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingTypeIsNotNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingTypeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'publishingType'),
@@ -944,8 +938,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingTypeEqualTo(String? value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingTypeEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -957,8 +953,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingTypeGreaterThan(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingTypeGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -975,8 +970,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingTypeLessThan(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingTypeLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -993,8 +987,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingTypeBetween(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingTypeBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -1015,8 +1008,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingTypeStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingTypeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -1028,8 +1023,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingTypeEndsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingTypeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -1041,8 +1038,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingTypeContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingTypeContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -1054,8 +1053,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingTypeMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingTypeMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -1067,8 +1068,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingTypeIsEmpty() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingTypeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'publishingType', value: ''),
@@ -1076,8 +1076,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  publishingTypeIsNotEmpty() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> publishingTypeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'publishingType', value: ''),
@@ -1093,8 +1092,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  scoreIsNotNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> scoreIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'score'),
@@ -1118,8 +1116,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  scoreGreaterThan(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> scoreGreaterThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -1177,8 +1174,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startDateIsNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startDateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'startDate'),
@@ -1186,8 +1182,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startDateIsNotNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startDateIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'startDate'),
@@ -1195,8 +1190,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startDateEqualTo(String? value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startDateEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -1208,8 +1205,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startDateGreaterThan(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startDateGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1226,8 +1222,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startDateLessThan(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startDateLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1244,8 +1239,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startDateBetween(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startDateBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -1266,8 +1260,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startDateStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startDateStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -1279,8 +1275,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startDateEndsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startDateEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -1292,8 +1290,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startDateContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startDateContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -1305,8 +1305,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startDateMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startDateMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -1318,8 +1320,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startDateIsEmpty() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startDateIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'startDate', value: ''),
@@ -1327,8 +1328,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startDateIsNotEmpty() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startDateIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'startDate', value: ''),
@@ -1336,8 +1336,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startedReadingDateIsNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startedReadingDateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'startedReadingDate'),
@@ -1345,8 +1344,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startedReadingDateIsNotNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startedReadingDateIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'startedReadingDate'),
@@ -1354,8 +1352,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startedReadingDateEqualTo(int? value) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startedReadingDateEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'startedReadingDate', value: value),
@@ -1363,8 +1360,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startedReadingDateGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startedReadingDateGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -1376,8 +1375,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startedReadingDateLessThan(int? value, {bool include = false}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startedReadingDateLessThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -1389,8 +1390,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  startedReadingDateBetween(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> startedReadingDateBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -1417,8 +1417,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  statusIsNotNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> statusIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'status'),
@@ -1441,8 +1440,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  statusGreaterThan(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> statusGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1497,8 +1495,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  statusStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> statusStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -1555,8 +1555,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  statusIsEmpty() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> statusIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'status', value: ''),
@@ -1564,8 +1563,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  statusIsNotEmpty() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> statusIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'status', value: ''),
@@ -1573,8 +1571,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  summaryIsNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> summaryIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'summary'),
@@ -1582,8 +1579,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  summaryIsNotNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> summaryIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'summary'),
@@ -1606,8 +1602,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  summaryGreaterThan(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> summaryGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1662,8 +1657,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  summaryStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> summaryStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -1720,8 +1717,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  summaryIsEmpty() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> summaryIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'summary', value: ''),
@@ -1729,8 +1725,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  summaryIsNotEmpty() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> summaryIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'summary', value: ''),
@@ -1746,8 +1741,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  syncIdIsNotNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> syncIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'syncId'),
@@ -1765,8 +1759,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  syncIdGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> syncIdGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -1820,8 +1813,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  titleIsNotNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> titleIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'title'),
@@ -1844,8 +1836,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  titleGreaterThan(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> titleGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1968,8 +1959,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  titleIsNotEmpty() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> titleIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'title', value: ''),
@@ -1977,8 +1967,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  totalChapterIsNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> totalChapterIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'totalChapter'),
@@ -1986,8 +1975,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  totalChapterIsNotNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> totalChapterIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'totalChapter'),
@@ -1995,8 +1983,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  totalChapterEqualTo(int? value) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> totalChapterEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'totalChapter', value: value),
@@ -2004,8 +1991,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  totalChapterGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> totalChapterGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -2017,8 +2006,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  totalChapterLessThan(int? value, {bool include = false}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> totalChapterLessThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -2030,8 +2021,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  totalChapterBetween(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> totalChapterBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -2050,8 +2040,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  trackingUrlIsNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> trackingUrlIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'trackingUrl'),
@@ -2059,8 +2048,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  trackingUrlIsNotNull() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> trackingUrlIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'trackingUrl'),
@@ -2068,8 +2056,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  trackingUrlEqualTo(String? value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> trackingUrlEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -2081,8 +2071,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  trackingUrlGreaterThan(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> trackingUrlGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -2099,8 +2088,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  trackingUrlLessThan(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> trackingUrlLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -2117,8 +2105,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  trackingUrlBetween(
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> trackingUrlBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -2139,8 +2126,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  trackingUrlStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> trackingUrlStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -2152,8 +2141,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  trackingUrlEndsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> trackingUrlEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -2165,8 +2156,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  trackingUrlContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> trackingUrlContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -2178,8 +2171,10 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  trackingUrlMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> trackingUrlMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -2191,8 +2186,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  trackingUrlIsEmpty() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> trackingUrlIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'trackingUrl', value: ''),
@@ -2200,8 +2194,7 @@ extension TrackSearchQueryFilter
     });
   }
 
-  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition>
-  trackingUrlIsNotEmpty() {
+  QueryBuilder<TrackSearch, TrackSearch, QAfterFilterCondition> trackingUrlIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'trackingUrl', value: ''),
@@ -2210,5 +2203,4 @@ extension TrackSearchQueryFilter
   }
 }
 
-extension TrackSearchQueryObject
-    on QueryBuilder<TrackSearch, TrackSearch, QFilterCondition> {}
+extension TrackSearchQueryObject on QueryBuilder<TrackSearch, TrackSearch, QFilterCondition> {}

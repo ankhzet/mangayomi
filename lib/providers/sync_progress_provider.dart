@@ -10,9 +10,7 @@ class SyncProgressState {
 
   const SyncProgressState({this.active = false, this.done = 0, this.total});
 
-  double? get fraction => (!active || total == null || total == 0)
-      ? null
-      : (done / total!).clamp(0.0, 1.0);
+  double? get fraction => (!active || total == null || total == 0) ? null : (done / total!).clamp(0.0, 1.0);
 }
 
 @riverpod

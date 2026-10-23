@@ -62,9 +62,7 @@ KotatsuBackupData parseKotatsuBackup(Archive archive) {
     if (mangaValue is! Map) continue;
     final manga = Map<String, dynamic>.from(mangaValue);
     final mangaId = _readInt(favourite['manga_id'] ?? manga['id']);
-    final key = mangaId != null
-        ? 'id:$mangaId'
-        : 'source:${manga['source']}\u0000url:${manga['url']}';
+    final key = mangaId != null ? 'id:$mangaId' : 'source:${manga['source']}\u0000url:${manga['url']}';
     final record = mangasByKey.putIfAbsent(
       key,
       () => KotatsuMangaRecord(manga: manga),

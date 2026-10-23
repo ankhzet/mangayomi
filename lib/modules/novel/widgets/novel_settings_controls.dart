@@ -340,9 +340,7 @@ class NovelColorPicker extends StatelessWidget {
             color: optionColor,
             borderRadius: BorderRadius.circular(ShioriShape.cover),
             border: Border.all(
-              color: isSelected
-                  ? context.shiori.color.accentInk
-                  : context.shiori.color.fgMuted,
+              color: isSelected ? context.shiori.color.accentInk : context.shiori.color.fgMuted,
               width: isSelected ? 2.5 : 1,
             ),
           ),
@@ -459,18 +457,14 @@ class NovelAlignButton extends StatelessWidget {
                 : Colors.transparent,
             borderRadius: BorderRadius.circular(ShioriShape.cover),
             border: Border.all(
-              color: isSelected
-                  ? context.shiori.color.accent
-                  : context.shiori.color.hairline,
+              color: isSelected ? context.shiori.color.accent : context.shiori.color.hairline,
               width: isSelected ? 1.5 : 1,
             ),
           ),
           child: Icon(
             icon,
             size: 18,
-            color: isSelected
-                ? context.shiori.color.accent
-                : context.shiori.color.fg,
+            color: isSelected ? context.shiori.color.accent : context.shiori.color.fg,
           ),
         ),
       ),
@@ -507,9 +501,7 @@ class NovelModeChipButton extends StatelessWidget {
             vertical: ShioriSpace.s8,
           ),
           decoration: BoxDecoration(
-            color: isSelected
-                ? primaryColor.withValues(alpha: Alphas.accentTint)
-                : Colors.transparent,
+            color: isSelected ? primaryColor.withValues(alpha: Alphas.accentTint) : Colors.transparent,
             borderRadius: BorderRadius.circular(ShioriShape.card),
             border: Border.all(
               color: isSelected ? primaryColor : context.shiori.color.hairline,
@@ -533,9 +525,7 @@ class NovelModeChipButton extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: context.shiori.text.meta.fontSize,
-                    fontWeight: isSelected
-                        ? FontWeight.bold
-                        : FontWeight.normal,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                     color: isSelected ? primaryColor : context.shiori.color.fg,
                   ),
                 ),

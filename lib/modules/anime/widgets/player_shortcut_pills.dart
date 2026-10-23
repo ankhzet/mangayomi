@@ -76,9 +76,7 @@ class PlayerShortcutPills extends StatelessWidget {
               builder: (context) => ValueListenableBuilder<VideoPrefs?>(
                 valueListenable: video,
                 builder: (context, videoPrefs, _) {
-                  final rawQuality =
-                      videoPrefs?.videoTrack?.title ??
-                      (videos.isNotEmpty ? videos.first.quality : '');
+                  final rawQuality = videoPrefs?.videoTrack?.title ?? (videos.isNotEmpty ? videos.first.quality : '');
                   final qualityLabel = shortQualityLabel(rawQuality);
                   return PlayerPillButton(
                     icon: Symbols.hd_rounded,
@@ -99,9 +97,7 @@ class PlayerShortcutPills extends StatelessWidget {
             builder: (context) {
               final subTrack = subtitleTrack();
               final isSubOff = subTrack == null || subTrack.id == 'no';
-              final shortLabel = isSubOff
-                  ? ''
-                  : _shortTrackName(subtitleTrackLabel(subTrack));
+              final shortLabel = isSubOff ? '' : _shortTrackName(subtitleTrackLabel(subTrack));
 
               return PlayerPillButton(
                 icon: Symbols.closed_caption_rounded,
@@ -120,12 +116,9 @@ class PlayerShortcutPills extends StatelessWidget {
             builder: (context) {
               final track = audioTrack();
               final isAudioOff = track == null || track.id == 'no';
-              final shortLabel = isAudioOff
-                  ? ''
-                  : _shortTrackName(audioTrackLabel(track));
+              final shortLabel = isAudioOff ? '' : _shortTrackName(audioTrackLabel(track));
               final hasMultipleAudios =
-                  player.state.tracks.audio.length > 1 ||
-                  videos.any((v) => (v.audios?.length ?? 0) > 1);
+                  player.state.tracks.audio.length > 1 || videos.any((v) => (v.audios?.length ?? 0) > 1);
 
               if (!hasMultipleAudios && shortLabel.isEmpty) {
                 return const SizedBox.shrink();
@@ -201,9 +194,7 @@ class PlayerShortcutPills extends StatelessWidget {
                   right: ShioriSpace.s4,
                 ),
                 child: PlayerPillButton(
-                  icon: isFullscreen
-                      ? Symbols.fullscreen_exit_rounded
-                      : Symbols.fullscreen_rounded,
+                  icon: isFullscreen ? Symbols.fullscreen_exit_rounded : Symbols.fullscreen_rounded,
                   tooltip: context.l10n.fullscreen,
                   isCompact: isMobile,
                   onTap: () => onToggleFullscreen(isFullscreen),
@@ -226,6 +217,5 @@ class PlayerShortcutPills extends StatelessWidget {
     ),
   );
 
-  String _shortTrackName(String rawName) =>
-      rawName.isNotEmpty && rawName != 'None' ? shortTrackLabel(rawName) : '';
+  String _shortTrackName(String rawName) => rawName.isNotEmpty && rawName != 'None' ? shortTrackLabel(rawName) : '';
 }

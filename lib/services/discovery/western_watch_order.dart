@@ -356,22 +356,17 @@ final class WesternWatchOrderPlanner {
     final currentIndex = capped.indexWhere(
       (row) => row.role == WesternWatchOrderItemRole.current,
     );
-    final expansionKeys =
-        expansions.keys
-            .where((key) => capped.any((row) => row.key == key))
-            .toList()
-          ..sort((a, b) {
-            final aIndex = capped.indexWhere((row) => row.key == a);
-            final bIndex = capped.indexWhere((row) => row.key == b);
-            final aCurrent =
-                capped[aIndex].role == WesternWatchOrderItemRole.current;
-            final bCurrent =
-                capped[bIndex].role == WesternWatchOrderItemRole.current;
-            if (aCurrent != bCurrent) return aCurrent ? -1 : 1;
-            return (aIndex - currentIndex).abs().compareTo(
-              (bIndex - currentIndex).abs(),
-            );
-          });
+    final expansionKeys = expansions.keys.where((key) => capped.any((row) => row.key == key)).toList()
+      ..sort((a, b) {
+        final aIndex = capped.indexWhere((row) => row.key == a);
+        final bIndex = capped.indexWhere((row) => row.key == b);
+        final aCurrent = capped[aIndex].role == WesternWatchOrderItemRole.current;
+        final bCurrent = capped[bIndex].role == WesternWatchOrderItemRole.current;
+        if (aCurrent != bCurrent) return aCurrent ? -1 : 1;
+        return (aIndex - currentIndex).abs().compareTo(
+          (bIndex - currentIndex).abs(),
+        );
+      });
     final expanded = <String, List<WesternWatchOrderItem>>{};
     for (final key in expansionKeys) {
       if (remaining <= 0) break;
@@ -409,9 +404,7 @@ final class WesternWatchOrderPlanner {
     );
     if (currentGroup == -1 || groups.isEmpty) return const [];
 
-    final groupCount = groups.length < maxRenderedItems
-        ? groups.length
-        : maxRenderedItems;
+    final groupCount = groups.length < maxRenderedItems ? groups.length : maxRenderedItems;
     var start = currentGroup - (groupCount ~/ 2);
     if (start < 0) start = 0;
     if (start + groupCount > groups.length) {
@@ -419,8 +412,7 @@ final class WesternWatchOrderPlanner {
     }
     final selected = groups.sublist(start, start + groupCount);
     final retained = <int, List<WesternWatchOrderItem>>{
-      for (var index = 0; index < selected.length; index++)
-        index: [selected[index].first],
+      for (var index = 0; index < selected.length; index++) index: [selected[index].first],
     };
     var remaining = maxRenderedItems - selected.length;
     final localCurrent = currentGroup - start;
@@ -534,13 +526,9 @@ WesternWatchOrderItem _titleRow(
   String? keySuffix,
 }) {
   return WesternWatchOrderItem(
-    key: keySuffix == null
-        ? _mediaKey(media)
-        : '${_mediaKey(media)}:$keySuffix',
+    key: keySuffix == null ? _mediaKey(media) : '${_mediaKey(media)}:$keySuffix',
     title: media.title,
-    kind: media.type == TraktMediaType.movie
-        ? WesternWatchOrderItemKind.movie
-        : WesternWatchOrderItemKind.show,
+    kind: media.type == TraktMediaType.movie ? WesternWatchOrderItemKind.movie : WesternWatchOrderItemKind.show,
     depth: 0,
     role: WesternWatchOrderItemRole.neutral,
     searchTarget: SearchTarget(query: media.title, itemType: itemType),
@@ -580,8 +568,7 @@ WesternWatchOrderItem _syntheticSeasonRow(
   String? keySuffix,
 }) {
   return WesternWatchOrderItem(
-    key:
-        '${_mediaKey(parent)}:season:$seasonNumber:group${keySuffix == null ? '' : ':$keySuffix'}',
+    key: '${_mediaKey(parent)}:season:$seasonNumber:group${keySuffix == null ? '' : ':$keySuffix'}',
     title: 'Season $seasonNumber',
     kind: WesternWatchOrderItemKind.season,
     depth: 1,
@@ -621,9 +608,7 @@ List<WesternWatchOrderItem> _assignTopLevelRoles(
   TraktRootMedia root,
 ) {
   bool matchesRoot(WesternWatchOrderItem row) =>
-      row.depth == 0 &&
-      _typeMatches(row.kind, root.type) &&
-      _idsMatch(row.ids, root.ids);
+      row.depth == 0 && _typeMatches(row.kind, root.type) && _idsMatch(row.ids, root.ids);
 
   var currentIndex = rows.indexWhere(
     (row) => matchesRoot(row) && !row.key.contains(':group:'),
@@ -655,8 +640,7 @@ TraktMediaType? _rootType(MediaKind kind) {
 }
 
 bool _typeMatches(WesternWatchOrderItemKind kind, TraktMediaType type) {
-  return (kind == WesternWatchOrderItemKind.movie &&
-          type == TraktMediaType.movie) ||
+  return (kind == WesternWatchOrderItemKind.movie && type == TraktMediaType.movie) ||
       (kind == WesternWatchOrderItemKind.show && type == TraktMediaType.show);
 }
 

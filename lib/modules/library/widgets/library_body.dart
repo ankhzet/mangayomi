@@ -122,9 +122,7 @@ class LibraryBody extends ConsumerWidget {
           // library; say which it is.
           final narrowed = searchQuery.isNotEmpty || data.isNotEmpty;
           return ShioriEmptyState(
-            icon: narrowed
-                ? Symbols.search_off_rounded
-                : Symbols.collections_bookmark_rounded,
+            icon: narrowed ? Symbols.search_off_rounded : Symbols.collections_bookmark_rounded,
             title: narrowed ? l10n.no_result : l10n.empty_library,
             message: narrowed ? null : l10n.empty_library_hint,
             // An empty library leads somewhere: the sources for this media.
@@ -132,9 +130,7 @@ class LibraryBody extends ConsumerWidget {
             onAction: narrowed
                 ? null
                 : () {
-                    ref
-                        .read(browseInitialTabProvider.notifier)
-                        .request(BrowseTab(itemType, BrowseTabKind.sources));
+                    ref.read(browseInitialTabProvider.notifier).request(BrowseTab(itemType, BrowseTabKind.sources));
                     context.go('/browse');
                   },
           );
@@ -144,8 +140,7 @@ class LibraryBody extends ConsumerWidget {
             ? sortType == 3
                   ? sortByUnreadCount(
                       entries,
-                      unreadCountOf: (manga) =>
-                          manga.unreadChaptersCount(settings),
+                      unreadCountOf: (manga) => manga.unreadChaptersCount(settings),
                       descending: true,
                     )
                   : entries.reversed.toList()
@@ -194,9 +189,7 @@ class LibraryBody extends ConsumerWidget {
               gridSize: ref.watch(
                 libraryGridSizeStateProvider(itemType: itemType),
               ),
-              childAspectRatio: displayType == DisplayType.comfortableGrid
-                  ? 0.642
-                  : 0.69,
+              childAspectRatio: displayType == DisplayType.comfortableGrid ? 0.642 : 0.69,
             ),
     );
   }

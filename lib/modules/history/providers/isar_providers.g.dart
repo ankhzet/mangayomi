@@ -63,8 +63,7 @@ final class GetAllHistoryStreamProvider
   }
 }
 
-String _$getAllHistoryStreamHash() =>
-    r'fc843a797aa95e371c6634f43240de780f87f15e';
+String _$getAllHistoryStreamHash() => r'fc843a797aa95e371c6634f43240de780f87f15e';
 
 final class GetAllHistoryStreamFamily extends $Family
     with $FunctionalFamilyOverride<Stream<List<History>>, ({ItemType itemType, String search})> {
@@ -90,11 +89,9 @@ final class GetAllHistoryStreamFamily extends $Family
 }
 
 @ProviderFor(ActiveHistoryItemTypeState)
-final activeHistoryItemTypeStateProvider =
-    ActiveHistoryItemTypeStateProvider._();
+final activeHistoryItemTypeStateProvider = ActiveHistoryItemTypeStateProvider._();
 
-final class ActiveHistoryItemTypeStateProvider
-    extends $NotifierProvider<ActiveHistoryItemTypeState, ItemType> {
+final class ActiveHistoryItemTypeStateProvider extends $NotifierProvider<ActiveHistoryItemTypeState, ItemType> {
   ActiveHistoryItemTypeStateProvider._()
     : super(
         from: null,
@@ -122,8 +119,7 @@ final class ActiveHistoryItemTypeStateProvider
   }
 }
 
-String _$activeHistoryItemTypeStateHash() =>
-    r'881ae706e2908719952fd9f6c935a5847aaf8d7f';
+String _$activeHistoryItemTypeStateHash() => r'881ae706e2908719952fd9f6c935a5847aaf8d7f';
 
 abstract class _$ActiveHistoryItemTypeState extends $Notifier<ItemType> {
   ItemType build();
@@ -131,14 +127,7 @@ abstract class _$ActiveHistoryItemTypeState extends $Notifier<ItemType> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<ItemType, ItemType>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<ItemType, ItemType>,
-              ItemType,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<ItemType, ItemType>, ItemType, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -197,8 +186,7 @@ final class GetAllUpdateStreamProvider
   }
 }
 
-String _$getAllUpdateStreamHash() =>
-    r'd1a3e3b9ce4b77f3c1c1f3d8ac880520fcc19e94';
+String _$getAllUpdateStreamHash() => r'd1a3e3b9ce4b77f3c1c1f3d8ac880520fcc19e94';
 
 final class GetAllUpdateStreamFamily extends $Family
     with $FunctionalFamilyOverride<Stream<List<Update>>, ({ItemType itemType, String search})> {

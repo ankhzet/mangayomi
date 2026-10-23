@@ -108,9 +108,7 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
                   actionLabel: context.l10n.show_extensions,
                   onAction: () {
                     final extensionIndex = widget.tabs.indexWhere(
-                      (t) =>
-                          t.type == widget.itemType &&
-                          t.kind == BrowseTabKind.extensions,
+                      (t) => t.type == widget.itemType && t.kind == BrowseTabKind.extensions,
                     );
                     if (extensionIndex != -1) {
                       widget.tabIndex(extensionIndex);
@@ -131,12 +129,8 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
           }
           final lastUsedEntries = sources.where((e) => e.lastUsed!).toList();
           final isPinnedEntries = sources.where((e) => e.isPinned!).toList();
-          final allEntriesWithoutIspinned = sources
-              .where((element) => !element.isPinned!)
-              .toList();
-          final showWarning = sources
-              .where((e) => e.sourceCodeLanguage == SourceCodeLanguage.mihon)
-              .isNotEmpty;
+          final allEntriesWithoutIspinned = sources.where((element) => !element.isPinned!).toList();
+          final showWarning = sources.where((e) => e.sourceCodeLanguage == SourceCodeLanguage.mihon).isNotEmpty;
           return Scrollbar(
             interactive: true,
             controller: controller,
@@ -152,11 +146,10 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
                 CustomSliverGroupedListView<Source, String>(
                   elements: lastUsedEntries,
                   groupBy: (element) => "",
-                  groupSeparatorBuilder: (String groupByValue) =>
-                      ShioriSectionHeader(
-                        title: l10n.last_used,
-                        overline: true,
-                      ),
+                  groupSeparatorBuilder: (String groupByValue) => ShioriSectionHeader(
+                    title: l10n.last_used,
+                    overline: true,
+                  ),
                   itemBuilder: (context, Source element) {
                     return _row(element, shareNodes: false);
                   },
@@ -178,8 +171,7 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
                 ),
                 CustomSliverGroupedListView<Source, String>(
                   elements: allEntriesWithoutIspinned,
-                  groupBy: (element) =>
-                      languageName(context, element.lang!.toLowerCase()),
+                  groupBy: (element) => languageName(context, element.lang!.toLowerCase()),
                   groupSeparatorBuilder: (String groupByValue) =>
                       ShioriSectionHeader(title: groupByValue, overline: true),
                   itemBuilder: (context, Source element) {
@@ -216,8 +208,7 @@ class _SourcesScreenState extends ConsumerState<SourcesScreen> {
         },
         error: (error, _) => ErrorState(
           detail: error.toString(),
-          onRetry: () =>
-              ref.invalidate(getSourcesStreamProvider(widget.itemType)),
+          onRetry: () => ref.invalidate(getSourcesStreamProvider(widget.itemType)),
         ),
         loading: () => const ShioriLoading(),
       ),

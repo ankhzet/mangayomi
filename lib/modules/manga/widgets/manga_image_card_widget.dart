@@ -193,9 +193,7 @@ class MangaImageCardListTileWidget extends ConsumerWidget {
                     Container(
                       height: 55,
                       width: 40,
-                      color: hasData && libraryManga!.favorite!
-                          ? inLibraryVeil
-                          : null,
+                      color: hasData && libraryManga!.favorite! ? inLibraryVeil : null,
                     ),
                   ],
                 ),
@@ -242,8 +240,7 @@ Future<void> pushToMangaReaderDetail({
   } else if (mangaM?.id != null) {
     mangaId = mangaM!.id;
   } else if (source == "local") {
-    mangaId = (await mangaRepository.findLocalArchiveByName(getManga?.name))
-        ?.id;
+    mangaId = (await mangaRepository.findLocalArchiveByName(getManga?.name))?.id;
   }
 
   if (mangaId == null) {
@@ -297,8 +294,7 @@ Future<void> pushToMangaReaderDetail({
     await mangaRepository.save(mang..sourceId = sourceId);
   }
   final settings = await settingsRepository.currentAsync;
-  final exists =
-      settings!.sortChapterList?.any((e) => e.mangaId == mangaId) ?? false;
+  final exists = settings!.sortChapterList?.any((e) => e.mangaId == mangaId) ?? false;
   if (!exists) {
     await settingsRepository.update(
       (s) => s

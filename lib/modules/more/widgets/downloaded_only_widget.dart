@@ -13,9 +13,7 @@ class DownloadedOnlyWidget extends ConsumerWidget {
     final l10n = l10nLocalizations(context);
     final downloadedOnly = ref.watch(downloadedOnlyStateProvider);
     return ListTileWidget(
-      onTap: () => ref
-          .read(downloadedOnlyStateProvider.notifier)
-          .setDownloadedOnly(!downloadedOnly),
+      onTap: () => ref.read(downloadedOnlyStateProvider.notifier).setDownloadedOnly(!downloadedOnly),
       icon: Symbols.cloud_off_rounded,
       subtitle: l10n!.downloaded_only_description,
       title: l10n.downloaded_only,

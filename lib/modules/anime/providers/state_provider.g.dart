@@ -40,16 +40,14 @@ final class SubtitleSettingsStateProvider extends $NotifierProvider<SubtitleSett
   }
 }
 
-String _$subtitleSettingsStateHash() =>
-    r'c717aed7de35640792cf678304b8c2edef32ba45';
+String _$subtitleSettingsStateHash() => r'c717aed7de35640792cf678304b8c2edef32ba45';
 
 abstract class _$SubtitleSettingsState extends $Notifier<PlayerSubtitleSettings> {
   PlayerSubtitleSettings build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref =
-        this.ref as $Ref<PlayerSubtitleSettings, PlayerSubtitleSettings>;
+    final ref = this.ref as $Ref<PlayerSubtitleSettings, PlayerSubtitleSettings>;
     final element =
         ref.element
             as $ClassProviderElement<

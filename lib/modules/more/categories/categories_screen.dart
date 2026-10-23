@@ -115,8 +115,7 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
               onAction: _addCategory,
             );
           }
-          final sortedData = [...data]
-            ..sort((a, b) => (a.pos ?? 0).compareTo(b.pos ?? 0));
+          final sortedData = [...data]..sort((a, b) => (a.pos ?? 0).compareTo(b.pos ?? 0));
           _entries = sortedData;
 
           return ReorderableListView.builder(
@@ -188,9 +187,7 @@ class _CategoriesTabState extends ConsumerState<CategoriesTab> {
               await categoryRepository.save(category);
             },
             icon: Icon(
-              hidden
-                  ? Symbols.visibility_off_rounded
-                  : Symbols.visibility_rounded,
+              hidden ? Symbols.visibility_off_rounded : Symbols.visibility_rounded,
             ),
           ),
           ShioriMenuButton(

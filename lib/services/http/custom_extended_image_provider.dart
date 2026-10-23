@@ -15,8 +15,7 @@ import 'package:mangayomi/repositories/settings_repository.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/utils/avif.dart';
 import 'package:path/path.dart';
-import 'package:extended_image_library/src/network/extended_network_image_provider.dart'
-    as image_provider;
+import 'package:extended_image_library/src/network/extended_network_image_provider.dart' as image_provider;
 
 // NOTE: encoded image bytes are intentionally NOT cached in memory here.
 // The on-disk cache plus Flutter's decoded imageCache already cover repeat
@@ -60,8 +59,7 @@ class _CacheManager {
   static void evictOldestIfNeededThrottled(Directory cacheDir) {
     final now = DateTime.now();
     final lastCheck = _lastEvictionCheck[cacheDir.path];
-    if (lastCheck != null &&
-        now.difference(lastCheck) < _evictionThrottleInterval) {
+    if (lastCheck != null && now.difference(lastCheck) < _evictionThrottleInterval) {
       return;
     }
     _lastEvictionCheck[cacheDir.path] = now;
@@ -81,9 +79,7 @@ class _CacheManager {
         if (entity is File) {
           try {
             final stat = await entity.stat();
-            final lastTime = stat.accessed.isAfter(stat.modified)
-                ? stat.accessed
-                : stat.modified;
+            final lastTime = stat.accessed.isAfter(stat.modified) ? stat.accessed : stat.modified;
             files.add(
               _CacheMetadata(
                 path: entity.path,
@@ -120,8 +116,7 @@ class _CacheManager {
   }
 }
 
-class CustomExtendedNetworkImageProvider
-    extends ImageProvider<image_provider.ExtendedNetworkImageProvider>
+class CustomExtendedNetworkImageProvider extends ImageProvider<image_provider.ExtendedNetworkImageProvider>
     with ExtendedImageProvider<image_provider.ExtendedNetworkImageProvider>
     implements image_provider.ExtendedNetworkImageProvider {
   /// Deduplication map for in-flight image downloads to prevent multiple concurrent HTTP GET requests for the same URL
@@ -242,8 +237,7 @@ class CustomExtendedNetworkImageProvider
     // Ownership of this controller is handed off to [_loadAsync]; it is that
     // method's responsibility to close the controller's stream when the image
     // has been loaded or an error is thrown.
-    final StreamController<ImageChunkEvent> chunkEvents =
-        StreamController<ImageChunkEvent>();
+    final StreamController<ImageChunkEvent> chunkEvents = StreamController<ImageChunkEvent>();
 
     return MultiFrameImageStreamCompleter(
       codec: _loadAsync(
@@ -281,8 +275,7 @@ class CustomExtendedNetworkImageProvider
   }) async {
     final String md5Key = cacheKey ?? keyToMd5(url);
     try {
-      final Directory cacheImagesDirectory = await StorageProvider()
-          .createCacheDirectory(imageCacheFolderName);
+      final Directory cacheImagesDirectory = await StorageProvider().createCacheDirectory(imageCacheFolderName);
       final File cacheFile = File(join(cacheImagesDirectory.path, md5Key));
       if (await cacheFile.exists()) {
         await cacheFile.delete();
@@ -421,8 +414,7 @@ class CustomExtendedNetworkImageProvider
     StreamController<ImageChunkEvent>? chunkEvents,
     String md5Key,
   ) async {
-    final Directory cacheImagesDirectory = await StorageProvider()
-        .createCacheDirectory(imageCacheFolderName);
+    final Directory cacheImagesDirectory = await StorageProvider().createCacheDirectory(imageCacheFolderName);
     Uint8List? data;
     final File cacheFile = File(join(cacheImagesDirectory.path, md5Key));
 
@@ -467,8 +459,7 @@ class CustomExtendedNetworkImageProvider
         if (data != null) {
           try {
             // cache image file
-            await File(join(cacheImagesDirectory.path, md5Key))
-                .writeAsBytes(data);
+            await File(join(cacheImagesDirectory.path, md5Key)).writeAsBytes(data);
             // Evict old cache in background if needed (throttled)
             _CacheManager.evictOldestIfNeededThrottled(cacheImagesDirectory);
           } catch (_) {}
@@ -664,6 +655,5 @@ class CustomExtendedNetworkImageProvider
   }
 
   @override
-  WebHtmlElementStrategy get webHtmlElementStrategy =>
-      WebHtmlElementStrategy.fallback;
+  WebHtmlElementStrategy get webHtmlElementStrategy => WebHtmlElementStrategy.fallback;
 }

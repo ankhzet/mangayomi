@@ -32,8 +32,7 @@ class SourceCodeErrors {
 
   static final notifier = ValueNotifier<Map<int, SourceCodeError>>(const {});
 
-  static SourceCodeError? of(int? sourceId) =>
-      sourceId == null ? null : notifier.value[sourceId];
+  static SourceCodeError? of(int? sourceId) => sourceId == null ? null : notifier.value[sourceId];
 
   static void report(
     Source source,

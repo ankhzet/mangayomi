@@ -11,8 +11,7 @@ import 'package:media_kit/media_kit.dart';
 class AudioSectionWidget extends StatelessWidget {
   final List<VideoPrefs> audioOptions;
   final AudioTrack? effectiveAudioTrack;
-  final bool Function(AudioTrack? candidate, AudioTrack? effective)
-  isTrackSelected;
+  final bool Function(AudioTrack? candidate, AudioTrack? effective) isTrackSelected;
   final void Function(AudioTrack track) onSelect;
   final VoidCallback onDone;
 
@@ -32,9 +31,7 @@ class AudioSectionWidget extends StatelessWidget {
       child: Column(
         children: audioOptions.map((aud) {
           final isNone = aud.audio?.id == "no";
-          final title = isNone
-              ? context.l10n.off
-              : (aud.title ?? audioTrackLabel(aud.audio));
+          final title = isNone ? context.l10n.off : (aud.title ?? audioTrackLabel(aud.audio));
           final selected = isNone
               ? (effectiveAudioTrack == null || effectiveAudioTrack!.id == "no")
               : isTrackSelected(aud.audio, effectiveAudioTrack);

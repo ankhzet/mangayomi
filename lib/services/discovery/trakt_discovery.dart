@@ -5,8 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:mangayomi/services/discovery/title_match.dart';
 
 const String _traktBaseUrl = 'https://api.trakt.tv';
-const String _traktClientId =
-    '5520c7e24da0d8d73ec80315b61b9849483583b013cb7f296c6db723eb9886a1';
+const String _traktClientId = '5520c7e24da0d8d73ec80315b61b9849483583b013cb7f296c6db723eb9886a1';
 const String _traktUserAgent = 'Mangayomi Trakt Discovery';
 
 typedef TraktHttpGet = Future<http.Response> Function(
@@ -147,8 +146,7 @@ class TraktListItem {
 
   bool represents(TraktRootMedia root) {
     if (type == root.type && ids.matches(root.ids)) return true;
-    return root.type == TraktMediaType.show &&
-        parentShow?.ids.matches(root.ids) == true;
+    return root.type == TraktMediaType.show && parentShow?.ids.matches(root.ids) == true;
   }
 }
 
@@ -182,9 +180,8 @@ class TraktListCandidate {
   /// candidate lets a selector open the chosen list without another request.
   final List<TraktListItem> items;
 
-  String get stableKey => isOfficial
-      ? 'trakt:list:official:$listId'
-      : 'trakt:list:personal:${ownerSlug ?? 'unknown'}:$listId';
+  String get stableKey =>
+      isOfficial ? 'trakt:list:official:$listId' : 'trakt:list:personal:${ownerSlug ?? 'unknown'}:$listId';
 
   String get displayName => name;
 
@@ -226,9 +223,8 @@ class TraktDiscoveryException implements Exception {
   final int? statusCode;
 
   @override
-  String toString() => statusCode == null
-      ? 'TraktDiscoveryException: $message'
-      : 'TraktDiscoveryException: $message (HTTP $statusCode)';
+  String toString() =>
+      statusCode == null ? 'TraktDiscoveryException: $message' : 'TraktDiscoveryException: $message (HTTP $statusCode)';
 }
 
 /// Public Trakt metadata only. No account or OAuth state is used here.
@@ -451,8 +447,7 @@ class TraktDiscovery {
     String path,
     Map<String, String> query,
   ) async {
-    final uri = Uri.parse('$_traktBaseUrl$path')
-        .replace(queryParameters: query.isEmpty ? null : query);
+    final uri = Uri.parse('$_traktBaseUrl$path').replace(queryParameters: query.isEmpty ? null : query);
     http.Response response;
     try {
       response = await _get(uri, headers: _headers).timeout(requestTimeout);
@@ -553,13 +548,9 @@ TraktListCandidate? _listCandidate(
     'timeline',
   ].any(searchText.contains);
   final hasFranchiseScope =
-      hasRootReference ||
-      hasTitleMatch ||
-      const ['franchise', 'universe', 'saga'].any(searchText.contains);
+      hasRootReference || hasTitleMatch || const ['franchise', 'universe', 'saga'].any(searchText.contains);
   final hasCredibleCollectionIntent =
-      searchText.contains('collection') &&
-      (hasRootReference || hasTitleMatch) &&
-      (official || isVip || likes >= 10);
+      searchText.contains('collection') && (hasRootReference || hasTitleMatch) && (official || isVip || likes >= 10);
   final hasCredibleOrderIntent = hasStrongOrderIntent && hasFranchiseScope;
 
   // Containing the root title is necessary but not sufficient. A favorites

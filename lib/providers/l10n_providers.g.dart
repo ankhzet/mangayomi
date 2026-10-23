@@ -48,14 +48,7 @@ abstract class _$L10nLocaleState extends $Notifier<Locale> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<Locale, Locale>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<Locale, Locale>,
-              Locale,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<Locale, Locale>, Locale, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

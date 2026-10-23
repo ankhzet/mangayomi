@@ -160,9 +160,7 @@ class _ReadingModeTab extends ConsumerWidget {
             defaultMode: ref.watch(defaultReadingModeStateProvider),
             seriesName: seriesName,
             onChanged: (value) => onReaderModeChanged(value, ref),
-            onSetDefault: () => ref
-                .read(defaultReadingModeStateProvider.notifier)
-                .set(readerMode),
+            onSetDefault: () => ref.read(defaultReadingModeStateProvider.notifier).set(readerMode),
           ),
           const SizedBox(height: ShioriSpace.s8),
           // Grouped as in Settings › Reader, so a switch is found in the
@@ -171,8 +169,7 @@ class _ReadingModeTab extends ConsumerWidget {
             title: l10n.group_reading,
             children: [
               const ReaderSwitchRow(ReaderSwitch.cropBorders),
-              if (!continuous)
-                const ReaderSwitchRow(ReaderSwitch.navigateToPan),
+              if (!continuous) const ReaderSwitchRow(ReaderSwitch.navigateToPan),
               const ReaderSwitchRow(ReaderSwitch.usePageTapZones),
               const ReaderSwitchRow(ReaderSwitch.keepScreenOn),
             ],
@@ -192,12 +189,9 @@ class _ReadingModeTab extends ConsumerWidget {
                   divisions: 50,
                   valueLabel: (v) => '${v.round()} %',
                   defaultValue: 0,
-                  onReset: () =>
-                      ref.read(webtoonSidePaddingStateProvider.notifier).set(0),
+                  onReset: () => ref.read(webtoonSidePaddingStateProvider.notifier).set(0),
                   resetTooltip: l10n.reset,
-                  onChanged: (v) => ref
-                      .read(webtoonSidePaddingStateProvider.notifier)
-                      .set(v.round()),
+                  onChanged: (v) => ref.read(webtoonSidePaddingStateProvider.notifier).set(v.round()),
                 ),
                 ValueListenableBuilder(
                   valueListenable: autoScrollPage,
@@ -224,8 +218,7 @@ class _ReadingModeTab extends ConsumerWidget {
                             max: 30,
                             divisions: 28,
                             onChanged: (val) => pageOffset.value = val,
-                            onChangeEnd: (val) =>
-                                onAutoScrollSave(enabled, val),
+                            onChangeEnd: (val) => onAutoScrollSave(enabled, val),
                           ),
                         ),
                     ],
@@ -237,15 +230,12 @@ class _ReadingModeTab extends ConsumerWidget {
             title: l10n.page_layout,
             children: [
               const ReaderSwitchRow(ReaderSwitch.splitWidePages),
-              if (splitWidePages)
-                const ReaderSwitchRow(ReaderSwitch.dualPageInvert),
+              if (splitWidePages) const ReaderSwitchRow(ReaderSwitch.dualPageInvert),
               const ReaderSwitchRow(ReaderSwitch.dualPageRotateToFit),
-              if (dualPageRotateToFit)
-                const ReaderSwitchRow(ReaderSwitch.dualPageRotateToFitInvert),
+              if (dualPageRotateToFit) const ReaderSwitchRow(ReaderSwitch.dualPageRotateToFitInvert),
               const ReaderSwitchRow(ReaderSwitch.doublePageSingleFirstPage),
               const ReaderSwitchRow(ReaderSwitch.doublePageAuto),
-              if (!continuous)
-                const ReaderSwitchRow(ReaderSwitch.landscapeZoom),
+              if (!continuous) const ReaderSwitchRow(ReaderSwitch.landscapeZoom),
               if (!continuous && landscapeZoom)
                 ShioriValueRow<int>(
                   title: l10n.zoom_start_position,
@@ -255,8 +245,7 @@ class _ReadingModeTab extends ConsumerWidget {
                     ShioriChoice(1, l10n.zoom_start_right),
                     ShioriChoice(2, l10n.zoom_start_center),
                   ],
-                  onChanged: (v) =>
-                      ref.read(zoomStartPositionStateProvider.notifier).set(v),
+                  onChanged: (v) => ref.read(zoomStartPositionStateProvider.notifier).set(v),
                 ),
             ],
           ),
@@ -330,18 +319,15 @@ class _GeneralTab extends ConsumerWidget {
                   for (final color in BackgroundColor.values)
                     ShioriChoice(color, getBackgroundColorName(color, context)),
                 ],
-                onChanged: (v) =>
-                    ref.read(backgroundColorStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(backgroundColorStateProvider.notifier).set(v),
               ),
               ShioriValueRow<ScaleType>(
                 title: l10n.scale_type,
                 value: scaleType,
                 options: [
-                  for (final (i, name) in scaleNames.indexed)
-                    ShioriChoice(ScaleType.values[i], name),
+                  for (final (i, name) in scaleNames.indexed) ShioriChoice(ScaleType.values[i], name),
                 ],
-                onChanged: (v) =>
-                    ref.read(scaleTypeStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(scaleTypeStateProvider.notifier).set(v),
               ),
               if (!isMobile)
                 ShioriSwitchRow(
@@ -362,12 +348,9 @@ class _GeneralTab extends ConsumerWidget {
                 title: l10n.navigation_layout,
                 value: navigationLayout,
                 options: [
-                  for (var i = 0; i < 6; i++)
-                    ShioriChoice(i, _navLayoutName(i, context)),
+                  for (var i = 0; i < 6; i++) ShioriChoice(i, _navLayoutName(i, context)),
                 ],
-                onChanged: (v) => ref
-                    .read(readerNavigationLayoutStateProvider.notifier)
-                    .set(v),
+                onChanged: (v) => ref.read(readerNavigationLayoutStateProvider.notifier).set(v),
               ),
               ShioriValueRow<int>(
                 title: l10n.tapping_inversion,
@@ -378,8 +361,7 @@ class _GeneralTab extends ConsumerWidget {
                   ShioriChoice(2, l10n.tapping_inversion_vertical),
                   ShioriChoice(3, l10n.tapping_inversion_both),
                 ],
-                onChanged: (v) =>
-                    ref.read(tappingInversionStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(tappingInversionStateProvider.notifier).set(v),
               ),
               ShioriValueRow<int>(
                 title: l10n.reader_hide_threshold,
@@ -390,15 +372,13 @@ class _GeneralTab extends ConsumerWidget {
                   ShioriChoice(2, l10n.reader_hide_threshold_low),
                   ShioriChoice(3, l10n.reader_hide_threshold_lowest),
                 ],
-                onChanged: (v) =>
-                    ref.read(readerHideThresholdStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(readerHideThresholdStateProvider.notifier).set(v),
               ),
               const ReaderSwitchRow(ReaderSwitch.showNavigationOverlayOnStart),
               // The volume buttons as page turns, where a phone has them.
               if (VolumeKeys.isSupported) ...[
                 const ReaderSwitchRow(ReaderSwitch.volumeKeysPaging),
-                if (ref.watch(volumeKeysPagingStateProvider))
-                  const ReaderSwitchRow(ReaderSwitch.volumeKeysInverted),
+                if (ref.watch(volumeKeysPagingStateProvider)) const ReaderSwitchRow(ReaderSwitch.volumeKeysInverted),
               ],
             ],
           ),
@@ -415,8 +395,7 @@ class _GeneralTab extends ConsumerWidget {
                     ShioriChoice(1, l10n.flash_color_white),
                     ShioriChoice(2, l10n.flash_color_white_black),
                   ],
-                  onChanged: (v) =>
-                      ref.read(flashColorStateProvider.notifier).set(v),
+                  onChanged: (v) => ref.read(flashColorStateProvider.notifier).set(v),
                 ),
                 ShioriSliderRow(
                   title: l10n.flash_interval(flashInterval.toString()),
@@ -426,12 +405,9 @@ class _GeneralTab extends ConsumerWidget {
                   divisions: 9,
                   valueLabel: (_) => '',
                   defaultValue: 1,
-                  onReset: () =>
-                      ref.read(flashIntervalStateProvider.notifier).set(1),
+                  onReset: () => ref.read(flashIntervalStateProvider.notifier).set(1),
                   resetTooltip: l10n.reset,
-                  onChanged: (v) => ref
-                      .read(flashIntervalStateProvider.notifier)
-                      .set(v.round()),
+                  onChanged: (v) => ref.read(flashIntervalStateProvider.notifier).set(v.round()),
                 ),
                 ShioriSliderRow(
                   title: l10n.flash_duration(flashDuration.toString()),
@@ -441,12 +417,9 @@ class _GeneralTab extends ConsumerWidget {
                   divisions: 9,
                   valueLabel: (_) => '',
                   defaultValue: 100,
-                  onReset: () =>
-                      ref.read(flashDurationStateProvider.notifier).set(100),
+                  onReset: () => ref.read(flashDurationStateProvider.notifier).set(100),
                   resetTooltip: l10n.reset,
-                  onChanged: (v) => ref
-                      .read(flashDurationStateProvider.notifier)
-                      .set(v.round()),
+                  onChanged: (v) => ref.read(flashDurationStateProvider.notifier).set(v.round()),
                 ),
               ],
             ],
@@ -519,14 +492,12 @@ class _CustomFilterTab extends ConsumerWidget {
               ShioriSwitchRow(
                 title: l10n.invert_colors,
                 value: invertColors,
-                onChanged: (v) =>
-                    ref.read(invertColorsStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(invertColorsStateProvider.notifier).set(v),
               ),
               ShioriSwitchRow(
                 title: l10n.grayscale,
                 value: grayscale,
-                onChanged: (v) =>
-                    ref.read(grayscaleStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(grayscaleStateProvider.notifier).set(v),
               ),
               enhancement(
                 l10n.brightness,
@@ -559,33 +530,30 @@ class _CustomFilterTab extends ConsumerWidget {
               ShioriSwitchRow(
                 title: l10n.custom_color_filter,
                 value: enableCustomColorFilter,
-                onChanged: (v) => ref
-                    .read(enableCustomColorFilterStateProvider.notifier)
-                    .set(v),
+                onChanged: (v) => ref.read(enableCustomColorFilterStateProvider.notifier).set(v),
               ),
               if (enableCustomColorFilter) ...[
                 // The colour the filter lays over the page, then its four
                 // channels as the app's other sliders: named, with their
                 // value, saved when let go.
                 _FilterSwatch(a: a, r: r, g: g, b: b),
-                for (final (label, value, apply)
-                    in <(String, int, void Function(int, bool))>[
-                      (
-                        l10n.color_red,
-                        r,
-                        (v, end) => filter.set(a, v, g, b, end),
-                      ),
-                      (
-                        l10n.color_green,
-                        g,
-                        (v, end) => filter.set(a, r, v, b, end),
-                      ),
-                      (
-                        l10n.color_blue,
-                        b,
-                        (v, end) => filter.set(a, r, g, v, end),
-                      ),
-                    ])
+                for (final (label, value, apply) in <(String, int, void Function(int, bool))>[
+                  (
+                    l10n.color_red,
+                    r,
+                    (v, end) => filter.set(a, v, g, b, end),
+                  ),
+                  (
+                    l10n.color_green,
+                    g,
+                    (v, end) => filter.set(a, r, v, b, end),
+                  ),
+                  (
+                    l10n.color_blue,
+                    b,
+                    (v, end) => filter.set(a, r, g, v, end),
+                  ),
+                ])
                   ShioriSliderRow(
                     title: label,
                     value: value.toDouble(),
@@ -616,9 +584,7 @@ class _CustomFilterTab extends ConsumerWidget {
                         getColorFilterBlendModeName(mode, context),
                       ),
                   ],
-                  onChanged: (v) => ref
-                      .read(colorFilterBlendModeStateProvider.notifier)
-                      .set(v),
+                  onChanged: (v) => ref.read(colorFilterBlendModeStateProvider.notifier).set(v),
                 ),
               ],
             ],

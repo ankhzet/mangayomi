@@ -19,8 +19,7 @@ class _FollowSystemThemeButtonState extends ConsumerState<FollowSystemThemeButto
     return ShioriSwitchRow(
       title: l10n!.follow_system_theme,
       value: isFollow,
-      onChanged: (value) =>
-          ref.read(followSystemThemeStateProvider.notifier).set(value),
+      onChanged: (value) => ref.read(followSystemThemeStateProvider.notifier).set(value),
     );
   }
 }

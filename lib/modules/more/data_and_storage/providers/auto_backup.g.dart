@@ -40,8 +40,7 @@ final class BackupFrequencyStateProvider extends $NotifierProvider<BackupFrequen
   }
 }
 
-String _$backupFrequencyStateHash() =>
-    r'024555164a32d29b5e4ceea7526fb6eee2b97414';
+String _$backupFrequencyStateHash() => r'024555164a32d29b5e4ceea7526fb6eee2b97414';
 
 abstract class _$BackupFrequencyState extends $Notifier<int> {
   int build();
@@ -49,14 +48,7 @@ abstract class _$BackupFrequencyState extends $Notifier<int> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -92,8 +84,7 @@ final class BackupFrequencyOptionsStateProvider extends $NotifierProvider<Backup
   }
 }
 
-String _$backupFrequencyOptionsStateHash() =>
-    r'8935109dcde30adac4ae1d9ec1b87f2dd3965d00';
+String _$backupFrequencyOptionsStateHash() => r'8935109dcde30adac4ae1d9ec1b87f2dd3965d00';
 
 abstract class _$BackupFrequencyOptionsState extends $Notifier<List<int>> {
   List<int> build();
@@ -102,13 +93,7 @@ abstract class _$BackupFrequencyOptionsState extends $Notifier<List<int>> {
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<List<int>, List<int>>;
     final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<List<int>, List<int>>,
-              List<int>,
-              Object?,
-              Object?
-            >;
+        ref.element as $ClassProviderElement<AnyNotifier<List<int>, List<int>>, List<int>, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -144,8 +129,7 @@ final class AutoBackupLocationStateProvider extends $NotifierProvider<AutoBackup
   }
 }
 
-String _$autoBackupLocationStateHash() =>
-    r'ef65fcd5133f4a5b45f00069b3f7030fe5487c25';
+String _$autoBackupLocationStateHash() => r'ef65fcd5133f4a5b45f00069b3f7030fe5487c25';
 
 abstract class _$AutoBackupLocationState extends $Notifier<(String, String)> {
   (String, String) build();

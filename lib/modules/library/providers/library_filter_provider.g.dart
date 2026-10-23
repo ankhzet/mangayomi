@@ -45,8 +45,7 @@ final class DownloadedChapterIdsProvider extends $FunctionalProvider<AsyncValue<
   }
 }
 
-String _$downloadedChapterIdsHash() =>
-    r'65a652cb30e42b989e2e67eb9dae24992afe26f1';
+String _$downloadedChapterIdsHash() => r'65a652cb30e42b989e2e67eb9dae24992afe26f1';
 
 /// Pre-fetches all manga IDs that have at least one tracking entry reactively.
 
@@ -190,8 +189,7 @@ final class FilteredLibraryMangaProvider extends $FunctionalProvider<List<Manga>
   }
 }
 
-String _$filteredLibraryMangaHash() =>
-    r'87a6b93ecdae5f9ace5ac445e2d01dff00565cd2';
+String _$filteredLibraryMangaHash() => r'87a6b93ecdae5f9ace5ac445e2d01dff00565cd2';
 
 /// Filters and sorts a list of [Manga] based on library filter/sort settings.
 

@@ -107,8 +107,7 @@ class _LibraryGridViewWidgetState extends State<LibraryGridViewWidget> {
                           ),
 
                           // ── Top-right: Language ──
-                          if (widget.language &&
-                              (entry.lang?.isNotEmpty ?? false))
+                          if (widget.language && (entry.lang?.isNotEmpty ?? false))
                             PositionedDirectional(
                               top: ShioriSpace.s4,
                               end: ShioriSpace.s4,

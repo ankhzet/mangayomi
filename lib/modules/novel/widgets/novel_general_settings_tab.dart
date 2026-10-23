@@ -29,10 +29,7 @@ class GeneralSettingsTab extends ConsumerWidget {
     final controller = readerController;
     final offsetNotifier = pageOffset;
     final hasActiveSession =
-        autoScrollPageNotifier != null &&
-        autoScrollNotifier != null &&
-        controller != null &&
-        offsetNotifier != null;
+        autoScrollPageNotifier != null && autoScrollNotifier != null && controller != null && offsetNotifier != null;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: ShioriSpace.s8),
@@ -51,9 +48,7 @@ class GeneralSettingsTab extends ConsumerWidget {
             title: context.l10n.show_scroll_percentage,
             value: ref.watch(novelShowScrollPercentageStateProvider),
             onChanged: (value) {
-              ref
-                  .read(novelShowScrollPercentageStateProvider.notifier)
-                  .set(value);
+              ref.read(novelShowScrollPercentageStateProvider.notifier).set(value);
             },
           ),
           if (hasActiveSession)
@@ -84,8 +79,7 @@ class GeneralSettingsTab extends ConsumerWidget {
                         divisions: 28,
                         valueLabel: (v) => '${v.toStringAsFixed(1)}×',
                         onChanged: (val) => offsetNotifier.value = val,
-                        onChangeEnd: (val) =>
-                            controller.setAutoScroll(enabled, val),
+                        onChangeEnd: (val) => controller.setAutoScroll(enabled, val),
                       ),
                     ),
                 ],
@@ -95,9 +89,7 @@ class GeneralSettingsTab extends ConsumerWidget {
             title: context.l10n.remove_extra_paragraph_spacing,
             value: ref.watch(novelRemoveExtraParagraphSpacingStateProvider),
             onChanged: (value) {
-              ref
-                  .read(novelRemoveExtraParagraphSpacingStateProvider.notifier)
-                  .set(value);
+              ref.read(novelRemoveExtraParagraphSpacingStateProvider.notifier).set(value);
             },
           ),
 
@@ -111,8 +103,7 @@ class GeneralSettingsTab extends ConsumerWidget {
           // The same switches as the manga reader's: one setting for both.
           if (VolumeKeys.isSupported) ...[
             const ReaderSwitchRow(ReaderSwitch.volumeKeysPaging),
-            if (ref.watch(volumeKeysPagingStateProvider))
-              const ReaderSwitchRow(ReaderSwitch.volumeKeysInverted),
+            if (ref.watch(volumeKeysPagingStateProvider)) const ReaderSwitchRow(ReaderSwitch.volumeKeysInverted),
           ],
         ],
       ),

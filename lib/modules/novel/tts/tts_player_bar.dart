@@ -172,9 +172,7 @@ class _TtsPlayerBarState extends ConsumerState<TtsPlayerBar> {
                   },
                   icon: Icon(
                     fill: 1,
-                    _state == TtsState.playing
-                        ? Symbols.pause_rounded
-                        : Symbols.play_arrow_rounded,
+                    _state == TtsState.playing ? Symbols.pause_rounded : Symbols.play_arrow_rounded,
                   ),
                   iconSize: 28,
                   padding: EdgeInsets.zero,
@@ -183,9 +181,7 @@ class _TtsPlayerBarState extends ConsumerState<TtsPlayerBar> {
                     minHeight: context.shiori.density.minTarget,
                   ),
                   color: context.shiori.color.accentInk,
-                  tooltip: _state == TtsState.playing
-                      ? context.l10n.tts_pause
-                      : context.l10n.tts_play,
+                  tooltip: _state == TtsState.playing ? context.l10n.tts_pause : context.l10n.tts_play,
                 ),
 
                 // Skip next

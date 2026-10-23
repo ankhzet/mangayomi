@@ -47,8 +47,7 @@ final class MediaLookupContext {
         : sourceIdentity != null || traktIdentity != null
         ? DiscoveryCatalog.automatic
         : DiscoveryCatalog.anilist;
-    final rawTitle =
-        _nonEmpty(manga.name) ?? _nonEmpty(allTracks.firstOrNull?.title) ?? '';
+    final rawTitle = _nonEmpty(manga.name) ?? _nonEmpty(allTracks.firstOrNull?.title) ?? '';
     final titleAndYear = _titleAndYear(rawTitle);
 
     return MediaLookupContext(
@@ -89,16 +88,12 @@ final class MediaLookupContext {
 bool _isAnimeTrack(Track track) {
   if (track.syncId == 1 || track.syncId == 2 || track.syncId == 3) return true;
   final host = Uri.tryParse(track.trackingUrl ?? '')?.host.toLowerCase();
-  return host == 'anilist.co' ||
-      host == 'myanimelist.net' ||
-      host == 'www.myanimelist.net' ||
-      host == 'kitsu.app';
+  return host == 'anilist.co' || host == 'myanimelist.net' || host == 'www.myanimelist.net' || host == 'kitsu.app';
 }
 
 bool _isAniListTrack(Track track) {
   if (track.syncId == 2) return true;
-  return Uri.tryParse(track.trackingUrl ?? '')?.host.toLowerCase() ==
-      'anilist.co';
+  return Uri.tryParse(track.trackingUrl ?? '')?.host.toLowerCase() == 'anilist.co';
 }
 
 bool _isTraktTrack(Track track) {
@@ -136,10 +131,7 @@ bool _isTraktTrack(Track track) {
     return _identity(movie, MediaKind.movie) ?? _identity(show, MediaKind.show);
   }
 
-  final isSflix =
-      normalizedSource == 'sflix' ||
-      host == 'ssflix.pro' ||
-      host == 'www.ssflix.pro';
+  final isSflix = normalizedSource == 'sflix' || host == 'ssflix.pro' || host == 'www.ssflix.pro';
   if (isSflix) {
     final movie = RegExp(
       r'/(?:watch/)?movie/[^/]*-(\d+)(?:/|$)',
@@ -152,10 +144,7 @@ bool _isTraktTrack(Track track) {
     return _identity(movie, MediaKind.movie) ?? _identity(show, MediaKind.show);
   }
 
-  final isMoviesFlix =
-      normalizedSource == 'moviesflix' ||
-      host == 'moviesflix.uk' ||
-      host == 'www.moviesflix.uk';
+  final isMoviesFlix = normalizedSource == 'moviesflix' || host == 'moviesflix.uk' || host == 'www.moviesflix.uk';
   if (isMoviesFlix) {
     final movie = RegExp(
       r'/movies/[^/]*-2(\d+)A3(?:/|$)',
@@ -185,9 +174,7 @@ int? _linkYear(String? sourceLink) {
   if (mediaId == null || mediaId <= 0 || rawUrl == null) return null;
 
   final uri = Uri.tryParse(rawUrl);
-  if (uri == null ||
-      (uri.host.toLowerCase() != 'trakt.tv' &&
-          uri.host.toLowerCase() != 'www.trakt.tv')) {
+  if (uri == null || (uri.host.toLowerCase() != 'trakt.tv' && uri.host.toLowerCase() != 'www.trakt.tv')) {
     return null;
   }
 
@@ -221,8 +208,7 @@ MediaKind? _chapterKind(String? sourceName, String? chapterName) {
 }
 
 ({String title, int? year}) _titleAndYear(String rawTitle) {
-  final match = RegExp(r'^(.*?\S)\s*[\(\[]((?:18|19|20)\d{2})[\)\]]$')
-      .firstMatch(rawTitle);
+  final match = RegExp(r'^(.*?\S)\s*[\(\[]((?:18|19|20)\d{2})[\)\]]$').firstMatch(rawTitle);
   if (match == null) return (title: rawTitle, year: null);
 
   return (

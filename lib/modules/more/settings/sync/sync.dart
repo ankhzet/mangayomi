@@ -47,14 +47,11 @@ class SyncScreen extends ConsumerWidget {
             final connectionStatus = ref.watch(
               syncConnectionStateProvider(syncId: 1),
             );
-            final bool connected =
-                connectionStatus == SyncConnectionStatus.connected;
+            final bool connected = connectionStatus == SyncConnectionStatus.connected;
             final progress = ref.watch(syncProgressProvider(syncId: 1));
-            final enabled =
-                syncPreference.syncOn && connected && !progress.active;
+            final enabled = syncPreference.syncOn && connected && !progress.active;
             final frequencyChoices = [
-              for (final e in autoSyncOptions.entries)
-                ShioriChoice(e.value, e.key),
+              for (final e in autoSyncOptions.entries) ShioriChoice(e.value, e.key),
             ];
             return Column(
               children: [
@@ -64,20 +61,16 @@ class SyncScreen extends ConsumerWidget {
                   title: l10n.services,
                   children: [
                     SyncListile(
-                      onTap: () =>
-                          _showDialogLogin(context, ref, syncPreference),
+                      onTap: () => _showDialogLogin(context, ref, syncPreference),
                       id: 1,
                       preference: syncPreference,
                     ),
-                    if (isLogged)
-                      _connectionStatusTile(context, ref, connectionStatus),
+                    if (isLogged) _connectionStatusTile(context, ref, connectionStatus),
                   ],
                 ),
                 ShioriSettingsGroup(
                   title: l10n.sync_section_general,
-                  footer: syncPreference.autoSyncFrequency > 0
-                      ? l10n.sync_auto_warning
-                      : null,
+                  footer: syncPreference.autoSyncFrequency > 0 ? l10n.sync_auto_warning : null,
                   children: [
                     ShioriSwitchRow(
                       icon: Symbols.sync_rounded,
@@ -86,13 +79,9 @@ class SyncScreen extends ConsumerWidget {
                       onChanged: !isLogged
                           ? null
                           : (value) {
-                              ref
-                                  .read(synchingProvider(syncId: 1).notifier)
-                                  .setSyncOn(value);
+                              ref.read(synchingProvider(syncId: 1).notifier).setSyncOn(value);
                               if (!value) {
-                                ref
-                                    .read(synchingProvider(syncId: 1).notifier)
-                                    .setAutoSyncFrequency(0);
+                                ref.read(synchingProvider(syncId: 1).notifier).setAutoSyncFrequency(0);
                               }
                             },
                     ),
@@ -103,9 +92,7 @@ class SyncScreen extends ConsumerWidget {
                       options: frequencyChoices,
                       onChanged: !syncPreference.syncOn
                           ? null
-                          : (v) => ref
-                                .read(synchingProvider(syncId: 1).notifier)
-                                .setAutoSyncFrequency(v),
+                          : (v) => ref.read(synchingProvider(syncId: 1).notifier).setAutoSyncFrequency(v),
                     ),
                     if (syncPreference.lastSync != null)
                       ShioriSettingRow(
@@ -121,9 +108,7 @@ class SyncScreen extends ConsumerWidget {
                       icon: Symbols.sync_rounded,
                       title: l10n.sync_button_sync,
                       enabled: enabled,
-                      onTap: () => ref
-                          .read(syncServerProvider(syncId: 1).notifier)
-                          .startSync(l10n, false),
+                      onTap: () => ref.read(syncServerProvider(syncId: 1).notifier).startSync(l10n, false),
                     ),
                     ShioriSettingRow(
                       icon: Symbols.file_upload_rounded,
@@ -250,16 +235,12 @@ class SyncScreen extends ConsumerWidget {
     final confirmed = await showShioriConfirm(
       context,
       title: isUpload ? l10n.sync_button_upload : l10n.sync_button_download,
-      message: isUpload
-          ? l10n.sync_button_upload_info
-          : l10n.sync_button_download_info,
+      message: isUpload ? l10n.sync_button_upload_info : l10n.sync_button_download_info,
       confirmLabel: l10n.dialog_confirm,
       destructive: true,
     );
     if (!confirmed) return;
-    ref
-        .read(syncServerProvider(syncId: 1).notifier)
-        .startSync(l10n, false, upload: isUpload, download: !isUpload);
+    ref.read(syncServerProvider(syncId: 1).notifier).startSync(l10n, false, upload: isUpload, download: !isUpload);
   }
 
   // Only a server address is asked for here - there's no username/password
@@ -285,9 +266,7 @@ class SyncScreen extends ConsumerWidget {
               isLoading = true;
               errorMessage = "";
             });
-            final res = await ref
-                .read(syncServerProvider(syncId: 1).notifier)
-                .login(l10n, server);
+            final res = await ref.read(syncServerProvider(syncId: 1).notifier).login(l10n, server);
             if (!res.$1) {
               setState(() {
                 isLoading = false;

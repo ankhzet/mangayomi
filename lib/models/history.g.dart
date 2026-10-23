@@ -162,9 +162,7 @@ History _historyDeserialize(
     date: reader.readStringOrNull(offsets[2]),
     id: id,
     isManga: reader.readBoolOrNull(offsets[3]),
-    itemType:
-        _HistoryitemTypeValueEnumMap[reader.readByteOrNull(offsets[4])] ??
-        ItemType.manga,
+    itemType: _HistoryitemTypeValueEnumMap[reader.readByteOrNull(offsets[4])] ?? ItemType.manga,
     mangaId: reader.readLongOrNull(offsets[5]),
     readingTimeSeconds: reader.readLongOrNull(offsets[6]),
     updatedAt: reader.readLongOrNull(offsets[7]),
@@ -188,9 +186,7 @@ P _historyDeserializeProp<P>(
     case 3:
       return (reader.readBoolOrNull(offset)) as P;
     case 4:
-      return (_HistoryitemTypeValueEnumMap[reader.readByteOrNull(offset)] ??
-              ItemType.manga)
-          as P;
+      return (_HistoryitemTypeValueEnumMap[reader.readByteOrNull(offset)] ?? ItemType.manga) as P;
     case 5:
       return (reader.readLongOrNull(offset)) as P;
     case 6:

@@ -55,12 +55,10 @@ class SubtitleAppearanceWidget extends ConsumerStatefulWidget {
   const SubtitleAppearanceWidget({super.key, required this.hasSubtitleTrack});
 
   @override
-  ConsumerState<SubtitleAppearanceWidget> createState() =>
-      _SubtitleAppearanceWidgetState();
+  ConsumerState<SubtitleAppearanceWidget> createState() => _SubtitleAppearanceWidgetState();
 }
 
-class _SubtitleAppearanceWidgetState
-    extends ConsumerState<SubtitleAppearanceWidget> {
+class _SubtitleAppearanceWidgetState extends ConsumerState<SubtitleAppearanceWidget> {
   String _colorTarget = 'text'; // 'text', 'border', 'background'
   late TextEditingController _fontSizeController;
   final FocusNode _fontSizeFocusNode = FocusNode();
@@ -86,9 +84,7 @@ class _SubtitleAppearanceWidgetState
   void _updateFontSize(int value) {
     final clamped = value.clamp(10, 120);
     final current = ref.read(subtitleSettingsStateProvider);
-    ref
-        .read(subtitleSettingsStateProvider.notifier)
-        .set(current.copyWith(fontSize: clamped), true);
+    ref.read(subtitleSettingsStateProvider.notifier).set(current.copyWith(fontSize: clamped), true);
     _fontSizeController.text = '$clamped';
   }
 
@@ -540,9 +536,7 @@ class _ColorTab extends StatelessWidget {
                   label,
                   style: context.shiori.text.meta.copyWith(
                     fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-                    color: selected
-                        ? context.shiori.color.fg
-                        : context.shiori.color.fgMuted,
+                    color: selected ? context.shiori.color.fg : context.shiori.color.fgMuted,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

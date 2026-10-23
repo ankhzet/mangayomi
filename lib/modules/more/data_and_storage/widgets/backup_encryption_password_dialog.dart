@@ -75,8 +75,7 @@ Future<String?> showBackupDecryptPasswordDialog(
   return showDialog<String>(
     context: context,
     barrierDismissible: false,
-    builder: (context) =>
-        _BackupDecryptPasswordDialog(wasIncorrect: wasIncorrect),
+    builder: (context) => _BackupDecryptPasswordDialog(wasIncorrect: wasIncorrect),
   );
 }
 
@@ -85,12 +84,10 @@ class _BackupDecryptPasswordDialog extends StatefulWidget {
   const _BackupDecryptPasswordDialog({required this.wasIncorrect});
 
   @override
-  State<_BackupDecryptPasswordDialog> createState() =>
-      _BackupDecryptPasswordDialogState();
+  State<_BackupDecryptPasswordDialog> createState() => _BackupDecryptPasswordDialogState();
 }
 
-class _BackupDecryptPasswordDialogState
-    extends State<_BackupDecryptPasswordDialog> {
+class _BackupDecryptPasswordDialogState extends State<_BackupDecryptPasswordDialog> {
   final _controller = TextEditingController();
   bool _obscure = true;
 
@@ -126,9 +123,7 @@ class _BackupDecryptPasswordDialogState
               suffixIcon: IconButton(
                 tooltip: _obscure ? l10n.show_password : l10n.hide_password,
                 icon: Icon(
-                  _obscure
-                      ? Symbols.visibility_rounded
-                      : Symbols.visibility_off_rounded,
+                  _obscure ? Symbols.visibility_rounded : Symbols.visibility_off_rounded,
                 ),
                 onPressed: () => setState(() => _obscure = !_obscure),
               ),
@@ -149,9 +144,7 @@ class _BackupDecryptPasswordDialogState
         ),
         ShioriButton(
           label: l10n.ok,
-          onPressed: _controller.text.isEmpty
-              ? null
-              : () => Navigator.pop(context, _controller.text),
+          onPressed: _controller.text.isEmpty ? null : () => Navigator.pop(context, _controller.text),
         ),
       ],
     );
@@ -162,12 +155,10 @@ class _BackupEncryptionPasswordDialog extends StatefulWidget {
   const _BackupEncryptionPasswordDialog();
 
   @override
-  State<_BackupEncryptionPasswordDialog> createState() =>
-      _BackupEncryptionPasswordDialogState();
+  State<_BackupEncryptionPasswordDialog> createState() => _BackupEncryptionPasswordDialogState();
 }
 
-class _BackupEncryptionPasswordDialogState
-    extends State<_BackupEncryptionPasswordDialog> {
+class _BackupEncryptionPasswordDialogState extends State<_BackupEncryptionPasswordDialog> {
   final _passwordController = TextEditingController();
   final _confirmController = TextEditingController();
   bool _obscure = true;
@@ -219,9 +210,7 @@ class _BackupEncryptionPasswordDialogState
               suffixIcon: IconButton(
                 tooltip: _obscure ? l10n.show_password : l10n.hide_password,
                 icon: Icon(
-                  _obscure
-                      ? Symbols.visibility_rounded
-                      : Symbols.visibility_off_rounded,
+                  _obscure ? Symbols.visibility_rounded : Symbols.visibility_off_rounded,
                 ),
                 onPressed: () => setState(() => _obscure = !_obscure),
               ),
@@ -235,9 +224,7 @@ class _BackupEncryptionPasswordDialogState
               obscureText: true,
               decoration: InputDecoration(
                 labelText: l10n.confirm_password,
-                errorText:
-                    _confirmController.text.isNotEmpty &&
-                        _confirmController.text != _passwordController.text
+                errorText: _confirmController.text.isNotEmpty && _confirmController.text != _passwordController.text
                     ? l10n.passwords_do_not_match
                     : null,
               ),

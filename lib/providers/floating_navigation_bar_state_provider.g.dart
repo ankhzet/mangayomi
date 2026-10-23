@@ -10,11 +10,9 @@ part of 'floating_navigation_bar_state_provider.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(FloatingNavigationBarState)
-final floatingNavigationBarStateProvider =
-    FloatingNavigationBarStateProvider._();
+final floatingNavigationBarStateProvider = FloatingNavigationBarStateProvider._();
 
-final class FloatingNavigationBarStateProvider
-    extends $NotifierProvider<FloatingNavigationBarState, bool> {
+final class FloatingNavigationBarStateProvider extends $NotifierProvider<FloatingNavigationBarState, bool> {
   FloatingNavigationBarStateProvider._()
     : super(
         from: null,
@@ -42,8 +40,7 @@ final class FloatingNavigationBarStateProvider
   }
 }
 
-String _$floatingNavigationBarStateHash() =>
-    r'1ec648eceb23e02cdae4bc6861ee0b5ec8629670';
+String _$floatingNavigationBarStateHash() => r'1ec648eceb23e02cdae4bc6861ee0b5ec8629670';
 
 abstract class _$FloatingNavigationBarState extends $Notifier<bool> {
   bool build();
@@ -51,14 +48,7 @@ abstract class _$FloatingNavigationBarState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

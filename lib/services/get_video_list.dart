@@ -36,19 +36,13 @@ Future<(List<Video>, bool, List<String>, Directory?)> getVideoList(
     // Otherwise a fresh install with no all-files access would hit a permission
     // error just for streaming an episode — the dir was being created on every
     // play even though useMpvConfig defaults to false. See #740.
-    final useMpvConfig =
-        settingsRepository.currentOrNull?.useMpvConfig ?? false;
-    final mpvDirectory = useMpvConfig
-        ? await storageProvider.getMpvDirectory()
-        : null;
-    final isLocalArchive =
-        episode.manga.value!.isLocalArchive! &&
-        episode.manga.value!.source != "torrent";
+    final useMpvConfig = settingsRepository.currentOrNull?.useMpvConfig ?? false;
+    final mpvDirectory = useMpvConfig ? await storageProvider.getMpvDirectory() : null;
+    final isLocalArchive = episode.manga.value!.isLocalArchive! && episode.manga.value!.source != "torrent";
     // Episodes downloaded on the builds that sent downloads to a local folder
     // are still in that folder, so look there as well as in the downloads
     // directory rather than only where new downloads land.
-    final episodeFileName =
-        "${episode.name!.replaceForbiddenCharacters(' ')}.mp4";
+    final episodeFileName = "${episode.name!.replaceForbiddenCharacters(' ')}.mp4";
     final candidateDirectories = await downloadedMangaDirectories(episode);
     final downloadedDirectory = candidateDirectories.firstWhere(
       (directory) => File(p.join(directory.path, episodeFileName)).existsSync(),
@@ -60,11 +54,9 @@ Future<(List<Video>, bool, List<String>, Directory?)> getVideoList(
         : null;
     List<String> infoHashes = [];
     // A partial file from a failed download is not a playable local source.
-    final incomplete =
-        downloadRepository.getByChapterId(episode.id)?.isDownload == false;
+    final incomplete = downloadRepository.getByChapterId(episode.id)?.isDownload == false;
     if ((!incomplete && await File(mp4animePath).exists()) || isLocalArchive) {
-      final animeDir =
-          resolvedArchivePath != null && episode.manga.value?.source == "local"
+      final animeDir = resolvedArchivePath != null && episode.manga.value?.source == "local"
           ? Directory(p.dirname(resolvedArchivePath))
           : null;
       final chapterDirectory = (await storageProvider.getMangaChapterDirectory(
@@ -144,20 +136,15 @@ Future<(List<Video>, bool, List<String>, Directory?)> getVideoList(
           v.url,
           episode.archivePath,
         );
-        if (infohash != null &&
-            infohash.isNotEmpty &&
-            !infoHashes.contains(infohash)) {
+        if (infohash != null && infohash.isNotEmpty && !infoHashes.contains(infohash)) {
           infoHashes.add(infohash);
         }
         for (var video in videos) {
           torrentList.add(
             video..quality = video.quality.substringBeforeLast("."),
           );
-          final videoHash = Uri.tryParse(video.url)
-              ?.queryParameters['infohash'];
-          if (videoHash != null &&
-              videoHash.isNotEmpty &&
-              !infoHashes.contains(videoHash)) {
+          final videoHash = Uri.tryParse(video.url)?.queryParameters['infohash'];
+          if (videoHash != null && videoHash.isNotEmpty && !infoHashes.contains(videoHash)) {
             infoHashes.add(videoHash);
           }
         }

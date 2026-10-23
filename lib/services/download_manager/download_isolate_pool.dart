@@ -59,16 +59,15 @@ class DownloadIsolatePool {
   }
 
   /// Initialize the Isolate pool
-  Future<void> initialize() =>
-      _initializing ??= _initialize().catchError((Object error) {
-        for (final worker in _workers) {
-          worker.dispose();
-        }
-        _workers.clear();
-        _availableWorkers.clear();
-        _initializing = null;
-        throw error;
-      });
+  Future<void> initialize() => _initializing ??= _initialize().catchError((Object error) {
+    for (final worker in _workers) {
+      worker.dispose();
+    }
+    _workers.clear();
+    _availableWorkers.clear();
+    _initializing = null;
+    throw error;
+  });
 
   Future<void> _initialize() async {
     if (_initialized) return;
@@ -336,8 +335,7 @@ class _PoolWorker {
   void Function(Exception)? _cancelCurrent;
   bool terminated = false;
 
-  void cancelCurrentTask() =>
-      _cancelCurrent?.call(Exception('Download cancelled'));
+  void cancelCurrentTask() => _cancelCurrent?.call(Exception('Download cancelled'));
 
   _PoolWorker._(this.id);
 
@@ -709,9 +707,7 @@ Future<void> _downloadSegment(
         )) {
           request.headers[HttpHeaders.rangeHeader] = 'bytes=0-';
         }
-        final response = await client
-            .send(request)
-            .timeout(const Duration(seconds: 30));
+        final response = await client.send(request).timeout(const Duration(seconds: 30));
         if (response.statusCode != 200 && response.statusCode != 206) {
           await response.stream.listen((_) {}).cancel();
           throw DownloadPoolException(
@@ -728,9 +724,7 @@ Future<void> _downloadSegment(
           await sink.close();
         }
         final length = await partial.length();
-        if (length == 0 ||
-            (response.contentLength != null &&
-                length != response.contentLength)) {
+        if (length == 0 || (response.contentLength != null && length != response.contentLength)) {
           throw DownloadPoolException('Incomplete segment: ${ts.name}');
         }
         if (params.key != null) {

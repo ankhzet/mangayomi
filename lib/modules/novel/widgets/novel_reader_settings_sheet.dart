@@ -76,12 +76,8 @@ class _ReaderSettingsTabState extends ConsumerState<ReaderSettingsTab> {
                         label: context.l10n.theme_dark,
                         isSelected: backgroundColor == '#292832',
                         onTap: () {
-                          ref
-                              .read(novelReaderThemeStateProvider.notifier)
-                              .set('#292832');
-                          ref
-                              .read(novelReaderTextColorStateProvider.notifier)
-                              .set('#CCCCCC');
+                          ref.read(novelReaderThemeStateProvider.notifier).set('#292832');
+                          ref.read(novelReaderTextColorStateProvider.notifier).set('#CCCCCC');
                         },
                       ),
                     ),
@@ -93,12 +89,8 @@ class _ReaderSettingsTabState extends ConsumerState<ReaderSettingsTab> {
                         label: context.l10n.theme_light,
                         isSelected: backgroundColor == '#FFFFFF',
                         onTap: () {
-                          ref
-                              .read(novelReaderThemeStateProvider.notifier)
-                              .set('#FFFFFF');
-                          ref
-                              .read(novelReaderTextColorStateProvider.notifier)
-                              .set('#000000');
+                          ref.read(novelReaderThemeStateProvider.notifier).set('#FFFFFF');
+                          ref.read(novelReaderTextColorStateProvider.notifier).set('#000000');
                         },
                       ),
                     ),
@@ -110,12 +102,8 @@ class _ReaderSettingsTabState extends ConsumerState<ReaderSettingsTab> {
                         label: context.l10n.theme_black,
                         isSelected: backgroundColor == '#000000',
                         onTap: () {
-                          ref
-                              .read(novelReaderThemeStateProvider.notifier)
-                              .set('#000000');
-                          ref
-                              .read(novelReaderTextColorStateProvider.notifier)
-                              .set('#FFFFFF');
+                          ref.read(novelReaderThemeStateProvider.notifier).set('#000000');
+                          ref.read(novelReaderTextColorStateProvider.notifier).set('#FFFFFF');
                         },
                       ),
                     ),
@@ -127,12 +115,8 @@ class _ReaderSettingsTabState extends ConsumerState<ReaderSettingsTab> {
                         label: context.l10n.theme_sepia,
                         isSelected: backgroundColor == '#F5E6D3',
                         onTap: () {
-                          ref
-                              .read(novelReaderThemeStateProvider.notifier)
-                              .set('#F5E6D3');
-                          ref
-                              .read(novelReaderTextColorStateProvider.notifier)
-                              .set('#5F4B32');
+                          ref.read(novelReaderThemeStateProvider.notifier).set('#F5E6D3');
+                          ref.read(novelReaderTextColorStateProvider.notifier).set('#5F4B32');
                         },
                       ),
                     ),
@@ -174,9 +158,7 @@ class _ReaderSettingsTabState extends ConsumerState<ReaderSettingsTab> {
                     icon: Symbols.format_align_left_rounded,
                     isSelected: textAlign == NovelTextAlign.left,
                     onTap: () {
-                      ref
-                          .read(novelTextAlignStateProvider.notifier)
-                          .set(NovelTextAlign.left);
+                      ref.read(novelTextAlignStateProvider.notifier).set(NovelTextAlign.left);
                     },
                   ),
                 ),
@@ -186,9 +168,7 @@ class _ReaderSettingsTabState extends ConsumerState<ReaderSettingsTab> {
                     icon: Symbols.format_align_center_rounded,
                     isSelected: textAlign == NovelTextAlign.center,
                     onTap: () {
-                      ref
-                          .read(novelTextAlignStateProvider.notifier)
-                          .set(NovelTextAlign.center);
+                      ref.read(novelTextAlignStateProvider.notifier).set(NovelTextAlign.center);
                     },
                   ),
                 ),
@@ -198,9 +178,7 @@ class _ReaderSettingsTabState extends ConsumerState<ReaderSettingsTab> {
                     icon: Symbols.format_align_right_rounded,
                     isSelected: textAlign == NovelTextAlign.right,
                     onTap: () {
-                      ref
-                          .read(novelTextAlignStateProvider.notifier)
-                          .set(NovelTextAlign.right);
+                      ref.read(novelTextAlignStateProvider.notifier).set(NovelTextAlign.right);
                     },
                   ),
                 ),
@@ -210,9 +188,7 @@ class _ReaderSettingsTabState extends ConsumerState<ReaderSettingsTab> {
                     icon: Symbols.format_align_justify_rounded,
                     isSelected: textAlign == NovelTextAlign.block,
                     onTap: () {
-                      ref
-                          .read(novelTextAlignStateProvider.notifier)
-                          .set(NovelTextAlign.block);
+                      ref.read(novelTextAlignStateProvider.notifier).set(NovelTextAlign.block);
                     },
                   ),
                 ),
@@ -236,12 +212,9 @@ class _ReaderSettingsTabState extends ConsumerState<ReaderSettingsTab> {
                   valueLabel: (v) => '${v.round()} px',
                   stepTooltips: (context.l10n.decrease, context.l10n.increase),
                   defaultValue: 14,
-                  onReset: () =>
-                      ref.read(novelFontSizeStateProvider.notifier).set(14),
+                  onReset: () => ref.read(novelFontSizeStateProvider.notifier).set(14),
                   resetTooltip: context.l10n.reset,
-                  onChanged: (v) => ref
-                      .read(novelFontSizeStateProvider.notifier)
-                      .set(v.round()),
+                  onChanged: (v) => ref.read(novelFontSizeStateProvider.notifier).set(v.round()),
                 ),
                 ShioriSliderRow(
                   icon: Symbols.space_bar_rounded,
@@ -252,13 +225,9 @@ class _ReaderSettingsTabState extends ConsumerState<ReaderSettingsTab> {
                   divisions: 50,
                   valueLabel: (v) => '${v.round()} px',
                   defaultValue: 16,
-                  onReset: () => ref
-                      .read(novelReaderPaddingStateProvider.notifier)
-                      .set(16),
+                  onReset: () => ref.read(novelReaderPaddingStateProvider.notifier).set(16),
                   resetTooltip: context.l10n.reset,
-                  onChanged: (v) => ref
-                      .read(novelReaderPaddingStateProvider.notifier)
-                      .set(v.round()),
+                  onChanged: (v) => ref.read(novelReaderPaddingStateProvider.notifier).set(v.round()),
                 ),
                 ShioriSliderRow(
                   icon: Symbols.height_rounded,
@@ -269,13 +238,9 @@ class _ReaderSettingsTabState extends ConsumerState<ReaderSettingsTab> {
                   divisions: 20,
                   valueLabel: (v) => v.toStringAsFixed(1),
                   defaultValue: 1.5,
-                  onReset: () => ref
-                      .read(novelReaderLineHeightStateProvider.notifier)
-                      .set(1.5),
+                  onReset: () => ref.read(novelReaderLineHeightStateProvider.notifier).set(1.5),
                   resetTooltip: context.l10n.reset,
-                  onChanged: (v) => ref
-                      .read(novelReaderLineHeightStateProvider.notifier)
-                      .set(v),
+                  onChanged: (v) => ref.read(novelReaderLineHeightStateProvider.notifier).set(v),
                 ),
               ],
             ),
@@ -298,9 +263,7 @@ class _ReaderSettingsTabState extends ConsumerState<ReaderSettingsTab> {
                     label: Text(option.label),
                     selected: fontFamilyKey == option.key,
                     onSelected: (_) {
-                      ref
-                          .read(novelFontFamilyStateProvider.notifier)
-                          .set(option.key);
+                      ref.read(novelFontFamilyStateProvider.notifier).set(option.key);
                     },
                   ),
               ],
@@ -355,9 +318,7 @@ class _ReaderSettingsTabState extends ConsumerState<ReaderSettingsTab> {
                 final doublePageAuto = ref.watch(doublePageAutoStateProvider);
                 final orientation = MediaQuery.orientationOf(context);
                 final effectivePageMode = doublePageAuto
-                    ? (orientation == Orientation.landscape
-                          ? PageMode.doublePage
-                          : PageMode.onePage)
+                    ? (orientation == Orientation.landscape ? PageMode.doublePage : PageMode.onePage)
                     : (_pageMode ?? PageMode.onePage);
 
                 return NovelSettingSection(
@@ -379,8 +340,7 @@ class _ReaderSettingsTabState extends ConsumerState<ReaderSettingsTab> {
                               child: NovelModeChipButton(
                                 icon: Symbols.article_rounded,
                                 label: context.l10n.single_page,
-                                isSelected:
-                                    effectivePageMode == PageMode.onePage,
+                                isSelected: effectivePageMode == PageMode.onePage,
                                 onTap: () {
                                   setState(() {
                                     _pageMode = PageMode.onePage;
@@ -404,8 +364,7 @@ class _ReaderSettingsTabState extends ConsumerState<ReaderSettingsTab> {
                               child: NovelModeChipButton(
                                 icon: Symbols.auto_stories_rounded,
                                 label: context.l10n.double_page,
-                                isSelected:
-                                    effectivePageMode == PageMode.doublePage,
+                                isSelected: effectivePageMode == PageMode.doublePage,
                                 onTap: () {
                                   setState(() {
                                     _pageMode = PageMode.doublePage;
@@ -432,9 +391,7 @@ class _ReaderSettingsTabState extends ConsumerState<ReaderSettingsTab> {
                         icon: Symbols.screen_rotation_rounded,
                         value: doublePageAuto,
                         onChanged: (value) {
-                          ref
-                              .read(doublePageAutoStateProvider.notifier)
-                              .set(value);
+                          ref.read(doublePageAutoStateProvider.notifier).set(value);
                         },
                       ),
                     ],

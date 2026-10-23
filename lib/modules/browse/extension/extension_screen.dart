@@ -147,12 +147,9 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
                     const SliverToBoxAdapter(
                       child: ExtensionServerWarningBanner(),
                     ),
-                  if (updateEntries.isNotEmpty)
-                    _buildUpdateSection(updateEntries, l10n),
-                  if (installedEntries.isNotEmpty)
-                    _buildInstalledSection(installedEntries, l10n),
-                  if (notInstalledEntries.isNotEmpty)
-                    _buildNotInstalledSection(notInstalledEntries),
+                  if (updateEntries.isNotEmpty) _buildUpdateSection(updateEntries, l10n),
+                  if (installedEntries.isNotEmpty) _buildInstalledSection(installedEntries, l10n),
+                  if (notInstalledEntries.isNotEmpty) _buildNotInstalledSection(notInstalledEntries),
                   // Trailing room rather than padding around the viewport, so
                   // rows scroll under the translucent bar (which is what gives
                   // it something to blur) and only the last one clears it.
@@ -231,8 +228,7 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
           );
         },
       ),
-      itemBuilder: (context, Source element) =>
-          ExtensionListTileWidget(key: ValueKey(element.id), source: element),
+      itemBuilder: (context, Source element) => ExtensionListTileWidget(key: ValueKey(element.id), source: element),
       groupComparator: (group1, group2) => group1.compareTo(group2),
       itemComparator: (item1, item2) => item1.name?.compareTo(item2.name ?? '') ?? 0,
       order: GroupedListOrder.ASC,
@@ -252,8 +248,7 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
         ),
         child: ShioriGroupLabel(l10n.installed),
       ),
-      itemBuilder: (context, Source element) =>
-          ExtensionListTileWidget(key: ValueKey(element.id), source: element),
+      itemBuilder: (context, Source element) => ExtensionListTileWidget(key: ValueKey(element.id), source: element),
       groupComparator: (group1, group2) => group1.compareTo(group2),
       itemComparator: (item1, item2) => item1.name?.compareTo(item2.name ?? '') ?? 0,
       order: GroupedListOrder.ASC,
@@ -263,8 +258,7 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
   Widget _buildNotInstalledSection(List<Source> notInstalledEntries) {
     return CustomSliverGroupedListView<Source, String>(
       elements: notInstalledEntries,
-      groupBy: (element) =>
-          languageName(context, element.lang?.toLowerCase() ?? ''),
+      groupBy: (element) => languageName(context, element.lang?.toLowerCase() ?? ''),
       groupSeparatorBuilder: (String groupByValue) => Padding(
         padding: const EdgeInsets.fromLTRB(
           ShioriSpace.s16,
@@ -274,8 +268,7 @@ class _ExtensionScreenState extends ConsumerState<ExtensionScreen> {
         ),
         child: ShioriGroupLabel(groupByValue),
       ),
-      itemBuilder: (context, Source element) =>
-          ExtensionListTileWidget(key: ValueKey(element.id), source: element),
+      itemBuilder: (context, Source element) => ExtensionListTileWidget(key: ValueKey(element.id), source: element),
       groupComparator: (group1, group2) => group1.compareTo(group2),
       itemComparator: (item1, item2) => item1.name?.compareTo(item2.name ?? '') ?? 0,
       order: GroupedListOrder.ASC,

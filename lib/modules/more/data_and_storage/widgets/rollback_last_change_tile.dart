@@ -18,8 +18,7 @@ class RollbackLastChangeTile extends ConsumerWidget {
     if (snapshots == null || snapshots.isEmpty) return const SizedBox.shrink();
     final l10n = context.l10n;
 
-    String when(LibrarySafetySnapshot snapshot) =>
-        DateTime.fromMillisecondsSinceEpoch(snapshot.createdAt).toString();
+    String when(LibrarySafetySnapshot snapshot) => DateTime.fromMillisecondsSinceEpoch(snapshot.createdAt).toString();
     final single = snapshots.length == 1;
     return ShioriSettingRow(
       icon: Symbols.settings_backup_restore_rounded,
@@ -38,8 +37,7 @@ class RollbackLastChangeTile extends ConsumerWidget {
                 context,
                 title: l10n.roll_back_last_change,
                 options: [
-                  for (final s in snapshots)
-                    ShioriChoice(s, s.description, subtitle: when(s)),
+                  for (final s in snapshots) ShioriChoice(s, s.description, subtitle: when(s)),
                 ],
               );
         if (snapshot == null || !context.mounted) return;
@@ -66,9 +64,7 @@ Future<void> offerLibraryRollback(
 
   bool? syncAfterRestore;
   final syncPreference = ref.read(synchingProvider(syncId: 1));
-  final hasServer =
-      (syncPreference.authToken?.isNotEmpty ?? false) &&
-      (syncPreference.server?.isNotEmpty ?? false);
+  final hasServer = (syncPreference.authToken?.isNotEmpty ?? false) && (syncPreference.server?.isNotEmpty ?? false);
   if (hasServer) {
     syncAfterRestore = await confirmSyncAfterRestore(
       context,

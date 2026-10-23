@@ -909,8 +909,7 @@ extension SourceQueryWhere on QueryBuilder<Source, Source, QWhereClause> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterWhereClause>
-  itemTypeEqualToIsAddedIsNotNull(ItemType itemType) {
+  QueryBuilder<Source, Source, QAfterWhereClause> itemTypeEqualToIsAddedIsNotNull(ItemType itemType) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.between(
@@ -937,8 +936,7 @@ extension SourceQueryWhere on QueryBuilder<Source, Source, QWhereClause> {
     });
   }
 
-  QueryBuilder<Source, Source, QAfterWhereClause>
-  itemTypeEqualToIsAddedNotEqualTo(ItemType itemType, bool? isAdded) {
+  QueryBuilder<Source, Source, QAfterWhereClause> itemTypeEqualToIsAddedNotEqualTo(ItemType itemType, bool? isAdded) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query

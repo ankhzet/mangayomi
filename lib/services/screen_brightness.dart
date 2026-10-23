@@ -20,12 +20,10 @@ class ScreenBrightness {
   @visibleForTesting
   static bool? debugSupported;
 
-  static bool get isSupported =>
-      debugSupported ?? (Platform.isAndroid || Platform.isIOS);
+  static bool get isSupported => debugSupported ?? (Platform.isAndroid || Platform.isIOS);
 
   /// Sets the brightness, from 0 to 1.
-  static Future<void> set(double value) =>
-      _call('set', value.clamp(0.01, 1.0).toDouble());
+  static Future<void> set(double value) => _call('set', value.clamp(0.01, 1.0).toDouble());
 
   /// The brightness now, from 0 to 1: the one set here, else the system's;
   /// null where it cannot be read.

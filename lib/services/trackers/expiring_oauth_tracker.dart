@@ -32,9 +32,7 @@ mixin ExpiringOAuthTracker {
   @protected
   OAuth buildExpiringOAuth(Map<String, dynamic> json, String clientId) {
     return OAuth.fromJson(json)
-      ..expiresIn = DateTime.now()
-          .add(Duration(seconds: json['expires_in']))
-          .millisecondsSinceEpoch
+      ..expiresIn = DateTime.now().add(Duration(seconds: json['expires_in'])).millisecondsSinceEpoch
       ..clientId = clientId;
   }
 
@@ -46,8 +44,7 @@ mixin ExpiringOAuthTracker {
     );
     final expiresIn = DateTime.fromMillisecondsSinceEpoch(oAuth.expiresIn!);
     if (DateTime.now().isBefore(expiresIn)) return oAuth.accessToken!;
-    if (!bypass &&
-        (widgetRef.read(tracksProvider(syncId: syncId))?.refreshing ?? false)) {
+    if (!bypass && (widgetRef.read(tracksProvider(syncId: syncId))?.refreshing ?? false)) {
       return oAuth.accessToken!;
     }
     widgetRef.read(tracksProvider(syncId: syncId).notifier).setRefreshing(true);
@@ -61,9 +58,7 @@ mixin ExpiringOAuthTracker {
     }
     await saveRefreshedOAuth(refreshed);
     await Future.delayed(Duration(seconds: 3));
-    widgetRef
-        .read(tracksProvider(syncId: syncId).notifier)
-        .setRefreshing(false);
+    widgetRef.read(tracksProvider(syncId: syncId).notifier).setRefreshing(false);
     return refreshed.accessToken!;
   }
 }

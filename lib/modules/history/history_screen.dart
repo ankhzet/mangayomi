@@ -51,9 +51,7 @@ class _HistoryScreenState extends BaseLibraryTabScreenState<HistoryScreen> {
   void _syncActiveItemType() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        ref
-            .read(activeHistoryItemTypeStateProvider.notifier)
-            .set(getCurrentItemType());
+        ref.read(activeHistoryItemTypeStateProvider.notifier).set(getCurrentItemType());
       }
     });
   }
@@ -150,19 +148,11 @@ class _HistoryTabState extends ConsumerState<HistoryTab> with AutomaticKeepAlive
         // instead of each row's IsarLink.value doing its own blocking sync
         // DB read — that was firing per row as it scrolled into view (every
         // unloaded IsarLink.value synchronously calls loadSync()).
-        final chapterIds = allEntries
-            .map((e) => e.chapterId)
-            .whereType<int>()
-            .toSet()
-            .toList();
+        final chapterIds = allEntries.map((e) => e.chapterId).whereType<int>().toSet().toList();
         final chapterById = {
           for (final c in chapterRepository.getAllByIds(chapterIds)) c?.id!: c!,
         };
-        final mangaIds = chapterById.values
-            .map((c) => c.mangaId)
-            .whereType<int>()
-            .toSet()
-            .toList();
+        final mangaIds = chapterById.values.map((c) => c.mangaId).whereType<int>().toSet().toList();
         final mangaById = {
           for (final m in mangaRepository.getAllByIds(mangaIds)) m?.id!: m!,
         };
@@ -183,16 +173,15 @@ class _HistoryTabState extends ConsumerState<HistoryTab> with AutomaticKeepAlive
                   forHistoryValue: true,
                   useRelativeTimesTamps: false,
                 ),
-                groupSeparatorBuilder: (String groupByValue) =>
-                    ShioriSectionHeader(
-                      overline: true,
-                      title: dateFormat(
-                        null,
-                        context: context,
-                        stringDate: groupByValue,
-                        ref: ref,
-                      ),
-                    ),
+                groupSeparatorBuilder: (String groupByValue) => ShioriSectionHeader(
+                  overline: true,
+                  title: dateFormat(
+                    null,
+                    context: context,
+                    stringDate: groupByValue,
+                    ref: ref,
+                  ),
+                ),
                 itemBuilder: (context, History element) {
                   final chapter = chapterById[element.chapterId]!;
                   final manga = mangaById[chapter.mangaId]!;
@@ -277,9 +266,7 @@ class _HistoryTabState extends ConsumerState<HistoryTab> with AutomaticKeepAlive
       leading: ShioriThumbnail(
         height: _thumbHeight,
         semanticLabel: openDetail ? manga.name : null,
-        onTap: openDetail
-            ? () => context.push('/manga-reader/detail', extra: manga.id)
-            : null,
+        onTap: openDetail ? () => context.push('/manga-reader/detail', extra: manga.id) : null,
         child: _getCoverImage(manga),
       ),
       title: manga.name!,

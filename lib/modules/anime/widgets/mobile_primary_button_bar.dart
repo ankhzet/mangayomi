@@ -31,9 +31,7 @@ List<Widget> mobilePrimaryButtonBar(
   return [
     const Spacer(flex: 2),
     ShioriOverlayIconButton(
-      onPressed: hasPrevEpisode
-          ? () => open(streamController.getPrevEpisode())
-          : null,
+      onPressed: hasPrevEpisode ? () => open(streamController.getPrevEpisode()) : null,
       tooltip: l10n.previous_episode,
       size: 30,
       icon: const Icon(Symbols.skip_previous_rounded, fill: 1),
@@ -42,9 +40,7 @@ List<Widget> mobilePrimaryButtonBar(
     CustomPlayOrPauseButton(controller: controller, focusNode: playPauseFocus),
     const Spacer(),
     ShioriOverlayIconButton(
-      onPressed: hasNextEpisode
-          ? () => open(streamController.getNextEpisode())
-          : null,
+      onPressed: hasNextEpisode ? () => open(streamController.getNextEpisode()) : null,
       tooltip: l10n.next_episode,
       size: 30,
       icon: const Icon(Symbols.skip_next_rounded, fill: 1),

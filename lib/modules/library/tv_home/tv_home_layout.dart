@@ -17,19 +17,15 @@ const double _defaultCardWidth = 150;
 /// home too, rather than the home keeping a private density of its own.
 double tvCardWidth(BuildContext context, int gridSize) {
   final size = MediaQuery.sizeOf(context);
-  final raw = gridSize <= 0
-      ? _defaultCardWidth
-      : (size.width - 44) / gridSize - 8;
+  final raw = gridSize <= 0 ? _defaultCardWidth : (size.width - 44) / gridSize - 8;
   // A rail is not a grid: cap the card so "1 per row" can't eat the screen.
   final cap = ((size.height * 0.5) / 1.66).clamp(120.0, 400.0);
   return raw.clamp(90.0, cap);
 }
 
-double tvRowHeight(BuildContext context, int gridSize) =>
-    tvCardWidth(context, gridSize) * 1.66;
+double tvRowHeight(BuildContext context, int gridSize) => tvCardWidth(context, gridSize) * 1.66;
 
-int tvGridSize(WidgetRef ref) =>
-    ref.watch(libraryGridSizeStateProvider(itemType: ItemType.anime)) ?? 0;
+int tvGridSize(WidgetRef ref) => ref.watch(libraryGridSizeStateProvider(itemType: ItemType.anime)) ?? 0;
 
 /// Mirrors GridViewWidget: 0 means "default", anything else is an exact number
 /// of columns.

@@ -52,9 +52,7 @@ class TvDetailLeftInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final accent = context.shiori.color.accentInk;
-    final genres = (manga.genre ?? const <String>[])
-        .where((g) => g.trim().isNotEmpty)
-        .toList();
+    final genres = (manga.genre ?? const <String>[]).where((g) => g.trim().isNotEmpty).toList();
     final metaBits = <String>[
       manga.status.name.isNotEmpty ? _cap(manga.status.name) : '',
       '$episodeCount episodes',
@@ -68,9 +66,7 @@ class TvDetailLeftInfo extends StatelessWidget {
         ? 'Replay'
         : (watched > 0 ? 'Continue' : 'Play');
     final resumeName = resume?.name?.trim() ?? '';
-    final resumeLabel = resumeName.isEmpty
-        ? resumeWord
-        : '$resumeWord  ·  $resumeName';
+    final resumeLabel = resumeName.isEmpty ? resumeWord : '$resumeWord  ·  $resumeName';
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(32, 20, 32, 16),
@@ -191,9 +187,7 @@ class TvDetailLeftInfo extends StatelessWidget {
                     TvDetailActionButton(
                       focusNode: actionFocus[1],
                       accent: accent,
-                      icon: favorite
-                          ? Symbols.favorite_rounded
-                          : Symbols.favorite_border_rounded,
+                      icon: favorite ? Symbols.favorite_rounded : Symbols.favorite_border_rounded,
                       label: favorite ? 'In Library' : 'Add to Library',
                       onPressed: onToggleLibrary,
                     ),
@@ -322,8 +316,7 @@ class _TvDetailActionButtonState extends State<TvDetailActionButton> {
             node.focusInDirection(TraversalDirection.right);
             return KeyEventResult.handled;
           }
-          if (widget.onExitUp != null &&
-              event.logicalKey == LogicalKeyboardKey.arrowUp) {
+          if (widget.onExitUp != null && event.logicalKey == LogicalKeyboardKey.arrowUp) {
             widget.onExitUp!();
             return KeyEventResult.handled;
           }

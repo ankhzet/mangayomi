@@ -7,9 +7,7 @@ const double mobilePlayerBottomControlsBottomPadding = 30;
 bool usesCompactPortraitPlayerControls({
   required Orientation orientation,
   required double width,
-}) =>
-    orientation == Orientation.portrait &&
-    width < MobilePlayerBottomControlsLayout.compactPortraitBreakpoint;
+}) => orientation == Orientation.portrait && width < MobilePlayerBottomControlsLayout.compactPortraitBreakpoint;
 
 class MobilePlayerTopSafeArea extends StatelessWidget {
   const MobilePlayerTopSafeArea({

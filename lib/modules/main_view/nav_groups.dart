@@ -113,7 +113,6 @@ class LastNavMemberState extends Notifier<Map<String, String>> {
   }
 }
 
-final lastNavMemberProvider =
-    NotifierProvider<LastNavMemberState, Map<String, String>>(
-      LastNavMemberState.new,
-    );
+final lastNavMemberProvider = NotifierProvider<LastNavMemberState, Map<String, String>>(
+  LastNavMemberState.new,
+);

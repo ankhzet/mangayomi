@@ -120,8 +120,7 @@ class Filter {
         break;
       case 'sort':
         final canAscend = (json['canAscend'] as bool?) ?? true;
-        final options =
-            (json['options'] as List?)?.map((e) => e.toString()).toList() ?? [];
+        final options = (json['options'] as List?)?.map((e) => e.toString()).toList() ?? [];
         SortDefault? def;
         if (json['default'] is Map) {
           final defMap = json['default'] as Map<String, dynamic>;
@@ -149,8 +148,7 @@ class Filter {
       case 'select':
         final isGenre = (json['isGenre'] as bool?) ?? false;
         final usesTagStyle = json['usesTagStyle'] as bool?;
-        final options =
-            (json['options'] as List?)?.map((e) => e.toString()).toList() ?? [];
+        final options = (json['options'] as List?)?.map((e) => e.toString()).toList() ?? [];
         final ids = (json['ids'] as List?)?.map((e) => e.toString()).toList();
         final defVal = json['default']?.toString();
         cfg = FilterTypeSelect(
@@ -167,13 +165,10 @@ class Filter {
         final isGenre = (json['isGenre'] as bool?) ?? false;
         final canExclude = (json['canExclude'] as bool?) ?? false;
         final usesTagStyle = json['usesTagStyle'] as bool?;
-        final options =
-            (json['options'] as List?)?.map((e) => e.toString()).toList() ?? [];
+        final options = (json['options'] as List?)?.map((e) => e.toString()).toList() ?? [];
         final ids = (json['ids'] as List?)?.map((e) => e.toString()).toList();
         final rawDef = json['default'];
-        final defaultIncluded = rawDef is List
-            ? rawDef.map((e) => e.toString()).toList()
-            : null;
+        final defaultIncluded = rawDef is List ? rawDef.map((e) => e.toString()).toList() : null;
         cfg = FilterTypeMultiSelect(
           MultiSelectFilter(
             isGenre: isGenre,

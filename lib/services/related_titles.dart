@@ -112,9 +112,7 @@ Future<List<RelatedTitle>> fetchRelatedTitles(
 ) async {
   // Kitsu knows anime and manga. A novel is looked up among manga, which is
   // where Kitsu keeps it.
-  final lookupType = itemType == ItemType.anime
-      ? ItemType.anime
-      : ItemType.manga;
+  final lookupType = itemType == ItemType.anime ? ItemType.anime : ItemType.manga;
 
   final mediaId = await kitsuSearchMediaId(lookupType, name);
   if (mediaId == null) return const [];

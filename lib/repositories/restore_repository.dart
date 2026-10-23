@@ -8,8 +8,7 @@ import 'package:mangayomi/repositories/db_write_queue.dart';
 // This just gives restore its own queued write path, consistent with the
 // rest of the app, without forcing that logic into the wrong repository.
 class RestoreRepository {
-  Future<T> run<T>(T Function() body) =>
-      dbWriteQueue.run(() => isar.writeTxnSync<T>(body));
+  Future<T> run<T>(T Function() body) => dbWriteQueue.run(() => isar.writeTxnSync<T>(body));
 }
 
 final restoreRepository = RestoreRepository();

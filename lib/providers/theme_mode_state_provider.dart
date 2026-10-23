@@ -28,9 +28,7 @@ class ThemeModeState extends _$ThemeModeState {
     final schemeIndex = ref.read(flexSchemeColorStateProvider).$2;
     final scheme = ThemeAA.schemes[schemeIndex];
 
-    ref
-        .read(flexSchemeColorStateProvider.notifier)
-        .setTheme(isDark ? scheme.dark : scheme.light, schemeIndex);
+    ref.read(flexSchemeColorStateProvider.notifier).setTheme(isDark ? scheme.dark : scheme.light, schemeIndex);
 
     // After setTheme, which writes the same row.
     settingsRepository.update((s) => s.themeIsDark = isDark);
@@ -47,8 +45,7 @@ class FollowSystemThemeState extends _$FollowSystemThemeState {
   void set(bool value) {
     state = value;
     if (value) {
-      if (WidgetsBinding.instance.platformDispatcher.platformBrightness ==
-          Brightness.light) {
+      if (WidgetsBinding.instance.platformDispatcher.platformBrightness == Brightness.light) {
         ref.read(themeModeStateProvider.notifier).setLightTheme();
       } else {
         ref.read(themeModeStateProvider.notifier).setDarkTheme();

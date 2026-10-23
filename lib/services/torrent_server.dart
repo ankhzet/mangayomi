@@ -62,8 +62,7 @@ List<String> _mergeTorrentFallbacks(
   return _normalizeHttpUrls([...base, ...discovered]);
 }
 
-String _normalizeInfoHash(String hash) =>
-    MTorrentServer.normalizeInfoHash(hash);
+String _normalizeInfoHash(String hash) => MTorrentServer.normalizeInfoHash(hash);
 
 class MTorrentServer {
   static String normalizeInfoHash(String hash) {
@@ -115,11 +114,7 @@ class MTorrentServer {
       if (res.statusCode == 200) {
         final decoded = jsonDecode(res.body);
         if (decoded is List) {
-          return decoded
-              .map((e) => e['infoHash']?.toString())
-              .whereType<String>()
-              .map(_normalizeInfoHash)
-              .toList();
+          return decoded.map((e) => e['infoHash']?.toString()).whereType<String>().map(_normalizeInfoHash).toList();
         }
       }
       return [];

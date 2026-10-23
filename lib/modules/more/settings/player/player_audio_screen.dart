@@ -42,9 +42,7 @@ class _PlayerAudioScreenState extends ConsumerState<PlayerAudioScreen> {
                 title: l10n.enable_audio_pitch_correction,
                 subtitle: l10n.enable_audio_pitch_correction_info,
                 value: enableAudioPitchCorrection,
-                onChanged: (v) => ref
-                    .read(enableAudioPitchCorrectionStateProvider.notifier)
-                    .set(v),
+                onChanged: (v) => ref.read(enableAudioPitchCorrectionStateProvider.notifier).set(v),
               ),
               ShioriValueRow<AudioChannel>(
                 title: l10n.audio_channels,
@@ -56,8 +54,7 @@ class _PlayerAudioScreenState extends ConsumerState<PlayerAudioScreen> {
                   ShioriChoice(AudioChannel.stereo, 'Stereo'),
                   ShioriChoice(AudioChannel.reverseStereo, 'Reverse stereo'),
                 ],
-                onChanged: (v) =>
-                    ref.read(audioChannelStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(audioChannelStateProvider.notifier).set(v),
               ),
               ShioriSliderRow(
                 title: l10n.volume_boost_cap,
@@ -66,12 +63,9 @@ class _PlayerAudioScreenState extends ConsumerState<PlayerAudioScreen> {
                 max: 200,
                 divisions: 40,
                 defaultValue: 30,
-                onReset: () =>
-                    ref.read(volumeBoostCapStateProvider.notifier).set(30),
+                onReset: () => ref.read(volumeBoostCapStateProvider.notifier).set(30),
                 resetTooltip: l10n.reset,
-                onChanged: (v) => ref
-                    .read(volumeBoostCapStateProvider.notifier)
-                    .set(v.round()),
+                onChanged: (v) => ref.read(volumeBoostCapStateProvider.notifier).set(v.round()),
               ),
             ],
           ),
@@ -83,9 +77,7 @@ class _PlayerAudioScreenState extends ConsumerState<PlayerAudioScreen> {
   /// Comma-separated language codes; each must be one the app knows.
   Future<void> _editPreferredLanguages() async {
     final l10n = context.l10n;
-    final known = AppLocalizations.supportedLocales
-        .map((e) => e.languageCode)
-        .toSet();
+    final known = AppLocalizations.supportedLocales.map((e) => e.languageCode).toSet();
     final codes = await showShioriPrompt(
       context,
       title: l10n.audio_preferred_languages,
@@ -95,21 +87,12 @@ class _PlayerAudioScreenState extends ConsumerState<PlayerAudioScreen> {
       hint: 'en, ja',
       allowEmpty: true,
       validator: (text) {
-        final unknown = text
-            .split(',')
-            .map((e) => e.trim())
-            .where((e) => e.isNotEmpty && !known.contains(e));
-        return unknown.isEmpty
-            ? null
-            : l10n.unknown_language_codes(unknown.join(', '));
+        final unknown = text.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty && !known.contains(e));
+        return unknown.isEmpty ? null : l10n.unknown_language_codes(unknown.join(', '));
       },
     );
     if (codes == null) return;
-    final cleaned = codes
-        .split(',')
-        .map((e) => e.trim())
-        .where((e) => e.isNotEmpty)
-        .join(',');
+    final cleaned = codes.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).join(',');
     ref.read(audioPreferredLangStateProvider.notifier).set(cleaned);
   }
 }

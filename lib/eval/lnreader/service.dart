@@ -293,8 +293,7 @@ const extension = exports.default;
           final sourcePage = SourcePage.fromJson(raw);
           if (sourcePage.chapters.isEmpty) break;
           paginatedChapters.addAll(sourcePage.chapters);
-          if (item.totalPages == null &&
-              (sourcePage.chapters.length < 5 || pageNum >= 50)) {
+          if (item.totalPages == null && (sourcePage.chapters.length < 5 || pageNum >= 50)) {
             break;
           }
           pageNum++;
@@ -314,8 +313,7 @@ const extension = exports.default;
             url: e.path,
             scanlator: e.scanlator,
             dateUpload: e.releaseTime != null
-                ? DateTime.tryParse(e.releaseTime!)?.millisecondsSinceEpoch
-                          .toString() ??
+                ? DateTime.tryParse(e.releaseTime!)?.millisecondsSinceEpoch.toString() ??
                       int.tryParse(e.releaseTime!)?.toString() ??
                       DateTime.now().millisecondsSinceEpoch.toString()
                 : DateTime.now().millisecondsSinceEpoch.toString(),
@@ -471,11 +469,8 @@ const extension = exports.default;
           savedPref?.listPreference?.entryValues != null &&
               savedPref!.listPreference!.valueIndex != null &&
               savedPref.listPreference!.valueIndex! >= 0 &&
-              savedPref.listPreference!.valueIndex! <
-                  savedPref.listPreference!.entryValues!.length
-          ? savedPref.listPreference!.entryValues![savedPref
-                .listPreference!
-                .valueIndex!]
+              savedPref.listPreference!.valueIndex! < savedPref.listPreference!.entryValues!.length
+          ? savedPref.listPreference!.entryValues![savedPref.listPreference!.valueIndex!]
           : (defaultValue?.toString() ?? '');
       final idx = entryValues.indexOf(curVal);
       return SourcePreference(
@@ -505,9 +500,7 @@ const extension = exports.default;
       }
       final curVals =
           savedPref?.multiSelectListPreference?.values ??
-          (defaultValue is List
-              ? defaultValue.map((e) => e.toString()).toList()
-              : <String>[]);
+          (defaultValue is List ? defaultValue.map((e) => e.toString()).toList() : <String>[]);
       return SourcePreference(
         key: key,
         sourceId: source.id,
@@ -522,9 +515,7 @@ const extension = exports.default;
     }
 
     // Text / Default
-    final curVal =
-        savedPref?.editTextPreference?.value ??
-        (defaultValue?.toString() ?? '');
+    final curVal = savedPref?.editTextPreference?.value ?? (defaultValue?.toString() ?? '');
     return SourcePreference(
       key: key,
       sourceId: source.id,
@@ -598,9 +589,7 @@ const extension = exports.default;
             p.valueIndex = idx;
           }
         } else if (pref.multiSelectListPreference != null && val is List) {
-          pref.multiSelectListPreference!.values = val
-              .map((e) => e.toString())
-              .toList();
+          pref.multiSelectListPreference!.values = val.map((e) => e.toString()).toList();
         }
         sourcePreferenceRepository.save(pref, source, pref);
       } else {

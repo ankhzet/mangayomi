@@ -22,8 +22,7 @@ String rewriteHlsPlaylist(
   Uri playlistUri,
   HlsProxyUrlBuilder buildProxyUrl,
 ) {
-  final isMaster =
-      body.contains('#EXT-X-STREAM-INF') || body.contains('#EXT-X-MEDIA:');
+  final isMaster = body.contains('#EXT-X-STREAM-INF') || body.contains('#EXT-X-MEDIA:');
   final usesFmp4 = body.contains('#EXT-X-MAP:');
   final uriAttribute = RegExp(r'URI="([^"]+)"');
   final lines = const LineSplitter().convert(body);
@@ -35,20 +34,15 @@ String rewriteHlsPlaylist(
         line.replaceAllMapped(uriAttribute, (match) {
           final reference = match.group(1)!;
           final type = switch (line) {
-            String value when value.startsWith('#EXT-X-MAP:') =>
-              HlsProxyResourceType.fmp4,
-            String value
-                when value.startsWith('#EXT-X-KEY:') ||
-                    value.startsWith('#EXT-X-SESSION-KEY:') =>
+            String value when value.startsWith('#EXT-X-MAP:') => HlsProxyResourceType.fmp4,
+            String value when value.startsWith('#EXT-X-KEY:') || value.startsWith('#EXT-X-SESSION-KEY:') =>
               HlsProxyResourceType.key,
             String value
                 when value.startsWith('#EXT-X-MEDIA:') ||
                     value.startsWith('#EXT-X-I-FRAME-STREAM-INF:') ||
                     value.startsWith('#EXT-X-RENDITION-REPORT:') =>
               HlsProxyResourceType.playlist,
-            String value
-                when value.startsWith('#EXT-X-PART:') ||
-                    value.startsWith('#EXT-X-PRELOAD-HINT:') =>
+            String value when value.startsWith('#EXT-X-PART:') || value.startsWith('#EXT-X-PRELOAD-HINT:') =>
               _mediaResourceType(reference, usesFmp4),
             _ => HlsProxyResourceType.playlist,
           };
@@ -63,9 +57,7 @@ String rewriteHlsPlaylist(
       continue;
     }
 
-    final type = isMaster
-        ? HlsProxyResourceType.playlist
-        : _mediaResourceType(line, usesFmp4);
+    final type = isMaster ? HlsProxyResourceType.playlist : _mediaResourceType(line, usesFmp4);
     rewritten.add(
       _rewriteReference(line.trim(), type, playlistUri, buildProxyUrl),
     );
@@ -213,9 +205,7 @@ class HlsProxyService {
         return;
       }
 
-      if (isPlaylist &&
-          upstreamResponse.statusCode >= 200 &&
-          upstreamResponse.statusCode < 300) {
+      if (isPlaylist && upstreamResponse.statusCode >= 200 && upstreamResponse.statusCode < 300) {
         final bytes = await _readLimited(
           upstreamResponse.stream,
           _maxPlaylistBytes,
@@ -264,8 +254,7 @@ class HlsProxyService {
     Uri upstream,
     HlsProxyResourceType type,
   ) {
-    final encoded = base64UrlEncode(utf8.encode(upstream.toString()))
-        .replaceAll('=', '');
+    final encoded = base64UrlEncode(utf8.encode(upstream.toString())).replaceAll('=', '');
     return Uri(
       scheme: 'http',
       host: InternetAddress.loopbackIPv4.address,
@@ -366,8 +355,7 @@ class _HlsProxySession {
   final Map<String, String> headers;
   DateTime _lastUsed;
 
-  bool get isExpired =>
-      DateTime.now().difference(_lastUsed) > HlsProxyService._sessionLifetime;
+  bool get isExpired => DateTime.now().difference(_lastUsed) > HlsProxyService._sessionLifetime;
 
   void touch() => _lastUsed = DateTime.now();
 }

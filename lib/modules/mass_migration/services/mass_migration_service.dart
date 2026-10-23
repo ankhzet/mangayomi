@@ -233,9 +233,7 @@ Future<void> _restoreMigrationProgress({
       chapterRepository.putAllSync(updatedChapters);
     }
 
-    final historyChapter = snapshot.historyChapter == null
-        ? null
-        : byNumber[snapshot.historyChapter];
+    final historyChapter = snapshot.historyChapter == null ? null : byNumber[snapshot.historyChapter];
     if (historyChapter != null) {
       historyRepository.putSync(
         History(

@@ -77,9 +77,7 @@ mixin ReaderInputAndModeMixin<T extends ConsumerStatefulWidget>
       final viewportSize = MediaQuery.sizeOf(context);
       final dimension = isHorizontal ? viewportSize.width : viewportSize.height;
       final offset = dimension * 0.60 * (forward ? 1 : -1);
-      final duration = animatePageTransitions
-          ? const Duration(milliseconds: 160)
-          : const Duration(milliseconds: 10);
+      final duration = animatePageTransitions ? const Duration(milliseconds: 160) : const Duration(milliseconds: 10);
       if (inputContinuousScrollController.hasClients) {
         final target = (inputContinuousScrollController.offset + offset).clamp(
           inputContinuousScrollController.position.minScrollExtent,
@@ -145,8 +143,7 @@ mixin ReaderInputAndModeMixin<T extends ConsumerStatefulWidget>
   /// spread, as the keyboard and the tap zones do.
   void turnPage({required bool forward}) {
     final curIdx = currentDoublePageViewIndex;
-    final zoomedSpread =
-        isCurrentPageZoomed && doublePageControllers[curIdx] != null;
+    final zoomedSpread = isCurrentPageZoomed && doublePageControllers[curIdx] != null;
     if (zoomedSpread) {
       forward ? handleNextPageZoomed() : handlePreviousPageZoomed();
     } else {

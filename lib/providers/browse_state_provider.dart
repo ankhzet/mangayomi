@@ -20,9 +20,7 @@ part 'browse_state_provider.g.dart';
 class AndroidProxyServerState extends _$AndroidProxyServerState {
   @override
   String build() {
-    String proxyServer =
-        settingsRepository.currentOrNull?.androidProxyServer ??
-        "http://127.0.0.1:8080";
+    String proxyServer = settingsRepository.currentOrNull?.androidProxyServer ?? "http://127.0.0.1:8080";
     if (!proxyServer.startsWith("http")) {
       proxyServer = "http://$proxyServer";
     }
@@ -42,12 +40,10 @@ class AndroidProxyServerState extends _$AndroidProxyServerState {
 }
 
 @riverpod
-class AutoStartExtensionServerOnLaunchState
-    extends _$AutoStartExtensionServerOnLaunchState {
+class AutoStartExtensionServerOnLaunchState extends _$AutoStartExtensionServerOnLaunchState {
   @override
   bool build() {
-    return settingsRepository.currentOrNull?.autoStartExtensionServerOnLaunch ??
-        false;
+    return settingsRepository.currentOrNull?.autoStartExtensionServerOnLaunch ?? false;
   }
 
   void set(bool value) {
@@ -231,9 +227,7 @@ Future<Repo?> getRepoInfos(Ref ref, {required String jsonUrl}) async {
   // Normalize URLs that don't end with a file name (e.g. https://aidoku-community.github.io/sources)
   final urlsToTry = <String>[cleanUrl];
   if (!cleanUrl.endsWith('.json') && !cleanUrl.endsWith('.pb')) {
-    final normalized = cleanUrl.endsWith('/')
-        ? cleanUrl.substring(0, cleanUrl.length - 1)
-        : cleanUrl;
+    final normalized = cleanUrl.endsWith('/') ? cleanUrl.substring(0, cleanUrl.length - 1) : cleanUrl;
     urlsToTry.addAll([
       '$normalized/index.min.json',
       '$normalized/repo.json',
@@ -246,13 +240,9 @@ Future<Repo?> getRepoInfos(Ref ref, {required String jsonUrl}) async {
   for (final url in urlsToTry) {
     try {
       final result = await ExtensionStoreService.fetchStore(url, http);
-      if (result != null &&
-          (result.sources.isNotEmpty || result.name.isNotEmpty)) {
+      if (result != null && (result.sources.isNotEmpty || result.name.isNotEmpty)) {
         String repoName = result.name;
-        if (repoName.isEmpty ||
-            repoName.endsWith('.json') ||
-            repoName == '.dist' ||
-            repoName == 'dist') {
+        if (repoName.isEmpty || repoName.endsWith('.json') || repoName == '.dist' || repoName == 'dist') {
           repoName = _inferRepoName(Uri.parse(url));
         }
         return Repo(
@@ -316,13 +306,7 @@ String _inferRepoName(Uri uri) {
   }
   final segments = uri.pathSegments
       .where(
-        (s) =>
-            s.isNotEmpty &&
-            !s.endsWith('.json') &&
-            s != '.dist' &&
-            s != 'dist' &&
-            s != 'build' &&
-            s != '.build',
+        (s) => s.isNotEmpty && !s.endsWith('.json') && s != '.dist' && s != 'dist' && s != 'build' && s != '.build',
       )
       .toList();
   return segments.lastOrNull ?? uri.host;

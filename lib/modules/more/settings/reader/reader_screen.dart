@@ -95,35 +95,29 @@ class ReaderScreen extends ConsumerWidget {
                     leading: ReaderModeGlyph(mode),
                   ),
               ],
-              onChanged: (v) =>
-                  ref.read(defaultReadingModeStateProvider.notifier).set(v),
+              onChanged: (v) => ref.read(defaultReadingModeStateProvider.notifier).set(v),
             ),
             ShioriValueRow<ScaleType>(
               title: l10n.scale_type,
               value: scaleType,
               options: [
-                for (final (i, name) in getScaleTypeNames(context).indexed)
-                  ShioriChoice(ScaleType.values[i], name),
+                for (final (i, name) in getScaleTypeNames(context).indexed) ShioriChoice(ScaleType.values[i], name),
               ],
-              onChanged: (v) =>
-                  ref.read(scaleTypeStateProvider.notifier).set(v),
+              onChanged: (v) => ref.read(scaleTypeStateProvider.notifier).set(v),
             ),
             ShioriValueRow<BackgroundColor>(
               title: l10n.background_color,
               value: backgroundColor,
               options: [
-                for (final color in BackgroundColor.values)
-                  ShioriChoice(color, getBackgroundColorName(color, context)),
+                for (final color in BackgroundColor.values) ShioriChoice(color, getBackgroundColorName(color, context)),
               ],
-              onChanged: (v) =>
-                  ref.read(backgroundColorStateProvider.notifier).set(v),
+              onChanged: (v) => ref.read(backgroundColorStateProvider.notifier).set(v),
             ),
             if (!isMobile)
               ShioriSwitchRow(
                 title: l10n.fullscreen,
                 value: fullScreenReader,
-                onChanged: (v) =>
-                    ref.read(fullScreenReaderStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(fullScreenReaderStateProvider.notifier).set(v),
               ),
             const ReaderOrientationRow(),
             const ReaderScreenBrightnessRow(),
@@ -140,9 +134,7 @@ class ReaderScreen extends ConsumerWidget {
               options: named([
                 for (var i = 0; i < 3; i++) getAnimationSpeedName(i, context),
               ]),
-              onChanged: (v) => ref
-                  .read(doubleTapAnimationSpeedStateProvider.notifier)
-                  .set(v),
+              onChanged: (v) => ref.read(doubleTapAnimationSpeedStateProvider.notifier).set(v),
             ),
             ShioriSliderRow(
               title: l10n.page_preload_amount,
@@ -152,12 +144,9 @@ class ReaderScreen extends ConsumerWidget {
               max: 20,
               divisions: 19,
               defaultValue: 6,
-              onReset: () =>
-                  ref.read(pagePreloadAmountStateProvider.notifier).set(6),
+              onReset: () => ref.read(pagePreloadAmountStateProvider.notifier).set(6),
               resetTooltip: l10n.reset,
-              onChanged: (v) => ref
-                  .read(pagePreloadAmountStateProvider.notifier)
-                  .set(v.round()),
+              onChanged: (v) => ref.read(pagePreloadAmountStateProvider.notifier).set(v.round()),
             ),
             const ReaderSwitchRow(ReaderSwitch.cropBorders),
             const ReaderSwitchRow(ReaderSwitch.navigateToPan),
@@ -179,12 +168,9 @@ class ReaderScreen extends ConsumerWidget {
               divisions: 50,
               valueLabel: (v) => '${v.round()} %',
               defaultValue: 0,
-              onReset: () =>
-                  ref.read(webtoonSidePaddingStateProvider.notifier).set(0),
+              onReset: () => ref.read(webtoonSidePaddingStateProvider.notifier).set(0),
               resetTooltip: l10n.reset,
-              onChanged: (v) => ref
-                  .read(webtoonSidePaddingStateProvider.notifier)
-                  .set(v.round()),
+              onChanged: (v) => ref.read(webtoonSidePaddingStateProvider.notifier).set(v.round()),
             ),
           ],
         ),
@@ -193,11 +179,9 @@ class ReaderScreen extends ConsumerWidget {
         ShioriSettingsGroup(
           children: [
             const ReaderSwitchRow(ReaderSwitch.splitWidePages),
-            if (splitWidePages)
-              const ReaderSwitchRow(ReaderSwitch.dualPageInvert),
+            if (splitWidePages) const ReaderSwitchRow(ReaderSwitch.dualPageInvert),
             const ReaderSwitchRow(ReaderSwitch.dualPageRotateToFit),
-            if (dualPageRotateToFit)
-              const ReaderSwitchRow(ReaderSwitch.dualPageRotateToFitInvert),
+            if (dualPageRotateToFit) const ReaderSwitchRow(ReaderSwitch.dualPageRotateToFitInvert),
             const ReaderSwitchRow(ReaderSwitch.doublePageSingleFirstPage),
             const ReaderSwitchRow(ReaderSwitch.doublePageAuto),
             const ReaderSwitchRow(ReaderSwitch.landscapeZoom),
@@ -210,8 +194,7 @@ class ReaderScreen extends ConsumerWidget {
                   l10n.zoom_start_right,
                   l10n.zoom_start_center,
                 ]),
-                onChanged: (v) =>
-                    ref.read(zoomStartPositionStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(zoomStartPositionStateProvider.notifier).set(v),
               ),
           ],
         ),
@@ -226,8 +209,7 @@ class ReaderScreen extends ConsumerWidget {
               options: named([
                 for (var i = 0; i < 6; i++) _navLayoutNameGlobal(i, context),
               ]),
-              onChanged: (v) =>
-                  ref.read(readerNavigationLayoutStateProvider.notifier).set(v),
+              onChanged: (v) => ref.read(readerNavigationLayoutStateProvider.notifier).set(v),
             ),
             ShioriValueRow<int>(
               title: l10n.tapping_inversion,
@@ -238,8 +220,7 @@ class ReaderScreen extends ConsumerWidget {
                 l10n.tapping_inversion_vertical,
                 l10n.tapping_inversion_both,
               ]),
-              onChanged: (v) =>
-                  ref.read(tappingInversionStateProvider.notifier).set(v),
+              onChanged: (v) => ref.read(tappingInversionStateProvider.notifier).set(v),
             ),
             ShioriValueRow<int>(
               title: l10n.reader_hide_threshold,
@@ -250,15 +231,13 @@ class ReaderScreen extends ConsumerWidget {
                 l10n.reader_hide_threshold_low,
                 l10n.reader_hide_threshold_lowest,
               ]),
-              onChanged: (v) =>
-                  ref.read(readerHideThresholdStateProvider.notifier).set(v),
+              onChanged: (v) => ref.read(readerHideThresholdStateProvider.notifier).set(v),
             ),
             const ReaderSwitchRow(ReaderSwitch.showNavigationOverlayOnStart),
             // The volume buttons as page turns, where a phone has them.
             if (VolumeKeys.isSupported) ...[
               const ReaderSwitchRow(ReaderSwitch.volumeKeysPaging),
-              if (ref.watch(volumeKeysPagingStateProvider))
-                const ReaderSwitchRow(ReaderSwitch.volumeKeysInverted),
+              if (ref.watch(volumeKeysPagingStateProvider)) const ReaderSwitchRow(ReaderSwitch.volumeKeysInverted),
             ],
           ],
         ),
@@ -275,8 +254,7 @@ class ReaderScreen extends ConsumerWidget {
                   l10n.flash_color_white,
                   l10n.flash_color_white_black,
                 ]),
-                onChanged: (v) =>
-                    ref.read(flashColorStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(flashColorStateProvider.notifier).set(v),
               ),
               ShioriSliderRow(
                 title: l10n.flash_interval(flashInterval.toString()),
@@ -286,12 +264,9 @@ class ReaderScreen extends ConsumerWidget {
                 divisions: 9,
                 valueLabel: (_) => '',
                 defaultValue: 1,
-                onReset: () =>
-                    ref.read(flashIntervalStateProvider.notifier).set(1),
+                onReset: () => ref.read(flashIntervalStateProvider.notifier).set(1),
                 resetTooltip: l10n.reset,
-                onChanged: (v) => ref
-                    .read(flashIntervalStateProvider.notifier)
-                    .set(v.round()),
+                onChanged: (v) => ref.read(flashIntervalStateProvider.notifier).set(v.round()),
               ),
               ShioriSliderRow(
                 title: l10n.flash_duration(flashDuration.toString()),
@@ -301,12 +276,9 @@ class ReaderScreen extends ConsumerWidget {
                 divisions: 9,
                 valueLabel: (_) => '',
                 defaultValue: 100,
-                onReset: () =>
-                    ref.read(flashDurationStateProvider.notifier).set(100),
+                onReset: () => ref.read(flashDurationStateProvider.notifier).set(100),
                 resetTooltip: l10n.reset,
-                onChanged: (v) => ref
-                    .read(flashDurationStateProvider.notifier)
-                    .set(v.round()),
+                onChanged: (v) => ref.read(flashDurationStateProvider.notifier).set(v.round()),
               ),
             ],
           ],
@@ -319,16 +291,13 @@ class ReaderScreen extends ConsumerWidget {
               title: l10n.chapter_swipe_start,
               value: chapterSwipeStart,
               options: _chapterSwipeChoices(context),
-              onChanged: (v) => ref
-                  .read(chapterSwipeStartActionStateProvider.notifier)
-                  .set(v),
+              onChanged: (v) => ref.read(chapterSwipeStartActionStateProvider.notifier).set(v),
             ),
             ShioriValueRow<ChapterSwipeAction>(
               title: l10n.chapter_swipe_end,
               value: chapterSwipeEnd,
               options: _chapterSwipeChoices(context),
-              onChanged: (v) =>
-                  ref.read(chapterSwipeEndActionStateProvider.notifier).set(v),
+              onChanged: (v) => ref.read(chapterSwipeEndActionStateProvider.notifier).set(v),
             ),
           ],
         ),
@@ -358,8 +327,7 @@ class ReaderScreen extends ConsumerWidget {
               title: section.title(context),
               subtitle: section.summary(context),
               trailing: const Icon(Symbols.chevron_forward_rounded),
-              onTap: () =>
-                  context.push('/readerSettingsSection', extra: section.index),
+              onTap: () => context.push('/readerSettingsSection', extra: section.index),
             ),
         ],
       ),
@@ -477,8 +445,7 @@ String _navLayoutNameGlobal(int index, BuildContext context) {
 List<ShioriChoice<ChapterSwipeAction>> _chapterSwipeChoices(
   BuildContext context,
 ) => [
-  for (final action in ChapterSwipeAction.values)
-    ShioriChoice(action, _chapterSwipeActionName(action, context)),
+  for (final action in ChapterSwipeAction.values) ShioriChoice(action, _chapterSwipeActionName(action, context)),
 ];
 
 String _chapterSwipeActionName(
@@ -486,8 +453,7 @@ String _chapterSwipeActionName(
   BuildContext context,
 ) {
   return switch (action) {
-    ChapterSwipeAction.toggleBookmark =>
-      context.l10n.chapter_swipe_toggle_bookmark,
+    ChapterSwipeAction.toggleBookmark => context.l10n.chapter_swipe_toggle_bookmark,
     ChapterSwipeAction.toggleRead => context.l10n.chapter_swipe_toggle_read,
     ChapterSwipeAction.download => context.l10n.chapter_swipe_download,
     ChapterSwipeAction.disabled => context.l10n.chapter_swipe_disabled,

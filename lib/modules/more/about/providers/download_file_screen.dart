@@ -81,10 +81,7 @@ class _DownloadFileScreenState extends ConsumerState<DownloadFileScreen> {
           children: [
             _versions(context, targetVersion),
             _notes(context, changelog),
-            if (_isDownloading)
-              _progress(context)
-            else if (_errorMessage != null)
-              _error(context),
+            if (_isDownloading) _progress(context) else if (_errorMessage != null) _error(context),
           ],
         ),
       ),
@@ -112,9 +109,7 @@ class _DownloadFileScreenState extends ConsumerState<DownloadFileScreen> {
         // page opens in the browser, and the button says so.
         if (!_isDownloading)
           ShioriButton(
-            icon: Platform.isAndroid
-                ? Symbols.download_rounded
-                : Symbols.open_in_browser_rounded,
+            icon: Platform.isAndroid ? Symbols.download_rounded : Symbols.open_in_browser_rounded,
             label: Platform.isAndroid ? l10n.download : l10n.open_in_browser,
             onPressed: () => _handleDownloadOrOpen(widget.updateAvailable),
           ),
@@ -128,8 +123,7 @@ class _DownloadFileScreenState extends ConsumerState<DownloadFileScreen> {
     return Text.rich(
       TextSpan(
         children: [
-          if (_currentVersion.isNotEmpty)
-            TextSpan(text: 'v$_currentVersion  →  '),
+          if (_currentVersion.isNotEmpty) TextSpan(text: 'v$_currentVersion  →  '),
           TextSpan(
             text: 'v$targetVersion',
             style: TextStyle(
@@ -237,8 +231,7 @@ class _DownloadFileScreenState extends ConsumerState<DownloadFileScreen> {
     final formatted = <String>[];
     for (var line in lines) {
       final trimmed = line.trim();
-      if (trimmed.startsWith('**Full Changelog**') ||
-          trimmed.startsWith('Full Changelog:')) {
+      if (trimmed.startsWith('**Full Changelog**') || trimmed.startsWith('Full Changelog:')) {
         continue;
       }
       formatted.add(line);
@@ -259,18 +252,11 @@ class _DownloadFileScreenState extends ConsumerState<DownloadFileScreen> {
         final deviceInfo = DeviceInfoPlugin();
         final androidInfo = await deviceInfo.androidInfo;
         String apkUrl = '';
-        final apks = updateAvailable.$4
-            .whereType<String>()
-            .where((apk) => apk.toLowerCase().endsWith('.apk'))
-            .toList();
+        final apks = updateAvailable.$4.whereType<String>().where((apk) => apk.toLowerCase().endsWith('.apk')).toList();
 
         final filteredApks = isTv
-            ? apks
-                  .where((apk) => apk.toLowerCase().contains('android-tv'))
-                  .toList()
-            : apks
-                  .where((apk) => !apk.toLowerCase().contains('android-tv'))
-                  .toList();
+            ? apks.where((apk) => apk.toLowerCase().contains('android-tv')).toList()
+            : apks.where((apk) => !apk.toLowerCase().contains('android-tv')).toList();
 
         final candidateApks = filteredApks.isNotEmpty ? filteredApks : apks;
 

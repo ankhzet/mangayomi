@@ -134,9 +134,7 @@ class ReaderAppBar extends ConsumerWidget {
                         ),
                       IconButton(
                         onPressed: onBookmarkPressed,
-                        tooltip: isBookmarked
-                            ? context.l10n.remove_bookmark
-                            : context.l10n.bookmark,
+                        tooltip: isBookmarked ? context.l10n.remove_bookmark : context.l10n.bookmark,
                         icon: Icon(
                           Symbols.bookmark_rounded,
                           fill: isBookmarked ? 1 : 0,
@@ -145,8 +143,7 @@ class ReaderAppBar extends ConsumerWidget {
                       ),
                       if (refresh != null || webView != null)
                         ShioriMenuButton(
-                          tooltip: MaterialLocalizations.of(context)
-                              .moreButtonTooltip,
+                          tooltip: MaterialLocalizations.of(context).moreButtonTooltip,
                           items: [
                             if (refresh != null)
                               ShioriMenuItem(

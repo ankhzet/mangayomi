@@ -60,14 +60,7 @@ final class TracksProvider extends $NotifierProvider<Tracks, TrackPreference?> {
 String _$tracksHash() => r'b4300ea121298efcc206ff3482b7e9f70121e290';
 
 final class TracksFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          Tracks,
-          TrackPreference?,
-          TrackPreference?,
-          TrackPreference?,
-          int?
-        > {
+    with $ClassFamilyOverride<Tracks, TrackPreference?, TrackPreference?, TrackPreference?, int?> {
   TracksFamily._()
     : super(
         retry: null,
@@ -77,8 +70,7 @@ final class TracksFamily extends $Family
         isAutoDispose: true,
       );
 
-  TracksProvider call({required int? syncId}) =>
-      TracksProvider._(argument: syncId, from: this);
+  TracksProvider call({required int? syncId}) => TracksProvider._(argument: syncId, from: this);
 
   @override
   String toString() => r'tracksProvider';
@@ -106,11 +98,9 @@ abstract class _$Tracks extends $Notifier<TrackPreference?> {
 }
 
 @ProviderFor(UpdateProgressAfterReadingState)
-final updateProgressAfterReadingStateProvider =
-    UpdateProgressAfterReadingStateProvider._();
+final updateProgressAfterReadingStateProvider = UpdateProgressAfterReadingStateProvider._();
 
-final class UpdateProgressAfterReadingStateProvider
-    extends $NotifierProvider<UpdateProgressAfterReadingState, bool> {
+final class UpdateProgressAfterReadingStateProvider extends $NotifierProvider<UpdateProgressAfterReadingState, bool> {
   UpdateProgressAfterReadingStateProvider._()
     : super(
         from: null,
@@ -138,8 +128,7 @@ final class UpdateProgressAfterReadingStateProvider
   }
 }
 
-String _$updateProgressAfterReadingStateHash() =>
-    r'6bfd4540efdac00da9227660e7da9d5e20904f52';
+String _$updateProgressAfterReadingStateHash() => r'6bfd4540efdac00da9227660e7da9d5e20904f52';
 
 abstract class _$UpdateProgressAfterReadingState extends $Notifier<bool> {
   bool build();
@@ -147,14 +136,7 @@ abstract class _$UpdateProgressAfterReadingState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

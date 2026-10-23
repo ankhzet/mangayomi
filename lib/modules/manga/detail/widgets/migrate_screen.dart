@@ -39,8 +39,7 @@ class MigrationScreen extends ConsumerStatefulWidget {
 class _MigrationScreenScreenState extends ConsumerState<MigrationScreen> {
   String _query = "";
   final _textEditingController = TextEditingController();
-  late final List<Source> sourceList =
-      ref.read(onlyIncludePinnedSourceStateProvider)
+  late final List<Source> sourceList = ref.read(onlyIncludePinnedSourceStateProvider)
       ? sourceRepository.getPinnedByItemType(widget.manga.itemType)
       : sourceRepository.getAddedByItemType(widget.manga.itemType);
   // Set once the first source row with results has taken the TV autofocus, so
@@ -249,11 +248,7 @@ class _MigrationSourceSearchScreenState extends ConsumerState<MigrationSourceSea
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
-                            for (
-                              var index = 0;
-                              index < pages!.list.length;
-                              index++
-                            )
+                            for (var index = 0; index < pages!.list.length; index++)
                               MigrationMangaGlobalImageCard(
                                 oldManga: widget.manga,
                                 manga: pages!.list[index],
@@ -301,8 +296,7 @@ class MigrationMangaGlobalImageCard extends ConsumerStatefulWidget {
   ConsumerState<MigrationMangaGlobalImageCard> createState() => _MigrationMangaGlobalImageCardState();
 }
 
-class _MigrationMangaGlobalImageCardState
-    extends ConsumerState<MigrationMangaGlobalImageCard> {
+class _MigrationMangaGlobalImageCardState extends ConsumerState<MigrationMangaGlobalImageCard> {
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context)!;
@@ -333,9 +327,7 @@ class _MigrationMangaGlobalImageCardState
               context: context,
               builder: (ctx) {
                 return ShioriDialog(
-                  title: widget.trackSearch == null
-                      ? l10n.migrate_confirm
-                      : l10n.track_library_add_confirm,
+                  title: widget.trackSearch == null ? l10n.migrate_confirm : l10n.track_library_add_confirm,
                   content: preview.chapters != null
                       ? SizedBox(
                           height: ctx.height(0.5),
@@ -348,8 +340,7 @@ class _MigrationMangaGlobalImageCardState
                                   itemCount: preview.chapters!.length,
                                   itemBuilder: (context, index) {
                                     final chapter = preview.chapters![index];
-                                    final date =
-                                        chapter.dateUpload?.isNotEmpty ?? false
+                                    final date = chapter.dateUpload?.isNotEmpty ?? false
                                         ? dateFormat(
                                             chapter.dateUpload!,
                                             ref: ref,
@@ -360,9 +351,7 @@ class _MigrationMangaGlobalImageCardState
                                       title: chapter.name!,
                                       subtitle: [
                                         if (date.isNotEmpty) date,
-                                        if (chapter.scanlator?.isNotEmpty ??
-                                            false)
-                                          chapter.scanlator!,
+                                        if (chapter.scanlator?.isNotEmpty ?? false) chapter.scanlator!,
                                       ].join(' · '),
                                     );
                                   },
@@ -379,9 +368,7 @@ class _MigrationMangaGlobalImageCardState
                     ),
                     Consumer(
                       builder: (context, ref, child) => ShioriButton(
-                        label: widget.trackSearch == null
-                            ? l10n.migrate
-                            : l10n.add,
+                        label: widget.trackSearch == null ? l10n.migrate : l10n.add,
                         onPressed: () async {
                           if (widget.trackSearch == null) {
                             await _migrateManga(preview);

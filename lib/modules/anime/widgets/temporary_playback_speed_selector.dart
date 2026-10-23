@@ -26,9 +26,7 @@ class TemporaryPlaybackSpeedSelector extends StatelessWidget {
             bottom: mediaQuery.viewPadding.bottom + portraitBottomClearance,
           )
         : EdgeInsets.only(
-            top: mediaQuery.viewPadding.top > _landscapeTopInset
-                ? mediaQuery.viewPadding.top
-                : _landscapeTopInset,
+            top: mediaQuery.viewPadding.top > _landscapeTopInset ? mediaQuery.viewPadding.top : _landscapeTopInset,
           );
 
     return Padding(
@@ -37,8 +35,7 @@ class TemporaryPlaybackSpeedSelector extends StatelessWidget {
         alignment: isPortrait ? Alignment.bottomCenter : Alignment.topCenter,
         child: Semantics(
           container: true,
-          label:
-              '${context.l10n.playback_speed}: ${temporaryPlaybackSpeedLabel(speed)}',
+          label: '${context.l10n.playback_speed}: ${temporaryPlaybackSpeedLabel(speed)}',
           liveRegion: true,
           child: ConstrainedBox(
             key: const ValueKey('temporary-speed-indicator'),
@@ -54,8 +51,7 @@ class TemporaryPlaybackSpeedSelector extends StatelessWidget {
               child: ExcludeSemantics(
                 child: AnimatedSwitcher(
                   duration: ShioriMotion.fast,
-                  transitionBuilder: (child, animation) =>
-                      FadeTransition(opacity: animation, child: child),
+                  transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
                   child: Text(
                     temporaryPlaybackSpeedLabel(speed),
                     key: ValueKey(speed),

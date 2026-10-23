@@ -15,8 +15,7 @@ import 'package:media_kit/media_kit.dart';
 /// Manages audio and subtitle track resolution, language preference matching,
 /// libmpv active track synchronization, audio decoder fallback recovery,
 /// and TV track option builders.
-mixin AnimeTrackSelectionMixin<T extends riv.ConsumerStatefulWidget>
-    on riv.ConsumerState<T> {
+mixin AnimeTrackSelectionMixin<T extends riv.ConsumerStatefulWidget> on riv.ConsumerState<T> {
   Player get trackPlayer;
   List<vid.Video> get trackVideos;
   vid.Video get firstVideoForTracks;
@@ -101,9 +100,7 @@ mixin AnimeTrackSelectionMixin<T extends riv.ConsumerStatefulWidget>
     if (playerSubtitle.id != 'auto') {
       return playerSubtitle;
     }
-    final tracks = trackPlayer.state.tracks.subtitle
-        .where((t) => t.id != 'auto' && t.id != 'no')
-        .toList();
+    final tracks = trackPlayer.state.tracks.subtitle.where((t) => t.id != 'auto' && t.id != 'no').toList();
     if (tracks.isNotEmpty) {
       final preferred = _findPreferredSubtitleTrack(tracks);
       if (preferred != null) return preferred;
@@ -126,8 +123,7 @@ mixin AnimeTrackSelectionMixin<T extends riv.ConsumerStatefulWidget>
     if (pref.isNotEmpty && pref != 'auto') {
       for (final track in tracks) {
         if (track.id == 'no' || track.id == 'auto') continue;
-        if (audioTrackLanguagesMatch(track.language, pref) ||
-            audioTrackLanguagesMatch(track.title, pref)) {
+        if (audioTrackLanguagesMatch(track.language, pref) || audioTrackLanguagesMatch(track.title, pref)) {
           return track;
         }
       }
@@ -159,9 +155,7 @@ mixin AnimeTrackSelectionMixin<T extends riv.ConsumerStatefulWidget>
     if (candidate.id == 'auto' || candidate.id == 'no') return false;
     if (effective.id == 'auto' || effective.id == 'no') return false;
     if (candidate.id == effective.id) return true;
-    if (candidate.title != null &&
-        candidate.title!.isNotEmpty &&
-        candidate.title == effective.title) {
+    if (candidate.title != null && candidate.title!.isNotEmpty && candidate.title == effective.title) {
       return true;
     }
     return false;
@@ -232,9 +226,7 @@ mixin AnimeTrackSelectionMixin<T extends riv.ConsumerStatefulWidget>
     if (playerAudio.id != 'auto') {
       return playerAudio;
     }
-    final tracks = trackPlayer.state.tracks.audio
-        .where((t) => t.id != 'auto' && t.id != 'no')
-        .toList();
+    final tracks = trackPlayer.state.tracks.audio.where((t) => t.id != 'auto' && t.id != 'no').toList();
     if (tracks.isNotEmpty) {
       final preferred = _findPreferredAudioTrack(tracks);
       if (preferred != null) return preferred;
@@ -258,8 +250,7 @@ mixin AnimeTrackSelectionMixin<T extends riv.ConsumerStatefulWidget>
     for (final pref in preferredList) {
       for (final track in tracks) {
         if (track.id == 'no' || track.id == 'auto') continue;
-        if (audioTrackLanguagesMatch(track.language, pref) ||
-            audioTrackLanguagesMatch(track.title, pref)) {
+        if (audioTrackLanguagesMatch(track.language, pref) || audioTrackLanguagesMatch(track.title, pref)) {
           return track;
         }
       }
@@ -292,9 +283,7 @@ mixin AnimeTrackSelectionMixin<T extends riv.ConsumerStatefulWidget>
     if (candidate.id == 'auto' || candidate.id == 'no') return false;
     if (effective.id == 'auto' || effective.id == 'no') return false;
     if (candidate.id == effective.id) return true;
-    if (candidate.title != null &&
-        candidate.title!.isNotEmpty &&
-        candidate.title == effective.title) {
+    if (candidate.title != null && candidate.title!.isNotEmpty && candidate.title == effective.title) {
       return true;
     }
     return false;
@@ -336,8 +325,7 @@ mixin AnimeTrackSelectionMixin<T extends riv.ConsumerStatefulWidget>
 
   List<AudioTrack> _audioTracksForFallback() {
     final tracks = trackPlayer.state.tracks.audio.toList();
-    for (final sourceTrack
-        in firstVideoForTracks.audios ?? const <vid.Track>[]) {
+    for (final sourceTrack in firstVideoForTracks.audios ?? const <vid.Track>[]) {
       final file = sourceTrack.file;
       if (file == null || file.isEmpty) continue;
       tracks.add(
@@ -484,18 +472,12 @@ mixin AnimeTrackSelectionMixin<T extends riv.ConsumerStatefulWidget>
       isLocal: isLocalForTracks,
     );
     return videoQuality.map((quality) {
-      final selected =
-          selectedVideoPrefs.value!.videoTrack!.title ==
-              quality.videoTrack!.title ||
-          isLocalForTracks;
+      final selected = selectedVideoPrefs.value!.videoTrack!.title == quality.videoTrack!.title || isLocalForTracks;
       return (
-        label: isLocalForTracks
-            ? firstVideoForTracks.quality
-            : quality.videoTrack!.title!,
+        label: isLocalForTracks ? firstVideoForTracks.quality : quality.videoTrack!.title!,
         selected: selected,
         onTap: () {
-          if (selectedVideoPrefs.value?.videoTrack?.id ==
-              quality.videoTrack?.id) {
+          if (selectedVideoPrefs.value?.videoTrack?.id == quality.videoTrack?.id) {
             return;
           }
           selectedVideoPrefs.value = quality;
@@ -515,8 +497,7 @@ mixin AnimeTrackSelectionMixin<T extends riv.ConsumerStatefulWidget>
     }).toList();
   }
 
-  List<({String label, bool selected, VoidCallback onTap})>
-  tvSubtitleOptions() {
+  List<({String label, bool selected, VoidCallback onTap})> tvSubtitleOptions() {
     final uniqueSubtitle = buildUniqueSubtitleOptions(
       player: trackPlayer,
       videos: trackVideos,
@@ -525,9 +506,7 @@ mixin AnimeTrackSelectionMixin<T extends riv.ConsumerStatefulWidget>
     final effective = effectiveSubtitleTrack;
     return uniqueSubtitle.map((sub) {
       final isNone = sub.subtitle?.id == 'no';
-      final title = isNone
-          ? 'Off'
-          : (sub.title ?? subtitleTrackLabel(sub.subtitle));
+      final title = isNone ? 'Off' : (sub.title ?? subtitleTrackLabel(sub.subtitle));
       final selected = isNone
           ? (effective == null || effective.id == 'no')
           : isSubtitleTrackSelected(sub.subtitle, effective);

@@ -130,8 +130,7 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                       suffixIcon: _controller.text.isEmpty
                           ? null
                           : IconButton(
-                              tooltip: MaterialLocalizations.of(context)
-                                  .clearButtonTooltip,
+                              tooltip: MaterialLocalizations.of(context).clearButtonTooltip,
                               onPressed: _controller.clear,
                               icon: const Icon(Symbols.close_rounded),
                             ),
@@ -141,9 +140,7 @@ class _TrackerWidgetSearchState extends ConsumerState<TrackerWidgetSearch> {
                 ),
               ),
               Flexible(
-                child: body is ListView
-                    ? body
-                    : SizedBox(height: context.shiori.scaled(240), child: body),
+                child: body is ListView ? body : SizedBox(height: context.shiori.scaled(240), child: body),
               ),
             ],
           ),

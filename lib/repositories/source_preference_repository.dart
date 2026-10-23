@@ -11,11 +11,7 @@ import 'package:mangayomi/utils/error_toast.dart';
 class SourcePreferenceRepository {
   SourcePreference? findByKey(int? sourceId, String? key) {
     try {
-      return isar.sourcePreferences
-          .filter()
-          .sourceIdEqualTo(sourceId)
-          .keyEqualTo(key)
-          .findFirstSync();
+      return isar.sourcePreferences.filter().sourceIdEqualTo(sourceId).keyEqualTo(key).findFirstSync();
     } catch (error, stackTrace) {
       recordError(
         error,
@@ -42,10 +38,7 @@ class SourcePreferenceRepository {
   List<SourcePreference> getAllForSource(int? sourceId) {
     if (sourceId == null) return [];
     try {
-      return isar.sourcePreferences
-          .filter()
-          .sourceIdEqualTo(sourceId)
-          .findAllSync();
+      return isar.sourcePreferences.filter().sourceIdEqualTo(sourceId).findAllSync();
     } catch (error, stackTrace) {
       recordError(
         error,
@@ -61,11 +54,7 @@ class SourcePreferenceRepository {
     String? key,
   ) {
     try {
-      return isar.sourcePreferenceStringValues
-          .filter()
-          .sourceIdEqualTo(sourceId)
-          .keyEqualTo(key)
-          .findFirstSync();
+      return isar.sourcePreferenceStringValues.filter().sourceIdEqualTo(sourceId).keyEqualTo(key).findFirstSync();
     } catch (error, stackTrace) {
       recordError(
         error,
@@ -86,9 +75,7 @@ class SourcePreferenceRepository {
       if ((source.sourceCodeLanguage == SourceCodeLanguage.mihon ||
               source.sourceCodeLanguage == SourceCodeLanguage.aidoku) &&
           source.preferenceList != null) {
-        final prefs = (jsonDecode(source.preferenceList!) as List)
-            .map((e) => SourcePreference.fromJson(e))
-            .toList();
+        final prefs = (jsonDecode(source.preferenceList!) as List).map((e) => SourcePreference.fromJson(e)).toList();
         final idx = prefs.indexWhere((e) => e.key == sourcePreference.key);
         if (idx != -1) {
           prefs[idx] = sourcePreference..id = null;
@@ -130,14 +117,12 @@ class SourcePreferenceRepository {
     }),
   );
 
-  Future<T> transaction<T>(FutureOr<T> Function() body) =>
-      dbWriteQueue.run(body);
+  Future<T> transaction<T>(FutureOr<T> Function() body) => dbWriteQueue.run(body);
 
   // Sync primitives below are for callers already inside a write transaction
   // opened by another repository's transaction()/writeTransaction() (e.g.
   // restoreRepository) — they don't queue on their own.
-  void putAllSync(List<SourcePreference> preferences) =>
-      isar.sourcePreferences.putAllSync(preferences);
+  void putAllSync(List<SourcePreference> preferences) => isar.sourcePreferences.putAllSync(preferences);
 
   void clearSync() => isar.sourcePreferences.clearSync();
 }

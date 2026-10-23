@@ -57,8 +57,7 @@ void Function() retainReadingChapter(Isar database, int id) {
   };
 }
 
-bool _isReadingChapter(Isar database, int id) =>
-    (_readingChapters[database]?[id] ?? 0) > 0;
+bool _isReadingChapter(Isar database, int id) => (_readingChapters[database]?[id] ?? 0) > 0;
 
 class ChapterConsolidation {
   ChapterConsolidation(
@@ -84,8 +83,7 @@ Future<ChapterConsolidation> consolidateChapterDuplicates(
   required String mangaName,
   required int now,
   required bool Function(int) isScheduled,
-  Future<List<Directory>> Function(Chapter, {Settings? settings})?
-  resolveDirectories,
+  Future<List<Directory>> Function(Chapter, {Settings? settings})? resolveDirectories,
 }) async {
   final byId = {for (final c in chapters) c.id!: c};
   final downloads = {
@@ -98,8 +96,7 @@ Future<ChapterConsolidation> consolidateChapterDuplicates(
     for (final c in chapters)
       if (_isReadingChapter(database, c.id!) ||
           isScheduled(c.id!) ||
-          (downloads[c.id!]?.isStartDownload == true &&
-              downloads[c.id!]?.isDownload != true))
+          (downloads[c.id!]?.isStartDownload == true && downloads[c.id!]?.isDownload != true))
         c.id!,
   };
   final storageIds = {
@@ -122,9 +119,7 @@ Future<ChapterConsolidation> consolidateChapterDuplicates(
       for (final dir in dirs) {
         try {
           entries.addAll(
-            dir
-                .listSync(followLinks: false)
-                .map((e) => p.normalize(e.absolute.path)),
+            dir.listSync(followLinks: false).map((e) => p.normalize(e.absolute.path)),
           );
         } on FileSystemException catch (error) {
           if (error.osError?.errorCode == 2 || error.osError?.errorCode == 3) {
@@ -180,9 +175,7 @@ Future<ChapterConsolidation> consolidateChapterDuplicates(
   final recognition = ChapterRecognition();
   for (final c in chapters) {
     final url = c.url?.trim();
-    final label = c.name == null
-        ? null
-        : recognition.chapterIdentityKey(mangaName, c.name!, c.scanlator ?? '');
+    final label = c.name == null ? null : recognition.chapterIdentityKey(mangaName, c.name!, c.scanlator ?? '');
     for (final (key, map) in [
       (url == null || url.isEmpty ? null : url.getUrlWithoutDomain, urls),
       (label, labels),
@@ -197,10 +190,7 @@ Future<ChapterConsolidation> consolidateChapterDuplicates(
   for (final c in chapters) {
     groups.putIfAbsent(root(c.id!), () => []).add(c);
   }
-  final duplicateIds = groups.values
-      .where((g) => g.length > 1)
-      .expand((g) => g.map((c) => c.id!))
-      .toList();
+  final duplicateIds = groups.values.where((g) => g.length > 1).expand((g) => g.map((c) => c.id!)).toList();
   if (duplicateIds.isEmpty) {
     return ChapterConsolidation(chapters, byId, storageIds, activeIds);
   }
@@ -233,10 +223,7 @@ Future<ChapterConsolidation> consolidateChapterDuplicates(
     // Keep an in-flight worker's ID, path and queue record valid. A later
     // refresh can consolidate once the workers/queued requests have finished.
     if (ids.any(
-      (id) =>
-          activeIds.contains(id) ||
-          isScheduled(id) ||
-          _isReadingChapter(database, id),
+      (id) => activeIds.contains(id) || isScheduled(id) || _isReadingChapter(database, id),
     )) {
       continue;
     }
@@ -247,12 +234,7 @@ Future<ChapterConsolidation> consolidateChapterDuplicates(
         .toSet();
     if (stored.map(_storageIdentity).toSet().length > 1 ||
         physical.length > 1 ||
-        (unknownStorage &&
-            group
-                    .map((c) => (c.name, c.scanlator, c.archivePath))
-                    .toSet()
-                    .length >
-                1)) {
+        (unknownStorage && group.map((c) => (c.name, c.scanlator, c.archivePath)).toSet().length > 1)) {
       // Distinct local editions/partial folders cannot be combined by changing
       // database IDs alone. Keep both resources addressable for now.
       continue;
@@ -275,8 +257,7 @@ Future<ChapterConsolidation> consolidateChapterDuplicates(
       if (timestamp > (historyTimes[id] ?? 0)) historyTimes[id!] = timestamp;
     }
     final indices = <int, int>{};
-    for (final index
-        in settings?.chapterPageIndexList ?? <ChapterPageIndex>[]) {
+    for (final index in settings?.chapterPageIndexList ?? <ChapterPageIndex>[]) {
       if (index.chapterId != null && index.index != null) {
         indices.putIfAbsent(index.chapterId!, () => index.index!);
       }
@@ -293,10 +274,9 @@ Future<ChapterConsolidation> consolidateChapterDuplicates(
       if (recent != 0) return recent;
       final stamp = (b.updatedAt ?? 0).compareTo(a.updatedAt ?? 0);
       if (stamp != 0) return stamp;
-      final page = (double.tryParse(b.lastPageRead ?? '') ?? indices[b.id] ?? 0)
-          .compareTo(
-            double.tryParse(a.lastPageRead ?? '') ?? indices[a.id] ?? 0,
-          );
+      final page = (double.tryParse(b.lastPageRead ?? '') ?? indices[b.id] ?? 0).compareTo(
+        double.tryParse(a.lastPageRead ?? '') ?? indices[a.id] ?? 0,
+      );
       return page != 0 ? page : a.id!.compareTo(b.id!);
     });
     final owner = progress.isEmpty ? keep : progress.first;
@@ -333,10 +313,7 @@ Future<ChapterConsolidation> consolidateChapterDuplicates(
       await u.chapter.save();
       movedUpdates.add(u);
     }
-    final records = group
-        .map((c) => downloads[c.id])
-        .whereType<Download>()
-        .toList();
+    final records = group.map((c) => downloads[c.id]).whereType<Download>().toList();
     if (records.isNotEmpty) {
       records.sort((a, b) {
         final complete = (b.isDownload == true ? 1 : 0).compareTo(
@@ -356,8 +333,7 @@ Future<ChapterConsolidation> consolidateChapterDuplicates(
       final oldIndices = settings.chapterPageIndexList;
       if (oldIndices?.any((i) => ids.contains(i.chapterId)) ?? false) {
         final page = int.tryParse(ownerPage ?? '');
-        final index =
-            indices[owner.id] ?? (page != null && page > 0 ? page - 1 : null);
+        final index = indices[owner.id] ?? (page != null && page > 0 ? page - 1 : null);
         settings.chapterPageIndexList = [
           for (final i in oldIndices!)
             if (!ids.contains(i.chapterId)) i,
@@ -384,9 +360,7 @@ Future<ChapterConsolidation> consolidateChapterDuplicates(
   return ChapterConsolidation(
     chapters.where((c) => !removed.contains(c.id)).toList(),
     canonical,
-    unknownStorage
-        ? byId.keys.toSet().difference(removed)
-        : storageIds.difference(removed),
+    unknownStorage ? byId.keys.toSet().difference(removed) : storageIds.difference(removed),
     activeIds,
     movedUpdates,
   );

@@ -10,8 +10,7 @@ import 'dart:io';
 
 import 'package:mangayomi/eval/model/m_source.dart';
 import 'package:mangayomi/repositories/settings_repository.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart'
-    as flutter_inappwebview;
+import 'package:flutter_inappwebview/flutter_inappwebview.dart' as flutter_inappwebview;
 import 'package:mangayomi/models/settings.dart';
 import 'package:http/io_client.dart';
 import 'package:mangayomi/services/http/rhttp/src/model/settings.dart';
@@ -143,9 +142,7 @@ class MClient {
       }
     }
     if (cookieMap.isEmpty) return {};
-    final combined = cookieMap.entries
-        .map((e) => '${e.key}=${e.value}')
-        .join('; ');
+    final combined = cookieMap.entries.map((e) => '${e.key}=${e.value}').join('; ');
     return {HttpHeaders.cookieHeader: combined};
   }
 
@@ -192,9 +189,7 @@ class MClient {
     List<MCookie> allCookies,
     String host,
   ) {
-    return allCookies
-        .where((cookie) => !_hostsMatch(host, cookie.host!))
-        .toList();
+    return allCookies.where((cookie) => !_hostsMatch(host, cookie.host!)).toList();
   }
 
   static Future<void> deleteAllCookies(String url) async {
@@ -289,8 +284,7 @@ void applyStoredRequestHeaders(
   required String? userAgent,
   required bool useDefaultUserAgent,
 }) {
-  if (cookieHeaders.isNotEmpty &&
-      request.headers[HttpHeaders.cookieHeader] == null) {
+  if (cookieHeaders.isNotEmpty && request.headers[HttpHeaders.cookieHeader] == null) {
     request.headers.addAll(cookieHeaders);
   }
   if (cookieHeaders.isNotEmpty || useDefaultUserAgent) {
@@ -323,8 +317,7 @@ final _redactedHeaderInText = RegExp(
 
 /// [redactHeaders] for a line that already holds a printed header map, such
 /// as the worker isolate's request logs, which reach the main isolate as text.
-String redactHeadersInText(String text) =>
-    text.replaceAllMapped(_redactedHeaderInText, (m) => '${m[1]}: <redacted>');
+String redactHeadersInText(String text) => text.replaceAllMapped(_redactedHeaderInText, (m) => '${m[1]}: <redacted>');
 
 class LoggerInterceptor extends InterceptorContract {
   LoggerInterceptor(this.showCloudFlareError);
@@ -377,8 +370,7 @@ final _cloudflareAlertScopeKey = Object();
 /// Defers a final Cloudflare alert until a higher-level operation knows
 /// whether that challenged request actually prevented a usable result.
 class CloudflareAlertScope {
-  CloudflareAlertScope({void Function(BaseResponse)? onShow})
-    : _onShow = onShow ?? _showCloudflareAlert;
+  CloudflareAlertScope({void Function(BaseResponse)? onShow}) : _onShow = onShow ?? _showCloudflareAlert;
 
   final void Function(BaseResponse) _onShow;
   BaseResponse? _pendingResponse;
@@ -421,8 +413,7 @@ void _showCloudflareAlert(BaseResponse response) {
   // from a webview there either, so the offer to solve it manually in one is
   // an offer nobody on Linux can take. A proxy is the only thing that gets
   // past this, so say that instead.
-  final noResolverAvailable =
-      Platform.isLinux && CfProxyStore.url.trim().isEmpty;
+  final noResolverAvailable = Platform.isLinux && CfProxyStore.url.trim().isEmpty;
   try {
     botToast(
       noResolverAvailable

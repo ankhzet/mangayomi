@@ -284,6 +284,5 @@ var extention = new DefaultExtension();
 
   /// Whether this is the base class saying the source does not implement
   /// something, rather than the source going wrong.
-  bool _isNotImplemented(JsEvalResult result) =>
-      isNotImplementedError(result.stringResult);
+  bool _isNotImplemented(JsEvalResult result) => isNotImplementedError(result.stringResult);
 }

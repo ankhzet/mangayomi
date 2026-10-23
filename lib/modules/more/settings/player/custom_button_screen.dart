@@ -63,14 +63,11 @@ class _CustomButtonScreenState extends ConsumerState<CustomButtonScreen> {
                       icon: Icon(
                         Symbols.star_rounded,
                         fill: favourite ? 1 : 0,
-                        color: favourite
-                            ? context.shiori.color.accentInk
-                            : null,
+                        color: favourite ? context.shiori.color.accentInk : null,
                       ),
                     ),
                     ShioriMenuButton(
-                      tooltip: MaterialLocalizations.of(context)
-                          .moreButtonTooltip,
+                      tooltip: MaterialLocalizations.of(context).moreButtonTooltip,
                       items: [
                         ShioriMenuItem(
                           label: l10n.edit,
@@ -78,8 +75,7 @@ class _CustomButtonScreenState extends ConsumerState<CustomButtonScreen> {
                           onSelected: () => _edit(button),
                         ),
                         ShioriMenuItem(
-                          label: MaterialLocalizations.of(context)
-                              .deleteButtonTooltip,
+                          label: MaterialLocalizations.of(context).deleteButtonTooltip,
                           icon: Symbols.delete_rounded,
                           destructive: true,
                           onSelected: () => _delete(button),
@@ -123,9 +119,7 @@ class _CustomButtonScreenState extends ConsumerState<CustomButtonScreen> {
   /// several lines each, and a dialog left them a few words wide.
   Future<void> _edit(CustomButton? customButton) => showShioriSheet<void>(
     context,
-    title: customButton == null
-        ? context.l10n.custom_buttons_add
-        : context.l10n.edit,
+    title: customButton == null ? context.l10n.custom_buttons_add : context.l10n.edit,
     maxHeightFactor: 0.95,
     builder: (_) => _CustomButtonForm(customButton: customButton),
   );
@@ -183,8 +177,7 @@ class _CustomButtonFormState extends State<_CustomButtonForm> {
     super.dispose();
   }
 
-  bool get _complete =>
-      _title.text.trim().isNotEmpty && _press.text.trim().isNotEmpty;
+  bool get _complete => _title.text.trim().isNotEmpty && _press.text.trim().isNotEmpty;
 
   Future<void> _save() async {
     final existing = await customButtonRepository.findById(

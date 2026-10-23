@@ -254,10 +254,7 @@ class _TvPlayerControlsState extends State<TvPlayerControls> {
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: ShioriType
-                                          .reference
-                                          .seriesTitle
-                                          .fontSize,
+                                      fontSize: ShioriType.reference.seriesTitle.fontSize,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -270,8 +267,7 @@ class _TvPlayerControlsState extends State<TvPlayerControls> {
                                       color: Colors.white.withValues(
                                         alpha: Alphas.secondary,
                                       ),
-                                      fontSize:
-                                          ShioriType.reference.row.fontSize,
+                                      fontSize: ShioriType.reference.row.fontSize,
                                     ),
                                   ),
                               ],
@@ -356,10 +352,8 @@ class _TvPlayerControlsState extends State<TvPlayerControls> {
                                     child: TvPlayerPillBar(
                                       player: widget.player,
                                       accent: accent,
-                                      qualityListenable:
-                                          widget.qualityListenable,
-                                      buildQualityOptions:
-                                          widget.buildQualityOptions,
+                                      qualityListenable: widget.qualityListenable,
+                                      buildQualityOptions: widget.buildQualityOptions,
                                       onSettings: widget.onSettings,
                                       speedListenable: widget.speedListenable,
                                       onSetSpeed: widget.onSetSpeed,

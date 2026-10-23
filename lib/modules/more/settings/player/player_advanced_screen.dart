@@ -88,12 +88,10 @@ class _PlayerAdvancedScreenState extends ConsumerState<PlayerAdvancedScreen> {
           await mpvFile.writeAsBytes(file.content);
         } else if (file.name == "input.conf") {
           await inputFile.writeAsBytes(file.content);
-        } else if (file.name.startsWith("shaders/") &&
-            file.name.endsWith(".glsl")) {
+        } else if (file.name.startsWith("shaders/") && file.name.endsWith(".glsl")) {
           final shaderFile = File('$shadersDir/${file.name.split("/").last}');
           await shaderFile.writeAsBytes(file.content);
-        } else if (file.name.startsWith("scripts/") &&
-            (file.name.endsWith(".js") || file.name.endsWith(".lua"))) {
+        } else if (file.name.startsWith("scripts/") && (file.name.endsWith(".js") || file.name.endsWith(".lua"))) {
           final scriptFile = File('$scriptsDir/${file.name.split("/").last}');
           await scriptFile.writeAsBytes(file.content);
         }

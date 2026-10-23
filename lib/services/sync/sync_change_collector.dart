@@ -87,35 +87,12 @@ class ChangedRows {
     }
 
     return ChangedRows._(
-      categories: categoryRepository
-          .getChangedSince(since)
-          .map(_categoryToWire)
-          .toList(),
-      manga: mangaRepository
-          .getChangedSince(since)
-          .map((m) => _mangaToWire(m))
-          .nonNulls
-          .toList(),
-      chapters: chapterRepository
-          .getChangedSince(since)
-          .map((c) => _chapterToWire(c))
-          .nonNulls
-          .toList(),
-      tracks: trackRepository
-          .getChangedSince(since)
-          .map((t) => _trackToWire(t))
-          .nonNulls
-          .toList(),
-      histories: historyRepository
-          .getChangedSince(since)
-          .map((h) => _historyToWire(h))
-          .nonNulls
-          .toList(),
-      updates: updateRepository
-          .getChangedSince(since)
-          .map((u) => _updateToWire(u))
-          .nonNulls
-          .toList(),
+      categories: categoryRepository.getChangedSince(since).map(_categoryToWire).toList(),
+      manga: mangaRepository.getChangedSince(since).map((m) => _mangaToWire(m)).nonNulls.toList(),
+      chapters: chapterRepository.getChangedSince(since).map((c) => _chapterToWire(c)).nonNulls.toList(),
+      tracks: trackRepository.getChangedSince(since).map((t) => _trackToWire(t)).nonNulls.toList(),
+      histories: historyRepository.getChangedSince(since).map((h) => _historyToWire(h)).nonNulls.toList(),
+      updates: updateRepository.getChangedSince(since).map((u) => _updateToWire(u)).nonNulls.toList(),
       deleted: deleted.isEmpty ? null : deleted,
       settings: settingsWire,
       deletionActionsToClear: deletionActions,
@@ -132,21 +109,13 @@ class ChangedRows {
     );
     return ChangedRows._(
       categories: categoryRepository.getAll().map(_categoryToWire).toList(),
-      manga: mangaRepository
-          .getAll()
-          .map((m) => _mangaToWire(m, forcedUpdatedAt: forcedUpdatedAt))
-          .nonNulls
-          .toList(),
+      manga: mangaRepository.getAll().map((m) => _mangaToWire(m, forcedUpdatedAt: forcedUpdatedAt)).nonNulls.toList(),
       chapters: chapterRepository
           .getAll()
           .map((c) => _chapterToWire(c, forcedUpdatedAt: forcedUpdatedAt))
           .nonNulls
           .toList(),
-      tracks: trackRepository
-          .getAll()
-          .map((t) => _trackToWire(t, forcedUpdatedAt: forcedUpdatedAt))
-          .nonNulls
-          .toList(),
+      tracks: trackRepository.getAll().map((t) => _trackToWire(t, forcedUpdatedAt: forcedUpdatedAt)).nonNulls.toList(),
       histories: historyRepository
           .getAll()
           .map((h) => _historyToWire(h, forcedUpdatedAt: forcedUpdatedAt))
@@ -168,8 +137,7 @@ class ChangedRows {
   /// deletion counts and the settings blob are nowhere near large enough to
   /// need batching of their own.
   List<Map<String, dynamic>> chunked(int maxRows) {
-    int chunkCountFor(List list) =>
-        list.isEmpty ? 0 : (list.length / maxRows).ceil();
+    int chunkCountFor(List list) => list.isEmpty ? 0 : (list.length / maxRows).ceil();
     final chunkCount = [
       chunkCountFor(categories),
       chunkCountFor(manga),
@@ -252,18 +220,13 @@ Map<String, dynamic>? _mangaToWire(Manga m, {int? forcedUpdatedAt}) {
     'isLocalArchive': m.isLocalArchive ?? false,
     'customCoverFromTracker': m.customCoverFromTracker,
     'smartUpdateDays': m.smartUpdateDays,
-    'categoryClientIds': (m.categories ?? [])
-        .map((id) => categoryRepository.findById(id)?.clientId)
-        .nonNulls
-        .toList(),
+    'categoryClientIds': (m.categories ?? []).map((id) => categoryRepository.findById(id)?.clientId).nonNulls.toList(),
     'updatedAt': forcedUpdatedAt ?? m.updatedAt ?? 0,
   };
 }
 
 Map<String, dynamic>? _chapterToWire(Chapter c, {int? forcedUpdatedAt}) {
-  final mangaClientId = c.mangaId == null
-      ? null
-      : mangaRepository.findById(c.mangaId!)?.clientId;
+  final mangaClientId = c.mangaId == null ? null : mangaRepository.findById(c.mangaId!)?.clientId;
   if (c.clientId == null || mangaClientId == null) return null;
   return {
     'clientId': c.clientId,
@@ -285,9 +248,7 @@ Map<String, dynamic>? _chapterToWire(Chapter c, {int? forcedUpdatedAt}) {
 }
 
 Map<String, dynamic>? _trackToWire(Track t, {int? forcedUpdatedAt}) {
-  final mangaClientId = t.mangaId == null
-      ? null
-      : mangaRepository.findById(t.mangaId!)?.clientId;
+  final mangaClientId = t.mangaId == null ? null : mangaRepository.findById(t.mangaId!)?.clientId;
   if (t.clientId == null || mangaClientId == null) return null;
   return {
     'clientId': t.clientId,
@@ -309,13 +270,10 @@ Map<String, dynamic>? _trackToWire(Track t, {int? forcedUpdatedAt}) {
 }
 
 Map<String, dynamic>? _historyToWire(History h, {int? forcedUpdatedAt}) {
-  final mangaClientId = h.mangaId == null
-      ? null
-      : mangaRepository.findById(h.mangaId!)?.clientId;
+  final mangaClientId = h.mangaId == null ? null : mangaRepository.findById(h.mangaId!)?.clientId;
   final chapterClientId = h.chapterId == null
       ? null
-      : chapterRepository.getByClientId(h.chapterId!)?.clientId ??
-            _chapterClientIdByLocalId(h.chapterId!);
+      : chapterRepository.getByClientId(h.chapterId!)?.clientId ?? _chapterClientIdByLocalId(h.chapterId!);
   if (h.clientId == null || mangaClientId == null || chapterClientId == null) {
     return null;
   }
@@ -331,9 +289,7 @@ Map<String, dynamic>? _historyToWire(History h, {int? forcedUpdatedAt}) {
 }
 
 Map<String, dynamic>? _updateToWire(Update u, {int? forcedUpdatedAt}) {
-  final mangaClientId = u.mangaId == null
-      ? null
-      : mangaRepository.findById(u.mangaId!)?.clientId;
+  final mangaClientId = u.mangaId == null ? null : mangaRepository.findById(u.mangaId!)?.clientId;
   if (u.clientId == null || mangaClientId == null) return null;
   return {
     'clientId': u.clientId,
@@ -347,8 +303,7 @@ Map<String, dynamic>? _updateToWire(Update u, {int? forcedUpdatedAt}) {
 // getByClientId also falls back to matching on the local id (see the
 // repositories), so a plain local-id lookup is the same query by another
 // name - kept as its own function just for a clearer call site above.
-int? _chapterClientIdByLocalId(int localId) =>
-    chapterRepository.getByClientId(localId)?.clientId;
+int? _chapterClientIdByLocalId(int localId) => chapterRepository.getByClientId(localId)?.clientId;
 
 Map<String, dynamic> _settingsToWire(
   Settings settings, {

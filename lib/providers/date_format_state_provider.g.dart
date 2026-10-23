@@ -23,9 +23,7 @@ final settingsStreamProvider = SettingsStreamProvider._();
 /// deserialized when it actually changes — once — instead of every reader
 /// doing its own isar.settings.getSync() on every single read.
 
-final class SettingsStreamProvider
-    extends
-        $FunctionalProvider<AsyncValue<Settings>, Settings, Stream<Settings>>
+final class SettingsStreamProvider extends $FunctionalProvider<AsyncValue<Settings>, Settings, Stream<Settings>>
     with $FutureModifier<Settings>, $StreamProvider<Settings> {
   /// Live view of the single Settings row (id 227), shared by every provider
   /// that only needs one field off it. Settings is a large row (several list
@@ -48,8 +46,7 @@ final class SettingsStreamProvider
 
   @$internal
   @override
-  $StreamProviderElement<Settings> $createElement($ProviderPointer pointer) =>
-      $StreamProviderElement(pointer);
+  $StreamProviderElement<Settings> $createElement($ProviderPointer pointer) => $StreamProviderElement(pointer);
 
   @override
   Stream<Settings> create(Ref ref) {
@@ -62,8 +59,7 @@ String _$settingsStreamHash() => r'cb522d3257093a056504498dc33dd2dcd9f83fc8';
 @ProviderFor(DateFormatState)
 final dateFormatStateProvider = DateFormatStateProvider._();
 
-final class DateFormatStateProvider
-    extends $NotifierProvider<DateFormatState, String> {
+final class DateFormatStateProvider extends $NotifierProvider<DateFormatState, String> {
   DateFormatStateProvider._()
     : super(
         from: null,
@@ -99,14 +95,7 @@ abstract class _$DateFormatState extends $Notifier<String> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String, String>,
-              String,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -114,8 +103,7 @@ abstract class _$DateFormatState extends $Notifier<String> {
 @ProviderFor(RelativeTimesTampsState)
 final relativeTimesTampsStateProvider = RelativeTimesTampsStateProvider._();
 
-final class RelativeTimesTampsStateProvider
-    extends $NotifierProvider<RelativeTimesTampsState, int> {
+final class RelativeTimesTampsStateProvider extends $NotifierProvider<RelativeTimesTampsState, int> {
   RelativeTimesTampsStateProvider._()
     : super(
         from: null,
@@ -143,8 +131,7 @@ final class RelativeTimesTampsStateProvider
   }
 }
 
-String _$relativeTimesTampsStateHash() =>
-    r'45567c2d77caa83e059b67492731a2d7ab1fb338';
+String _$relativeTimesTampsStateHash() => r'45567c2d77caa83e059b67492731a2d7ab1fb338';
 
 abstract class _$RelativeTimesTampsState extends $Notifier<int> {
   int build();
@@ -152,14 +139,7 @@ abstract class _$RelativeTimesTampsState extends $Notifier<int> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

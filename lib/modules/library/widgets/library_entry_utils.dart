@@ -132,10 +132,8 @@ class LibraryBadgeWidget extends ConsumerWidget {
       spacing: 2,
       children: [
         if (hasLocal) EntryBadgeChip(label: context.l10n.local),
-        if (downloadCount > 0)
-          EntryBadgeChip(label: downloadCount.toString(), tone: c.downloaded),
-        if (unreadCount > 0)
-          EntryBadgeChip(label: unreadCount.toString(), tone: c.unread),
+        if (downloadCount > 0) EntryBadgeChip(label: downloadCount.toString(), tone: c.downloaded),
+        if (unreadCount > 0) EntryBadgeChip(label: unreadCount.toString(), tone: c.unread),
       ],
     );
   }

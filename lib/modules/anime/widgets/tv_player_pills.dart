@@ -58,9 +58,7 @@ class TvPlayerPillBar extends StatelessWidget {
               builder: (context, trackSnap) {
                 final current = trackSnap.data ?? player.state.track;
                 // Real subtitle tracks only (no "auto"/"no" placeholders).
-                final subs = tracks.subtitle
-                    .where((t) => t.id != 'auto' && t.id != 'no')
-                    .toList();
+                final subs = tracks.subtitle.where((t) => t.id != 'auto' && t.id != 'no').toList();
                 // A "sub" quality already bakes subtitles into the stream, so
                 // hide the subtitle group when one is selected.
                 final subQualitySelected = quality.any(
@@ -279,8 +277,7 @@ class _SpeedMenuState extends State<_SpeedMenu> {
                       return KeyEventResult.handled;
                     }
                     // Swallow Left/Right too, so neither can escape sideways.
-                    if (k == LogicalKeyboardKey.arrowLeft ||
-                        k == LogicalKeyboardKey.arrowRight) {
+                    if (k == LogicalKeyboardKey.arrowLeft || k == LogicalKeyboardKey.arrowRight) {
                       return KeyEventResult.handled;
                     }
                     if (event is KeyDownEvent && isTvPlayerSelectKey(k)) {
@@ -302,9 +299,7 @@ class _SpeedMenuState extends State<_SpeedMenu> {
                       borderRadius: BorderRadius.circular(ShioriShape.card),
                       child: Ink(
                         decoration: BoxDecoration(
-                          color: i == _index
-                              ? widget.accent.withValues(alpha: 0.18)
-                              : null,
+                          color: i == _index ? widget.accent.withValues(alpha: 0.18) : null,
                           borderRadius: BorderRadius.circular(ShioriShape.card),
                         ),
                         padding: const EdgeInsets.symmetric(
@@ -318,8 +313,7 @@ class _SpeedMenuState extends State<_SpeedMenu> {
                                 _SpeedPill._formatRate(widget.presets[i]),
                               ),
                             ),
-                            if ((widget.presets[i] - widget.current).abs() <
-                                0.001)
+                            if ((widget.presets[i] - widget.current).abs() < 0.001)
                               Icon(
                                 Symbols.check_rounded,
                                 fill: 1,
@@ -392,9 +386,7 @@ class _AutoplayToggleState extends State<TvAutoplayToggle> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(ShioriShape.sheet),
             // Theme tint on focus (like the settings toggles), not an outline.
-            color: _focused
-                ? widget.accent.withValues(alpha: 0.25)
-                : Colors.transparent,
+            color: _focused ? widget.accent.withValues(alpha: 0.25) : Colors.transparent,
           ),
           child: AutoplaySwitch(on: widget.on, accent: widget.accent),
         ),
@@ -430,9 +422,7 @@ class AutoplaySwitch extends StatelessWidget {
             height: trackH,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(trackH / 2),
-              color: on
-                  ? accent.withValues(alpha: 0.5)
-                  : Colors.white.withValues(alpha: 0.22),
+              color: on ? accent.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.22),
             ),
           ),
           AnimatedAlign(

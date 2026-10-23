@@ -58,8 +58,7 @@ class _ManageTrackersScreenState extends State<ManageTrackersScreen> {
                       mainAxisSize: MainAxisSize.min,
                       spacing: ShioriSpace.s8,
                       children: [
-                        if (pref.accountLabel != null)
-                          TrackerAccountAvatar(preference: pref, radius: 12),
+                        if (pref.accountLabel != null) TrackerAccountAvatar(preference: pref, radius: 12),
                         const Icon(Symbols.chevron_forward_rounded),
                       ],
                     ),

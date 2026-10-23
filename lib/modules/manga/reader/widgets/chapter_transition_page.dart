@@ -41,9 +41,7 @@ class ChapterTransitionPage extends ConsumerWidget {
     ref.watch(chapterNumberDisplayProvider);
     return Container(
       color: context.shiori.color.ink0,
-      child: readerMode.isVertical
-          ? _buildVerticalScaffold(context)
-          : _buildHorizontalScaffold(context),
+      child: readerMode.isVertical ? _buildVerticalScaffold(context) : _buildHorizontalScaffold(context),
     );
   }
 
@@ -123,13 +121,9 @@ class ChapterTransitionPage extends ConsumerWidget {
           const SizedBox(height: ShioriSpace.s16),
           Icon(
             fill: 1,
-            nextChapter != null
-                ? Symbols.keyboard_arrow_down_rounded
-                : Symbols.check_circle_rounded,
+            nextChapter != null ? Symbols.keyboard_arrow_down_rounded : Symbols.check_circle_rounded,
             size: 32,
-            color: nextChapter != null
-                ? context.shiori.color.accentInk
-                : context.shiori.color.fgMuted,
+            color: nextChapter != null ? context.shiori.color.accentInk : context.shiori.color.fgMuted,
           ),
           const SizedBox(height: ShioriSpace.s16),
           if (nextChapter != null) ...[
@@ -180,14 +174,10 @@ class ChapterTransitionPage extends ConsumerWidget {
     final Widget arrowIcon = Icon(
       fill: 1,
       nextChapter != null
-          ? (readerMode.isRTL
-                ? Symbols.keyboard_arrow_left_rounded
-                : Symbols.keyboard_arrow_right_rounded)
+          ? (readerMode.isRTL ? Symbols.keyboard_arrow_left_rounded : Symbols.keyboard_arrow_right_rounded)
           : Symbols.check_circle_rounded,
       size: 36,
-      color: nextChapter != null
-          ? context.shiori.color.accentInk
-          : context.shiori.color.fgMuted,
+      color: nextChapter != null ? context.shiori.color.accentInk : context.shiori.color.fgMuted,
     );
 
     final Widget nextCard = nextChapter != null
@@ -245,9 +235,7 @@ class ChapterTransitionPage extends ConsumerWidget {
         _action(context),
         const SizedBox(height: ShioriSpace.s12),
         Text(
-          nextChapter != null
-              ? l10n.continue_to_next_chapter
-              : l10n.return_to_the_list_of_chapters,
+          nextChapter != null ? l10n.continue_to_next_chapter : l10n.return_to_the_list_of_chapters,
           style: context.shiori.caption,
           textAlign: TextAlign.center,
         ),
@@ -340,14 +328,10 @@ class ChapterTransitionPage extends ConsumerWidget {
         vertical: ShioriSpace.s12,
       ),
       decoration: BoxDecoration(
-        color: isPrimary
-            ? c.accent.withValues(alpha: Alphas.accentTint)
-            : c.ink1,
+        color: isPrimary ? c.accent.withValues(alpha: Alphas.accentTint) : c.ink1,
         borderRadius: BorderRadius.circular(ShioriShape.card),
         border: Border.all(
-          color: isPrimary
-              ? c.accent.withValues(alpha: Alphas.hairline * 2)
-              : c.hairline,
+          color: isPrimary ? c.accent.withValues(alpha: Alphas.hairline * 2) : c.hairline,
         ),
       ),
       child: Column(
@@ -381,15 +365,9 @@ class ChapterTransitionPage extends ConsumerWidget {
           if (offline != null) ...[
             const SizedBox(height: ShioriSpace.s4),
             ShioriStatusChip(
-              kind: offline
-                  ? ShioriStatusKind.downloaded
-                  : ShioriStatusKind.offline,
-              icon: offline
-                  ? Symbols.download_done_rounded
-                  : Symbols.cloud_off_rounded,
-              label: offline
-                  ? context.l10n.downloaded
-                  : context.l10n.not_downloaded,
+              kind: offline ? ShioriStatusKind.downloaded : ShioriStatusKind.offline,
+              icon: offline ? Symbols.download_done_rounded : Symbols.cloud_off_rounded,
+              label: offline ? context.l10n.downloaded : context.l10n.not_downloaded,
             ),
           ],
         ],

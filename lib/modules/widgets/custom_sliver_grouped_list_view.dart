@@ -91,8 +91,7 @@ class CustomSliverGroupedListView<T, E> extends StatefulWidget {
   State<StatefulWidget> createState() => _CustomSliverGroupedListViewState<T, E>();
 }
 
-class _CustomSliverGroupedListViewState<T, E>
-    extends State<CustomSliverGroupedListView<T, E>> {
+class _CustomSliverGroupedListViewState<T, E> extends State<CustomSliverGroupedListView<T, E>> {
   List<T> _sortedElements = [];
   List<E> _groupKeys = [];
   bool _needsPrepare = true;

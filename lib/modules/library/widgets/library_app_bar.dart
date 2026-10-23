@@ -149,11 +149,9 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
               children: [
                 Flexible(
                   child: ValueListenableBuilder<bool>(
-                    valueListenable:
-                        headerCollapsed ?? const AlwaysStoppedAnimation(false),
+                    valueListenable: headerCollapsed ?? const AlwaysStoppedAnimation(false),
                     builder: (context, collapsed, _) => CollapsingTitle(
-                      isGroupedNavRoute(ref, libraryRouteFor(itemType)) &&
-                              !collapsed
+                      isGroupedNavRoute(ref, libraryRouteFor(itemType)) && !collapsed
                           ? navGroupTitle(context, libraryRouteFor(itemType))
                           : itemType.localized(l10n),
                       style: context.shiori.text.screenTitle.copyWith(
@@ -162,8 +160,7 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
                     ),
                   ),
                 ),
-                if (showNumbersOfItems)
-                  EntryBadgeChip(label: numberOfItems.toString()),
+                if (showNumbersOfItems) EntryBadgeChip(label: numberOfItems.toString()),
               ],
             ),
       actions: [
@@ -172,8 +169,7 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
           IconButton(
             splashRadius: 20,
             tooltip: l10n.cancel,
-            onPressed: () =>
-                ref.read(libraryUpdateProvider.notifier).requestCancel(),
+            onPressed: () => ref.read(libraryUpdateProvider.notifier).requestCancel(),
             icon: const Icon(Symbols.stop_circle_rounded),
           ),
         isSearch

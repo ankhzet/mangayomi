@@ -56,8 +56,7 @@ final class AddDownloadToQueueProvider extends $FunctionalProvider<AsyncValue<vo
   }
 }
 
-String _$addDownloadToQueueHash() =>
-    r'12e0369142d5e58adc66d9c3403c24127cd9ec84';
+String _$addDownloadToQueueHash() => r'12e0369142d5e58adc66d9c3403c24127cd9ec84';
 
 final class AddDownloadToQueueFamily extends $Family with $FunctionalFamilyOverride<FutureOr<void>, Chapter> {
   AddDownloadToQueueFamily._()

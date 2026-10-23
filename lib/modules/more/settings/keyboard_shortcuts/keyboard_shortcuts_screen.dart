@@ -18,12 +18,10 @@ class KeyboardShortcutsScreen extends ConsumerStatefulWidget {
   const KeyboardShortcutsScreen({super.key});
 
   @override
-  ConsumerState<KeyboardShortcutsScreen> createState() =>
-      _KeyboardShortcutsScreenState();
+  ConsumerState<KeyboardShortcutsScreen> createState() => _KeyboardShortcutsScreenState();
 }
 
-class _KeyboardShortcutsScreenState
-    extends ConsumerState<KeyboardShortcutsScreen> {
+class _KeyboardShortcutsScreenState extends ConsumerState<KeyboardShortcutsScreen> {
   final _focus = FocusNode();
   Enum? _listening;
   String? _error;
@@ -98,13 +96,9 @@ class _KeyboardShortcutsScreenState
               IconButton(
                 tooltip: l10n.reset,
                 icon: const Icon(Symbols.undo_rounded),
-                onPressed: () =>
-                    ref.read(keyBindingsStateProvider.notifier).reset(shortcut),
+                onPressed: () => ref.read(keyBindingsStateProvider.notifier).reset(shortcut),
               ),
-            if (listening)
-              const KeyCap('…')
-            else
-              for (final key in keyLabels(keys)) KeyCap(key),
+            if (listening) const KeyCap('…') else for (final key in keyLabels(keys)) KeyCap(key),
           ],
         ),
       );

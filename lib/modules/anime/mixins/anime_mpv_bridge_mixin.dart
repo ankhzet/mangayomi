@@ -27,8 +27,7 @@ import 'package:shiori/shiori.dart';
 
 /// Encapsulates libmpv property observation, Aniyomi/Mangayomi Lua script IPC,
 /// custom button script generation, and subtitle property synchronization.
-mixin AnimeMpvBridgeMixin<T extends riv.ConsumerStatefulWidget>
-    on riv.ConsumerState<T> {
+mixin AnimeMpvBridgeMixin<T extends riv.ConsumerStatefulWidget> on riv.ConsumerState<T> {
   Player get mpvBridgePlayer;
   bool get mpvUseLibass;
   bool get mpvUseMpvConfig;
@@ -57,8 +56,7 @@ mixin AnimeMpvBridgeMixin<T extends riv.ConsumerStatefulWidget>
 
   Future<void> handleMpvEvents(Pointer<generated.mpv_event> event) async {
     try {
-      if (event.ref.event_id ==
-          generated.mpv_event_id.MPV_EVENT_PROPERTY_CHANGE) {
+      if (event.ref.event_id == generated.mpv_event_id.MPV_EVENT_PROPERTY_CHANGE) {
         final prop = event.ref.data.cast<generated.mpv_event_property>();
         final propName = prop.ref.name.cast<Utf8>().toDartString();
         if (kDebugMode) {
@@ -66,12 +64,10 @@ mixin AnimeMpvBridgeMixin<T extends riv.ConsumerStatefulWidget>
             print("DEBUG 00: $propName - ${prop.ref.format}");
           }
         }
-        if (propName.startsWith("user-data/") &&
-            prop.ref.format == generated.mpv_format.MPV_FORMAT_NODE) {
+        if (propName.startsWith("user-data/") && prop.ref.format == generated.mpv_format.MPV_FORMAT_NODE) {
           final value = prop.ref.data.cast<generated.mpv_node>();
           await _handleMpvNodeEvents(propName, value);
-        } else if (propName.startsWith("user-data/") &&
-            prop.ref.format == generated.mpv_format.MPV_FORMAT_INT64) {
+        } else if (propName.startsWith("user-data/") && prop.ref.format == generated.mpv_format.MPV_FORMAT_INT64) {
           final value = prop.ref.data.cast<Int64>().value;
           await _handleMpvNumberEvents(propName, value);
         }
@@ -247,10 +243,8 @@ mixin AnimeMpvBridgeMixin<T extends riv.ConsumerStatefulWidget>
                       maxValue: stop,
                       step: step,
                       haptics: true,
-                      textMapper: (numberText) =>
-                          data[1].replaceAll("%d", numberText),
-                      onChanged: (value) =>
-                          setState(() => currentValue = value),
+                      textMapper: (numberText) => data[1].replaceAll("%d", numberText),
+                      onChanged: (value) => setState(() => currentValue = value),
                     ),
                   ],
                 ),
@@ -290,9 +284,7 @@ mixin AnimeMpvBridgeMixin<T extends riv.ConsumerStatefulWidget>
               .map(
                 (e) => (
                   e["title"] as String,
-                  e["timestamp"] is double
-                      ? (e["timestamp"] as double).toInt() * 1000
-                      : (e["timestamp"] as int) * 1000,
+                  e["timestamp"] is double ? (e["timestamp"] as double).toInt() * 1000 : (e["timestamp"] as int) * 1000,
                 ),
               )
               .toList();
@@ -317,9 +309,7 @@ mixin AnimeMpvBridgeMixin<T extends riv.ConsumerStatefulWidget>
     if (!mpvUseMpvConfig) return;
     final customButtons = customButtonRepository.getAllSortedByPos();
     if (customButtons.isEmpty) return;
-    final primaryButton =
-        customButtons.firstWhereOrNull((e) => e.isFavourite ?? false) ??
-        customButtons.first;
+    final primaryButton = customButtons.firstWhereOrNull((e) => e.isFavourite ?? false) ?? customButtons.first;
     final provider = StorageProvider();
     if (!(await provider.requestPermission())) {
       return;

@@ -23,8 +23,7 @@ final doRestoreProvider = DoRestoreFamily._();
 /// restore flows announce the outcome themselves, so an error swallowed here
 /// used to be followed by their success message.
 
-final class DoRestoreProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+final class DoRestoreProvider extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
     with $FutureModifier<void>, $FutureProvider<void> {
   /// Restores the backup at [path], replacing or merging into the library.
   ///
@@ -63,8 +62,7 @@ final class DoRestoreProvider
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<void> create(Ref ref) {
@@ -167,8 +165,7 @@ final class DoRestoreFamily extends $Family
 @ProviderFor(restoreBackup)
 final restoreBackupProvider = RestoreBackupFamily._();
 
-final class RestoreBackupProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+final class RestoreBackupProvider extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
     with $FutureModifier<void>, $FutureProvider<void> {
   RestoreBackupProvider._({
     required RestoreBackupFamily super.from,
@@ -200,8 +197,7 @@ final class RestoreBackupProvider
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<void> create(Ref ref) {
@@ -282,8 +278,7 @@ final class RestoreBackupFamily extends $Family
 @ProviderFor(restoreKotatsuBackup)
 final restoreKotatsuBackupProvider = RestoreKotatsuBackupFamily._();
 
-final class RestoreKotatsuBackupProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+final class RestoreKotatsuBackupProvider extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
     with $FutureModifier<void>, $FutureProvider<void> {
   RestoreKotatsuBackupProvider._({
     required RestoreKotatsuBackupFamily super.from,
@@ -308,8 +303,7 @@ final class RestoreKotatsuBackupProvider
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<void> create(Ref ref) {
@@ -328,11 +322,9 @@ final class RestoreKotatsuBackupProvider
   }
 }
 
-String _$restoreKotatsuBackupHash() =>
-    r'411be6e760301dde79c332fdc5e7d472b15568bf';
+String _$restoreKotatsuBackupHash() => r'411be6e760301dde79c332fdc5e7d472b15568bf';
 
-final class RestoreKotatsuBackupFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<void>, Archive> {
+final class RestoreKotatsuBackupFamily extends $Family with $FunctionalFamilyOverride<FutureOr<void>, Archive> {
   RestoreKotatsuBackupFamily._()
     : super(
         retry: null,
@@ -351,8 +343,7 @@ final class RestoreKotatsuBackupFamily extends $Family
 @ProviderFor(restoreTachiBkBackup)
 final restoreTachiBkBackupProvider = RestoreTachiBkBackupFamily._();
 
-final class RestoreTachiBkBackupProvider
-    extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
+final class RestoreTachiBkBackupProvider extends $FunctionalProvider<AsyncValue<void>, void, FutureOr<void>>
     with $FutureModifier<void>, $FutureProvider<void> {
   RestoreTachiBkBackupProvider._({
     required RestoreTachiBkBackupFamily super.from,
@@ -384,8 +375,7 @@ final class RestoreTachiBkBackupProvider
 
   @$internal
   @override
-  $FutureProviderElement<void> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<void> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<void> create(Ref ref) {
@@ -419,8 +409,7 @@ final class RestoreTachiBkBackupProvider
   }
 }
 
-String _$restoreTachiBkBackupHash() =>
-    r'b3e27ed4e87587c761e1edaa4d5a1ad40a7a6348';
+String _$restoreTachiBkBackupHash() => r'b3e27ed4e87587c761e1edaa4d5a1ad40a7a6348';
 
 final class RestoreTachiBkBackupFamily extends $Family
     with

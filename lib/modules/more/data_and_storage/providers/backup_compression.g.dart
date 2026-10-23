@@ -40,8 +40,7 @@ final class BackupCompressionLevelProvider extends $NotifierProvider<BackupCompr
   }
 }
 
-String _$backupCompressionLevelHash() =>
-    r'5d680a749ac9f017bddcd30d244182e85a529614';
+String _$backupCompressionLevelHash() => r'5d680a749ac9f017bddcd30d244182e85a529614';
 
 abstract class _$BackupCompressionLevel extends $Notifier<int> {
   int build();
@@ -49,14 +48,7 @@ abstract class _$BackupCompressionLevel extends $Notifier<int> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

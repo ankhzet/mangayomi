@@ -17,8 +17,7 @@ Future<void> exportMangaMetadata({
   final metadataFile = File(p.join(directory.path, "metadata.json"));
 
   if (!onlyIfMissing || findMangaCoverFile(directory) == null) {
-    final imageUrl = (manga.customCoverFromTracker ?? manga.imageUrl ?? "")
-        .trim();
+    final imageUrl = (manga.customCoverFromTracker ?? manga.imageUrl ?? "").trim();
     if (imageUrl.isNotEmpty) {
       final uri = Uri.tryParse(imageUrl);
       if (uri != null && (uri.scheme == 'http' || uri.scheme == 'https')) {

@@ -67,12 +67,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get last_update_check => 'Последняя проверка обновлений';
 
   @override
-  String last_entry_delete_warning(
-    num count,
-    Object entryType,
-    Object entryTypePlural,
-    Object mediaType,
-  ) {
+  String last_entry_delete_warning(num count, Object entryType, Object entryTypePlural, Object mediaType) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -838,8 +833,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get api_url_example => 'напр.: https://api.example.com';
 
   @override
-  String get extension_notes_example =>
-      'напр.: для этого расширения требуется вход';
+  String get extension_notes_example => 'напр.: для этого расширения требуется вход';
 
   @override
   String get type => 'Тип';
@@ -863,8 +857,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get source_language_javascript => 'JavaScript';
 
   @override
-  String get source_language_lnreader_compiled_js =>
-      'Скомпилированный JS LNReader';
+  String get source_language_lnreader_compiled_js => 'Скомпилированный JS LNReader';
 
   @override
   String get source_created_successfully => 'Источник успешно создан';
@@ -1085,8 +1078,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sync_failed => 'Не удалось синхронизировать';
 
   @override
-  String get sync_restore_in_progress =>
-      'Синхронизация пропущена — идет восстановление';
+  String get sync_restore_in_progress => 'Синхронизация пропущена — идет восстановление';
 
   @override
   String sync_progress_percent(Object percent) {
@@ -1182,8 +1174,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get floating_navigation_bar => 'Плавающая панель навигации';
 
   @override
-  String get floating_navigation_bar_description =>
-      'Плавающая капсула вместо обычной закреплённой панели навигации.';
+  String get floating_navigation_bar_description => 'Плавающая капсула вместо обычной закреплённой панели навигации.';
 
   @override
   String get full_screen_player => 'Использовать полноэкранный режим';
@@ -1282,8 +1273,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get show_nav_double_tap_tooltip =>
-      'Подсказка о поиске двойным касанием';
+  String get show_nav_double_tap_tooltip => 'Подсказка о поиске двойным касанием';
 
   @override
   String get show_nav_double_tap_tooltip_subtitle =>
@@ -1432,8 +1422,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get encrypt_backups => 'Шифровать резервные копии';
 
   @override
-  String get encrypt_backups_info =>
-      'Защитить резервные копии паролем с использованием шифрования AES';
+  String get encrypt_backups_info => 'Защитить резервные копии паролем с использованием шифрования AES';
 
   @override
   String get no_secure_storage => 'Безопасное хранилище не найдено';
@@ -1446,8 +1435,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get enter_backup_password => 'Введите пароль резервной копии';
 
   @override
-  String get incorrect_password_try_again =>
-      'Неверный пароль, попробуйте еще раз.';
+  String get incorrect_password_try_again => 'Неверный пароль, попробуйте еще раз.';
 
   @override
   String get set_backup_password => 'Установить пароль резервной копии';
@@ -1459,12 +1447,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get passwords_do_not_match => 'Пароли не совпадают';
 
   @override
-  String get password_required_to_restore =>
-      'Для восстановления резервной копии требуется пароль.';
+  String get password_required_to_restore => 'Для восстановления резервной копии требуется пароль.';
 
   @override
-  String get restore_backup_subtitle =>
-      'Восстановить библиотеку из резервной копии';
+  String get restore_backup_subtitle => 'Восстановить библиотеку из резервной копии';
 
   @override
   String get automatic_backups => 'Автоматические резервные копии';
@@ -1526,8 +1512,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get restore_sync_question_deny => 'Нет, отключить синхронизацию';
 
   @override
-  String get sync_disabled_after_restore =>
-      'Синхронизация отключена. Вы можете включить ее в Настройках.';
+  String get sync_disabled_after_restore => 'Синхронизация отключена. Вы можете включить ее в Настройках.';
 
   @override
   String get restore_sync_disabled_question_title => 'Синхронизация отключена';
@@ -1537,19 +1522,16 @@ class AppLocalizationsRu extends AppLocalizations {
       'Синхронизация выключена. Включить ее и загрузить восстановленные данные на сервер?';
 
   @override
-  String get restore_sync_question_reenable =>
-      'Да, включить и синхронизировать';
+  String get restore_sync_question_reenable => 'Да, включить и синхронизировать';
 
   @override
   String get restore_sync_question_keep_disabled => 'Оставить отключенной';
 
   @override
-  String get restore_sync_uploading =>
-      'Синхронизация восстановленных данных с сервером…';
+  String get restore_sync_uploading => 'Синхронизация восстановленных данных с сервером…';
 
   @override
-  String get restore_sync_upload_success =>
-      'Восстановленные данные синхронизированы с сервером';
+  String get restore_sync_upload_success => 'Восстановленные данные синхронизированы с сервером';
 
   @override
   String get services => 'Сервисы';
@@ -1595,8 +1577,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get markEpisodeAsSeenSetting => 'В какой момент отметить эпизод как просмотренный';
 
   @override
-  String get mark_duplicate_chapters_read =>
-      'Отметить повторяющиеся номера глав как прочитанные';
+  String get mark_duplicate_chapters_read => 'Отметить повторяющиеся номера глав как прочитанные';
 
   @override
   String get default_skip_intro_length => 'Стандартная длина пропуска вступления';
@@ -1796,8 +1777,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get override_ass_subtitles => 'Переопределить субтитры ASS';
 
   @override
-  String get override_ass_subtitles_info =>
-      'Применить собственный стиль к субтитрам ASS/SSA';
+  String get override_ass_subtitles_info => 'Применить собственный стиль к субтитрам ASS/SSA';
 
   @override
   String get torrent_stream => 'Торрент-стрим';
@@ -1927,8 +1907,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get custom_dns => 'Пользовательский DNS (оставьте пустым для использования системного DNS)';
 
   @override
-  String get android_proxy_server =>
-      'Прокси-сервер Android (M-Extension-Server)';
+  String get android_proxy_server => 'Прокси-сервер Android (M-Extension-Server)';
 
   @override
   String get get_m_extension_server => 'Получить M-Extension-Server';
@@ -1962,8 +1941,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get url_cannot_be_empty => 'URL не может быть пустым';
 
   @override
-  String get url_must_end_with_dot_json_or_dot_pb =>
-      'URL должен заканчиваться на .json / .pb';
+  String get url_must_end_with_dot_json_or_dot_pb => 'URL должен заканчиваться на .json / .pb';
 
   @override
   String get repo_url => 'URL репозитория';
@@ -2321,8 +2299,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get ask_download_destination => 'Запрашивать место загрузки';
 
   @override
-  String get ask_download_destination_desc =>
-      'Выбирать локальную папку перед началом каждой загрузки.';
+  String get ask_download_destination_desc => 'Выбирать локальную папку перед началом каждой загрузки.';
 
   @override
   String get select_download_destination => 'Выбрать место загрузки';
@@ -2331,8 +2308,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clear_local_library => 'Очистить локальную библиотеку';
 
   @override
-  String get clear_local_library_desc =>
-      'Удалить локальные папки и архивы из библиотеки.';
+  String get clear_local_library_desc => 'Удалить локальные папки и архивы из библиотеки.';
 
   @override
   String get clear_local_library_msg =>
@@ -2342,8 +2318,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get custom => 'Пользовательский';
 
   @override
-  String get no_local_folder_available_for_downloads =>
-      'Нет доступных локальных папок для загрузок';
+  String get no_local_folder_available_for_downloads => 'Нет доступных локальных папок для загрузок';
 
   @override
   String failed_to_create_cbz(Object error) {
@@ -2397,8 +2372,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get cloudflare_resolution_webview_server_start_failed =>
-      'Не удалось запустить сервер разрешения Cloudflare.';
+  String get cloudflare_resolution_webview_server_start_failed => 'Не удалось запустить сервер разрешения Cloudflare.';
 
   @override
   String tracker_token_expired(Object tracker) {
@@ -2690,8 +2664,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get extension_server_jar_imported => 'JAR-файл сервера расширений импортирован.';
 
   @override
-  String get could_not_launch_apk_bridge_page =>
-      'Не удалось запустить страницу M-Extension-Server.';
+  String get could_not_launch_apk_bridge_page => 'Не удалось запустить страницу M-Extension-Server.';
 
   @override
   String get proxy_server_ip_hint => 'IP-адрес сервера (например, 10.0.0.5 или https://example.com)';
@@ -2703,8 +2676,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get zero_interpreter => 'Интерпретатор Zero';
 
   @override
-  String get zero_interpreter_description =>
-      'Управление сервером интерпретатора Zero автоматически или вручную.';
+  String get zero_interpreter_description => 'Управление сервером интерпретатора Zero автоматически или вручную.';
 
   @override
   String get start_server_on_launch => 'Запускать сервер при старте';
@@ -2796,15 +2768,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get double_page_single_first_page => 'Первая страница отдельно';
 
   @override
-  String get double_page_single_first_page_subtitle =>
-      'Отображать первую страницу отдельно в двухстраничном режиме';
+  String get double_page_single_first_page_subtitle => 'Отображать первую страницу отдельно в двухстраничном режиме';
 
   @override
   String get double_page_auto => 'Автоматический двухстраничный режим';
 
   @override
-  String get double_page_auto_subtitle =>
-      'Автоматически переключаться на двухстраничный режим в альбомной ориентации';
+  String get double_page_auto_subtitle => 'Автоматически переключаться на двухстраничный режим в альбомной ориентации';
 
   @override
   String get landscape_zoom => 'Автоматическое масштабирование в альбоме';
@@ -2916,8 +2886,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get saved_searches => 'Сохраненные поиски';
 
   @override
-  String get enter_search_to_save_first =>
-      'Сначала введите поиск для сохранения';
+  String get enter_search_to_save_first => 'Сначала введите поиск для сохранения';
 
   @override
   String get no_saved_searches =>
@@ -2962,8 +2931,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get import_mode_replace => 'Заменить';
 
   @override
-  String get import_mode_replace_subtitle =>
-      'Удаляет текущую библиотеку и заменяет ее резервной копией.';
+  String get import_mode_replace_subtitle => 'Удаляет текущую библиотеку и заменяет ее резервной копией.';
 
   @override
   String get replace_summary_title => 'Готово к замене библиотеки';
@@ -2985,23 +2953,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get category_conflict_title => 'Найдены существующие категории';
 
   @override
-  String get category_conflict_message =>
-      'Резервная копия содержит категории, которые уже существуют в библиотеке.';
+  String get category_conflict_message => 'Резервная копия содержит категории, которые уже существуют в библиотеке.';
 
   @override
-  String get category_conflict_keep =>
-      'Сохранить — объединить с существующей категорией';
+  String get category_conflict_keep => 'Сохранить — объединить с существующей категорией';
 
   @override
-  String get category_conflict_delete =>
-      'Удалить — оставить тайтлы без категории';
+  String get category_conflict_delete => 'Удалить — оставить тайтлы без категории';
 
   @override
   String get source_conflict_title => 'Источники не найдены';
 
   @override
-  String get source_conflict_message =>
-      'Некоторые источники не соответствуют установленным расширениям.';
+  String get source_conflict_message => 'Некоторые источники не соответствуют установленным расширениям.';
 
   @override
   String get source_conflict_keep => 'Сохранить исходное название';
@@ -3010,11 +2974,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get import_summary_title => 'Готово к импорту';
 
   @override
-  String import_summary_message(
-    Object newSeries,
-    Object updatedSeries,
-    Object newChapters,
-  ) {
+  String import_summary_message(Object newSeries, Object updatedSeries, Object newChapters) {
     return 'Новых тайтлов: $newSeries, обновлено: $updatedSeries, добавлено глав: $newChapters.';
   }
 
@@ -3022,11 +2982,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get import_summary_confirm => 'Импортировать';
 
   @override
-  String import_result_message(
-    Object newSeries,
-    Object updatedSeries,
-    Object newChapters,
-  ) {
+  String import_result_message(Object newSeries, Object updatedSeries, Object newChapters) {
     return 'Импортировано $newSeries новых тайтлов, обновлено $updatedSeries, добавлено $newChapters глав.';
   }
 
@@ -3034,8 +2990,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get roll_back => 'Откатить';
 
   @override
-  String get roll_back_confirm_message =>
-      'Восстанавливает библиотеку до момента перед этим изменением.';
+  String get roll_back_confirm_message => 'Восстанавливает библиотеку до момента перед этим изменением.';
 
   @override
   String get roll_back_done => 'Выполнен откат к предыдущему снимку.';
@@ -3060,8 +3015,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get delete_source_title => 'Удалить источник и его мангу';
 
   @override
-  String get delete_source_subtitle =>
-      'Удаляет из библиотеки все тайтлы источника с главами, загрузками и историей.';
+  String get delete_source_subtitle => 'Удаляет из библиотеки все тайтлы источника с главами, загрузками и историей.';
 
   @override
   String get delete_source_pick_title => 'Выберите источник для удаления';
@@ -3085,8 +3039,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get delete_source_also_remove_extension =>
-      'Также удалить установленное расширение';
+  String get delete_source_also_remove_extension => 'Также удалить установленное расширение';
 
   @override
   String get delete_source_keep_history => 'Сохранить историю чтения';
@@ -3106,8 +3059,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get merge_manga_title => 'Объединить дубликаты манги';
 
   @override
-  String get merge_manga_subtitle =>
-      'Находит мангу с одинаковыми названиями в одном источнике и объединяет их.';
+  String get merge_manga_subtitle => 'Находит мангу с одинаковыми названиями в одном источнике и объединяет их.';
 
   @override
   String get merge_manga_none_found => 'Дубликаты манги не найдены.';
@@ -3116,12 +3068,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get merge_manga_pick_title => 'Возможные дубликаты';
 
   @override
-  String get merge_manga_choose_primary_title =>
-      'В какой тайтл объединить остальные?';
+  String get merge_manga_choose_primary_title => 'В какой тайтл объединить остальные?';
 
   @override
-  String get merge_manga_choose_primary_message =>
-      'Главы, история и трекинг будут перенесены в выбранный тайтл.';
+  String get merge_manga_choose_primary_message => 'Главы, история и трекинг будут перенесены в выбранный тайтл.';
 
   @override
   String merge_manga_chapters_subtitle(int count) {
@@ -3170,8 +3120,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get error_reports => 'Отчеты об ошибках';
 
   @override
-  String get error_reports_subtitle =>
-      'Ошибки, зафиксированные приложением, и способ их отправки';
+  String get error_reports_subtitle => 'Ошибки, зафиксированные приложением, и способ их отправки';
 
   @override
   String get error_reports_empty => 'Ошибок нет.';
@@ -3209,8 +3158,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Обычно это проблема на стороне источника или сети, а не приложения: истекшая ссылка, сбой сервера или обрыв соединения. Имеет смысл сообщать, только если ошибка повторяется на источнике, работающем в других местах.';
 
   @override
-  String get share_unavailable_copied =>
-      'Отправка недоступна, скопировано в буфер обмена.';
+  String get share_unavailable_copied => 'Отправка недоступна, скопировано в буфер обмена.';
 
   @override
   String get onboarding_title => 'Добро пожаловать в Mangayomi';
@@ -3234,8 +3182,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Каждая сгруппированная вкладка переключается в верхней части своего экрана';
 
   @override
-  String get onboarding_libraries_body =>
-      'Выберите, что вы читаете и смотрите.';
+  String get onboarding_libraries_body => 'Выберите, что вы читаете и смотрите.';
 
   @override
   String get onboarding_nav_title => 'Ваши библиотеки';
@@ -3261,8 +3208,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get onboarding_local_any_type =>
-      'Поддерживаются манга, аниме и новеллы.';
+  String get onboarding_local_any_type => 'Поддерживаются манга, аниме и новеллы.';
 
   @override
   String get onboarding_local_scanning => 'Сканирование папки';
@@ -3279,8 +3225,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get onboarding_local_in_downloads => 'Это папка загрузок приложения.';
 
   @override
-  String get onboarding_local_empty =>
-      'Ничего не найдено. Выберите родительскую папку.';
+  String get onboarding_local_empty => 'Ничего не найдено. Выберите родительскую папку.';
 
   @override
   String get onboarding_repo_failed => 'Не удалось прочитать репозиторий.';
@@ -3289,8 +3234,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get onboarding_repo_title => 'Добавить источник';
 
   @override
-  String get onboarding_body =>
-      'Добавьте репозиторий, чтобы устанавливать расширения.';
+  String get onboarding_body => 'Добавьте репозиторий, чтобы устанавливать расширения.';
 
   @override
   String get onboarding_add => 'Добавить репозиторий';
@@ -3302,26 +3246,22 @@ class AppLocalizationsRu extends AppLocalizations {
   String get onboarding_continue => 'Продолжить';
 
   @override
-  String get onboarding_later =>
-      'Вы можете добавить его позже в Настройки > Обзор.';
+  String get onboarding_later => 'Вы можете добавить его позже в Настройки > Обзор.';
 
   @override
   String get onboarding_replay => 'Показать экран приветствия';
 
   @override
-  String get onboarding_replay_subtitle =>
-      'Повторно открывает экран начальной настройки.';
+  String get onboarding_replay_subtitle => 'Повторно открывает экран начальной настройки.';
 
   @override
   String get missing_source_check_title => 'Проверка отсутствующих источников';
 
   @override
-  String get missing_source_check_subtitle =>
-      'Поиск тайтлов, чьи расширения не установлены.';
+  String get missing_source_check_subtitle => 'Поиск тайтлов, чьи расширения не установлены.';
 
   @override
-  String get missing_source_check_none_found =>
-      'Источники для всех тайтлов установлены.';
+  String get missing_source_check_none_found => 'Источники для всех тайтлов установлены.';
 
   @override
   String missing_source_check_result_title(int count) {
@@ -3361,12 +3301,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Закрепите источник или отключите «Только закрепленные источники» в настройках обзора.';
 
   @override
-  String get global_search_all_nsfw =>
-      'Все источники для этого помечены как NSFW и скрыты.';
+  String get global_search_all_nsfw => 'Все источники для этого помечены как NSFW и скрыты.';
 
   @override
-  String get global_search_all_nsfw_hint =>
-      'Включите источники NSFW в настройках обзора для поиска по ним.';
+  String get global_search_all_nsfw_hint => 'Включите источники NSFW в настройках обзора для поиска по ним.';
 
   @override
   String get missing_source_check_result_message =>
@@ -3676,8 +3614,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get show_continue_shelf => 'Показывать, что вы читаете';
 
   @override
-  String get show_continue_shelf_subtitle =>
-      'Ряд начатых серий вверху библиотеки';
+  String get show_continue_shelf_subtitle => 'Ряд начатых серий вверху библиотеки';
 
   @override
   String get excluded => 'Исключено';
@@ -3698,8 +3635,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get search_settings => 'Поиск настроек';
 
   @override
-  String get search_settings_hint =>
-      'Введите название настройки или слово из её описания';
+  String get search_settings_hint => 'Введите название настройки или слово из её описания';
 
   @override
   String reading_mode_for(String name) {
@@ -3721,20 +3657,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get page_layout => 'Макет страницы и масштаб';
 
   @override
-  String get reader_section_mode_summary =>
-      'Режим по умолчанию, масштаб, фон, предзагрузка, полный экран';
+  String get reader_section_mode_summary => 'Режим по умолчанию, масштаб, фон, предзагрузка, полный экран';
 
   @override
-  String get reader_section_layout_summary =>
-      'Широкие страницы, разворот, масштаб в альбомной ориентации';
+  String get reader_section_layout_summary => 'Широкие страницы, разворот, масштаб в альбомной ориентации';
 
   @override
-  String get reader_section_navigation_summary =>
-      'Зоны нажатия, раскладка, скрытие меню, вспышка страницы';
+  String get reader_section_navigation_summary => 'Зоны нажатия, раскладка, скрытие меню, вспышка страницы';
 
   @override
-  String get reader_section_swipe_summary =>
-      'Что делает свайп по главе в списке';
+  String get reader_section_swipe_summary => 'Что делает свайп по главе в списке';
 
   @override
   String get all_reader_settings => 'Все настройки читалки';
@@ -3804,16 +3736,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get got_it => 'Понятно';
 
   @override
-  String get gesture_brightness =>
-      'Проведите вверх или вниз слева, чтобы изменить яркость';
+  String get gesture_brightness => 'Проведите вверх или вниз слева, чтобы изменить яркость';
 
   @override
-  String get gesture_volume =>
-      'Проведите вверх или вниз справа, чтобы изменить громкость';
+  String get gesture_volume => 'Проведите вверх или вниз справа, чтобы изменить громкость';
 
   @override
-  String get gesture_double_tap_skip =>
-      'Дважды коснитесь стороны, чтобы перемотать назад или вперёд';
+  String get gesture_double_tap_skip => 'Дважды коснитесь стороны, чтобы перемотать назад или вперёд';
 
   @override
   String get gesture_drag_seek => 'Проведите вбок, чтобы перемещаться по видео';
@@ -3825,8 +3754,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tap_to_continue => 'Коснитесь в любом месте, чтобы продолжить';
 
   @override
-  String get empty_library_hint =>
-      'Найдите серию в разделе «Обзор» и добавьте её в библиотеку.';
+  String get empty_library_hint => 'Найдите серию в разделе «Обзор» и добавьте её в библиотеку.';
 
   @override
   String get more_filters => 'Другие фильтры';
@@ -3863,24 +3791,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settings_appearance_summary => 'Тема, палитра, навигация, шрифт';
 
   @override
-  String get settings_novel_reader_summary =>
-      'Шрифт, цвет страницы, озвучивание';
+  String get settings_novel_reader_summary => 'Шрифт, цвет страницы, озвучивание';
 
   @override
-  String get settings_player_summary =>
-      'Воспроизведение, субтитры, звук, декодер';
+  String get settings_player_summary => 'Воспроизведение, субтитры, звук, декодер';
 
   @override
-  String get settings_downloads_summary =>
-      'Расположение, только Wi-Fi, одновременные загрузки';
+  String get settings_downloads_summary => 'Расположение, только Wi-Fi, одновременные загрузки';
 
   @override
-  String get settings_tracking_summary =>
-      'MyAnimeList, AniList, Kitsu и другие';
+  String get settings_tracking_summary => 'MyAnimeList, AniList, Kitsu и другие';
 
   @override
-  String get settings_syncing_summary =>
-      'Синхронизируйте прогресс на своём сервере';
+  String get settings_syncing_summary => 'Синхронизируйте прогресс на своём сервере';
 
   @override
   String get settings_browse_summary => 'Расширения, репозитории, источники';
@@ -4024,12 +3947,10 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get tv_player_beta_subtitle =>
-      'Вкл.: плеер для пульта ТВ. Выкл.: исходный плеер.';
+  String get tv_player_beta_subtitle => 'Вкл.: плеер для пульта ТВ. Выкл.: исходный плеер.';
 
   @override
-  String get anime_only_beta_subtitle =>
-      'Скрыть мангу и ранобэ во всём приложении. Выключите, чтобы показать всё.';
+  String get anime_only_beta_subtitle => 'Скрыть мангу и ранобэ во всём приложении. Выключите, чтобы показать всё.';
 
   @override
   String download_queue_start_failed(String error) {
@@ -4043,16 +3964,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get group_navigation => 'Навигация';
 
   @override
-  String get tv_home_beta_subtitle =>
-      'Главная аниме в виде рядов (продолжить, новые эпизоды, категории) вместо сетки';
+  String get tv_home_beta_subtitle => 'Главная аниме в виде рядов (продолжить, новые эпизоды, категории) вместо сетки';
 
   @override
-  String get cloudflare_bypass_proxy_hint =>
-      'Необязательный адрес FlareSolverr или Byparr';
+  String get cloudflare_bypass_proxy_hint => 'Необязательный адрес FlareSolverr или Byparr';
 
   @override
-  String get cloudflare_bypass_proxy_message =>
-      'Адрес FlareSolverr или Byparr. Оставьте пустым, чтобы выключить.';
+  String get cloudflare_bypass_proxy_message => 'Адрес FlareSolverr или Byparr. Оставьте пустым, чтобы выключить.';
 
   @override
   String get group_explore => 'Обзор';
@@ -4188,8 +4106,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get autoplay_next_on => 'Автовоспроизведение следующего эпизода: вкл.';
 
   @override
-  String get autoplay_next_off =>
-      'Автовоспроизведение следующего эпизода: выкл.';
+  String get autoplay_next_off => 'Автовоспроизведение следующего эпизода: выкл.';
 
   @override
   String get autoplay_next => 'Автовоспроизведение следующей серии';
@@ -4240,8 +4157,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get code_no_result => 'Пока нет результата';
 
   @override
-  String get code_no_result_message =>
-      'Запустите функцию, чтобы увидеть, что она возвращает.';
+  String get code_no_result_message => 'Запустите функцию, чтобы увидеть, что она возвращает.';
 
   @override
   String get code_console => 'Консоль';
@@ -4253,8 +4169,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tv_empty_anime_library => 'Ваша библиотека аниме пуста';
 
   @override
-  String get tv_empty_anime_library_hint =>
-      'Добавьте аниме из раздела «Обзор», чтобы заполнить главную';
+  String get tv_empty_anime_library_hint => 'Добавьте аниме из раздела «Обзор», чтобы заполнить главную';
 
   @override
   String get browse_anime => 'Обзор аниме';
@@ -4337,8 +4252,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Разложите библиотеку по категориям, которые вы сами называете и упорядочиваете.';
 
   @override
-  String get settings_keyboard_shortcuts_summary =>
-      'Переназначить клавиши читалки и плеера';
+  String get settings_keyboard_shortcuts_summary => 'Переназначить клавиши читалки и плеера';
 
   @override
   String get shortcut_reset_all => 'Сбросить все сочетания';

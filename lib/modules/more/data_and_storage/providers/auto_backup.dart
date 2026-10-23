@@ -24,8 +24,7 @@ class BackupFrequencyState extends _$BackupFrequencyState {
 class BackupFrequencyOptionsState extends _$BackupFrequencyOptionsState {
   @override
   List<int> build() {
-    return settingsRepository.current.backupListOptions ??
-        [0, 1, 2, 3, 4, 5, 6, 7, 10];
+    return settingsRepository.current.backupListOptions ?? [0, 1, 2, 3, 4, 5, 6, 7, 10];
   }
 
   void set(List<int> values) {
@@ -55,9 +54,7 @@ class AutoBackupLocationState extends _$AutoBackupLocationState {
         ? await StorageProvider().getIosBackupDirectory()
         : await StorageProvider().getDefaultDirectory();
     state = (
-      Platform.isIOS
-          ? _storageProvider!.path
-          : p.join(_storageProvider!.path, "backup"),
+      Platform.isIOS ? _storageProvider!.path : p.join(_storageProvider!.path, "backup"),
       settingsRepository.current.autoBackupLocation ?? "",
     );
   }

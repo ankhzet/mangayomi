@@ -12,8 +12,7 @@ import 'package:mangayomi/services/fetch_item_sources.dart';
 import 'package:mangayomi/services/sync_server.dart';
 import 'package:mangayomi/utils/platform_utils.dart';
 
-mixin MainScreenLifecycleMixin<T extends ConsumerStatefulWidget>
-    on ConsumerState<T> {
+mixin MainScreenLifecycleMixin<T extends ConsumerStatefulWidget> on ConsumerState<T> {
   Timer? _backupTimer;
   Timer? _syncTimer;
 
@@ -37,9 +36,7 @@ mixin MainScreenLifecycleMixin<T extends ConsumerStatefulWidget>
 
     final syncPrefs = ref.read(synchingProvider(syncId: 1));
     final freq = syncPrefs.autoSyncFrequency;
-    if (syncPrefs.syncOn &&
-        freq > 0 &&
-        (syncPrefs.authToken?.isNotEmpty ?? false)) {
+    if (syncPrefs.syncOn && freq > 0 && (syncPrefs.authToken?.isNotEmpty ?? false)) {
       _syncTimer = Timer.periodic(Duration(seconds: freq), _onSyncTimerTick);
     }
   }

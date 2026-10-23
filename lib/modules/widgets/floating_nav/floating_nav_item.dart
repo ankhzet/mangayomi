@@ -81,9 +81,7 @@ class FloatingNavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final icon = selected
-        ? (destination.selectedIcon ?? destination.icon)
-        : destination.icon;
+    final icon = selected ? (destination.selectedIcon ?? destination.icon) : destination.icon;
     // Each selected icon uses the foreground paired with its pill. Unselected
     // icons stay neutral and remain readable while the pill crosses them.
     final color = light
@@ -95,9 +93,7 @@ class FloatingNavItem extends StatelessWidget {
         color: resolvedColor,
         // Several destinations (history, more) have an "outlined" variant
         // that is the same drawing, so filling cannot show selection.
-        shadows: selected
-            ? [Shadow(color: resolvedColor, blurRadius: 0.9)]
-            : null,
+        shadows: selected ? [Shadow(color: resolvedColor, blurRadius: 0.9)] : null,
       ),
       child: label == null
           ? icon
@@ -138,8 +134,7 @@ class FloatingNavItem extends StatelessWidget {
                   tween: ColorTween(end: color),
                   duration: FloatingNavBar.duration,
                   curve: FloatingNavBar.curve,
-                  builder: (context, animatedColor, _) =>
-                      themedItem(size, animatedColor ?? color),
+                  builder: (context, animatedColor, _) => themedItem(size, animatedColor ?? color),
                 );
               },
             ),

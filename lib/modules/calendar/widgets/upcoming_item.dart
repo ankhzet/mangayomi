@@ -28,8 +28,7 @@ class UpcomingItem extends ConsumerWidget {
           image: _getImageProvider(ref),
           fit: BoxFit.cover,
           gaplessPlayback: true,
-          errorBuilder: (_, _, _) =>
-              const Center(child: Icon(Symbols.broken_image_rounded, size: 24)),
+          errorBuilder: (_, _, _) => const Center(child: Icon(Symbols.broken_image_rounded, size: 24)),
         ),
       ),
       title: manga.name ?? '',

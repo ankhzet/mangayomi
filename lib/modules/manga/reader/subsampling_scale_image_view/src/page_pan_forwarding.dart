@@ -10,13 +10,12 @@ import 'package:flutter/painting.dart';
 /// but to the left of it for a reversed (right-to-left) one, and likewise up
 /// or down for a vertical one. So dragging the content follows the finger
 /// only once the sign is taken from [axisDirection].
-double pageScrollDeltaForPan(AxisDirection axisDirection, Offset excess) =>
-    switch (axisDirection) {
-      AxisDirection.right => -excess.dx,
-      AxisDirection.left => excess.dx,
-      AxisDirection.down => -excess.dy,
-      AxisDirection.up => excess.dy,
-    };
+double pageScrollDeltaForPan(AxisDirection axisDirection, Offset excess) => switch (axisDirection) {
+  AxisDirection.right => -excess.dx,
+  AxisDirection.left => excess.dx,
+  AxisDirection.down => -excess.dy,
+  AxisDirection.up => excess.dy,
+};
 
 /// The page a PageView dragged by the image should settle on when the finger
 /// lifts at fractional [page], moving at [velocity] (screen pixels/second).

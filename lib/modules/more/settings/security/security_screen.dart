@@ -76,9 +76,7 @@ class _SecurityScreenState extends ConsumerState<SecurityScreen> {
                 onChanged: _canCheckBiometrics
                     ? (value) async {
                         if (!await _authenticate()) return;
-                        ref
-                            .read(appLockEnabledStateProvider.notifier)
-                            .set(value);
+                        ref.read(appLockEnabledStateProvider.notifier).set(value);
                         if (!value) {
                           ref.read(appUnlockedStateProvider.notifier).unlock();
                         }

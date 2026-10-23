@@ -64,10 +64,7 @@ Future<UpdateInfo?> _getUpdateIfAvailable() async {
 bool _hasPlatformAssets(List<dynamic> assets) {
   if (assets.isEmpty) return false;
 
-  final assetUrls = assets
-      .whereType<String>()
-      .map((url) => url.toLowerCase())
-      .toList();
+  final assetUrls = assets.whereType<String>().map((url) => url.toLowerCase()).toList();
   if (assetUrls.isEmpty) return false;
 
   if (Platform.isAndroid) {
@@ -85,10 +82,7 @@ bool _hasPlatformAssets(List<dynamic> assets) {
     return assetUrls.any((url) => url.endsWith('.dmg') || url.endsWith('.pkg'));
   } else if (Platform.isWindows) {
     return assetUrls.any(
-      (url) =>
-          url.endsWith('.exe') ||
-          url.endsWith('.msix') ||
-          (url.endsWith('.zip') && url.contains('windows')),
+      (url) => url.endsWith('.exe') || url.endsWith('.msix') || (url.endsWith('.zip') && url.contains('windows')),
     );
   } else if (Platform.isLinux) {
     return assetUrls.any(
@@ -121,13 +115,8 @@ Future<UpdateInfo?> _fetchLatestRelease() async {
       return null;
     }
     final release = jsonDecode(res.body) as Map<String, dynamic>;
-    final tagName =
-        (release['tag_name'] as String?) ?? (release['name'] as String?) ?? '';
-    final cleanVersion = tagName
-        .trim()
-        .replaceFirst(RegExp(r'^[vV]'), '')
-        .split(RegExp(r'[-+]'))
-        .first;
+    final tagName = (release['tag_name'] as String?) ?? (release['name'] as String?) ?? '';
+    final cleanVersion = tagName.trim().replaceFirst(RegExp(r'^[vV]'), '').split(RegExp(r'[-+]')).first;
     if (cleanVersion.isEmpty) return null;
 
     final body = (release['body'] as String?) ?? '';
@@ -135,8 +124,7 @@ Future<UpdateInfo?> _fetchLatestRelease() async {
     final rawAssets = release['assets'] as List<dynamic>? ?? [];
     final assets = rawAssets
         .map(
-          (asset) => (asset as Map<String, dynamic>)['browser_download_url']
-              ?.toString(),
+          (asset) => (asset as Map<String, dynamic>)['browser_download_url']?.toString(),
         )
         .whereType<String>()
         .toList();

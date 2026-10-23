@@ -12,8 +12,7 @@ part of 'check_for_update.dart';
 @ProviderFor(CheckForAppUpdates)
 final checkForAppUpdatesProvider = CheckForAppUpdatesProvider._();
 
-final class CheckForAppUpdatesProvider
-    extends $NotifierProvider<CheckForAppUpdates, bool> {
+final class CheckForAppUpdatesProvider extends $NotifierProvider<CheckForAppUpdates, bool> {
   CheckForAppUpdatesProvider._()
     : super(
         from: null,
@@ -41,8 +40,7 @@ final class CheckForAppUpdatesProvider
   }
 }
 
-String _$checkForAppUpdatesHash() =>
-    r'ae04e9287ba511f636c9e39c2bd67a6e18d337f8';
+String _$checkForAppUpdatesHash() => r'ae04e9287ba511f636c9e39c2bd67a6e18d337f8';
 
 abstract class _$CheckForAppUpdates extends $Notifier<bool> {
   bool build();
@@ -50,14 +48,7 @@ abstract class _$CheckForAppUpdates extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

@@ -157,9 +157,7 @@ class _TvPlayerSettingsPanelState extends ConsumerState<TvPlayerSettingsPanel> {
             onPressed: _handleBack,
             icon: Icon(
               fill: 1,
-              _open == null
-                  ? Symbols.close_rounded
-                  : Symbols.arrow_back_rounded,
+              _open == null ? Symbols.close_rounded : Symbols.arrow_back_rounded,
             ),
           ),
           const SizedBox(width: 4),
@@ -449,9 +447,7 @@ class _OptionRowState extends State<_OptionRow> {
                   widget.label,
                   style: TextStyle(
                     fontSize: ShioriType.reference.body.fontSize,
-                    fontWeight: widget.selected
-                        ? FontWeight.w700
-                        : FontWeight.normal,
+                    fontWeight: widget.selected ? FontWeight.w700 : FontWeight.normal,
                     color: widget.selected ? widget.accent : null,
                   ),
                 ),
@@ -556,9 +552,7 @@ class _TvVideoFocusFrameState extends State<TvVideoFocusFrame> {
                           padding: const EdgeInsets.all(14),
                           child: Icon(
                             fill: 1,
-                            playing
-                                ? Symbols.pause_rounded
-                                : Symbols.play_arrow_rounded,
+                            playing ? Symbols.pause_rounded : Symbols.play_arrow_rounded,
                             color: Colors.white,
                             size: 40,
                           ),

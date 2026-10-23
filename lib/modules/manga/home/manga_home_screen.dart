@@ -130,26 +130,24 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    _mangaStreamSub = mangaRepository
-        .watchBySourceAndLang(source.name, source.lang)
-        .listen((mangas) {
-          if (mounted) {
-            setState(() {
-              _libraryIndex = {};
-              for (final m in mangas.where(
-                (e) => e.sourceId == null || e.sourceId == source.id,
-              )) {
-                if (m.name == null) continue;
-                final existing = _libraryIndex[m.name!];
-                // Prefer the record with the lower id (first inserted = real entry).
-                // Guards against pre-existing duplicate records in the DB.
-                if (existing == null || m.id! < existing.id!) {
-                  _libraryIndex[m.name!] = m;
-                }
-              }
-            });
+    _mangaStreamSub = mangaRepository.watchBySourceAndLang(source.name, source.lang).listen((mangas) {
+      if (mounted) {
+        setState(() {
+          _libraryIndex = {};
+          for (final m in mangas.where(
+            (e) => e.sourceId == null || e.sourceId == source.id,
+          )) {
+            if (m.name == null) continue;
+            final existing = _libraryIndex[m.name!];
+            // Prefer the record with the lower id (first inserted = real entry).
+            // Guards against pre-existing duplicate records in the DB.
+            if (existing == null || m.id! < existing.id!) {
+              _libraryIndex[m.name!] = m;
+            }
           }
         });
+      }
+    });
   }
 
   @override
@@ -171,10 +169,7 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
   void _onScroll() {
     final position = _scrollController.position;
     if (position.pixels >= position.maxScrollExtent - _prefetchDistance) {
-      if (_mangaList.isNotEmpty &&
-          _hasNextPage &&
-          !_isLoading &&
-          !(_getManga?.isLoading ?? false)) {
+      if (_mangaList.isNotEmpty && _hasNextPage && !_isLoading && !(_getManga?.isLoading ?? false)) {
         setState(() => _isLoading = true);
         _loadMore().then((value) {
           if (mounted && value != null) {
@@ -208,8 +203,7 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
   /// Fetches again whatever the screen shows: a search or filter, the
   /// latest, or the popular list.
   void _retry() {
-    if (_selectedIndex == 2 && (_isSearch && _query.isNotEmpty) ||
-        _isFiltering) {
+    if (_selectedIndex == 2 && (_isSearch && _query.isNotEmpty) || _isFiltering) {
       ref.invalidate(
         searchProvider(
           source: source,
@@ -283,8 +277,7 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
     final l10n = context.l10n;
     final displayType = ref.watch(mangaHomeDisplayTypeStateProvider);
     final displayTypeIcon = switch (displayType) {
-      DisplayType.comfortableGrid ||
-      DisplayType.compactGrid => Symbols.view_module_rounded,
+      DisplayType.comfortableGrid || DisplayType.compactGrid => Symbols.view_module_rounded,
       _ => Symbols.view_list_rounded,
     };
     return Scaffold(
@@ -433,9 +426,8 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
                   ShioriMenuItem(
                     label: label,
                     checked: displayType == type,
-                    onSelected: () => ref
-                        .read(mangaHomeDisplayTypeStateProvider.notifier)
-                        .setMangaHomeDisplayType(type),
+                    onSelected: () =>
+                        ref.read(mangaHomeDisplayTypeStateProvider.notifier).setMangaHomeDisplayType(type),
                   ),
                 null,
                 ShioriMenuItem(
@@ -518,14 +510,11 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
                               builder: (context, setState) {
                                 return FilterSheetBody(
                                   filters: filters,
-                                  onChanged: (values) =>
-                                      setState(() => filters = values),
+                                  onChanged: (values) => setState(() => filters = values),
                                   onReset: () => setState(
-                                    () =>
-                                        filters = getFilterList(source: source),
+                                    () => filters = getFilterList(source: source),
                                   ),
-                                  onApply: () =>
-                                      Navigator.pop(context, 'filter'),
+                                  onApply: () => Navigator.pop(context, 'filter'),
                                   resetLabel: l10n.reset,
                                   applyLabel: l10n.filter,
                                 );
@@ -597,10 +586,7 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
                                 itemType: source.itemType,
                               ),
                             ),
-                            childAspectRatio:
-                                displayType == DisplayType.comfortableGrid
-                                ? 0.642
-                                : 0.69,
+                            childAspectRatio: displayType == DisplayType.comfortableGrid ? 0.642 : 0.69,
                           ),
                         ))
                 : _getManga!.when(
@@ -618,8 +604,7 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
                         _mangaList.addAll(data.list);
                       }
                       Widget buildProgressIndicator() {
-                        return !(data!.list.isNotEmpty &&
-                                (data.hasNextPage || _hasNextPage))
+                        return !(data!.list.isNotEmpty && (data.hasNextPage || _hasNextPage))
                             ? Container()
                             : _isLoading
                             ? const Center(
@@ -662,14 +647,9 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
                           compact: true,
                         );
                       }
-                      _length = source.isFullData!
-                          ? _fullDataLength
-                          : _mangaList.length;
-                      _length = (_mangaList.length < _length
-                          ? _mangaList.length
-                          : _length);
-                      final isComfortableGrid =
-                          displayType == DisplayType.comfortableGrid;
+                      _length = source.isFullData! ? _fullDataLength : _mangaList.length;
+                      _length = (_mangaList.length < _length ? _mangaList.length : _length);
+                      final isComfortableGrid = displayType == DisplayType.comfortableGrid;
                       return Padding(
                         padding: const EdgeInsets.only(top: ShioriSpace.s12),
                         child: Column(
@@ -687,9 +667,7 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
                                           itemType: source.itemType,
                                           manga: _mangaList[index],
                                           source: source,
-                                          libraryManga:
-                                              _libraryIndex[_mangaList[index]
-                                                  .name],
+                                          libraryManga: _libraryIndex[_mangaList[index].name],
                                         );
                                       },
                                     )
@@ -705,26 +683,18 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
                                           gridSize: gridSize,
                                           controller: _scrollController,
                                           itemCount: _length + 1,
-                                          childAspectRatio: isComfortableGrid
-                                              ? 0.642
-                                              : 0.69,
+                                          childAspectRatio: isComfortableGrid ? 0.642 : 0.69,
                                           itemBuilder: (context, index) {
                                             if (index == _length) {
                                               return buildProgressIndicator();
                                             }
                                             return MangaHomeImageCard(
-                                              autofocus:
-                                                  isTv &&
-                                                  index == 0 &&
-                                                  !_isSearch,
+                                              autofocus: isTv && index == 0 && !_isSearch,
                                               itemType: source.itemType,
                                               manga: _mangaList[index],
                                               source: source,
-                                              isComfortableGrid:
-                                                  isComfortableGrid,
-                                              libraryManga:
-                                                  _libraryIndex[_mangaList[index]
-                                                      .name],
+                                              isComfortableGrid: isComfortableGrid,
+                                              libraryManga: _libraryIndex[_mangaList[index].name],
                                             );
                                           },
                                         );
@@ -739,9 +709,7 @@ class _MangaHomeScreenState extends ConsumerState<MangaHomeScreen> {
                     // source in the browser, the way past a Cloudflare check.
                     error: (error, stackTrace) => ErrorState(
                       // The stack too in developer mode, to see where it broke.
-                      detail: ref.watch(developerModeStateProvider)
-                          ? '$error\n\n$stackTrace'
-                          : error.toString(),
+                      detail: ref.watch(developerModeStateProvider) ? '$error\n\n$stackTrace' : error.toString(),
                       onRetry: _retry,
                       secondaryLabel: l10n.webview,
                       secondaryIcon: Symbols.public_rounded,

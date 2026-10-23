@@ -27,12 +27,10 @@ class CustomMaterialDesktopFullscreenButton extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<CustomMaterialDesktopFullscreenButton> createState() =>
-      _CustomMaterialDesktopFullscreenButtonState();
+  ConsumerState<CustomMaterialDesktopFullscreenButton> createState() => _CustomMaterialDesktopFullscreenButtonState();
 }
 
-class _CustomMaterialDesktopFullscreenButtonState
-    extends ConsumerState<CustomMaterialDesktopFullscreenButton> {
+class _CustomMaterialDesktopFullscreenButtonState extends ConsumerState<CustomMaterialDesktopFullscreenButton> {
   bool _hover = false;
 
   @override
@@ -47,17 +45,11 @@ class _CustomMaterialDesktopFullscreenButtonState
         height: 34,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: _hover
-              ? Colors.white.withValues(alpha: Alphas.hairline)
-              : Colors.transparent,
+          color: _hover ? Colors.white.withValues(alpha: Alphas.hairline) : Colors.transparent,
         ),
         child: IconButton(
-          tooltip: isFullScreen
-              ? context.l10n.exit_fullscreen
-              : context.l10n.fullscreen,
-          icon: isFullScreen
-              ? const Icon(Symbols.fullscreen_exit_rounded)
-              : const Icon(Symbols.fullscreen_rounded),
+          tooltip: isFullScreen ? context.l10n.exit_fullscreen : context.l10n.fullscreen,
+          icon: isFullScreen ? const Icon(Symbols.fullscreen_exit_rounded) : const Icon(Symbols.fullscreen_rounded),
           iconSize: 18,
           padding: EdgeInsets.zero,
           constraints: BoxConstraints(

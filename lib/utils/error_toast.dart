@@ -56,7 +56,5 @@ String errorToastMessage(Object error, {int maxLength = 180}) {
       .map((line) => line.trim())
       .firstWhere((line) => line.isNotEmpty, orElse: () => '');
   if (first.isEmpty) return error.runtimeType.toString();
-  return first.length <= maxLength
-      ? first
-      : '${first.substring(0, maxLength - 1)}…';
+  return first.length <= maxLength ? first : '${first.substring(0, maxLength - 1)}…';
 }

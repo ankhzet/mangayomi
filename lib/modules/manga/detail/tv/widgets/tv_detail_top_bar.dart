@@ -29,8 +29,7 @@ class TvDetailTopBar extends StatelessWidget {
       canRequestFocus: false,
       skipTraversal: true,
       onKeyEvent: (node, event) {
-        if ((event is KeyDownEvent || event is KeyRepeatEvent) &&
-            event.logicalKey == LogicalKeyboardKey.arrowDown) {
+        if ((event is KeyDownEvent || event is KeyRepeatEvent) && event.logicalKey == LogicalKeyboardKey.arrowDown) {
           onDown();
           return KeyEventResult.handled;
         }
@@ -47,9 +46,7 @@ class TvDetailTopBar extends StatelessWidget {
             ),
             const Spacer(),
             TvDetailTopBarButton(
-              icon: refreshing
-                  ? Symbols.hourglass_empty_rounded
-                  : Symbols.refresh_rounded,
+              icon: refreshing ? Symbols.hourglass_empty_rounded : Symbols.refresh_rounded,
               onPressed: onRefresh,
             ),
           ],

@@ -76,8 +76,7 @@ class ChapterRecognition {
         .replaceAll('-', '.')
         .replaceAll(_unwantedWhiteSpace, '');
 
-    final season =
-        int.tryParse(_seasonKeyword.firstMatch(name)?.group(1) ?? '') ?? 0;
+    final season = int.tryParse(_seasonKeyword.firstMatch(name)?.group(1) ?? '') ?? 0;
 
     final epMatch = _episodeKeyword.firstMatch(name);
     if (epMatch != null) {
@@ -96,8 +95,7 @@ class ChapterRecognition {
   }
 
   // Combines season + episode into a sortable number.
-  double _withSeason(int season, double ep) =>
-      season > 0 ? season * 100000 + ep : ep;
+  double _withSeason(int season, double ep) => season > 0 ? season * 100000 + ep : ep;
 
   double? _extractNumber(String name) {
     final chMatch = _chNotation.firstMatch(name);

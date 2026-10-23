@@ -36,8 +36,7 @@ class _DownloadQueueScreenState extends ConsumerState<DownloadQueueScreen> {
               title: Text(l10n.download_queue),
               leading: isTv
                   ? IconButton(
-                      tooltip: MaterialLocalizations.of(context)
-                          .backButtonTooltip,
+                      tooltip: MaterialLocalizations.of(context).backButtonTooltip,
                       autofocus: true,
                       icon: const BackButtonIcon(),
                       onPressed: () => Navigator.of(context).pop(),
@@ -71,8 +70,7 @@ class _DownloadQueueScreenState extends ConsumerState<DownloadQueueScreen> {
               title: Text(l10n.download_queue),
               leading: isTv
                   ? IconButton(
-                      tooltip: MaterialLocalizations.of(context)
-                          .backButtonTooltip,
+                      tooltip: MaterialLocalizations.of(context).backButtonTooltip,
                       autofocus: true,
                       icon: const BackButtonIcon(),
                       onPressed: () => Navigator.of(context).pop(),
@@ -168,9 +166,7 @@ class _DownloadQueueScreenState extends ConsumerState<DownloadQueueScreen> {
                 final tokens = context.shiori;
                 final failed = (element.failed ?? 0) > 0;
                 final total = element.total ?? 0;
-                final progress = total > 0
-                    ? (element.succeeded ?? 0) / total
-                    : 0.0;
+                final progress = total > 0 ? (element.succeeded ?? 0) / total : 0.0;
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,13 +186,9 @@ class _DownloadQueueScreenState extends ConsumerState<DownloadQueueScreen> {
                           ),
                         ),
                         Text(
-                          failed
-                              ? l10n.download_failed
-                              : '${(progress * 100).round()} %',
+                          failed ? l10n.download_failed : '${(progress * 100).round()} %',
                           style: tokens.text.meta.copyWith(
-                            color: failed
-                                ? tokens.color.error.foreground
-                                : tokens.color.fgMuted,
+                            color: failed ? tokens.color.error.foreground : tokens.color.fgMuted,
                             fontFeatures: const [FontFeature.tabularFigures()],
                           ),
                         ),
@@ -216,9 +208,7 @@ class _DownloadQueueScreenState extends ConsumerState<DownloadQueueScreen> {
                       builder: (context, value, _) => ShioriProgressBar(
                         value: value,
                         height: 4,
-                        color: failed
-                            ? tokens.color.error.foreground
-                            : tokens.color.accent,
+                        color: failed ? tokens.color.error.foreground : tokens.color.accent,
                       ),
                     ),
                   ],
@@ -232,8 +222,7 @@ class _DownloadQueueScreenState extends ConsumerState<DownloadQueueScreen> {
                 // An anchored dropdown is a poor remote target, so pop the same
                 // actions in the centre on TV.
                 ? IconButton(
-                    tooltip: MaterialLocalizations.of(context)
-                        .moreButtonTooltip,
+                    tooltip: MaterialLocalizations.of(context).moreButtonTooltip,
                     icon: const Icon(Symbols.more_vert_rounded, fill: 1),
                     onPressed: () async {
                       final picked = await showTvMenu(
@@ -255,8 +244,7 @@ class _DownloadQueueScreenState extends ConsumerState<DownloadQueueScreen> {
                     },
                   )
                 : ShioriMenuButton(
-                    tooltip: MaterialLocalizations.of(context)
-                        .moreButtonTooltip,
+                    tooltip: MaterialLocalizations.of(context).moreButtonTooltip,
                     items: [
                       ShioriMenuItem(
                         label: l10n.cancel,

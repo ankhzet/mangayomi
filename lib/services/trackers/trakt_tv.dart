@@ -20,9 +20,7 @@ import 'package:mangayomi/utils/error_toast.dart';
 part 'trakt_tv.g.dart';
 
 @riverpod
-class TraktTv extends _$TraktTv
-    with ExpiringOAuthTracker
-    implements BaseTracker {
+class TraktTv extends _$TraktTv with ExpiringOAuthTracker implements BaseTracker {
   final http = MClient.init(reqcopyWith: {'useDartHttpClient': true});
   static const _baseOAuthUrl = 'https://api.trakt.tv/oauth';
   static const _baseApiUrl = 'https://api.trakt.tv';
@@ -163,25 +161,21 @@ class TraktTv extends _$TraktTv
           totalChapter: e[itemType]?['aired_episodes'] ?? 1,
           coverUrl: (e['images']?['fanart'] as List?)?.isNotEmpty ?? false
               ? 'https://wsrv.nl/?url=${e['images']?['fanart'][0]}'
-              : (e[itemType]?['images']?['fanart'] as List?)?.isNotEmpty ??
-                    false
+              : (e[itemType]?['images']?['fanart'] as List?)?.isNotEmpty ?? false
               ? 'https://wsrv.nl/?url=${e[itemType]?['images']?['fanart'][0]}'
               : (e['images']?['poster'] as List?)?.isNotEmpty ?? false
               ? 'https://wsrv.nl/?url=${e['images']?['poster'][0]}'
-              : (e[itemType]?['images']?['poster'] as List?)?.isNotEmpty ??
-                    false
+              : (e[itemType]?['images']?['poster'] as List?)?.isNotEmpty ?? false
               ? 'https://wsrv.nl/?url=${e[itemType]?['images']?['poster'][0]}'
               : '',
           title: e[itemType]['title'] ?? 'Unknown Title',
           score: double.tryParse(
-            (e[itemType]?["rating"] as num?)?.toDouble().toStringAsFixed(2) ??
-                "",
+            (e[itemType]?["rating"] as num?)?.toDouble().toStringAsFixed(2) ?? "",
           ),
           startDate: e[itemType]?["first_aired"] ?? "",
           publishingType: itemType,
           publishingStatus: e[itemType]["status"],
-          trackingUrl:
-              "https://trakt.tv/$typeName/${e[itemType]?['ids']?['slug']}",
+          trackingUrl: "https://trakt.tv/$typeName/${e[itemType]?['ids']?['slug']}",
           syncId: syncId,
         ),
       );
@@ -192,16 +186,13 @@ class TraktTv extends _$TraktTv
   @override
   Future<Track?> findLibItem(Track track, bool isManga) async {
     final accessToken = await getAccessToken();
-    final isMovie =
-        track.trackingUrl?.replaceAll("https://trakt.tv/", "").split("/")[0] ==
-        "movies";
+    final isMovie = track.trackingUrl?.replaceAll("https://trakt.tv/", "").split("/")[0] == "movies";
     final type = isMovie ? "movies" : "shows";
 
     // Check history first
-    final historyUrl =
-        Uri.parse('$_baseApiUrl/sync/history/$type/${track.mediaId}').replace(
-          queryParameters: {"extended": "full", "page": "1", "limit": "3000"},
-        );
+    final historyUrl = Uri.parse('$_baseApiUrl/sync/history/$type/${track.mediaId}').replace(
+      queryParameters: {"extended": "full", "page": "1", "limit": "3000"},
+    );
     final historyResult = await _makeGetRequest(historyUrl, accessToken);
     final historyData = jsonDecode(historyResult.body) as List?;
 
@@ -217,8 +208,7 @@ class TraktTv extends _$TraktTv
             .whereType<int>()
             .toSet()
             .length;
-        if ((track.totalChapter ?? 0) > 0 &&
-            (track.lastChapterRead ?? 0) >= (track.totalChapter ?? 0)) {
+        if ((track.totalChapter ?? 0) > 0 && (track.lastChapterRead ?? 0) >= (track.totalChapter ?? 0)) {
           track.status = TrackStatus.completed;
         } else {
           track.status = TrackStatus.watching;
@@ -310,14 +300,11 @@ class TraktTv extends _$TraktTv
   @override
   Future<Track> update(Track track, bool isManga) async {
     final accessToken = await getAccessToken();
-    final isMovie =
-        track.trackingUrl?.replaceAll("https://trakt.tv/", "").split("/")[0] ==
-        "movies";
+    final isMovie = track.trackingUrl?.replaceAll("https://trakt.tv/", "").split("/")[0] == "movies";
 
     // 1. planToWatch 상태 -> Watchlist에 추가
     if (track.status == TrackStatus.planToWatch) {
-      final watchlistUrl = Uri.parse("$_baseApiUrl/sync/watchlist")
-          .replace(queryParameters: {'clientId': _clientId});
+      final watchlistUrl = Uri.parse("$_baseApiUrl/sync/watchlist").replace(queryParameters: {'clientId': _clientId});
       final watchlistBody = isMovie
           ? {
               'movies': [
@@ -338,8 +325,7 @@ class TraktTv extends _$TraktTv
       // 2. watching / completed -> History에 동기화
       // 실제로 본 에피소드 수를 결정: completed이고 totalChapter가 있으면 전체 수, 아니면 lastChapterRead
       final lastRead = track.lastChapterRead ?? 0;
-      final episodesCount =
-          track.status == TrackStatus.completed && (track.totalChapter ?? 0) > 0
+      final episodesCount = track.status == TrackStatus.completed && (track.totalChapter ?? 0) > 0
           ? track.totalChapter!
           : lastRead;
 
@@ -392,8 +378,7 @@ class TraktTv extends _$TraktTv
     // 3. Sync rating if user set a score (1-10)
     if (track.score != null && track.score! > 0) {
       try {
-        final ratingsUrl = Uri.parse("$_baseApiUrl/sync/ratings")
-            .replace(queryParameters: {'clientId': _clientId});
+        final ratingsUrl = Uri.parse("$_baseApiUrl/sync/ratings").replace(queryParameters: {'clientId': _clientId});
         final ratingsBody = isMovie
             ? {
                 'movies': [
@@ -427,8 +412,7 @@ class TraktTv extends _$TraktTv
     String accessToken,
   ) async {
     try {
-      final url = Uri.parse('$_baseApiUrl/shows/$mediaId/seasons')
-          .replace(queryParameters: {'extended': 'episodes'});
+      final url = Uri.parse('$_baseApiUrl/shows/$mediaId/seasons').replace(queryParameters: {'extended': 'episodes'});
       final result = await _makeGetRequest(url, accessToken);
       final data = jsonDecode(result.body) as List?;
       if (data == null) return [];
@@ -465,8 +449,7 @@ class TraktTv extends _$TraktTv
       result.add({
         'number': seasonNum,
         'episodes': [
-          for (int i = 1; i <= watchCount; i++)
-            {'watched_at': now, 'number': i},
+          for (int i = 1; i <= watchCount; i++) {'watched_at': now, 'number': i},
         ],
       });
       remaining -= watchCount;
@@ -479,8 +462,7 @@ class TraktTv extends _$TraktTv
   String get trackerName => "Trakt.tv";
 
   @override
-  Future<void> saveRefreshedOAuth(OAuth oAuth) async =>
-      _saveOAuth(await _getUserName(oAuth.accessToken!), oAuth);
+  Future<void> saveRefreshedOAuth(OAuth oAuth) async => _saveOAuth(await _getUserName(oAuth.accessToken!), oAuth);
 
   @override
   Future<OAuth?> refreshOAuth(OAuth oldOAuth) async {

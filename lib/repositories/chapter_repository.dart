@@ -16,79 +16,49 @@ class ChapterRepository {
 
   Chapter? findByIdSync(int id) => isar.chapters.getSync(id);
 
-  Chapter? findByMangaIdAndName(int? mangaId, String? name) => isar.chapters
-      .filter()
-      .mangaIdEqualTo(mangaId)
-      .nameEqualTo(name)
-      .findFirstSync();
+  Chapter? findByMangaIdAndName(int? mangaId, String? name) =>
+      isar.chapters.filter().mangaIdEqualTo(mangaId).nameEqualTo(name).findFirstSync();
 
-  Future<Chapter?> findByMangaIdAndNameAsync(int? mangaId, String? name) => isar
-      .chapters
-      .filter()
-      .mangaIdEqualTo(mangaId)
-      .nameEqualTo(name)
-      .findFirst();
+  Future<Chapter?> findByMangaIdAndNameAsync(int? mangaId, String? name) =>
+      isar.chapters.filter().mangaIdEqualTo(mangaId).nameEqualTo(name).findFirst();
 
   List<Chapter> getAll() => isar.chapters.filter().idIsNotNull().findAllSync();
 
-  List<Chapter> getChangedSince(int since) => isar.chapters
-      .filter()
-      .updatedAtGreaterThan(since, include: true)
-      .findAllSync();
+  List<Chapter> getChangedSince(int since) =>
+      isar.chapters.filter().updatedAtGreaterThan(since, include: true).findAllSync();
 
-  Chapter? getByClientId(int clientId) => isar.chapters
-      .filter()
-      .clientIdEqualTo(clientId)
-      .or()
-      .idEqualTo(clientId)
-      .findFirstSync();
+  Chapter? getByClientId(int clientId) =>
+      isar.chapters.filter().clientIdEqualTo(clientId).or().idEqualTo(clientId).findFirstSync();
 
-  Chapter? findByUrlAndMangaId(String url, int mangaId) => isar.chapters
-      .filter()
-      .urlEqualTo(url)
-      .and()
-      .mangaIdEqualTo(mangaId)
-      .findFirstSync();
+  Chapter? findByUrlAndMangaId(String url, int mangaId) =>
+      isar.chapters.filter().urlEqualTo(url).and().mangaIdEqualTo(mangaId).findFirstSync();
 
   // Async twin, for callers already inside an async writeTxn/writeTransactionAsync
   // — Isar rejects a sync findAllSync() call from inside an async transaction.
-  Future<List<Chapter>> getAllAsync() =>
-      isar.chapters.filter().idIsNotNull().findAll();
+  Future<List<Chapter>> getAllAsync() => isar.chapters.filter().idIsNotNull().findAll();
 
-  Future<List<Chapter>> getAllByMangaIds(Iterable<int?> mangaIds) => isar
-      .chapters
-      .filter()
-      .anyOf(mangaIds, (q, id) => q.mangaIdEqualTo(id))
-      .findAll();
+  Future<List<Chapter>> getAllByMangaIds(Iterable<int?> mangaIds) =>
+      isar.chapters.filter().anyOf(mangaIds, (q, id) => q.mangaIdEqualTo(id)).findAll();
 
   List<Chapter?> getAllByIds(List<int> ids) => isar.chapters.getAllSync(ids);
 
-  List<Chapter> getAllByMangaId(int? mangaId) => mangaId == null
-      ? const []
-      : isar.chapters.where().mangaIdEqualToAnyIsRead(mangaId).findAllSync();
+  List<Chapter> getAllByMangaId(int? mangaId) =>
+      mangaId == null ? const [] : isar.chapters.where().mangaIdEqualToAnyIsRead(mangaId).findAllSync();
 
-  Chapter? findLatestByMangaId(int? mangaId) => isar.chapters
-      .filter()
-      .mangaIdEqualTo(mangaId)
-      .sortByDateUploadDesc()
-      .findFirstSync();
+  Chapter? findLatestByMangaId(int? mangaId) =>
+      isar.chapters.filter().mangaIdEqualTo(mangaId).sortByDateUploadDesc().findFirstSync();
 
-  int countByMangaId(int? mangaId) => mangaId == null
-      ? 0
-      : isar.chapters.where().mangaIdEqualToAnyIsRead(mangaId).countSync();
+  int countByMangaId(int? mangaId) =>
+      mangaId == null ? 0 : isar.chapters.where().mangaIdEqualToAnyIsRead(mangaId).countSync();
 
-  Future<int> countByMangaIdAsync(int? mangaId) => mangaId == null
-      ? Future.value(0)
-      : isar.chapters.where().mangaIdEqualToAnyIsRead(mangaId).count();
+  Future<int> countByMangaIdAsync(int? mangaId) =>
+      mangaId == null ? Future.value(0) : isar.chapters.where().mangaIdEqualToAnyIsRead(mangaId).count();
 
-  Future<int> countUnreadByMangaId(int? mangaId) => mangaId == null
-      ? Future.value(0)
-      : isar.chapters.where().mangaIdIsReadEqualTo(mangaId, false).count();
+  Future<int> countUnreadByMangaId(int? mangaId) =>
+      mangaId == null ? Future.value(0) : isar.chapters.where().mangaIdIsReadEqualTo(mangaId, false).count();
 
-  Future<int> countByFavoriteItemType(ItemType itemType) => isar.chapters
-      .filter()
-      .manga((q) => q.favoriteEqualTo(true).itemTypeEqualTo(itemType))
-      .count();
+  Future<int> countByFavoriteItemType(ItemType itemType) =>
+      isar.chapters.filter().manga((q) => q.favoriteEqualTo(true).itemTypeEqualTo(itemType)).count();
 
   Future<int> countReadByFavoriteItemType(ItemType itemType) => isar.chapters
       .filter()
@@ -96,19 +66,15 @@ class ChapterRepository {
       .isReadEqualTo(true)
       .count();
 
-  int countByMangaIds(List<int> mangaIds) => isar.chapters
-      .filter()
-      .anyOf(mangaIds, (q, id) => q.mangaIdEqualTo(id))
-      .countSync();
+  int countByMangaIds(List<int> mangaIds) =>
+      isar.chapters.filter().anyOf(mangaIds, (q, id) => q.mangaIdEqualTo(id)).countSync();
 
   // Composite-index where() lookup: every chapter for a manga, any isRead value.
   List<Chapter> getAllByMangaIdIndex(int? mangaId) =>
       isar.chapters.where().mangaIdEqualToAnyIsRead(mangaId).findAllSync();
 
-  Stream<List<Chapter>> watchByMangaId(int mangaId) => isar.chapters
-      .filter()
-      .manga((q) => q.idEqualTo(mangaId))
-      .watch(fireImmediately: true);
+  Stream<List<Chapter>> watchByMangaId(int mangaId) =>
+      isar.chapters.filter().manga((q) => q.idEqualTo(mangaId)).watch(fireImmediately: true);
 
   // Stamps updatedAt for callers that just want to persist a mutated Chapter
   // they already hold, without setting the timestamp themselves.
@@ -125,16 +91,14 @@ class ChapterRepository {
 
   // Same transaction as putAll, plus the parent Manga (e.g. bumping its
   // updatedAt/read state alongside a batch of chapter changes).
-  Future<void> putAllWithManga(List<Chapter> chapters, Manga manga) =>
-      dbWriteQueue.run(() {
-        isar.writeTxnSync(() {
-          isar.chapters.putAllSync(chapters);
-          isar.mangas.putSync(manga);
-        });
-      });
+  Future<void> putAllWithManga(List<Chapter> chapters, Manga manga) => dbWriteQueue.run(() {
+    isar.writeTxnSync(() {
+      isar.chapters.putAllSync(chapters);
+      isar.mangas.putSync(manga);
+    });
+  });
 
-  Future<void> deleteAll(List<int> ids) =>
-      dbWriteQueue.run(() => isar.writeTxn(() => isar.chapters.deleteAll(ids)));
+  Future<void> deleteAll(List<int> ids) => dbWriteQueue.run(() => isar.writeTxn(() => isar.chapters.deleteAll(ids)));
 
   // Sync primitives below are for callers already inside a write transaction
   // opened by transaction()/writeTransaction() — they don't queue on their own.
@@ -154,23 +118,18 @@ class ChapterRepository {
     final current = isar.chapters.getSync(
       resolveChapterAlias(isar, chapter.id!),
     );
-    return current != null && current.mangaId == chapter.mangaId
-        ? current
-        : chapter;
+    return current != null && current.mangaId == chapter.mangaId ? current : chapter;
   }
 
-  void Function() retainForReading(Chapter chapter) =>
-      retainReadingChapter(isar, chapter.id!);
+  void Function() retainForReading(Chapter chapter) => retainReadingChapter(isar, chapter.id!);
 
-  void publishAliases(Map<int, Chapter> canonical) =>
-      publishChapterAliases(isar, canonical);
+  void publishAliases(Map<int, Chapter> canonical) => publishChapterAliases(isar, canonical);
 
   Future<int> putAsync(Chapter chapter) => isar.chapters.put(chapter);
 
   Future<bool> deleteAsync(int id) => isar.chapters.delete(id);
 
-  Future<void> putAllAsync(List<Chapter> chapters) =>
-      isar.chapters.putAll(chapters);
+  Future<void> putAllAsync(List<Chapter> chapters) => isar.chapters.putAll(chapters);
 
   Future<void> deleteAllAsync(List<int> ids) => isar.chapters.deleteAll(ids);
 
@@ -180,8 +139,7 @@ class ChapterRepository {
     required String mangaName,
     required int now,
     required bool Function(int) isScheduled,
-    Future<List<Directory>> Function(Chapter, {Settings? settings})?
-    resolveDirectories,
+    Future<List<Directory>> Function(Chapter, {Settings? settings})? resolveDirectories,
   }) => consolidateChapterDuplicates(
     isar,
     chapters,
@@ -195,15 +153,12 @@ class ChapterRepository {
   // (linking a fresh batch to their manga, page-index + sibling-chapter
   // combined writes, etc.) — still queued through dbWriteQueue, just without
   // inventing a one-call-site method for each shape.
-  Future<T> transaction<T>(FutureOr<T> Function() body) =>
-      dbWriteQueue.run(body);
+  Future<T> transaction<T>(FutureOr<T> Function() body) => dbWriteQueue.run(body);
 
   // Same, but opens the write transaction too, so callers never touch isar.
-  Future<T> writeTransaction<T>(T Function() body) =>
-      dbWriteQueue.run(() => isar.writeTxnSync(body));
+  Future<T> writeTransaction<T>(T Function() body) => dbWriteQueue.run(() => isar.writeTxnSync(body));
 
-  Future<T> writeTransactionAsync<T>(Future<T> Function() body) =>
-      dbWriteQueue.run(() => isar.writeTxn(body));
+  Future<T> writeTransactionAsync<T>(Future<T> Function() body) => dbWriteQueue.run(() => isar.writeTxn(body));
 }
 
 final chapterRepository = ChapterRepository();

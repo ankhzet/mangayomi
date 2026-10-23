@@ -20,8 +20,7 @@ const List<String> _kArchiveExtensions = [
 ];
 
 @riverpod
-Future<List<(String, LocalExtensionType, Uint8List, String)>>
-getArchivesDataFromDirectory(Ref ref, String path) async {
+Future<List<(String, LocalExtensionType, Uint8List, String)>> getArchivesDataFromDirectory(Ref ref, String path) async {
   return _extractArchiveMetadataFromDirectory(path);
 }
 
@@ -81,8 +80,9 @@ Future<List<LocalArchive>> _extractArchivesFromDirectory(
 }
 
 /// Extract only metadata (cover) from all archives in a directory (recursive)
-Future<List<(String, LocalExtensionType, Uint8List, String)>>
-_extractArchiveMetadataFromDirectory(String directoryPath) async {
+Future<List<(String, LocalExtensionType, Uint8List, String)>> _extractArchiveMetadataFromDirectory(
+  String directoryPath,
+) async {
   final metadata = <(String, LocalExtensionType, Uint8List, String)>[];
 
   try {
@@ -190,9 +190,7 @@ int compareArchiveReaderPaths(String left, String right) {
       continue;
     }
 
-    final characterComparison = leftLower
-        .codeUnitAt(leftIndex)
-        .compareTo(rightLower.codeUnitAt(rightIndex));
+    final characterComparison = leftLower.codeUnitAt(leftIndex).compareTo(rightLower.codeUnitAt(rightIndex));
     if (characterComparison != 0) return characterComparison;
     leftIndex++;
     rightIndex++;
@@ -242,8 +240,7 @@ Future<LocalArchive> _extractArchive(String path) async {
     }
 
     final extensionType = _getArchiveType(path);
-    if (extensionType == LocalExtensionType.cbr ||
-        extensionType == LocalExtensionType.rar) {
+    if (extensionType == LocalExtensionType.cbr || extensionType == LocalExtensionType.rar) {
       final rarData = await extractRarArchive(archivePath: path);
       return LocalArchive()
         ..path = path
@@ -280,11 +277,7 @@ Future<LocalArchive> _extractArchive(String path) async {
 Future<LocalArchive> _extractFromImageFolder(String path) async {
   final dir = Directory(path);
   final imageFiles =
-      await dir
-            .list()
-            .where((entity) => entity is File && _isImageFile(entity.path))
-            .cast<File>()
-            .toList()
+      await dir.list().where((entity) => entity is File && _isImageFile(entity.path)).cast<File>().toList()
         ..sort((a, b) => compareArchiveReaderPaths(a.path, b.path));
 
   if (imageFiles.isEmpty) {
@@ -320,11 +313,8 @@ LocalArchive _extractFromArchiveFile(String path) {
     inputStream = InputFileStream(path);
     final archive = _decodeArchive(inputStream, extensionType);
 
-    final imageFiles =
-        archive.files
-            .where((file) => file.isFile && _isImageFile(file.name))
-            .toList()
-          ..sort((a, b) => compareArchiveReaderPaths(a.name, b.name));
+    final imageFiles = archive.files.where((file) => file.isFile && _isImageFile(file.name)).toList()
+      ..sort((a, b) => compareArchiveReaderPaths(a.name, b.name));
 
     if (imageFiles.isEmpty) {
       throw Exception('No images found in archive: $path');
@@ -366,8 +356,7 @@ Future<(String, LocalExtensionType, Uint8List, String)> _extractArchiveMetadata(
     }
 
     final extensionType = _getArchiveType(path);
-    if (extensionType == LocalExtensionType.cbr ||
-        extensionType == LocalExtensionType.rar) {
+    if (extensionType == LocalExtensionType.cbr || extensionType == LocalExtensionType.rar) {
       final rarMeta = await extractRarMetadata(archivePath: path);
       return (rarMeta.name, extensionType, rarMeta.coverImage, path);
     }
@@ -383,16 +372,10 @@ Future<(String, LocalExtensionType, Uint8List, String)> _extractArchiveMetadata(
 }
 
 /// Extract metadata from image folder
-Future<(String, LocalExtensionType, Uint8List, String)>
-_extractMetadataFromImageFolder(String path) async {
+Future<(String, LocalExtensionType, Uint8List, String)> _extractMetadataFromImageFolder(String path) async {
   final dir = Directory(path);
-  final images =
-      await dir
-            .list()
-            .where((entity) => entity is File && _isImageFile(entity.path))
-            .cast<File>()
-            .toList()
-        ..sort((a, b) => compareArchiveReaderPaths(a.path, b.path));
+  final images = await dir.list().where((entity) => entity is File && _isImageFile(entity.path)).cast<File>().toList()
+    ..sort((a, b) => compareArchiveReaderPaths(a.path, b.path));
 
   if (images.isEmpty) {
     throw Exception('No images found in folder: $path');
@@ -417,17 +400,11 @@ _extractMetadataFromImageFolder(String path) async {
 
     // Look for cover image first
     final coverFile = archive.files.firstWhere(
-      (file) =>
-          file.isFile &&
-          _isImageFile(file.name) &&
-          file.name.toLowerCase().contains('cover'),
+      (file) => file.isFile && _isImageFile(file.name) && file.name.toLowerCase().contains('cover'),
       orElse: () {
         // If no cover, get first image alphabetically
-        final imageFiles =
-            archive.files
-                .where((file) => file.isFile && _isImageFile(file.name))
-                .toList()
-              ..sort((a, b) => compareArchiveReaderPaths(a.name, b.name));
+        final imageFiles = archive.files.where((file) => file.isFile && _isImageFile(file.name)).toList()
+          ..sort((a, b) => compareArchiveReaderPaths(a.name, b.name));
 
         if (imageFiles.isEmpty) {
           throw Exception('No images found in archive: $path');

@@ -39,8 +39,7 @@ import 'package:mangayomi/modules/more/settings/player/providers/player_state_pr
 import 'package:mangayomi/modules/widgets/error_state.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mangayomi/modules/reader_common/widgets/chapter_bar_title.dart';
-import 'package:mangayomi/modules/reader_common/widgets/reader_app_bar.dart'
-    show buildWebViewData;
+import 'package:mangayomi/modules/reader_common/widgets/reader_app_bar.dart' show buildWebViewData;
 import 'package:mangayomi/modules/widgets/progress_center.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/services/aniskip.dart';
@@ -85,8 +84,7 @@ class _AnimePlayerViewState extends riv.ConsumerState<AnimePlayerView> {
     super.dispose();
   }
 
-  Widget _buildLoading() =>
-      _stateScaffold(const ProgressCenter(), onImage: true);
+  Widget _buildLoading() => _stateScaffold(const ProgressCenter(), onImage: true);
 
   /// The loading, failure and no-video states, under a bar that says which
   /// episode is being opened, as the player's own top bar does. The bodies
@@ -153,8 +151,7 @@ class _AnimePlayerViewState extends riv.ConsumerState<AnimePlayerView> {
             ErrorState(
               message: context.l10n.video_list_empty,
               autofocusRetry: false,
-              onRetry: () =>
-                  ref.invalidate(getVideoListProvider(episode: episode)),
+              onRetry: () => ref.invalidate(getVideoListProvider(episode: episode)),
               secondaryLabel: openWebView == null ? null : context.l10n.webview,
               secondaryIcon: Symbols.public_rounded,
               onSecondary: openWebView,
@@ -191,8 +188,7 @@ class _AnimePlayerViewState extends riv.ConsumerState<AnimePlayerView> {
           ErrorState(
             autofocusRetry: false,
             detail: error.toString(),
-            onRetry: () =>
-                ref.invalidate(getVideoListProvider(episode: episode)),
+            onRetry: () => ref.invalidate(getVideoListProvider(episode: episode)),
             secondaryLabel: openWebView == null ? null : context.l10n.webview,
             secondaryIcon: Symbols.public_rounded,
             onSecondary: openWebView,
@@ -264,8 +260,7 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
   VoidCallback get controlsChangeFitLabel =>
       () => _changeFitLabel(ref);
   @override
-  Future<void> Function(bool isFullscreen) get controlsToggleFullscreen =>
-      _toggleFullscreen;
+  Future<void> Function(bool isFullscreen) get controlsToggleFullscreen => _toggleFullscreen;
   @override
   VoidCallback get controlsOpenTvSettingsPanel =>
       () => setState(() => _tvSettingsOpen = true);
@@ -296,8 +291,7 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
   @override
   Future<void> mpvSeekBy(int deltaSeconds) => _seekBy(deltaSeconds);
   @override
-  Future<void> mpvPushToNewEpisode(BuildContext context, Chapter episode) =>
-      pushToNewEpisode(context, episode);
+  Future<void> mpvPushToNewEpisode(BuildContext context, Chapter episode) => pushToNewEpisode(context, episode);
 
   @override
   Player get trackPlayer => _player;
@@ -314,8 +308,7 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
   @override
   ValueNotifier<VideoPrefs?> get selectedVideoPrefs => _video;
   @override
-  Future<void> openMediaFromTrackSelection(VideoPrefs prefs) =>
-      _openMedia(prefs);
+  Future<void> openMediaFromTrackSelection(VideoPrefs prefs) => _openMedia(prefs);
 
   @override
   Chapter get settingsEpisode => widget.episode;
@@ -328,8 +321,7 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
   @override
   ValueNotifier<bool> get settingsAutoplayNext => _autoplayNext;
   @override
-  Future<void> settingsSetPlaybackSpeed(double speed) =>
-      _setPlaybackSpeed(speed);
+  Future<void> settingsSetPlaybackSpeed(double speed) => _setPlaybackSpeed(speed);
   @override
   Future<void> settingsShareScreenshot(
     BuildContext sheetContext,
@@ -368,12 +360,9 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
         if (audioPreferredLang.isNotEmpty) "alang": audioPreferredLang,
         if (enableAudioPitchCorrection) "audio-pitch-correction": "yes",
         "volume-max": "${volumeBoostCap + 100}",
-        if (audioChannel != AudioChannel.reverseStereo)
-          "audio-channels": audioChannel.mpvName,
-        if (audioChannel == AudioChannel.reverseStereo)
-          "af": audioChannel.mpvName,
-        if (useLibass)
-          ...mpvInitialSubtitleOptions(ref.read(subtitleSettingsStateProvider)),
+        if (audioChannel != AudioChannel.reverseStereo) "audio-channels": audioChannel.mpvName,
+        if (audioChannel == AudioChannel.reverseStereo) "af": audioChannel.mpvName,
+        if (useLibass) ...mpvInitialSubtitleOptions(ref.read(subtitleSettingsStateProvider)),
       },
       observeProperties: {
         "user-data/aniyomi/show_text": generated.mpv_format.MPV_FORMAT_NODE,
@@ -466,16 +455,14 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
   /// it does not roll on into the next one when it ends.
   final ValueNotifier<bool> _stayOnEpisode = ValueNotifier(false);
 
-  late final StreamSubscription<bool> _completed = _player.stream.completed
-      .listen(_handlePlaybackCompleted);
+  late final StreamSubscription<bool> _completed = _player.stream.completed.listen(_handlePlaybackCompleted);
 
   Future<void> _handlePlaybackCompleted(bool completed) async {
     if (!completed || !mounted) return;
 
     _watchStopwatch.stop();
     final reportedDuration = _currentTotalDuration.value;
-    final totalDuration =
-        reportedDuration != null && reportedDuration > Duration.zero
+    final totalDuration = reportedDuration != null && reportedDuration > Duration.zero
         ? reportedDuration
         : _player.state.duration;
     try {
@@ -488,9 +475,7 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
     if (!mounted) return;
 
     final hasNext = hasNextEpisode;
-    if (hasNext &&
-        ref.read(autoPlayNextEpisodeProvider) &&
-        !_stayOnEpisode.value) {
+    if (hasNext && ref.read(autoPlayNextEpisodeProvider) && !_stayOnEpisode.value) {
       pushToNewEpisode(context, _streamController.getNextEpisode());
       return;
     }
@@ -807,9 +792,7 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
         if (_tracksSub != null) _tracksSub!.cancel(),
         if (_trackSub != null) _trackSub!.cancel(),
       ],
-      beforeDisposePlayer: Platform.isWindows
-          ? () => Future<void>.delayed(const Duration(milliseconds: 250))
-          : null,
+      beforeDisposePlayer: Platform.isWindows ? () => Future<void>.delayed(const Duration(milliseconds: 250)) : null,
       disposePlayer: _player.dispose,
     );
     unawaited(playerCleanup.catchError((_) {}));
@@ -1070,9 +1053,7 @@ class _AnimeStreamPageState extends riv.ConsumerState<AnimeStreamPage>
                       active: true,
                       autoSkip: enableAutoSkip,
                       timeoutLength: aniSkipTimeoutLength,
-                      skipTypeText: isOpening
-                          ? context.l10n.skip_opening
-                          : context.l10n.skip_ending,
+                      skipTypeText: isOpening ? context.l10n.skip_opening : context.l10n.skip_ending,
                       player: _player,
                       aniSkipResult: result,
                     );

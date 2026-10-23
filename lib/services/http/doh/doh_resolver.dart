@@ -146,11 +146,10 @@ class DoHResolver {
   /// of paying a fresh TLS handshake per DNS query.
   static final Map<String, HttpClient> _hostnameClients = {};
 
-  static HttpClient _hostnameClientFor(DoHProvider provider) =>
-      _hostnameClients.putIfAbsent(
-        provider.url,
-        () => HttpClient()..connectionTimeout = _requestTimeout,
-      );
+  static HttpClient _hostnameClientFor(DoHProvider provider) => _hostnameClients.putIfAbsent(
+    provider.url,
+    () => HttpClient()..connectionTimeout = _requestTimeout,
+  );
 
   /// Query DoH by provider hostname (relies on platform DNS for provider host)
   static Future<List<String>> _queryDoHViaHostname(

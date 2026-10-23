@@ -40,8 +40,7 @@ final class DownloadedOnlyStateProvider extends $NotifierProvider<DownloadedOnly
   }
 }
 
-String _$downloadedOnlyStateHash() =>
-    r'928a7883b58004f2ff6e384778b8b5de3811b73d';
+String _$downloadedOnlyStateHash() => r'928a7883b58004f2ff6e384778b8b5de3811b73d';
 
 abstract class _$DownloadedOnlyState extends $Notifier<bool> {
   bool build();
@@ -49,14 +48,7 @@ abstract class _$DownloadedOnlyState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

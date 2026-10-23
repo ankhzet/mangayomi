@@ -25,9 +25,7 @@ class GogoCdnExtractor {
 
       final secretKey = parsedResponse.querySelector('body[class]')!.attributes["class"]!.split('container-').last;
       RegExp(r'container-(\d+)').firstMatch(document)?.group(1);
-      final decryptionKey = RegExp(r'videocontent-(\d+)')
-          .firstMatch(document)
-          ?.group(1);
+      final decryptionKey = RegExp(r'videocontent-(\d+)').firstMatch(document)?.group(1);
       final encryptAjaxParams = MBridge.cryptoHandler(
         RegExp(r'data-value="([^"]+)').firstMatch(document)?.group(1) ?? "",
         iv,

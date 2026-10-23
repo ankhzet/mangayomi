@@ -85,9 +85,8 @@ abstract class BaseLibraryTabScreenState<T extends ConsumerStatefulWidget> exten
   /// Accent focus tint for a top-bar action icon on Android TV so the focused
   /// icon is clearly visible on a remote; `null` (default) off-TV. Subclasses
   /// use this for the icons they add in [buildExtraActions].
-  Color? tvIconFocusColor(BuildContext context) => isTv
-      ? context.shiori.color.accent.withValues(alpha: Alphas.tvFocus)
-      : null;
+  Color? tvIconFocusColor(BuildContext context) =>
+      isTv ? context.shiori.color.accent.withValues(alpha: Alphas.tvFocus) : null;
 
   /// The tab switcher below the title: TV-home style pills on Android TV, the
   /// classic underline [TabBar] elsewhere. On TV a single visible tab (e.g.
@@ -148,9 +147,7 @@ abstract class BaseLibraryTabScreenState<T extends ConsumerStatefulWidget> exten
             : ValueListenableBuilder<bool>(
                 valueListenable: headerCollapsed,
                 builder: (context, collapsed, _) => CollapsingTitle(
-                  grouped && !collapsed
-                      ? navGroupTitle(context, navRoute!)
-                      : title,
+                  grouped && !collapsed ? navGroupTitle(context, navRoute!) : title,
                   style: context.shiori.text.screenTitle.copyWith(
                     color: context.shiori.color.fg,
                   ),
@@ -194,11 +191,10 @@ abstract class BaseLibraryTabScreenState<T extends ConsumerStatefulWidget> exten
                 children: [
                   ValueListenableBuilder<bool>(
                     valueListenable: headerCollapsed,
-                    builder: (context, collapsed, child) =>
-                        CollapsibleHeaderPart(
-                          collapsed: collapsed,
-                          child: child!,
-                        ),
+                    builder: (context, collapsed, child) => CollapsibleHeaderPart(
+                      collapsed: collapsed,
+                      child: child!,
+                    ),
                     child: NavGroupSwitcher(route: navRoute!),
                   ),
                   ?_buildTabSwitcher(context),

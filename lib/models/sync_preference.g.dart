@@ -625,8 +625,7 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncIsNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'lastSync'),
@@ -634,8 +633,7 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncIsNotNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'lastSync'),
@@ -643,8 +641,7 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncEqualTo(int? value) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'lastSync', value: value),
@@ -652,8 +649,10 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -665,8 +664,10 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncLessThan(int? value, {bool include = false}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncLessThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -678,8 +679,7 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  lastSyncBetween(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> lastSyncBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -860,8 +860,7 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sessionTokenIsNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sessionTokenIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'sessionToken'),
@@ -869,8 +868,7 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sessionTokenIsNotNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sessionTokenIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'sessionToken'),
@@ -878,8 +876,10 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sessionTokenEqualTo(String? value, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sessionTokenEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -891,8 +891,7 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sessionTokenGreaterThan(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sessionTokenGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -909,8 +908,7 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sessionTokenLessThan(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sessionTokenLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -927,8 +925,7 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sessionTokenBetween(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sessionTokenBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -949,8 +946,10 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sessionTokenStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sessionTokenStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -962,8 +961,10 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sessionTokenEndsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sessionTokenEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -975,8 +976,10 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sessionTokenContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sessionTokenContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -988,8 +991,10 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sessionTokenMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sessionTokenMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -1001,8 +1006,7 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sessionTokenIsEmpty() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sessionTokenIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'sessionToken', value: ''),
@@ -1010,8 +1014,7 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sessionTokenIsNotEmpty() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sessionTokenIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'sessionToken', value: ''),
@@ -1019,8 +1022,7 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sinceIsNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sinceIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'since'),
@@ -1028,8 +1030,7 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sinceIsNotNull() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sinceIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'since'),
@@ -1037,8 +1038,7 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sinceEqualTo(int? value) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sinceEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'since', value: value),
@@ -1046,8 +1046,10 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sinceGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sinceGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -1059,8 +1061,10 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sinceLessThan(int? value, {bool include = false}) {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sinceLessThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(
@@ -1072,8 +1076,7 @@ extension SyncPreferenceQueryFilter on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition>
-  sinceBetween(
+  QueryBuilder<SyncPreference, SyncPreference, QAfterFilterCondition> sinceBetween(
     int? lower,
     int? upper, {
     bool includeLower = true,
@@ -1221,8 +1224,7 @@ extension SyncPreferenceQuerySortBy on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortByLastSyncDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortByLastSyncDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastSync', Sort.desc);
     });
@@ -1240,15 +1242,13 @@ extension SyncPreferenceQuerySortBy on QueryBuilder<SyncPreference, SyncPreferen
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortBySessionToken() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortBySessionToken() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sessionToken', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  sortBySessionTokenDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> sortBySessionTokenDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sessionToken', Sort.desc);
     });
@@ -1322,8 +1322,7 @@ extension SyncPreferenceQuerySortThenBy on QueryBuilder<SyncPreference, SyncPref
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenByLastSyncDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenByLastSyncDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastSync', Sort.desc);
     });
@@ -1341,15 +1340,13 @@ extension SyncPreferenceQuerySortThenBy on QueryBuilder<SyncPreference, SyncPref
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenBySessionToken() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenBySessionToken() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sessionToken', Sort.asc);
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy>
-  thenBySessionTokenDesc() {
+  QueryBuilder<SyncPreference, SyncPreference, QAfterSortBy> thenBySessionTokenDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'sessionToken', Sort.desc);
     });
@@ -1429,8 +1426,7 @@ extension SyncPreferenceQueryWhereDistinct on QueryBuilder<SyncPreference, SyncP
     });
   }
 
-  QueryBuilder<SyncPreference, SyncPreference, QDistinct>
-  distinctBySessionToken({bool caseSensitive = true}) {
+  QueryBuilder<SyncPreference, SyncPreference, QDistinct> distinctBySessionToken({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'sessionToken', caseSensitive: caseSensitive);
     });
@@ -1486,8 +1482,7 @@ extension SyncPreferenceQueryProperty on QueryBuilder<SyncPreference, SyncPrefer
     });
   }
 
-  QueryBuilder<SyncPreference, String?, QQueryOperations>
-  sessionTokenProperty() {
+  QueryBuilder<SyncPreference, String?, QQueryOperations> sessionTokenProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'sessionToken');
     });

@@ -109,9 +109,7 @@ class Source {
     ArchiveFile? findFile(String name) {
       for (final file in archive.files) {
         final filename = file.name.replaceAll('\\', '/');
-        if (filename == name ||
-            filename == 'Payload/$name' ||
-            filename.endsWith('/$name')) {
+        if (filename == name || filename == 'Payload/$name' || filename.endsWith('/$name')) {
           return file;
         }
       }
@@ -160,9 +158,7 @@ class Source {
         final filtersJsonStr = utf8.decode(filtersFile.content as List<int>);
         final filtersJson = jsonDecode(filtersJsonStr);
         if (filtersJson is List) {
-          staticFilters = filtersJson
-              .map((e) => Filter.fromJson(e as Map<String, dynamic>))
-              .toList();
+          staticFilters = filtersJson.map((e) => Filter.fromJson(e as Map<String, dynamic>)).toList();
           AidokuLogger.debug(
             'Source',
             'loadFromAixBytes: loaded ${staticFilters.length} static filters from filters.json',
@@ -186,9 +182,7 @@ class Source {
         final settingsJsonStr = utf8.decode(settingsFile.content as List<int>);
         final settingsJson = jsonDecode(settingsJsonStr);
         if (settingsJson is List) {
-          staticSettings = settingsJson
-              .map((e) => Setting.fromJson(e as Map<String, dynamic>))
-              .toList();
+          staticSettings = settingsJson.map((e) => Setting.fromJson(e as Map<String, dynamic>)).toList();
           AidokuLogger.debug(
             'Source',
             'loadFromAixBytes: loaded ${staticSettings.length} static settings from settings.json',
@@ -251,8 +245,7 @@ class Source {
       throw const PathNotFoundException('', OSError('source.json missing'));
     }
 
-    final sourceJson =
-        jsonDecode(await sourceJsonFile.readAsString()) as Map<String, dynamic>;
+    final sourceJson = jsonDecode(await sourceJsonFile.readAsString()) as Map<String, dynamic>;
     final sourceInfo = SourceInfo.fromJson(sourceJson);
     AidokuLogger.log(
       'Source',
@@ -278,9 +271,7 @@ class Source {
       try {
         final filtersJson = jsonDecode(await filtersFile.readAsString());
         if (filtersJson is List) {
-          staticFilters = filtersJson
-              .map((e) => Filter.fromJson(e as Map<String, dynamic>))
-              .toList();
+          staticFilters = filtersJson.map((e) => Filter.fromJson(e as Map<String, dynamic>)).toList();
           AidokuLogger.debug(
             'Source',
             'loadFromDirectory: loaded ${staticFilters.length} static filters',
@@ -303,9 +294,7 @@ class Source {
       try {
         final settingsJson = jsonDecode(await settingsFile.readAsString());
         if (settingsJson is List) {
-          staticSettings = settingsJson
-              .map((e) => Setting.fromJson(e as Map<String, dynamic>))
-              .toList();
+          staticSettings = settingsJson.map((e) => Setting.fromJson(e as Map<String, dynamic>)).toList();
           AidokuLogger.debug(
             'Source',
             'loadFromDirectory: loaded ${staticSettings.length} static settings',
@@ -364,17 +353,14 @@ class Source {
           defaultLanguage.isNotEmpty &&
           defaultLanguage.toLowerCase() != 'all' &&
           defaultLanguage.toLowerCase() != 'multi') {
-        final exact = languages
-            .where((l) => l.toLowerCase() == defaultLanguage.toLowerCase())
-            .toList();
+        final exact = languages.where((l) => l.toLowerCase() == defaultLanguage.toLowerCase()).toList();
         if (exact.isNotEmpty) {
           defaultLanguages = [exact.first];
           defaultSingleLang = exact.first;
         } else {
           final prefix = languages
               .where(
-                (l) =>
-                    l.toLowerCase().startsWith(defaultLanguage.toLowerCase()),
+                (l) => l.toLowerCase().startsWith(defaultLanguage.toLowerCase()),
               )
               .toList();
           if (prefix.isNotEmpty) {
@@ -428,8 +414,7 @@ class Source {
   static void _loadDefaults(List<Setting> settings, String sourceKey) {
     void setIfNull(String? key, Object? val) {
       if (key == null || key.isEmpty || val == null) return;
-      if (SettingsStore.shared.object('$sourceKey.$key') == null &&
-          SettingsStore.shared.object(key) == null) {
+      if (SettingsStore.shared.object('$sourceKey.$key') == null && SettingsStore.shared.object(key) == null) {
         SettingsStore.shared.setValue('$sourceKey.$key', val);
         SettingsStore.shared.setValue(key, val);
       }
@@ -443,8 +428,7 @@ class Source {
       } else if (v is PageSetting) {
         _loadDefaults(v.items, sourceKey);
       } else if (v is SelectSetting) {
-        final def =
-            v.defaultValue ?? (v.values.isNotEmpty ? v.values.first : null);
+        final def = v.defaultValue ?? (v.values.isNotEmpty ? v.values.first : null);
         if (def != null) {
           AidokuLogger.debug(
             'Source',
@@ -498,8 +482,7 @@ class Source {
           setIfNull(key, v.defaultValue);
         }
       } else if (v is PickerSetting) {
-        final def =
-            v.defaultValue ?? (v.values.isNotEmpty ? v.values.first : null);
+        final def = v.defaultValue ?? (v.values.isNotEmpty ? v.values.first : null);
         if (def != null) {
           AidokuLogger.debug(
             'Source',
@@ -524,10 +507,7 @@ class Source {
       'Source',
       'getSearchMangaList: query="$query", page=$page, filters=${filters.length} for source "$key"',
     );
-    final activeFilters =
-        (query != null &&
-            query.isNotEmpty &&
-            (config?.hidesFiltersWhileSearching ?? false))
+    final activeFilters = (query != null && query.isNotEmpty && (config?.hidesFiltersWhileSearching ?? false))
         ? <FilterValue>[]
         : filters;
     final result = await runner.getSearchMangaList(query, page, activeFilters);

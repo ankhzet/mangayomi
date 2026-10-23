@@ -33,12 +33,10 @@ class CustomMaterialDesktopVolumeButton extends StatefulWidget {
   });
 
   @override
-  CustomMaterialDesktopVolumeButtonState createState() =>
-      CustomMaterialDesktopVolumeButtonState();
+  CustomMaterialDesktopVolumeButtonState createState() => CustomMaterialDesktopVolumeButtonState();
 }
 
-class CustomMaterialDesktopVolumeButtonState
-    extends State<CustomMaterialDesktopVolumeButton>
+class CustomMaterialDesktopVolumeButtonState extends State<CustomMaterialDesktopVolumeButton>
     with SingleTickerProviderStateMixin {
   late double volume = widget.controller.player.state.volume;
 
@@ -109,9 +107,7 @@ class CustomMaterialDesktopVolumeButtonState
               height: 34,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: hover
-                    ? Colors.white.withValues(alpha: Alphas.hairline)
-                    : Colors.transparent,
+                color: hover ? Colors.white.withValues(alpha: Alphas.hairline) : Colors.transparent,
               ),
               child: IconButton(
                 tooltip: mute ? context.l10n.unmute : context.l10n.mute,

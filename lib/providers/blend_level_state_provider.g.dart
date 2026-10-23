@@ -12,8 +12,7 @@ part of 'blend_level_state_provider.dart';
 @ProviderFor(BlendLevelState)
 final blendLevelStateProvider = BlendLevelStateProvider._();
 
-final class BlendLevelStateProvider
-    extends $NotifierProvider<BlendLevelState, double> {
+final class BlendLevelStateProvider extends $NotifierProvider<BlendLevelState, double> {
   BlendLevelStateProvider._()
     : super(
         from: null,
@@ -49,14 +48,7 @@ abstract class _$BlendLevelState extends $Notifier<double> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<double, double>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<double, double>,
-              double,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<double, double>, double, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

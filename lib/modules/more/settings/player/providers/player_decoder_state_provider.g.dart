@@ -85,14 +85,7 @@ abstract class _$HwdecModeState extends $Notifier<String> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String, String>,
-              String,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
     return element.handleCreate(ref, () => build(rawValue: _$args));
   }
 }
@@ -128,8 +121,7 @@ final class EnableHardwareAccelStateProvider extends $NotifierProvider<EnableHar
   }
 }
 
-String _$enableHardwareAccelStateHash() =>
-    r'add4c13e774f2957d0675c7f0ec03356fbc44e77';
+String _$enableHardwareAccelStateHash() => r'add4c13e774f2957d0675c7f0ec03356fbc44e77';
 
 abstract class _$EnableHardwareAccelState extends $Notifier<bool> {
   bool build();
@@ -137,14 +129,7 @@ abstract class _$EnableHardwareAccelState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -190,12 +175,7 @@ abstract class _$DebandingState extends $Notifier<DebandingType> {
     final ref = this.ref as $Ref<DebandingType, DebandingType>;
     final element =
         ref.element
-            as $ClassProviderElement<
-              AnyNotifier<DebandingType, DebandingType>,
-              DebandingType,
-              Object?,
-              Object?
-            >;
+            as $ClassProviderElement<AnyNotifier<DebandingType, DebandingType>, DebandingType, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -239,14 +219,7 @@ abstract class _$UseGpuNextState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -290,14 +263,7 @@ abstract class _$UseYUV420PState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

@@ -50,8 +50,7 @@ class DetailGenreChip extends StatelessWidget {
             ),
             clipBehavior: Clip.antiAlias,
             child: InkWell(
-              onTap: () =>
-                  controller.isOpen ? controller.close() : controller.open(),
+              onTap: () => controller.isOpen ? controller.close() : controller.open(),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: ShioriSpace.s12,

@@ -28,8 +28,7 @@ class NovelReaderController extends _$NovelReaderController with ChapterControll
   // ---------------------------------------------------------------------------
 
   ReaderMode getReaderMode() {
-    final personalReaderModeList =
-        getIsarSetting().personalReaderModeList ?? [];
+    final personalReaderModeList = getIsarSetting().personalReaderModeList ?? [];
     final personalReaderMode = personalReaderModeList.where(
       (element) => element.mangaId == getManga().id,
     );
@@ -41,8 +40,7 @@ class NovelReaderController extends _$NovelReaderController with ChapterControll
 
   void setReaderMode(ReaderMode newReaderMode) {
     List<PersonalReaderMode>? personalReaderModeLists = [];
-    for (var personalReaderMode
-        in getIsarSetting().personalReaderModeList ?? []) {
+    for (var personalReaderMode in getIsarSetting().personalReaderModeList ?? []) {
       if (personalReaderMode.mangaId != getManga().id) {
         personalReaderModeLists.add(personalReaderMode);
       }

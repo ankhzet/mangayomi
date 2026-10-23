@@ -56,8 +56,7 @@ final class GetMangaDetailStreamProvider extends $FunctionalProvider<AsyncValue<
   }
 }
 
-String _$getMangaDetailStreamHash() =>
-    r'03dc6231218ca8c0f8bef31ae9b06270b0d242e9';
+String _$getMangaDetailStreamHash() => r'03dc6231218ca8c0f8bef31ae9b06270b0d242e9';
 
 final class GetMangaDetailStreamFamily extends $Family with $FunctionalFamilyOverride<Stream<Manga?>, int> {
   GetMangaDetailStreamFamily._()

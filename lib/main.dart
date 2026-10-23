@@ -23,8 +23,7 @@ import 'package:mangayomi/repositories/custom_button_repository.dart';
 import 'package:mangayomi/repositories/db.dart';
 import 'package:mangayomi/repositories/track_repository.dart';
 export 'package:mangayomi/repositories/db.dart';
-export 'package:mangayomi/services/http/m_client.dart'
-    show webViewEnvironment, customDns;
+export 'package:mangayomi/services/http/m_client.dart' show webViewEnvironment, customDns;
 import 'package:mangayomi/models/track.dart' as track;
 import 'package:mangayomi/modules/manga/detail/providers/track_state_providers.dart';
 import 'package:mangayomi/modules/more/data_and_storage/providers/storage_usage.dart';
@@ -77,9 +76,7 @@ void main(List<String> args) async {
       // Cap the decoded image cache so a large library grid can't fill the
       // default 100 MB ceiling with full-resolution covers and OOM constrained
       // mobile heaps. Mobile gets a tight 64 MB; desktop keeps 256 MB.
-      PaintingBinding.instance.imageCache.maximumSizeBytes = isMobile
-          ? 64 << 20
-          : 256 << 20;
+      PaintingBinding.instance.imageCache.maximumSizeBytes = isMobile ? 64 << 20 : 256 << 20;
 
       // Widget-layer errors (build / layout / paint)
       FlutterError.onError = (FlutterErrorDetails details) {
@@ -305,8 +302,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!Platform.isIOS ||
-          ref.read(autoStartExtensionServerOnLaunchStateProvider)) {
+      if (!Platform.isIOS || ref.read(autoStartExtensionServerOnLaunchStateProvider)) {
         MExtensionServerPlatform(ref).startServer();
       }
       if (ref.read(clearChapterCacheOnAppLaunchStateProvider)) {
@@ -373,9 +369,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
           // strength through the middle, which reads as a flicker.
           switchInCurve: const Interval(0.35, 1, curve: Curves.easeOut),
           switchOutCurve: const Interval(0, 0.5, curve: Curves.easeIn),
-          child: onboarding
-              ? const OnboardingScreen()
-              : KeyedSubtree(key: const ValueKey('app'), child: content),
+          child: onboarding ? const OnboardingScreen() : KeyedSubtree(key: const ValueKey('app'), child: content),
         );
         // The theme's ground behind every page: a page transition fades the
         // page it leaves, and the window's black showed through on a light
@@ -426,8 +420,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
               withBackHandler,
               MemoryOverlay(
                 probe: ref.read(memoryProbeProvider),
-                onClose: () =>
-                    ref.read(memoryOverlayVisibleProvider.notifier).set(false),
+                onClose: () => ref.read(memoryOverlayVisibleProvider.notifier).set(false),
               ),
             ],
           );
@@ -499,12 +492,9 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
           // itself; the *_url lists are what actually gets installed. Show
           // those, or a link can borrow a trusted repo's name for its own.
           final sourcesToAdd = [
-            for (final url in mangaRepoUrls ?? const <String>[])
-              (l10n.manga, url),
-            for (final url in animeRepoUrls ?? const <String>[])
-              (l10n.anime, url),
-            for (final url in novelRepoUrls ?? const <String>[])
-              (l10n.novel, url),
+            for (final url in mangaRepoUrls ?? const <String>[]) (l10n.manga, url),
+            for (final url in animeRepoUrls ?? const <String>[]) (l10n.anime, url),
+            for (final url in novelRepoUrls ?? const <String>[]) (l10n.novel, url),
           ];
           if (sourcesToAdd.isEmpty) return;
           showDialog(
@@ -579,9 +569,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
                               return !existingUrls.contains(clean) &&
                                   !existingUrls.contains('$clean/') &&
                                   !existingUrls.contains(
-                                    clean.endsWith('/')
-                                        ? clean.substring(0, clean.length - 1)
-                                        : clean,
+                                    clean.endsWith('/') ? clean.substring(0, clean.length - 1) : clean,
                                   );
                             })
                             .map(
@@ -594,9 +582,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
                             .toList();
                         if (newRepos.isEmpty) return;
                         final updated = [...current, ...newRepos];
-                        await ref
-                            .read(extensionsRepoStateProvider(type).notifier)
-                            .set(updated);
+                        await ref.read(extensionsRepoStateProvider(type).notifier).set(updated);
                       }
 
                       await Future.wait([
@@ -735,8 +721,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
       final dir = await provider.getMpvDirectory();
       final mpvFile = File(p.join(dir!.path, 'mpv.conf'));
       final inputFile = File(p.join(dir.path, 'input.conf'));
-      final filesMissing =
-          !(await mpvFile.exists()) && !(await inputFile.exists());
+      final filesMissing = !(await mpvFile.exists()) && !(await inputFile.exists());
       if (filesMissing) {
         final bytes = await rootBundle.load("assets/mangayomi_mpv.zip");
         final archive = ZipDecoder().decodeBytes(bytes.buffer.asUint8List());
@@ -757,8 +742,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver, Wind
           } else if (name.startsWith("shaders/") && name.endsWith(".glsl")) {
             final shaderFile = File(p.join(shadersDir.path, p.basename(name)));
             writes.add(shaderFile.writeAsBytes(file.content));
-          } else if (name.startsWith("scripts/") &&
-              (name.endsWith(".js") || name.endsWith(".lua"))) {
+          } else if (name.startsWith("scripts/") && (name.endsWith(".js") || name.endsWith(".lua"))) {
             final scriptFile = File(p.join(scriptsDir.path, p.basename(name)));
             writes.add(scriptFile.writeAsBytes(file.content));
           }

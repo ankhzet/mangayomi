@@ -29,10 +29,7 @@ class SubtitleSettingsState extends _$SubtitleSettingsState {
         !isValidColor(s.backgroundColorB) ||
         s.overrideAssSubtitles == null) {
       final sanitized = PlayerSubtitleSettings(
-        fontSize:
-            (s?.fontSize != null && (s!.fontSize! > 0 && s.fontSize! < 200))
-            ? s.fontSize!
-            : 45,
+        fontSize: (s?.fontSize != null && (s!.fontSize! > 0 && s.fontSize! < 200)) ? s.fontSize! : 45,
         useBold: s?.useBold ?? true,
         useItalic: s?.useItalic ?? false,
         textColorA: isValidColor(s?.textColorA) ? s!.textColorA! : 255,
@@ -43,18 +40,10 @@ class SubtitleSettingsState extends _$SubtitleSettingsState {
         borderColorR: isValidColor(s?.borderColorR) ? s!.borderColorR! : 0,
         borderColorG: isValidColor(s?.borderColorG) ? s!.borderColorG! : 0,
         borderColorB: isValidColor(s?.borderColorB) ? s!.borderColorB! : 0,
-        backgroundColorA: isValidColor(s?.backgroundColorA)
-            ? s!.backgroundColorA!
-            : 0,
-        backgroundColorR: isValidColor(s?.backgroundColorR)
-            ? s!.backgroundColorR!
-            : 0,
-        backgroundColorG: isValidColor(s?.backgroundColorG)
-            ? s!.backgroundColorG!
-            : 0,
-        backgroundColorB: isValidColor(s?.backgroundColorB)
-            ? s!.backgroundColorB!
-            : 0,
+        backgroundColorA: isValidColor(s?.backgroundColorA) ? s!.backgroundColorA! : 0,
+        backgroundColorR: isValidColor(s?.backgroundColorR) ? s!.backgroundColorR! : 0,
+        backgroundColorG: isValidColor(s?.backgroundColorG) ? s!.backgroundColorG! : 0,
+        backgroundColorB: isValidColor(s?.backgroundColorB) ? s!.backgroundColorB! : 0,
         overrideAssSubtitles: s?.overrideAssSubtitles ?? false,
       );
       set(sanitized, true);

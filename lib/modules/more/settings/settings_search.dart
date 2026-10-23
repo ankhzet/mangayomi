@@ -26,10 +26,7 @@ List<SettingsEntry> searchSettings(
   AppLocalizations l10n, {
   List<SettingsEntry>? index,
 }) {
-  final words = foldForSearch(query)
-      .split(RegExp(r'\s+'))
-      .where((w) => w.isNotEmpty)
-      .toList();
+  final words = foldForSearch(query).split(RegExp(r'\s+')).where((w) => w.isNotEmpty).toList();
   if (words.isEmpty) return const [];
   final titleHits = <SettingsEntry>[];
   final otherHits = <SettingsEntry>[];
@@ -48,8 +45,7 @@ List<SettingsEntry> searchSettings(
 
 /// Search across every settings screen, from the top of Settings.
 class SettingsSearchDelegate extends SearchDelegate<void> {
-  SettingsSearchDelegate(this.l10n)
-    : super(searchFieldLabel: l10n.search_settings);
+  SettingsSearchDelegate(this.l10n) : super(searchFieldLabel: l10n.search_settings);
 
   final AppLocalizations l10n;
 

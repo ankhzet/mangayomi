@@ -538,8 +538,7 @@ class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView> w
     }
 
     final provider = widget.image;
-    final (fastPath, networkUrl, cacheFolderName) =
-        await tryResolveFastPathProvider(provider);
+    final (fastPath, networkUrl, cacheFolderName) = await tryResolveFastPathProvider(provider);
     if (fastPath != null) {
       _resolvedFilePath = fastPath;
       await _initImage();
@@ -862,17 +861,15 @@ class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView> w
 
   // ── Scale and Type Calculations ────────────────────────────────────────────
 
-  ScaleType get _effectiveScaleType =>
-      resolveEffectiveScaleType(widget.fit, widget.minimumScaleType);
+  ScaleType get _effectiveScaleType => resolveEffectiveScaleType(widget.fit, widget.minimumScaleType);
 
-  double _calcMinScaleForType(double effWidth, double effHeight) =>
-      calculateMinScaleForType(
-        effWidth: effWidth,
-        effHeight: effHeight,
-        viewSize: _viewSize,
-        effectiveScaleType: _effectiveScaleType,
-        customMinScale: widget.minScale,
-      );
+  double _calcMinScaleForType(double effWidth, double effHeight) => calculateMinScaleForType(
+    effWidth: effWidth,
+    effHeight: effHeight,
+    viewSize: _viewSize,
+    effectiveScaleType: _effectiveScaleType,
+    customMinScale: widget.minScale,
+  );
 
   double _getMinScale() {
     final transformer = CoordinateTransformer(
@@ -894,16 +891,15 @@ class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView> w
 
   // ── Pan clamping ─────────────────────────────────────────────────────────────
 
-  ui.Offset _clampTranslate(ui.Offset translate, double scale) =>
-      clampPanTranslation(
-        translate: translate,
-        scale: scale,
-        rotation: widget.rotation,
-        sWidth: _sWidth,
-        sHeight: _sHeight,
-        viewSize: _viewSize,
-        panLimit: widget.panLimit,
-      );
+  ui.Offset _clampTranslate(ui.Offset translate, double scale) => clampPanTranslation(
+    translate: translate,
+    scale: scale,
+    rotation: widget.rotation,
+    sWidth: _sWidth,
+    sHeight: _sHeight,
+    viewSize: _viewSize,
+    panLimit: widget.panLimit,
+  );
 
   // ── Tile loading ─────────────────────────────────────────────────────────────
 
@@ -1105,9 +1101,7 @@ class _SubsamplingScaleImageViewState extends State<SubsamplingScaleImageView> w
         final proposedTranslate = _vTranslate + globalDelta;
         final clampedTranslate = _clampTranslate(proposedTranslate, newScale);
 
-        if (widget.pageController != null &&
-            widget.pageController!.hasClients &&
-            _scale <= _getMinScale() * 1.01) {
+        if (widget.pageController != null && widget.pageController!.hasClients && _scale <= _getMinScale() * 1.01) {
           final pos = widget.pageController!.position;
           final double delta = pageScrollDeltaForPan(
             pos.axisDirection,

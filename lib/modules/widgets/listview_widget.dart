@@ -21,8 +21,7 @@ class SuperListViewWidget extends StatelessWidget {
     return Container(
       color: context.shiori.color.ink0,
       child: SuperListView.builder(
-        padding: const EdgeInsets.only(top: ShioriSpace.s12)
-            .add(pageBottomInsets(context)),
+        padding: const EdgeInsets.only(top: ShioriSpace.s12).add(pageBottomInsets(context)),
         controller: controller,
         itemCount: itemCount,
         itemBuilder: itemBuilder,

@@ -284,26 +284,19 @@ class Setting {
     final notification = json['notification'] as String?;
     final requires = json['requires'] as String?;
     final requiresFalse = json['requiresFalse'] as String?;
-    final refreshes =
-        (json['refreshes'] as List?)?.map((e) => e.toString()).toList() ??
-        const [];
+    final refreshes = (json['refreshes'] as List?)?.map((e) => e.toString()).toList() ?? const [];
 
     final SettingValue settingVal;
     switch (type) {
       case SettingType.group:
         final footer = json['footer'] as String?;
         final rawItems = json['items'] as List? ?? [];
-        final items = rawItems
-            .map((e) => Setting.fromJson(e as Map<String, dynamic>))
-            .toList();
+        final items = rawItems.map((e) => Setting.fromJson(e as Map<String, dynamic>)).toList();
         settingVal = GroupSetting(footer: footer, items: items);
         break;
       case SettingType.select:
-        final vals =
-            (json['values'] as List?)?.map((e) => e.toString()).toList() ?? [];
-        final titles = (json['titles'] as List?)
-            ?.map((e) => e.toString())
-            .toList();
+        final vals = (json['values'] as List?)?.map((e) => e.toString()).toList() ?? [];
+        final titles = (json['titles'] as List?)?.map((e) => e.toString()).toList();
         final auth = json['authToOpen'] as bool?;
         final defVal = json['default']?.toString();
         settingVal = SelectSetting(
@@ -314,15 +307,10 @@ class Setting {
         );
         break;
       case SettingType.multiselect:
-        final vals =
-            (json['values'] as List?)?.map((e) => e.toString()).toList() ?? [];
-        final titles = (json['titles'] as List?)
-            ?.map((e) => e.toString())
-            .toList();
+        final vals = (json['values'] as List?)?.map((e) => e.toString()).toList() ?? [];
+        final titles = (json['titles'] as List?)?.map((e) => e.toString()).toList();
         final auth = json['authToOpen'] as bool?;
-        final defVal = (json['default'] as List?)
-            ?.map((e) => e.toString())
-            .toList();
+        final defVal = (json['default'] as List?)?.map((e) => e.toString()).toList();
         settingVal = MultiSelectSetting(
           values: vals,
           titles: titles,
@@ -353,8 +341,7 @@ class Setting {
         );
         break;
       case SettingType.segment:
-        final opts =
-            (json['options'] as List?)?.map((e) => e.toString()).toList() ?? [];
+        final opts = (json['options'] as List?)?.map((e) => e.toString()).toList() ?? [];
         final defVal = (json['default'] as num?)?.toInt();
         settingVal = SegmentSetting(options: opts, defaultValue: defVal);
         break;
@@ -401,9 +388,7 @@ class Setting {
         final tokenUrl = json['tokenUrl'] as String?;
         final callbackScheme = json['callbackScheme'] as String?;
         final useEmail = json['useEmail'] as bool?;
-        final localStorageKeys = (json['localStorageKeys'] as List?)
-            ?.map((e) => e.toString())
-            .toList();
+        final localStorageKeys = (json['localStorageKeys'] as List?)?.map((e) => e.toString()).toList();
         final clearCookies = (json['clearCookiesOnLogOut'] as bool?) ?? false;
         settingVal = LoginSetting(
           method: method,
@@ -420,9 +405,7 @@ class Setting {
         break;
       case SettingType.page:
         final rawItems = json['items'] as List? ?? [];
-        final items = rawItems
-            .map((e) => Setting.fromJson(e as Map<String, dynamic>))
-            .toList();
+        final items = rawItems.map((e) => Setting.fromJson(e as Map<String, dynamic>)).toList();
         final inlineTitle = (json['inlineTitle'] as bool?) ?? false;
         final authToOpen = (json['authToOpen'] as bool?) ?? false;
         final icon = json['icon'] as String?;
@@ -439,9 +422,7 @@ class Setting {
         final lineLimit = (json['lineLimit'] as num?)?.toInt();
         final inline = (json['inline'] as bool?) ?? false;
         final placeholder = json['placeholder'] as String?;
-        final defVal = (json['default'] as List?)
-            ?.map((e) => e.toString())
-            .toList();
+        final defVal = (json['default'] as List?)?.map((e) => e.toString()).toList();
         settingVal = EditableListSetting(
           lineLimit: lineLimit,
           inline: inline,
@@ -450,11 +431,8 @@ class Setting {
         );
         break;
       case SettingType.picker:
-        final vals =
-            (json['values'] as List?)?.map((e) => e.toString()).toList() ?? [];
-        final titles = (json['titles'] as List?)
-            ?.map((e) => e.toString())
-            .toList();
+        final vals = (json['values'] as List?)?.map((e) => e.toString()).toList() ?? [];
+        final titles = (json['titles'] as List?)?.map((e) => e.toString()).toList();
         final defVal = json['default']?.toString();
         settingVal = PickerSetting(
           values: vals,

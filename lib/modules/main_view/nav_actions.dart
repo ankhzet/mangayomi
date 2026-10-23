@@ -16,8 +16,7 @@ final libLocationRegex = RegExp(r"^/(Manga|Anime|Novel)Library$");
 
 /// Nav destinations kept off the anime-only TV layout (the manga & novel
 /// libraries). True means "keep this destination".
-bool isNotHiddenLibOnTv(String nav) =>
-    nav != "/MangaLibrary" && nav != "/NovelLibrary";
+bool isNotHiddenLibOnTv(String nav) => nav != "/MangaLibrary" && nav != "/NovelLibrary";
 
 /// The ItemType a nav destination maps to, or null for destinations with no
 /// single content type to scope a global search to (Updates, History,
@@ -66,9 +65,7 @@ bool isNavDoubleTap<T>(
   DateTime? lastTapTime,
   DateTime now,
 ) {
-  return current == last &&
-      lastTapTime != null &&
-      now.difference(lastTapTime) < navDoubleTapWindow;
+  return current == last && lastTapTime != null && now.difference(lastTapTime) < navDoubleTapWindow;
 }
 
 /// Opens [destination] from a tap on the navigation: a group resolves to the
@@ -87,8 +84,7 @@ void openNavDestination(
     visible: ref.read(visibleNavDestinationsProvider),
     lastVisited: ref.read(lastNavMemberProvider)[destination],
   );
-  if (isDoubleTap &&
-      (target == '/history' || destination == NavGroup.activity)) {
+  if (isDoubleTap && (target == '/history' || destination == NavGroup.activity)) {
     final activeType = ref.read(activeHistoryItemTypeStateProvider);
     unawaited(resumeLatestHistory(context, activeType));
     return;

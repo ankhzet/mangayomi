@@ -26,25 +26,19 @@ Future<List<RecommendationResult>> getRecommendations(
   MediaCatalogResolver? catalogResolver,
 }) async {
   final discovery = trakt ?? TraktDiscovery();
-  final resolved =
-      await (catalogResolver ?? MediaCatalogResolver(trakt: discovery)).resolve(
-        media,
-      );
+  final resolved = await (catalogResolver ?? MediaCatalogResolver(trakt: discovery)).resolve(
+    media,
+  );
   if (resolved.catalog == DiscoveryCatalog.trakt) {
     final traktType = _traktType(media.kind);
     if (traktType == null) return const [];
-    final root =
-        resolved.traktRoot ??
-        await _resolveTraktRoot(media, discovery, traktType);
+    final root = resolved.traktRoot ?? await _resolveTraktRoot(media, discovery, traktType);
     if (root == null) return const [];
     final recommendations = await discovery.fetchRecommendations(root);
-    return recommendations
-        .map(RecommendationResult.fromTrakt)
-        .toList(growable: false);
+    return recommendations.map(RecommendationResult.fromTrakt).toList(growable: false);
   }
 
-  final mediaId =
-      resolved.anilistId ?? await searchMediaId(media.itemType, media.title);
+  final mediaId = resolved.anilistId ?? await searchMediaId(media.itemType, media.title);
   if (mediaId == null) return const [];
   final recommendations = await fetchRecommendations(mediaId);
   return recommendations
@@ -148,8 +142,7 @@ class RecommendationResult {
   final List<String> imgURLs;
   final List<String> genres;
 
-  String get title =>
-      titleEnglish ?? titleRomaji ?? titleNative ?? searchTarget.query;
+  String get title => titleEnglish ?? titleRomaji ?? titleNative ?? searchTarget.query;
 
   factory RecommendationResult.fromDiscovery(
     DiscoveryMedia media, {
@@ -179,9 +172,7 @@ class RecommendationResult {
 
   factory RecommendationResult.fromTrakt(TraktRecommendation result) {
     final media = result.media;
-    final kind = media.type == TraktMediaType.movie
-        ? MediaKind.movie
-        : MediaKind.show;
+    final kind = media.type == TraktMediaType.movie ? MediaKind.movie : MediaKind.show;
     return RecommendationResult(
       id: media.stableKey,
       provider: RecommendationProvider.trakt,

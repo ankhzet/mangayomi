@@ -113,11 +113,8 @@ class FloatingNavBar extends StatefulWidget {
 
   @visibleForTesting
   static double heightFor(int destinationCount, {double viewportHeight = 0}) {
-    final crowding =
-        math.max(0, destinationCount - _comfortableCount) * _shrinkPerExtra;
-    final landscape = viewportHeight > 0 && viewportHeight < _shortViewport
-        ? _shortViewportTrim
-        : 0.0;
+    final crowding = math.max(0, destinationCount - _comfortableCount) * _shrinkPerExtra;
+    final landscape = viewportHeight > 0 && viewportHeight < _shortViewport ? _shortViewportTrim : 0.0;
     return math.max(_minHeight, _fullHeight - crowding - landscape);
   }
 
@@ -265,8 +262,7 @@ class _FloatingNavBarState extends State<FloatingNavBar> {
 
     var changed = l.length != _slotL.length || box.size.width != _barWidth;
     for (var i = 0; !changed && i < l.length; i++) {
-      changed =
-          (l[i] - _slotL[i]).abs() > 0.5 || (r[i] - _slotR[i]).abs() > 0.5;
+      changed = (l[i] - _slotL[i]).abs() > 0.5 || (r[i] - _slotR[i]).abs() > 0.5;
     }
     if (!changed || !mounted) return;
     setState(() {
@@ -306,8 +302,7 @@ class _FloatingNavBarState extends State<FloatingNavBar> {
     //
     // Deferred a frame because this runs inside the parent's build, and waking
     // it calls setState back on the way out.
-    final swipeStarting =
-        widget.swipeTarget != null && oldWidget.swipeTarget == null;
+    final swipeStarting = widget.swipeTarget != null && oldWidget.swipeTarget == null;
     if (widget.currentIndex != oldWidget.currentIndex || swipeStarting) {
       final onWake = widget.onWake;
       if (onWake != null) {
@@ -532,9 +527,7 @@ class _FloatingNavBarState extends State<FloatingNavBar> {
       // underneath never reflows while it is being scrolled.
       child: TweenAnimationBuilder<double>(
         tween: Tween<double>(end: widget.shrink.clamp(0.0, 1.0)),
-        duration: widget.shrink > 0
-            ? FloatingNavBar._shrinkDuration
-            : FloatingNavBar._shrinkReleaseDuration,
+        duration: widget.shrink > 0 ? FloatingNavBar._shrinkDuration : FloatingNavBar._shrinkReleaseDuration,
         curve: FloatingNavBar._shrinkCurve,
         builder: (context, shrink, child) => Transform.scale(
           scale: 1 - shrink * FloatingNavBar._shrinkScale,
@@ -565,8 +558,7 @@ class _FloatingNavBarState extends State<FloatingNavBar> {
                 child: IntrinsicWidth(child: _bar(context, height, null)),
               )
             : LayoutBuilder(
-                builder: (context, outer) =>
-                    _bar(context, height, outer.maxWidth),
+                builder: (context, outer) => _bar(context, height, outer.maxWidth),
               ),
       ),
     );
@@ -648,8 +640,7 @@ class _FloatingNavBarState extends State<FloatingNavBar> {
                         for (var i = 0; i < count; i++) width / count * i + gap,
                       ];
                       _slotR = [
-                        for (var i = 1; i <= count; i++)
-                          width / count * i - gap,
+                        for (var i = 1; i <= count; i++) width / count * i - gap,
                       ];
                       _barWidth = width;
                       _slot = width / count;
@@ -665,8 +656,7 @@ class _FloatingNavBarState extends State<FloatingNavBar> {
 
                     // Thinner the harder it is straining, so the stretch reads
                     // as a stretch rather than as the pill simply growing.
-                    final squash =
-                        _reachAmount(resting) * FloatingNavBar._reachSquash;
+                    final squash = _reachAmount(resting) * FloatingNavBar._reachSquash;
 
                     return Listener(
                       // Any contact with the bar brings it back to full size,
@@ -678,10 +668,8 @@ class _FloatingNavBarState extends State<FloatingNavBar> {
                       child: GestureDetector(
                         // Picking the pill up anywhere along the bar is more
                         // forgiving than having to grab it exactly.
-                        onHorizontalDragStart: (d) =>
-                            _startDrag(d.localPosition.dx),
-                        onHorizontalDragUpdate: (d) =>
-                            _updateDrag(d.localPosition.dx),
+                        onHorizontalDragStart: (d) => _startDrag(d.localPosition.dx),
+                        onHorizontalDragUpdate: (d) => _updateDrag(d.localPosition.dx),
                         onHorizontalDragEnd: (_) => _endDrag(slot),
                         onHorizontalDragCancel: _cancelDrag,
                         child: Stack(
@@ -697,9 +685,7 @@ class _FloatingNavBarState extends State<FloatingNavBar> {
                               // tracks it exactly. Easing throughout would
                               // make it lag behind; never easing would make
                               // it teleport to whichever tab was grabbed.
-                              duration: dragging && !_catchingUp
-                                  ? Duration.zero
-                                  : FloatingNavBar._duration,
+                              duration: dragging && !_catchingUp ? Duration.zero : FloatingNavBar._duration,
                               curve: FloatingNavBar._curve,
                               left: left,
                               width: right - left,
@@ -735,9 +721,7 @@ class _FloatingNavBarState extends State<FloatingNavBar> {
                             Positioned.fill(
                               child: IgnorePointer(
                                 child: FloatingNavGlassEdge(
-                                  color: light
-                                      ? scheme.outline
-                                      : scheme.onSurface,
+                                  color: light ? scheme.outline : scheme.onSurface,
                                   light: light,
                                   radius: height / 2,
                                 ),
@@ -747,21 +731,15 @@ class _FloatingNavBarState extends State<FloatingNavBar> {
                               // The same spacing at each end as between the
                               // items, whatever width they happen to be.
                               padding: EdgeInsets.symmetric(
-                                horizontal: widget.showLabels
-                                    ? FloatingNavBar._itemSpacing
-                                    : 0,
+                                horizontal: widget.showLabels ? FloatingNavBar._itemSpacing : 0,
                               ),
                               child: Row(
                                 // Labelled items take their own width, evenly
                                 // spaced and centred; icon-only ones share the
                                 // bar equally.
-                                mainAxisSize: widget.showLabels
-                                    ? MainAxisSize.min
-                                    : MainAxisSize.max,
+                                mainAxisSize: widget.showLabels ? MainAxisSize.min : MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                spacing: widget.showLabels
-                                    ? FloatingNavBar._itemSpacing
-                                    : 0,
+                                spacing: widget.showLabels ? FloatingNavBar._itemSpacing : 0,
                                 children: [
                                   for (var i = 0; i < count; i++)
                                     FloatingNavSized(
@@ -770,11 +748,8 @@ class _FloatingNavBarState extends State<FloatingNavBar> {
                                       child: FloatingNavItem(
                                         destination: widget.destinations[i],
                                         selected: i == resting,
-                                        iconSize:
-                                            height * FloatingNavBar._iconRatio,
-                                        label: widget.showLabels
-                                            ? widget.destinations[i].label
-                                            : null,
+                                        iconSize: height * FloatingNavBar._iconRatio,
+                                        label: widget.showLabels ? widget.destinations[i].label : null,
                                         labelStyle: labelStyle,
                                         light: light,
                                         // Only the icon-only layout nudges: there
@@ -784,8 +759,7 @@ class _FloatingNavBarState extends State<FloatingNavBar> {
                                         // so they already agree.
                                         nudge: widget.showLabels
                                             ? 0
-                                            : _restingCentre(slot, width, i) -
-                                                  slot * (i + 0.5),
+                                            : _restingCentre(slot, width, i) - slot * (i + 0.5),
                                         onTap: () {
                                           _flashTap();
                                           widget.onSelected(i);

@@ -81,8 +81,7 @@ class _ImageViewPagedState extends ConsumerState<ImageViewPaged> {
     final url = widget.data.pageUrl?.url.trim().toLowerCase() ?? '';
     if (url.contains('.gif')) {
       isAnimated = true;
-    } else if (widget.data.archiveImage != null &&
-        widget.data.archiveImage!.length > 5) {
+    } else if (widget.data.archiveImage != null && widget.data.archiveImage!.length > 5) {
       if (isGifImage(widget.data.archiveImage!)) isAnimated = true;
     } else if (widget.data.localImagePath != null) {
       // Local image-folder page: sniff the real file's bytes directly rather

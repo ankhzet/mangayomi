@@ -14,8 +14,7 @@ part of 'tint_surfaces_state_provider.dart';
 final tintSurfacesStateProvider = TintSurfacesStateProvider._();
 
 /// Whether the palette colours the surfaces too, or only the accent.
-final class TintSurfacesStateProvider
-    extends $NotifierProvider<TintSurfacesState, bool> {
+final class TintSurfacesStateProvider extends $NotifierProvider<TintSurfacesState, bool> {
   /// Whether the palette colours the surfaces too, or only the accent.
   TintSurfacesStateProvider._()
     : super(
@@ -54,14 +53,7 @@ abstract class _$TintSurfacesState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

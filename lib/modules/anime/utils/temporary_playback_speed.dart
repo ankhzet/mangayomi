@@ -13,9 +13,7 @@ const temporaryPlaybackSpeedStepExtent = 36.0;
 
 double nearestTemporaryPlaybackSpeed(double speed) {
   return temporaryPlaybackSpeeds.reduce(
-    (nearest, candidate) => (candidate - speed).abs() < (nearest - speed).abs()
-        ? candidate
-        : nearest,
+    (nearest, candidate) => (candidate - speed).abs() < (nearest - speed).abs() ? candidate : nearest,
   );
 }
 
@@ -39,8 +37,6 @@ double temporaryPlaybackSpeedForDrag({
 
 /// A speed as the player writes it everywhere: "1×", "1.5×", "0.75×".
 String temporaryPlaybackSpeedLabel(double speed) {
-  final value = speed == speed.roundToDouble()
-      ? speed.toStringAsFixed(0)
-      : speed.toString();
+  final value = speed == speed.roundToDouble() ? speed.toStringAsFixed(0) : speed.toString();
   return '$value×';
 }

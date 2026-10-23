@@ -24,9 +24,7 @@ class SyncApiClient {
 
   Future<bool> checkVersion(String server) async {
     try {
-      final response = await _http
-          .get(Uri.parse('$server/api/version'))
-          .timeout(const Duration(seconds: 10));
+      final response = await _http.get(Uri.parse('$server/api/version')).timeout(const Duration(seconds: 10));
       if (response.statusCode != 200) return false;
       final body = jsonDecode(response.body) as Map<String, dynamic>;
       final supported = (body['supported'] as List?)?.cast<String>() ?? [];

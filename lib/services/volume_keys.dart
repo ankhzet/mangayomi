@@ -23,8 +23,7 @@ class VolumeKeys {
   static bool? debugSupported;
 
   /// Whether the platform can do it at all.
-  static bool get isSupported =>
-      debugSupported ?? (Platform.isAndroid || Platform.isIOS);
+  static bool get isSupported => debugSupported ?? (Platform.isAndroid || Platform.isIOS);
 
   /// Starts passing the volume buttons to [onPress], with `true` for volume
   /// up; replaces any listener before it.

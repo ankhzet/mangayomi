@@ -24,8 +24,7 @@ final flexSchemeColorStateProvider = FlexSchemeColorStateProvider._();
 /// - `color` -> the resolved FlexSchemeColor (light or dark variant),
 ///              depending on the current theme mode
 /// - `index` -> the selected FlexSchemeColor index stored in Isar
-final class FlexSchemeColorStateProvider
-    extends $NotifierProvider<FlexSchemeColorState, (FlexSchemeColor, int)> {
+final class FlexSchemeColorStateProvider extends $NotifierProvider<FlexSchemeColorState, (FlexSchemeColor, int)> {
   /// Provides both the selected theme index and the resolved FlexSchemeColor.
   ///
   /// Returns a tuple `(color, index)`:
@@ -59,8 +58,7 @@ final class FlexSchemeColorStateProvider
   }
 }
 
-String _$flexSchemeColorStateHash() =>
-    r'5e694b88ddc8cda925b9fea6b04d55ce26e985b5';
+String _$flexSchemeColorStateHash() => r'5e694b88ddc8cda925b9fea6b04d55ce26e985b5';
 
 /// Provides both the selected theme index and the resolved FlexSchemeColor.
 ///
@@ -69,14 +67,12 @@ String _$flexSchemeColorStateHash() =>
 ///              depending on the current theme mode
 /// - `index` -> the selected FlexSchemeColor index stored in Isar
 
-abstract class _$FlexSchemeColorState
-    extends $Notifier<(FlexSchemeColor, int)> {
+abstract class _$FlexSchemeColorState extends $Notifier<(FlexSchemeColor, int)> {
   (FlexSchemeColor, int) build();
   @$mustCallSuper
   @override
   WhenComplete runBuild() {
-    final ref =
-        this.ref as $Ref<(FlexSchemeColor, int), (FlexSchemeColor, int)>;
+    final ref = this.ref as $Ref<(FlexSchemeColor, int), (FlexSchemeColor, int)>;
     final element =
         ref.element
             as $ClassProviderElement<

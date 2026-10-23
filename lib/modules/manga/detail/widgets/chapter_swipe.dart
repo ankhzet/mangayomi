@@ -64,20 +64,14 @@ class ChapterSwipe extends ConsumerWidget {
     final (ShioriStatus, IconData)? look = switch (action) {
       ChapterSwipeAction.toggleBookmark => (
         c.unread,
-        chapter.isBookmarked!
-            ? Symbols.bookmark_remove_rounded
-            : Symbols.bookmark_add_rounded,
+        chapter.isBookmarked! ? Symbols.bookmark_remove_rounded : Symbols.bookmark_add_rounded,
       ),
       ChapterSwipeAction.toggleRead => (
         chapter.isRead! ? c.read : c.completed,
-        chapter.isRead!
-            ? Symbols.remove_done_rounded
-            : Symbols.done_all_rounded,
+        chapter.isRead! ? Symbols.remove_done_rounded : Symbols.done_all_rounded,
       ),
       ChapterSwipeAction.download =>
-        _isDownloaded(chapter)
-            ? (c.error, Symbols.delete_rounded)
-            : (c.downloaded, Symbols.download_rounded),
+        _isDownloaded(chapter) ? (c.error, Symbols.delete_rounded) : (c.downloaded, Symbols.download_rounded),
       ChapterSwipeAction.disabled => null,
     };
     if (look == null) return const SizedBox.shrink();

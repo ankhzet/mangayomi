@@ -9,14 +9,11 @@ import 'package:mangayomi/repositories/db_write_queue.dart';
 import 'package:mangayomi/repositories/chapter_consolidation.dart';
 
 class DownloadRepository {
-  Future<List<int>> getAllIds() =>
-      isar.downloads.where().idProperty().findAll();
+  Future<List<int>> getAllIds() => isar.downloads.where().idProperty().findAll();
 
-  List<Download> getAll() =>
-      isar.downloads.filter().idIsNotNull().findAllSync();
+  List<Download> getAll() => isar.downloads.filter().idIsNotNull().findAllSync();
 
-  Download? getByChapterId(int? chapterId) =>
-      isar.downloads.filter().idEqualTo(chapterId).findFirstSync();
+  Download? getByChapterId(int? chapterId) => isar.downloads.filter().idEqualTo(chapterId).findFirstSync();
 
   Download? getById(int id) => isar.downloads.getSync(id);
 
@@ -32,20 +29,16 @@ class DownloadRepository {
       .map((d) => d.id!)
       .toList();
 
-  Future<int> countDownloadedByFavoriteItemType(ItemType itemType) => isar
-      .downloads
+  Future<int> countDownloadedByFavoriteItemType(ItemType itemType) => isar.downloads
       .filter()
       .chapter(
-        (q) =>
-            q.manga((m) => m.favoriteEqualTo(true).itemTypeEqualTo(itemType)),
+        (q) => q.manga((m) => m.favoriteEqualTo(true).itemTypeEqualTo(itemType)),
       )
       .isDownloadEqualTo(true)
       .count();
 
-  Stream<List<Download>> watchDownloaded() => isar.downloads
-      .where()
-      .isDownloadEqualTo(true)
-      .watch(fireImmediately: true);
+  Stream<List<Download>> watchDownloaded() =>
+      isar.downloads.where().isDownloadEqualTo(true).watch(fireImmediately: true);
 
   Stream<List<Download>> watchPendingStarted() => isar.downloads
       .filter()
@@ -54,18 +47,11 @@ class DownloadRepository {
       .isStartDownloadEqualTo(true)
       .watch(fireImmediately: true);
 
-  Stream<List<Download>> watchPending() => isar.downloads
-      .filter()
-      .idIsNotNull()
-      .isDownloadEqualTo(false)
-      .watch(fireImmediately: true);
+  Stream<List<Download>> watchPending() =>
+      isar.downloads.filter().idIsNotNull().isDownloadEqualTo(false).watch(fireImmediately: true);
 
-  Future<List<Download>> getPendingStarted() => isar.downloads
-      .filter()
-      .idIsNotNull()
-      .isDownloadEqualTo(false)
-      .isStartDownloadEqualTo(true)
-      .findAll();
+  Future<List<Download>> getPendingStarted() =>
+      isar.downloads.filter().idIsNotNull().isDownloadEqualTo(false).isStartDownloadEqualTo(true).findAll();
 
   // No updatedAt stamping - Download has no such field.
   /// Atomically appends a chapter to the queue. Repeated requests preserve
@@ -73,8 +59,7 @@ class DownloadRepository {
   Future<Chapter?> enqueue(Chapter chapter) => dbWriteQueue.run(() {
     return isar.writeTxnSync(() {
       final current =
-          isar.chapters.getSync(chapter.id!) ??
-          isar.chapters.getSync(resolveChapterAlias(isar, chapter.id!));
+          isar.chapters.getSync(chapter.id!) ?? isar.chapters.getSync(resolveChapterAlias(isar, chapter.id!));
       if (current == null || current.mangaId != chapter.mangaId) return null;
       chapter = current;
       final existing = isar.downloads.getSync(chapter.id!);
@@ -121,14 +106,12 @@ class DownloadRepository {
   });
 
   // Escape hatch for download-rooted read transactions too specific to name.
-  Future<T> transaction<T>(T Function() body) =>
-      dbWriteQueue.run(() => isar.txnSync(body));
+  Future<T> transaction<T>(T Function() body) => dbWriteQueue.run(() => isar.txnSync(body));
 
   // Sync primitives below are for callers already inside a write transaction
   // opened by another repository's transaction()/writeTransaction() (e.g.
   // restoreRepository) — they don't queue on their own.
-  void putAllSync(List<Download> downloads) =>
-      isar.downloads.putAllSync(downloads);
+  void putAllSync(List<Download> downloads) => isar.downloads.putAllSync(downloads);
 
   void clearSync() => isar.downloads.clearSync();
 }

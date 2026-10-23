@@ -243,12 +243,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{count, plural, =1{You are deleting the only {entryType} of this {mediaType} from the library.} other{You are deleting all {count} {entryTypePlural} of this {mediaType} from the library.}}\nThis will also remove the whole {mediaType} from your library.\n\nNote: The files themselves will not be deleted.'**
-  String last_entry_delete_warning(
-    num count,
-    Object entryType,
-    Object entryTypePlural,
-    Object mediaType,
-  );
+  String last_entry_delete_warning(num count, Object entryType, Object entryTypePlural, Object mediaType);
 
   /// No description provided for @chapter.
   ///
@@ -5528,11 +5523,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{newSeries} new series, {updatedSeries} existing series will be updated, and {newChapters} new chapters will be added. Nothing already in your library will be removed.'**
-  String import_summary_message(
-    Object newSeries,
-    Object updatedSeries,
-    Object newChapters,
-  );
+  String import_summary_message(Object newSeries, Object updatedSeries, Object newChapters);
 
   /// No description provided for @import_summary_confirm.
   ///
@@ -5544,11 +5535,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Imported {newSeries} new series, updated {updatedSeries} existing, added {newChapters} new chapters.'**
-  String import_result_message(
-    Object newSeries,
-    Object updatedSeries,
-    Object newChapters,
-  );
+  String import_result_message(Object newSeries, Object updatedSeries, Object newChapters);
 
   /// No description provided for @roll_back.
   ///
@@ -5626,12 +5613,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'This permanently deletes {mangaCount} manga, {chapterCount} chapters, {historyCount} history entries and {updateCount} update entries. Tracking links are kept. This cannot be undone except by rolling back.'**
-  String delete_source_confirm_message(
-    Object mangaCount,
-    Object chapterCount,
-    Object historyCount,
-    Object updateCount,
-  );
+  String delete_source_confirm_message(Object mangaCount, Object chapterCount, Object historyCount, Object updateCount);
 
   /// No description provided for @delete_source_also_remove_extension.
   ///

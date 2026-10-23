@@ -45,9 +45,7 @@ class ContinueReaderButton extends ConsumerWidget {
 
   void _resume(BuildContext context, WidgetRef ref) {
     final incognitoMode = ref.read(incognitoModeStateProvider);
-    final history = incognitoMode
-        ? null
-        : historyRepository.findByMangaId(entry.id!);
+    final history = incognitoMode ? null : historyRepository.findByMangaId(entry.id!);
     if (history != null && !history.chapter.isLoaded) {
       history.chapter.loadSync();
     }

@@ -12,8 +12,7 @@ part of 'settings_provider.dart';
 @ProviderFor(CachedSettings)
 final cachedSettingsProvider = CachedSettingsProvider._();
 
-final class CachedSettingsProvider
-    extends $NotifierProvider<CachedSettings, Settings> {
+final class CachedSettingsProvider extends $NotifierProvider<CachedSettings, Settings> {
   CachedSettingsProvider._()
     : super(
         from: null,
@@ -49,14 +48,7 @@ abstract class _$CachedSettings extends $Notifier<Settings> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<Settings, Settings>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<Settings, Settings>,
-              Settings,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<Settings, Settings>, Settings, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

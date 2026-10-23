@@ -67,12 +67,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get last_update_check => 'Son Güncelleme Kontrolü';
 
   @override
-  String last_entry_delete_warning(
-    num count,
-    Object entryType,
-    Object entryTypePlural,
-    Object mediaType,
-  ) {
+  String last_entry_delete_warning(num count, Object entryType, Object entryTypePlural, Object mediaType) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -790,8 +785,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get developer_mode => 'Geliştirici modu';
 
   @override
-  String get developer_mode_subtitle =>
-      'Uzantı geliştirici araçlarını göster (uzantı oluştur, kodu düzenle)';
+  String get developer_mode_subtitle => 'Uzantı geliştirici araçlarını göster (uzantı oluştur, kodu düzenle)';
 
   @override
   String get choose_extension_language => 'Eklenti dilini seçin';
@@ -1072,8 +1066,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get sync_failed => 'Senkronizasyon başarısız';
 
   @override
-  String get sync_restore_in_progress =>
-      'Senkronizasyon atlandı — geri yükleme sürüyor';
+  String get sync_restore_in_progress => 'Senkronizasyon atlandı — geri yükleme sürüyor';
 
   @override
   String sync_progress_percent(Object percent) {
@@ -1108,8 +1101,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get sync_status_connected => 'Bağlandı';
 
   @override
-  String get sync_status_unauthorized =>
-      'Oturum süresi doldu, lütfen tekrar giriş yapın';
+  String get sync_status_unauthorized => 'Oturum süresi doldu, lütfen tekrar giriş yapın';
 
   @override
   String get sync_status_unreachable => 'Sunucuya ulaşılamıyor';
@@ -1169,8 +1161,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get floating_navigation_bar => 'Yüzen gezinme çubuğu';
 
   @override
-  String get floating_navigation_bar_description =>
-      'Sabit gezinme çubuğu yerine yüzen bir kapsül kullan.';
+  String get floating_navigation_bar_description => 'Sabit gezinme çubuğu yerine yüzen bir kapsül kullan.';
 
   @override
   String get full_screen_player => 'Tam ekran kullan';
@@ -1269,8 +1260,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get show_nav_double_tap_tooltip =>
-      'Çift dokunarak arama ipucunu göster';
+  String get show_nav_double_tap_tooltip => 'Çift dokunarak arama ipucunu göster';
 
   @override
   String get show_nav_double_tap_tooltip_subtitle =>
@@ -1419,8 +1409,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get encrypt_backups => 'Yedekleri şifrele';
 
   @override
-  String get encrypt_backups_info =>
-      'Yedekleme dosyalarını AES şifreleme ile parolayla koruyun';
+  String get encrypt_backups_info => 'Yedekleme dosyalarını AES şifreleme ile parolayla koruyun';
 
   @override
   String get no_secure_storage => 'Güvenli depolama bulunamadı';
@@ -1445,12 +1434,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get passwords_do_not_match => 'Parolalar eşleşmiyor';
 
   @override
-  String get password_required_to_restore =>
-      'Bu yedeği geri yüklemek için parola gereklidir.';
+  String get password_required_to_restore => 'Bu yedeği geri yüklemek için parola gereklidir.';
 
   @override
-  String get restore_backup_subtitle =>
-      'Yedek dosyasından kütüphaneyi geri yükle';
+  String get restore_backup_subtitle => 'Yedek dosyasından kütüphaneyi geri yükle';
 
   @override
   String get automatic_backups => 'Otomatik Yedeklemeler';
@@ -1499,8 +1486,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bir yedeği geri yüklemek mevcut tüm verilerin üzerine yazacaktır.\n\nGeri yüklemeye devam et?';
 
   @override
-  String get restore_sync_question_title =>
-      'Bu geri yükleme senkronize edilsin mi?';
+  String get restore_sync_question_title => 'Bu geri yükleme senkronize edilsin mi?';
 
   @override
   String get restore_sync_question_message =>
@@ -1513,31 +1499,26 @@ class AppLocalizationsTr extends AppLocalizations {
   String get restore_sync_question_deny => 'Hayır, senkronizasyonu kapat';
 
   @override
-  String get sync_disabled_after_restore =>
-      'Senkronizasyon devre dışı bırakıldı. Ayarlar\'dan tekrar açabilirsiniz.';
+  String get sync_disabled_after_restore => 'Senkronizasyon devre dışı bırakıldı. Ayarlar\'dan tekrar açabilirsiniz.';
 
   @override
-  String get restore_sync_disabled_question_title =>
-      'Senkronizasyon devre dışı';
+  String get restore_sync_disabled_question_title => 'Senkronizasyon devre dışı';
 
   @override
   String get restore_sync_disabled_question_message =>
       'Senkronizasyon kapalı. Tekrar açıp sunucuya yüklemek ister misiniz?';
 
   @override
-  String get restore_sync_question_reenable =>
-      'Evet, etkinleştir ve senkronize et';
+  String get restore_sync_question_reenable => 'Evet, etkinleştir ve senkronize et';
 
   @override
   String get restore_sync_question_keep_disabled => 'Kapalı tut';
 
   @override
-  String get restore_sync_uploading =>
-      'Geri yüklenen veriler sunucuyla senkronize ediliyor…';
+  String get restore_sync_uploading => 'Geri yüklenen veriler sunucuyla senkronize ediliyor…';
 
   @override
-  String get restore_sync_upload_success =>
-      'Veriler sunucuyla senkronize edildi';
+  String get restore_sync_upload_success => 'Veriler sunucuyla senkronize edildi';
 
   @override
   String get services => 'Hizmetler';
@@ -1583,8 +1564,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get markEpisodeAsSeenSetting => 'Bölümün izlendiği olarak işaretleneceği nokta';
 
   @override
-  String get mark_duplicate_chapters_read =>
-      'Yinelenen bölüm numaralarını okunmuş olarak işaretleyin';
+  String get mark_duplicate_chapters_read => 'Yinelenen bölüm numaralarını okunmuş olarak işaretleyin';
 
   @override
   String get default_skip_intro_length => 'Varsayılan Giriş Atla süresi';
@@ -1785,8 +1765,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get override_ass_subtitles => 'ASS altyazılarını geçersiz kıl';
 
   @override
-  String get override_ass_subtitles_info =>
-      'ASS/SSA altyazılarına özel stil uygula';
+  String get override_ass_subtitles_info => 'ASS/SSA altyazılarına özel stil uygula';
 
   @override
   String get torrent_stream => 'Torrent Akışı';
@@ -1916,8 +1895,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get custom_dns => 'Özel DNS (sistem DNS\'ini kullanmak için boş bırakın)';
 
   @override
-  String get android_proxy_server =>
-      'Android Proxy Sunucusu (M-Extension-Server)';
+  String get android_proxy_server => 'Android Proxy Sunucusu (M-Extension-Server)';
 
   @override
   String get get_m_extension_server => 'M-Extension-Server\'i edinin';
@@ -1950,8 +1928,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get url_cannot_be_empty => 'URL boş olamaz';
 
   @override
-  String get url_must_end_with_dot_json_or_dot_pb =>
-      'URL .json / .pb ile bitmelidir';
+  String get url_must_end_with_dot_json_or_dot_pb => 'URL .json / .pb ile bitmelidir';
 
   @override
   String get repo_url => 'Depo URL\'si';
@@ -2309,8 +2286,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get ask_download_destination => 'İndirme konumunu sor';
 
   @override
-  String get ask_download_destination_desc =>
-      'Her indirme başladığında yerel bir klasör seçin.';
+  String get ask_download_destination_desc => 'Her indirme başladığında yerel bir klasör seçin.';
 
   @override
   String get select_download_destination => 'İndirme konumunu seçin';
@@ -2319,8 +2295,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get clear_local_library => 'Yerel kitaplığı temizle';
 
   @override
-  String get clear_local_library_desc =>
-      'Yerel klasör ve arşiv girdilerini kitaplıktan kaldırın.';
+  String get clear_local_library_desc => 'Yerel klasör ve arşiv girdilerini kitaplıktan kaldırın.';
 
   @override
   String get clear_local_library_msg =>
@@ -2330,8 +2305,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get custom => 'Özel';
 
   @override
-  String get no_local_folder_available_for_downloads =>
-      'İndirmeler için yerel klasör bulunamadı';
+  String get no_local_folder_available_for_downloads => 'İndirmeler için yerel klasör bulunamadı';
 
   @override
   String failed_to_create_cbz(Object error) {
@@ -2385,8 +2359,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get cloudflare_resolution_webview_server_start_failed =>
-      'Cloudflare çözüm sunucusu başlatılamadı.';
+  String get cloudflare_resolution_webview_server_start_failed => 'Cloudflare çözüm sunucusu başlatılamadı.';
 
   @override
   String tracker_token_expired(Object tracker) {
@@ -2676,8 +2649,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get extension_server_jar_imported => 'Eklenti sunucusu JAR\'ı içe aktarıldı.';
 
   @override
-  String get could_not_launch_apk_bridge_page =>
-      'M-Extension-Server sayfası başlatılamadı.';
+  String get could_not_launch_apk_bridge_page => 'M-Extension-Server sayfası başlatılamadı.';
 
   @override
   String get proxy_server_ip_hint => 'Sunucu IP\'si (örn. 10.0.0.5 veya https://example.com)';
@@ -2689,8 +2661,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get zero_interpreter => 'Zero yorumlayıcı';
 
   @override
-  String get zero_interpreter_description =>
-      'Zero yorumlayıcı sunucusunu otomatik veya manuel kontrol edin.';
+  String get zero_interpreter_description => 'Zero yorumlayıcı sunucusunu otomatik veya manuel kontrol edin.';
 
   @override
   String get start_server_on_launch => 'Başlangıçta sunucuyu başlat';
@@ -2782,15 +2753,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get double_page_single_first_page => 'İlk sayfa tekli';
 
   @override
-  String get double_page_single_first_page_subtitle =>
-      'Çift sayfa modunda ilk sayfayı tek başına göster';
+  String get double_page_single_first_page_subtitle => 'Çift sayfa modunda ilk sayfayı tek başına göster';
 
   @override
   String get double_page_auto => 'Otomatik çift sayfa';
 
   @override
-  String get double_page_auto_subtitle =>
-      'Yatay modda otomatik olarak çift sayfa moduna geç';
+  String get double_page_auto_subtitle => 'Yatay modda otomatik olarak çift sayfa moduna geç';
 
   @override
   String get landscape_zoom => 'Otomatik yatay yakınlaştırma';
@@ -2932,22 +2901,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get import_mode_title => 'Nasıl içe aktarılsın?';
 
   @override
-  String get import_mode_message =>
-      'Bu yedeği mevcut kitaplıkla birleştirin veya tüm kitaplığı bununla değiştirin.';
+  String get import_mode_message => 'Bu yedeği mevcut kitaplıkla birleştirin veya tüm kitaplığı bununla değiştirin.';
 
   @override
   String get import_mode_keep_existing => 'Birleştir';
 
   @override
-  String get import_mode_keep_existing_subtitle =>
-      'Yeni serileri ekler ve eşleşenleri günceller. Hiçbir şey silinmez.';
+  String get import_mode_keep_existing_subtitle => 'Yeni serileri ekler ve eşleşenleri günceller. Hiçbir şey silinmez.';
 
   @override
   String get import_mode_replace => 'Değiştir';
 
   @override
-  String get import_mode_replace_subtitle =>
-      'Mevcut kitaplığı siler ve bu yedekle değiştirir.';
+  String get import_mode_replace_subtitle => 'Mevcut kitaplığı siler ve bu yedekle değiştirir.';
 
   @override
   String get replace_summary_title => 'Kitaplık değiştirilmeye hazır';
@@ -2969,8 +2935,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get category_conflict_title => 'Mevcut kategoriler bulundu';
 
   @override
-  String get category_conflict_message =>
-      'Yedekte zaten var olan kategoriler bulundu.';
+  String get category_conflict_message => 'Yedekte zaten var olan kategoriler bulundu.';
 
   @override
   String get category_conflict_keep => 'Koru — mevcut kategoriye birleştir';
@@ -2982,8 +2947,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get source_conflict_title => 'Kaynaklar bulunamadı';
 
   @override
-  String get source_conflict_message =>
-      'Bazı kaynaklar yüklü eklentilerle eşleşmiyor.';
+  String get source_conflict_message => 'Bazı kaynaklar yüklü eklentilerle eşleşmiyor.';
 
   @override
   String get source_conflict_keep => 'Orijinal adı koru';
@@ -2992,11 +2956,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get import_summary_title => 'İçe aktarılmaya hazır';
 
   @override
-  String import_summary_message(
-    Object newSeries,
-    Object updatedSeries,
-    Object newChapters,
-  ) {
+  String import_summary_message(Object newSeries, Object updatedSeries, Object newChapters) {
     return '$newSeries yeni seri, $updatedSeries güncellenen seri ve $newChapters yeni bölüm.';
   }
 
@@ -3004,11 +2964,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get import_summary_confirm => 'İçe aktar';
 
   @override
-  String import_result_message(
-    Object newSeries,
-    Object updatedSeries,
-    Object newChapters,
-  ) {
+  String import_result_message(Object newSeries, Object updatedSeries, Object newChapters) {
     return '$newSeries yeni seri aktarıldı, $updatedSeries güncellendi, $newChapters bölüm eklendi.';
   }
 
@@ -3016,8 +2972,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get roll_back => 'Geri al';
 
   @override
-  String get roll_back_confirm_message =>
-      'Kitaplığı bu değişiklikten hemen önceki anlık görüntüye döndürür.';
+  String get roll_back_confirm_message => 'Kitaplığı bu değişiklikten hemen önceki anlık görüntüye döndürür.';
 
   @override
   String get roll_back_done => 'Önceki duruma geri dönüldü.';
@@ -3087,8 +3042,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get merge_manga_title => 'Yinelenen mangaları birleştir';
 
   @override
-  String get merge_manga_subtitle =>
-      'Aynı kaynak altındaki aynı başlıklı mangaları bulur ve birleştirir.';
+  String get merge_manga_subtitle => 'Aynı kaynak altındaki aynı başlıklı mangaları bulur ve birleştirir.';
 
   @override
   String get merge_manga_none_found => 'Yinelenen manga bulunamadı.';
@@ -3097,12 +3051,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get merge_manga_pick_title => 'Olası yinelenen mangalar';
 
   @override
-  String get merge_manga_choose_primary_title =>
-      'Diğerleri hangisinde birleştirilsin?';
+  String get merge_manga_choose_primary_title => 'Diğerleri hangisinde birleştirilsin?';
 
   @override
-  String get merge_manga_choose_primary_message =>
-      'Bölümler, geçmiş ve takip seçilen girdiye aktarılacaktır.';
+  String get merge_manga_choose_primary_message => 'Bölümler, geçmiş ve takip seçilen girdiye aktarılacaktır.';
 
   @override
   String merge_manga_chapters_subtitle(int count) {
@@ -3150,8 +3102,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get error_reports => 'Hata raporları';
 
   @override
-  String get error_reports_subtitle =>
-      'Uygulamanın yakaladığı hatalar ve bildirme yolu';
+  String get error_reports_subtitle => 'Uygulamanın yakaladığı hatalar ve bildirme yolu';
 
   @override
   String get error_reports_empty => 'Hata oluşmadı.';
@@ -3189,8 +3140,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bu durum genellikle uygulamadan ziyade kaynak veya ağdan kaynaklanır: süresi dolmuş bir bağlantı, çökmüş bir sunucu veya kopan bir bağlantı.';
 
   @override
-  String get share_unavailable_copied =>
-      'Paylaşım kullanılamıyor, panoya kopyalandı.';
+  String get share_unavailable_copied => 'Paylaşım kullanılamıyor, panoya kopyalandı.';
 
   @override
   String get onboarding_title => 'Mangayomi\'ye Hoş Geldiniz';
@@ -3210,12 +3160,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get onboarding_nav_grouped => 'Gruplanmış sekmeler';
 
   @override
-  String get onboarding_nav_grouped_inside =>
-      'Her gruplanmış sekme, ekranının üst kısmından değiştirilir';
+  String get onboarding_nav_grouped_inside => 'Her gruplanmış sekme, ekranının üst kısmından değiştirilir';
 
   @override
-  String get onboarding_libraries_body =>
-      'Okumak ve izlemek istediklerinizi seçin.';
+  String get onboarding_libraries_body => 'Okumak ve izlemek istediklerinizi seçin.';
 
   @override
   String get onboarding_nav_title => 'Kitaplıklarınız';
@@ -3255,12 +3203,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get onboarding_local_remove => 'Klasörü kaldır';
 
   @override
-  String get onboarding_local_in_downloads =>
-      'Bu uygulamanın indirme klasörüdür.';
+  String get onboarding_local_in_downloads => 'Bu uygulamanın indirme klasörüdür.';
 
   @override
-  String get onboarding_local_empty =>
-      'Hiçbir şey bulunamadı. Ana klasörü seçin.';
+  String get onboarding_local_empty => 'Hiçbir şey bulunamadı. Ana klasörü seçin.';
 
   @override
   String get onboarding_repo_failed => 'Depo okunamadı.';
@@ -3281,8 +3227,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get onboarding_continue => 'Devam et';
 
   @override
-  String get onboarding_later =>
-      'Daha sonra Ayarlar > Gözat bölümünden ekleyebilirsiniz.';
+  String get onboarding_later => 'Daha sonra Ayarlar > Gözat bölümünden ekleyebilirsiniz.';
 
   @override
   String get onboarding_replay => 'Karşılama ekranını göster';
@@ -3294,8 +3239,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get missing_source_check_title => 'Eksik kaynakları kontrol et';
 
   @override
-  String get missing_source_check_subtitle =>
-      'Eklentisi yüklü olmayan girdileri bulur.';
+  String get missing_source_check_subtitle => 'Eklentisi yüklü olmayan girdileri bulur.';
 
   @override
   String get missing_source_check_none_found => 'Tüm kaynaklar yüklü.';
@@ -3340,8 +3284,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bunun için sahip olduğunuz tüm kaynaklar NSFW olarak işaretlenmiş ve gizlenmiştir.';
 
   @override
-  String get global_search_all_nsfw_hint =>
-      'Arama yapabilmek için Gözat ayarlarından NSFW kaynaklarını açın.';
+  String get global_search_all_nsfw_hint => 'Arama yapabilmek için Gözat ayarlarından NSFW kaynaklarını açın.';
 
   @override
   String get missing_source_check_result_message =>
@@ -3400,8 +3343,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get auto_library_update_wifi_only => 'Yalnızca Wi-Fi';
 
   @override
-  String get auto_library_update_wifi_only_subtitle =>
-      'Hücresel verideyken planlanan güncellemeyi atlayın.';
+  String get auto_library_update_wifi_only_subtitle => 'Hücresel verideyken planlanan güncellemeyi atlayın.';
 
   @override
   String get padding => 'Kenar Boşluğu';
@@ -3651,8 +3593,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get show_continue_shelf => 'Okuduklarını göster';
 
   @override
-  String get show_continue_shelf_subtitle =>
-      'Kütüphanenin üstünde devam eden seriler satırı';
+  String get show_continue_shelf_subtitle => 'Kütüphanenin üstünde devam eden seriler satırı';
 
   @override
   String get excluded => 'Hariç';
@@ -3673,8 +3614,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get search_settings => 'Ayarlarda ara';
 
   @override
-  String get search_settings_hint =>
-      'Bir ayarın adını ya da açıklamasından bir kelime yaz';
+  String get search_settings_hint => 'Bir ayarın adını ya da açıklamasından bir kelime yaz';
 
   @override
   String reading_mode_for(String name) {
@@ -3696,20 +3636,16 @@ class AppLocalizationsTr extends AppLocalizations {
   String get page_layout => 'Sayfa düzeni ve yakınlaştırma';
 
   @override
-  String get reader_section_mode_summary =>
-      'Varsayılan mod, ölçek, arka plan, ön yükleme, tam ekran';
+  String get reader_section_mode_summary => 'Varsayılan mod, ölçek, arka plan, ön yükleme, tam ekran';
 
   @override
-  String get reader_section_layout_summary =>
-      'Geniş sayfalar, çift sayfa, yatay yakınlaştırma';
+  String get reader_section_layout_summary => 'Geniş sayfalar, çift sayfa, yatay yakınlaştırma';
 
   @override
-  String get reader_section_navigation_summary =>
-      'Dokunma bölgeleri, düzen, menüyü gizleme, sayfa flaşı';
+  String get reader_section_navigation_summary => 'Dokunma bölgeleri, düzen, menüyü gizleme, sayfa flaşı';
 
   @override
-  String get reader_section_swipe_summary =>
-      'Listede bir bölümü kaydırmanın ne yaptığı';
+  String get reader_section_swipe_summary => 'Listede bir bölümü kaydırmanın ne yaptığı';
 
   @override
   String get all_reader_settings => 'Tüm okuyucu ayarları';
@@ -3779,15 +3715,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get got_it => 'Anladım';
 
   @override
-  String get gesture_brightness =>
-      'Parlaklık için solda yukarı veya aşağı kaydır';
+  String get gesture_brightness => 'Parlaklık için solda yukarı veya aşağı kaydır';
 
   @override
   String get gesture_volume => 'Ses için sağda yukarı veya aşağı kaydır';
 
   @override
-  String get gesture_double_tap_skip =>
-      'Geri ya da ileri atlamak için bir tarafa iki kez dokun';
+  String get gesture_double_tap_skip => 'Geri ya da ileri atlamak için bir tarafa iki kez dokun';
 
   @override
   String get gesture_drag_seek => 'Videoda ilerlemek için yana sürükle';
@@ -3799,8 +3733,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tap_to_continue => 'Devam etmek için herhangi bir yere dokun';
 
   @override
-  String get empty_library_hint =>
-      'Göz At\'ta bir seri bul ve kütüphanene ekle.';
+  String get empty_library_hint => 'Göz At\'ta bir seri bul ve kütüphanene ekle.';
 
   @override
   String get more_filters => 'Diğer filtreler';
@@ -3837,23 +3770,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settings_appearance_summary => 'Tema, palet, gezinme, yazı tipi';
 
   @override
-  String get settings_novel_reader_summary =>
-      'Yazı tipi, sayfa rengi, sesli okuma';
+  String get settings_novel_reader_summary => 'Yazı tipi, sayfa rengi, sesli okuma';
 
   @override
   String get settings_player_summary => 'Oynatma, altyazılar, ses, kod çözücü';
 
   @override
-  String get settings_downloads_summary =>
-      'Konum, yalnızca Wi-Fi, eşzamanlı indirmeler';
+  String get settings_downloads_summary => 'Konum, yalnızca Wi-Fi, eşzamanlı indirmeler';
 
   @override
-  String get settings_tracking_summary =>
-      'MyAnimeList, AniList, Kitsu ve diğerleri';
+  String get settings_tracking_summary => 'MyAnimeList, AniList, Kitsu ve diğerleri';
 
   @override
-  String get settings_syncing_summary =>
-      'İlerlemeni kendi sunucunda senkronize tut';
+  String get settings_syncing_summary => 'İlerlemeni kendi sunucunda senkronize tut';
 
   @override
   String get settings_browse_summary => 'Uzantılar, depolar, kaynaklar';
@@ -3997,12 +3926,10 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get tv_player_beta_subtitle =>
-      'Açık: TV kumandası için yapılmış oynatıcı. Kapalı: orijinal oynatıcı.';
+  String get tv_player_beta_subtitle => 'Açık: TV kumandası için yapılmış oynatıcı. Kapalı: orijinal oynatıcı.';
 
   @override
-  String get anime_only_beta_subtitle =>
-      'Uygulama genelinde manga ve romanları gizle. Her şeyi göstermek için kapat.';
+  String get anime_only_beta_subtitle => 'Uygulama genelinde manga ve romanları gizle. Her şeyi göstermek için kapat.';
 
   @override
   String download_queue_start_failed(String error) {
@@ -4020,12 +3947,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'Düz ızgara yerine satırlardan oluşan bir anime ana sayfası (devam et, yeni bölümler, kategoriler)';
 
   @override
-  String get cloudflare_bypass_proxy_hint =>
-      'İsteğe bağlı FlareSolverr veya Byparr adresi';
+  String get cloudflare_bypass_proxy_hint => 'İsteğe bağlı FlareSolverr veya Byparr adresi';
 
   @override
-  String get cloudflare_bypass_proxy_message =>
-      'Bir FlareSolverr veya Byparr uç noktası. Kapatmak için boş bırak.';
+  String get cloudflare_bypass_proxy_message => 'Bir FlareSolverr veya Byparr uç noktası. Kapatmak için boş bırak.';
 
   @override
   String get group_explore => 'Keşfet';
@@ -4034,8 +3959,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get explore_recommendations_subtitle => 'Buna benzer yapımlar';
 
   @override
-  String get explore_related_subtitle =>
-      'Uyarlamaları, yan hikâyeleri ve diğer sürümleri';
+  String get explore_related_subtitle => 'Uyarlamaları, yan hikâyeleri ve diğer sürümleri';
 
   @override
   String get explore_watch_order_subtitle => 'Tüm hikâyeyi izleme sırası';
@@ -4213,8 +4137,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get code_no_result => 'Henüz sonuç yok';
 
   @override
-  String get code_no_result_message =>
-      'Ne döndürdüğünü görmek için bir fonksiyon çalıştır.';
+  String get code_no_result_message => 'Ne döndürdüğünü görmek için bir fonksiyon çalıştır.';
 
   @override
   String get code_console => 'Konsol';
@@ -4226,8 +4149,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tv_empty_anime_library => 'Anime kütüphanen boş';
 
   @override
-  String get tv_empty_anime_library_hint =>
-      'Ana sayfanı doldurmak için Göz At\'tan anime ekle';
+  String get tv_empty_anime_library_hint => 'Ana sayfanı doldurmak için Göz At\'tan anime ekle';
 
   @override
   String get browse_anime => 'Animelere göz at';
@@ -4306,12 +4228,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get no_categories_yet => 'Henüz kategori yok';
 
   @override
-  String get no_categories_yet_message =>
-      'Kütüphaneni kendi adlandırıp sıraladığın kategorilere ayır.';
+  String get no_categories_yet_message => 'Kütüphaneni kendi adlandırıp sıraladığın kategorilere ayır.';
 
   @override
-  String get settings_keyboard_shortcuts_summary =>
-      'Okuyucu ve oynatıcı tuşlarını yeniden ata';
+  String get settings_keyboard_shortcuts_summary => 'Okuyucu ve oynatıcı tuşlarını yeniden ata';
 
   @override
   String get shortcut_reset_all => 'Tüm kısayolları sıfırla';

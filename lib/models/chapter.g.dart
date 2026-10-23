@@ -576,8 +576,7 @@ extension ChapterQueryWhere on QueryBuilder<Chapter, Chapter, QWhereClause> {
     });
   }
 
-  QueryBuilder<Chapter, Chapter, QAfterWhereClause>
-  mangaIdIsNotNullAnyIsRead() {
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> mangaIdIsNotNullAnyIsRead() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.between(
@@ -711,8 +710,7 @@ extension ChapterQueryWhere on QueryBuilder<Chapter, Chapter, QWhereClause> {
     });
   }
 
-  QueryBuilder<Chapter, Chapter, QAfterWhereClause>
-  mangaIdEqualToIsReadIsNotNull(int? mangaId) {
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> mangaIdEqualToIsReadIsNotNull(int? mangaId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IndexWhereClause.between(
@@ -739,8 +737,7 @@ extension ChapterQueryWhere on QueryBuilder<Chapter, Chapter, QWhereClause> {
     });
   }
 
-  QueryBuilder<Chapter, Chapter, QAfterWhereClause>
-  mangaIdEqualToIsReadNotEqualTo(int? mangaId, bool? isRead) {
+  QueryBuilder<Chapter, Chapter, QAfterWhereClause> mangaIdEqualToIsReadNotEqualTo(int? mangaId, bool? isRead) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query

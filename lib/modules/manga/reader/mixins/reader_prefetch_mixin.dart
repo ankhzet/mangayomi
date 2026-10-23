@@ -18,8 +18,7 @@ import 'package:mangayomi/utils/extensions/others.dart';
 
 /// Handles background chapter preloading, evicted archive page reloading,
 /// ordered image prefetching, and wide-page splitting for the manga reader.
-mixin ReaderPrefetchMixin<T extends ConsumerStatefulWidget>
-    on ConsumerState<T>, ReaderMemoryManagement {
+mixin ReaderPrefetchMixin<T extends ConsumerStatefulWidget> on ConsumerState<T>, ReaderMemoryManagement {
   bool isNextChapterPreloading = false;
   int _prefetchSessionId = 0;
   bool isLastPageTransition = false;

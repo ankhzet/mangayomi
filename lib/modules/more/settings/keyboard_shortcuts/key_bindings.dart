@@ -72,9 +72,7 @@ class KeyCombo {
       LogicalKeyboardKey.backspace => '⌫',
       LogicalKeyboardKey.pageUp => 'Page ↑',
       LogicalKeyboardKey.pageDown => 'Page ↓',
-      LogicalKeyboardKey.equal ||
-      LogicalKeyboardKey.add ||
-      LogicalKeyboardKey.numpadAdd => '+',
+      LogicalKeyboardKey.equal || LogicalKeyboardKey.add || LogicalKeyboardKey.numpadAdd => '+',
       LogicalKeyboardKey.minus || LogicalKeyboardKey.numpadSubtract => '−',
       LogicalKeyboardKey.numpad0 => '0',
       final key => key.keyLabel.isNotEmpty ? key.keyLabel : '?',
@@ -188,8 +186,7 @@ const defaultKeyBindings = <Enum, List<KeyCombo>>{
 };
 
 /// The key caps of [keys], one per sign: the three plus keys read as one +.
-List<String> keyLabels(Iterable<KeyCombo> keys) =>
-    keys.map((k) => k.label).toSet().toList();
+List<String> keyLabels(Iterable<KeyCombo> keys) => keys.map((k) => k.label).toSet().toList();
 
 /// The shortcut [combo] triggers, if any; with [sameKindAs], only among the
 /// reader's or the player's, whichever that one is.
@@ -205,8 +202,7 @@ Enum? shortcutFor(KeyBindings bindings, KeyCombo combo, {Enum? sameKindAs}) {
 
 /// Saved entries look like `player.previousEpisode=c+98` (Ctrl + B); the
 /// prefix keeps the reader's and the player's names apart.
-String _id(Enum action) =>
-    '${action is ReaderShortcut ? 'reader' : 'player'}.${action.name}';
+String _id(Enum action) => '${action is ReaderShortcut ? 'reader' : 'player'}.${action.name}';
 
 /// The keys for every shortcut: the saved ones where the user changed them,
 /// the defaults everywhere else.
@@ -233,20 +229,17 @@ bool isDefaultBinding(Enum action, List<KeyCombo> keys) {
 
 List<String> encodeKeyBindings(KeyBindings bindings) => [
   for (final MapEntry(key: action, value: keys) in bindings.entries)
-    if (!isDefaultBinding(action, keys))
-      '${_id(action)}=${keys.map((k) => k.encode()).join(',')}',
+    if (!isDefaultBinding(action, keys)) '${_id(action)}=${keys.map((k) => k.encode()).join(',')}',
 ];
 
 @riverpod
 class KeyBindingsState extends _$KeyBindingsState {
   @override
-  KeyBindings build() =>
-      resolveKeyBindings(settingsRepository.current.keyboardShortcuts);
+  KeyBindings build() => resolveKeyBindings(settingsRepository.current.keyboardShortcuts);
 
   void set(Enum action, List<KeyCombo> keys) => _save({...state, action: keys});
 
-  void reset(Enum action) =>
-      _save({...state, action: defaultKeyBindings[action]!});
+  void reset(Enum action) => _save({...state, action: defaultKeyBindings[action]!});
 
   void resetAll() => _save({...defaultKeyBindings});
 

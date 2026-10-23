@@ -12,8 +12,7 @@ part of 'incognito_mode_state_provider.dart';
 @ProviderFor(IncognitoModeState)
 final incognitoModeStateProvider = IncognitoModeStateProvider._();
 
-final class IncognitoModeStateProvider
-    extends $NotifierProvider<IncognitoModeState, bool> {
+final class IncognitoModeStateProvider extends $NotifierProvider<IncognitoModeState, bool> {
   IncognitoModeStateProvider._()
     : super(
         from: null,
@@ -41,8 +40,7 @@ final class IncognitoModeStateProvider
   }
 }
 
-String _$incognitoModeStateHash() =>
-    r'f02043fd84fb4e785d9f738b1c66b42e76436298';
+String _$incognitoModeStateHash() => r'f02043fd84fb4e785d9f738b1c66b42e76436298';
 
 abstract class _$IncognitoModeState extends $Notifier<bool> {
   bool build();
@@ -50,14 +48,7 @@ abstract class _$IncognitoModeState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

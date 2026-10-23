@@ -89,8 +89,7 @@ class _OnboardingBody extends ConsumerStatefulWidget {
 
 enum _Step { language, libraries, navigation, repository }
 
-class _OnboardingScreenState extends ConsumerState<_OnboardingBody>
-    with WidgetsBindingObserver {
+class _OnboardingScreenState extends ConsumerState<_OnboardingBody> with WidgetsBindingObserver {
   final _controller = TextEditingController();
 
   _Step _step = _firstStep;
@@ -103,9 +102,7 @@ class _OnboardingScreenState extends ConsumerState<_OnboardingBody>
   /// A television only ever reads anime, so the question is not asked there
   /// and this is the answer. Everywhere else it starts with everything ticked
   /// and the reader narrows it.
-  final Set<ItemType> _libraries = isTv
-      ? {ItemType.anime}
-      : {...ItemType.values};
+  final Set<ItemType> _libraries = isTv ? {ItemType.anime} : {...ItemType.values};
 
   /// Whether the navigation groups the libraries behind one Library tab, and
   /// Updates and History behind one Activity tab. Starts on the app's own
@@ -174,9 +171,8 @@ class _OnboardingScreenState extends ConsumerState<_OnboardingBody>
   /// been asked to keep still.
   /// A single frame rather than [Duration.zero], because the implicit
   /// animations assert on a zero-length controller.
-  Duration get _motion => MediaQuery.disableAnimationsOf(context)
-      ? const Duration(milliseconds: 1)
-      : const Duration(milliseconds: 260);
+  Duration get _motion =>
+      MediaQuery.disableAnimationsOf(context) ? const Duration(milliseconds: 1) : const Duration(milliseconds: 260);
 
   bool get _urlLooksValid {
     final text = _controller.text.trim();
@@ -185,8 +181,7 @@ class _OnboardingScreenState extends ConsumerState<_OnboardingBody>
 
   /// The chosen libraries in the order the nav bar shows them, so the
   /// repository step offers them the same way round.
-  List<ItemType> get _chosen =>
-      ItemType.values.where(_libraries.contains).toList();
+  List<ItemType> get _chosen => ItemType.values.where(_libraries.contains).toList();
 
   /// The steps that will actually be shown, in order.
   ///
@@ -319,9 +314,7 @@ class _OnboardingScreenState extends ConsumerState<_OnboardingBody>
       final alreadyExists = currentRepos.any((r) {
         final rUrl = r.jsonUrl?.trim().toLowerCase();
         final newUrl = repo.jsonUrl?.trim().toLowerCase();
-        return (rUrl != null &&
-                (rUrl == newUrl || rUrl == '$newUrl/' || '$rUrl/' == newUrl)) ||
-            r == repo;
+        return (rUrl != null && (rUrl == newUrl || rUrl == '$newUrl/' || '$rUrl/' == newUrl)) || r == repo;
       });
       if (!alreadyExists) {
         await ref.read(extensionsRepoStateProvider(_repoType).notifier).set([
@@ -361,9 +354,7 @@ class _OnboardingScreenState extends ConsumerState<_OnboardingBody>
       ref.read(onboardingCompletedStateProvider.notifier).complete();
       return;
     }
-    ref
-        .read(browseInitialTabProvider.notifier)
-        .request(BrowseTab(landing, BrowseTabKind.extensions));
+    ref.read(browseInitialTabProvider.notifier).request(BrowseTab(landing, BrowseTabKind.extensions));
     ref.read(routerProvider).go('/browse');
     // Let Browse build behind this screen before fading to it. Navigating and
     // finishing in the same frame meant the fade ran over the frame the branch
@@ -431,9 +422,7 @@ class _OnboardingScreenState extends ConsumerState<_OnboardingBody>
               Image.asset(
                 appIconAssets[2],
                 height: isTv ? 96 : 80,
-                color: theme.brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
+                color: theme.brightness == Brightness.light ? Colors.black : Colors.white,
                 fit: BoxFit.contain,
               ),
               const SizedBox(height: ShioriSpace.s16),
@@ -485,27 +474,19 @@ class _OnboardingScreenState extends ConsumerState<_OnboardingBody>
                       Text(
                         _title(l10n),
                         textAlign: TextAlign.center,
-                        style:
-                            (isTv
-                                    ? context.shiori.text.screenTitle
-                                    : context.shiori.text.seriesTitle)
-                                .copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: context.shiori.color.fg,
-                                ),
+                        style: (isTv ? context.shiori.text.screenTitle : context.shiori.text.seriesTitle).copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: context.shiori.color.fg,
+                        ),
                       ),
                       const SizedBox(height: ShioriSpace.s12),
                       Text(
                         _body(l10n),
                         textAlign: TextAlign.center,
-                        style:
-                            (isTv
-                                    ? context.shiori.text.body
-                                    : context.shiori.text.row)
-                                .copyWith(
-                                  color: context.shiori.color.fgMuted,
-                                  height: 1.45,
-                                ),
+                        style: (isTv ? context.shiori.text.body : context.shiori.text.row).copyWith(
+                          color: context.shiori.color.fgMuted,
+                          height: 1.45,
+                        ),
                       ),
                       const SizedBox(height: ShioriSpace.s32),
                       _stepBody(l10n),
@@ -549,8 +530,7 @@ class _OnboardingScreenState extends ConsumerState<_OnboardingBody>
     _Step.repository => l10n.onboarding_body,
   };
 
-  String _leaveLabel(AppLocalizations l10n) =>
-      _step == _Step.repository && (_added != null || _hasAddedLocalFolder)
+  String _leaveLabel(AppLocalizations l10n) => _step == _Step.repository && (_added != null || _hasAddedLocalFolder)
       ? l10n.onboarding_continue
       : l10n.onboarding_skip;
 
@@ -591,9 +571,7 @@ class _OnboardingScreenState extends ConsumerState<_OnboardingBody>
     _Step.repository => OnboardingRepositoryStep(
       chosen: _chosen,
       repoType: _repoType,
-      onRepoTypeChanged: _adding
-          ? null
-          : (type) => setState(() => _repoType = type),
+      onRepoTypeChanged: _adding ? null : (type) => setState(() => _repoType = type),
       controller: _controller,
       isAdding: _adding,
       error: _error,
@@ -602,8 +580,7 @@ class _OnboardingScreenState extends ConsumerState<_OnboardingBody>
       onChanged: (_) => setState(() => _error = null),
       onSubmitted: (_) => _urlLooksValid && !_adding ? _addRepo() : null,
       onAddRepo: _addRepo,
-      onFolderChanged: (hasFolder) =>
-          setState(() => _hasAddedLocalFolder = hasFolder),
+      onFolderChanged: (hasFolder) => setState(() => _hasAddedLocalFolder = hasFolder),
     ),
   };
 }

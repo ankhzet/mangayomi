@@ -219,15 +219,14 @@ class Simkl extends _$Simkl implements BaseTracker {
           );
         }).toList() ??
         [];
-    final urlSeries =
-        Uri.parse('$_baseApiUrl/search/${simklSearchType(isManga)}').replace(
-          queryParameters: {
-            'q': query,
-            'extended': 'full',
-            'clientId': _clientId,
-            'limit': '15',
-          },
-        );
+    final urlSeries = Uri.parse('$_baseApiUrl/search/${simklSearchType(isManga)}').replace(
+      queryParameters: {
+        'q': query,
+        'extended': 'full',
+        'clientId': _clientId,
+        'limit': '15',
+      },
+    );
     final resultSeries = await _makeGetRequest(urlSeries, accessToken);
     final dataSeries = jsonDecode(resultSeries.body) as List?;
     final series =
@@ -242,8 +241,7 @@ class Simkl extends _$Simkl implements BaseTracker {
             startDate: e["release_date"] ?? "",
             publishingType: simklSearchType(isManga),
             publishingStatus: e["status"],
-            trackingUrl:
-                "https://simkl.com/${simklSearchType(isManga)}/${e['ids']?['simkl_id'] ?? e['ids']?['simkl']}",
+            trackingUrl: "https://simkl.com/${simklSearchType(isManga)}/${e['ids']?['simkl_id'] ?? e['ids']?['simkl']}",
             syncId: syncId,
           );
         }).toList() ??

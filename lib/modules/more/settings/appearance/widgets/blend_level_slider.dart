@@ -17,11 +17,8 @@ class BlendLevelSlider extends ConsumerWidget {
       min: 0,
       max: 40,
       divisions: 40,
-      onChanged: (value) =>
-          ref.read(blendLevelStateProvider.notifier).setBlendLevel(value),
-      onChangeEnd: (value) => ref
-          .read(blendLevelStateProvider.notifier)
-          .setBlendLevel(value, end: true),
+      onChanged: (value) => ref.read(blendLevelStateProvider.notifier).setBlendLevel(value),
+      onChangeEnd: (value) => ref.read(blendLevelStateProvider.notifier).setBlendLevel(value, end: true),
     );
   }
 }

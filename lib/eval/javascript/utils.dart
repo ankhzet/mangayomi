@@ -77,9 +77,7 @@ class JsUtils {
     });
     runtime.onMessage('createHlsProxyUrl', (dynamic args) async {
       final url = args[0]?.toString() ?? '';
-      final headers =
-          (args.length > 1 ? args[1] as Map? : null)?.toMapStringString ??
-          const <String, String>{};
+      final headers = (args.length > 1 ? args[1] as Map? : null)?.toMapStringString ?? const <String, String>{};
       return HlsProxyService.instance.createUrl(url, headers);
     });
     runtime.onMessage('parseEpub', (dynamic args) async {

@@ -36,11 +36,7 @@ Future<List<LocalFolder>> getAllLocalFolders({
 }) async {
   settings ??= settingsRepository.current;
   final folders = normalizeLocalFolders(
-    settings.namedLocalFolders ??
-        settings.localFolders
-            ?.map((e) => LocalFolder.fromPath(path: e))
-            .toList() ??
-        [],
+    settings.namedLocalFolders ?? settings.localFolders?.map((e) => LocalFolder.fromPath(path: e)).toList() ?? [],
   );
   if (!includeDefault) return folders;
   final defaultFolder = await getDefaultLocalFolder();
@@ -65,10 +61,7 @@ void setDownloadLocalFolderName(String? name) {
 String getLocalVirtualPath(LocalFolder folder, String entityPath) {
   final folderName = folder.name?.trim();
   final folderPath = folder.path;
-  if (folderName == null ||
-      folderName.isEmpty ||
-      folderPath == null ||
-      folderPath.isEmpty) {
+  if (folderName == null || folderName.isEmpty || folderPath == null || folderPath.isEmpty) {
     return normalizePath(entityPath);
   }
   final relative = p.relative(entityPath, from: folderPath);
@@ -83,8 +76,7 @@ String localVirtualPathFromStoredPath(
   if (storedPath == null || storedPath.trim().isEmpty) return '';
   final normalized = normalizePath(storedPath);
   final firstSegment = normalized.split('/').firstOrNull;
-  if (firstSegment != null &&
-      folders.any((folder) => folder.name == firstSegment)) {
+  if (firstSegment != null && folders.any((folder) => folder.name == firstSegment)) {
     return normalized;
   }
 
@@ -92,8 +84,7 @@ String localVirtualPathFromStoredPath(
     final folderPath = folder.path;
     if (folderPath == null || folderPath.isEmpty) continue;
     final normalizedFolderPath = normalizePath(folderPath);
-    if (normalized == normalizedFolderPath ||
-        normalized.startsWith('$normalizedFolderPath/')) {
+    if (normalized == normalizedFolderPath || normalized.startsWith('$normalizedFolderPath/')) {
       return getLocalVirtualPath(folder, storedPath);
     }
   }
@@ -101,9 +92,7 @@ String localVirtualPathFromStoredPath(
   const legacyLocalPath = 'Mangayomi/local';
   final legacyIndex = normalized.indexOf(legacyLocalPath);
   if (legacyIndex != -1) {
-    final relative = normalized
-        .substring(legacyIndex + legacyLocalPath.length)
-        .replaceFirst(RegExp('^/+'), '');
+    final relative = normalized.substring(legacyIndex + legacyLocalPath.length).replaceFirst(RegExp('^/+'), '');
     return p.posix.join('local', relative);
   }
 
@@ -130,19 +119,16 @@ Future<String> resolveLocalArchivePath(String archivePath) async {
 
 List<LocalFolder> normalizeLocalFolders(List<LocalFolder> folders) {
   final usedNames = <String>{'local'};
-  return folders
-      .where((folder) => (folder.path?.trim().isNotEmpty ?? false))
-      .map((folder) {
-        final name = _uniqueLocalFolderName(
-          folder.name?.trim().isNotEmpty ?? false
-              ? folder.name!.trim()
-              : LocalFolder.fromPath(path: folder.path!).name ?? 'Local',
-          usedNames,
-        );
-        usedNames.add(name);
-        return LocalFolder(name: name, path: folder.path!.trim());
-      })
-      .toList();
+  return folders.where((folder) => (folder.path?.trim().isNotEmpty ?? false)).map((folder) {
+    final name = _uniqueLocalFolderName(
+      folder.name?.trim().isNotEmpty ?? false
+          ? folder.name!.trim()
+          : LocalFolder.fromPath(path: folder.path!).name ?? 'Local',
+      usedNames,
+    );
+    usedNames.add(name);
+    return LocalFolder(name: name, path: folder.path!.trim());
+  }).toList();
 }
 
 String _uniqueLocalFolderName(String value, Set<String> usedNames) {
@@ -171,9 +157,7 @@ List<LocalFolder> replaceLocalFolder(
 ) {
   var replaced = false;
   final updated = folders.map((folder) {
-    if (!replaced &&
-        folder.name == replacement.name &&
-        folder.path?.trim() == originalPath) {
+    if (!replaced && folder.name == replacement.name && folder.path?.trim() == originalPath) {
       replaced = true;
       return replacement;
     }

@@ -145,9 +145,7 @@ class _ReportTile extends StatelessWidget {
             // twice (#917, #918).
             if (scope == CrashReportScope.app)
               ShioriButton(
-                onPressed: CrashReports.wasReported(report)
-                    ? null
-                    : () => _report(context),
+                onPressed: CrashReports.wasReported(report) ? null : () => _report(context),
                 icon: Symbols.bug_report_rounded,
                 label: CrashReports.wasReported(report)
                     ? l10n.error_reports_already_reported

@@ -59,8 +59,7 @@ class MobileControllerWidget extends ConsumerStatefulWidget {
   ConsumerState<MobileControllerWidget> createState() => _MobileControllerWidgetState();
 }
 
-class _MobileControllerWidgetState
-    extends ConsumerState<MobileControllerWidget> {
+class _MobileControllerWidgetState extends ConsumerState<MobileControllerWidget> {
   static const double _gestureInset = 16;
 
   bool mount = true;
@@ -514,10 +513,8 @@ class _MobileControllerWidgetState
                                         begin: Alignment.topCenter,
                                         end: Alignment.bottomCenter,
                                         colors: [
-                                          Theme.of(context).colorScheme.scrim
-                                              .withValues(alpha: 0.75),
-                                          Theme.of(context).colorScheme.scrim
-                                              .withValues(alpha: 0.35),
+                                          Theme.of(context).colorScheme.scrim.withValues(alpha: 0.75),
+                                          Theme.of(context).colorScheme.scrim.withValues(alpha: 0.35),
                                           Colors.transparent,
                                         ],
                                         stops: const [0.0, 0.65, 1.0],
@@ -551,10 +548,7 @@ class _MobileControllerWidgetState
                         onDoubleTap: () {
                           if (widget.isLocked?.value == true) return;
                           if (_tapPosition != null &&
-                              _tapPosition!.dx >
-                                  (MediaQuery.sizeOf(context).width -
-                                          (_gestureInset * 2)) /
-                                      2) {
+                              _tapPosition!.dx > (MediaQuery.sizeOf(context).width - (_gestureInset * 2)) / 2) {
                             onDoubleTapSeekForward();
                           } else {
                             onDoubleTapSeekBackward();
@@ -711,9 +705,7 @@ class _MobileControllerWidgetState
               ),
               // // Double-Tap Seek Seek-Bar:
               if (!mount && widget.isLocked?.value != true)
-                if (_mountSeekBackwardButton ||
-                    _mountSeekForwardButton ||
-                    showSwipeDuration)
+                if (_mountSeekBackwardButton || _mountSeekForwardButton || showSwipeDuration)
                   Padding(
                     padding: EdgeInsets.only(
                       left: MediaQuery.viewPaddingOf(context).left,
@@ -858,8 +850,7 @@ class _MobileControllerWidgetState
                                     end: _hideSeekBackwardButton ? 0.0 : 1.0,
                                   ),
                                   duration: ShioriMotion.standard,
-                                  builder: (context, value, child) =>
-                                      Opacity(opacity: value, child: child),
+                                  builder: (context, value, child) => Opacity(opacity: value, child: child),
                                   onEnd: () {
                                     if (_hideSeekBackwardButton) {
                                       setState(() {
@@ -874,11 +865,10 @@ class _MobileControllerWidgetState
                                     compactPortrait: compactPortrait,
                                     onChanged: (value) {
                                       setState(() {
-                                        _seekBarDeltaValueNotifier =
-                                            _doubleTapSeekTarget(
-                                              value,
-                                              forward: false,
-                                            );
+                                        _seekBarDeltaValueNotifier = _doubleTapSeekTarget(
+                                          value,
+                                          forward: false,
+                                        );
                                       });
                                     },
                                     onSubmitted: (value) {
@@ -908,8 +898,7 @@ class _MobileControllerWidgetState
                                     end: _hideSeekForwardButton ? 0.0 : 1.0,
                                   ),
                                   duration: ShioriMotion.standard,
-                                  builder: (context, value, child) =>
-                                      Opacity(opacity: value, child: child),
+                                  builder: (context, value, child) => Opacity(opacity: value, child: child),
                                   onEnd: () {
                                     if (_hideSeekForwardButton) {
                                       setState(() {
@@ -924,11 +913,10 @@ class _MobileControllerWidgetState
                                     compactPortrait: compactPortrait,
                                     onChanged: (value) {
                                       setState(() {
-                                        _seekBarDeltaValueNotifier =
-                                            _doubleTapSeekTarget(
-                                              value,
-                                              forward: true,
-                                            );
+                                        _seekBarDeltaValueNotifier = _doubleTapSeekTarget(
+                                          value,
+                                          forward: true,
+                                        );
                                       });
                                     },
                                     onSubmitted: (value) {

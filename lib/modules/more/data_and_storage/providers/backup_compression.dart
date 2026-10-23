@@ -8,8 +8,7 @@ part 'backup_compression.g.dart';
 class BackupCompressionLevel extends _$BackupCompressionLevel {
   @override
   int build() {
-    return settingsRepository.current.backupCompressionLevel ??
-        DeflateLevel.defaultCompression;
+    return settingsRepository.current.backupCompressionLevel ?? DeflateLevel.defaultCompression;
   }
 
   void update(int value) => state = value;

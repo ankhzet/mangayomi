@@ -102,9 +102,7 @@ class OnboardingStepDots extends StatelessWidget {
             // glance without colour having to carry it alone.
             width: i == current ? 20 : 6,
             decoration: BoxDecoration(
-              color: i == current
-                  ? scheme.primary
-                  : scheme.onSurfaceVariant.withValues(alpha: 0.35),
+              color: i == current ? scheme.primary : scheme.onSurfaceVariant.withValues(alpha: 0.35),
               borderRadius: BorderRadius.circular(ShioriShape.badge),
             ),
           ),

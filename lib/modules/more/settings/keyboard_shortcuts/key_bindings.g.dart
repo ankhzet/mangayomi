@@ -12,8 +12,7 @@ part of 'key_bindings.dart';
 @ProviderFor(KeyBindingsState)
 final keyBindingsStateProvider = KeyBindingsStateProvider._();
 
-final class KeyBindingsStateProvider
-    extends $NotifierProvider<KeyBindingsState, KeyBindings> {
+final class KeyBindingsStateProvider extends $NotifierProvider<KeyBindingsState, KeyBindings> {
   KeyBindingsStateProvider._()
     : super(
         from: null,
@@ -50,13 +49,7 @@ abstract class _$KeyBindingsState extends $Notifier<KeyBindings> {
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<KeyBindings, KeyBindings>;
     final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<KeyBindings, KeyBindings>,
-              KeyBindings,
-              Object?,
-              Object?
-            >;
+        ref.element as $ClassProviderElement<AnyNotifier<KeyBindings, KeyBindings>, KeyBindings, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

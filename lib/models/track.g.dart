@@ -189,18 +189,14 @@ Track _trackDeserialize(
     finishedReadingDate: reader.readLongOrNull(offsets[1]),
     id: id,
     isManga: reader.readBoolOrNull(offsets[2]),
-    itemType:
-        _TrackitemTypeValueEnumMap[reader.readByteOrNull(offsets[3])] ??
-        ItemType.manga,
+    itemType: _TrackitemTypeValueEnumMap[reader.readByteOrNull(offsets[3])] ?? ItemType.manga,
     lastChapterRead: reader.readLongOrNull(offsets[4]),
     libraryId: reader.readLongOrNull(offsets[5]),
     mangaId: reader.readLongOrNull(offsets[6]),
     mediaId: reader.readLongOrNull(offsets[7]),
     score: reader.readLongOrNull(offsets[8]),
     startedReadingDate: reader.readLongOrNull(offsets[9]),
-    status:
-        _TrackstatusValueEnumMap[reader.readByteOrNull(offsets[10])] ??
-        TrackStatus.reading,
+    status: _TrackstatusValueEnumMap[reader.readByteOrNull(offsets[10])] ?? TrackStatus.reading,
     syncId: reader.readLongOrNull(offsets[11]),
     title: reader.readStringOrNull(offsets[12]),
     totalChapter: reader.readLongOrNull(offsets[13]),
@@ -224,9 +220,7 @@ P _trackDeserializeProp<P>(
     case 2:
       return (reader.readBoolOrNull(offset)) as P;
     case 3:
-      return (_TrackitemTypeValueEnumMap[reader.readByteOrNull(offset)] ??
-              ItemType.manga)
-          as P;
+      return (_TrackitemTypeValueEnumMap[reader.readByteOrNull(offset)] ?? ItemType.manga) as P;
     case 4:
       return (reader.readLongOrNull(offset)) as P;
     case 5:
@@ -240,9 +234,7 @@ P _trackDeserializeProp<P>(
     case 9:
       return (reader.readLongOrNull(offset)) as P;
     case 10:
-      return (_TrackstatusValueEnumMap[reader.readByteOrNull(offset)] ??
-              TrackStatus.reading)
-          as P;
+      return (_TrackstatusValueEnumMap[reader.readByteOrNull(offset)] ?? TrackStatus.reading) as P;
     case 11:
       return (reader.readLongOrNull(offset)) as P;
     case 12:
@@ -667,8 +659,7 @@ extension TrackQueryWhere on QueryBuilder<Track, Track, QWhereClause> {
     });
   }
 
-  QueryBuilder<Track, Track, QAfterWhereClause>
-  mangaIdEqualToItemTypeNotEqualTo(int? mangaId, ItemType itemType) {
+  QueryBuilder<Track, Track, QAfterWhereClause> mangaIdEqualToItemTypeNotEqualTo(int? mangaId, ItemType itemType) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -710,8 +701,7 @@ extension TrackQueryWhere on QueryBuilder<Track, Track, QWhereClause> {
     });
   }
 
-  QueryBuilder<Track, Track, QAfterWhereClause>
-  mangaIdEqualToItemTypeGreaterThan(
+  QueryBuilder<Track, Track, QAfterWhereClause> mangaIdEqualToItemTypeGreaterThan(
     int? mangaId,
     ItemType itemType, {
     bool include = false,
@@ -964,8 +954,7 @@ extension TrackQueryFilter on QueryBuilder<Track, Track, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Track, Track, QAfterFilterCondition>
-  finishedReadingDateIsNull() {
+  QueryBuilder<Track, Track, QAfterFilterCondition> finishedReadingDateIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'finishedReadingDate'),

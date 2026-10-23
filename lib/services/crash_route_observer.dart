@@ -9,16 +9,13 @@ import 'package:mangayomi/services/crash_report.dart';
 /// manga or chapter the reader opened.
 class CrashRouteObserver extends NavigatorObserver {
   @override
-  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) =>
-      _record(_name(route));
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) => _record(_name(route));
 
   @override
-  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) =>
-      _record(_name(previousRoute));
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) => _record(_name(previousRoute));
 
   @override
-  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) =>
-      _record(_name(newRoute));
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) => _record(_name(newRoute));
 
   /// Both reporters need this: the Dart one reads it when it catches
   /// something, and the native one has to be told ahead of time because a

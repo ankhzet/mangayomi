@@ -93,8 +93,7 @@ Future<void> showChapterListPanel(
                         ),
                       ),
                       IconButton(
-                        tooltip: MaterialLocalizations.of(context)
-                            .closeButtonTooltip,
+                        tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
                         onPressed: () => Navigator.pop(context),
                         icon: const Icon(Symbols.close_rounded),
                       ),
@@ -128,8 +127,7 @@ class ChapterListWidget extends StatefulWidget {
 class _ChapterListWidgetState extends State<ChapterListWidget> {
   final controller = ScrollController();
   final _listController = ListController();
-  late final chapterList = widget.chapter.manga.value!
-      .getSortedFilteredChapters();
+  late final chapterList = widget.chapter.manga.value!.getSortedFilteredChapters();
   late final currentChapIndex = chapterList.indexWhere(
     (element) =>
         element.name == widget.chapter.name &&
@@ -183,9 +181,7 @@ class _ChapterListWidgetState extends State<ChapterListWidget> {
               itemCount: chapterList.length,
               itemBuilder: (context, index) {
                 final chapter = chapterList[index];
-                final currentChap =
-                    currentChapIndex >= 0 &&
-                    chapter == chapterList[currentChapIndex];
+                final currentChap = currentChapIndex >= 0 && chapter == chapterList[currentChapIndex];
                 return Padding(
                   padding: const EdgeInsets.only(bottom: ShioriSpace.s8),
                   child: ChapterListTile(
@@ -227,13 +223,9 @@ class _ChapterListTileState extends State<ChapterListTile> {
     return AnimatedContainer(
       duration: ShioriMotion.of(context, ShioriMotion.standard),
       decoration: BoxDecoration(
-        color: widget.currentChap
-            ? c.accent.withValues(alpha: Alphas.accentTint)
-            : Colors.transparent,
+        color: widget.currentChap ? c.accent.withValues(alpha: Alphas.accentTint) : Colors.transparent,
         borderRadius: BorderRadius.circular(ShioriShape.card),
-        border: widget.currentChap
-            ? Border.all(color: c.accent, width: 1.5)
-            : null,
+        border: widget.currentChap ? Border.all(color: c.accent, width: 1.5) : null,
       ),
       child: Material(
         color: Colors.transparent,
@@ -288,9 +280,7 @@ class _ChapterListTileState extends State<ChapterListTile> {
                               ),
                             ),
                             style: tokens.text.row.copyWith(
-                              fontWeight: widget.currentChap
-                                  ? FontWeight.w700
-                                  : FontWeight.w500,
+                              fontWeight: widget.currentChap ? FontWeight.w700 : FontWeight.w500,
                               color: isRead ? c.fgMuted : c.fg,
                             ),
                             overflow: TextOverflow.ellipsis,
@@ -304,9 +294,7 @@ class _ChapterListTileState extends State<ChapterListTile> {
                           if (!(chapter.manga.value!.isLocalArchive ?? false))
                             Consumer(
                               builder: (context, ref, child) {
-                                final dateText =
-                                    chapter.dateUpload == null ||
-                                        chapter.dateUpload!.isEmpty
+                                final dateText = chapter.dateUpload == null || chapter.dateUpload!.isEmpty
                                     ? ""
                                     : dateFormat(
                                         chapter.dateUpload!,
@@ -331,15 +319,12 @@ class _ChapterListTileState extends State<ChapterListTile> {
                             ),
                           // Bounded by the row: a long scanlator name is
                           // cut, where its Flexible needs a width to cut at.
-                          if (chapter.scanlator != null &&
-                              chapter.scanlator!.isNotEmpty)
+                          if (chapter.scanlator != null && chapter.scanlator!.isNotEmpty)
                             Flexible(
                               child: Row(
                                 children: [
-                                  if (!(chapter.manga.value!.isLocalArchive ??
-                                          false) &&
-                                      (chapter.dateUpload != null &&
-                                          chapter.dateUpload!.isNotEmpty))
+                                  if (!(chapter.manga.value!.isLocalArchive ?? false) &&
+                                      (chapter.dateUpload != null && chapter.dateUpload!.isNotEmpty))
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: ShioriSpace.s8,
@@ -365,9 +350,7 @@ class _ChapterListTileState extends State<ChapterListTile> {
                             ),
                         ],
                       ),
-                      if (!chapter.isRead! &&
-                          chapter.lastPageRead!.isNotEmpty &&
-                          chapter.lastPageRead != "1")
+                      if (!chapter.isRead! && chapter.lastPageRead!.isNotEmpty && chapter.lastPageRead != "1")
                         Padding(
                           padding: const EdgeInsets.only(top: ShioriSpace.s4),
                           child: Row(
@@ -389,8 +372,7 @@ class _ChapterListTileState extends State<ChapterListTile> {
                                         ).toString().substringBefore("."),
                                       )
                                     : context.l10n.page(
-                                        chapter.manga.value!.itemType ==
-                                                ItemType.manga
+                                        chapter.manga.value!.itemType == ItemType.manga
                                             ? chapter.lastPageRead!
                                             : "${((double.tryParse(chapter.lastPageRead!) ?? 0) * 100).toStringAsFixed(0)} %",
                                       ),
@@ -405,9 +387,7 @@ class _ChapterListTileState extends State<ChapterListTile> {
                 const SizedBox(width: ShioriSpace.s12),
                 // Bookmark button
                 IconButton(
-                  tooltip: isBookmarked
-                      ? context.l10n.remove_bookmark
-                      : context.l10n.bookmark,
+                  tooltip: isBookmarked ? context.l10n.remove_bookmark : context.l10n.bookmark,
                   onPressed: () {
                     setState(() => isBookmarked = !isBookmarked);
                     chapterRepository.save(

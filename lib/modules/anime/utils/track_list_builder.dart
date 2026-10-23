@@ -74,9 +74,7 @@ List<VideoPrefs> buildUniqueSubtitleOptions({
             : (e.subtitle?.title ??
                   e.subtitle?.language ??
                   e.subtitle?.channels ??
-                  (e.subtitle?.id != 'auto' && e.subtitle?.id != 'no'
-                      ? e.subtitle?.id
-                      : null) ??
+                  (e.subtitle?.id != 'auto' && e.subtitle?.id != 'no' ? e.subtitle?.id : null) ??
                   "");
         return e;
       })
@@ -139,9 +137,7 @@ List<VideoPrefs> buildUniqueAudioOptions({
             : (e.audio?.title ??
                   e.audio?.language ??
                   e.audio?.channels ??
-                  (e.audio?.id != 'auto' && e.audio?.id != 'no'
-                      ? e.audio?.id
-                      : null) ??
+                  (e.audio?.id != 'auto' && e.audio?.id != 'no' ? e.audio?.id : null) ??
                   "");
         return e;
       })

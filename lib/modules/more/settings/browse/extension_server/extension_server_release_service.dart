@@ -34,9 +34,7 @@ class ExtensionServerReleaseService {
       final releases = jsonDecode(response.body) as List;
       for (final item in releases) {
         final release = item as Map<String, dynamic>;
-        final isDraftOrPrerelease =
-            (release['draft'] as bool? ?? false) ||
-            (release['prerelease'] as bool? ?? false);
+        final isDraftOrPrerelease = (release['draft'] as bool? ?? false) || (release['prerelease'] as bool? ?? false);
         if (isDraftOrPrerelease) continue;
         final assets = (release['assets'] as List?) ?? const [];
         for (final assetItem in assets) {
@@ -100,8 +98,7 @@ class ExtensionServerReleaseService {
       final archive = ZipDecoder().decodeBytes(bytes);
       for (final file in archive.files) {
         final outputPath = path.normalize(path.join(installPath, file.name));
-        if (!path.isWithin(installPath, outputPath) &&
-            outputPath != installPath) {
+        if (!path.isWithin(installPath, outputPath) && outputPath != installPath) {
           continue;
         }
         if (file.isFile) {

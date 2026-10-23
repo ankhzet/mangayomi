@@ -37,14 +37,11 @@ class TvHomeTopBar extends StatelessWidget {
               canRequestFocus: false,
               skipTraversal: true,
               onKeyEvent: (node, event) {
-                if (event is KeyDownEvent &&
-                    event.logicalKey == LogicalKeyboardKey.arrowRight) {
+                if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.arrowRight) {
                   final sel = controller.selection;
-                  final atEnd =
-                      !sel.isValid || sel.baseOffset >= controller.text.length;
+                  final atEnd = !sel.isValid || sel.baseOffset >= controller.text.length;
                   if (atEnd) {
-                    FocusScope.of(context)
-                        .focusInDirection(TraversalDirection.right);
+                    FocusScope.of(context).focusInDirection(TraversalDirection.right);
                     return KeyEventResult.handled;
                   }
                 }
@@ -54,9 +51,7 @@ class TvHomeTopBar extends StatelessWidget {
                 controller: controller,
                 onChanged: onChanged,
                 textInputAction: TextInputAction.search,
-                onSubmitted: (_) =>
-                    FocusScope.of(context)
-                        .focusInDirection(TraversalDirection.down),
+                onSubmitted: (_) => FocusScope.of(context).focusInDirection(TraversalDirection.down),
                 decoration: InputDecoration(
                   isDense: true,
                   filled: true,
@@ -104,12 +99,10 @@ class _LibrarySettingsButton extends ConsumerStatefulWidget {
   final List<Manga> entries;
 
   @override
-  ConsumerState<_LibrarySettingsButton> createState() =>
-      _LibrarySettingsButtonState();
+  ConsumerState<_LibrarySettingsButton> createState() => _LibrarySettingsButtonState();
 }
 
-class _LibrarySettingsButtonState extends ConsumerState<_LibrarySettingsButton>
-    with SingleTickerProviderStateMixin {
+class _LibrarySettingsButtonState extends ConsumerState<_LibrarySettingsButton> with SingleTickerProviderStateMixin {
   bool _focused = false;
 
   void _open() => showLibrarySettingsSheet(

@@ -28,8 +28,7 @@ class SortFilterValue {
   final bool ascending;
 
   @override
-  String toString() =>
-      'SortFilterValue(id: $id, index: $index, ascending: $ascending)';
+  String toString() => 'SortFilterValue(id: $id, index: $index, ascending: $ascending)';
 }
 
 /// Sealed class representing a user's selected value for a filter.
@@ -91,8 +90,7 @@ class FilterValueMultiSelect extends FilterValue {
   final List<String> excluded;
 
   @override
-  String toString() =>
-      'FilterValueMultiSelect(id: $id, included: $included, excluded: $excluded)';
+  String toString() => 'FilterValueMultiSelect(id: $id, included: $included, excluded: $excluded)';
 }
 
 class FilterValueRange extends FilterValue {

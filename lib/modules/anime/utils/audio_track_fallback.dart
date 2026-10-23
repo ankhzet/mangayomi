@@ -16,8 +16,7 @@ String? audioDecoderCodecFromError(String message) {
 }
 
 bool isAudioDecoderInitializationError(String message) {
-  return audioDecoderCodecFromError(message) != null ||
-      _genericAudioDecoderErrorPattern.hasMatch(message);
+  return audioDecoderCodecFromError(message) != null || _genericAudioDecoderErrorPattern.hasMatch(message);
 }
 
 String audioTrackFallbackKey(AudioTrack track) {
@@ -55,9 +54,7 @@ List<AudioTrack> audioTrackFallbackCandidates({
   final language = requestedLanguage ?? failedTrack.language;
   if (language == null || language.trim().isEmpty) return candidates;
 
-  final matching = candidates
-      .where((track) => audioTrackLanguagesMatch(track.language, language))
-      .toList();
+  final matching = candidates.where((track) => audioTrackLanguagesMatch(track.language, language)).toList();
   if (matching.isEmpty) return candidates;
 
   return [

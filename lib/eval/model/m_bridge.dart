@@ -574,8 +574,7 @@ class MBridge {
         cal.day,
       ).millisecondsSinceEpoch.toString();
     }
-    if (_agoSuffixWords.endsWith(lowerDate) ||
-        _agoPrefixWords.startsWith(lowerDate)) {
+    if (_agoSuffixWords.endsWith(lowerDate) || _agoPrefixWords.startsWith(lowerDate)) {
       final rel = _parseRelativeDate(trimmedDate, lowerDate);
       if (rel > 0) return rel.toString();
     }
@@ -605,10 +604,7 @@ class MBridge {
         final formatter = _tryGetDateFormat(format, 'en');
         if (formatter != null) {
           try {
-            final ms = formatter
-                .parse(cleanedDate)
-                .millisecondsSinceEpoch
-                .toString();
+            final ms = formatter.parse(cleanedDate).millisecondsSinceEpoch.toString();
             newLocale((format, 'en', false));
             return ms;
           } catch (_) {}
@@ -628,10 +624,7 @@ class MBridge {
           final formatter = _tryGetDateFormat(format, locale);
           if (formatter != null) {
             try {
-              final ms = formatter
-                  .parse(cleanedDate)
-                  .millisecondsSinceEpoch
-                  .toString();
+              final ms = formatter.parse(cleanedDate).millisecondsSinceEpoch.toString();
               newLocale((format, locale, false));
               return ms;
             } catch (_) {}
@@ -648,10 +641,7 @@ class MBridge {
           final formatter = _tryGetDateFormat(format, locale);
           if (formatter != null) {
             try {
-              final ms = formatter
-                  .parse(cleanedDate)
-                  .millisecondsSinceEpoch
-                  .toString();
+              final ms = formatter.parse(cleanedDate).millisecondsSinceEpoch.toString();
               newLocale((format, locale, false));
               return ms;
             } catch (_) {}
@@ -688,8 +678,7 @@ class MBridge {
     String? headers,
     String prefix,
   ) async {
-    return await SendvidExtractor(decodeHeaders(headers))
-        .videosFromUrl(url, prefix: prefix);
+    return await SendvidExtractor(decodeHeaders(headers)).videosFromUrl(url, prefix: prefix);
   }
 
   static Future<List<Video>> myTvExtractor(String url) async {
@@ -940,9 +929,7 @@ void Function() botToast(
           fontSize: fontSize,
           maxLines: maxLines,
           showIcon: showIcon,
-          tone:
-              tone ??
-              (hasCloudFlare ? ShioriToastTone.warning : ShioriToastTone.info),
+          tone: tone ?? (hasCloudFlare ? ShioriToastTone.warning : ShioriToastTone.info),
           actions: [
             if (hasCloudFlare)
               ShioriToastAction(

@@ -43,9 +43,7 @@ class ListTileWidget extends StatelessWidget {
                   child: Icon(icon, color: context.shiori.color.accentInk),
                 ),
                 title: Text(title),
-                subtitle: subtitle != null
-                    ? Text(subtitle!, style: context.shiori.caption)
-                    : null,
+                subtitle: subtitle != null ? Text(subtitle!, style: context.shiori.caption) : null,
               ),
             ),
           ),
@@ -60,9 +58,7 @@ class ListTileWidget extends StatelessWidget {
         child: Icon(icon, color: context.shiori.color.accentInk),
       ),
       title: Text(title),
-      subtitle: subtitle != null
-          ? Text(subtitle!, style: context.shiori.caption)
-          : null,
+      subtitle: subtitle != null ? Text(subtitle!, style: context.shiori.caption) : null,
       trailing: trailing,
     );
   }

@@ -17,8 +17,7 @@ Stream<Settings> settingsStream(Ref ref) {
 class DateFormatState extends _$DateFormatState {
   @override
   String build() {
-    return ref.watch(settingsStreamProvider).value?.dateFormat ??
-        settingsRepository.current.dateFormat!;
+    return ref.watch(settingsStreamProvider).value?.dateFormat ?? settingsRepository.current.dateFormat!;
   }
 
   void set(String dateFormat) {

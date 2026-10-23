@@ -27,9 +27,7 @@ class LibrarySourceGroup {
 
 List<LibrarySourceGroup> librarySourceGroups({bool favoritesOnly = false}) {
   final counts = <String, LibrarySourceGroup>{};
-  final mangas = favoritesOnly
-      ? mangaRepository.getFavorites()
-      : mangaRepository.getAll();
+  final mangas = favoritesOnly ? mangaRepository.getFavorites() : mangaRepository.getAll();
   for (final m in mangas) {
     final key = "${m.sourceId}|${m.source}|${m.lang}|${m.itemType.index}";
     final existing = counts[key];
@@ -41,8 +39,7 @@ List<LibrarySourceGroup> librarySourceGroups({bool favoritesOnly = false}) {
       mangaCount: (existing?.mangaCount ?? 0) + 1,
     );
   }
-  final list = counts.values.toList()
-    ..sort((a, b) => b.mangaCount.compareTo(a.mangaCount));
+  final list = counts.values.toList()..sort((a, b) => b.mangaCount.compareTo(a.mangaCount));
   return list;
 }
 
@@ -69,9 +66,7 @@ List<Manga> mangaForGroup(
     if (favoritesOnly && !(m.favorite ?? false)) return false;
     if (m.itemType != group.itemType) return false;
     if (group.sourceId != null) return m.sourceId == group.sourceId;
-    return m.sourceId == null &&
-        m.source == group.sourceName &&
-        m.lang == group.lang;
+    return m.sourceId == null && m.source == group.sourceName && m.lang == group.lang;
   }).toList();
 }
 
@@ -91,15 +86,9 @@ class DeleteSourceCounts {
 
 DeleteSourceCounts previewDeleteSource(List<Manga> mangaList) {
   final mangaIds = mangaList.map((m) => m.id!).toList();
-  final chapterCount = mangaIds.isEmpty
-      ? 0
-      : chapterRepository.countByMangaIds(mangaIds);
-  final historyCount = mangaIds.isEmpty
-      ? 0
-      : historyRepository.countByMangaIds(mangaIds);
-  final updateCount = mangaIds.isEmpty
-      ? 0
-      : updateRepository.countByMangaIds(mangaIds);
+  final chapterCount = mangaIds.isEmpty ? 0 : chapterRepository.countByMangaIds(mangaIds);
+  final historyCount = mangaIds.isEmpty ? 0 : historyRepository.countByMangaIds(mangaIds);
+  final updateCount = mangaIds.isEmpty ? 0 : updateRepository.countByMangaIds(mangaIds);
   return DeleteSourceCounts(
     mangaCount: mangaList.length,
     chapterCount: chapterCount,
@@ -173,8 +162,7 @@ class DuplicateMangaCluster {
   final List<Manga> mangaList;
 }
 
-String _normalizeMangaTitle(String name) =>
-    name.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '');
+String _normalizeMangaTitle(String name) => name.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '');
 
 bool _looksLikeSameManga(Manga a, Manga b) {
   final ta = _normalizeMangaTitle(a.name ?? '');
@@ -203,13 +191,11 @@ class MergeMangaPreview {
   int get keptChapters => totalChapters - duplicateChapters;
 }
 
-String? _chapterDedupKey(Chapter c) =>
-    (c.url ?? '').isNotEmpty ? c.url!.getUrlWithoutDomain : null;
+String? _chapterDedupKey(Chapter c) => (c.url ?? '').isNotEmpty ? c.url!.getUrlWithoutDomain : null;
 
 MergeMangaPreview previewMergeManga(Manga primary, List<Manga> others) {
   final seenUrlKeys = <String>{
-    for (final c in chapterRepository.getAllByMangaId(primary.id))
-      ?_chapterDedupKey(c),
+    for (final c in chapterRepository.getAllByMangaId(primary.id)) ?_chapterDedupKey(c),
   };
   var totalChapters = 0;
   var duplicateChapters = 0;
@@ -241,8 +227,7 @@ MergeMangaPreview previewMergeManga(Manga primary, List<Manga> others) {
 
 Future<void> mergeMangaGroup(Manga primary, List<Manga> others) async {
   final primaryUrlKeys = <String>{
-    for (final c in chapterRepository.getAllByMangaId(primary.id))
-      ?_chapterDedupKey(c),
+    for (final c in chapterRepository.getAllByMangaId(primary.id)) ?_chapterDedupKey(c),
   };
   for (final other in others) {
     for (final chapter in chapterRepository.getAllByMangaId(other.id)) {

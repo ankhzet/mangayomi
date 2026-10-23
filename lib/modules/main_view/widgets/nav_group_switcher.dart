@@ -17,12 +17,11 @@ bool isGroupedNavRoute(WidgetRef ref, String route) {
 }
 
 /// The title a grouped screen takes: the group's, not the member's.
-String navGroupTitle(BuildContext context, String route) =>
-    switch (NavGroup.of(route)) {
-      NavGroup.library => context.l10n.library,
-      NavGroup.activity => context.l10n.activity,
-      _ => '',
-    };
+String navGroupTitle(BuildContext context, String route) => switch (NavGroup.of(route)) {
+  NavGroup.library => context.l10n.library,
+  NavGroup.activity => context.l10n.activity,
+  _ => '',
+};
 
 /// The switcher at the top of a grouped screen: Manga, Anime and Novels in
 /// Library; Updates and History in Activity. Renders nothing when the

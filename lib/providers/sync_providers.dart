@@ -10,8 +10,7 @@ class Synching extends _$Synching {
   @override
   SyncPreference build({required int? syncId}) {
     ref.keepAlive();
-    return syncPreferenceRepository.getById(syncId!) ??
-        SyncPreference(syncId: 1);
+    return syncPreferenceRepository.getById(syncId!) ?? SyncPreference(syncId: 1);
   }
 
   void login(String server, String email, String authToken) {
@@ -56,8 +55,7 @@ class Synching extends _$Synching {
 
   List<ChangedPart> getAllChangedParts() => changedPartRepository.getAll();
 
-  List<ChangedPart> getChangedParts(List<ActionType> actionTypes) =>
-      changedPartRepository.getByActions(actionTypes);
+  List<ChangedPart> getChangedParts(List<ActionType> actionTypes) => changedPartRepository.getByActions(actionTypes);
 
   void addChangedPart(
     ActionType action,
@@ -93,8 +91,7 @@ class Synching extends _$Synching {
     );
   }
 
-  Future<void> clearChangedParts(List<ActionType> actions, bool txn) =>
-      changedPartRepository.clear(actions, txn);
+  Future<void> clearChangedParts(List<ActionType> actions, bool txn) => changedPartRepository.clear(actions, txn);
 
   void clearAllChangedParts(bool txn) => changedPartRepository.clearAll(txn);
 }

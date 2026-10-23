@@ -73,10 +73,8 @@ class ReaderNavigationOverlay extends StatelessWidget {
   }
 
   // Helper values for LTR vs RTL
-  (_Tint, _Action) get _hLeft =>
-      isRTL ? (_nextColor, _nextText) : (_prevColor, _prevText);
-  (_Tint, _Action) get _hRight =>
-      isRTL ? (_prevColor, _prevText) : (_nextColor, _nextText);
+  (_Tint, _Action) get _hLeft => isRTL ? (_nextColor, _nextText) : (_prevColor, _prevText);
+  (_Tint, _Action) get _hRight => isRTL ? (_prevColor, _prevText) : (_nextColor, _nextText);
 
   (_Tint, _Action) get _leftZone => _shouldInvertHorizontal ? _hRight : _hLeft;
   (_Tint, _Action) get _rightZone => _shouldInvertHorizontal ? _hLeft : _hRight;

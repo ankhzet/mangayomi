@@ -62,8 +62,7 @@ class MassMigrationSourceSelectionScreen extends StatelessWidget {
                   title: Text(sourceGroup.sourceName),
                   subtitle: Text(
                     [
-                      if ((sourceGroup.lang ?? '').isNotEmpty)
-                        languageName(context, sourceGroup.lang!),
+                      if ((sourceGroup.lang ?? '').isNotEmpty) languageName(context, sourceGroup.lang!),
                       l10n.mass_migration_item_count(sourceGroup.count),
                     ].join(' · '),
                   ),

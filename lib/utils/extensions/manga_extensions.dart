@@ -18,8 +18,7 @@ Map<int?, double?> _chapterSortKeys(
 ) {
   final recognition = ChapterRecognition();
   final raw = <int?, (int, double?)>{
-    for (final c in chapterList)
-      c.id: recognition.rawSeasonAndNumber(mangaTitle, c.name ?? ''),
+    for (final c in chapterList) c.id: recognition.rawSeasonAndNumber(mangaTitle, c.name ?? ''),
   };
   final episodeToSeasons = <double, Set<int>>{};
   for (final pair in raw.values) {
@@ -27,26 +26,19 @@ Map<int?, double?> _chapterSortKeys(
     episodeToSeasons.putIfAbsent(pair.$2!, () => {}).add(pair.$1);
   }
   final numbered = raw.values.where((pair) => pair.$2 != null).length;
-  final seasonLabelled = raw.values
-      .where((pair) => pair.$2 != null && pair.$1 > 0)
-      .length;
+  final seasonLabelled = raw.values.where((pair) => pair.$2 != null && pair.$1 > 0).length;
   final mostlySeasonLabelled = numbered > 0 && seasonLabelled / numbered >= 0.5;
   // A single collision is more likely a stray "S1-5 Recap"-style title
   // falsely matching the season regex than a real reset — require several
   // before trusting it, since a genuine per-season reset repeats numbers
   // across many chapters, not just one.
-  final collisions = episodeToSeasons.values
-      .where((seasons) => seasons.length > 1)
-      .length;
+  final collisions = episodeToSeasons.values.where((seasons) => seasons.length > 1).length;
   final resets = collisions >= 3 || (collisions >= 1 && mostlySeasonLabelled);
   return {
     for (final entry in raw.entries)
       entry.key: switch (entry.value.$2) {
         null => null,
-        final ep =>
-          resets
-              ? (entry.value.$1 > 0 ? entry.value.$1 * 100000 + ep : ep)
-              : ep,
+        final ep => resets ? (entry.value.$1 > 0 ? entry.value.$1 * 100000 + ep : ep) : ep,
       },
   };
 }
@@ -58,10 +50,7 @@ extension MangaExtensions on Manga {
   /// actually sees rather than counting duplicate chapters from hidden
   /// scanlators (#796).
   int unreadChaptersCount(Settings settings) {
-    final filter = settings.filterScanlatorList
-        ?.where((e) => e.mangaId == id)
-        .firstOrNull
-        ?.scanlators;
+    final filter = settings.filterScanlatorList?.where((e) => e.mangaId == id).firstOrNull?.scanlators;
     if (filter == null || filter.isEmpty) {
       return chapters.where((c) => !(c.isRead ?? false)).length;
     }
@@ -75,23 +64,17 @@ extension MangaExtensions on Manga {
     final settings = settingsOverride ?? settingsRepository.current;
 
     final filterUnread =
-        ((settings.chapterFilterUnreadList ?? const [])
-                    .where((e) => e.mangaId == id)
-                    .firstOrNull ??
+        ((settings.chapterFilterUnreadList ?? const []).where((e) => e.mangaId == id).firstOrNull ??
                 ChapterFilterUnread(mangaId: id, type: 0))
             .type!;
 
     final filterBookmarked =
-        ((settings.chapterFilterBookmarkedList ?? const [])
-                    .where((e) => e.mangaId == id)
-                    .firstOrNull ??
+        ((settings.chapterFilterBookmarkedList ?? const []).where((e) => e.mangaId == id).firstOrNull ??
                 ChapterFilterBookmarked(mangaId: id, type: 0))
             .type!;
 
     final filterDownloaded =
-        ((settings.chapterFilterDownloadedList ?? const [])
-                    .where((e) => e.mangaId == id)
-                    .firstOrNull ??
+        ((settings.chapterFilterDownloadedList ?? const []).where((e) => e.mangaId == id).firstOrNull ??
                 ChapterFilterDownloaded(mangaId: id, type: 0))
             .type!;
 
@@ -147,9 +130,7 @@ extension MangaExtensions on Manga {
     final settings = settingsRepository.current;
 
     final sortChapterEntry =
-        (settings.sortChapterList ?? const [])
-            .where((e) => e.mangaId == id)
-            .firstOrNull ??
+        (settings.sortChapterList ?? const []).where((e) => e.mangaId == id).firstOrNull ??
         SortChapter(mangaId: id, index: 1);
     final sortIndex = sortChapterEntry.index!;
     final reverse = sortChapterEntry.reverse!;

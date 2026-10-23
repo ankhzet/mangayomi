@@ -141,8 +141,7 @@ class ChapterFilterDownloadedState extends _$ChapterFilterDownloadedState
   }
 
   @override
-  List<ChapterFilterDownloaded> currentList() =>
-      settingsRepository.current.chapterFilterDownloadedList ?? [];
+  List<ChapterFilterDownloaded> currentList() => settingsRepository.current.chapterFilterDownloadedList ?? [];
 
   @override
   int mangaIdOf(ChapterFilterDownloaded entry) => entry.mangaId!;
@@ -151,8 +150,7 @@ class ChapterFilterDownloadedState extends _$ChapterFilterDownloadedState
   int typeOf(ChapterFilterDownloaded entry) => entry.type!;
 
   @override
-  ChapterFilterDownloaded create(int mangaId, int type) =>
-      ChapterFilterDownloaded(mangaId: mangaId, type: type);
+  ChapterFilterDownloaded create(int mangaId, int type) => ChapterFilterDownloaded(mangaId: mangaId, type: type);
 
   @override
   void persist(List<ChapterFilterDownloaded> updated) {
@@ -163,8 +161,7 @@ class ChapterFilterDownloadedState extends _$ChapterFilterDownloadedState
 }
 
 @riverpod
-class ChapterFilterUnreadState extends _$ChapterFilterUnreadState
-    with PerMangaTriStateFilter<ChapterFilterUnread> {
+class ChapterFilterUnreadState extends _$ChapterFilterUnreadState with PerMangaTriStateFilter<ChapterFilterUnread> {
   @override
   int build({required int mangaId}) {
     state = getType();
@@ -172,8 +169,7 @@ class ChapterFilterUnreadState extends _$ChapterFilterUnreadState
   }
 
   @override
-  List<ChapterFilterUnread> currentList() =>
-      settingsRepository.current.chapterFilterUnreadList ?? [];
+  List<ChapterFilterUnread> currentList() => settingsRepository.current.chapterFilterUnreadList ?? [];
 
   @override
   int mangaIdOf(ChapterFilterUnread entry) => entry.mangaId!;
@@ -182,8 +178,7 @@ class ChapterFilterUnreadState extends _$ChapterFilterUnreadState
   int typeOf(ChapterFilterUnread entry) => entry.type!;
 
   @override
-  ChapterFilterUnread create(int mangaId, int type) =>
-      ChapterFilterUnread(mangaId: mangaId, type: type);
+  ChapterFilterUnread create(int mangaId, int type) => ChapterFilterUnread(mangaId: mangaId, type: type);
 
   @override
   void persist(List<ChapterFilterUnread> updated) {
@@ -203,8 +198,7 @@ class ChapterFilterBookmarkedState extends _$ChapterFilterBookmarkedState
   }
 
   @override
-  List<ChapterFilterBookmarked> currentList() =>
-      settingsRepository.current.chapterFilterBookmarkedList ?? [];
+  List<ChapterFilterBookmarked> currentList() => settingsRepository.current.chapterFilterBookmarkedList ?? [];
 
   @override
   int mangaIdOf(ChapterFilterBookmarked entry) => entry.mangaId!;
@@ -213,8 +207,7 @@ class ChapterFilterBookmarkedState extends _$ChapterFilterBookmarkedState
   int typeOf(ChapterFilterBookmarked entry) => entry.type!;
 
   @override
-  ChapterFilterBookmarked create(int mangaId, int type) =>
-      ChapterFilterBookmarked(mangaId: mangaId, type: type);
+  ChapterFilterBookmarked create(int mangaId, int type) => ChapterFilterBookmarked(mangaId: mangaId, type: type);
 
   @override
   void persist(List<ChapterFilterBookmarked> updated) {
@@ -321,9 +314,7 @@ class ScanlatorsFilterState extends _$ScanlatorsFilterState {
   @override
   (List<String>, List<String>, List<String>) build(Manga manga) {
     final available = _getScanlators();
-    final persisted = (_getFilterScanlator() ?? [])
-        .where(available.contains)
-        .toList();
+    final persisted = (_getFilterScanlator() ?? []).where(available.contains).toList();
     return (available, persisted, persisted);
   }
 
@@ -358,9 +349,7 @@ class ScanlatorsFilterState extends _$ScanlatorsFilterState {
 
   List<String>? _getFilterScanlator() {
     final scanlators = settingsRepository.current.filterScanlatorList ?? [];
-    final filter = scanlators
-        .where((element) => element.mangaId == manga.id)
-        .toList();
+    final filter = scanlators.where((element) => element.mangaId == manga.id).toList();
     return filter.isEmpty ? null : filter.first.scanlators;
   }
 

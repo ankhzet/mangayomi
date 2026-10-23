@@ -34,10 +34,7 @@ class SettingsEntry {
     this.featured = false,
     this.group,
   }) : assert(
-         (contentBuilder != null ? 1 : 0) +
-                 (onTap != null ? 1 : 0) +
-                 (toggle != null ? 1 : 0) ==
-             1,
+         (contentBuilder != null ? 1 : 0) + (onTap != null ? 1 : 0) + (toggle != null ? 1 : 0) == 1,
          'Provide one of contentBuilder, onTap or toggle',
        ),
        assert(toggle == null || onToggle != null, 'A toggle needs onToggle');
@@ -170,8 +167,7 @@ class _SettingsHomeRow extends StatelessWidget {
           if (toggle != null)
             ValueListenableBuilder<bool>(
               valueListenable: toggle,
-              builder: (context, on, _) =>
-                  Switch(value: on, onChanged: entry.onToggle),
+              builder: (context, on, _) => Switch(value: on, onChanged: entry.onToggle),
             )
           else if (entry.contentBuilder != null)
             Icon(
@@ -249,8 +245,7 @@ class _SettingsHome extends StatelessWidget {
           ),
         for (final MapEntry(key: group, value: indices) in groups.entries) ...[
           if (group != null) SettingsSectionLabel(group),
-          for (final i in indices)
-            _SettingsHomeRow(entry: entries[i], onTap: () => onOpen(i)),
+          for (final i in indices) _SettingsHomeRow(entry: entries[i], onTap: () => onOpen(i)),
         ],
         const SizedBox(height: ShioriSpace.s4),
       ],
@@ -334,8 +329,7 @@ class _DrilldownHeader extends StatelessWidget {
               },
               child: showBack
                   ? IconButton(
-                      tooltip: MaterialLocalizations.of(context)
-                          .backButtonTooltip,
+                      tooltip: MaterialLocalizations.of(context).backButtonTooltip,
                       key: const ValueKey('back-button'),
                       onPressed: onBack,
                       icon: Icon(
@@ -459,8 +453,7 @@ class SettingsDrilldownScope extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(covariant SettingsDrilldownScope oldWidget) =>
-      oldWidget.isDirectShortcut != isDirectShortcut;
+  bool updateShouldNotify(covariant SettingsDrilldownScope oldWidget) => oldWidget.isDirectShortcut != isDirectShortcut;
 }
 
 /// Settings as a single browsable list with animated drilldown navigation.
@@ -492,11 +485,7 @@ class _SettingsDrilldownState extends State<SettingsDrilldown> {
   bool _forward = true;
 
   int? _clampActive(int index) =>
-      index >= 0 &&
-          index < widget.entries.length &&
-          widget.entries[index].contentBuilder != null
-      ? index
-      : null;
+      index >= 0 && index < widget.entries.length && widget.entries[index].contentBuilder != null ? index : null;
 
   @override
   void didUpdateWidget(SettingsDrilldown oldWidget) {
@@ -532,9 +521,7 @@ class _SettingsDrilldownState extends State<SettingsDrilldown> {
   Widget build(BuildContext context) {
     final active = _active;
     final isDirectShortcut = widget.initialIndex >= 0;
-    final currentKey = active == null
-        ? const ValueKey('home')
-        : ValueKey('section-$active');
+    final currentKey = active == null ? const ValueKey('home') : ValueKey('section-$active');
 
     final screenHeight = MediaQuery.of(context).size.height;
     final maxBodyHeight = widget.maxBodyHeight ?? screenHeight * 0.72;
@@ -572,8 +559,7 @@ class _SettingsDrilldownState extends State<SettingsDrilldown> {
                     clipBehavior: Clip.hardEdge,
                     children: <Widget>[
                       ...previousChildren.map(
-                        (child) =>
-                            Positioned(top: 0, left: 0, right: 0, child: child),
+                        (child) => Positioned(top: 0, left: 0, right: 0, child: child),
                       ),
                       ?currentChild,
                     ],

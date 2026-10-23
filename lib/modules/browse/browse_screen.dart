@@ -54,9 +54,7 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> with TickerProvider
   /// [_tabBarController], which stays the one truth for every layout.
   late final TabController _kindController = TabController(
     length: 2,
-    initialIndex: _tabList.isEmpty
-        ? 0
-        : _tabList[_tabBarController.index].kind.index,
+    initialIndex: _tabList.isEmpty ? 0 : _tabList[_tabBarController.index].kind.index,
     vsync: this,
   );
 
@@ -195,9 +193,7 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> with TickerProvider
                   },
                   icon: Icon(
                     fill: 1,
-                    !isExtensionTab
-                        ? Symbols.travel_explore_rounded
-                        : Symbols.search_rounded,
+                    !isExtensionTab ? Symbols.travel_explore_rounded : Symbols.search_rounded,
                     color: context.shiori.color.fgMuted,
                   ),
                 ),
@@ -214,9 +210,7 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> with TickerProvider
         },
         icon: Icon(
           fill: 1,
-          !isExtensionTab
-              ? Symbols.filter_list_rounded
-              : Symbols.translate_rounded,
+          !isExtensionTab ? Symbols.filter_list_rounded : Symbols.translate_rounded,
           color: context.shiori.color.fgMuted,
         ),
       ),
@@ -262,9 +256,7 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> with TickerProvider
     final horizontalInsets = tvOverscanHorizontalInsets(context);
     final tabLabels = [
       for (final tab in _tabList)
-        tab.kind == BrowseTabKind.extensions
-            ? tab.type.localizedExtensions(l10n)
-            : tab.type.localizedSources(l10n),
+        tab.kind == BrowseTabKind.extensions ? tab.type.localizedExtensions(l10n) : tab.type.localizedSources(l10n),
     ];
     return DefaultTabController(
       animationDuration: Duration.zero,
@@ -377,9 +369,7 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> with TickerProvider
         title: ValueListenableBuilder<bool>(
           valueListenable: _headerCollapsed,
           builder: (context, collapsed, _) => CollapsingTitle(
-            collapsed && hasMediaSwitch
-                ? currentTab.type.localized(l10n)
-                : l10n.browse,
+            collapsed && hasMediaSwitch ? currentTab.type.localized(l10n) : l10n.browse,
             style: tokens.text.screenTitle.copyWith(color: tokens.color.fg),
           ),
         ),
@@ -396,8 +386,7 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> with TickerProvider
             if (hasMediaSwitch)
               ValueListenableBuilder<bool>(
                 valueListenable: _headerCollapsed,
-                builder: (context, collapsed, child) =>
-                    CollapsibleHeaderPart(collapsed: collapsed, child: child!),
+                builder: (context, collapsed, child) => CollapsibleHeaderPart(collapsed: collapsed, child: child!),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(
                     ShioriSpace.s16,
@@ -431,8 +420,7 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> with TickerProvider
               ),
             TabBar(
               controller: _kindController,
-              onTap: (kind) =>
-                  _open(currentTab.type, BrowseTabKind.values[kind]),
+              onTap: (kind) => _open(currentTab.type, BrowseTabKind.values[kind]),
               tabs: [
                 Tab(text: l10n.sources),
                 Tab(
@@ -458,9 +446,7 @@ class _BrowseScreenState extends ConsumerState<BrowseScreen> with TickerProvider
             // leaves its extensions until they are opened.
             Expanded(
               child: ShioriFadeThroughStack(
-                index: types.contains(currentTab.type)
-                    ? types.indexOf(currentTab.type)
-                    : 0,
+                index: types.contains(currentTab.type) ? types.indexOf(currentTab.type) : 0,
                 children: [
                   for (final type in types)
                     TabBarView(

@@ -21,13 +21,10 @@ class ChapterItem {
       path: json['path'],
       releaseTime: json['releaseTime'],
       chapterNumber: json['chapterNumber'] != null
-          ? (json['chapterNumber'] as num?)?.toInt() ??
-                int.tryParse(json['chapterNumber'].toString())
+          ? (json['chapterNumber'] as num?)?.toInt() ?? int.tryParse(json['chapterNumber'].toString())
           : null,
       page: json['page'],
-      scanlator: json['scanlator'] is List
-          ? (json['scanlator'] as List).join(', ')
-          : json['scanlator']?.toString(),
+      scanlator: json['scanlator'] is List ? (json['scanlator'] as List).join(', ') : json['scanlator']?.toString(),
     );
   }
 
@@ -108,12 +105,8 @@ class SourceNovel extends NovelItem {
       author: json['author'],
       artist: json['artist'],
       status: json['status'],
-      rating: json['rating'] is double
-          ? json['rating']
-          : json['rating']?.toDouble(),
-      chapters: (json['chapters'] as List<dynamic>?)
-          ?.map((item) => ChapterItem.fromJson(item))
-          .toList(),
+      rating: json['rating'] is double ? json['rating'] : json['rating']?.toDouble(),
+      chapters: (json['chapters'] as List<dynamic>?)?.map((item) => ChapterItem.fromJson(item)).toList(),
       totalPages: json['totalPages'] is int
           ? json['totalPages'] as int
           : int.tryParse(json['totalPages']?.toString() ?? ''),

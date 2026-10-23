@@ -83,9 +83,7 @@ class ServiceAvailability {
 /// Both end the request, but only the second is worth remembering: a service
 /// is not down because this device lost its connection.
 bool isNetworkFailure(Object error) =>
-    error is SocketException ||
-    error is HttpException ||
-    error.toString().toLowerCase().contains('failed host lookup');
+    error is SocketException || error is HttpException || error.toString().toLowerCase().contains('failed host lookup');
 
 /// The reason AniList is refusing, or null when this is a normal answer.
 ///
@@ -102,7 +100,5 @@ String? anilistRefusal(int statusCode, Map<String, dynamic>? body) {
       if (message != null && message.trim().isNotEmpty) return message.trim();
     }
   }
-  return statusCode == 403
-      ? "refused the request (HTTP 403)"
-      : "is having server trouble (HTTP $statusCode)";
+  return statusCode == 403 ? "refused the request (HTTP 403)" : "is having server trouble (HTTP $statusCode)";
 }

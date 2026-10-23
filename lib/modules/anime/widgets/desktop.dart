@@ -356,10 +356,8 @@ class _DesktopControllerWidgetState extends ConsumerState<DesktopControllerWidge
       PlayerShortcut.mute: _toggleMute,
       PlayerShortcut.previousEpisode: previousEpisode,
       PlayerShortcut.nextEpisode: nextEpisode,
-      PlayerShortcut.fullScreen: () =>
-          _changeFullScreen(ref, widget.desktopFullScreenPlayer),
-      PlayerShortcut.exitFullScreen: () =>
-          _changeFullScreen(ref, widget.desktopFullScreenPlayer, value: false),
+      PlayerShortcut.fullScreen: () => _changeFullScreen(ref, widget.desktopFullScreenPlayer),
+      PlayerShortcut.exitFullScreen: () => _changeFullScreen(ref, widget.desktopFullScreenPlayer, value: false),
     };
     final bindings = ref.watch(keyBindingsStateProvider);
     return CallbackShortcuts(
@@ -368,11 +366,9 @@ class _DesktopControllerWidgetState extends ConsumerState<DesktopControllerWidge
         // https://support.google.com/youtube/answer/7631406
         const SingleActivator(LogicalKeyboardKey.mediaPlay): player.play,
         const SingleActivator(LogicalKeyboardKey.mediaPause): player.pause,
-        const SingleActivator(LogicalKeyboardKey.mediaPlayPause):
-            player.playOrPause,
+        const SingleActivator(LogicalKeyboardKey.mediaPlayPause): player.playOrPause,
         const SingleActivator(LogicalKeyboardKey.mediaTrackNext): nextEpisode,
-        const SingleActivator(LogicalKeyboardKey.mediaTrackPrevious):
-            previousEpisode,
+        const SingleActivator(LogicalKeyboardKey.mediaTrackPrevious): previousEpisode,
         for (final MapEntry(key: shortcut, value: action) in actions.entries)
           for (final combo in bindings[shortcut]!) combo.activator: action,
         // By character rather than by key, so they hold on any layout (the
@@ -514,10 +510,8 @@ class _DesktopControllerWidgetState extends ConsumerState<DesktopControllerWidge
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
                                     colors: [
-                                      Theme.of(context).colorScheme.scrim
-                                          .withValues(alpha: 0.75),
-                                      Theme.of(context).colorScheme.scrim
-                                          .withValues(alpha: 0.35),
+                                      Theme.of(context).colorScheme.scrim.withValues(alpha: 0.75),
+                                      Theme.of(context).colorScheme.scrim.withValues(alpha: 0.35),
                                       Colors.transparent,
                                     ],
                                     stops: const [0.0, 0.65, 1.0],
@@ -579,16 +573,10 @@ class _DesktopControllerWidgetState extends ConsumerState<DesktopControllerWidge
                                             CustomSeekBar(
                                               onSeekStart: (value) {
                                                 setState(() {
-                                                  swipeDuration =
-                                                      value.inSeconds;
+                                                  swipeDuration = value.inSeconds;
                                                   showSwipeDuration = true;
                                                   widget.tempDuration(
-                                                    widget
-                                                            .videoController
-                                                            .player
-                                                            .state
-                                                            .position +
-                                                        value,
+                                                    widget.videoController.player.state.position + value,
                                                   );
                                                 });
                                                 _timer?.cancel();
@@ -609,11 +597,9 @@ class _DesktopControllerWidgetState extends ConsumerState<DesktopControllerWidge
                                                 });
                                                 widget.tempDuration(null);
                                               },
-                                              player:
-                                                  widget.videoController.player,
+                                              player: widget.videoController.player,
                                               chapterMarks: widget.chapterMarks,
-                                              onHoverChanged:
-                                                  _onSeekbarHoverChanged,
+                                              onHoverChanged: _onSeekbarHoverChanged,
                                               skipRanges: widget.skipRanges,
                                             ),
                                             widget.bottomButtonBarWidget,

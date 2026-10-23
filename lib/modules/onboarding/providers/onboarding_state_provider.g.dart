@@ -34,8 +34,7 @@ final onboardingCompletedStateProvider = OnboardingCompletedStateProvider._();
 /// during development and a welcome screen on every one of them is noise; the
 /// entry in General settings is how to see the screen on purpose. Release
 /// builds keep the real first-run behaviour.
-final class OnboardingCompletedStateProvider
-    extends $NotifierProvider<OnboardingCompletedState, bool> {
+final class OnboardingCompletedStateProvider extends $NotifierProvider<OnboardingCompletedState, bool> {
   /// Whether the first-run screen has already been dismissed.
   ///
   /// Null means the question has never been answered on this install, either
@@ -74,8 +73,7 @@ final class OnboardingCompletedStateProvider
   }
 }
 
-String _$onboardingCompletedStateHash() =>
-    r'762854e31b6c411f43c26cc3ab7a42275cacd4dd';
+String _$onboardingCompletedStateHash() => r'762854e31b6c411f43c26cc3ab7a42275cacd4dd';
 
 /// Whether the first-run screen has already been dismissed.
 ///
@@ -95,14 +93,7 @@ abstract class _$OnboardingCompletedState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

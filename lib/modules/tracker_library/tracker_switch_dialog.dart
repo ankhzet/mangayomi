@@ -130,9 +130,7 @@ Widget _buildListTile(
         child: isManga == null
             ? Image.asset(trackInfos(syncId).$1, height: 30)
             : Icon(
-                isManga
-                    ? Symbols.collections_bookmark_rounded
-                    : Symbols.video_library_rounded,
+                isManga ? Symbols.collections_bookmark_rounded : Symbols.video_library_rounded,
                 size: 30,
               ),
       ),
@@ -145,9 +143,7 @@ Widget _buildListTile(
       ),
       enabled: isLoggedIn,
       onTap: () {
-        if (isManga == null &&
-            syncId != TrackerProviders.simkl.syncId &&
-            syncId != TrackerProviders.trakt.syncId) {
+        if (isManga == null && syncId != TrackerProviders.simkl.syncId && syncId != TrackerProviders.trakt.syncId) {
           context.pop();
           _openSwitchTypeDialog(
             context,
@@ -159,9 +155,7 @@ Widget _buildListTile(
         } else {
           ref.read(lastTrackerLibraryLocationStateProvider.notifier).set((
             syncId,
-            isManga ??
-                (syncId != TrackerProviders.simkl.syncId &&
-                    syncId != TrackerProviders.trakt.syncId),
+            isManga ?? (syncId != TrackerProviders.simkl.syncId && syncId != TrackerProviders.trakt.syncId),
           ));
           context.pop();
         }

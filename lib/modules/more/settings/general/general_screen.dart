@@ -88,9 +88,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                 value: autoUpdateInterval,
                 // When it's off, say what the setting does; the word "Never"
                 // on its own doesn't explain what would otherwise happen.
-                description: autoUpdateInterval == 0
-                    ? l10n.auto_library_update_subtitle
-                    : null,
+                description: autoUpdateInterval == 0 ? l10n.auto_library_update_subtitle : null,
                 options: [
                   for (final hours in libraryUpdateIntervals)
                     ShioriChoice(
@@ -98,18 +96,14 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                       _autoLibraryUpdateLabel(context, hours),
                     ),
                 ],
-                onChanged: (v) => ref
-                    .read(autoLibraryUpdateIntervalStateProvider.notifier)
-                    .set(v),
+                onChanged: (v) => ref.read(autoLibraryUpdateIntervalStateProvider.notifier).set(v),
               ),
               if (autoUpdateInterval > 0)
                 ShioriSwitchRow(
                   title: l10n.auto_library_update_wifi_only,
                   subtitle: l10n.auto_library_update_wifi_only_subtitle,
                   value: autoUpdateWifiOnly,
-                  onChanged: (v) => ref
-                      .read(autoLibraryUpdateWifiOnlyStateProvider.notifier)
-                      .set(v),
+                  onChanged: (v) => ref.read(autoLibraryUpdateWifiOnlyStateProvider.notifier).set(v),
                 ),
             ],
           ),
@@ -119,9 +113,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
               ShioriSwitchRow(
                 title: l10n.dns_over_https,
                 value: doHState.enabled,
-                onChanged: (v) => ref
-                    .read(doHProviderStateProvider.notifier)
-                    .setDoHEnabled(v),
+                onChanged: (v) => ref.read(doHProviderStateProvider.notifier).setDoHEnabled(v),
               ),
               if (doHState.enabled)
                 ShioriSettingRow(
@@ -130,8 +122,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                       ? (DohCustomStore.url.trim().isEmpty
                             ? l10n.custom
                             : '${l10n.custom} · ${DohCustomStore.url.trim()}')
-                      : (DoHProviders.byId[doHState.providerId ?? 0]?.name ??
-                            DoHProviders.cloudflare.name),
+                      : (DoHProviders.byId[doHState.providerId ?? 0]?.name ?? DoHProviders.cloudflare.name),
                   onTap: () => _pickDohProvider(
                     // Cloudflare (id 0) when unset, to match the subtitle.
                     doHState.providerId ?? 0,
@@ -142,9 +133,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                 ShioriSettingRow(
                   title: l10n.custom_dns_title,
                   // Blank uses the system's, as the title used to explain.
-                  subtitle: customDns.isEmpty
-                      ? l10n.custom_dns_system
-                      : customDns,
+                  subtitle: customDns.isEmpty ? l10n.custom_dns_system : customDns,
                   onTap: () => _editCustomDns(customDns),
                 ),
               ShioriSettingRow(
@@ -154,9 +143,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
               ),
               ShioriSettingRow(
                 title: l10n.cloudflare_bypass_proxy,
-                subtitle: CfProxyStore.url.isEmpty
-                    ? l10n.cloudflare_bypass_proxy_hint
-                    : CfProxyStore.url,
+                subtitle: CfProxyStore.url.isEmpty ? l10n.cloudflare_bypass_proxy_hint : CfProxyStore.url,
                 onTap: _editCfProxy,
               ),
             ],
@@ -193,9 +180,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                     _synopsis = defaultWeights.synopsis!;
                     _theme = defaultWeights.theme!;
                   });
-                  ref
-                      .read(algorithmWeightsStateProvider.notifier)
-                      .set(defaultWeights);
+                  ref.read(algorithmWeightsStateProvider.notifier).set(defaultWeights);
                 },
               ),
             ],
@@ -219,9 +204,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                 ShioriSwitchRow(
                   title: l10n.hide_discord_rpc_incognito,
                   value: hideDiscordRpcInIncognito,
-                  onChanged: (v) => ref
-                      .read(hideDiscordRpcInIncognitoStateProvider.notifier)
-                      .set(v),
+                  onChanged: (v) => ref.read(hideDiscordRpcInIncognitoStateProvider.notifier).set(v),
                 ),
                 ShioriSwitchRow(
                   title: l10n.rpc_show_reading_watching_progress,
@@ -235,14 +218,12 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                 ShioriSwitchRow(
                   title: l10n.rpc_show_title,
                   value: rpcShowTitleState,
-                  onChanged: (v) =>
-                      ref.read(rpcShowTitleStateProvider.notifier).set(v),
+                  onChanged: (v) => ref.read(rpcShowTitleStateProvider.notifier).set(v),
                 ),
                 ShioriSwitchRow(
                   title: l10n.rpc_show_cover_image,
                   value: rpcShowCoverImage,
-                  onChanged: (v) =>
-                      ref.read(rpcShowCoverImageStateProvider.notifier).set(v),
+                  onChanged: (v) => ref.read(rpcShowCoverImageStateProvider.notifier).set(v),
                 ),
               ],
             ],
@@ -254,16 +235,13 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
                 title: l10n.show_nav_double_tap_tooltip,
                 subtitle: l10n.show_nav_double_tap_tooltip_subtitle,
                 value: showNavDoubleTapTooltip,
-                onChanged: (v) => ref
-                    .read(showNavDoubleTapTooltipStateProvider.notifier)
-                    .set(v),
+                onChanged: (v) => ref.read(showNavDoubleTapTooltipStateProvider.notifier).set(v),
               ),
               ShioriSwitchRow(
                 title: l10n.memory_overlay,
                 subtitle: l10n.memory_overlay_subtitle,
                 value: ref.watch(memoryOverlayVisibleProvider),
-                onChanged: (v) =>
-                    ref.read(memoryOverlayVisibleProvider.notifier).set(v),
+                onChanged: (v) => ref.read(memoryOverlayVisibleProvider.notifier).set(v),
               ),
               // A way back to the first-run screen. It is the only way to see
               // it once it has been dismissed, and on a debug build, where a
@@ -271,9 +249,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
               ShioriSettingRow(
                 title: l10n.onboarding_replay,
                 subtitle: l10n.onboarding_replay_subtitle,
-                onTap: () => ref
-                    .read(onboardingCompletedStateProvider.notifier)
-                    .showAgain(),
+                onTap: () => ref.read(onboardingCompletedStateProvider.notifier).showAgain(),
               ),
             ],
           ),
@@ -304,8 +280,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
       title: context.l10n.dns_provider,
       selected: current,
       options: [
-        for (final provider in providers)
-          ShioriChoice(provider.id, provider.name),
+        for (final provider in providers) ShioriChoice(provider.id, provider.name),
         ShioriChoice(DoHProviders.customId, context.l10n.custom),
       ],
     );
@@ -321,9 +296,7 @@ class _GeneralStateScreen extends ConsumerState<GeneralScreen> {
         keyboardType: TextInputType.url,
         validator: (text) {
           final parsed = Uri.tryParse(text.trim());
-          return parsed != null &&
-                  parsed.scheme == 'https' &&
-                  parsed.host.isNotEmpty
+          return parsed != null && parsed.scheme == 'https' && parsed.host.isNotEmpty
               ? null
               : context.l10n.invalid_url('https://');
         },

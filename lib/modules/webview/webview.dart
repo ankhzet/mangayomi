@@ -143,9 +143,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                 "navigator.userAgent",
               ) ??
               "";
-          final cookie = cookieList
-              .map((e) => "${e.name}=${e.value}")
-              .join(";");
+          final cookie = cookieList.map((e) => "${e.name}=${e.value}").join(";");
           await MClient.setCookie(widget.url, ua, null, cookie: cookie);
           // location.href is the main frame's URL; the plugin's URL requests
           // also include iframes (ads, captchas). Results come back
@@ -259,8 +257,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                           ),
                         ),
                         leading: IconButton(
-                          tooltip: MaterialLocalizations.of(context)
-                              .closeButtonTooltip,
+                          tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
                           onPressed: () {
                             if (Platform.isLinux) {
                               _closeDesktopWebview();
@@ -277,8 +274,7 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                       ),
                     ),
                     IconButton(
-                      tooltip: MaterialLocalizations.of(context)
-                          .backButtonTooltip,
+                      tooltip: MaterialLocalizations.of(context).backButtonTooltip,
                       icon: Icon(
                         Symbols.arrow_back_rounded,
                         fill: 1,
@@ -320,27 +316,22 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                           : null,
                     ),
                     ShioriMenuButton(
-                      tooltip: MaterialLocalizations.of(context)
-                          .moreButtonTooltip,
+                      tooltip: MaterialLocalizations.of(context).moreButtonTooltip,
                       items: [
                         ShioriMenuItem(
                           label: l10n!.refresh,
                           icon: Symbols.refresh_rounded,
-                          onSelected: () => Platform.isLinux
-                              ? _desktopWebview?.reload()
-                              : _webViewController?.reload(),
+                          onSelected: () => Platform.isLinux ? _desktopWebview?.reload() : _webViewController?.reload(),
                         ),
                         ShioriMenuItem(
                           label: l10n.share,
                           icon: Symbols.share_rounded,
                           onSelected: () {
-                            final box =
-                                context.findRenderObject() as RenderBox?;
+                            final box = context.findRenderObject() as RenderBox?;
                             shareOrCopy(
                               ShareParams(
                                 text: _url,
-                                sharePositionOrigin:
-                                    box!.localToGlobal(Offset.zero) & box.size,
+                                sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
                               ),
                             );
                           },
@@ -405,25 +396,24 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                           _url = url.toString();
                         });
                       },
-                      shouldOverrideUrlLoading:
-                          (controller, navigationAction) async {
-                            var uri = navigationAction.request.url!;
-                            if (![
-                              "http",
-                              "https",
-                              "file",
-                              "chrome",
-                              "data",
-                              "javascript",
-                              "about",
-                            ].contains(uri.scheme)) {
-                              if (await canLaunchUrl(uri)) {
-                                await launchUrl(uri);
-                                return NavigationActionPolicy.CANCEL;
-                              }
-                            }
-                            return NavigationActionPolicy.ALLOW;
-                          },
+                      shouldOverrideUrlLoading: (controller, navigationAction) async {
+                        var uri = navigationAction.request.url!;
+                        if (![
+                          "http",
+                          "https",
+                          "file",
+                          "chrome",
+                          "data",
+                          "javascript",
+                          "about",
+                        ].contains(uri.scheme)) {
+                          if (await canLaunchUrl(uri)) {
+                            await launchUrl(uri);
+                            return NavigationActionPolicy.CANCEL;
+                          }
+                        }
+                        return NavigationActionPolicy.ALLOW;
+                      },
                       onLoadStop: (controller, url) async {
                         if (mounted) {
                           setState(() {
@@ -438,31 +428,29 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                           });
                         }
                       },
-                      onUpdateVisitedHistory:
-                          (controller, url, isReload) async {
-                            final ua =
-                                await controller.evaluateJavascript(
-                                  source: "navigator.userAgent",
-                                ) ??
-                                "";
-                            await MClient.setCookie(
-                              url.toString(),
-                              ua,
-                              controller,
-                            );
-                            final canGoback = await controller.canGoBack();
-                            final canGoForward = await controller
-                                .canGoForward();
-                            final title = await controller.getTitle();
-                            if (mounted) {
-                              setState(() {
-                                _url = url.toString();
-                                _title = title!;
-                                _canGoback = canGoback;
-                                _canGoForward = canGoForward;
-                              });
-                            }
-                          },
+                      onUpdateVisitedHistory: (controller, url, isReload) async {
+                        final ua =
+                            await controller.evaluateJavascript(
+                              source: "navigator.userAgent",
+                            ) ??
+                            "";
+                        await MClient.setCookie(
+                          url.toString(),
+                          ua,
+                          controller,
+                        );
+                        final canGoback = await controller.canGoBack();
+                        final canGoForward = await controller.canGoForward();
+                        final title = await controller.getTitle();
+                        if (mounted) {
+                          setState(() {
+                            _url = url.toString();
+                            _title = title!;
+                            _canGoback = canGoback;
+                            _canGoForward = canGoForward;
+                          });
+                        }
+                      },
                       initialUrlRequest: URLRequest(url: WebUri(widget.url)),
                     ),
                   ),

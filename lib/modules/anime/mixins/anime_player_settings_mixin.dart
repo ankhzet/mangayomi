@@ -27,10 +27,7 @@ import 'package:shiori/shiori.dart';
 /// Builds and presents the unified settings menu (mobile bottom sheet and
 /// desktop anchored popup) and its drilldown sections for the anime player.
 mixin AnimePlayerSettingsMixin<T extends riv.ConsumerStatefulWidget>
-    on
-        riv.ConsumerState<T>,
-        AnimeMpvBridgeMixin<T>,
-        AnimeTrackSelectionMixin<T> {
+    on riv.ConsumerState<T>, AnimeMpvBridgeMixin<T>, AnimeTrackSelectionMixin<T> {
   Chapter get settingsEpisode;
   GlobalKey<VideoState> get settingsVideoStateKey;
   ValueNotifier<double> get settingsPlaybackSpeed;
@@ -99,9 +96,7 @@ mixin AnimePlayerSettingsMixin<T extends riv.ConsumerStatefulWidget>
         valueBuilder: (context) => ValueListenableBuilder<VideoPrefs?>(
           valueListenable: selectedVideoPrefs,
           builder: (context, v, _) => Text(
-            isLocalForTracks
-                ? firstVideoForTracks.quality
-                : (v?.videoTrack?.title ?? ''),
+            isLocalForTracks ? firstVideoForTracks.quality : (v?.videoTrack?.title ?? ''),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -127,10 +122,7 @@ mixin AnimePlayerSettingsMixin<T extends riv.ConsumerStatefulWidget>
             final rawLabel = audioTrackLabel(effective);
             final label = (rawLabel.isNotEmpty && rawLabel != 'None')
                 ? rawLabel
-                : (effective.title ??
-                      effective.language ??
-                      effective.channels ??
-                      '');
+                : (effective.title ?? effective.language ?? effective.channels ?? '');
             return Text(
               label.isEmpty ? context.l10n.off : label,
               maxLines: 1,
@@ -152,14 +144,9 @@ mixin AnimePlayerSettingsMixin<T extends riv.ConsumerStatefulWidget>
             final rawLabel = subtitleTrackLabel(effective);
             final label = (rawLabel.isNotEmpty && rawLabel != 'None')
                 ? rawLabel
-                : (effective?.title ??
-                      effective?.language ??
-                      effective?.channels ??
-                      '');
+                : (effective?.title ?? effective?.language ?? effective?.channels ?? '');
             return Text(
-              (label.isEmpty || effective?.id == 'no')
-                  ? context.l10n.off
-                  : label,
+              (label.isEmpty || effective?.id == 'no') ? context.l10n.off : label,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             );
@@ -171,8 +158,7 @@ mixin AnimePlayerSettingsMixin<T extends riv.ConsumerStatefulWidget>
         label: context.l10n.appearance,
         icon: Symbols.text_fields_rounded,
         group: context.l10n.group_subtitles,
-        contentBuilder: (context) =>
-            _appearanceSectionWidget(context, hasSubtitleTrack),
+        contentBuilder: (context) => _appearanceSectionWidget(context, hasSubtitleTrack),
       ),
       if (mpvChapterMarks.value.isNotEmpty)
         SettingsEntry(
@@ -182,9 +168,7 @@ mixin AnimePlayerSettingsMixin<T extends riv.ConsumerStatefulWidget>
           valueBuilder: (context) => ValueListenableBuilder<int?>(
             valueListenable: mpvCurrentChapterMark,
             builder: (context, i, _) => Text(
-              i != null
-                  ? mpvChapterMarks.value.elementAtOrNull(i)?.$1 ?? ''
-                  : '',
+              i != null ? mpvChapterMarks.value.elementAtOrNull(i)?.$1 ?? '' : '',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -215,8 +199,7 @@ mixin AnimePlayerSettingsMixin<T extends riv.ConsumerStatefulWidget>
         label: context.l10n.autoplay_next,
         icon: Symbols.autoplay_rounded,
         group: context.l10n.group_playback,
-        toggle: settingsAutoplayNext
-          ..value = ref.read(autoPlayNextEpisodeProvider),
+        toggle: settingsAutoplayNext..value = ref.read(autoPlayNextEpisodeProvider),
         onToggle: (on) {
           if (on != ref.read(autoPlayNextEpisodeProvider)) {
             ref.read(autoPlayNextEpisodeProvider.notifier).toggle();
@@ -315,10 +298,7 @@ mixin AnimePlayerSettingsMixin<T extends riv.ConsumerStatefulWidget>
 
   bool _computeHasSubtitleTrack() {
     final realPlayerTracks = trackPlayer.state.tracks.subtitle.where(
-      (e) =>
-          e.id != 'auto' &&
-          e.id != 'no' &&
-          (e.title ?? e.language ?? e.channels ?? '').isNotEmpty,
+      (e) => e.id != 'auto' && e.id != 'no' && (e.title ?? e.language ?? e.channels ?? '').isNotEmpty,
     );
     final hasSourceTracks = trackVideos.any(
       (v) => (v.subtitles?.isNotEmpty ?? false),

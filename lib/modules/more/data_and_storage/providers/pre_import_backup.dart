@@ -34,12 +34,11 @@ class LibrarySafetySnapshot {
     'description': description,
   };
 
-  factory LibrarySafetySnapshot.fromJson(Map<String, dynamic> json) =>
-      LibrarySafetySnapshot(
-        backupPath: json['backupPath'] as String,
-        createdAt: json['createdAt'] as int,
-        description: json['description'] as String,
-      );
+  factory LibrarySafetySnapshot.fromJson(Map<String, dynamic> json) => LibrarySafetySnapshot(
+    backupPath: json['backupPath'] as String,
+    createdAt: json['createdAt'] as int,
+    description: json['description'] as String,
+  );
 }
 
 const maxLibrarySnapshots = 3;
@@ -74,10 +73,7 @@ Future<List<LibrarySafetySnapshot>> _readSnapshots(File file) async {
   try {
     final decoded = jsonDecode(await file.readAsString());
     if (decoded is! List) return const [];
-    return decoded
-        .cast<Map<String, dynamic>>()
-        .map(LibrarySafetySnapshot.fromJson)
-        .toList();
+    return decoded.cast<Map<String, dynamic>>().map(LibrarySafetySnapshot.fromJson).toList();
   } catch (error, stackTrace) {
     recordError(error, stack: stackTrace, source: 'pre_import_backup');
     return const [];

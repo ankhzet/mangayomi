@@ -25,40 +25,26 @@ class SourceRepository {
     return sourcesFilter.findAllSync();
   }
 
-  Future<List<Source>> getNonLocalByItemType(ItemType itemType) => isar.sources
-      .filter()
-      .idIsNotNull()
-      .itemTypeEqualTo(itemType)
-      .and()
-      .isLocalEqualTo(false)
-      .findAll();
+  Future<List<Source>> getNonLocalByItemType(ItemType itemType) =>
+      isar.sources.filter().idIsNotNull().itemTypeEqualTo(itemType).and().isLocalEqualTo(false).findAll();
 
   Source? findByNameAndLang(String? name, String? lang) =>
       isar.sources.filter().nameEqualTo(name).langEqualTo(lang).findFirstSync();
 
-  List<Source> getInstalledByItemType(ItemType itemType) => isar.sources
-      .filter()
-      .isAddedEqualTo(true)
-      .itemTypeEqualTo(itemType)
-      .findAllSync();
+  List<Source> getInstalledByItemType(ItemType itemType) =>
+      isar.sources.filter().isAddedEqualTo(true).itemTypeEqualTo(itemType).findAllSync();
 
   // Use composite index (itemType, isAdded) via where() for an index scan,
   // then narrow to isActive=true with a secondary filter on the small result set.
-  Stream<List<Source>> watchAddedAndActiveByItemType(ItemType itemType) => isar
-      .sources
+  Stream<List<Source>> watchAddedAndActiveByItemType(ItemType itemType) => isar.sources
       .where()
       .itemTypeIsAddedEqualTo(itemType, true)
       .filter()
       .isActiveEqualTo(true)
       .watch(fireImmediately: true);
 
-  Stream<List<Source>> watchWithCodeByItemType(ItemType itemType) => isar
-      .sources
-      .filter()
-      .sourceCodeIsNotEmpty()
-      .and()
-      .itemTypeEqualTo(itemType)
-      .watch(fireImmediately: true);
+  Stream<List<Source>> watchWithCodeByItemType(ItemType itemType) =>
+      isar.sources.filter().sourceCodeIsNotEmpty().and().itemTypeEqualTo(itemType).watch(fireImmediately: true);
 
   bool isNotEmptyActiveByItemTypeLangName(
     ItemType itemType,
@@ -118,43 +104,26 @@ class SourceRepository {
       .optional(hideNovel, (q) => q.not().itemTypeEqualTo(ItemType.novel))
       .watch(fireImmediately: true);
 
-  List<Source> getPinnedByItemType(ItemType itemType) => isar.sources
-      .filter()
-      .isPinnedEqualTo(true)
-      .and()
-      .itemTypeEqualTo(itemType)
-      .findAllSync();
+  List<Source> getPinnedByItemType(ItemType itemType) =>
+      isar.sources.filter().isPinnedEqualTo(true).and().itemTypeEqualTo(itemType).findAllSync();
 
   List<Source> getAddedByItemType(ItemType itemType) =>
       isar.sources.where().itemTypeIsAddedEqualTo(itemType, true).findAllSync();
 
-  List<Id> getOrphanedLocalIds() => isar.sources
-      .filter()
-      .idIsNotNull()
-      .isLocalEqualTo(true)
-      .isAddedEqualTo(false)
-      .idProperty()
-      .findAllSync();
+  List<Id> getOrphanedLocalIds() =>
+      isar.sources.filter().idIsNotNull().isLocalEqualTo(true).isAddedEqualTo(false).idProperty().findAllSync();
 
-  List<Source> getByItemType(ItemType itemType) =>
-      isar.sources.filter().itemTypeEqualTo(itemType).findAllSync();
+  List<Source> getByItemType(ItemType itemType) => isar.sources.filter().itemTypeEqualTo(itemType).findAllSync();
 
-  Stream<List<Source>> watchByItemType(ItemType itemType) => isar.sources
-      .filter()
-      .itemTypeEqualTo(itemType)
-      .watch(fireImmediately: true);
+  Stream<List<Source>> watchByItemType(ItemType itemType) =>
+      isar.sources.filter().itemTypeEqualTo(itemType).watch(fireImmediately: true);
 
-  Stream<List<Source>> watchActiveByItemType(ItemType itemType) => isar.sources
-      .where()
-      .isActiveEqualTo(true)
-      .filter()
-      .itemTypeEqualTo(itemType)
-      .watch(fireImmediately: true);
+  Stream<List<Source>> watchActiveByItemType(ItemType itemType) =>
+      isar.sources.where().isActiveEqualTo(true).filter().itemTypeEqualTo(itemType).watch(fireImmediately: true);
 
   // where().isActiveEqualTo() uses the isActive index for an efficient primary
   // scan; itemType and repo-visibility are secondary filters on the smaller set.
-  Stream<List<Source>> watchActiveVisibleByItemType(ItemType itemType) => isar
-      .sources
+  Stream<List<Source>> watchActiveVisibleByItemType(ItemType itemType) => isar.sources
       .where()
       .isActiveEqualTo(true)
       .filter()
@@ -175,11 +144,9 @@ class SourceRepository {
     });
   });
 
-  Future<void> delete(int id) =>
-      dbWriteQueue.run(() => isar.writeTxn(() => isar.sources.delete(id)));
+  Future<void> delete(int id) => dbWriteQueue.run(() => isar.writeTxn(() => isar.sources.delete(id)));
 
-  Future<void> clearAll() =>
-      dbWriteQueue.run(() => isar.writeTxnSync(() => isar.sources.clearSync()));
+  Future<void> clearAll() => dbWriteQueue.run(() => isar.writeTxnSync(() => isar.sources.clearSync()));
 
   // Sync primitive below is for callers already inside a write transaction
   // opened by another repository's transaction()/writeTransaction() (e.g.
@@ -190,29 +157,23 @@ class SourceRepository {
 
   // Marks source as the last one tapped into within itemType, so it sorts
   // first next time; every other source of that itemType loses the flag.
-  Future<void> markLastUsed(ItemType itemType, int? sourceId) =>
-      dbWriteQueue.run(
-        () => isar.writeTxn(() async {
-          final sources = await isar.sources
-              .filter()
-              .idIsNotNull()
-              .itemTypeEqualTo(itemType)
-              .findAll();
-          final updated = sources.map((src) {
-            return src
-              ..lastUsed = src.id == sourceId
-              ..updatedAt = DateTime.now().millisecondsSinceEpoch;
-          }).toList();
-          await isar.sources.putAll(updated);
-        }),
-      );
+  Future<void> markLastUsed(ItemType itemType, int? sourceId) => dbWriteQueue.run(
+    () => isar.writeTxn(() async {
+      final sources = await isar.sources.filter().idIsNotNull().itemTypeEqualTo(itemType).findAll();
+      final updated = sources.map((src) {
+        return src
+          ..lastUsed = src.id == sourceId
+          ..updatedAt = DateTime.now().millisecondsSinceEpoch;
+      }).toList();
+      await isar.sources.putAll(updated);
+    }),
+  );
 
   Future<void> putAll(List<Source> sources) => dbWriteQueue.run(
     () => isar.writeTxnSync(() => isar.sources.putAllSync(sources)),
   );
 
-  Future<void> deleteAll(List<int> ids) =>
-      dbWriteQueue.run(() => isar.writeTxn(() => isar.sources.deleteAll(ids)));
+  Future<void> deleteAll(List<int> ids) => dbWriteQueue.run(() => isar.writeTxn(() => isar.sources.deleteAll(ids)));
 
   // Obsolete/local sources have nothing to reinstall from, so they're fully
   // deleted; everything else just gets its code/flags cleared so it drops
@@ -220,11 +181,7 @@ class SourceRepository {
   // its preferences (both value tables) are wiped, since they're meaningless
   // once the source is gone or has no code to read them.
   Future<void> uninstall(Source source) => dbWriteQueue.run(() {
-    final sourcePrefsIds = isar.sourcePreferences
-        .filter()
-        .sourceIdEqualTo(source.id!)
-        .idProperty()
-        .findAllSync();
+    final sourcePrefsIds = isar.sourcePreferences.filter().sourceIdEqualTo(source.id!).idProperty().findAllSync();
     final sourcePrefsStringIds = isar.sourcePreferenceStringValues
         .filter()
         .sourceIdEqualTo(source.id!)
@@ -255,8 +212,7 @@ class SourceRepository {
   });
 
   // Escape hatch for source-rooted transactions too specific to name.
-  Future<T> transaction<T>(FutureOr<T> Function() body) =>
-      dbWriteQueue.run(body);
+  Future<T> transaction<T>(FutureOr<T> Function() body) => dbWriteQueue.run(body);
 }
 
 final sourceRepository = SourceRepository();

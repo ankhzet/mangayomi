@@ -9,51 +9,30 @@ import 'package:mangayomi/repositories/db_write_queue.dart';
 class CategoryRepository {
   Category? findById(int id) => isar.categorys.getSync(id);
 
-  Stream<List<Category>> watchAll() =>
-      isar.categorys.where().watch(fireImmediately: true);
+  Stream<List<Category>> watchAll() => isar.categorys.where().watch(fireImmediately: true);
 
-  List<Category> getAll() =>
-      isar.categorys.filter().idIsNotNull().findAllSync();
+  List<Category> getAll() => isar.categorys.filter().idIsNotNull().findAllSync();
 
-  List<Category> getChangedSince(int since) => isar.categorys
-      .filter()
-      .updatedAtGreaterThan(since, include: true)
-      .findAllSync();
+  List<Category> getChangedSince(int since) =>
+      isar.categorys.filter().updatedAtGreaterThan(since, include: true).findAllSync();
 
-  Category? getByClientId(int clientId) => isar.categorys
-      .filter()
-      .clientIdEqualTo(clientId)
-      .or()
-      .idEqualTo(clientId)
-      .findFirstSync();
+  Category? getByClientId(int clientId) =>
+      isar.categorys.filter().clientIdEqualTo(clientId).or().idEqualTo(clientId).findFirstSync();
 
   // Async twin, for callers already inside an async writeTxn/writeTransactionAsync
   // — Isar rejects a sync findAllSync() call from inside an async transaction.
-  Future<List<Category>> getAllAsync() =>
-      isar.categorys.filter().idIsNotNull().findAll();
+  Future<List<Category>> getAllAsync() => isar.categorys.filter().idIsNotNull().findAll();
 
-  bool isNotEmptyByItemType(ItemType itemType) => isar.categorys
-      .filter()
-      .idIsNotNull()
-      .and()
-      .forItemTypeEqualTo(itemType)
-      .isNotEmptySync();
+  bool isNotEmptyByItemType(ItemType itemType) =>
+      isar.categorys.filter().idIsNotNull().and().forItemTypeEqualTo(itemType).isNotEmptySync();
 
-  List<Category> getByItemType(ItemType itemType) =>
-      isar.categorys.filter().forItemTypeEqualTo(itemType).findAllSync();
+  List<Category> getByItemType(ItemType itemType) => isar.categorys.filter().forItemTypeEqualTo(itemType).findAllSync();
 
-  Stream<List<Category>> watchByItemTypeSimple(ItemType itemType) => isar
-      .categorys
-      .filter()
-      .forItemTypeEqualTo(itemType)
-      .watch(fireImmediately: true);
+  Stream<List<Category>> watchByItemTypeSimple(ItemType itemType) =>
+      isar.categorys.filter().forItemTypeEqualTo(itemType).watch(fireImmediately: true);
 
-  Stream<List<Category>> watchByItemType(ItemType itemType) => isar.categorys
-      .filter()
-      .idIsNotNull()
-      .and()
-      .forItemTypeEqualTo(itemType)
-      .watch(fireImmediately: true);
+  Stream<List<Category>> watchByItemType(ItemType itemType) =>
+      isar.categorys.filter().idIsNotNull().and().forItemTypeEqualTo(itemType).watch(fireImmediately: true);
 
   Future<void> setHidden(Category category, bool hidden) => dbWriteQueue.run(
     () {
@@ -77,10 +56,7 @@ class CategoryRepository {
   // Uncategorizes every manga that had this category, then deletes it.
   Future<void> remove(Category category) => dbWriteQueue.run(
     () => isar.writeTxn(() async {
-      final items = await isar.mangas
-          .filter()
-          .categoriesElementEqualTo(category.id!)
-          .findAll();
+      final items = await isar.mangas.filter().categoriesElementEqualTo(category.id!).findAll();
       final updatedItems = items.map((manga) {
         final cats = List<int>.from(manga.categories ?? []);
         cats.remove(category.id!);
@@ -116,20 +92,16 @@ class CategoryRepository {
 
   void deleteSync(int id) => isar.categorys.deleteSync(id);
 
-  void putAllSync(List<Category> categories) =>
-      isar.categorys.putAllSync(categories);
+  void putAllSync(List<Category> categories) => isar.categorys.putAllSync(categories);
 
   void clearSync() => isar.categorys.clearSync();
 
   // Escape hatch for category-rooted transactions too specific to name.
-  Future<T> transaction<T>(FutureOr<T> Function() body) =>
-      dbWriteQueue.run(body);
+  Future<T> transaction<T>(FutureOr<T> Function() body) => dbWriteQueue.run(body);
 
-  Future<T> writeTransaction<T>(T Function() body) =>
-      dbWriteQueue.run(() => isar.writeTxnSync(body));
+  Future<T> writeTransaction<T>(T Function() body) => dbWriteQueue.run(() => isar.writeTxnSync(body));
 
-  Future<T> writeTransactionAsync<T>(Future<T> Function() body) =>
-      dbWriteQueue.run(() => isar.writeTxn(body));
+  Future<T> writeTransactionAsync<T>(Future<T> Function() body) => dbWriteQueue.run(() => isar.writeTxn(body));
 }
 
 final categoryRepository = CategoryRepository();

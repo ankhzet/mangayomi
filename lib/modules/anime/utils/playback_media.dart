@@ -85,6 +85,5 @@ class _LocalFileMedia implements Media {
   int get hashCode => uri.hashCode;
 
   @override
-  String toString() =>
-      'Media($uri, extras: $extras, httpHeaders: $httpHeaders, start: $start, end: $end)';
+  String toString() => 'Media($uri, extras: $extras, httpHeaders: $httpHeaders, start: $start, end: $end)';
 }

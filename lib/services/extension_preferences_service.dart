@@ -15,9 +15,7 @@ void setPreferenceSetting(SourcePreference sourcePreference, Source source) {
     sourcePreference.key,
   );
   unawaited(
-    sourcePreferenceRepository
-        .save(sourcePreference, source, sourcePref)
-        .catchError((_) {}),
+    sourcePreferenceRepository.save(sourcePreference, source, sourcePref).catchError((_) {}),
   );
 
   if ((source.sourceCodeLanguage == SourceCodeLanguage.aidoku ||
@@ -27,10 +25,7 @@ void setPreferenceSetting(SourcePreference sourcePreference, Source source) {
     dynamic val;
     if (sourcePreference.listPreference != null) {
       final p = sourcePreference.listPreference!;
-      val =
-          (p.entryValues != null &&
-              p.valueIndex != null &&
-              p.valueIndex! < p.entryValues!.length)
+      val = (p.entryValues != null && p.valueIndex != null && p.valueIndex! < p.entryValues!.length)
           ? p.entryValues![p.valueIndex!]
           : p.valueIndex;
     } else if (sourcePreference.checkBoxPreference != null) {
@@ -45,17 +40,14 @@ void setPreferenceSetting(SourcePreference sourcePreference, Source source) {
     if (val != null) {
       if (source.sourceCodeLanguage == SourceCodeLanguage.aidoku) {
         aidoku.SettingsStore.shared.setValue(key, val);
-      } else if (source.sourceCodeLanguage == SourceCodeLanguage.lnreader &&
-          source.id != null) {
+      } else if (source.sourceCodeLanguage == SourceCodeLanguage.lnreader && source.id != null) {
         final str = val is String ? val : jsonEncode(val);
         final existing = sourcePreferenceRepository.findStringValueByKey(
           source.id,
           key,
         );
         unawaited(
-          sourcePreferenceRepository
-              .saveStringValue(source.id!, key, str, existing)
-              .catchError((_) {}),
+          sourcePreferenceRepository.saveStringValue(source.id!, key, str, existing).catchError((_) {}),
         );
       }
     }
@@ -100,8 +92,10 @@ String getSourcePreferenceStringValue(
   String key,
   String defaultValue,
 ) {
-  SourcePreferenceStringValue? sourcePreferenceStringValue =
-      sourcePreferenceRepository.findStringValueByKey(sourceId, key);
+  SourcePreferenceStringValue? sourcePreferenceStringValue = sourcePreferenceRepository.findStringValueByKey(
+    sourceId,
+    key,
+  );
   if (sourcePreferenceStringValue == null) {
     setSourcePreferenceStringValue(sourceId, key, defaultValue);
     return defaultValue;
@@ -116,8 +110,6 @@ void setSourcePreferenceStringValue(int sourceId, String key, String value) {
     key,
   );
   unawaited(
-    sourcePreferenceRepository
-        .saveStringValue(sourceId, key, value, sourcePref)
-        .catchError((_) {}),
+    sourcePreferenceRepository.saveStringValue(sourceId, key, value, sourcePref).catchError((_) {}),
   );
 }

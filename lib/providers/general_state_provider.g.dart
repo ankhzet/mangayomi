@@ -12,8 +12,7 @@ part of 'general_state_provider.dart';
 @ProviderFor(CustomDnsState)
 final customDnsStateProvider = CustomDnsStateProvider._();
 
-final class CustomDnsStateProvider
-    extends $NotifierProvider<CustomDnsState, String> {
+final class CustomDnsStateProvider extends $NotifierProvider<CustomDnsState, String> {
   CustomDnsStateProvider._()
     : super(
         from: null,
@@ -49,14 +48,7 @@ abstract class _$CustomDnsState extends $Notifier<String> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String, String>,
-              String,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -64,8 +56,7 @@ abstract class _$CustomDnsState extends $Notifier<String> {
 @ProviderFor(EnableDiscordRpcState)
 final enableDiscordRpcStateProvider = EnableDiscordRpcStateProvider._();
 
-final class EnableDiscordRpcStateProvider
-    extends $NotifierProvider<EnableDiscordRpcState, bool> {
+final class EnableDiscordRpcStateProvider extends $NotifierProvider<EnableDiscordRpcState, bool> {
   EnableDiscordRpcStateProvider._()
     : super(
         from: null,
@@ -93,8 +84,7 @@ final class EnableDiscordRpcStateProvider
   }
 }
 
-String _$enableDiscordRpcStateHash() =>
-    r'5418804aafecd671892b6d224b568626dd332e6c';
+String _$enableDiscordRpcStateHash() => r'5418804aafecd671892b6d224b568626dd332e6c';
 
 abstract class _$EnableDiscordRpcState extends $Notifier<bool> {
   bool build();
@@ -102,24 +92,15 @@ abstract class _$EnableDiscordRpcState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(HideDiscordRpcInIncognitoState)
-final hideDiscordRpcInIncognitoStateProvider =
-    HideDiscordRpcInIncognitoStateProvider._();
+final hideDiscordRpcInIncognitoStateProvider = HideDiscordRpcInIncognitoStateProvider._();
 
-final class HideDiscordRpcInIncognitoStateProvider
-    extends $NotifierProvider<HideDiscordRpcInIncognitoState, bool> {
+final class HideDiscordRpcInIncognitoStateProvider extends $NotifierProvider<HideDiscordRpcInIncognitoState, bool> {
   HideDiscordRpcInIncognitoStateProvider._()
     : super(
         from: null,
@@ -147,8 +128,7 @@ final class HideDiscordRpcInIncognitoStateProvider
   }
 }
 
-String _$hideDiscordRpcInIncognitoStateHash() =>
-    r'e833bc327a904c4be075fa8bd56fe6857e2931db';
+String _$hideDiscordRpcInIncognitoStateHash() => r'e833bc327a904c4be075fa8bd56fe6857e2931db';
 
 abstract class _$HideDiscordRpcInIncognitoState extends $Notifier<bool> {
   bool build();
@@ -156,21 +136,13 @@ abstract class _$HideDiscordRpcInIncognitoState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(RpcShowReadingWatchingProgressState)
-final rpcShowReadingWatchingProgressStateProvider =
-    RpcShowReadingWatchingProgressStateProvider._();
+final rpcShowReadingWatchingProgressStateProvider = RpcShowReadingWatchingProgressStateProvider._();
 
 final class RpcShowReadingWatchingProgressStateProvider
     extends $NotifierProvider<RpcShowReadingWatchingProgressState, bool> {
@@ -186,13 +158,11 @@ final class RpcShowReadingWatchingProgressStateProvider
       );
 
   @override
-  String debugGetCreateSourceHash() =>
-      _$rpcShowReadingWatchingProgressStateHash();
+  String debugGetCreateSourceHash() => _$rpcShowReadingWatchingProgressStateHash();
 
   @$internal
   @override
-  RpcShowReadingWatchingProgressState create() =>
-      RpcShowReadingWatchingProgressState();
+  RpcShowReadingWatchingProgressState create() => RpcShowReadingWatchingProgressState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(bool value) {
@@ -203,8 +173,7 @@ final class RpcShowReadingWatchingProgressStateProvider
   }
 }
 
-String _$rpcShowReadingWatchingProgressStateHash() =>
-    r'600417beabe737c161b07f84c2f612128c21ad78';
+String _$rpcShowReadingWatchingProgressStateHash() => r'600417beabe737c161b07f84c2f612128c21ad78';
 
 abstract class _$RpcShowReadingWatchingProgressState extends $Notifier<bool> {
   bool build();
@@ -212,14 +181,7 @@ abstract class _$RpcShowReadingWatchingProgressState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -227,8 +189,7 @@ abstract class _$RpcShowReadingWatchingProgressState extends $Notifier<bool> {
 @ProviderFor(RpcShowTitleState)
 final rpcShowTitleStateProvider = RpcShowTitleStateProvider._();
 
-final class RpcShowTitleStateProvider
-    extends $NotifierProvider<RpcShowTitleState, bool> {
+final class RpcShowTitleStateProvider extends $NotifierProvider<RpcShowTitleState, bool> {
   RpcShowTitleStateProvider._()
     : super(
         from: null,
@@ -264,14 +225,7 @@ abstract class _$RpcShowTitleState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -279,8 +233,7 @@ abstract class _$RpcShowTitleState extends $Notifier<bool> {
 @ProviderFor(RpcShowCoverImageState)
 final rpcShowCoverImageStateProvider = RpcShowCoverImageStateProvider._();
 
-final class RpcShowCoverImageStateProvider
-    extends $NotifierProvider<RpcShowCoverImageState, bool> {
+final class RpcShowCoverImageStateProvider extends $NotifierProvider<RpcShowCoverImageState, bool> {
   RpcShowCoverImageStateProvider._()
     : super(
         from: null,
@@ -308,8 +261,7 @@ final class RpcShowCoverImageStateProvider
   }
 }
 
-String _$rpcShowCoverImageStateHash() =>
-    r'f172f665d9a956ddadc0efbbf80bc48c12d725e2';
+String _$rpcShowCoverImageStateHash() => r'f172f665d9a956ddadc0efbbf80bc48c12d725e2';
 
 abstract class _$RpcShowCoverImageState extends $Notifier<bool> {
   bool build();
@@ -317,14 +269,7 @@ abstract class _$RpcShowCoverImageState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -332,8 +277,7 @@ abstract class _$RpcShowCoverImageState extends $Notifier<bool> {
 @ProviderFor(UserAgentState)
 final userAgentStateProvider = UserAgentStateProvider._();
 
-final class UserAgentStateProvider
-    extends $NotifierProvider<UserAgentState, String> {
+final class UserAgentStateProvider extends $NotifierProvider<UserAgentState, String> {
   UserAgentStateProvider._()
     : super(
         from: null,
@@ -369,24 +313,15 @@ abstract class _$UserAgentState extends $Notifier<String> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String, String>,
-              String,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(AutoLibraryUpdateIntervalState)
-final autoLibraryUpdateIntervalStateProvider =
-    AutoLibraryUpdateIntervalStateProvider._();
+final autoLibraryUpdateIntervalStateProvider = AutoLibraryUpdateIntervalStateProvider._();
 
-final class AutoLibraryUpdateIntervalStateProvider
-    extends $NotifierProvider<AutoLibraryUpdateIntervalState, int> {
+final class AutoLibraryUpdateIntervalStateProvider extends $NotifierProvider<AutoLibraryUpdateIntervalState, int> {
   AutoLibraryUpdateIntervalStateProvider._()
     : super(
         from: null,
@@ -414,8 +349,7 @@ final class AutoLibraryUpdateIntervalStateProvider
   }
 }
 
-String _$autoLibraryUpdateIntervalStateHash() =>
-    r'ef59570f9a759cf9eac7a20ea7aa153f435cbfec';
+String _$autoLibraryUpdateIntervalStateHash() => r'ef59570f9a759cf9eac7a20ea7aa153f435cbfec';
 
 abstract class _$AutoLibraryUpdateIntervalState extends $Notifier<int> {
   int build();
@@ -423,24 +357,15 @@ abstract class _$AutoLibraryUpdateIntervalState extends $Notifier<int> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(AutoLibraryUpdateWifiOnlyState)
-final autoLibraryUpdateWifiOnlyStateProvider =
-    AutoLibraryUpdateWifiOnlyStateProvider._();
+final autoLibraryUpdateWifiOnlyStateProvider = AutoLibraryUpdateWifiOnlyStateProvider._();
 
-final class AutoLibraryUpdateWifiOnlyStateProvider
-    extends $NotifierProvider<AutoLibraryUpdateWifiOnlyState, bool> {
+final class AutoLibraryUpdateWifiOnlyStateProvider extends $NotifierProvider<AutoLibraryUpdateWifiOnlyState, bool> {
   AutoLibraryUpdateWifiOnlyStateProvider._()
     : super(
         from: null,
@@ -468,8 +393,7 @@ final class AutoLibraryUpdateWifiOnlyStateProvider
   }
 }
 
-String _$autoLibraryUpdateWifiOnlyStateHash() =>
-    r'c76e781b056bac7f9413daa61c0be777727c10af';
+String _$autoLibraryUpdateWifiOnlyStateHash() => r'c76e781b056bac7f9413daa61c0be777727c10af';
 
 abstract class _$AutoLibraryUpdateWifiOnlyState extends $Notifier<bool> {
   bool build();
@@ -477,14 +401,7 @@ abstract class _$AutoLibraryUpdateWifiOnlyState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

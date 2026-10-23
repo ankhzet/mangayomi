@@ -146,9 +146,7 @@ class CustomSeekBarState extends State<CustomSeekBar> {
     // no button down), it tracks the cursor instead — dragging always wins if
     // somehow both are true (e.g. mouse-down before the hover state cleared).
     final bubbleFraction = _dragging ? fraction : (_hoverFraction ?? fraction);
-    final bubblePosition = _dragging
-        ? previewPosition
-        : (_hoverPosition ?? previewPosition);
+    final bubblePosition = _dragging ? previewPosition : (_hoverPosition ?? previewPosition);
     final showBubble = _dragging || _hovering;
     final timeStyle = context.shiori.text.meta.copyWith(
       color: Colors.white,
@@ -172,8 +170,7 @@ class CustomSeekBarState extends State<CustomSeekBar> {
               builder: (context, constraints) => MouseRegion(
                 opaque: true,
                 hitTestBehavior: HitTestBehavior.opaque,
-                onHover: (event) =>
-                    _onTrackHover(event.localPosition.dx, constraints.maxWidth),
+                onHover: (event) => _onTrackHover(event.localPosition.dx, constraints.maxWidth),
                 onExit: (_) {
                   _onTrackHoverExit();
                 },
@@ -220,8 +217,7 @@ class CustomSeekBarState extends State<CustomSeekBar> {
                         onChanged: (value) {
                           widget.onSeekStart?.call(
                             Duration(
-                              milliseconds:
-                                  value.toInt() - position.inMilliseconds,
+                              milliseconds: value.toInt() - position.inMilliseconds,
                             ),
                           );
                           if (mounted) {
@@ -235,8 +231,7 @@ class CustomSeekBarState extends State<CustomSeekBar> {
                         onChangeEnd: (value) async {
                           widget.onSeekEnd?.call(
                             Duration(
-                              milliseconds:
-                                  value.toInt() - position.inMilliseconds,
+                              milliseconds: value.toInt() - position.inMilliseconds,
                             ),
                           );
                           widget.player.seek(

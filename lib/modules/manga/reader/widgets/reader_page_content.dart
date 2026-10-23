@@ -5,8 +5,7 @@ import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/manga/reader/image_view_paged.dart';
 import 'package:mangayomi/modules/manga/reader/image_view_webtoon.dart';
-import 'package:mangayomi/modules/manga/reader/subsampling_scale_image_view/subsampling_scale_image_view.dart'
-    as ssiv;
+import 'package:mangayomi/modules/manga/reader/subsampling_scale_image_view/subsampling_scale_image_view.dart' as ssiv;
 import 'package:mangayomi/modules/manga/reader/u_chap_data_preload.dart';
 import 'package:mangayomi/modules/manga/reader/utils/reader_page_index_math.dart';
 import 'package:mangayomi/modules/manga/reader/widgets/reader_page_states.dart';
@@ -58,8 +57,7 @@ class ReaderPageContent extends ConsumerWidget {
   /// Looks up (creating if needed) the single-page zoom controller for
   /// [index]. Owned by the caller so the zoom-state listener it attaches
   /// keeps seeing the same instances across rebuilds.
-  final ssiv.SubsamplingScaleImageViewController Function(int index)
-  pageControllerFor;
+  final ssiv.SubsamplingScaleImageViewController Function(int index) pageControllerFor;
 
   final void Function(int index, bool failed) onFailedToLoadImage;
   final void Function(int index, double width, double height) onWidePage;
@@ -70,8 +68,7 @@ class ReaderPageContent extends ConsumerWidget {
   final void Function(int index) onWideSinglePageLoaded;
 
   final void Function(int index, bool zoomed) onDoublePageZoomChanged;
-  final void Function(int index, PhotoViewController controller, bool attached)
-  onDoublePageControllerChanged;
+  final void Function(int index, PhotoViewController controller, bool attached) onDoublePageControllerChanged;
   final Future<void> Function(int index) onPageChanged;
 
   const ReaderPageContent({
@@ -110,9 +107,7 @@ class ReaderPageContent extends ConsumerWidget {
         pages: pages,
         listController: listController,
         scrollController: continuousScrollController,
-        scrollDirection: isHorizontalContinuous
-            ? Axis.horizontal
-            : Axis.vertical,
+        scrollDirection: isHorizontalContinuous ? Axis.horizontal : Axis.vertical,
         // Keep the *built* (decoded, in-memory) range small and constant;
         // pagePreloadAmount only drives the network prefetch in
         // _prefetchPagesInOrder. Tying this to pagePreloadAmount pinned up to
@@ -130,8 +125,7 @@ class ReaderPageContent extends ConsumerWidget {
         ),
         onFailedToLoadImage: onFailedToLoadImage,
         backgroundColor: backgroundColor,
-        isDoublePageMode:
-            pageMode == PageMode.doublePage && !isHorizontalContinuous,
+        isDoublePageMode: pageMode == PageMode.doublePage && !isHorizontalContinuous,
         isHorizontalContinuous: isHorizontalContinuous,
         readerMode: readerMode,
         webtoonSidePadding: ref.watch(webtoonSidePaddingStateProvider),
@@ -167,9 +161,7 @@ class ReaderPageContent extends ConsumerWidget {
               controller: extendedController,
               scrollDirection: scrollDirection,
               reverse: isReverseHorizontal,
-              physics: isCurrentPageZoomed
-                  ? const NeverScrollableScrollPhysics()
-                  : const ClampingScrollPhysics(),
+              physics: isCurrentPageZoomed ? const NeverScrollableScrollPhysics() : const ClampingScrollPhysics(),
               itemBuilder: (context, index) {
                 final singleFirst = ref.watch(
                   doublePageSingleFirstPageStateProvider,
@@ -187,9 +179,7 @@ class ReaderPageContent extends ConsumerWidget {
                 ];
                 return DoublePageView.paged(
                   key: ValueKey('spread_${index}_${index1}_$index2'),
-                  pages: isReverseHorizontal
-                      ? pageList.reversed.toList()
-                      : pageList,
+                  pages: isReverseHorizontal ? pageList.reversed.toList() : pageList,
                   backgroundColor: backgroundColor,
                   scrollDirection: scrollDirection,
                   onZoomChanged: (zoomed) {
@@ -202,8 +192,7 @@ class ReaderPageContent extends ConsumerWidget {
                     onFailedToLoadImage(index, val);
                   },
                   onImageLoaded: (pIdx, width, height) {
-                    if (ref.read(splitWidePagesStateProvider) &&
-                        width > height * 1.2) {
+                    if (ref.read(splitWidePagesStateProvider) && width > height * 1.2) {
                       onWidePage(pIdx, width, height);
                     }
                   },
@@ -225,9 +214,7 @@ class ReaderPageContent extends ConsumerWidget {
               controller: extendedController,
               scrollDirection: scrollDirection,
               reverse: isReverseHorizontal,
-              physics: isCurrentPageZoomed
-                  ? const NeverScrollableScrollPhysics()
-                  : const ClampingScrollPhysics(),
+              physics: isCurrentPageZoomed ? const NeverScrollableScrollPhysics() : const ClampingScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 final page = pages[index];
                 return ReaderPagedItem(
@@ -300,13 +287,10 @@ class ReaderPagedItem extends ConsumerWidget {
         if (state.loadState == ssiv.LoadState.loading) {
           final ImageChunkEvent? loadingProgress = state.loadingProgress;
           final double progress = loadingProgress?.expectedTotalBytes != null
-              ? loadingProgress!.cumulativeBytesLoaded /
-                    loadingProgress.expectedTotalBytes!
+              ? loadingProgress!.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
               : 0;
           return Container(
-            color:
-                getBackgroundColor(backgroundColor) ??
-                context.shiori.color.ink0,
+            color: getBackgroundColor(backgroundColor) ?? context.shiori.color.ink0,
             height: context.height(0.8),
             child: ReaderPageLoading(progress: progress),
           );
@@ -318,9 +302,7 @@ class ReaderPagedItem extends ConsumerWidget {
         if (state.loadState == ssiv.LoadState.failed) {
           onFailedToLoadImage(index, true);
           return Container(
-            color:
-                getBackgroundColor(backgroundColor) ??
-                context.shiori.color.ink0,
+            color: getBackgroundColor(backgroundColor) ?? context.shiori.color.ink0,
             height: context.height(0.8),
             child: ReaderPageError(
               onRetry: () {

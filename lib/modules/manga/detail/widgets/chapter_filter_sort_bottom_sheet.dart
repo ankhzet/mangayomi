@@ -47,17 +47,14 @@ void showChapterFilterSortBottomSheet({
                   },
                 ),
               ListTileChapterFilter(
-                label: itemType != ItemType.anime
-                    ? l10n.unread
-                    : l10n.unwatched,
+                label: itemType != ItemType.anime ? l10n.unread : l10n.unwatched,
                 type: ref.watch(
                   chapterFilterUnreadStateProvider(mangaId: manga.id!),
                 ),
                 onTap: () {
                   ref
                       .read(
-                        chapterFilterUnreadStateProvider(mangaId: manga.id!)
-                            .notifier,
+                        chapterFilterUnreadStateProvider(mangaId: manga.id!).notifier,
                       )
                       .update();
                 },
@@ -70,8 +67,7 @@ void showChapterFilterSortBottomSheet({
                 onTap: () {
                   ref
                       .read(
-                        chapterFilterBookmarkedStateProvider(mangaId: manga.id!)
-                            .notifier,
+                        chapterFilterBookmarkedStateProvider(mangaId: manga.id!).notifier,
                       )
                       .update();
                 },
@@ -112,9 +108,7 @@ void showChapterFilterSortBottomSheet({
       ),
       Consumer(
         builder: (context, ref, chil) {
-          final reverse = ref
-              .read(sortChapterStateProvider(mangaId: manga.id!).notifier)
-              .isReverse();
+          final reverse = ref.read(sortChapterStateProvider(mangaId: manga.id!).notifier).isReverse();
           final scanlators = ref.watch(scanlatorsFilterStateProvider(manga));
           final reverseChapter = ref.watch(
             sortChapterStateProvider(mangaId: manga.id!),
@@ -160,9 +154,7 @@ void showChapterFilterSortBottomSheet({
               (ids) => ids.contains(manga.id),
             ),
           );
-          void set(bool value) => ref
-              .read(chapterNumberDisplayProvider.notifier)
-              .set(manga.id!, byNumber: value);
+          void set(bool value) => ref.read(chapterNumberDisplayProvider.notifier).set(manga.id!, byNumber: value);
           return Column(
             children: [
               ChapterDisplayChoiceRow(
@@ -171,9 +163,7 @@ void showChapterFilterSortBottomSheet({
                 onTap: () => set(false),
               ),
               ChapterDisplayChoiceRow(
-                label: itemType != ItemType.anime
-                    ? l10n.chapter_number
-                    : l10n.episode_number,
+                label: itemType != ItemType.anime ? l10n.chapter_number : l10n.episode_number,
                 selected: byNumber,
                 onTap: () => set(true),
               ),
@@ -192,9 +182,7 @@ String _getSortNameByIndex(int index, BuildContext context, ItemType itemType) {
   if (index == 0) {
     return l10n.by_scanlator;
   } else if (index == 1) {
-    return itemType != ItemType.anime
-        ? l10n.by_chapter_number
-        : l10n.by_episode_number;
+    return itemType != ItemType.anime ? l10n.by_chapter_number : l10n.by_episode_number;
   } else if (index == 2) {
     return l10n.by_upload_date;
   }
@@ -230,9 +218,7 @@ class ChapterDisplayChoiceRow extends StatelessWidget {
             dense: true,
             minTileHeight: tokens.density.minTarget,
             leading: Icon(
-              selected
-                  ? Symbols.radio_button_checked_rounded
-                  : Symbols.radio_button_unchecked_rounded,
+              selected ? Symbols.radio_button_checked_rounded : Symbols.radio_button_unchecked_rounded,
               color: selected ? c.accentInk : c.fgMuted,
               size: tokens.scaled(24),
             ),

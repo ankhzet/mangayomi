@@ -244,10 +244,8 @@ extension TrackPreferenceQueryWhere on QueryBuilder<TrackPreference, TrackPrefer
   }
 }
 
-extension TrackPreferenceQueryFilter
-    on QueryBuilder<TrackPreference, TrackPreference, QFilterCondition> {
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  avatarUrlIsNull() {
+extension TrackPreferenceQueryFilter on QueryBuilder<TrackPreference, TrackPreference, QFilterCondition> {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> avatarUrlIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'avatarUrl'),
@@ -255,8 +253,7 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  avatarUrlIsNotNull() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> avatarUrlIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'avatarUrl'),
@@ -264,8 +261,10 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  avatarUrlEqualTo(String? value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> avatarUrlEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -277,8 +276,7 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  avatarUrlGreaterThan(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> avatarUrlGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -295,8 +293,7 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  avatarUrlLessThan(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> avatarUrlLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -313,8 +310,7 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  avatarUrlBetween(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> avatarUrlBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -335,8 +331,10 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  avatarUrlStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> avatarUrlStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -348,8 +346,10 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  avatarUrlEndsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> avatarUrlEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -361,8 +361,10 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  avatarUrlContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> avatarUrlContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -374,8 +376,10 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  avatarUrlMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> avatarUrlMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -387,8 +391,7 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  avatarUrlIsEmpty() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> avatarUrlIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'avatarUrl', value: ''),
@@ -396,8 +399,7 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  avatarUrlIsNotEmpty() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> avatarUrlIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'avatarUrl', value: ''),
@@ -405,8 +407,7 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  displayNameIsNull() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> displayNameIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'displayName'),
@@ -414,8 +415,7 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  displayNameIsNotNull() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> displayNameIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'displayName'),
@@ -423,8 +423,10 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  displayNameEqualTo(String? value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> displayNameEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(
@@ -436,8 +438,7 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  displayNameGreaterThan(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> displayNameGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -454,8 +455,7 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  displayNameLessThan(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> displayNameLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -472,8 +472,7 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  displayNameBetween(
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> displayNameBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -494,8 +493,10 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  displayNameStartsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> displayNameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.startsWith(
@@ -507,8 +508,10 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  displayNameEndsWith(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> displayNameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.endsWith(
@@ -520,8 +523,10 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  displayNameContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> displayNameContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.contains(
@@ -533,8 +538,10 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  displayNameMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> displayNameMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.matches(
@@ -546,8 +553,7 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  displayNameIsEmpty() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> displayNameIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.equalTo(property: r'displayName', value: ''),
@@ -555,8 +561,7 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  displayNameIsNotEmpty() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> displayNameIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(property: r'displayName', value: ''),
@@ -564,8 +569,7 @@ extension TrackPreferenceQueryFilter
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition>
-  oAuthIsNull() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterFilterCondition> oAuthIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'oAuth'),
@@ -1153,31 +1157,26 @@ extension TrackPreferenceQueryObject on QueryBuilder<TrackPreference, TrackPrefe
 
 extension TrackPreferenceQueryLinks on QueryBuilder<TrackPreference, TrackPreference, QFilterCondition> {}
 
-extension TrackPreferenceQuerySortBy
-    on QueryBuilder<TrackPreference, TrackPreference, QSortBy> {
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
-  sortByAvatarUrl() {
+extension TrackPreferenceQuerySortBy on QueryBuilder<TrackPreference, TrackPreference, QSortBy> {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> sortByAvatarUrl() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'avatarUrl', Sort.asc);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
-  sortByAvatarUrlDesc() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> sortByAvatarUrlDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'avatarUrl', Sort.desc);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
-  sortByDisplayName() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> sortByDisplayName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'displayName', Sort.asc);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
-  sortByDisplayNameDesc() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> sortByDisplayNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'displayName', Sort.desc);
     });
@@ -1232,31 +1231,26 @@ extension TrackPreferenceQuerySortBy
   }
 }
 
-extension TrackPreferenceQuerySortThenBy
-    on QueryBuilder<TrackPreference, TrackPreference, QSortThenBy> {
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
-  thenByAvatarUrl() {
+extension TrackPreferenceQuerySortThenBy on QueryBuilder<TrackPreference, TrackPreference, QSortThenBy> {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> thenByAvatarUrl() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'avatarUrl', Sort.asc);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
-  thenByAvatarUrlDesc() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> thenByAvatarUrlDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'avatarUrl', Sort.desc);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
-  thenByDisplayName() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> thenByDisplayName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'displayName', Sort.asc);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy>
-  thenByDisplayNameDesc() {
+  QueryBuilder<TrackPreference, TrackPreference, QAfterSortBy> thenByDisplayNameDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'displayName', Sort.desc);
     });
@@ -1323,17 +1317,14 @@ extension TrackPreferenceQuerySortThenBy
   }
 }
 
-extension TrackPreferenceQueryWhereDistinct
-    on QueryBuilder<TrackPreference, TrackPreference, QDistinct> {
-  QueryBuilder<TrackPreference, TrackPreference, QDistinct>
-  distinctByAvatarUrl({bool caseSensitive = true}) {
+extension TrackPreferenceQueryWhereDistinct on QueryBuilder<TrackPreference, TrackPreference, QDistinct> {
+  QueryBuilder<TrackPreference, TrackPreference, QDistinct> distinctByAvatarUrl({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'avatarUrl', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<TrackPreference, TrackPreference, QDistinct>
-  distinctByDisplayName({bool caseSensitive = true}) {
+  QueryBuilder<TrackPreference, TrackPreference, QDistinct> distinctByDisplayName({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'displayName', caseSensitive: caseSensitive);
     });
@@ -1383,8 +1374,7 @@ extension TrackPreferenceQueryProperty on QueryBuilder<TrackPreference, TrackPre
     });
   }
 
-  QueryBuilder<TrackPreference, String?, QQueryOperations>
-  displayNameProperty() {
+  QueryBuilder<TrackPreference, String?, QQueryOperations> displayNameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'displayName');
     });

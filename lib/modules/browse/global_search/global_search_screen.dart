@@ -82,8 +82,7 @@ class _GlobalSearchScreenState extends ConsumerState<GlobalSearchScreen> {
   /// Kept so an empty result can say which of the three reasons it is: none
   /// installed, none pinned, or all of them hidden as NSFW. They need
   /// different things done about them.
-  late final List<Source> _installedSources = sourceRepository
-      .getAddedByItemType(widget.itemType);
+  late final List<Source> _installedSources = sourceRepository.getAddedByItemType(widget.itemType);
 
   late final List<Source> sourceList = () {
     final sources = ref.read(onlyIncludePinnedSourceStateProvider)
@@ -179,8 +178,7 @@ class _GlobalSearchScreenState extends ConsumerState<GlobalSearchScreen> {
                       query: query,
                       source: source,
                       fetchGate: _fetchGate,
-                      onNothingToShow: (reason) =>
-                          _reportNothingToShow(source, reason),
+                      onNothingToShow: (reason) => _reportNothingToShow(source, reason),
                     ),
                   _nothingToShowGroup(context),
                 ],
@@ -246,8 +244,7 @@ class _GlobalSearchScreenState extends ConsumerState<GlobalSearchScreen> {
           color: context.shiori.color.fgMuted,
         ),
         title: Text(
-          l10nLocalizations(context)!
-              .sources_with_no_results(_nothingToShow.length),
+          l10nLocalizations(context)!.sources_with_no_results(_nothingToShow.length),
           style: context.shiori.caption,
         ),
         children: [
@@ -366,8 +363,7 @@ class _SourceSearchScreenState extends ConsumerState<SourceSearchScreen> {
     // A source with nothing to show should not hold a full height slot. Failed
     // and empty sources collapse to a single line, so the sources that did
     // return results stay on screen instead of being pushed off by errors.
-    final hasResults =
-        _errorMessage.isEmpty && (pages?.list.isNotEmpty ?? false);
+    final hasResults = _errorMessage.isEmpty && (pages?.list.isNotEmpty ?? false);
     final collapsed = !_isLoading && !hasResults;
 
     // Nothing to show is nothing to show. A source that errored and a source
@@ -579,9 +575,7 @@ class _MangaGlobalImageCardState extends ConsumerState<MangaGlobalImageCard>
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(ShioriShape.cover),
             border: Border.all(
-              color: _focused
-                  ? context.shiori.color.accentInk
-                  : Colors.transparent,
+              color: _focused ? context.shiori.color.accentInk : Colors.transparent,
               width: 2,
             ),
           ),
@@ -596,9 +590,7 @@ class _MangaGlobalImageCardState extends ConsumerState<MangaGlobalImageCard>
               builder: (context, snapshot) {
                 final favorites = snapshot.data ?? const <Manga>[];
                 final sameSource = favorites.where(
-                  (m) =>
-                      m.lang == widget.source.lang &&
-                      m.source == widget.source.name,
+                  (m) => m.lang == widget.source.lang && m.source == widget.source.name,
                 );
                 final matched = sameSource.isNotEmpty
                     ? sameSource.first
@@ -631,9 +623,7 @@ class _MangaGlobalImageCardState extends ConsumerState<MangaGlobalImageCard>
                                   ),
                                   imageUrl: toImgUrl(
                                     hasData
-                                        ? matched.customCoverFromTracker ??
-                                              matched.imageUrl ??
-                                              ""
+                                        ? matched.customCoverFromTracker ?? matched.imageUrl ?? ""
                                         : getMangaDetail.imageUrl ?? "",
                                   ),
                                   width: _cardWidth,
@@ -658,9 +648,7 @@ class _MangaGlobalImageCardState extends ConsumerState<MangaGlobalImageCard>
                     Container(
                       width: _cardWidth,
                       height: _cardHeight,
-                      color: hasData && matched.favorite!
-                          ? inLibraryVeil
-                          : null,
+                      color: hasData && matched.favorite! ? inLibraryVeil : null,
                     ),
                     if (hasData && matched.favorite!)
                       PositionedDirectional(

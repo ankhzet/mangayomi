@@ -47,11 +47,8 @@ class Info {
       version: json['version'] as int? ?? 1,
       url: json['url'] as String?,
       urls: (json['urls'] as List<dynamic>?)?.cast<String>(),
-      contentRating: json['contentRating'] != null
-          ? SourceContentRating.fromValue(json['contentRating'] as int)
-          : null,
-      languages:
-          (json['languages'] as List<dynamic>?)?.cast<String>() ?? const ['en'],
+      contentRating: json['contentRating'] != null ? SourceContentRating.fromValue(json['contentRating'] as int) : null,
+      languages: (json['languages'] as List<dynamic>?)?.cast<String>() ?? const ['en'],
     );
   }
 }
@@ -123,9 +120,7 @@ class SourceInfo {
     return SourceInfo(
       info: Info.fromJson(infoJson),
       listings: listings,
-      config: configJson != null
-          ? SourceConfiguration.fromJson(configJson)
-          : null,
+      config: configJson != null ? SourceConfiguration.fromJson(configJson) : null,
     );
   }
 }

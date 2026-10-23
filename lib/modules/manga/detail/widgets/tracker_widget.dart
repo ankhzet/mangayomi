@@ -130,8 +130,7 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                         ),
                       ),
                       IconButton(
-                        tooltip: MaterialLocalizations.of(context)
-                            .closeButtonTooltip,
+                        tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
                         onPressed: () {
                           ref
                               .read(
@@ -162,8 +161,7 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                         widget.trackRes.syncId!,
                       ),
                       options: [
-                        for (final status
-                            in ref.read(track.notifier).getStatusList())
+                        for (final status in ref.read(track.notifier).getStatusList())
                           ShioriChoice(status, getTrackStatus(status, context)),
                       ],
                     );
@@ -197,24 +195,18 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                     final confirmed = await showDialog<bool>(
                       context: context,
                       builder: (dialogContext) => ShioriDialog(
-                        title: widget.itemType == ItemType.manga
-                            ? l10n!.chapters
-                            : l10n!.episodes,
+                        title: widget.itemType == ItemType.manga ? l10n!.chapters : l10n!.episodes,
                         content: StatefulBuilder(
                           builder: (context, setState) => NumberPicker(
                             value: currentIntValue,
                             minValue: 0,
-                            maxValue: widget.trackRes.totalChapter != 0
-                                ? widget.trackRes.totalChapter!
-                                : 10000,
+                            maxValue: widget.trackRes.totalChapter != 0 ? widget.trackRes.totalChapter! : 10000,
                             step: 1,
                             haptics: true,
-                            selectedTextStyle: context.shiori.text.seriesTitle
-                                .copyWith(
-                                  color: context.shiori.color.accentInk,
-                                ),
-                            onChanged: (value) =>
-                                setState(() => currentIntValue = value),
+                            selectedTextStyle: context.shiori.text.seriesTitle.copyWith(
+                              color: context.shiori.color.accentInk,
+                            ),
+                            onChanged: (value) => setState(() => currentIntValue = value),
                           ),
                         ),
                         actions: dialogCancelConfirmActions(
@@ -227,8 +219,7 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                     ref
                         .read(
                           trackStateProvider(
-                            track: widget.trackRes
-                              ..lastChapterRead = currentIntValue,
+                            track: widget.trackRes..lastChapterRead = currentIntValue,
                             itemType: widget.itemType,
                             widgetRef: ref,
                           ).notifier,
@@ -251,11 +242,7 @@ class _TrackerWidgetState extends ConsumerState<TrackerWidget> {
                       title: l10n!.score,
                       selected: widget.trackRes.score,
                       options: [
-                        for (
-                          var v = 0;
-                          v <= notifier.getScoreMaxValue();
-                          v += step
-                        )
+                        for (var v = 0; v <= notifier.getScoreMaxValue(); v += step)
                           ShioriChoice(v, notifier.getTextMapper('$v')),
                       ],
                     );

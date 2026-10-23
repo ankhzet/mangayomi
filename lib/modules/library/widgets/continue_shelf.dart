@@ -95,17 +95,11 @@ class ContinueShelf extends ConsumerWidget {
       data: (rows) {
         final chapterIds = rows.map((h) => h.chapterId).nonNulls.toList();
         final chapterById = {
-          for (final c in chapterRepository.getAllByIds(chapterIds).nonNulls)
-            c.id!: c,
+          for (final c in chapterRepository.getAllByIds(chapterIds).nonNulls) c.id!: c,
         };
-        final mangaIds = chapterById.values
-            .map((c) => c.mangaId)
-            .nonNulls
-            .toSet()
-            .toList();
+        final mangaIds = chapterById.values.map((c) => c.mangaId).nonNulls.toSet().toList();
         final mangaById = {
-          for (final m in mangaRepository.getAllByIds(mangaIds).nonNulls)
-            m.id!: m,
+          for (final m in mangaRepository.getAllByIds(mangaIds).nonNulls) m.id!: m,
         };
         return continueEntries(
           rows,
@@ -139,11 +133,7 @@ class ContinueShelf extends ConsumerWidget {
       return height;
     }
 
-    final tileHeight =
-        _coverWidth / coverAspect +
-        ShioriSpace.s4 +
-        linesOf(text.card, 2) +
-        linesOf(text.meta, 1);
+    final tileHeight = _coverWidth / coverAspect + ShioriSpace.s4 + linesOf(text.card, 2) + linesOf(text.meta, 1);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -169,8 +159,7 @@ class ContinueShelf extends ConsumerWidget {
                     title: e.manga.name ?? '',
                     progress: e.progress,
                     onTap: () => e.chapter.pushToReaderView(context),
-                    onLongPress: () =>
-                        context.push('/manga-reader/detail', extra: e.manga.id),
+                    onLongPress: () => context.push('/manga-reader/detail', extra: e.manga.id),
                   ),
                 ),
               );

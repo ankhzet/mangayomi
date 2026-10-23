@@ -53,9 +53,7 @@ class ChapterListTileWidget extends ConsumerWidget {
       ),
     );
     // Read chapters step back; their metadata steps back further.
-    final metaColor = isRead
-        ? c.fgMuted.withValues(alpha: Alphas.secondary)
-        : c.fgMuted;
+    final metaColor = isRead ? c.fgMuted.withValues(alpha: Alphas.secondary) : c.fgMuted;
 
     return ChapterSwipe(
       chapter: chapter,
@@ -96,8 +94,7 @@ class ChapterListTileWidget extends ConsumerWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (chapter.thumbnailUrl != null)
-                            _thumbnailPreview(context, chapter.thumbnailUrl),
+                          if (chapter.thumbnailUrl != null) _thumbnailPreview(context, chapter.thumbnailUrl),
                           if (chapter.isBookmarked!)
                             Padding(
                               padding: const EdgeInsetsDirectional.only(
@@ -113,8 +110,7 @@ class ChapterListTileWidget extends ConsumerWidget {
                           chapter.description != null
                               ? Expanded(
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       _buildTitle(title, context),
                                       Text(
@@ -154,8 +150,7 @@ class ChapterListTileWidget extends ConsumerWidget {
                               ),
                             if ((manga.isLocalArchive ?? false) == false)
                               Text(
-                                chapter.dateUpload == null ||
-                                        chapter.dateUpload!.isEmpty
+                                chapter.dateUpload == null || chapter.dateUpload!.isEmpty
                                     ? ""
                                     : dateFormat(
                                         chapter.dateUpload!,
@@ -164,8 +159,7 @@ class ChapterListTileWidget extends ConsumerWidget {
                                       ),
                               ),
                             if (!chapter.isRead!)
-                              if (chapter.lastPageRead!.isNotEmpty &&
-                                  chapter.lastPageRead != "1")
+                              if (chapter.lastPageRead!.isNotEmpty && chapter.lastPageRead != "1")
                                 Row(
                                   children: [
                                     const Text(' · '),
@@ -206,9 +200,7 @@ class ChapterListTileWidget extends ConsumerWidget {
                     ],
                   ),
                 ),
-                if (!isTv &&
-                    sourceExist &&
-                    !(manga.isLocalArchive ?? false)) ...[
+                if (!isTv && sourceExist && !(manga.isLocalArchive ?? false)) ...[
                   const SizedBox(width: ShioriSpace.s8),
                   ChapterPageDownload(chapter: chapter),
                 ],

@@ -52,26 +52,18 @@ Future<bool?> confirmSyncAfterRestore(
       return PopScope(
         canPop: false,
         child: ShioriDialog(
-          title: syncOn
-              ? l10n.restore_sync_question_title
-              : l10n.restore_sync_disabled_question_title,
+          title: syncOn ? l10n.restore_sync_question_title : l10n.restore_sync_disabled_question_title,
           content: Text(
-            syncOn
-                ? l10n.restore_sync_question_message
-                : l10n.restore_sync_disabled_question_message,
+            syncOn ? l10n.restore_sync_question_message : l10n.restore_sync_disabled_question_message,
           ),
           actions: [
             ShioriButton.quiet(
-              label: syncOn
-                  ? l10n.restore_sync_question_deny
-                  : l10n.restore_sync_question_keep_disabled,
+              label: syncOn ? l10n.restore_sync_question_deny : l10n.restore_sync_question_keep_disabled,
               destructive: true,
               onPressed: () => Navigator.pop(dialogContext, false),
             ),
             ShioriButton(
-              label: syncOn
-                  ? l10n.restore_sync_question_confirm
-                  : l10n.restore_sync_question_reenable,
+              label: syncOn ? l10n.restore_sync_question_confirm : l10n.restore_sync_question_reenable,
               onPressed: () => Navigator.pop(dialogContext, true),
             ),
           ],

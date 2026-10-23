@@ -51,10 +51,8 @@ class LibraryListViewWidget extends StatelessWidget {
                 context: context,
                 entry: entry,
               ),
-              onLongPress: () =>
-                  handleLongOrSecondaryTap(isLongPressed, ref, entry),
-              onSecondaryTap: () =>
-                  handleLongOrSecondaryTap(isLongPressed, ref, entry),
+              onLongPress: () => handleLongOrSecondaryTap(isLongPressed, ref, entry),
+              onSecondaryTap: () => handleLongOrSecondaryTap(isLongPressed, ref, entry),
               leading: ShioriThumbnail(
                 child: Stack(
                   fit: StackFit.expand,

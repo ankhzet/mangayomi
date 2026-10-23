@@ -16,12 +16,10 @@ class CustomMaterialDesktopPositionIndicator extends StatefulWidget {
   });
 
   @override
-  CustomMaterialDesktopPositionIndicatorState createState() =>
-      CustomMaterialDesktopPositionIndicatorState();
+  CustomMaterialDesktopPositionIndicatorState createState() => CustomMaterialDesktopPositionIndicatorState();
 }
 
-class CustomMaterialDesktopPositionIndicatorState
-    extends State<CustomMaterialDesktopPositionIndicator> {
+class CustomMaterialDesktopPositionIndicatorState extends State<CustomMaterialDesktopPositionIndicator> {
   late Duration position = widget.controller.player.state.position;
   late Duration duration = widget.controller.player.state.duration;
 

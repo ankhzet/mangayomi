@@ -30,9 +30,10 @@ Future<void> showAnimeShareScreenshotActions(
     includeLibassSubtitles: includeSubtitles(),
   );
   onChanged?.call(false);
-  final name =
-      "${episode.manga.value!.name} ${episode.name} - ${currentPosition.toString()}"
-          .replaceAll(RegExp(r'[^a-zA-Z0-9 .()\-\s]'), '_');
+  final name = "${episode.manga.value!.name} ${episode.name} - ${currentPosition.toString()}".replaceAll(
+    RegExp(r'[^a-zA-Z0-9 .()\-\s]'),
+    '_',
+  );
   await showShioriSheet<void>(
     sheetContext,
     builder: (context) => ImageActionsSheet(

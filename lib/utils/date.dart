@@ -8,11 +8,10 @@ import 'package:mangayomi/providers/l10n_providers.dart';
 /// hot paths (grouped history/updates lists) don't rebuild them per call.
 final _dateFormatCache = <String, DateFormat>{};
 
-DateFormat _cachedFormatter(String pattern, String localeTag) =>
-    _dateFormatCache.putIfAbsent(
-      '$pattern|$localeTag',
-      () => DateFormat(pattern, localeTag),
-    );
+DateFormat _cachedFormatter(String pattern, String localeTag) => _dateFormatCache.putIfAbsent(
+  '$pattern|$localeTag',
+  () => DateFormat(pattern, localeTag),
+);
 
 String dateFormat(
   String? timestamp, {
@@ -96,9 +95,7 @@ String dateFormatHour(String timestamp, BuildContext context) {
   final dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp));
   final localeTag = locale.toLanguageTag();
 
-  return _dateFormatCache
-      .putIfAbsent('Hm|$localeTag', () => DateFormat.Hm(localeTag))
-      .format(dateTime);
+  return _dateFormatCache.putIfAbsent('Hm|$localeTag', () => DateFormat.Hm(localeTag)).format(dateTime);
 }
 
 List<String> dateFormatsList = [

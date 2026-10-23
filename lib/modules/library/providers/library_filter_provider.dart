@@ -155,8 +155,7 @@ List<Manga> filteredLibraryManga(
       }
       mangas = sortByUnreadCount(
         mangas,
-        unreadCountOf: (manga) =>
-            manga.id != null ? (unreadCounts[manga.id] ?? 0) : 0,
+        unreadCountOf: (manga) => manga.id != null ? (unreadCounts[manga.id] ?? 0) : 0,
       );
     } else if (sortType == 4) {
       final totalCounts = <int, int>{};
@@ -172,8 +171,7 @@ List<Manga> filteredLibraryManga(
       });
     } else if (sortType == 5) {
       final lastUpload = {
-        for (final manga in mangas)
-          manga.id: manga.chapters.lastOrNull?.dateUpload ?? "",
+        for (final manga in mangas) manga.id: manga.chapters.lastOrNull?.dateUpload ?? "",
       };
       mangas.sort(
         (a, b) => (lastUpload[a.id] ?? "").compareTo(lastUpload[b.id] ?? ""),

@@ -37,9 +37,7 @@ class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
       if (source.sourceCodeLanguage == SourceCodeLanguage.mihon && source.preferenceList != null) {
         return (jsonDecode(source.preferenceList!) as List).map((e) => SourcePreference.fromJson(e)).toList();
       }
-      return getSourcePreference(source: source)
-          .map((e) => getSourcePreferenceEntry(e.key!, source.id!))
-          .toList();
+      return getSourcePreference(source: source).map((e) => getSourcePreferenceEntry(e.key!, source.id!)).toList();
     } catch (e) {
       return null;
     }
@@ -71,8 +69,7 @@ class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            if (source.sourceCodeLanguage == SourceCodeLanguage.mihon)
-              const ExtensionServerWarningBanner(),
+            if (source.sourceCodeLanguage == SourceCodeLanguage.mihon) const ExtensionServerWarningBanner(),
             _Header(source: source),
             // In developer mode, what failed in the source's code.
             SourceCodeErrorBanner(source: source),
@@ -103,8 +100,7 @@ class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
                       }
                     },
                   ),
-                if ((source.isLocal ?? false) &&
-                    ref.watch(developerModeStateProvider))
+                if ((source.isLocal ?? false) && ref.watch(developerModeStateProvider))
                   ShioriSettingRow(
                     icon: Symbols.edit_rounded,
                     title: l10n.edit_metadata,
@@ -176,10 +172,8 @@ class _Header extends StatelessWidget {
     final tokens = context.shiori;
     final l10n = context.l10n;
     final meta = [
-      if (source.version?.isNotEmpty ?? false)
-        '${l10n.version} ${source.version}',
-      if (source.lang?.isNotEmpty ?? false)
-        languageName(context, source.lang!.toLowerCase()),
+      if (source.version?.isNotEmpty ?? false) '${l10n.version} ${source.version}',
+      if (source.lang?.isNotEmpty ?? false) languageName(context, source.lang!.toLowerCase()),
     ].join(' · ');
     return Padding(
       padding: const EdgeInsets.fromLTRB(
@@ -206,8 +200,7 @@ class _Header extends StatelessWidget {
                   ),
                 ),
                 if (meta.isNotEmpty) Text(meta, style: tokens.caption),
-                if (source.isNsfw ?? false)
-                  EntryBadgeChip(label: 'NSFW (18+)', tone: tokens.color.error),
+                if (source.isNsfw ?? false) EntryBadgeChip(label: 'NSFW (18+)', tone: tokens.color.error),
               ],
             ),
           ),

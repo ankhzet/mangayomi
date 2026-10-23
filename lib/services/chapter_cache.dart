@@ -141,11 +141,7 @@ class ChapterCache {
       final dir = await _getCacheDirectory();
       if (!await dir.exists()) return;
 
-      final files = dir
-          .listSync()
-          .whereType<File>()
-          .where((f) => f.path.endsWith('.json'))
-          .toList();
+      final files = dir.listSync().whereType<File>().where((f) => f.path.endsWith('.json')).toList();
 
       int currentSize = 0;
       final fileStats = <({File file, int size, DateTime modified})>[];

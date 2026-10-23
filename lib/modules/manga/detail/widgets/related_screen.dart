@@ -103,10 +103,8 @@ class _RelatedScreenState extends State<RelatedScreen> {
                 vertical: ShioriSpace.s8,
               ).add(tvPageInsets),
               itemCount: data!.length,
-              separatorBuilder: (_, _) =>
-                  const SizedBox(height: ShioriSpace.s4),
-              itemBuilder: (context, index) =>
-                  _card(context, data![index], index),
+              separatorBuilder: (_, _) => const SizedBox(height: ShioriSpace.s4),
+              itemBuilder: (context, index) => _card(context, data![index], index),
             ),
     );
   }
@@ -115,9 +113,7 @@ class _RelatedScreenState extends State<RelatedScreen> {
     final l10n = context.l10n;
     final crossesMedium = related.crossesMedium(widget.itemType);
     final medium = related.itemType.localized(l10n);
-    final format = related.format == null
-        ? null
-        : prettyFormat(related.format!);
+    final format = related.format == null ? null : prettyFormat(related.format!);
 
     return Material(
       color: Colors.transparent,
@@ -184,9 +180,7 @@ class _RelatedScreenState extends State<RelatedScreen> {
                         // Kitsu's subtype for a manga is "manga", so this said
                         // "Manga  Manga" on every manga entry. Shown only when
                         // it narrows the medium: Manhwa, Oneshot, TV, Movie.
-                        if (format != null &&
-                            format.toLowerCase() != medium.toLowerCase())
-                          _tag(context, format),
+                        if (format != null && format.toLowerCase() != medium.toLowerCase()) _tag(context, format),
                       ],
                     ),
                   ],
@@ -220,19 +214,16 @@ class _RelatedScreenState extends State<RelatedScreen> {
 
 /// Both services name relations the same way once upper-cased. Anything not
 /// named here is still shown, under a neutral label, rather than hidden.
-String _relationLabel(AppLocalizations l10n, String relation) =>
-    switch (relation) {
-      'ADAPTATION' => l10n.relation_adaptation,
-      'SEQUEL' => l10n.relation_sequel,
-      'PREQUEL' => l10n.relation_prequel,
-      'PARENT' => l10n.relation_parent,
-      'SIDE_STORY' => l10n.relation_side_story,
-      'SPIN_OFF' => l10n.relation_spin_off,
-      'ALTERNATIVE' ||
-      'ALTERNATIVE_SETTING' ||
-      'ALTERNATIVE_VERSION' => l10n.relation_alternative,
-      _ => l10n.related_titles,
-    };
+String _relationLabel(AppLocalizations l10n, String relation) => switch (relation) {
+  'ADAPTATION' => l10n.relation_adaptation,
+  'SEQUEL' => l10n.relation_sequel,
+  'PREQUEL' => l10n.relation_prequel,
+  'PARENT' => l10n.relation_parent,
+  'SIDE_STORY' => l10n.relation_side_story,
+  'SPIN_OFF' => l10n.relation_spin_off,
+  'ALTERNATIVE' || 'ALTERNATIVE_SETTING' || 'ALTERNATIVE_VERSION' => l10n.relation_alternative,
+  _ => l10n.related_titles,
+};
 
 /// Kitsu and AniList both hand these over shouting: TV, OVA, ONE_SHOT,
 /// LIGHT_NOVEL. Title case reads better on a card, except where the word is an
@@ -252,8 +243,6 @@ String prettyFormat(String format) {
   // Only the first word is capitalised: "Light novel", not "Light Novel".
   return [
     words.first,
-    ...words
-        .skip(1)
-        .map((w) => formatAcronyms.contains(w) ? w : w.toLowerCase()),
+    ...words.skip(1).map((w) => formatAcronyms.contains(w) ? w : w.toLowerCase()),
   ].join(' ');
 }

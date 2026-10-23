@@ -5,8 +5,7 @@ import 'package:mangayomi/models/tracker_library_cache.dart';
 import 'package:mangayomi/repositories/db_write_queue.dart';
 
 class TrackerLibraryCacheRepository {
-  Future<List<TrackSearch>?> get(String key) async =>
-      (await isar.trackerLibraryCaches.get(fastHash(key)))?.tracks;
+  Future<List<TrackSearch>?> get(String key) async => (await isar.trackerLibraryCaches.get(fastHash(key)))?.tracks;
 
   Future<void> put(String key, List<TrackSearch> tracks) => dbWriteQueue.run(
     () => isar.writeTxn(
@@ -20,8 +19,7 @@ class TrackerLibraryCacheRepository {
 
   Future<void> deleteByPrefix(String prefix) => dbWriteQueue.run(
     () => isar.writeTxn(
-      () =>
-          isar.trackerLibraryCaches.filter().keyStartsWith(prefix).deleteAll(),
+      () => isar.trackerLibraryCaches.filter().keyStartsWith(prefix).deleteAll(),
     ),
   );
 }

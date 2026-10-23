@@ -18,8 +18,7 @@ Future<void> showTrackerItemSheet(
 }) {
   return showShioriSheet<void>(
     context,
-    builder: (_) =>
-        TrackerItemCard(track: track, itemType: itemType, mangaId: mangaId),
+    builder: (_) => TrackerItemCard(track: track, itemType: itemType, mangaId: mangaId),
   );
 }
 
@@ -96,8 +95,7 @@ class TrackerItemCard extends StatelessWidget {
               ),
             ],
           ),
-          if ((track.summary ?? '').isNotEmpty)
-            ReadMoreWidget(text: track.summary!, onChanged: (_) {}),
+          if ((track.summary ?? '').isNotEmpty) ReadMoreWidget(text: track.summary!, onChanged: (_) {}),
           Wrap(
             spacing: ShioriSpace.s8,
             runSpacing: ShioriSpace.s8,
@@ -111,8 +109,7 @@ class TrackerItemCard extends StatelessWidget {
                 ShioriButton.secondary(
                   onPressed: () => _go(
                     context,
-                    (router) =>
-                        router.push('/manga-reader/detail', extra: mangaId),
+                    (router) => router.push('/manga-reader/detail', extra: mangaId),
                   ),
                   label: l10n.track_library_navigate,
                   icon: Symbols.north_east_rounded,

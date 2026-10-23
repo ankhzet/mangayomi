@@ -27,12 +27,10 @@ class OnboardingLocalFolderSection extends ConsumerStatefulWidget {
   final ValueChanged<bool>? onFolderChanged;
 
   @override
-  ConsumerState<OnboardingLocalFolderSection> createState() =>
-      _OnboardingLocalFolderSectionState();
+  ConsumerState<OnboardingLocalFolderSection> createState() => _OnboardingLocalFolderSectionState();
 }
 
-class _OnboardingLocalFolderSectionState
-    extends ConsumerState<OnboardingLocalFolderSection> {
+class _OnboardingLocalFolderSectionState extends ConsumerState<OnboardingLocalFolderSection> {
   /// The folder that was added here, so a wrong pick can be undone without
   /// going to look for it in Settings.
   String? _addedFolderPath;
@@ -57,15 +55,11 @@ class _OnboardingLocalFolderSectionState
   int? _foundTitles;
 
   /// The local folders already set up before this screen ran.
-  List<LocalFolder> get _existingFolders =>
-      ref.watch(localFoldersStateProvider);
+  List<LocalFolder> get _existingFolders => ref.watch(localFoldersStateProvider);
 
   /// Whether the folder this section added is still on the list.
   bool get _addedLocalFolder =>
-      _addedFolderPath != null &&
-      ref
-          .watch(localFoldersStateProvider)
-          .any((folder) => folder.path == _addedFolderPath);
+      _addedFolderPath != null && ref.watch(localFoldersStateProvider).any((folder) => folder.path == _addedFolderPath);
 
   @override
   void initState() {
@@ -96,8 +90,7 @@ class _OnboardingLocalFolderSectionState
       ref.read(localFoldersStateProvider.notifier).set(folders);
     }
     final base = await StorageProvider().getDirectory();
-    final inDownloads =
-        base != null && p.isWithin(p.join(base.path, 'downloads'), path);
+    final inDownloads = base != null && p.isWithin(p.join(base.path, 'downloads'), path);
 
     setState(() {
       _addedFolderPath = path;
@@ -119,10 +112,7 @@ class _OnboardingLocalFolderSectionState
               .where((manga) => (manga.link ?? '').startsWith(prefix))
               .toList();
           _foundTitles = mine.length;
-          _foundTitleNames = mine
-              .map((manga) => manga.name ?? '')
-              .where((name) => name.isNotEmpty)
-              .toList();
+          _foundTitleNames = mine.map((manga) => manga.name ?? '').where((name) => name.isNotEmpty).toList();
           _foundByType = {
             for (final type in ItemType.values)
               if (mine.any((manga) => manga.itemType == type))
@@ -137,10 +127,7 @@ class _OnboardingLocalFolderSectionState
   void _removeLocalFolder() {
     final path = _addedFolderPath;
     if (path == null) return;
-    final remaining = ref
-        .read(localFoldersStateProvider)
-        .where((folder) => folder.path != path)
-        .toList();
+    final remaining = ref.read(localFoldersStateProvider).where((folder) => folder.path != path).toList();
     ref.read(localFoldersStateProvider.notifier).set(remaining);
     setState(() {
       _addedFolderPath = null;
@@ -158,9 +145,7 @@ class _OnboardingLocalFolderSectionState
     if (_foundByType.length <= 1) {
       return l10n.onboarding_local_found('$_foundTitles');
     }
-    return _foundByType.entries
-        .map((entry) => '${entry.value} ${_libraryLabel(l10n, entry.key)}')
-        .join(', ');
+    return _foundByType.entries.map((entry) => '${entry.value} ${_libraryLabel(l10n, entry.key)}').join(', ');
   }
 
   String _libraryLabel(AppLocalizations l10n, ItemType type) => switch (type) {
@@ -195,10 +180,7 @@ class _OnboardingLocalFolderSectionState
             message: l10n.onboarding_local_existing(
               '${_existingFolders.length}',
             ),
-            titles: _existingFolders
-                .map((folder) => folder.name ?? '')
-                .where((name) => name.isNotEmpty)
-                .toList(),
+            titles: _existingFolders.map((folder) => folder.name ?? '').where((name) => name.isNotEmpty).toList(),
           ),
         ],
         const SizedBox(height: ShioriSpace.s8),
@@ -216,9 +198,7 @@ class _OnboardingLocalFolderSectionState
             )
           else if ((_foundTitles ?? 0) > 0)
             OnboardingFolderStatus(
-              message: _folderIsInDownloads
-                  ? l10n.onboarding_local_in_downloads
-                  : _typeBreakdown(l10n),
+              message: _folderIsInDownloads ? l10n.onboarding_local_in_downloads : _typeBreakdown(l10n),
               path: _addedFolderPath,
               titles: _foundTitleNames,
               warn: _folderIsInDownloads,

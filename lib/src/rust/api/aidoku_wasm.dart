@@ -35,8 +35,7 @@ abstract class AidokuSource implements RustOpaqueInterface {
   static Future<AidokuSource> create({
     required List<int> wasmBytes,
     required String sourceKey,
-    required FutureOr<AidokuNetResponse> Function(AidokuNetRequest)
-    requestHandler,
+    required FutureOr<AidokuNetResponse> Function(AidokuNetRequest) requestHandler,
     required FutureOr<void> Function(String) printHandler,
     required FutureOr<AidokuJsResponse> Function(AidokuJsRequest) jsHandler,
   }) => RustLib.instance.api.crateApiAidokuWasmAidokuSourceCreate(
@@ -131,8 +130,7 @@ class AidokuChapter {
     required this.locked,
   });
 
-  static Future<AidokuChapter> default_() =>
-      RustLib.instance.api.crateApiAidokuWasmAidokuChapterDefault();
+  static Future<AidokuChapter> default_() => RustLib.instance.api.crateApiAidokuWasmAidokuChapterDefault();
 
   @override
   int get hashCode =>
@@ -172,8 +170,7 @@ class AidokuDeepLink {
   const AidokuDeepLink({this.mangaKey, this.chapterKey, this.listing});
 
   @override
-  int get hashCode =>
-      mangaKey.hashCode ^ chapterKey.hashCode ^ listing.hashCode;
+  int get hashCode => mangaKey.hashCode ^ chapterKey.hashCode ^ listing.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -204,12 +201,7 @@ class AidokuFilter {
   });
 
   @override
-  int get hashCode =>
-      id.hashCode ^
-      title.hashCode ^
-      kind.hashCode ^
-      options.hashCode ^
-      defaultValue.hashCode;
+  int get hashCode => id.hashCode ^ title.hashCode ^ kind.hashCode ^ options.hashCode ^ defaultValue.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -339,8 +331,7 @@ class AidokuManga {
     this.chapters,
   });
 
-  static Future<AidokuManga> default_() =>
-      RustLib.instance.api.crateApiAidokuWasmAidokuMangaDefault();
+  static Future<AidokuManga> default_() => RustLib.instance.api.crateApiAidokuWasmAidokuMangaDefault();
 
   @override
   int get hashCode =>
@@ -388,8 +379,7 @@ class AidokuMangaPage {
 
   const AidokuMangaPage({required this.entries, required this.hasNextPage});
 
-  static Future<AidokuMangaPage> default_() =>
-      RustLib.instance.api.crateApiAidokuWasmAidokuMangaPageDefault();
+  static Future<AidokuMangaPage> default_() => RustLib.instance.api.crateApiAidokuWasmAidokuMangaPageDefault();
 
   @override
   int get hashCode => entries.hashCode ^ hasNextPage.hashCode;
@@ -419,12 +409,7 @@ class AidokuNetRequest {
   });
 
   @override
-  int get hashCode =>
-      method.hashCode ^
-      url.hashCode ^
-      headers.hashCode ^
-      body.hashCode ^
-      timeoutMs.hashCode;
+  int get hashCode => method.hashCode ^ url.hashCode ^ headers.hashCode ^ body.hashCode ^ timeoutMs.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -451,12 +436,10 @@ class AidokuNetResponse {
     this.error,
   });
 
-  static Future<AidokuNetResponse> default_() =>
-      RustLib.instance.api.crateApiAidokuWasmAidokuNetResponseDefault();
+  static Future<AidokuNetResponse> default_() => RustLib.instance.api.crateApiAidokuWasmAidokuNetResponseDefault();
 
   @override
-  int get hashCode =>
-      statusCode.hashCode ^ headers.hashCode ^ body.hashCode ^ error.hashCode;
+  int get hashCode => statusCode.hashCode ^ headers.hashCode ^ body.hashCode ^ error.hashCode;
 
   @override
   bool operator ==(Object other) =>

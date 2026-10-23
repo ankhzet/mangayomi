@@ -96,10 +96,9 @@ class NativeCrashHandler {
   /// library and Windows, where sigaction does not exist.
   static _InstallDart? _installFn() {
     try {
-      return DynamicLibrary.process()
-          .lookupFunction<_InstallNative, _InstallDart>(
-            'mangayomi_install_crash_handler',
-          );
+      return DynamicLibrary.process().lookupFunction<_InstallNative, _InstallDart>(
+        'mangayomi_install_crash_handler',
+      );
     } catch (_) {
       return null;
     }
@@ -107,10 +106,9 @@ class NativeCrashHandler {
 
   static _ContextDart? _contextFn() {
     try {
-      return DynamicLibrary.process()
-          .lookupFunction<_ContextNative, _ContextDart>(
-            'mangayomi_set_crash_context',
-          );
+      return DynamicLibrary.process().lookupFunction<_ContextNative, _ContextDart>(
+        'mangayomi_set_crash_context',
+      );
     } catch (_) {
       return null;
     }

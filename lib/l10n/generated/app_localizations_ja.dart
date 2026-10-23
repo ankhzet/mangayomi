@@ -67,12 +67,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get last_update_check => '最終更新確認';
 
   @override
-  String last_entry_delete_warning(
-    num count,
-    Object entryType,
-    Object entryTypePlural,
-    Object mediaType,
-  ) {
+  String last_entry_delete_warning(num count, Object entryType, Object entryTypePlural, Object mediaType) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -565,15 +560,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tint_surfaces_with_palette => 'サーフェスをパレットで色付け';
 
   @override
-  String get tint_surfaces_with_palette_subtitle =>
-      '以前のように、背景・カード・バーを選んだパレットで色付けします。オフにすると中立色のままで、パレットはアクセントだけに使われます。';
+  String get tint_surfaces_with_palette_subtitle => '以前のように、背景・カード・バーを選んだパレットで色付けします。オフにすると中立色のままで、パレットはアクセントだけに使われます。';
 
   @override
   String get novel_reader_font => '小説リーダーのフォント';
 
   @override
-  String get novel_reader_font_subtitle =>
-      '小説リーダーの「デフォルト」フォントで使われます。アプリのその他の部分は Figtree を使います。';
+  String get novel_reader_font_subtitle => '小説リーダーの「デフォルト」フォントで使われます。アプリのその他の部分は Figtree を使います。';
 
   @override
   String get timestamp => 'タイムスタンプ';
@@ -1164,8 +1157,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get floating_navigation_bar => 'フローティングナビゲーションバー';
 
   @override
-  String get floating_navigation_bar_description =>
-      '固定のナビゲーションバーの代わりに、浮かぶカプセルを使います。';
+  String get floating_navigation_bar_description => '固定のナビゲーションバーの代わりに、浮かぶカプセルを使います。';
 
   @override
   String get full_screen_player => 'フルスクリーンを使用';
@@ -1267,8 +1259,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get show_nav_double_tap_tooltip => 'ダブルタップ検索のヒントを表示';
 
   @override
-  String get show_nav_double_tap_tooltip_subtitle =>
-      'マンガ/アニメ/ノベルのナビゲーションで、ダブルタップで全体検索が開くことを示すツールチップを表示します。';
+  String get show_nav_double_tap_tooltip_subtitle => 'マンガ/アニメ/ノベルのナビゲーションで、ダブルタップで全体検索が開くことを示すツールチップを表示します。';
 
   @override
   String already_in_library(Object source, Object title) {
@@ -1418,8 +1409,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get no_secure_storage => '安全なストレージが見つかりません';
 
   @override
-  String get no_keyring_warning =>
-      'キーリングサービスがないためパスワードを安全に保存できません。\n\nローカルデータベースに暗号化なしで保存しますか？';
+  String get no_keyring_warning => 'キーリングサービスがないためパスワードを安全に保存できません。\n\nローカルデータベースに暗号化なしで保存しますか？';
 
   @override
   String get enter_backup_password => 'バックアップパスワードを入力';
@@ -1506,8 +1496,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get restore_sync_disabled_question_title => '同期は現在無効です';
 
   @override
-  String get restore_sync_disabled_question_message =>
-      '同期を再有効化してサーバーにアップロードしますか？';
+  String get restore_sync_disabled_question_message => '同期を再有効化してサーバーにアップロードしますか？';
 
   @override
   String get restore_sync_question_reenable => 'はい、有効化して同期';
@@ -1955,8 +1944,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get add_repo_sources_to_add => '追加される拡張機能リスト:';
 
   @override
-  String get add_repo_warning =>
-      'これらのリポジトリの拡張機能はアプリ内で実行されます。信頼できるリポジトリだけを追加してください。';
+  String get add_repo_warning => 'これらのリポジトリの拡張機能はアプリ内で実行されます。信頼できるリポジトリだけを追加してください。';
 
   @override
   String get genre_search_library => 'ライブラリでジャンル検索';
@@ -2349,8 +2337,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get cloudflare_resolution_webview_server_start_failed =>
-      'Cloudflare解決サーバーを起動できませんでした。';
+  String get cloudflare_resolution_webview_server_start_failed => 'Cloudflare解決サーバーを起動できませんでした。';
 
   @override
   String tracker_token_expired(Object tracker) {
@@ -2639,8 +2626,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get extension_server_jar_imported => 'Extension server JAR was imported.';
 
   @override
-  String get could_not_launch_apk_bridge_page =>
-      'Could not launch the M-Extension-Server page.';
+  String get could_not_launch_apk_bridge_page => 'Could not launch the M-Extension-Server page.';
 
   @override
   String get proxy_server_ip_hint => 'Server IP (e.g., 10.0.0.5 or https://example.com)';
@@ -2744,8 +2730,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get double_page_single_first_page => '最初のページを単独表示';
 
   @override
-  String get double_page_single_first_page_subtitle =>
-      '見開きモードで最初のページ（表紙）を単独で表示する';
+  String get double_page_single_first_page_subtitle => '見開きモードで最初のページ（表紙）を単独で表示する';
 
   @override
   String get double_page_auto => '自動見開き表示';
@@ -2839,8 +2824,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get app_ui_scale => 'インターフェーススケール';
 
   @override
-  String get app_ui_scale_subtitle =>
-      'インターフェースをお使いのスクリーンと視聴距離に合わせて大きくまたは小さくします。';
+  String get app_ui_scale_subtitle => 'インターフェースをお使いのスクリーンと視聴距離に合わせて大きくまたは小さくします。';
 
   @override
   String get allow_concurrent_downloads => '同時ダウンロードを許可';
@@ -2853,8 +2837,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get download_delay => 'ダウンロード遅延';
 
   @override
-  String get download_delay_subtitle =>
-      'オフ。ソースに優しくするために、章間にランダムジッターを伴う待機を追加します。';
+  String get download_delay_subtitle => 'オフ。ソースに優しくするために、章間にランダムジッターを伴う待機を追加します。';
 
   @override
   String get save_search => '検索を保存';
@@ -2866,8 +2849,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get enter_search_to_save_first => 'まず検索を入力して保存してください';
 
   @override
-  String get no_saved_searches =>
-      'このソースの保存済み検索はまだありません。\n検索を実行してから、「検索を保存」を選択してください。';
+  String get no_saved_searches => 'このソースの保存済み検索はまだありません。\n検索を実行してから、「検索を保存」を選択してください。';
 
   @override
   String get source => 'ソース';
@@ -2947,11 +2929,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get import_summary_title => 'インポート準備完了';
 
   @override
-  String import_summary_message(
-    Object newSeries,
-    Object updatedSeries,
-    Object newChapters,
-  ) {
+  String import_summary_message(Object newSeries, Object updatedSeries, Object newChapters) {
     return '新規$newSeries作品、更新$updatedSeries作品、新規$newChapters話を追加します。';
   }
 
@@ -2959,11 +2937,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get import_summary_confirm => 'インポート';
 
   @override
-  String import_result_message(
-    Object newSeries,
-    Object updatedSeries,
-    Object newChapters,
-  ) {
+  String import_result_message(Object newSeries, Object updatedSeries, Object newChapters) {
     return '新規$newSeries作品、更新$updatedSeries作品、$newChapters話を追加しました。';
   }
 
@@ -3089,8 +3063,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get memory_overlay => 'メモリ使用量を表示';
 
   @override
-  String get memory_overlay_subtitle =>
-      'アプリが保持しているメモリのリアルタイム表示。推測ではなく端末上で測定するために、ライブラリのスクロールや閲覧中に確認できます。';
+  String get memory_overlay_subtitle => 'アプリが保持しているメモリのリアルタイム表示。推測ではなく端末上で測定するために、ライブラリのスクロールや閲覧中に確認できます。';
 
   @override
   String get beta => 'ベータ';
@@ -3146,12 +3119,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get onboarding_language_title => '言語を選択';
 
   @override
-  String get onboarding_language_body =>
-      'Mangayomi はこの言語で表示されます。あとで「外観」から変更できます。';
+  String get onboarding_language_body => 'Mangayomi はこの言語で表示されます。あとで「外観」から変更できます。';
 
   @override
-  String get onboarding_nav_grouped_body =>
-      'ライブラリごとにタブを分けるか、ひとつの「ライブラリ」タブにまとめます。「更新」と「履歴」はひとつの「アクティビティ」タブにまとまります。';
+  String get onboarding_nav_grouped_body => 'ライブラリごとにタブを分けるか、ひとつの「ライブラリ」タブにまとめます。「更新」と「履歴」はひとつの「アクティビティ」タブにまとまります。';
 
   @override
   String get onboarding_nav_grouped => 'グループ化したタブ';
@@ -3257,8 +3228,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get global_search_no_sources_hint =>
-      '「ブラウズ」でリポジトリを追加し、拡張機能をインストールしてください。';
+  String get global_search_no_sources_hint => '「ブラウズ」でリポジトリを追加し、拡張機能をインストールしてください。';
 
   @override
   String global_search_only_pinned(int count) {
@@ -3271,8 +3241,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get global_search_only_pinned_hint =>
-      'ソースをピン留めするか、ブラウズ設定で「固定されたソースのみ含める」を無効にしてください。';
+  String get global_search_only_pinned_hint => 'ソースをピン留めするか、ブラウズ設定で「固定されたソースのみ含める」を無効にしてください。';
 
   @override
   String get global_search_all_nsfw => 'この項目のすべてのソースがNSFWに設定されており、非表示になっています。';
@@ -3281,8 +3250,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get global_search_all_nsfw_hint => '検索するにはブラウズ設定でNSFWソースを有効にしてください。';
 
   @override
-  String get missing_source_check_result_message =>
-      'これらの作品のソースがインストールされていません。移行するか拡張機能をインストールしてください。';
+  String get missing_source_check_result_message => 'これらの作品のソースがインストールされていません。移行するか拡張機能をインストールしてください。';
 
   @override
   String get related_titles => '関連作品';
@@ -3315,8 +3283,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get auto_library_update => 'ライブラリの自動更新';
 
   @override
-  String get auto_library_update_subtitle =>
-      'アプリ起動時にライブラリ内のすべての作品の最新話をチェックします。';
+  String get auto_library_update_subtitle => 'アプリ起動時にライブラリ内のすべての作品の最新話をチェックします。';
 
   @override
   String get auto_library_update_never => '更新しない';
@@ -3337,8 +3304,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get auto_library_update_wifi_only => 'Wi-Fi接続時のみ';
 
   @override
-  String get auto_library_update_wifi_only_subtitle =>
-      'モバイルデータ通信中は予定された更新をスキップします。';
+  String get auto_library_update_wifi_only_subtitle => 'モバイルデータ通信中は予定された更新をスキップします。';
 
   @override
   String get padding => '余白';
@@ -3575,8 +3541,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get group_nav_destinations => 'ナビゲーションをまとめる';
 
   @override
-  String get group_nav_destinations_subtitle =>
-      'マンガ・アニメ・小説を切り替えられる「ライブラリ」タブと、更新と履歴をまとめた「アクティビティ」タブ';
+  String get group_nav_destinations_subtitle => 'マンガ・アニメ・小説を切り替えられる「ライブラリ」タブと、更新と履歴をまとめた「アクティビティ」タブ';
 
   @override
   String get search_all_sources => 'すべてのソースを検索';
@@ -3893,8 +3858,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get no_tracker_connected => '接続されたトラッカーはありません';
 
   @override
-  String get no_tracker_connected_message =>
-      '設定 › トラッキングでサービスにログインすると、そのリストがここに表示されます。';
+  String get no_tracker_connected_message => '設定 › トラッキングでサービスにログインすると、そのリストがここに表示されます。';
 
   @override
   String get edit_metadata => 'メタデータを編集';
@@ -3938,16 +3902,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get group_navigation => 'ナビゲーション';
 
   @override
-  String get tv_home_beta_subtitle =>
-      '平らなグリッドの代わりに、行で並ぶアニメのホーム (続きを見る、新しいエピソード、カテゴリ)';
+  String get tv_home_beta_subtitle => '平らなグリッドの代わりに、行で並ぶアニメのホーム (続きを見る、新しいエピソード、カテゴリ)';
 
   @override
-  String get cloudflare_bypass_proxy_hint =>
-      'FlareSolverr または Byparr のアドレス (任意)';
+  String get cloudflare_bypass_proxy_hint => 'FlareSolverr または Byparr のアドレス (任意)';
 
   @override
-  String get cloudflare_bypass_proxy_message =>
-      'FlareSolverr または Byparr のエンドポイント。空欄でオフになります。';
+  String get cloudflare_bypass_proxy_message => 'FlareSolverr または Byparr のエンドポイント。空欄でオフになります。';
 
   @override
   String get group_explore => '探索';

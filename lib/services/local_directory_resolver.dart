@@ -155,9 +155,7 @@ void _logDirectoryProbe(String logContext, String stage, DirectoryProbe probe) {
     'statMode=${probe.stat?.modeString()}, '
     'modified=${probe.stat?.modified.toIso8601String()}',
   );
-  if (probe.existsError != null ||
-      probe.parentExistsError != null ||
-      probe.statError != null) {
+  if (probe.existsError != null || probe.parentExistsError != null || probe.statError != null) {
     debugPrint(
       '[LocalLibraryScanner] $logContext directory probe errors [$stage]: '
       'existsError=${probe.existsError}, '
@@ -182,9 +180,7 @@ Future<List<String>> _externalPathDirectoryCandidates(String dirPath) async {
       candidates.add(p.join(root, suffix));
     }
   }
-  return candidates
-      .where((candidate) => normalizePath(candidate) != normalizedOriginal)
-      .toList();
+  return candidates.where((candidate) => normalizePath(candidate) != normalizedOriginal).toList();
 }
 
 Future<List<String>> _safeExternalPathDirectoryCandidates(
@@ -210,10 +206,7 @@ Future<List<String>> _safeExternalPathDirectoryCandidates(
 List<String> _directAndroidDirectoryCandidates(String dirPath) {
   if (!Platform.isAndroid) return [];
   final normalizedOriginal = normalizePath(dirPath);
-  final parts = normalizedOriginal
-      .split('/')
-      .where((part) => part.isNotEmpty)
-      .toList();
+  final parts = normalizedOriginal.split('/').where((part) => part.isNotEmpty).toList();
   if (parts.length < 3 || parts.first != 'storage') return [];
 
   final volume = parts[1];
@@ -221,13 +214,11 @@ List<String> _directAndroidDirectoryCandidates(String dirPath) {
 
   final suffix = p.joinAll(parts.skip(2));
   return [
-        p.join('/mnt/media_rw', volume, suffix),
-        p.join('/mnt/runtime/default', volume, suffix),
-        p.join('/mnt/runtime/read', volume, suffix),
-        p.join('/mnt/runtime/write', volume, suffix),
-      ]
-      .where((candidate) => normalizePath(candidate) != normalizedOriginal)
-      .toList();
+    p.join('/mnt/media_rw', volume, suffix),
+    p.join('/mnt/runtime/default', volume, suffix),
+    p.join('/mnt/runtime/read', volume, suffix),
+    p.join('/mnt/runtime/write', volume, suffix),
+  ].where((candidate) => normalizePath(candidate) != normalizedOriginal).toList();
 }
 
 Future<List<String>> _externalPathRoots() async {
@@ -264,10 +255,7 @@ Future<List<String>> _externalPathRoots() async {
 }
 
 List<String> _externalPathSuffixes(String dirPath) {
-  final parts = normalizePath(dirPath)
-      .split('/')
-      .where((part) => part.isNotEmpty)
-      .toList();
+  final parts = normalizePath(dirPath).split('/').where((part) => part.isNotEmpty).toList();
   final suffixes = <String>{};
   if (parts.length > 2 && parts[0] == 'storage') {
     suffixes.add(p.joinAll(parts.skip(2)));

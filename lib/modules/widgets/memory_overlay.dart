@@ -62,9 +62,7 @@ class MemoryOverlay extends StatelessWidget {
     // Amber once the cache is spending its time full, which is the reading
     // that says the budget is the thing to change.
     final pressure = stats.ceilingShare;
-    final pressureColour = pressure >= 0.5
-        ? Colors.amber
-        : (pressure > 0 ? Colors.white : Colors.white70);
+    final pressureColour = pressure >= 0.5 ? Colors.amber : (pressure > 0 ? Colors.white : Colors.white70);
 
     final interactive = onClose != null && !isTv;
 

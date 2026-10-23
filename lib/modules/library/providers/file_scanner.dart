@@ -30,17 +30,12 @@ class LocalFoldersState extends _$LocalFoldersState {
   List<LocalFolder> build() {
     final settings = settingsRepository.current;
     return normalizeLocalFolders(
-      settings.namedLocalFolders ??
-          settings.localFolders
-              ?.map((e) => LocalFolder.fromPath(path: e))
-              .toList() ??
-          [],
+      settings.namedLocalFolders ?? settings.localFolders?.map((e) => LocalFolder.fromPath(path: e)).toList() ?? [],
     );
   }
 
   void set(List<LocalFolder> value) {
-    final currentDownloadFolderName =
-        settingsRepository.current.downloadLocalFolderName;
+    final currentDownloadFolderName = settingsRepository.current.downloadLocalFolderName;
     state = normalizeLocalFolders(value);
     final downloadFolderName = resolveDownloadFolderName(
       currentDownloadFolderName,
@@ -158,8 +153,7 @@ Future<void> _scanDirectory(
   // Fetch all existing mangas in library that are in /local (or \local)
   final List<Manga> existingMangas = await mangaRepository.getAllLocal();
   final mangaMap = {
-    for (var m in existingMangas)
-      localVirtualPathFromStoredPath(m.link!, localFolders): m,
+    for (var m in existingMangas) localVirtualPathFromStoredPath(m.link!, localFolders): m,
   };
 
   // Fetch all chapters for existing mangas
@@ -315,8 +309,7 @@ Future<void> _scanDirectory(
     if (coverFile != null) {
       try {
         coverBytes = await coverFile.readAsBytes();
-        if (itemType == ItemType.manga &&
-            await _isMostlyBlankWhiteImage(coverBytes)) {
+        if (itemType == ItemType.manga && await _isMostlyBlankWhiteImage(coverBytes)) {
           coverBytes = await _readMangaFolderCover(ref, subDirs, files);
         }
       } catch (e) {
@@ -332,14 +325,11 @@ Future<void> _scanDirectory(
 
     if (coverBytes != null) {
       final coverImage = coverBytes.getCoverImage;
-      if (coverImage != null &&
-          !_sameBytes(manga.customCoverImage, coverImage)) {
+      if (coverImage != null && !_sameBytes(manga.customCoverImage, coverImage)) {
         manga.customCoverImage = coverImage;
         manga.lastUpdate = dateNow;
       }
-    } else if (itemType != ItemType.manga &&
-        imageFiles.isEmpty &&
-        manga.customCoverImage != null) {
+    } else if (itemType != ItemType.manga && imageFiles.isEmpty && manga.customCoverImage != null) {
       manga.customCoverImage = null;
     }
 
@@ -435,8 +425,7 @@ Future<void> _scanDirectory(
   final chaptersToSave = <Chapter>[];
   int saveManga = 0; // Just to update the lastUpdate value of not new Mangas
   final mangaByPath = {
-    for (var m in processedMangas)
-      localVirtualPathFromStoredPath(m.link, localFolders): m,
+    for (var m in processedMangas) localVirtualPathFromStoredPath(m.link, localFolders): m,
   };
 
   // iterate through newChapters elements, which are: ["full_path/to/chapter1", "true"]
@@ -493,9 +482,7 @@ Future<void> _scanDirectory(
               : p.basenameWithoutExtension(chapterPath),
           dateUpload: dateNow.toString(),
           archivePath: virtualChapterPath,
-          downloadSize: chapterFile.existsSync()
-              ? chapterFile.lengthSync().formattedFileSize()
-              : null,
+          downloadSize: chapterFile.existsSync() ? chapterFile.lengthSync().formattedFileSize() : null,
         );
         chaptersToSave.add(chap);
       }
@@ -552,11 +539,7 @@ File? _findCoverFile(List<File> imageFiles) {
   final sorted = [...imageFiles]..sort((a, b) => a.path.compareTo(b.path));
   final namedCover = sorted.where((file) {
     final name = p.basenameWithoutExtension(file.path).toLowerCase();
-    return name == 'cover' ||
-        name == 'folder' ||
-        name == 'poster' ||
-        name == 'thumbnail' ||
-        name.contains('cover');
+    return name == 'cover' || name == 'folder' || name == 'poster' || name == 'thumbnail' || name.contains('cover');
   }).firstOrNull;
   return namedCover ?? (sorted.length == 1 ? sorted.first : null);
 }
@@ -566,9 +549,8 @@ Future<Uint8List?> _readMangaFolderCover(
   List<Directory> subDirs,
   List<File> files,
 ) async {
-  final chapterDirs =
-      subDirs.where((dir) => !dir.path.endsWith("_subtitles")).toList()
-        ..sort((a, b) => a.path.compareTo(b.path));
+  final chapterDirs = subDirs.where((dir) => !dir.path.endsWith("_subtitles")).toList()
+    ..sort((a, b) => a.path.compareTo(b.path));
   for (final dir in chapterDirs) {
     final imageFile = await _firstImageFileInDirectory(dir);
     if (imageFile == null) continue;
@@ -583,8 +565,7 @@ Future<Uint8List?> _readMangaFolderCover(
     }
   }
 
-  final archives = files.where((file) => isArchiveFile(file.path)).toList()
-    ..sort((a, b) => a.path.compareTo(b.path));
+  final archives = files.where((file) => isArchiveFile(file.path)).toList()..sort((a, b) => a.path.compareTo(b.path));
   for (final archive in archives) {
     try {
       final data = await ref.read(
@@ -608,12 +589,10 @@ Future<File?> _firstImageFileInDirectory(Directory dir) async {
       dir,
       logContext: '_firstImageFileInDirectory',
     );
-    final imageFiles =
-        (await localFiles(
-            entities,
-            logContext: '_firstImageFileInDirectory',
-          )).where((file) => isLocalImageFile(file.path)).toList()
-          ..sort((a, b) => a.path.compareTo(b.path));
+    final imageFiles = (await localFiles(
+      entities,
+      logContext: '_firstImageFileInDirectory',
+    )).where((file) => isLocalImageFile(file.path)).toList()..sort((a, b) => a.path.compareTo(b.path));
     return imageFiles.firstOrNull;
   } catch (e) {
     debugPrint(
@@ -656,10 +635,7 @@ Future<bool> _isMostlyBlankWhiteImage(Uint8List bytes) async {
     var white = 0;
     for (var i = 0; i + 3 < data.length; i += 4) {
       total++;
-      if (data[i] >= 250 &&
-          data[i + 1] >= 250 &&
-          data[i + 2] >= 250 &&
-          data[i + 3] >= 250) {
+      if (data[i] >= 250 && data[i + 1] >= 250 && data[i + 2] >= 250 && data[i + 3] >= 250) {
         white++;
       }
     }

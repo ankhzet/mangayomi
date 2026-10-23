@@ -60,15 +60,11 @@ class _FolderStatusState extends State<OnboardingFolderStatus> {
   /// decoration as a first run screen should spend on this.
   Widget _titleList(TextStyle muted) {
     final collapsedCount = widget.titles.length <= 4 ? widget.titles.length : 3;
-    final shown = _expanded
-        ? widget.titles.take(_expandedLimit).toList()
-        : widget.titles.take(collapsedCount).toList();
+    final shown = _expanded ? widget.titles.take(_expandedLimit).toList() : widget.titles.take(collapsedCount).toList();
     final hidden = widget.titles.length - shown.length;
 
     return GestureDetector(
-      onTap: hidden > 0 || _expanded
-          ? () => setState(() => _expanded = !_expanded)
-          : null,
+      onTap: hidden > 0 || _expanded ? () => setState(() => _expanded = !_expanded) : null,
       behavior: HitTestBehavior.opaque,
       child: Text.rich(
         TextSpan(
@@ -105,9 +101,7 @@ class _FolderStatusState extends State<OnboardingFolderStatus> {
 
   @override
   Widget build(BuildContext context) {
-    final color = widget.warn
-        ? context.shiori.color.error.foreground
-        : context.shiori.color.fgMuted;
+    final color = widget.warn ? context.shiori.color.error.foreground : context.shiori.color.fgMuted;
     final muted = context.shiori.caption;
     return Column(
       children: [
@@ -122,9 +116,7 @@ class _FolderStatusState extends State<OnboardingFolderStatus> {
               )
             else
               Icon(
-                widget.warn
-                    ? Symbols.info_rounded
-                    : Symbols.check_circle_rounded,
+                widget.warn ? Symbols.info_rounded : Symbols.check_circle_rounded,
                 size: 18,
                 color: color,
               ),

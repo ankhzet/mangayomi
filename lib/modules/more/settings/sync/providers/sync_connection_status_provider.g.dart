@@ -12,8 +12,7 @@ part of 'sync_connection_status_provider.dart';
 @ProviderFor(SyncConnectionState)
 final syncConnectionStateProvider = SyncConnectionStateFamily._();
 
-final class SyncConnectionStateProvider
-    extends $NotifierProvider<SyncConnectionState, SyncConnectionStatus> {
+final class SyncConnectionStateProvider extends $NotifierProvider<SyncConnectionState, SyncConnectionStatus> {
   SyncConnectionStateProvider._({
     required SyncConnectionStateFamily super.from,
     required int super.argument,
@@ -58,8 +57,7 @@ final class SyncConnectionStateProvider
   }
 }
 
-String _$syncConnectionStateHash() =>
-    r'b4ad27b30466087f303df1a8bb111a4000dd765f';
+String _$syncConnectionStateHash() => r'b4ad27b30466087f303df1a8bb111a4000dd765f';
 
 final class SyncConnectionStateFamily extends $Family
     with

@@ -83,9 +83,7 @@ mixin AnimePlayerControlsMixin<T extends riv.ConsumerStatefulWidget>
         if (iconOnly) {
           return MobilePlayerCompactSeekControl(
             key: const ValueKey('mobile-player-portrait-seek-button'),
-            tooltip:
-                value?.currentTitle ??
-                context.l10n.shortcut_seek_forward(defaultSkipIntroLength),
+            tooltip: value?.currentTitle ?? context.l10n.shortcut_seek_forward(defaultSkipIntroLength),
             seconds: value == null ? defaultSkipIntroLength : null,
             onPressed: onPressed,
             onLongPress: onLongPress,
@@ -97,9 +95,7 @@ mixin AnimePlayerControlsMixin<T extends riv.ConsumerStatefulWidget>
         return PlayerPillButton(
           icon: Symbols.fast_forward_rounded,
           label: label,
-          tooltip:
-              value?.currentTitle ??
-              context.l10n.shortcut_seek_forward(defaultSkipIntroLength),
+          tooltip: value?.currentTitle ?? context.l10n.shortcut_seek_forward(defaultSkipIntroLength),
           onTap: onPressed,
           onLongPress: onLongPress,
         );
@@ -112,18 +108,13 @@ mixin AnimePlayerControlsMixin<T extends riv.ConsumerStatefulWidget>
       valueListenable: mpvCurrentChapterMark,
       builder: (context, value, child) {
         // The marks of the previous video can be gone while the index stays.
-        final chapter = value == null
-            ? null
-            : mpvChapterMarks.value.elementAtOrNull(value);
+        final chapter = value == null ? null : mpvChapterMarks.value.elementAtOrNull(value);
         if (chapter == null) return const SizedBox.shrink();
         // A chapter with no title of its own is named by its start alone,
         // not " - 00:00".
         final start = Duration(milliseconds: chapter.$2).label();
-        final label = chapter.$1.trim().isEmpty
-            ? start
-            : "${chapter.$1} · $start";
-        void onPressed() =>
-            openPlayerSettings(context, initialIndex: chaptersSectionIndex);
+        final label = chapter.$1.trim().isEmpty ? start : "${chapter.$1} · $start";
+        void onPressed() => openPlayerSettings(context, initialIndex: chaptersSectionIndex);
 
         // The chapter of the video now, as one of the player's pills; the
         // label is left out where the row is short.
@@ -214,9 +205,7 @@ mixin AnimePlayerControlsMixin<T extends riv.ConsumerStatefulWidget>
       compactPortrait: compactPortrait,
       lockButton: const SizedBox.shrink(),
       seekButton: const SizedBox.shrink(),
-      chapterButton: compactPortrait
-          ? const SizedBox.shrink()
-          : chapterMarkWidget(),
+      chapterButton: compactPortrait ? const SizedBox.shrink() : chapterMarkWidget(),
       shortcutButtons: buildSettingsButtons(
         context,
         iconOnly: compactPortrait,
@@ -304,11 +293,10 @@ mixin AnimePlayerControlsMixin<T extends riv.ConsumerStatefulWidget>
                     ),
                     ValueListenableBuilder(
                       valueListenable: controlsTempPosition,
-                      builder: (context, value, child) =>
-                          CustomMaterialDesktopPositionIndicator(
-                            delta: value,
-                            controller: controlsVideoController,
-                          ),
+                      builder: (context, value, child) => CustomMaterialDesktopPositionIndicator(
+                        delta: value,
+                        controller: controlsVideoController,
+                      ),
                     ),
                     chapterMarkWidget(),
                   ],
@@ -336,17 +324,13 @@ mixin AnimePlayerControlsMixin<T extends riv.ConsumerStatefulWidget>
       height: 50,
       width: 50,
       child: IconButton(
-        tooltip: back
-            ? context.l10n.shortcut_seek_back(count)
-            : context.l10n.shortcut_seek_forward(count),
+        tooltip: back ? context.l10n.shortcut_seek_back(count) : context.l10n.shortcut_seek_forward(count),
         onPressed: () => mpvSeekBy(seconds),
         icon: Stack(
           children: [
             Positioned.fill(
               child: Icon(
-                back
-                    ? Symbols.rotate_left_rounded
-                    : Symbols.rotate_right_rounded,
+                back ? Symbols.rotate_left_rounded : Symbols.rotate_right_rounded,
                 color: Colors.white,
                 size: 30,
               ),
@@ -386,14 +370,10 @@ mixin AnimePlayerControlsMixin<T extends riv.ConsumerStatefulWidget>
     playbackSpeed: settingsPlaybackSpeed,
     fit: settingsFit,
     iconOnly: iconOnly,
-    onQuality: (context) =>
-        openPlayerSettings(context, initialIndex: qualitySectionIndex),
-    onSubtitles: (context) =>
-        openPlayerSettings(context, initialIndex: subtitleSectionIndex),
-    onAudio: (context) =>
-        openPlayerSettings(context, initialIndex: audioSectionIndex),
-    onSpeed: (context) =>
-        openPlayerSettings(context, initialIndex: speedSectionIndex),
+    onQuality: (context) => openPlayerSettings(context, initialIndex: qualitySectionIndex),
+    onSubtitles: (context) => openPlayerSettings(context, initialIndex: subtitleSectionIndex),
+    onAudio: (context) => openPlayerSettings(context, initialIndex: audioSectionIndex),
+    onSpeed: (context) => openPlayerSettings(context, initialIndex: speedSectionIndex),
     onSettings: openPlayerSettings,
     onChangeFit: controlsChangeFitLabel,
     onToggleFullscreen: controlsToggleFullscreen,
@@ -528,10 +508,8 @@ mixin AnimePlayerControlsMixin<T extends riv.ConsumerStatefulWidget>
         // media keys only. Arrow keys are left unbound so they keep driving
         // d-pad focus traversal on Android TV (and arrow-key focus movement
         // with a keyboard) instead of seeking.
-        const SingleActivator(LogicalKeyboardKey.mediaRewind): () =>
-            seekBy(-10),
-        const SingleActivator(LogicalKeyboardKey.mediaFastForward): () =>
-            seekBy(10),
+        const SingleActivator(LogicalKeyboardKey.mediaRewind): () => seekBy(-10),
+        const SingleActivator(LogicalKeyboardKey.mediaFastForward): () => seekBy(10),
         const SingleActivator(LogicalKeyboardKey.mediaTrackNext): () {
           if (controlsHasNextEpisode && mounted) {
             mpvPushToNewEpisode(context, mpvStreamController.getNextEpisode());

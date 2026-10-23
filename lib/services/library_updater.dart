@@ -96,8 +96,7 @@ class LibraryUpdateNotifier extends Notifier<LibraryUpdateState> {
       if (settings.autoLibraryUpdateWifiOnly ?? true) {
         final connectivity = await Connectivity().checkConnectivity();
         final unmetered =
-            connectivity.contains(ConnectivityResult.wifi) ||
-            connectivity.contains(ConnectivityResult.ethernet);
+            connectivity.contains(ConnectivityResult.wifi) || connectivity.contains(ConnectivityResult.ethernet);
         if (!unmetered) {
           AppLogger.log(
             "Scheduled library update skipped: metered connection.",
@@ -161,5 +160,4 @@ bool isLibraryUpdateDue({
 
 /// Runs the scheduled library refresh when one is due, then records when it
 /// started so the next launch knows to leave it alone.
-Future<void> autoUpdateLibraryIfDue(dynamic ref) =>
-    ref.read(libraryUpdateProvider.notifier).autoUpdateIfDue();
+Future<void> autoUpdateLibraryIfDue(dynamic ref) => ref.read(libraryUpdateProvider.notifier).autoUpdateIfDue();

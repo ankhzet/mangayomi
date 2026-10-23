@@ -32,5 +32,4 @@ int generateClientId() {
 /// pre-existing rows from before this field existed, and any created during
 /// the current session. Cheap to call often - `clientId` is indexed, so once
 /// caught up this is just six empty indexed lookups.
-Future<void> backfillMissingClientIds() =>
-    changedPartRepository.backfillMissingClientIds(generateClientId);
+Future<void> backfillMissingClientIds() => changedPartRepository.backfillMissingClientIds(generateClientId);

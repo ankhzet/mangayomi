@@ -68,10 +68,7 @@ class CrashReport {
       error: error,
       stack: json['stack'] as String?,
       screen: json['screen'] as String?,
-      occurrences:
-          (json['occurrences'] is int && (json['occurrences'] as int) > 0)
-          ? json['occurrences'] as int
-          : 1,
+      occurrences: (json['occurrences'] is int && (json['occurrences'] as int) > 0) ? json['occurrences'] as int : 1,
     );
   }
 }
@@ -172,8 +169,7 @@ bool isExpectedFailure(Object error) {
       // failures one layer down. #933 is one of these.
       text.contains('rhttpunknownexception') ||
       text.contains('hyper_util') ||
-      RegExp(r'(?:http\s*)?status(?:\s*code)?\s*[:=]?\s*[45]\d\d')
-          .hasMatch(text);
+      RegExp(r'(?:http\s*)?status(?:\s*code)?\s*[:=]?\s*[45]\d\d').hasMatch(text);
 }
 
 /// Whether [error] came from an extension rather than from the app.
@@ -237,8 +233,7 @@ CrashReportScope crashReportScope(CrashReport report) {
 /// Network/image failures need retry or source-specific help, while extension
 /// failures belong to the extension. Offering either a Mangayomi bug button
 /// creates reports that cannot lead to an app fix.
-bool isReportableFailure(CrashReport report) =>
-    crashReportScope(report) == CrashReportScope.app;
+bool isReportableFailure(CrashReport report) => crashReportScope(report) == CrashReportScope.app;
 
 /// A stable key for "this same thing went wrong again".
 ///
@@ -341,9 +336,7 @@ class CrashReports {
         final decoded = jsonDecode(await _file!.readAsString());
         // Earlier builds wrote a bare list. Read it rather than throwing the
         // reader's history away on upgrade.
-        final entries = decoded is List
-            ? decoded
-            : (decoded is Map ? decoded['reports'] as List? : null) ?? const [];
+        final entries = decoded is List ? decoded : (decoded is Map ? decoded['reports'] as List? : null) ?? const [];
         for (final entry in entries) {
           if (entry is! Map) continue;
           final report = CrashReport.fromJson(Map<String, dynamic>.from(entry));
@@ -402,8 +395,7 @@ class CrashReports {
   }
 
   /// Whether this fault has already been sent somewhere.
-  static bool wasReported(CrashReport report) =>
-      _reported.contains(fingerprintOf(report.error));
+  static bool wasReported(CrashReport report) => _reported.contains(fingerprintOf(report.error));
 
   /// Records that the reader opened a report for this fault.
   static void markReported(CrashReport report) {
@@ -449,9 +441,7 @@ class CrashReports {
   static void _recordOccurrence(List<CrashReport> reports, CrashReport report) {
     final existingIndex = reports.indexWhere(
       (existing) =>
-          existing.source == report.source &&
-          existing.screen == report.screen &&
-          existing.error == report.error,
+          existing.source == report.source && existing.screen == report.screen && existing.error == report.error,
     );
     if (existingIndex == -1) {
       reports.add(report);

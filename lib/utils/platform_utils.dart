@@ -25,12 +25,10 @@ final bool isApple = Platform.isMacOS || Platform.isIOS;
 /// [initIsTv]. A top-level final is initialised on first read and cached for
 /// the rest of the process, so on a TV it would latch whatever detection had
 /// answered by then, which early in startup is "not a TV".
-bool get supportsFloatingNav =>
-    (isApple || Platform.isAndroid || Platform.isLinux) && !isTv;
+bool get supportsFloatingNav => (isApple || Platform.isAndroid || Platform.isLinux) && !isTv;
 
 /// Resolves the opt-in preference against platform and input support.
-bool shouldUseFloatingNav({required bool enabled}) =>
-    enabled && supportsFloatingNav;
+bool shouldUseFloatingNav({required bool enabled}) => enabled && supportsFloatingNav;
 
 /// Shares the shell's effective navigation mode with screens and overlays.
 ///
@@ -46,14 +44,10 @@ class FloatingNavigationScope extends InheritedWidget {
   final bool enabled;
 
   static bool enabledOf(BuildContext context) =>
-      context
-          .dependOnInheritedWidgetOfExactType<FloatingNavigationScope>()
-          ?.enabled ??
-      false;
+      context.dependOnInheritedWidgetOfExactType<FloatingNavigationScope>()?.enabled ?? false;
 
   @override
-  bool updateShouldNotify(FloatingNavigationScope oldWidget) =>
-      enabled != oldWidget.enabled;
+  bool updateShouldNotify(FloatingNavigationScope oldWidget) => enabled != oldWidget.enabled;
 }
 
 /// What the device reported, hydrated once at startup by [initIsTv].
@@ -104,8 +98,7 @@ Future<void> initIsTv() async {
 /// A TV is viewed from across the room and its panel may overscan, so content
 /// running flush to the edges reads badly. Off-TV this is [EdgeInsets.zero], so
 /// phone and desktop layouts are byte-for-byte unchanged.
-EdgeInsets get tvPageInsets =>
-    isTv ? const EdgeInsets.symmetric(horizontal: 16) : EdgeInsets.zero;
+EdgeInsets get tvPageInsets => isTv ? const EdgeInsets.symmetric(horizontal: 16) : EdgeInsets.zero;
 
 /// Horizontal inset for primary TV controls and scrolling content.
 ///
@@ -130,7 +123,6 @@ EdgeInsets tvOverscanHorizontalInsets(BuildContext context) =>
 /// scroll view that sets its own padding *replaces* what the Scaffold provided
 /// rather than adding to it, which is how a list ends up running underneath
 /// the bar; adding this back is what fixes it.
-EdgeInsets pageBottomInsets(BuildContext context) =>
-    FloatingNavigationScope.enabledOf(context)
+EdgeInsets pageBottomInsets(BuildContext context) => FloatingNavigationScope.enabledOf(context)
     ? EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom + 8)
     : EdgeInsets.zero;

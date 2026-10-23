@@ -16,17 +16,16 @@ import 'package:url_launcher/url_launcher.dart';
 
 /// How many sources each repository offers, by its index URL; follows the
 /// sources as a refresh adds or drops some.
-final repoSourceCountsProvider =
-    StreamProvider.family<Map<String?, int>, ItemType>((ref, itemType) {
-      return sourceRepository.watchByItemType(itemType).map((sources) {
-        final counts = <String?, int>{};
-        for (final source in sources) {
-          final url = source.repo?.jsonUrl;
-          counts[url] = (counts[url] ?? 0) + 1;
-        }
-        return counts;
-      });
-    });
+final repoSourceCountsProvider = StreamProvider.family<Map<String?, int>, ItemType>((ref, itemType) {
+  return sourceRepository.watchByItemType(itemType).map((sources) {
+    final counts = <String?, int>{};
+    for (final source in sources) {
+      final url = source.repo?.jsonUrl;
+      counts[url] = (counts[url] ?? 0) + 1;
+    }
+    return counts;
+  });
+});
 
 class SourceRepositories extends ConsumerStatefulWidget {
   final ItemType itemType;
@@ -49,17 +48,11 @@ class _SourceRepositoriesState extends ConsumerState<SourceRepositories> {
 
   /// The repository's name, or the last part of its URL when it has none.
   String _name(Repo repo) {
-    if (repo.name != null &&
-        repo.name!.isNotEmpty &&
-        !repo.name!.endsWith('.json')) {
+    if (repo.name != null && repo.name!.isNotEmpty && !repo.name!.endsWith('.json')) {
       return repo.name!;
     }
     if (repo.jsonUrl == null) return "Invalid source - remove it";
-    return repo.jsonUrl!
-            .replaceAll(RegExp(r'/[^/]+\.json$'), '')
-            .split('/')
-            .where((s) => s.isNotEmpty)
-            .lastOrNull ??
+    return repo.jsonUrl!.replaceAll(RegExp(r'/[^/]+\.json$'), '').split('/').where((s) => s.isNotEmpty).lastOrNull ??
         repo.jsonUrl!;
   }
 
@@ -82,9 +75,7 @@ class _SourceRepositoriesState extends ConsumerState<SourceRepositories> {
       extensionsRepoStateProvider(widget.itemType),
     );
     _entries = repositories;
-    final sourceCounts =
-        ref.watch(repoSourceCountsProvider(widget.itemType)).asData?.value ??
-        const {};
+    final sourceCounts = ref.watch(repoSourceCountsProvider(widget.itemType)).asData?.value ?? const {};
     return Scaffold(
       appBar: AppBar(
         title: Text(switch (widget.itemType) {
@@ -134,37 +125,29 @@ class _SourceRepositoriesState extends ConsumerState<SourceRepositories> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        tooltip: isHidden
-                            ? l10n.show_repository
-                            : l10n.hide_repository,
+                        tooltip: isHidden ? l10n.show_repository : l10n.hide_repository,
                         isSelected: !isHidden,
                         onPressed: () => ref
                             .read(
-                              extensionsRepoStateProvider(widget.itemType)
-                                  .notifier,
+                              extensionsRepoStateProvider(widget.itemType).notifier,
                             )
                             .setVisibility(repo, !isHidden),
                         icon: Icon(
-                          isHidden
-                              ? Symbols.visibility_off_rounded
-                              : Symbols.visibility_rounded,
+                          isHidden ? Symbols.visibility_off_rounded : Symbols.visibility_rounded,
                         ),
                       ),
                       ShioriMenuButton(
-                        tooltip: MaterialLocalizations.of(context)
-                            .moreButtonTooltip,
+                        tooltip: MaterialLocalizations.of(context).moreButtonTooltip,
                         items: [
                           if (repo.website != null)
                             ShioriMenuItem(
                               label: l10n.open_in_browser,
                               icon: Symbols.open_in_new_rounded,
-                              onSelected: () =>
-                                  _launchInBrowser(Uri.parse(repo.website!)),
+                              onSelected: () => _launchInBrowser(Uri.parse(repo.website!)),
                             ),
                           if (repo.jsonUrl != null)
                             ShioriMenuItem(
-                              label: MaterialLocalizations.of(context)
-                                  .copyButtonLabel,
+                              label: MaterialLocalizations.of(context).copyButtonLabel,
                               icon: Symbols.content_copy_rounded,
                               onSelected: () => Clipboard.setData(
                                 ClipboardData(text: repo.jsonUrl!),
@@ -172,8 +155,7 @@ class _SourceRepositoriesState extends ConsumerState<SourceRepositories> {
                             ),
                           null,
                           ShioriMenuItem(
-                            label: MaterialLocalizations.of(context)
-                                .deleteButtonTooltip,
+                            label: MaterialLocalizations.of(context).deleteButtonTooltip,
                             icon: Symbols.delete_rounded,
                             destructive: true,
                             onSelected: () => _removeRepo(repo),
@@ -221,13 +203,8 @@ class _SourceRepositoriesState extends ConsumerState<SourceRepositories> {
       destructive: true,
     );
     if (!confirmed) return;
-    final repos = ref
-        .read(extensionsRepoStateProvider(widget.itemType))
-        .where((r) => r != removedRepo)
-        .toList();
-    await ref
-        .read(extensionsRepoStateProvider(widget.itemType).notifier)
-        .set(repos);
+    final repos = ref.read(extensionsRepoStateProvider(widget.itemType)).where((r) => r != removedRepo).toList();
+    await ref.read(extensionsRepoStateProvider(widget.itemType).notifier).set(repos);
     await _removeOrphanSources(removedRepo);
   }
 
@@ -259,17 +236,14 @@ class _SourceRepositoriesState extends ConsumerState<SourceRepositories> {
                     }
                     try {
                       final uri = Uri.parse(value.trim());
-                      if (!uri.isAbsolute ||
-                          (uri.scheme != 'http' && uri.scheme != 'https')) {
+                      if (!uri.isAbsolute || (uri.scheme != 'http' && uri.scheme != 'https')) {
                         return l10n.invalid_url_format;
                       }
                       final clean = value.trim().toLowerCase();
                       final alreadyExists = _entries.any((r) {
                         final rUrl = r.jsonUrl?.trim().toLowerCase();
                         if (rUrl == null) return false;
-                        return rUrl == clean ||
-                            rUrl == '$clean/' ||
-                            '$rUrl/' == clean;
+                        return rUrl == clean || rUrl == '$clean/' || '$rUrl/' == clean;
                       });
                       if (alreadyExists) {
                         return l10n.repo_already_exists;
@@ -297,14 +271,9 @@ class _SourceRepositoriesState extends ConsumerState<SourceRepositories> {
                       final alreadyExists = _entries.any((r) {
                         final rUrl = r.jsonUrl?.trim().toLowerCase();
                         if (rUrl == null) return false;
-                        return rUrl == clean ||
-                            rUrl == '$clean/' ||
-                            '$rUrl/' == clean;
+                        return rUrl == clean || rUrl == '$clean/' || '$rUrl/' == clean;
                       });
-                      final isValid =
-                          text.isNotEmpty &&
-                          !alreadyExists &&
-                          Uri.tryParse(text)?.isAbsolute == true;
+                      final isValid = text.isNotEmpty && !alreadyExists && Uri.tryParse(text)?.isAbsolute == true;
                       if (isLoading) {
                         return const Padding(
                           padding: EdgeInsets.all(ShioriSpace.s8),
@@ -319,8 +288,7 @@ class _SourceRepositoriesState extends ConsumerState<SourceRepositories> {
                                 setState(() => isLoading = true);
                                 try {
                                   final repoNotifier = ref.read(
-                                    extensionsRepoStateProvider(widget.itemType)
-                                        .notifier,
+                                    extensionsRepoStateProvider(widget.itemType).notifier,
                                   );
                                   final currentRepos = ref.read(
                                     extensionsRepoStateProvider(
@@ -337,22 +305,15 @@ class _SourceRepositoriesState extends ConsumerState<SourceRepositories> {
                                     botToast(l10n.unsupported_repo);
                                     return;
                                   }
-                                  final repoUrl = repo.jsonUrl
-                                      ?.trim()
-                                      .toLowerCase();
+                                  final repoUrl = repo.jsonUrl?.trim().toLowerCase();
                                   final isDuplicate = currentRepos.any((r) {
-                                    final rUrl = r.jsonUrl
-                                        ?.trim()
-                                        .toLowerCase();
+                                    final rUrl = r.jsonUrl?.trim().toLowerCase();
                                     return (rUrl != null &&
                                             (rUrl == repoUrl ||
                                                 rUrl == clean ||
                                                 rUrl == '$clean/' ||
                                                 '$rUrl/' == clean ||
-                                                (repoUrl != null &&
-                                                    (rUrl == '$repoUrl/' ||
-                                                        '$rUrl/' ==
-                                                            repoUrl)))) ||
+                                                (repoUrl != null && (rUrl == '$repoUrl/' || '$rUrl/' == repoUrl)))) ||
                                         r == repo;
                                   });
                                   if (isDuplicate) {

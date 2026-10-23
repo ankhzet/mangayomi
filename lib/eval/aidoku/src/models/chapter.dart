@@ -44,6 +44,5 @@ class Chapter {
   bool locked;
 
   @override
-  String toString() =>
-      'Chapter(key: $key, title: $title, ch: $chapterNumber, vol: $volumeNumber, locked: $locked)';
+  String toString() => 'Chapter(key: $key, title: $title, ch: $chapterNumber, vol: $volumeNumber, locked: $locked)';
 }

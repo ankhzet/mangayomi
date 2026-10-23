@@ -201,8 +201,7 @@ class ReaderBottomBar extends ConsumerWidget {
     WidgetRef ref,
     bool isHorizontalContinuous,
   ) {
-    Widget unmirrored(Widget child) =>
-        Transform.scale(scaleX: !isReverseHorizontal ? 1 : -1, child: child);
+    Widget unmirrored(Widget child) => Transform.scale(scaleX: !isReverseHorizontal ? 1 : -1, child: child);
     return Transform.scale(
       scaleX: !isReverseHorizontal ? 1 : -1,
       child: SizedBox(
@@ -239,8 +238,7 @@ class ReaderBottomBar extends ConsumerWidget {
                 child: Center(
                   child: Text(
                     "$totalPages",
-                    style: _pageLabelStyle(context)
-                        .copyWith(color: context.shiori.color.fgMuted),
+                    style: _pageLabelStyle(context).copyWith(color: context.shiori.color.fgMuted),
                   ),
                 ),
               ),
@@ -300,8 +298,8 @@ class ReaderBottomBar extends ConsumerWidget {
   }
 
   /// Tabular, so the slider does not shift as the count changes width.
-  TextStyle _pageLabelStyle(BuildContext context) => context.shiori.text.meta
-      .copyWith(color: context.shiori.color.fg, fontWeight: FontWeight.w700);
+  TextStyle _pageLabelStyle(BuildContext context) =>
+      context.shiori.text.meta.copyWith(color: context.shiori.color.fg, fontWeight: FontWeight.w700);
 
   /// The reading mode picker in a sheet; a tile picks and closes it.
   Future<void> _pickReaderMode(BuildContext context) {
@@ -326,9 +324,7 @@ class ReaderBottomBar extends ConsumerWidget {
                   onReaderModeChanged(value, ref);
                   Navigator.pop(sheetContext);
                 },
-                onSetDefault: () => ref
-                    .read(defaultReadingModeStateProvider.notifier)
-                    .set(mode),
+                onSetDefault: () => ref.read(defaultReadingModeStateProvider.notifier).set(mode),
               ),
             ),
           );
@@ -370,9 +366,7 @@ class ReaderBottomBar extends ConsumerWidget {
                 ? l10n.reading_mode
                 : '${l10n.reading_mode} · ${getReaderModeName(readerMode, context)}',
             onPressed: () => _pickReaderMode(context),
-            icon: readerMode == null
-                ? const Icon(Symbols.chrome_reader_mode_rounded)
-                : ReaderModeGlyph(readerMode),
+            icon: readerMode == null ? const Icon(Symbols.chrome_reader_mode_rounded) : ReaderModeGlyph(readerMode),
           ),
 
           // Crop borders button: filled in the accent while it is on.
@@ -409,8 +403,7 @@ class ReaderBottomBar extends ConsumerWidget {
           ),
 
           // Auto-scroll, where it runs: lit while it is on.
-          if ((readerMode?.isVerticalContinuous ?? false) &&
-              onAutoScrollPressed != null)
+          if ((readerMode?.isVerticalContinuous ?? false) && onAutoScrollPressed != null)
             ValueListenableBuilder<bool>(
               valueListenable: autoScrollEnabled ?? ValueNotifier(false),
               builder: (context, enabled, _) => IconButton(

@@ -117,8 +117,7 @@ Future<(String, EpubNovel?)> getHtmlContent(
             chapter.url!,
           ),
         );
-        final stripped =
-            html.length >= 2 && html.startsWith('"') && html.endsWith('"')
+        final stripped = html.length >= 2 && html.startsWith('"') && html.endsWith('"')
             ? html.substring(1, html.length - 1)
             : html;
         result = (_buildHtml(stripped), null);

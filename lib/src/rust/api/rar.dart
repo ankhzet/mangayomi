@@ -35,8 +35,7 @@ class LocalRarArchive {
   });
 
   @override
-  int get hashCode =>
-      name.hashCode ^ coverImage.hashCode ^ images.hashCode ^ path.hashCode;
+  int get hashCode => name.hashCode ^ coverImage.hashCode ^ images.hashCode ^ path.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -61,10 +60,7 @@ class LocalRarImage {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is LocalRarImage &&
-          runtimeType == other.runtimeType &&
-          name == other.name &&
-          image == other.image;
+      other is LocalRarImage && runtimeType == other.runtimeType && name == other.name && image == other.image;
 }
 
 class LocalRarMetadata {

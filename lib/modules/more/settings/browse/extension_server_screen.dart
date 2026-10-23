@@ -77,21 +77,14 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final androidProxyServer = ref.watch(androidProxyServerStateProvider);
-    final actionLabel = !_isInstalled
-        ? l10n.download
-        : (_hasUpdateAvailable ? l10n.update_files : l10n.up_to_date);
+    final actionLabel = !_isInstalled ? l10n.download : (_hasUpdateAvailable ? l10n.update_files : l10n.up_to_date);
     final actionIcon = _isInstalled && _hasUpdateAvailable
         ? Symbols.system_update_alt_rounded
-        : (_isInstalled
-              ? Symbols.check_circle_rounded
-              : Symbols.download_rounded);
-    final statusLabel = _isChecking
-        ? l10n.checking_files
-        : (_isInstalled ? l10n.files_installed : l10n.files_missing);
+        : (_isInstalled ? Symbols.check_circle_rounded : Symbols.download_rounded);
+    final statusLabel = _isChecking ? l10n.checking_files : (_isInstalled ? l10n.files_installed : l10n.files_missing);
     final versions = [
       if (_installedVersion.isNotEmpty) _installedVersion,
-      if (_latestVersion.isNotEmpty && _latestVersion != _installedVersion)
-        '→ $_latestVersion',
+      if (_latestVersion.isNotEmpty && _latestVersion != _installedVersion) '→ $_latestVersion',
     ].join(' ');
 
     return Scaffold(
@@ -105,9 +98,7 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
         children: [
           if (_showExtensionServerSection) ...[
             _intro(
-              _requiresJre
-                  ? l10n.extension_server_intro_with_jre
-                  : l10n.extension_server_intro_ios,
+              _requiresJre ? l10n.extension_server_intro_with_jre : l10n.extension_server_intro_ios,
             ),
             ExtensionServerActionsGroup(
               isChecking: _isChecking,
@@ -141,9 +132,7 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
           ],
           if (_showAndroidProxySectionOrAdvanced)
             AndroidProxyGroup(
-              title: _showAndroidProxyServerSection
-                  ? l10n.android_proxy_server
-                  : l10n.advanced,
+              title: _showAndroidProxyServerSection ? l10n.android_proxy_server : l10n.advanced,
               androidProxyServer: androidProxyServer,
             ),
           if (_showAndroidProxyServerSection && Platform.isIOS)
@@ -158,8 +147,7 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
   }
 
   bool get _showAndroidProxySectionOrAdvanced =>
-      _showAndroidProxyServerSection ||
-      _showDesktopAdvancedMExtensionServerSection;
+      _showAndroidProxyServerSection || _showDesktopAdvancedMExtensionServerSection;
 
   Widget _intro(String text) => Padding(
     padding: const EdgeInsets.fromLTRB(
@@ -431,8 +419,7 @@ class _ExtensionServerScreenState extends ConsumerState<ExtensionServerScreen> {
     _ResolvedFileState fileState,
   ) async {
     try {
-      final latestRelease =
-          await ExtensionServerReleaseService.fetchLatestRelease();
+      final latestRelease = await ExtensionServerReleaseService.fetchLatestRelease();
       return _LatestReleaseState(
         latestRelease: latestRelease,
         latestVersion: latestRelease?.version ?? '',

@@ -47,8 +47,7 @@ class SourceListTile extends StatelessWidget {
           children: [
             ShioriButton.quiet(
               label: context.l10n.latest,
-              onPressed: () =>
-                  context.push('/mangaHome', extra: (source, true)),
+              onPressed: () => context.push('/mangaHome', extra: (source, true)),
             ),
             if (!isLocal)
               IconButton(
@@ -60,9 +59,7 @@ class SourceListTile extends StatelessWidget {
                 icon: Icon(
                   Symbols.push_pin_rounded,
                   fill: source.isPinned! ? 1 : 0,
-                  color: source.isPinned!
-                      ? context.shiori.color.accentInk
-                      : null,
+                  color: source.isPinned! ? context.shiori.color.accentInk : null,
                 ),
               )
             else
@@ -177,9 +174,7 @@ class TvSourceRow extends StatelessWidget {
                 child: Icon(
                   Symbols.push_pin_rounded,
                   fill: source.isPinned! ? 1 : 0,
-                  color: source.isPinned!
-                      ? context.shiori.color.accentInk
-                      : null,
+                  color: source.isPinned! ? context.shiori.color.accentInk : null,
                 ),
               ),
             ),
@@ -244,8 +239,7 @@ class SourceMeta extends StatelessWidget {
           languageName(context, source.lang!.toLowerCase()),
           style: tokens.caption,
         ),
-        if (source.isNsfw ?? false)
-          EntryBadgeChip(label: 'NSFW', tone: tokens.color.error),
+        if (source.isNsfw ?? false) EntryBadgeChip(label: 'NSFW', tone: tokens.color.error),
       ],
     );
   }

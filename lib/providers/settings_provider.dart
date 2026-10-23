@@ -13,8 +13,7 @@ class CachedSettings extends _$CachedSettings {
   @override
   Settings build() {
     // Single initial sync read from Isar on app boot
-    final initialSettings =
-        settingsRepository.currentOrNull ?? Settings(id: 227);
+    final initialSettings = settingsRepository.currentOrNull ?? Settings(id: 227);
 
     // Watch Isar settings collection for external changes (e.g. sync/restore)
     _subscription?.cancel();

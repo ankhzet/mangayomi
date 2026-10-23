@@ -24,8 +24,7 @@ class TvHomeHero extends StatefulWidget {
   State<TvHomeHero> createState() => _TvHomeHeroState();
 }
 
-class _TvHomeHeroState extends State<TvHomeHero>
-    with SingleTickerProviderStateMixin {
+class _TvHomeHeroState extends State<TvHomeHero> with SingleTickerProviderStateMixin {
   static const _dwell = Duration(seconds: 7);
   int _index = 0;
   late final AnimationController _ctrl;
@@ -166,9 +165,7 @@ class _HeroContent extends ConsumerWidget {
 
     // Series progress = watched / total (episode duration isn't reliably
     // stored, so within-episode % isn't available).
-    final progress = (total > 0 && read > 0 && read < total)
-        ? read / total
-        : 0.0;
+    final progress = (total > 0 && read > 0 && read < total) ? read / total : 0.0;
     final hasBar = progress > 0;
 
     final metaBits = <String>[
@@ -177,10 +174,7 @@ class _HeroContent extends ConsumerWidget {
       if (unread > 0) '$unread new',
       if ((manga.source ?? '').isNotEmpty) manga.source!,
     ];
-    final genreBits = (manga.genre ?? const <String>[])
-        .where((g) => g.trim().isNotEmpty)
-        .take(3)
-        .toList();
+    final genreBits = (manga.genre ?? const <String>[]).where((g) => g.trim().isNotEmpty).take(3).toList();
 
     return ClipRect(
       child: SizedBox(

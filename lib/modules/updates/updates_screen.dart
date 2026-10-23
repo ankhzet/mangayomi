@@ -91,8 +91,7 @@ class _UpdatesScreenState extends BaseLibraryTabScreenState<UpdatesScreen> {
           splashRadius: 20,
           tooltip: l10n.cancel,
           icon: const Icon(Symbols.stop_circle_rounded),
-          onPressed: () =>
-              ref.read(libraryUpdateProvider.notifier).requestCancel(),
+          onPressed: () => ref.read(libraryUpdateProvider.notifier).requestCancel(),
         )
       else
         IconButton(
@@ -124,8 +123,7 @@ class _UpdatesScreenState extends BaseLibraryTabScreenState<UpdatesScreen> {
     try {
       setState(() => _isLoading = true);
       final itemType = getCurrentItemType();
-      final mangaList = await mangaRepository
-          .getFavoritesNonLocalArchiveByItemType(itemType);
+      final mangaList = await mangaRepository.getFavoritesNonLocalArchiveByItemType(itemType);
       if (!mounted) return;
       await updateLibrary(
         ref: ref,
@@ -209,11 +207,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab> with AutomaticKeepAliveCl
               final c = e.chapter.value;
               if (c != null) chapterByUpdateId[e.id!] = c;
             }
-            final mangaIds = chapterByUpdateId.values
-                .map((c) => c.mangaId)
-                .whereType<int>()
-                .toSet()
-                .toList();
+            final mangaIds = chapterByUpdateId.values.map((c) => c.mangaId).whereType<int>().toSet().toList();
             final mangaById = {
               for (final m in mangaRepository.getAllByIds(mangaIds)) m?.id!: m!,
             };
@@ -233,8 +227,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab> with AutomaticKeepAliveCl
             int? lastUpdated;
             for (final c in chapterByUpdateId.values) {
               final value = mangaById[c.mangaId]?.lastUpdate;
-              if (value != null &&
-                  (lastUpdated == null || value > lastUpdated)) {
+              if (value != null && (lastUpdated == null || value > lastUpdated)) {
                 lastUpdated = value;
               }
             }
@@ -294,8 +287,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab> with AutomaticKeepAliveCl
                             final entry = downloadRepository.getByChapterId(
                               c.id,
                             );
-                            return entry == null ||
-                                !(entry.isDownload ?? false);
+                            return entry == null || !(entry.isDownload ?? false);
                           });
                       return ShioriSectionHeader(
                         overline: true,
@@ -312,8 +304,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab> with AutomaticKeepAliveCl
                     itemBuilder: (context, element) {
                       final manga = mangaById[element.mangaId]!;
                       final chapters = [
-                        for (final u in element.updates)
-                          chapterByUpdateId[u.id]!,
+                        for (final u in element.updates) chapterByUpdateId[u.id]!,
                       ];
                       if (chapters.length == 1) {
                         return UpdateChapterListTileWidget(
@@ -328,8 +319,7 @@ class _UpdateTabState extends ConsumerState<UpdateTab> with AutomaticKeepAliveCl
                         chapters: chapters,
                       );
                     },
-                    itemComparator: (item1, item2) =>
-                        item1.latest.compareTo(item2.latest),
+                    itemComparator: (item1, item2) => item1.latest.compareTo(item2.latest),
                     order: GroupedListOrder.DESC,
                   ),
                 ],

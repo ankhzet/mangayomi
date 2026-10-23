@@ -118,9 +118,7 @@ class _TvSeekBarState extends State<TvSeekBar> {
         builder: (context, snapshot) {
           final pos = snapshot.data ?? Duration.zero;
           final dur = widget.player.state.duration;
-          final frac = dur.inMilliseconds > 0
-              ? (pos.inMilliseconds / dur.inMilliseconds).clamp(0.0, 1.0)
-              : 0.0;
+          final frac = dur.inMilliseconds > 0 ? (pos.inMilliseconds / dur.inMilliseconds).clamp(0.0, 1.0) : 0.0;
           final barH = _focused ? 6.0 : 4.0;
           const knob = 16.0;
           return Padding(
@@ -133,10 +131,8 @@ class _TvSeekBarState extends State<TvSeekBar> {
                   return GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTapDown: (d) => _seekToFraction(d.localPosition.dx / w),
-                    onHorizontalDragStart: (d) =>
-                        _seekToFraction(d.localPosition.dx / w),
-                    onHorizontalDragUpdate: (d) =>
-                        _seekToFraction(d.localPosition.dx / w),
+                    onHorizontalDragStart: (d) => _seekToFraction(d.localPosition.dx / w),
+                    onHorizontalDragUpdate: (d) => _seekToFraction(d.localPosition.dx / w),
                     child: Stack(
                       children: [
                         // Track + progress, vertically centred.

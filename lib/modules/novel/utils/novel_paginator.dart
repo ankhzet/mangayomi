@@ -152,15 +152,11 @@ class NovelPaginator {
 
       void flushParagraph() {
         if (currentParagraphNodes.isEmpty) return;
-        final combinedText = currentParagraphNodes
-            .map((n) => n.text ?? '')
-            .join()
-            .trim();
+        final combinedText = currentParagraphNodes.map((n) => n.text ?? '').join().trim();
         if (combinedText.isNotEmpty) {
           final p = dom.Element.tag('p');
           if (element.attributes.containsKey('data-tts-index')) {
-            p.attributes['data-tts-index'] =
-                element.attributes['data-tts-index']!;
+            p.attributes['data-tts-index'] = element.attributes['data-tts-index']!;
           }
           for (final n in currentParagraphNodes) {
             p.append(n.clone(true));
@@ -194,8 +190,7 @@ class NovelPaginator {
               if (hasBr) {
                 processContainer(node);
               } else {
-                if (node.text.trim().isNotEmpty ||
-                    node.querySelector('img') != null) {
+                if (node.text.trim().isNotEmpty || node.querySelector('img') != null) {
                   blockElements.add(node);
                 }
               }
@@ -379,9 +374,7 @@ class NovelPaginator {
       }
 
       for (final unit in atomicUnits) {
-        final candidate = currentChunk.isEmpty
-            ? unit
-            : '${currentChunk.toString()} $unit';
+        final candidate = currentChunk.isEmpty ? unit : '${currentChunk.toString()} $unit';
         final candidateHeight = measureText(candidate) + paragraphMargin;
 
         if (currentChunk.isNotEmpty && candidateHeight > maxHeight) {
@@ -407,8 +400,7 @@ class NovelPaginator {
         final chunks = splitLargeElement(child, maxContentHeight);
         for (final chunk in chunks) {
           final chunkHeight = estimateElementHeight(chunk);
-          if (currentPageHeight + chunkHeight > maxContentHeight &&
-              currentPageNodes.isNotEmpty) {
+          if (currentPageHeight + chunkHeight > maxContentHeight && currentPageNodes.isNotEmpty) {
             flushCurrentPage();
           }
           currentPageNodes.add(chunk);
@@ -416,8 +408,7 @@ class NovelPaginator {
           recordBlockIndices(chunk, pages.length);
         }
       } else {
-        if (currentPageHeight + childHeight > maxContentHeight &&
-            currentPageNodes.isNotEmpty) {
+        if (currentPageHeight + childHeight > maxContentHeight && currentPageNodes.isNotEmpty) {
           flushCurrentPage();
         }
         currentPageNodes.add(child);

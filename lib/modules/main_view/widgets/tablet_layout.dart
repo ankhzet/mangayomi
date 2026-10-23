@@ -154,12 +154,8 @@ class _TabletLayoutState extends State<MainTabletLayout> {
       // null, because supplying an IconThemeData/TextStyle replaces the rail's
       // own defaults wholesale and would otherwise drop the selected and
       // unselected colouring. All null off TV, so desktop keeps its defaults.
-      selectedIconTheme: isTv
-          ? IconThemeData(size: 28, color: scheme.onSecondaryContainer)
-          : null,
-      unselectedIconTheme: isTv
-          ? IconThemeData(size: 28, color: context.shiori.color.fgMuted)
-          : null,
+      selectedIconTheme: isTv ? IconThemeData(size: 28, color: scheme.onSecondaryContainer) : null,
+      unselectedIconTheme: isTv ? IconThemeData(size: 28, color: context.shiori.color.fgMuted) : null,
       selectedLabelTextStyle: isTv
           ? TextStyle(
               fontSize: context.shiori.text.meta.fontSize,
@@ -174,13 +170,8 @@ class _TabletLayoutState extends State<MainTabletLayout> {
             )
           : null,
       destinations: destinations,
-      selectedIndex:
-          (widget.currentIndex >= 0 &&
-              widget.currentIndex < destinations.length)
-          ? widget.currentIndex
-          : 0,
-      onDestinationSelected: (newIndex) =>
-          _onDestinationTapped(context, newIndex),
+      selectedIndex: (widget.currentIndex >= 0 && widget.currentIndex < destinations.length) ? widget.currentIndex : 0,
+      onDestinationSelected: (newIndex) => _onDestinationTapped(context, newIndex),
     );
     if (isTv) {
       navRail = FocusScope(node: _railScope, child: navRail);

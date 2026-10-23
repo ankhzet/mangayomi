@@ -733,8 +733,7 @@ class Settings {
     autoLibraryUpdateInterval = json['autoLibraryUpdateInterval'];
     lastAutoLibraryUpdate = json['lastAutoLibraryUpdate'];
     autoLibraryUpdateWifiOnly = json['autoLibraryUpdateWifiOnly'];
-    backgroundColor = BackgroundColor
-        .values[json['backgroundColor'] ?? BackgroundColor.black.index];
+    backgroundColor = BackgroundColor.values[json['backgroundColor'] ?? BackgroundColor.black.index];
     if (json['chapterFilterBookmarkedList'] != null) {
       chapterFilterBookmarkedList = (json['chapterFilterBookmarkedList'] as List)
           .map((e) => ChapterFilterBookmarked.fromJson(e))
@@ -791,14 +790,10 @@ class Settings {
     libraryFilterAnimeDownloadType = json['libraryFilterAnimeDownloadType'];
     libraryFilterAnimeStartedType = json['libraryFilterAnimeStartedType'];
     libraryFilterAnimeUnreadType = json['libraryFilterAnimeUnreadType'];
-    libraryFilterMangasBookMarkedType =
-        json['libraryFilterMangasBookMarkedType'];
-    libraryFilterMangasSourceIds =
-        (json['libraryFilterMangasSourceIds'] as List?)?.cast<String>();
-    libraryFilterAnimeSourceIds = (json['libraryFilterAnimeSourceIds'] as List?)
-        ?.cast<String>();
-    libraryFilterNovelSourceIds = (json['libraryFilterNovelSourceIds'] as List?)
-        ?.cast<String>();
+    libraryFilterMangasBookMarkedType = json['libraryFilterMangasBookMarkedType'];
+    libraryFilterMangasSourceIds = (json['libraryFilterMangasSourceIds'] as List?)?.cast<String>();
+    libraryFilterAnimeSourceIds = (json['libraryFilterAnimeSourceIds'] as List?)?.cast<String>();
+    libraryFilterNovelSourceIds = (json['libraryFilterNovelSourceIds'] as List?)?.cast<String>();
     libraryFilterMangasDownloadType = json['libraryFilterMangasDownloadType'];
     libraryFilterMangasStartedType = json['libraryFilterMangasStartedType'];
     libraryFilterMangasUnreadType = json['libraryFilterMangasUnreadType'];
@@ -868,9 +863,7 @@ class Settings {
     playerSubtitleSettings = json['playerSubtitleSettings'] != null
         ? PlayerSubtitleSettings.fromJson(json['playerSubtitleSettings'])
         : null;
-    mangaHomeDisplayType =
-        DisplayType.values[json['mangaHomeDisplayType'] ??
-            DisplayType.comfortableGrid.index];
+    mangaHomeDisplayType = DisplayType.values[json['mangaHomeDisplayType'] ?? DisplayType.comfortableGrid.index];
     mangaGridSize = json['mangaGridSize'];
     animeGridSize = json['animeGridSize'];
     disableSectionType = SectionType.values[json['disableSectionType'] ?? SectionType.all.index];
@@ -948,8 +941,7 @@ class Settings {
     groupNavDestinations = json['groupNavDestinations'] ?? true;
     showContinueShelf = json['showContinueShelf'] ?? true;
     playerGestureHintSeen = json['playerGestureHintSeen'] ?? false;
-    chapterNumberDisplayMangaIds =
-        (json['chapterNumberDisplayMangaIds'] as List?)?.cast<int>() ?? [];
+    chapterNumberDisplayMangaIds = (json['chapterNumberDisplayMangaIds'] as List?)?.cast<int>() ?? [];
     volumeKeysPaging = json['volumeKeysPaging'] ?? false;
     volumeKeysInverted = json['volumeKeysInverted'] ?? false;
     readerOrientation = json['readerOrientation'] ?? 0;
@@ -968,18 +960,10 @@ class Settings {
     audioChannels = AudioChannel.values[json['audioChannels'] ?? AudioChannel.autoSafe.index];
     volumeBoostCap = json['volumeBoostCap'];
     downloadedOnlyMode = json['downloadedOnlyMode'];
-    algorithmWeights = json['algorithmWeights'] != null
-        ? AlgorithmWeights.fromJson(json['algorithmWeights'])
-        : null;
-    localFolders = (json['localFolders'] as List?)
-        ?.whereType<String>()
-        .toList();
-    namedLocalFolders = (json['namedLocalFolders'] as List?)
-        ?.map((e) => LocalFolder.fromJson(e))
-        .toList();
-    namedLocalFolders ??= localFolders
-        ?.map((e) => LocalFolder.fromPath(path: e))
-        .toList();
+    algorithmWeights = json['algorithmWeights'] != null ? AlgorithmWeights.fromJson(json['algorithmWeights']) : null;
+    localFolders = (json['localFolders'] as List?)?.whereType<String>().toList();
+    namedLocalFolders = (json['namedLocalFolders'] as List?)?.map((e) => LocalFolder.fromJson(e)).toList();
+    namedLocalFolders ??= localFolders?.map((e) => LocalFolder.fromPath(path: e)).toList();
     downloadLocalFolderName = json['downloadLocalFolderName'];
     askDownloadDestination = json['askDownloadDestination'];
     appLockEnabled = json['appLockEnabled'];
@@ -1051,18 +1035,10 @@ class Settings {
     'lastAutoLibraryUpdate': lastAutoLibraryUpdate,
     'autoLibraryUpdateWifiOnly': autoLibraryUpdateWifiOnly,
     'backgroundColor': backgroundColor.index,
-    'chapterFilterBookmarkedList': chapterFilterBookmarkedList
-        ?.map((v) => v.toJson())
-        .toList(),
-    'chapterFilterDownloadedList': chapterFilterDownloadedList
-        ?.map((v) => v.toJson())
-        .toList(),
-    'chapterFilterUnreadList': chapterFilterUnreadList
-        ?.map((v) => v.toJson())
-        .toList(),
-    'chapterPageIndexList': chapterPageIndexList
-        ?.map((v) => v.toJson())
-        .toList(),
+    'chapterFilterBookmarkedList': chapterFilterBookmarkedList?.map((v) => v.toJson()).toList(),
+    'chapterFilterDownloadedList': chapterFilterDownloadedList?.map((v) => v.toJson()).toList(),
+    'chapterFilterUnreadList': chapterFilterUnreadList?.map((v) => v.toJson()).toList(),
+    'chapterPageIndexList': chapterPageIndexList?.map((v) => v.toJson()).toList(),
     'enableLogs': enableLogs,
     'checkForAppUpdates': checkForAppUpdates,
     'checkForExtensionUpdates': checkForExtensionUpdates,
@@ -1283,8 +1259,7 @@ enum AudioChannel {
   autoSafe(mpvName: "auto-safe"),
   mono(mpvName: "mono"),
   stereo(mpvName: "stereo"),
-  reverseStereo(mpvName: "pan=[stereo|c0=c1|c1=c0]")
-  ;
+  reverseStereo(mpvName: "pan=[stereo|c0=c1|c1=c0]");
 
   final String mpvName;
 
@@ -1751,8 +1726,7 @@ class LocalFolder {
 
   LocalFolder({this.name, this.path});
 
-  LocalFolder.fromPath({required String path, String? name})
-    : this(name: name ?? _nameFromPath(path), path: path);
+  LocalFolder.fromPath({required String path, String? name}) : this(name: name ?? _nameFromPath(path), path: path);
 
   LocalFolder.fromJson(dynamic json) {
     if (json is String) {
@@ -1770,10 +1744,7 @@ class LocalFolder {
 
   static String _nameFromPath(String path) {
     final normalized = path.replaceAll('\\', '/');
-    final parts = normalized
-        .split('/')
-        .where((part) => part.trim().isNotEmpty)
-        .toList();
+    final parts = normalized.split('/').where((part) => part.trim().isNotEmpty).toList();
     return parts.isEmpty ? 'Local' : parts.last;
   }
 }

@@ -22,8 +22,7 @@ import 'package:protobuf/protobuf.dart';
 enum BackupType { unknown, mangayomi, mihon, aniyomi, kotatsu, neko }
 
 BackupType checkBackupType(String path, Archive archive) {
-  if (path.toLowerCase().contains("mangayomi") &&
-      (archive.files.firstOrNull?.name ?? "").endsWith(".backup.db")) {
+  if (path.toLowerCase().contains("mangayomi") && (archive.files.firstOrNull?.name ?? "").endsWith(".backup.db")) {
     return BackupType.mangayomi;
   } else if (path.toLowerCase().contains("kotatsu") &&
       archive.files.where((f) {
@@ -37,13 +36,10 @@ BackupType checkBackupType(String path, Archive archive) {
           }).length ==
           2) {
     return BackupType.kotatsu;
-  } else if (path.toLowerCase().endsWith(".tachibk") ||
-      path.toLowerCase().endsWith(".proto.gz")) {
+  } else if (path.toLowerCase().endsWith(".tachibk") || path.toLowerCase().endsWith(".proto.gz")) {
     return path.contains("xyz.jmir.tachiyomi.mi") || path.contains("aniyomi.mi")
         ? BackupType.aniyomi
-        : path.contains("tachiyomi") ||
-              path.contains("mihon") ||
-              path.contains("komikku")
+        : path.contains("tachiyomi") || path.contains("mihon") || path.contains("komikku")
         ? BackupType.mihon
         : path.contains("neko")
         ? BackupType.neko
@@ -82,9 +78,7 @@ class TachiBkImportPreview {
 
 Future<TachiBkImportPreview?> previewTachiBkImport(String path) async {
   final backupType = peekBackupType(path);
-  if (backupType != BackupType.mihon &&
-      backupType != BackupType.aniyomi &&
-      backupType != BackupType.neko) {
+  if (backupType != BackupType.mihon && backupType != BackupType.aniyomi && backupType != BackupType.neko) {
     return null;
   }
   final content = await Isolate.run(() {
@@ -100,11 +94,7 @@ Future<TachiBkImportPreview?> previewTachiBkImport(String path) async {
     CodedBufferReader(content, sizeLimit: 250 << 20),
   );
 
-  final existingCategoryNames = categoryRepository
-      .getAll()
-      .map((c) => c.name)
-      .whereType<String>()
-      .toSet();
+  final existingCategoryNames = categoryRepository.getAll().map((c) => c.name).whereType<String>().toSet();
   final categoryNames = <String>{for (var c in backup.backupCategories) c.name};
 
   final installedSourceNames = sourceRepository
@@ -121,11 +111,7 @@ Future<TachiBkImportPreview?> previewTachiBkImport(String path) async {
   int newSeries = 0, updatedSeries = 0, newChapters = 0;
   for (var m in backup.backupManga) {
     final sourceId = protoInt(m.source);
-    final srcName =
-        backup.backupSources
-            .firstWhereOrNull((s) => protoInt(s.sourceId) == sourceId)
-            ?.name ??
-        "Unknown";
+    final srcName = backup.backupSources.firstWhereOrNull((s) => protoInt(s.sourceId) == sourceId)?.name ?? "Unknown";
     if (!installedSourceNames.contains((
       ItemType.manga,
       srcName.toLowerCase(),
@@ -135,14 +121,8 @@ Future<TachiBkImportPreview?> previewTachiBkImport(String path) async {
     final existing = existingMangaByLink[m.url];
     if (existing != null) {
       updatedSeries++;
-      final existingUrls = chapterRepository
-          .getAllByMangaId(existing.id)
-          .map((c) => c.url)
-          .whereType<String>()
-          .toSet();
-      newChapters += m.chapters
-          .where((c) => !existingUrls.contains(c.url))
-          .length;
+      final existingUrls = chapterRepository.getAllByMangaId(existing.id).map((c) => c.url).whereType<String>().toSet();
+      newChapters += m.chapters.where((c) => !existingUrls.contains(c.url)).length;
     } else {
       newSeries++;
       newChapters += m.chapters.length;
@@ -154,9 +134,7 @@ Future<TachiBkImportPreview?> previewTachiBkImport(String path) async {
     final animeCategories = backupAnime.backupAnimeCategories.isNotEmpty
         ? backupAnime.backupAnimeCategories
         : backupAnime.legacyBackupAnimeCategories;
-    final animeEntries = backupAnime.backupAnime.isNotEmpty
-        ? backupAnime.backupAnime
-        : backupAnime.legacyBackupAnime;
+    final animeEntries = backupAnime.backupAnime.isNotEmpty ? backupAnime.backupAnime : backupAnime.legacyBackupAnime;
     final animeSources = backupAnime.backupAnimeSources.isNotEmpty
         ? backupAnime.backupAnimeSources
         : backupAnime.legacyBackupAnimeSources;
@@ -167,11 +145,7 @@ Future<TachiBkImportPreview?> previewTachiBkImport(String path) async {
     };
     for (var a in animeEntries) {
       final sourceId = protoInt(a.source);
-      final srcName =
-          animeSources
-              .firstWhereOrNull((s) => protoInt(s.sourceId) == sourceId)
-              ?.name ??
-          "Unknown";
+      final srcName = animeSources.firstWhereOrNull((s) => protoInt(s.sourceId) == sourceId)?.name ?? "Unknown";
       if (!installedSourceNames.contains((
         ItemType.anime,
         srcName.toLowerCase(),
@@ -186,9 +160,7 @@ Future<TachiBkImportPreview?> previewTachiBkImport(String path) async {
             .map((c) => c.url)
             .whereType<String>()
             .toSet();
-        newChapters += a.episodes
-            .where((c) => !existingUrls.contains(c.url))
-            .length;
+        newChapters += a.episodes.where((c) => !existingUrls.contains(c.url)).length;
       } else {
         newSeries++;
         newChapters += a.episodes.length;
@@ -197,9 +169,7 @@ Future<TachiBkImportPreview?> previewTachiBkImport(String path) async {
   }
 
   return TachiBkImportPreview(
-    conflictingCategories: categoryNames
-        .where(existingCategoryNames.contains)
-        .toList(),
+    conflictingCategories: categoryNames.where(existingCategoryNames.contains).toList(),
     unmatchedSourceNames: unmatchedSources,
     newSeriesCount: newSeries,
     updatedSeriesCount: updatedSeries,
@@ -207,32 +177,22 @@ Future<TachiBkImportPreview?> previewTachiBkImport(String path) async {
   );
 }
 
-List<Source> installedSourcesFor(ItemType itemType) => sourceRepository
-    .getAll()
-    .where((s) => s.itemType == itemType && (s.isAdded ?? false))
-    .toList();
+List<Source> installedSourcesFor(ItemType itemType) =>
+    sourceRepository.getAll().where((s) => s.itemType == itemType && (s.isAdded ?? false)).toList();
 
 /// Same preview shape as previewTachiBkImport, but for the native
 /// mangayomi backup format - already-decoded (and, for encrypted backups,
 /// already-decrypted) JSON rather than a path to re-read from disk.
 TachiBkImportPreview previewMangayomiBackup(Map<String, dynamic> backup) {
-  final mangaList = (backup["manga"] as List?)
-      ?.map((e) => Manga.fromJson(e)..itemType = convertToItemType(e))
-      .toList();
-  final chapterList = (backup["chapters"] as List?)
-      ?.map((e) => Chapter.fromJson(e))
-      .toList();
+  final mangaList = (backup["manga"] as List?)?.map((e) => Manga.fromJson(e)..itemType = convertToItemType(e)).toList();
+  final chapterList = (backup["chapters"] as List?)?.map((e) => Chapter.fromJson(e)).toList();
   final categoryList = (backup["categories"] as List?)
       ?.map(
         (e) => Category.fromJson(e)..forItemType = convertToItemTypeCategory(e),
       )
       .toList();
 
-  final existingCategoryNames = categoryRepository
-      .getAll()
-      .map((c) => c.name)
-      .whereType<String>()
-      .toSet();
+  final existingCategoryNames = categoryRepository.getAll().map((c) => c.name).whereType<String>().toSet();
   final categoryNames = <String>{
     for (final c in categoryList ?? <Category>[])
       if (c.name != null) c.name!,
@@ -263,19 +223,11 @@ TachiBkImportPreview previewMangayomiBackup(Map<String, dynamic> backup) {
     }
     final key = '${m.itemType.index}|${m.link}';
     final existing = m.link != null ? existingMangaByKey[key] : null;
-    final mangaChapters = m.id != null
-        ? chaptersByMangaId[m.id!] ?? const <Chapter>[]
-        : const <Chapter>[];
+    final mangaChapters = m.id != null ? chaptersByMangaId[m.id!] ?? const <Chapter>[] : const <Chapter>[];
     if (existing != null) {
       updatedSeries++;
-      final existingUrls = chapterRepository
-          .getAllByMangaId(existing.id)
-          .map((c) => c.url)
-          .whereType<String>()
-          .toSet();
-      newChapters += mangaChapters
-          .where((c) => c.url != null && !existingUrls.contains(c.url))
-          .length;
+      final existingUrls = chapterRepository.getAllByMangaId(existing.id).map((c) => c.url).whereType<String>().toSet();
+      newChapters += mangaChapters.where((c) => c.url != null && !existingUrls.contains(c.url)).length;
     } else {
       newSeries++;
       newChapters += mangaChapters.length;
@@ -283,9 +235,7 @@ TachiBkImportPreview previewMangayomiBackup(Map<String, dynamic> backup) {
   }
 
   return TachiBkImportPreview(
-    conflictingCategories: categoryNames
-        .where(existingCategoryNames.contains)
-        .toList(),
+    conflictingCategories: categoryNames.where(existingCategoryNames.contains).toList(),
     unmatchedSourceNames: unmatchedSources,
     newSeriesCount: newSeries,
     updatedSeriesCount: updatedSeries,

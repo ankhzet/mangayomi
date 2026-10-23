@@ -37,8 +37,7 @@ class GlobalSearchResultCard extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<GlobalSearchResultCard> createState() =>
-      _GlobalSearchResultCardState();
+  ConsumerState<GlobalSearchResultCard> createState() => _GlobalSearchResultCardState();
 }
 
 class _GlobalSearchResultCardState extends ConsumerState<GlobalSearchResultCard>
@@ -94,9 +93,7 @@ class _GlobalSearchResultCardState extends ConsumerState<GlobalSearchResultCard>
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(ShioriShape.cover),
             border: Border.all(
-              color: _focused
-                  ? context.shiori.color.accentInk
-                  : Colors.transparent,
+              color: _focused ? context.shiori.color.accentInk : Colors.transparent,
               width: 2,
             ),
           ),
@@ -118,12 +115,9 @@ class _GlobalSearchResultCardState extends ConsumerState<GlobalSearchResultCard>
                         children: [
                           Builder(
                             builder: (context) {
-                              if (hasData &&
-                                  snapshot.data!.first.customCoverImage !=
-                                      null) {
+                              if (hasData && snapshot.data!.first.customCoverImage != null) {
                                 return Image.memory(
-                                  snapshot.data!.first.customCoverImage
-                                      as Uint8List,
+                                  snapshot.data!.first.customCoverImage as Uint8List,
                                 );
                               }
                               return ClipRRect(
@@ -140,10 +134,7 @@ class _GlobalSearchResultCardState extends ConsumerState<GlobalSearchResultCard>
                                   ),
                                   imageUrl: toImgUrl(
                                     hasData
-                                        ? snapshot
-                                                  .data!
-                                                  .first
-                                                  .customCoverFromTracker ??
+                                        ? snapshot.data!.first.customCoverFromTracker ??
                                               snapshot.data!.first.imageUrl ??
                                               ""
                                         : getMangaDetail.imageUrl ?? "",
@@ -168,9 +159,7 @@ class _GlobalSearchResultCardState extends ConsumerState<GlobalSearchResultCard>
                     Container(
                       width: 110,
                       height: 150,
-                      color: hasData && snapshot.data!.first.favorite!
-                          ? inLibraryVeil
-                          : null,
+                      color: hasData && snapshot.data!.first.favorite! ? inLibraryVeil : null,
                     ),
                     if (hasData && snapshot.data!.first.favorite!)
                       const PositionedDirectional(

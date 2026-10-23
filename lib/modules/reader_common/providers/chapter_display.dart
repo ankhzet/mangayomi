@@ -25,8 +25,7 @@ class ChapterNumberDisplay extends Notifier<Set<int>> {
   }
 }
 
-final chapterNumberDisplayProvider =
-    NotifierProvider<ChapterNumberDisplay, Set<int>>(ChapterNumberDisplay.new);
+final chapterNumberDisplayProvider = NotifierProvider<ChapterNumberDisplay, Set<int>>(ChapterNumberDisplay.new);
 
 /// How [chapter] of [manga] is named in its list: the source's title, or
 /// "Chapter 12" / "Episode 3" when [byNumber]. A chapter whose name holds
@@ -44,9 +43,7 @@ String chapterDisplayName(
     title,
   );
   if (number == null || number < 0) return title;
-  final shown = number == number.roundToDouble()
-      ? number.toInt().toString()
-      : number.toString();
+  final shown = number == number.roundToDouble() ? number.toInt().toString() : number.toString();
   final word = manga.itemType == ItemType.anime ? l10n.episode : l10n.chapter;
   // The word is stored in lower case, for use inside sentences.
   final label = word.isEmpty ? word : word[0].toUpperCase() + word.substring(1);

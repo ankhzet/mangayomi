@@ -242,8 +242,7 @@ class _TvAnimeDetailViewState extends ConsumerState<TvAnimeDetailView> {
                                   extra: (_mediaContext(), null as Track?),
                                 );
                               },
-                              onMigrate: () =>
-                                  context.push('/migrate', extra: manga),
+                              onMigrate: () => context.push('/migrate', extra: manga),
                               // Seeded: this manga's source floats to the top.
                               onMassMigrate: () => context.push(
                                 '/massMigration',
@@ -286,9 +285,7 @@ class _TvAnimeDetailViewState extends ConsumerState<TvAnimeDetailView> {
   void _toggleLibrary() {
     final model = manga;
     model.favorite = !(model.favorite ?? false);
-    model.dateAdded = model.favorite!
-        ? DateTime.now().millisecondsSinceEpoch
-        : 0;
+    model.dateAdded = model.favorite! ? DateTime.now().millisecondsSinceEpoch : 0;
     mangaRepository.save(model);
     setState(() {});
   }

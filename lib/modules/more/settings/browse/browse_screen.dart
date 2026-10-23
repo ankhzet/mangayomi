@@ -30,13 +30,12 @@ class BrowseSScreen extends ConsumerWidget {
     // On the anime-only TV layout, hide the manga & novel repo settings.
     final animeOnly = ref.watch(animeOnlyTvModeProvider);
     final l10n = context.l10n;
-    ShioriSettingRow repo(String title, String subtitle, ItemType type) =>
-        ShioriSettingRow(
-          title: title,
-          subtitle: subtitle,
-          trailing: const Icon(Symbols.chevron_forward_rounded),
-          onTap: () => context.push("/SourceRepositories", extra: type),
-        );
+    ShioriSettingRow repo(String title, String subtitle, ItemType type) => ShioriSettingRow(
+      title: title,
+      subtitle: subtitle,
+      trailing: const Icon(Symbols.chevron_forward_rounded),
+      onTap: () => context.push("/SourceRepositories", extra: type),
+    );
     return Scaffold(
       appBar: AppBar(title: Text(l10n.browse)),
       body: ListView(
@@ -52,8 +51,7 @@ class BrowseSScreen extends ConsumerWidget {
                   title: l10n.anime_only_beta,
                   subtitle: l10n.anime_only_beta_subtitle,
                   value: animeOnly,
-                  onChanged: (v) =>
-                      ref.read(animeOnlyTvModeProvider.notifier).set(v),
+                  onChanged: (v) => ref.read(animeOnlyTvModeProvider.notifier).set(v),
                 ),
               ],
             ),
@@ -63,9 +61,7 @@ class BrowseSScreen extends ConsumerWidget {
               const ExtensionServerWarningBanner(),
               if (!Platform.isAndroid)
                 ShioriSettingRow(
-                  title: isMobile
-                      ? l10n.android_proxy_server
-                      : l10n.android_proxy_server_mihon,
+                  title: isMobile ? l10n.android_proxy_server : l10n.android_proxy_server_mihon,
                   subtitle: isMobile
                       ? l10n.m_extension_server_description
                       : l10n.android_proxy_server_mihon_description,
@@ -92,25 +88,20 @@ class BrowseSScreen extends ConsumerWidget {
               ShioriSwitchRow(
                 title: l10n.check_for_extension_updates,
                 value: checkForExtensionUpdates,
-                onChanged: (v) => ref
-                    .read(checkForExtensionsUpdateStateProvider.notifier)
-                    .set(v),
+                onChanged: (v) => ref.read(checkForExtensionsUpdateStateProvider.notifier).set(v),
               ),
               if (checkForExtensionUpdates)
                 ShioriSwitchRow(
                   title: l10n.auto_extensions_updates,
                   subtitle: l10n.auto_extensions_updates_subtitle,
                   value: autoUpdateExtensions,
-                  onChanged: (v) => ref
-                      .read(autoUpdateExtensionsStateProvider.notifier)
-                      .set(v),
+                  onChanged: (v) => ref.read(autoUpdateExtensionsStateProvider.notifier).set(v),
                 ),
               ShioriSwitchRow(
                 title: l10n.developer_mode,
                 subtitle: l10n.developer_mode_subtitle,
                 value: developerMode,
-                onChanged: (v) =>
-                    ref.read(developerModeStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(developerModeStateProvider.notifier).set(v),
               ),
             ],
           ),
@@ -120,9 +111,7 @@ class BrowseSScreen extends ConsumerWidget {
               ShioriSwitchRow(
                 title: l10n.only_include_pinned_sources,
                 value: onlyIncludePinnedSource,
-                onChanged: (v) => ref
-                    .read(onlyIncludePinnedSourceStateProvider.notifier)
-                    .set(v),
+                onChanged: (v) => ref.read(onlyIncludePinnedSourceStateProvider.notifier).set(v),
               ),
             ],
           ),
@@ -133,8 +122,7 @@ class BrowseSScreen extends ConsumerWidget {
               ShioriSwitchRow(
                 title: l10n.nsfw_sources_show,
                 value: showNSFW,
-                onChanged: (v) =>
-                    ref.read(showNSFWStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(showNSFWStateProvider.notifier).set(v),
               ),
             ],
           ),

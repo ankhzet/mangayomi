@@ -70,9 +70,7 @@ void showMangaCoverViewer(
                     child: StreamBuilder(
                       stream: trackRepository.watchAllWithSyncId(),
                       builder: (context, snapshot) {
-                        List<TrackPreference>? entries = snapshot.hasData
-                            ? snapshot.data!
-                            : [];
+                        List<TrackPreference>? entries = snapshot.hasData ? snapshot.data! : [];
                         if (entries.isEmpty) {
                           return Container();
                         }
@@ -89,22 +87,20 @@ void showMangaCoverViewer(
                                       ),
                                     ),
                                     onPressed: () async {
-                                      final trackSearch =
-                                          await trackersSearchDraggableMenu(
-                                            context,
-                                            itemType: manga.itemType,
-                                            track: Track(
-                                              status: TrackStatus.planToRead,
-                                              syncId: e.syncId!,
-                                              title: manga.name!,
-                                            ),
-                                          );
+                                      final trackSearch = await trackersSearchDraggableMenu(
+                                        context,
+                                        itemType: manga.itemType,
+                                        track: Track(
+                                          status: TrackStatus.planToRead,
+                                          syncId: e.syncId!,
+                                          title: manga.name!,
+                                        ),
+                                      );
                                       if (trackSearch != null) {
                                         mangaRepository.save(
                                           manga
                                             ..customCoverImage = null
-                                            ..customCoverFromTracker =
-                                                trackSearch.coverUrl,
+                                            ..customCoverFromTracker = trackSearch.coverUrl,
                                         );
                                         if (context.mounted) {
                                           Navigator.pop(context);
@@ -144,8 +140,7 @@ void showMangaCoverViewer(
                       children: [
                         _Bar(
                           child: IconButton(
-                            tooltip: MaterialLocalizations.of(context)
-                                .closeButtonTooltip,
+                            tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
                             onPressed: () => Navigator.pop(context),
                             icon: const Icon(Symbols.close_rounded),
                           ),
@@ -179,8 +174,7 @@ void showMangaCoverViewer(
                               IconButton(
                                 tooltip: context.l10n.save,
                                 onPressed: () async {
-                                  final dir = await StorageProvider()
-                                      .getGalleryDirectory();
+                                  final dir = await StorageProvider().getGalleryDirectory();
                                   if (context.mounted) {
                                     final bytes = await imageProvider.getBytes(
                                       context,
@@ -213,10 +207,8 @@ void showMangaCoverViewer(
                                           lockParentWindow: true,
                                         ),
                                       );
-                                      if (file?.path != null &&
-                                          context.mounted) {
-                                        final bytes = File(file!.path!)
-                                            .readAsBytesSync();
+                                      if (file?.path != null && context.mounted) {
+                                        final bytes = File(file!.path!).readAsBytesSync();
                                         await applyMangaCover(
                                           context,
                                           manga,
@@ -228,8 +220,7 @@ void showMangaCoverViewer(
                                       }
                                     },
                                   ),
-                                  if (manga.customCoverImage != null ||
-                                      manga.customCoverFromTracker != null)
+                                  if (manga.customCoverImage != null || manga.customCoverFromTracker != null)
                                     ShioriMenuItem(
                                       label: context.l10n.delete,
                                       icon: Symbols.delete_rounded,

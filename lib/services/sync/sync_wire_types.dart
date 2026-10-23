@@ -24,10 +24,7 @@ const wireTrackStatuses = [
   'RE_WATCHING',
 ];
 
-ItemType itemTypeFromWire(String value) =>
-    ItemType.values[wireItemTypes.indexOf(value)];
-Status statusFromWire(String? value) =>
-    value == null ? Status.unknown : Status.values[wireStatuses.indexOf(value)];
-TrackStatus trackStatusFromWire(String? value) => value == null
-    ? TrackStatus.reading
-    : TrackStatus.values[wireTrackStatuses.indexOf(value)];
+ItemType itemTypeFromWire(String value) => ItemType.values[wireItemTypes.indexOf(value)];
+Status statusFromWire(String? value) => value == null ? Status.unknown : Status.values[wireStatuses.indexOf(value)];
+TrackStatus trackStatusFromWire(String? value) =>
+    value == null ? TrackStatus.reading : TrackStatus.values[wireTrackStatuses.indexOf(value)];

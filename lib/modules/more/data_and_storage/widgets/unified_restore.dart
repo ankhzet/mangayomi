@@ -19,9 +19,7 @@ import 'package:shiori/shiori.dart';
 /// whether sync is currently on or off) and, if so, whether it's on.
 (bool hasServer, bool syncOn) _syncState(WidgetRef ref) {
   final syncPreference = ref.read(synchingProvider(syncId: 1));
-  final hasServer =
-      (syncPreference.authToken?.isNotEmpty ?? false) &&
-      (syncPreference.server?.isNotEmpty ?? false);
+  final hasServer = (syncPreference.authToken?.isNotEmpty ?? false) && (syncPreference.server?.isNotEmpty ?? false);
   return (hasServer, syncPreference.syncOn);
 }
 
@@ -45,9 +43,7 @@ Future<bool> performRestore(BuildContext context, WidgetRef ref) async {
 
     final backupType = peekBackupType(path);
     final isMihonFamily =
-        backupType == BackupType.mihon ||
-        backupType == BackupType.aniyomi ||
-        backupType == BackupType.neko;
+        backupType == BackupType.mihon || backupType == BackupType.aniyomi || backupType == BackupType.neko;
 
     if (backupType == BackupType.mangayomi) {
       return await _performMangayomiRestore(context, ref, path);
@@ -404,8 +400,7 @@ Future<Map<String, int>?> _resolveSourceConflicts(
                     child: ListView(
                       shrinkWrap: true,
                       children: [
-                        for (final MapEntry(key: name, value: itemType)
-                            in unmatched.entries)
+                        for (final MapEntry(key: name, value: itemType) in unmatched.entries)
                           ShioriValueRow<int>(
                             title: name,
                             value: selections[name]!,
@@ -419,8 +414,7 @@ Future<Map<String, int>?> _resolveSourceConflicts(
                                   "${source.name} (${source.lang})",
                                 ),
                             ],
-                            onChanged: (v) =>
-                                setState(() => selections[name] = v),
+                            onChanged: (v) => setState(() => selections[name] = v),
                           ),
                       ],
                     ),

@@ -49,9 +49,7 @@ class _TvFocusableState extends State<TvFocusable> {
       canRequestFocus: enabled,
       onFocusChange: (f) => setState(() => _focused = f),
       onKeyEvent: (node, event) {
-        if (event is KeyDownEvent &&
-            isTvPlayerSelectKey(event.logicalKey) &&
-            enabled) {
+        if (event is KeyDownEvent && isTvPlayerSelectKey(event.logicalKey) && enabled) {
           widget.onPressed!();
           return KeyEventResult.handled;
         }
@@ -64,13 +62,9 @@ class _TvFocusableState extends State<TvFocusable> {
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: _focused || widget.emphasized
-                ? widget.accent
-                : ShioriScrim.underText,
+            color: _focused || widget.emphasized ? widget.accent : ShioriScrim.underText,
             border: Border.all(
-              color: widget.emphasized && _focused
-                  ? Colors.white
-                  : Colors.transparent,
+              color: widget.emphasized && _focused ? Colors.white : Colors.transparent,
               width: 3,
             ),
           ),
@@ -78,9 +72,7 @@ class _TvFocusableState extends State<TvFocusable> {
           // accent once focused: white on a light accent was unreadable.
           child: IconTheme.merge(
             data: IconThemeData(
-              color: _focused || widget.emphasized
-                  ? ShioriColors.onFill(widget.accent)
-                  : Colors.white,
+              color: _focused || widget.emphasized ? ShioriColors.onFill(widget.accent) : Colors.white,
             ),
             child: Opacity(opacity: enabled ? 1.0 : 0.4, child: widget.child),
           ),

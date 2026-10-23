@@ -25,8 +25,7 @@ Future<List<FileSystemEntity>> listLocalDirectory(
         return entries.map((entry) {
           if (entry.isDirectory) return Directory(entry.path);
           if (entry.isFile) return File(entry.path);
-          return FileSystemEntity.typeSync(entry.path) ==
-                  FileSystemEntityType.directory
+          return FileSystemEntity.typeSync(entry.path) == FileSystemEntityType.directory
               ? Directory(entry.path)
               : File(entry.path);
         }).toList();
@@ -57,8 +56,7 @@ Future<List<Directory>> localDirectories(
   final dirs = <Directory>[];
   for (final entity in entities) {
     if (entity is Directory ||
-        await _localEntityType(entity, logContext: logContext) ==
-            FileSystemEntityType.directory) {
+        await _localEntityType(entity, logContext: logContext) == FileSystemEntityType.directory) {
       dirs.add(entity is Directory ? entity : Directory(entity.path));
     }
   }
@@ -71,9 +69,7 @@ Future<List<File>> localFiles(
 }) async {
   final files = <File>[];
   for (final entity in entities) {
-    if (entity is File ||
-        await _localEntityType(entity, logContext: logContext) ==
-            FileSystemEntityType.file) {
+    if (entity is File || await _localEntityType(entity, logContext: logContext) == FileSystemEntityType.file) {
       files.add(entity is File ? entity : File(entity.path));
     }
   }
@@ -97,10 +93,7 @@ Future<FileSystemEntityType> _localEntityType(
 
 String debugEntityPreview(List<FileSystemEntity> entities) {
   if (entities.isEmpty) return '<empty>';
-  return entities
-      .take(8)
-      .map((entity) => '${entity.runtimeType}:${p.basename(entity.path)}')
-      .join(', ');
+  return entities.take(8).map((entity) => '${entity.runtimeType}:${p.basename(entity.path)}').join(', ');
 }
 
 bool isHiddenSystemFile(String path) {
@@ -125,12 +118,7 @@ bool isLocalImageFile(String path) {
 bool isArchiveFile(String path) {
   if (isHiddenSystemFile(path)) return false;
   final ext = p.extension(path).toLowerCase();
-  return ext == '.cbz' ||
-      ext == '.zip' ||
-      ext == '.cbt' ||
-      ext == '.tar' ||
-      ext == '.cbr' ||
-      ext == '.rar';
+  return ext == '.cbz' || ext == '.zip' || ext == '.cbt' || ext == '.tar' || ext == '.cbr' || ext == '.rar';
 }
 
 /// Returns if file is a video

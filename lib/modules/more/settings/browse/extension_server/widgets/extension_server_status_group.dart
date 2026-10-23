@@ -31,12 +31,9 @@ class ExtensionServerStatusGroup extends StatelessWidget {
 
     return ShioriSettingsGroup(
       title: l10n.status,
-      footer: (releaseCheckMessage != null && releaseCheckMessage!.isNotEmpty)
-          ? releaseCheckMessage
-          : null,
+      footer: (releaseCheckMessage != null && releaseCheckMessage!.isNotEmpty) ? releaseCheckMessage : null,
       children: [
-        if (requiresJre)
-          _fileRow(context, l10n.jre_executable, jrePath, jreExists),
+        if (requiresJre) _fileRow(context, l10n.jre_executable, jrePath, jreExists),
         _fileRow(
           context,
           l10n.extension_server_jar,

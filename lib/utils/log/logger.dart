@@ -22,8 +22,7 @@ class AppLogger {
     if (_initialized || _busy) return;
     _busy = true;
     try {
-      final enabled =
-          (await settingsRepository.currentAsync)?.enableLogs ?? false;
+      final enabled = (await settingsRepository.currentAsync)?.enableLogs ?? false;
       if (!enabled) {
         _pending.clear();
         return;
@@ -88,8 +87,7 @@ enum LogLevel {
   debug,
   info,
   warning,
-  error
-  ;
+  error;
 
   @override
   String toString() {

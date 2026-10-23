@@ -123,8 +123,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
               // The same switcher as the library's media.
               child: ShioriSegmentedControl<ItemType>(
                 segments: [
-                  for (final type in _visibleTypes)
-                    ShioriSegment(value: type, label: type.localized(l10n)),
+                  for (final type in _visibleTypes) ShioriSegment(value: type, label: type.localized(l10n)),
                 ],
                 selected: itemType ?? _visibleTypes.first,
                 onSelected: (type) => setState(() => itemType = type),

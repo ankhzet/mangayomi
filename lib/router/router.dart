@@ -152,22 +152,19 @@ class RouterNotifier extends ChangeNotifier {
         _branch(
           _genericRoute<String?>(
             name: "MangaLibrary",
-            builder: (id) =>
-                LibraryScreen(itemType: ItemType.manga, presetInput: id),
+            builder: (id) => LibraryScreen(itemType: ItemType.manga, presetInput: id),
           ),
         ),
         _branch(
           _genericRoute<String?>(
             name: "AnimeLibrary",
-            builder: (id) =>
-                LibraryScreen(itemType: ItemType.anime, presetInput: id),
+            builder: (id) => LibraryScreen(itemType: ItemType.anime, presetInput: id),
           ),
         ),
         _branch(
           _genericRoute<String?>(
             name: "NovelLibrary",
-            builder: (id) =>
-                LibraryScreen(itemType: ItemType.novel, presetInput: id),
+            builder: (id) => LibraryScreen(itemType: ItemType.novel, presetInput: id),
           ),
         ),
         _branch(
@@ -194,18 +191,15 @@ class RouterNotifier extends ChangeNotifier {
       name: "mangaReaderView",
       // Keyed by chapter id so a chapter-to-chapter pushReplacement fully
       // remounts instead of reusing the Element and going stale.
-      builder: (id) =>
-          MangaReaderView(key: ValueKey('mangaReader-$id'), chapterId: id),
+      builder: (id) => MangaReaderView(key: ValueKey('mangaReader-$id'), chapterId: id),
     ),
     _genericRoute<int>(
       name: "animePlayerView",
-      builder: (id) =>
-          AnimePlayerView(key: ValueKey('animePlayer-$id'), episodeId: id),
+      builder: (id) => AnimePlayerView(key: ValueKey('animePlayer-$id'), episodeId: id),
     ),
     _genericRoute<int>(
       name: "novelReaderView",
-      builder: (id) =>
-          NovelReaderView(key: ValueKey('novelReader-$id'), chapterId: id),
+      builder: (id) => NovelReaderView(key: ValueKey('novelReader-$id'), chapterId: id),
     ),
     _genericRoute<ItemType>(
       name: "ExtensionLang",
@@ -243,8 +237,7 @@ class RouterNotifier extends ChangeNotifier {
     _genericRoute(name: "readerMode", child: const ReaderScreen()),
     _genericRoute<int>(
       name: "readerSettingsSection",
-      builder: (index) =>
-          ReaderScreen(section: ReaderSettingsSection.values[index]),
+      builder: (index) => ReaderScreen(section: ReaderSettingsSection.values[index]),
     ),
     _genericRoute(name: "novelReaderMode", child: const NovelReaderScreen()),
     _genericRoute(name: "browseS", child: const BrowseSScreen()),
@@ -333,8 +326,7 @@ class RouterNotifier extends ChangeNotifier {
     ),
     _genericRoute<(MediaLookupContext, AlgorithmWeights)>(
       name: "recommendations",
-      builder: (data) =>
-          RecommendationScreen(media: data.$1, algorithmWeights: data.$2),
+      builder: (data) => RecommendationScreen(media: data.$1, algorithmWeights: data.$2),
     ),
     _genericRoute<(MediaLookupContext, Track?)>(
       name: "watchOrder",
@@ -342,8 +334,7 @@ class RouterNotifier extends ChangeNotifier {
     ),
   ];
 
-  StatefulShellBranch _branch(GoRoute route) =>
-      StatefulShellBranch(routes: [route]);
+  StatefulShellBranch _branch(GoRoute route) => StatefulShellBranch(routes: [route]);
 
   GoRoute _genericRoute<T>({
     String? name,

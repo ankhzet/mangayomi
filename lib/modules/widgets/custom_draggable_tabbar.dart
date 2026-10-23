@@ -88,8 +88,7 @@ class _TabbedSheet extends StatefulWidget {
   State<_TabbedSheet> createState() => _TabbedSheetState();
 }
 
-class _TabbedSheetState extends State<_TabbedSheet>
-    with SingleTickerProviderStateMixin {
+class _TabbedSheetState extends State<_TabbedSheet> with SingleTickerProviderStateMixin {
   late final TabController _controller = TabController(
     length: widget.tabs.length,
     vsync: this,
@@ -208,10 +207,7 @@ class _TabbedSheetState extends State<_TabbedSheet>
     return AnimatedBuilder(
       animation: Listenable.merge([_controller, ?seeThrough]),
       builder: (context, child) {
-        final clear =
-            seeThrough != null &&
-            seeThrough.value &&
-            _controller.index == widget.seeThroughTab;
+        final clear = seeThrough != null && seeThrough.value && _controller.index == widget.seeThroughTab;
         return AnimatedContainer(
           duration: ShioriMotion.of(context, ShioriMotion.standard),
           decoration: BoxDecoration(
@@ -245,9 +241,7 @@ class _TabbedSheetState extends State<_TabbedSheet>
         // on one, a change in its content is eased.
         final moving = (value - value.round()).abs() > 0.001;
         return AnimatedContainer(
-          duration: !_settled || moving
-              ? Duration.zero
-              : ShioriMotion.of(context, ShioriMotion.standard),
+          duration: !_settled || moving ? Duration.zero : ShioriMotion.of(context, ShioriMotion.standard),
           curve: ShioriMotion.enterCurve,
           height: height.clamp(0.0, maxHeight),
           child: child,
@@ -274,8 +268,7 @@ class _MeasureHeight extends SingleChildRenderObjectWidget {
   final ValueChanged<double> onHeight;
 
   @override
-  RenderObject createRenderObject(BuildContext context) =>
-      _RenderMeasureHeight(onHeight);
+  RenderObject createRenderObject(BuildContext context) => _RenderMeasureHeight(onHeight);
 
   @override
   void updateRenderObject(

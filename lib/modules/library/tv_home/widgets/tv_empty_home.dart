@@ -63,9 +63,7 @@ class _EmptyHomeState extends State<TvEmptyHome> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(ShioriShape.sheet),
-                  color: _focused
-                      ? accent
-                      : accent.withValues(alpha: Alphas.focus),
+                  color: _focused ? accent : accent.withValues(alpha: Alphas.focus),
                   border: Border.all(
                     color: _focused ? accent : accent.withValues(alpha: 0.5),
                     width: 1.5,

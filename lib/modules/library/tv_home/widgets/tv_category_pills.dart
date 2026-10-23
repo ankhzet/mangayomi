@@ -76,10 +76,8 @@ class _CategoryPillsState extends State<TvCategoryPills> {
                     selected: widget.selected == null,
                     autofocus: true,
                     onTap: () => widget.onSelect(null),
-                    onLongPress: () =>
-                        _showHiddenCategoriesDialog(context, widget.hidden),
-                    onMenu: () =>
-                        _showHiddenCategoriesDialog(context, widget.hidden),
+                    onLongPress: () => _showHiddenCategoriesDialog(context, widget.hidden),
+                    onMenu: () => _showHiddenCategoriesDialog(context, widget.hidden),
                   ),
                   for (final c in widget.categories)
                     Padding(
@@ -96,8 +94,7 @@ class _CategoryPillsState extends State<TvCategoryPills> {
                     child: TvPill(
                       label: context.l10n.category,
                       icon: Symbols.add_rounded,
-                      onTap: () =>
-                          _showAddCategoryDialog(context, widget.categories),
+                      onTap: () => _showAddCategoryDialog(context, widget.categories),
                     ),
                   ),
                 ],
@@ -132,8 +129,7 @@ Future<void> _showHiddenCategoriesDialog(
     context,
     title: context.l10n.hidden_categories,
     options: [
-      for (final c in hidden)
-        ShioriChoice(c, c.name ?? '', icon: Symbols.visibility_rounded),
+      for (final c in hidden) ShioriChoice(c, c.name ?? '', icon: Symbols.visibility_rounded),
     ],
   );
   if (category != null) categoryRepository.setHidden(category, false);

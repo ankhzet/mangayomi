@@ -28,9 +28,7 @@ class _CreateExtensionState extends State<CreateExtension> {
   late String _notes = widget.editSource?.notes ?? "";
   late int _sourceTypeIndex = widget.editSource == null
       ? 0
-      : _sourceTypeValues
-            .indexOf(widget.editSource!.typeSource ?? "")
-            .clamp(0, _sourceTypeValues.length - 1);
+      : _sourceTypeValues.indexOf(widget.editSource!.typeSource ?? "").clamp(0, _sourceTypeValues.length - 1);
   late int _itemTypeIndex = widget.editSource?.itemType.index ?? 0;
   late int _languageIndex = switch (widget.editSource?.sourceCodeLanguage) {
     SourceCodeLanguage.javascript => 1,
@@ -38,8 +36,7 @@ class _CreateExtensionState extends State<CreateExtension> {
     _ => 0,
   };
   static const List<String> _sourceTypeValues = ["single", "multi", "torrent"];
-  late SourceCodeLanguage _sourceCodeLanguage =
-      widget.editSource?.sourceCodeLanguage ?? SourceCodeLanguage.dart;
+  late SourceCodeLanguage _sourceCodeLanguage = widget.editSource?.sourceCodeLanguage ?? SourceCodeLanguage.dart;
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -68,8 +65,7 @@ class _CreateExtensionState extends State<CreateExtension> {
                 icon: _isEditMode ? Symbols.lock_rounded : null,
                 value: _languageIndex,
                 options: [
-                  for (final (i, label) in languageLabels.indexed)
-                    ShioriChoice(i, label),
+                  for (final (i, label) in languageLabels.indexed) ShioriChoice(i, label),
                 ],
                 onChanged: _isEditMode
                     ? null
@@ -139,24 +135,18 @@ class _CreateExtensionState extends State<CreateExtension> {
                 icon: _isEditMode ? Symbols.lock_rounded : null,
                 value: _sourceTypeIndex,
                 options: [
-                  for (final (i, label) in sourceTypeLabels.indexed)
-                    ShioriChoice(i, label),
+                  for (final (i, label) in sourceTypeLabels.indexed) ShioriChoice(i, label),
                 ],
-                onChanged: _isEditMode
-                    ? null
-                    : (v) => setState(() => _sourceTypeIndex = v),
+                onChanged: _isEditMode ? null : (v) => setState(() => _sourceTypeIndex = v),
               ),
               ShioriValueRow<int>(
                 title: l10n.target,
                 icon: _isEditMode ? Symbols.lock_rounded : null,
                 value: _itemTypeIndex,
                 options: [
-                  for (final (i, label) in itemTypeLabels.indexed)
-                    ShioriChoice(i, label),
+                  for (final (i, label) in itemTypeLabels.indexed) ShioriChoice(i, label),
                 ],
-                onChanged: _isEditMode
-                    ? null
-                    : (v) => setState(() => _itemTypeIndex = v),
+                onChanged: _isEditMode ? null : (v) => setState(() => _itemTypeIndex = v),
               ),
               ShioriSwitchRow(
                 title: "NSFW",
@@ -179,15 +169,13 @@ class _CreateExtensionState extends State<CreateExtension> {
                               ..iconUrl = _iconUrl
                               ..notes = _notes
                               ..isNsfw = _isNsfw
-                              ..typeSource =
-                                  _sourceTypeValues[_sourceTypeIndex];
+                              ..typeSource = _sourceTypeValues[_sourceTypeIndex];
                             sourceRepository.save(source);
                             Navigator.pop(context, source);
                             botToast("Source updated successfully");
                             return;
                           }
-                          final id =
-                              _sourceCodeLanguage == SourceCodeLanguage.dart
+                          final id = _sourceCodeLanguage == SourceCodeLanguage.dart
                               ? 'mangayomi-$_lang.$_name'.hashCode
                               : 'mangayomi-js-$_lang.$_name'.hashCode;
                           final checkIfExist = sourceRepository.getById(id);
@@ -211,8 +199,7 @@ class _CreateExtensionState extends State<CreateExtension> {
                             )..sourceCodeLanguage = _sourceCodeLanguage;
                             source = source
                               ..isLocal = true
-                              ..sourceCode =
-                                  _sourceCodeLanguage == SourceCodeLanguage.dart
+                              ..sourceCode = _sourceCodeLanguage == SourceCodeLanguage.dart
                                   ? dartExtensionTemplate
                                   : jsExtensionTemplate(source);
                             sourceRepository.save(source);
@@ -223,9 +210,7 @@ class _CreateExtensionState extends State<CreateExtension> {
                           }
                         } catch (e) {
                           botToast(
-                            _isEditMode
-                                ? "Error when updating source"
-                                : l10n.error_when_creating_source,
+                            _isEditMode ? "Error when updating source" : l10n.error_when_creating_source,
                           );
                         }
                       }

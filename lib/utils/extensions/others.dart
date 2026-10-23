@@ -93,8 +93,7 @@ extension UChapDataPreloadExtensions on UChapDataPreload {
         directory?.path,
         chapter?.url,
       ].whereType<String>().where((value) => value.isNotEmpty).join('|');
-      final baseName =
-          'mangayomi_archive_${keyToMd5(sourceKey)}_${index ?? pageIndex}';
+      final baseName = 'mangayomi_archive_${keyToMd5(sourceKey)}_${index ?? pageIndex}';
       final bytes = archiveImage!;
       final tempFile = await cacheImageBytesToTempFile(
         tempDir: Directory.systemTemp,
@@ -196,8 +195,7 @@ Future<File?> _getCachedImageFile(String url, {String? cacheKey}) async {
     // built directly — listing the whole cache directory to find one file
     // scaled with the cache size.
     final String key = cacheKey ?? keyToMd5(url);
-    final Directory cacheImagesDirectory = await StorageProvider()
-        .getCacheDirectory('cacheimagemanga');
+    final Directory cacheImagesDirectory = await StorageProvider().getCacheDirectory('cacheimagemanga');
     final file = File(p.join(cacheImagesDirectory.path, key));
     if (await file.exists()) {
       return file;

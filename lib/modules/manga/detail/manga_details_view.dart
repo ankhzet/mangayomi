@@ -46,9 +46,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
 
     if (duplicates.isNotEmpty) {
       final oldManga = duplicates.first;
-      final oldSource = oldManga.sourceId != null
-          ? sourceRepository.getById(oldManga.sourceId!)
-          : null;
+      final oldSource = oldManga.sourceId != null ? sourceRepository.getById(oldManga.sourceId!) : null;
       if (!context.mounted) return;
       final action = await _showAlreadyInLibraryDialog(
         context,
@@ -102,13 +100,11 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
           ),
           ShioriButton.secondary(
             label: l10n.add_anyway,
-            onPressed: () =>
-                Navigator.pop(ctx, _DuplicateLibraryAction.addAnyway),
+            onPressed: () => Navigator.pop(ctx, _DuplicateLibraryAction.addAnyway),
           ),
           ShioriButton(
             label: l10n.migrate,
-            onPressed: () =>
-                Navigator.pop(ctx, _DuplicateLibraryAction.migrate),
+            onPressed: () => Navigator.pop(ctx, _DuplicateLibraryAction.migrate),
           ),
         ],
       ),
@@ -192,9 +188,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                         color: tokens.color.fgMuted,
                       ),
                       Text(
-                        (widget.manga.author?.isEmpty ?? false)
-                            ? l10n.unknown
-                            : widget.manga.author!,
+                        (widget.manga.author?.isEmpty ?? false) ? l10n.unknown : widget.manga.author!,
                         style: tokens.text.row.copyWith(color: tokens.color.fg),
                       ),
                     ],
@@ -211,8 +205,7 @@ class _MangaDetailsViewState extends ConsumerState<MangaDetailsView> {
                       Text(
                         [
                           getMangaStatusName(widget.manga.status, context),
-                          if (!isLocalArchive)
-                            '${widget.manga.source!} (${widget.manga.lang!.toUpperCase()})',
+                          if (!isLocalArchive) '${widget.manga.source!} (${widget.manga.lang!.toUpperCase()})',
                         ].join(' · '),
                         style: meta,
                       ),

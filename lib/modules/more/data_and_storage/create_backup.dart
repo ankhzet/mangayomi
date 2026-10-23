@@ -37,18 +37,17 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final indexList = ref.watch(backupFrequencyOptionsStateProvider);
-    ShioriSettingsGroup group(String title, List<(String, int)> items) =>
-        ShioriSettingsGroup(
-          title: title,
-          children: [
-            for (final (label, idx) in items)
-              ShioriSwitchRow(
-                title: label,
-                value: indexList.contains(idx),
-                onChanged: (_) => _set(idx, indexList),
-              ),
-          ],
-        );
+    ShioriSettingsGroup group(String title, List<(String, int)> items) => ShioriSettingsGroup(
+      title: title,
+      children: [
+        for (final (label, idx) in items)
+          ShioriSwitchRow(
+            title: label,
+            value: indexList.contains(idx),
+            onChanged: (_) => _set(idx, indexList),
+          ),
+      ],
+    );
     return Scaffold(
       appBar: AppBar(title: Text(l10n.create_backup)),
       body: ListView(
@@ -72,9 +71,7 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                 : () async {
                     String? result;
                     if (Platform.isIOS) {
-                      result =
-                          (await StorageProvider().getIosBackupDirectory())!
-                              .path;
+                      result = (await StorageProvider().getIosBackupDirectory())!.path;
                     } else {
                       result = await FilePicker.getDirectoryPath(
                         linuxOptions: const LinuxOptions(

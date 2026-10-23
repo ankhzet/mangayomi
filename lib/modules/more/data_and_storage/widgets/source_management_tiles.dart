@@ -98,8 +98,7 @@ Future<void> _checkMissingSources(BuildContext context) async {
           ShioriSettingRow(
             icon: Symbols.warning_rounded,
             title: _groupName(g),
-            subtitle:
-                "${_itemTypeLabel(sheetContext, g.itemType)} · ${g.mangaCount}",
+            subtitle: "${_itemTypeLabel(sheetContext, g.itemType)} · ${g.mangaCount}",
             trailing: const Icon(Symbols.chevron_forward_rounded),
             onTap: () {
               // Straight to picking a destination for this exact group -
@@ -111,8 +110,7 @@ Future<void> _checkMissingSources(BuildContext context) async {
               );
               MassMigrationSourceGroup? migrationGroup;
               for (final mg in migrationGroups) {
-                if (mg.sourceName.trim() == g.sourceName.trim() &&
-                    mg.lang == g.lang) {
+                if (mg.sourceName.trim() == g.sourceName.trim() && mg.lang == g.lang) {
                   migrationGroup = mg;
                   break;
                 }
@@ -132,8 +130,7 @@ Future<void> _checkMissingSources(BuildContext context) async {
   );
 }
 
-String _groupName(LibrarySourceGroup g) =>
-    g.lang != null ? "${g.sourceName} (${g.lang})" : g.sourceName;
+String _groupName(LibrarySourceGroup g) => g.lang != null ? "${g.sourceName} (${g.lang})" : g.sourceName;
 
 Future<void> _deleteSource(BuildContext context, WidgetRef ref) async {
   final l10n = context.l10n;
@@ -190,8 +187,7 @@ Future<void> _deleteSource(BuildContext context, WidgetRef ref) async {
                     style: context.shiori.text.row,
                   ),
                   value: keepHistory,
-                  onChanged: (value) =>
-                      setState(() => keepHistory = value ?? false),
+                  onChanged: (value) => setState(() => keepHistory = value ?? false),
                 ),
                 CheckboxListTile(
                   contentPadding: EdgeInsets.zero,
@@ -200,8 +196,7 @@ Future<void> _deleteSource(BuildContext context, WidgetRef ref) async {
                     style: context.shiori.text.row,
                   ),
                   value: keepDownloads,
-                  onChanged: (value) =>
-                      setState(() => keepDownloads = value ?? false),
+                  onChanged: (value) => setState(() => keepDownloads = value ?? false),
                 ),
                 if (group.sourceId != null)
                   CheckboxListTile(
@@ -211,8 +206,7 @@ Future<void> _deleteSource(BuildContext context, WidgetRef ref) async {
                       style: context.shiori.text.row,
                     ),
                     value: removeExtension,
-                    onChanged: (value) =>
-                        setState(() => removeExtension = value ?? true),
+                    onChanged: (value) => setState(() => removeExtension = value ?? true),
                   ),
               ],
             ),

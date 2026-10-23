@@ -86,14 +86,7 @@ abstract class _$RouterCurrentLocationState extends $Notifier<String?> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<String?, String?>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String?, String?>,
-              String?,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String?, String?>, String?, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

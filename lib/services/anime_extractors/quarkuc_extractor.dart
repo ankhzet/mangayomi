@@ -661,13 +661,8 @@ class Item {
       for (String replaceName in replaceNameList) {
         displayName = displayName.replaceAll(replaceName, "");
       }
-      displayName =
-          RegExp(r'\.S01E(.*?)\.').firstMatch(displayName)?.group(1) ??
-          displayName;
-      final numbers = RegExp(r'\d+')
-          .allMatches(displayName)
-          .map((m) => m.group(0))
-          .toList();
+      displayName = RegExp(r'\.S01E(.*?)\.').firstMatch(displayName)?.group(1) ?? displayName;
+      final numbers = RegExp(r'\d+').allMatches(displayName).map((m) => m.group(0)).toList();
       if (numbers.isNotEmpty) {
         displayName = numbers[0]!;
       }

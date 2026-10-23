@@ -104,9 +104,7 @@ class ReaderPageIndexMath {
       // We are in a chapter run. Gather all consecutive content pages of the same chapter.
       final chapterId = current.chapter?.id;
       final int runStart = i;
-      while (i < n &&
-          !pages[i].isTransitionPage &&
-          pages[i].chapter?.id == chapterId) {
+      while (i < n && !pages[i].isTransitionPage && pages[i].chapter?.id == chapterId) {
         i++;
       }
       final int runEnd = i; // exclusive
@@ -203,8 +201,7 @@ class ReaderPageIndexMath {
 
     for (int i = 0; i < s.length; i++) {
       final spread = s[i];
-      if (spread.firstIndex == clampedActual ||
-          spread.secondIndex == clampedActual) {
+      if (spread.firstIndex == clampedActual || spread.secondIndex == clampedActual) {
         return i;
       }
     }
@@ -232,10 +229,7 @@ class ReaderPageIndexMath {
       return currentIndexLabel(pageInChapter, totalPages);
     }
     final actual = pages!.indexWhere(
-      (p) =>
-          !p.isTransitionPage &&
-          p.chapter?.id == chapterId &&
-          p.index == pageInChapter,
+      (p) => !p.isTransitionPage && p.chapter?.id == chapterId && p.index == pageInChapter,
     );
     if (actual == -1) return "${pageInChapter + 1}";
     return currentIndexLabel(actual, totalPages);
@@ -255,11 +249,8 @@ class ReaderPageIndexMath {
       final s = spreads;
       if (pvIndex < s.length) {
         final spread = s[pvIndex];
-        final p1Obj = spread.firstIndex < pages!.length
-            ? pages![spread.firstIndex]
-            : null;
-        final p2Obj =
-            (spread.secondIndex != null && spread.secondIndex! < pages!.length)
+        final p1Obj = spread.firstIndex < pages!.length ? pages![spread.firstIndex] : null;
+        final p2Obj = (spread.secondIndex != null && spread.secondIndex! < pages!.length)
             ? pages![spread.secondIndex!]
             : null;
 
@@ -267,17 +258,11 @@ class ReaderPageIndexMath {
           return "";
         }
 
-        final p1Num = p1Obj?.index != null
-            ? p1Obj!.index! + 1
-            : spread.firstIndex + 1;
-        if (p2Obj == null ||
-            p2Obj.isTransitionPage ||
-            p2Obj.chapter?.id != p1Obj?.chapter?.id) {
+        final p1Num = p1Obj?.index != null ? p1Obj!.index! + 1 : spread.firstIndex + 1;
+        if (p2Obj == null || p2Obj.isTransitionPage || p2Obj.chapter?.id != p1Obj?.chapter?.id) {
           return "$p1Num";
         }
-        final p2Num = p2Obj.index != null
-            ? p2Obj.index! + 1
-            : (spread.secondIndex! + 1);
+        final p2Num = p2Obj.index != null ? p2Obj.index! + 1 : (spread.secondIndex! + 1);
         return "$p1Num-$p2Num";
       }
     }

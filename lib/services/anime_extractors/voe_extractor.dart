@@ -10,8 +10,7 @@ import 'package:mangayomi/utils/extensions/string_extensions.dart';
 import 'package:mangayomi/utils/error_toast.dart';
 
 class VoeExtractor {
-  VoeExtractor({http.Client? client})
-    : client = client ?? MClient.init(reqcopyWith: {'useDartHttpClient': true});
+  VoeExtractor({http.Client? client}) : client = client ?? MClient.init(reqcopyWith: {'useDartHttpClient': true});
 
   final http.Client client;
   final linkRegex = RegExp(
@@ -64,9 +63,7 @@ class VoeExtractor {
         // The current VOE payload is decoded above. Keep the legacy branches
         // below for mirrors that still serve the older inline formats.
       } else if (scriptContent.contains('sources')) {
-        final link = scriptContent
-            .substringAfter("hls': '")
-            .substringBefore("'");
+        final link = scriptContent.substringAfter("hls': '").substringBefore("'");
 
         playlistUrl = linkRegex.hasMatch(link) ? link : utf8.decode(base64.decode(link));
       } else if (scriptContent.contains('wc0') || alternativeScript != null) {
@@ -116,8 +113,7 @@ class VoeExtractor {
     }
 
     final loader = await client.get(pageUri.resolve(loaderSource));
-    final lookupTableMatch = RegExp(r"\[(?:'\W{2}'\s*(?:,\s*|\])){1,9}")
-        .firstMatch(loader.body);
+    final lookupTableMatch = RegExp(r"\[(?:'\W{2}'\s*(?:,\s*|\])){1,9}").firstMatch(loader.body);
     if (lookupTableMatch == null) {
       return null;
     }

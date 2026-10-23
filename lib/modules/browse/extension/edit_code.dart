@@ -38,12 +38,9 @@ class CodeEditorPage extends ConsumerStatefulWidget {
 
 class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
   dynamic result;
-  late final source = widget.sourceId == null
-      ? null
-      : sourceRepository.getById(widget.sourceId!);
+  late final source = widget.sourceId == null ? null : sourceRepository.getById(widget.sourceId!);
   final CodeLineEditingController _controller = CodeLineEditingController();
-  late final SelectionToolbarController _selectionToolbarController =
-      createExtensionCodeSelectionToolbar();
+  late final SelectionToolbarController _selectionToolbarController = createExtensionCodeSelectionToolbar();
   Timer? _saveDebounceTimer;
 
   void _persistSourceCodeNow() {
@@ -145,8 +142,7 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
         builder: (context, setState) => FilterSheetBody(
           filters: filters,
           onChanged: (values) => setState(() => filters = values),
-          onReset: () =>
-              setState(() => filters = getFilterList(source: source!)),
+          onReset: () => setState(() => filters = getFilterList(source: source!)),
           onApply: () => Navigator.pop(sheetContext, 'filter'),
           resetLabel: context.l10n.reset,
           applyLabel: context.l10n.filter,
@@ -234,15 +230,10 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
           result = manga.toJson();
         case 4:
           serviceFunc = (service) async => {
-            "pages": (await service.getPageList(_url))
-                .map((e) => e.toJson())
-                .toList(),
+            "pages": (await service.getPageList(_url)).map((e) => e.toJson()).toList(),
           };
         case 5:
-          serviceFunc = (service) async =>
-              (await service.getVideoList(_url))
-                  .map((e) => e.toJson())
-                  .toList();
+          serviceFunc = (service) async => (await service.getVideoList(_url)).map((e) => e.toJson()).toList();
         case 6:
           serviceFunc = (service) => service.getHtmlContent("test", _url);
         default:
@@ -282,9 +273,7 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
 
   @override
   Widget build(BuildContext context) {
-    final filterList = source != null
-        ? getFilterList(source: source!)
-        : <dynamic>[];
+    final filterList = source != null ? getFilterList(source: source!) : <dynamic>[];
     final tokens = context.shiori;
     final editor = _editor(context);
     final runPanel = _runPanel(context, filterList);
@@ -416,9 +405,7 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
 
   Widget _editor(BuildContext context) {
     return CodeEditor(
-      toolbarController:
-          defaultTargetPlatform == TargetPlatform.iOS ||
-              defaultTargetPlatform == TargetPlatform.android
+      toolbarController: defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android
           ? _selectionToolbarController
           : null,
       style: CodeEditorStyle(
@@ -443,22 +430,21 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
         }
       },
       wordWrap: false,
-      indicatorBuilder:
-          (context, editingController, chunkController, notifier) {
-            return Row(
-              children: [
-                DefaultCodeLineNumber(
-                  controller: editingController,
-                  notifier: notifier,
-                ),
-                DefaultCodeChunkIndicator(
-                  width: 20,
-                  controller: chunkController,
-                  notifier: notifier,
-                ),
-              ],
-            );
-          },
+      indicatorBuilder: (context, editingController, chunkController, notifier) {
+        return Row(
+          children: [
+            DefaultCodeLineNumber(
+              controller: editingController,
+              notifier: notifier,
+            ),
+            DefaultCodeChunkIndicator(
+              width: 20,
+              controller: chunkController,
+              notifier: notifier,
+            ),
+          ],
+        );
+      },
       leadingDivider: Container(width: 1, color: context.shiori.color.hairline),
     );
   }
@@ -475,8 +461,7 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
           icon: _getServiceIcon(_serviceIndex),
           value: _serviceIndex,
           options: [
-            for (final (name, index) in services)
-              ShioriChoice(index, name, icon: _getServiceIcon(index)),
+            for (final (name, index) in services) ShioriChoice(index, name, icon: _getServiceIcon(index)),
           ],
           onChanged: (v) => setState(() => _serviceIndex = v),
         ),
@@ -533,9 +518,7 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                 ShioriButton.secondary(
                   icon: Symbols.filter_alt_rounded,
                   label: l10n.filter,
-                  onPressed: _isLoading
-                      ? null
-                      : () => _searchWithFilters(filterList),
+                  onPressed: _isLoading ? null : () => _searchWithFilters(filterList),
                 ),
               ShioriButton.quiet(
                 icon: Symbols.refresh_rounded,
@@ -692,9 +675,7 @@ class _CodeEditorPageState extends ConsumerState<CodeEditorPage> {
                             spacing: ShioriSpace.s8,
                             children: [
                               Icon(
-                                info
-                                    ? Symbols.info_rounded
-                                    : Symbols.bug_report_rounded,
+                                info ? Symbols.info_rounded : Symbols.bug_report_rounded,
                                 size: 14,
                                 color: color,
                               ),

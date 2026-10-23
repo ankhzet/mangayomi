@@ -44,8 +44,7 @@ Future<StatisticsData> getStatistics(
     itemType,
   );
 
-  final downloadedCount = await downloadRepository
-      .countDownloadedByFavoriteItemType(itemType);
+  final downloadedCount = await downloadRepository.countDownloadedByFavoriteItemType(itemType);
 
   // Completed items: a favourite manga whose source-reported status is
   // Completed AND every chapter is read AND there is at least one chapter.

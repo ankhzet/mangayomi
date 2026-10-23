@@ -20,8 +20,7 @@ import 'package:mangayomi/utils/constant.dart';
 const String _kitsuEndpoint = "https://kitsu.app/api/edge";
 const Duration _kitsuTimeout = Duration(seconds: 15);
 
-String _kitsuType(ItemType itemType) =>
-    itemType == ItemType.anime ? "anime" : "manga";
+String _kitsuType(ItemType itemType) => itemType == ItemType.anime ? "anime" : "manga";
 
 Future<Map<String, dynamic>?> _get(
   String path,
@@ -85,8 +84,7 @@ DiscoveryMedia kitsuMediaFrom(Map<String, dynamic> entry) {
   return DiscoveryMedia(
     id: id,
     source: DiscoveryService.kitsu,
-    romaji:
-        titles["en_jp"] as String? ?? attributes["canonicalTitle"] as String?,
+    romaji: titles["en_jp"] as String? ?? attributes["canonicalTitle"] as String?,
     english: titles["en"] as String?,
     native: titles["ja_jp"] as String?,
     coverImage: poster?["large"] as String? ?? poster?["original"] as String?,
@@ -119,9 +117,7 @@ Future<int?> kitsuSearchMediaId(ItemType itemType, String title) async {
     'filter[text]': title,
     'page[limit]': '5',
   });
-  final data = (body?["data"] as List?)
-      ?.whereType<Map<String, dynamic>>()
-      .toList();
+  final data = (body?["data"] as List?)?.whereType<Map<String, dynamic>>().toList();
   if (data == null || data.isEmpty) return null;
 
   final best = bestTitleMatch(title, [for (final e in data) kitsuTitlesOf(e)]);
@@ -179,14 +175,12 @@ List<DiscoveryRelation> kitsuRelationsFrom(Map<String, dynamic>? body) {
   final relations = <DiscoveryRelation>[];
   for (final entry in data.whereType<Map<String, dynamic>>()) {
     final destination =
-        ((entry["relationships"] as Map<String, dynamic>?)?["destination"]
-                as Map<String, dynamic>?)?["data"]
+        ((entry["relationships"] as Map<String, dynamic>?)?["destination"] as Map<String, dynamic>?)?["data"]
             as Map<String, dynamic>?;
     if (destination == null) continue;
     final media = byId['${destination["type"]}:${destination["id"]}'];
     if (media == null) continue;
-    final role =
-        (entry["attributes"] as Map<String, dynamic>?)?["role"] as String?;
+    final role = (entry["attributes"] as Map<String, dynamic>?)?["role"] as String?;
     relations.add(
       DiscoveryRelation(
         // Kitsu says side_story where AniList says SIDE_STORY.

@@ -19,9 +19,7 @@ final class LastLibrarySnapshotProvider
           List<LibrarySafetySnapshot>,
           FutureOr<List<LibrarySafetySnapshot>>
         >
-    with
-        $FutureModifier<List<LibrarySafetySnapshot>>,
-        $FutureProvider<List<LibrarySafetySnapshot>> {
+    with $FutureModifier<List<LibrarySafetySnapshot>>, $FutureProvider<List<LibrarySafetySnapshot>> {
   LastLibrarySnapshotProvider._()
     : super(
         from: null,
@@ -48,5 +46,4 @@ final class LastLibrarySnapshotProvider
   }
 }
 
-String _$lastLibrarySnapshotHash() =>
-    r'b662e85baeacf7074597f3b4533bcada028f2d66';
+String _$lastLibrarySnapshotHash() => r'b662e85baeacf7074597f3b4533bcada028f2d66';

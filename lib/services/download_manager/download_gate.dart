@@ -52,8 +52,7 @@ Future<void> markDownloadFailed(Chapter chapter) async {
 /// download means "cancelled" — bail instead of resurrecting it. This matters
 /// because every download is fired up front and then waits in the gate; a
 /// cancel that lands while it waits must actually stop it.
-bool isDownloadCancelled(Chapter chapter) =>
-    downloadRepository.getById(chapter.id!) == null;
+bool isDownloadCancelled(Chapter chapter) => downloadRepository.getById(chapter.id!) == null;
 
 /// Key identifying the source a chapter belongs to, used to serialize
 /// downloads from the same source. Falls back to a per-chapter unique key when

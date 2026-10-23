@@ -31,17 +31,12 @@ class IosRuntimeGroup extends ConsumerWidget {
         ShioriSwitchRow(
           title: l10n.start_server_on_launch,
           value: autoStartServer,
-          onChanged: ref
-              .read(autoStartExtensionServerOnLaunchStateProvider.notifier)
-              .set,
+          onChanged: ref.read(autoStartExtensionServerOnLaunchStateProvider.notifier).set,
         ),
         ShioriSettingRow(
-          icon: runtimeRunning
-              ? Symbols.stop_circle_rounded
-              : Symbols.play_circle_rounded,
+          icon: runtimeRunning ? Symbols.stop_circle_rounded : Symbols.play_circle_rounded,
           title: runtimeRunning ? l10n.stop : l10n.start,
-          subtitle:
-              '${l10n.runtime_status} · ${runtimeRunning ? l10n.running : l10n.stopped}',
+          subtitle: '${l10n.runtime_status} · ${runtimeRunning ? l10n.running : l10n.stopped}',
           enabled: !runtimeBusy,
           onTap: onToggleRuntime,
         ),

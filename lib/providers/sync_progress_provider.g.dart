@@ -12,8 +12,7 @@ part of 'sync_progress_provider.dart';
 @ProviderFor(SyncProgress)
 final syncProgressProvider = SyncProgressFamily._();
 
-final class SyncProgressProvider
-    extends $NotifierProvider<SyncProgress, SyncProgressState> {
+final class SyncProgressProvider extends $NotifierProvider<SyncProgress, SyncProgressState> {
   SyncProgressProvider._({
     required SyncProgressFamily super.from,
     required int super.argument,
@@ -61,14 +60,7 @@ final class SyncProgressProvider
 String _$syncProgressHash() => r'0a33fd920b236acccdf0d9e1175faccf7e53a702';
 
 final class SyncProgressFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          SyncProgress,
-          SyncProgressState,
-          SyncProgressState,
-          SyncProgressState,
-          int
-        > {
+    with $ClassFamilyOverride<SyncProgress, SyncProgressState, SyncProgressState, SyncProgressState, int> {
   SyncProgressFamily._()
     : super(
         retry: null,
@@ -78,8 +70,7 @@ final class SyncProgressFamily extends $Family
         isAutoDispose: true,
       );
 
-  SyncProgressProvider call({required int syncId}) =>
-      SyncProgressProvider._(argument: syncId, from: this);
+  SyncProgressProvider call({required int syncId}) => SyncProgressProvider._(argument: syncId, from: this);
 
   @override
   String toString() => r'syncProgressProvider';

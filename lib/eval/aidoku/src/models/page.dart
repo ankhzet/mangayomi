@@ -30,8 +30,7 @@ class PageContentImage extends PageContent {
   final Uint8List? imageData;
 
   @override
-  String toString() =>
-      'PageContentImage(ref: $imageRef, bytes: ${imageData?.length ?? 0})';
+  String toString() => 'PageContentImage(ref: $imageRef, bytes: ${imageData?.length ?? 0})';
 }
 
 class PageContentZipFile extends PageContent {

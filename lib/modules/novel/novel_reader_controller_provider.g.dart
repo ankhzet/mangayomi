@@ -57,8 +57,7 @@ final class NovelReaderControllerProvider extends $NotifierProvider<NovelReaderC
   }
 }
 
-String _$novelReaderControllerHash() =>
-    r'e4a5800ce6a972f3ed177f231c4f774e9251be26';
+String _$novelReaderControllerHash() => r'e4a5800ce6a972f3ed177f231c4f774e9251be26';
 
 final class NovelReaderControllerFamily extends $Family
     with $ClassFamilyOverride<NovelReaderController, void, void, void, Chapter> {
@@ -87,14 +86,7 @@ abstract class _$NovelReaderController extends $Notifier<void> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<void, void>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<void, void>,
-              void,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<void, void>, void, Object?, Object?>;
     return element.handleCreate(ref, () => build(chapter: _$args));
   }
 }

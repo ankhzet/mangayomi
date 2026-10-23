@@ -23,13 +23,7 @@ double novelBottomBarHeightAbove(BuildContext context) {
     mediaQuery.systemGestureInsets.bottom,
   );
   // The slider row (38 and its padding), the rule, the actions.
-  return bottomInset +
-      ShioriSpace.s8 +
-      38 +
-      ShioriSpace.s8 +
-      1 +
-      context.shiori.density.rowHeight +
-      ShioriSpace.s8;
+  return bottomInset + ShioriSpace.s8 + 38 + ShioriSpace.s8 + 1 + context.shiori.density.rowHeight + ShioriSpace.s8;
 }
 
 /// Shows the font size slider + preset chips bottom sheet for the novel reader.
@@ -163,12 +157,11 @@ class NovelBottomBar extends ConsumerWidget {
     );
   }
 
-  TextStyle _pageLabelStyle(BuildContext context, {bool muted = false}) =>
-      context.shiori.text.meta.copyWith(
-        color: muted ? context.shiori.color.fgMuted : context.shiori.color.fg,
-        fontWeight: FontWeight.w700,
-        fontFeatures: const [FontFeature.tabularFigures()],
-      );
+  TextStyle _pageLabelStyle(BuildContext context, {bool muted = false}) => context.shiori.text.meta.copyWith(
+    color: muted ? context.shiori.color.fgMuted : context.shiori.color.fg,
+    fontWeight: FontWeight.w700,
+    fontFeatures: const [FontFeature.tabularFigures()],
+  );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -227,8 +220,7 @@ class NovelBottomBar extends ConsumerWidget {
                                     ? () {
                                         pushReplacementMangaReaderView(
                                           context: context,
-                                          chapter: readerController
-                                              .getPrevChapter(),
+                                          chapter: readerController.getPrevChapter(),
                                         );
                                       }
                                     : null,
@@ -243,34 +235,26 @@ class NovelBottomBar extends ConsumerWidget {
                                       return Consumer(
                                         builder: (context, ref, child) {
                                           if (!readerMode.isContinuous) {
-                                            final pagination =
-                                                cachedPagination();
-                                            final isDouble =
-                                                effectivePageMode ==
-                                                PageMode.doublePage;
+                                            final pagination = cachedPagination();
+                                            final isDouble = effectivePageMode == PageMode.doublePage;
                                             final totalItems = isDouble
                                                 ? (pagination?.spreadCount ?? 1)
                                                 : (pagination?.pageCount ?? 1);
-                                            final currentIndex =
-                                                currentSpreadIndex()
-                                                    .clamp(
-                                                      0,
-                                                      max(0, totalItems - 1),
-                                                    )
-                                                    .toInt();
+                                            final currentIndex = currentSpreadIndex()
+                                                .clamp(
+                                                  0,
+                                                  max(0, totalItems - 1),
+                                                )
+                                                .toInt();
                                             final currentLabel = isDouble
-                                                ? (pagination
-                                                          ?.spreadLabelForSpread(
-                                                            currentIndex,
-                                                          ) ??
+                                                ? (pagination?.spreadLabelForSpread(
+                                                        currentIndex,
+                                                      ) ??
                                                       '${currentIndex + 1}')
                                                 : '${currentIndex + 1}';
-                                            final totalLabel =
-                                                '${pagination?.pageCount ?? totalItems}';
+                                            final totalLabel = '${pagination?.pageCount ?? totalItems}';
                                             final sliderValue = totalItems > 1
-                                                ? (currentIndex /
-                                                          (totalItems - 1))
-                                                      .clamp(0.0, 1.0)
+                                                ? (currentIndex / (totalItems - 1)).clamp(0.0, 1.0)
                                                 : 0.0;
 
                                             return Row(
@@ -288,30 +272,20 @@ class NovelBottomBar extends ConsumerWidget {
                                                   child: SliderTheme(
                                                     data: SliderTheme.of(context).copyWith(
                                                       trackHeight: 2.5,
-                                                      thumbShape:
-                                                          const RoundSliderThumbShape(
-                                                            enabledThumbRadius:
-                                                                6.0,
-                                                          ),
-                                                      overlayShape:
-                                                          const RoundSliderOverlayShape(
-                                                            overlayRadius: 12.0,
-                                                          ),
+                                                      thumbShape: const RoundSliderThumbShape(
+                                                        enabledThumbRadius: 6.0,
+                                                      ),
+                                                      overlayShape: const RoundSliderOverlayShape(
+                                                        overlayRadius: 12.0,
+                                                      ),
                                                     ),
                                                     child: Slider(
                                                       onChanged: (value) {
-                                                        if (totalItems > 1 &&
-                                                            spreadController
-                                                                .hasClients) {
-                                                          final targetIndex =
-                                                              (value *
-                                                                      (totalItems -
-                                                                          1))
-                                                                  .round();
-                                                          spreadController
-                                                              .jumpToPage(
-                                                                targetIndex,
-                                                              );
+                                                        if (totalItems > 1 && spreadController.hasClients) {
+                                                          final targetIndex = (value * (totalItems - 1)).round();
+                                                          spreadController.jumpToPage(
+                                                            targetIndex,
+                                                          );
                                                         }
                                                       },
                                                       value: sliderValue,
@@ -336,9 +310,7 @@ class NovelBottomBar extends ConsumerWidget {
 
                                           final curMax = maxOffset();
                                           final scrollPercentage = curMax > 0
-                                              ? ((offset() / curMax) * 100)
-                                                    .clamp(0, 100)
-                                                    .toInt()
+                                              ? ((offset() / curMax) * 100).clamp(0, 100).toInt()
                                               : 0;
                                           final chapMins = chapterMinutes();
                                           return Row(
@@ -354,31 +326,22 @@ class NovelBottomBar extends ConsumerWidget {
                                                 child: SliderTheme(
                                                   data: SliderTheme.of(context).copyWith(
                                                     trackHeight: 2.5,
-                                                    thumbShape:
-                                                        const RoundSliderThumbShape(
-                                                          enabledThumbRadius:
-                                                              6.0,
-                                                        ),
-                                                    overlayShape:
-                                                        const RoundSliderOverlayShape(
-                                                          overlayRadius: 12.0,
-                                                        ),
+                                                    thumbShape: const RoundSliderThumbShape(
+                                                      enabledThumbRadius: 6.0,
+                                                    ),
+                                                    overlayShape: const RoundSliderOverlayShape(
+                                                      overlayRadius: 12.0,
+                                                    ),
                                                   ),
                                                   child: Slider(
                                                     onChanged: (value) {
-                                                      if (scrollController
-                                                          .hasClients) {
+                                                      if (scrollController.hasClients) {
                                                         scrollController.jumpTo(
-                                                          scrollController
-                                                                  .position
-                                                                  .maxScrollExtent *
-                                                              value,
+                                                          scrollController.position.maxScrollExtent * value,
                                                         );
                                                       }
                                                     },
-                                                    value:
-                                                        (scrollPercentage / 100)
-                                                            .clamp(0.0, 1.0),
+                                                    value: (scrollPercentage / 100).clamp(0.0, 1.0),
                                                     min: 0,
                                                     max: 1,
                                                   ),
@@ -390,8 +353,7 @@ class NovelBottomBar extends ConsumerWidget {
                                                     : context.l10n.minutes_left(
                                                         minutesLeft(
                                                           chapMins,
-                                                          scrollPercentage /
-                                                              100,
+                                                          scrollPercentage / 100,
                                                         ),
                                                       ),
                                                 style: _pageLabelStyle(
@@ -419,8 +381,7 @@ class NovelBottomBar extends ConsumerWidget {
                                     ? () {
                                         pushReplacementMangaReaderView(
                                           context: context,
-                                          chapter: readerController
-                                              .getNextChapter(),
+                                          chapter: readerController.getNextChapter(),
                                         );
                                       }
                                     : null,
@@ -496,8 +457,7 @@ class NovelBottomBar extends ConsumerWidget {
                                       ReaderMode.ltr,
                                       PageMode.onePage,
                                     );
-                                  } else if (effectivePageMode ==
-                                      PageMode.onePage) {
+                                  } else if (effectivePageMode == PageMode.onePage) {
                                     readerController.setPageMode(
                                       PageMode.doublePage,
                                     );
@@ -523,19 +483,14 @@ class NovelBottomBar extends ConsumerWidget {
                                 icon: Icon(
                                   readerMode.isContinuous
                                       ? Symbols.swap_vert_rounded
-                                      : (effectivePageMode ==
-                                                PageMode.doublePage
+                                      : (effectivePageMode == PageMode.doublePage
                                             ? Symbols.auto_stories_rounded
                                             : Symbols.article_rounded),
                                   size: 22,
-                                  color: !readerMode.isContinuous
-                                      ? context.shiori.color.accentInk
-                                      : null,
+                                  color: !readerMode.isContinuous ? context.shiori.color.accentInk : null,
                                 ),
                                 tooltip: readerMode.isContinuous
-                                    ? context
-                                          .l10n
-                                          .reading_mode_vertical_continuous
+                                    ? context.l10n.reading_mode_vertical_continuous
                                     : (effectivePageMode == PageMode.doublePage
                                           ? context.l10n.double_page
                                           : context.l10n.single_page),
@@ -553,9 +508,7 @@ class NovelBottomBar extends ConsumerWidget {
                                     Symbols.record_voice_over_rounded,
                                     fill: showTts ? 1 : 0,
                                     size: 22,
-                                    color: showTts
-                                        ? context.shiori.color.accentInk
-                                        : null,
+                                    color: showTts ? context.shiori.color.accentInk : null,
                                   ),
                                   tooltip: context.l10n.tts,
                                 ),

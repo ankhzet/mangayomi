@@ -66,20 +66,17 @@ class AppearanceScreen extends ConsumerWidget {
                 ShioriSwitchRow(
                   title: l10n.pure_black_dark_mode,
                   value: pureBlackDarkMode,
-                  onChanged: (v) =>
-                      ref.read(pureBlackDarkModeStateProvider.notifier).set(v),
+                  onChanged: (v) => ref.read(pureBlackDarkModeStateProvider.notifier).set(v),
                 ),
               ShioriSwitchRow(
                 title: l10n.tint_surfaces_with_palette,
                 subtitle: l10n.tint_surfaces_with_palette_subtitle,
                 value: tintSurfaces,
-                onChanged: (v) =>
-                    ref.read(tintSurfacesStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(tintSurfacesStateProvider.notifier).set(v),
               ),
               // The blend only mixes the palette into the surfaces, so it
               // has nothing to do while they are neutral, or pure black.
-              if (tintSurfaces && (!pureBlackDarkMode || !isDarkTheme))
-                const BlendLevelSlider(),
+              if (tintSurfaces && (!pureBlackDarkMode || !isDarkTheme)) const BlendLevelSlider(),
             ],
           ),
           ShioriSettingsGroup(
@@ -95,15 +92,10 @@ class AppearanceScreen extends ConsumerWidget {
                 divisions: 8,
                 valueLabel: (v) => '${(v * 100).round()} %',
                 defaultValue: 1,
-                onReset: () => ref
-                    .read(appUiScaleStateProvider.notifier)
-                    .set(1, end: true),
+                onReset: () => ref.read(appUiScaleStateProvider.notifier).set(1, end: true),
                 resetTooltip: l10n.reset,
-                onChanged: (v) =>
-                    ref.read(appUiScaleStateProvider.notifier).set(v),
-                onChangeEnd: (v) => ref
-                    .read(appUiScaleStateProvider.notifier)
-                    .set(v, end: true),
+                onChanged: (v) => ref.read(appUiScaleStateProvider.notifier).set(v),
+                onChangeEnd: (v) => ref.read(appUiScaleStateProvider.notifier).set(v, end: true),
               ),
               ShioriValueRow<Locale>(
                 icon: Symbols.translate_rounded,
@@ -117,8 +109,7 @@ class AppearanceScreen extends ConsumerWidget {
                       languageName(context, locale.toLanguageTag()),
                     ),
                 ],
-                onChanged: (v) =>
-                    ref.read(l10nLocaleStateProvider.notifier).setLocale(v),
+                onChanged: (v) => ref.read(l10nLocaleStateProvider.notifier).setLocale(v),
               ),
             ],
           ),
@@ -131,9 +122,7 @@ class AppearanceScreen extends ConsumerWidget {
                   title: l10n.floating_navigation_bar,
                   subtitle: l10n.floating_navigation_bar_description,
                   value: ref.watch(floatingNavigationBarStateProvider),
-                  onChanged: (v) => ref
-                      .read(floatingNavigationBarStateProvider.notifier)
-                      .set(v),
+                  onChanged: (v) => ref.read(floatingNavigationBarStateProvider.notifier).set(v),
                 ),
               ShioriSettingRow(
                 icon: Symbols.reorder_rounded,
@@ -148,8 +137,7 @@ class AppearanceScreen extends ConsumerWidget {
                   title: l10n.tv_home_beta,
                   subtitle: l10n.tv_home_beta_subtitle,
                   value: ref.watch(tvHomeStyleProvider),
-                  onChanged: (v) =>
-                      ref.read(tvHomeStyleProvider.notifier).set(v),
+                  onChanged: (v) => ref.read(tvHomeStyleProvider.notifier).set(v),
                 ),
             ],
           ),
@@ -165,18 +153,15 @@ class AppearanceScreen extends ConsumerWidget {
                   ).indexed)
                     ShioriChoice(i, name),
                 ],
-                onChanged: (v) =>
-                    ref.read(relativeTimesTampsStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(relativeTimesTampsStateProvider.notifier).set(v),
               ),
               ShioriValueRow<String>(
                 title: l10n.date_format,
                 value: dateFormatState,
                 options: [
-                  for (final format in dateFormatsList)
-                    ShioriChoice(format, format, subtitle: sampleDate(format)),
+                  for (final format in dateFormatsList) ShioriChoice(format, format, subtitle: sampleDate(format)),
                 ],
-                onChanged: (v) =>
-                    ref.read(dateFormatStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(dateFormatStateProvider.notifier).set(v),
               ),
             ],
           ),

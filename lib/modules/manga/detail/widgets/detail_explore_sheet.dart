@@ -58,22 +58,20 @@ class DetailExplorePlaces extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final router = GoRouter.of(context);
-    DetailExploreAction recommendations(MediaLookupContext media) =>
-        DetailExploreAction(
-          icon: Symbols.auto_awesome_rounded,
-          label: l10n.recommendations,
-          description: l10n.explore_recommendations_subtitle,
-          onPressed: () => router.push(
-            "/recommendations",
-            extra: (media, ref.read(algorithmWeightsStateProvider)),
-          ),
-        );
+    DetailExploreAction recommendations(MediaLookupContext media) => DetailExploreAction(
+      icon: Symbols.auto_awesome_rounded,
+      label: l10n.recommendations,
+      description: l10n.explore_recommendations_subtitle,
+      onPressed: () => router.push(
+        "/recommendations",
+        extra: (media, ref.read(algorithmWeightsStateProvider)),
+      ),
+    );
     final related = DetailExploreAction(
       icon: Symbols.account_tree_rounded,
       label: l10n.related_titles,
       description: l10n.explore_related_subtitle,
-      onPressed: () =>
-          router.push("/related", extra: (manga.name!, manga.itemType)),
+      onPressed: () => router.push("/related", extra: (manga.name!, manga.itemType)),
     );
 
     if (manga.itemType != ItemType.anime) {
@@ -107,16 +105,14 @@ class DetailExplorePlaces extends ConsumerWidget {
               icon: Symbols.format_list_numbered_rounded,
               label: l10n.watch_order,
               description: l10n.explore_watch_order_subtitle,
-              onPressed: () =>
-                  router.push("/watchOrder", extra: (media, null as Track?)),
+              onPressed: () => router.push("/watchOrder", extra: (media, null as Track?)),
             ),
             if (sequelTrack != null)
               DetailExploreAction(
                 icon: Symbols.playlist_play_rounded,
                 label: l10n.sequels,
                 description: l10n.explore_sequels_subtitle,
-                onPressed: () =>
-                    router.push("/watchOrder", extra: (media, sequelTrack)),
+                onPressed: () => router.push("/watchOrder", extra: (media, sequelTrack)),
               ),
           ],
         );

@@ -25,8 +25,7 @@ class DetailAppBar extends ConsumerWidget implements PreferredSizeWidget {
   final List<Chapter> chapters;
 
   final NotifierProvider<Notifier<double>, double> offsetProvider;
-  final Future<void> Function(BuildContext context, List<Chapter> chapters)
-  onDownload;
+  final Future<void> Function(BuildContext context, List<Chapter> chapters) onDownload;
   final VoidCallback onShowFilterMenu;
   final Future<void> Function(int value) onOverflowAction;
 
@@ -51,12 +50,7 @@ class DetailAppBar extends ConsumerWidget implements PreferredSizeWidget {
     final isLongPressed = ref.watch(isLongPressedStateProvider);
     final chapterList = ref.watch(chaptersListStateProvider);
     final checkCategoryList =
-        ref
-            .watch(getMangaCategorieStreamProvider(itemType: itemType))
-            .asData
-            ?.value
-            .isNotEmpty ??
-        false;
+        ref.watch(getMangaCategorieStreamProvider(itemType: itemType)).asData?.value.isNotEmpty ?? false;
     final isNotFiltering = ref.watch(
       chapterFilterResultStateProvider(manga: manga),
     );
@@ -73,21 +67,16 @@ class DetailAppBar extends ConsumerWidget implements PreferredSizeWidget {
                 tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
                 onPressed: () {
                   ref.read(chaptersListStateProvider.notifier).clear();
-                  ref
-                      .read(isLongPressedStateProvider.notifier)
-                      .update(!isLongPressed);
+                  ref.read(isLongPressedStateProvider.notifier).update(!isLongPressed);
                 },
                 icon: const Icon(Symbols.close_rounded),
               ),
               actions: [
                 IconButton(
-                  tooltip: MaterialLocalizations.of(context)
-                      .selectAllButtonLabel,
+                  tooltip: MaterialLocalizations.of(context).selectAllButtonLabel,
                   onPressed: () {
                     for (var chapter in chapters) {
-                      ref
-                          .read(chaptersListStateProvider.notifier)
-                          .selectAll(chapter);
+                      ref.read(chaptersListStateProvider.notifier).selectAll(chapter);
                     }
                   },
                   icon: const Icon(Symbols.select_all_rounded),
@@ -97,18 +86,12 @@ class DetailAppBar extends ConsumerWidget implements PreferredSizeWidget {
                   onPressed: () {
                     if (chapters.length == chapterList.length) {
                       for (var chapter in chapters) {
-                        ref
-                            .read(chaptersListStateProvider.notifier)
-                            .selectSome(chapter);
+                        ref.read(chaptersListStateProvider.notifier).selectSome(chapter);
                       }
-                      ref
-                          .read(isLongPressedStateProvider.notifier)
-                          .update(false);
+                      ref.read(isLongPressedStateProvider.notifier).update(false);
                     } else {
                       for (var chapter in chapters) {
-                        ref
-                            .read(chaptersListStateProvider.notifier)
-                            .selectSome(chapter);
+                        ref.read(chaptersListStateProvider.notifier).selectSome(chapter);
                       }
                     }
                   },
@@ -126,8 +109,7 @@ class DetailAppBar extends ConsumerWidget implements PreferredSizeWidget {
                     ),
                   )
                 : null,
-            backgroundColor:
-                ref.watch(offsetProvider.select((val) => val == 0.0))
+            backgroundColor: ref.watch(offsetProvider.select((val) => val == 0.0))
                 ? Colors.transparent
                 : context.shiori.color.ink0,
             actions: [
@@ -157,8 +139,7 @@ class DetailAppBar extends ConsumerWidget implements PreferredSizeWidget {
                   builder: (context) {
                     final entries = <(String, int)>[
                       if (!isLocalArchive) (l10n.refresh, 0),
-                      if (manga.favorite! && checkCategoryList)
-                        (l10n.set_categories, 1),
+                      if (manga.favorite! && checkCategoryList) (l10n.set_categories, 1),
                       if (!isLocalArchive) (l10n.share, 2),
                       (l10n.migrate, 3),
                       (l10n.mass_migration_title, 6),
@@ -166,8 +147,7 @@ class DetailAppBar extends ConsumerWidget implements PreferredSizeWidget {
                       (l10n.export_metadata, 5),
                     ];
                     return IconButton(
-                      tooltip: MaterialLocalizations.of(context)
-                          .moreButtonTooltip,
+                      tooltip: MaterialLocalizations.of(context).moreButtonTooltip,
                       icon: const Icon(Symbols.more_vert_rounded),
                       onPressed: () async {
                         final picked = await showTvMenu(

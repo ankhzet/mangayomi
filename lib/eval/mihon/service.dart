@@ -183,12 +183,7 @@ class MihonExtensionService implements ExtensionService {
       artist: data['artist'],
       author: data['author'],
       description: data['description'],
-      genre:
-          (data['genre'] as String?)
-              ?.split(',')
-              .map((e) => e.toString())
-              .toList() ??
-          [],
+      genre: (data['genre'] as String?)?.split(',').map((e) => e.toString()).toList() ?? [],
       status: switch (data['status'] as int?) {
         1 => Status.ongoing,
         2 => Status.completed,
@@ -204,9 +199,7 @@ class MihonExtensionService implements ExtensionService {
 
   Future<List<MChapter>> getChapterList(String url) async {
     final res = await _dalvik({
-      "method": source.itemType == ItemType.anime
-          ? "getEpisodeList"
-          : "getChapterList",
+      "method": source.itemType == ItemType.anime ? "getEpisodeList" : "getChapterList",
       if (source.itemType == ItemType.manga) "mangaData": {"url": url},
       if (source.itemType == ItemType.anime) "animeData": {"url": url},
       "preferences": getSourcePreferences(),
@@ -385,8 +378,7 @@ class MihonExtensionService implements ExtensionService {
     var res = await _postDalvik(body);
     if (_isForbiddenResponse(res)) {
       final proxyUrl = CfProxyStore.url.trim();
-      if (proxyUrl.isNotEmpty &&
-          await solveWithCfProxy(proxyUrl, source.baseUrl!)) {
+      if (proxyUrl.isNotEmpty && await solveWithCfProxy(proxyUrl, source.baseUrl!)) {
         // solveWithCfProxy persisted the clearance cookies + user-agent, and
         // getCookie() reads them back, so the retry carries them.
         res = await _postDalvik(body);
@@ -407,9 +399,7 @@ class MihonExtensionService implements ExtensionService {
   bool _isForbiddenResponse(Response response) {
     try {
       final decoded = jsonDecode(response.body);
-      return decoded is Map<String, dynamic> &&
-          decoded['error'] != null &&
-          decoded['code'] == 403;
+      return decoded is Map<String, dynamic> && decoded['error'] != null && decoded['code'] == 403;
     } catch (_) {
       // Not JSON: hasError() reports the malformed-response case itself.
       return false;

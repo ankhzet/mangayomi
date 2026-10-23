@@ -65,8 +65,7 @@ class AboutScreen extends ConsumerWidget {
                       autofocus: isTv,
                       title: l10n.check_for_app_updates,
                       value: checkForUpdates,
-                      onChanged: (v) =>
-                          ref.read(checkForAppUpdatesProvider.notifier).set(v),
+                      onChanged: (v) => ref.read(checkForAppUpdatesProvider.notifier).set(v),
                     ),
                     ShioriSettingRow(
                       icon: Symbols.system_update_rounded,

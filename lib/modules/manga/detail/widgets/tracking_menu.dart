@@ -58,16 +58,15 @@ void openTrackingMenu({
                       : TrackListile(
                           text: l10nLocalizations(context)!.add_tracker,
                           onTap: () async {
-                            final trackSearch =
-                                await trackersSearchDraggableMenu(
-                                  context,
-                                  itemType: manga.itemType,
-                                  track: Track(
-                                    status: TrackStatus.planToRead,
-                                    syncId: entries[index].syncId!,
-                                    title: manga.name!,
-                                  ),
-                                );
+                            final trackSearch = await trackersSearchDraggableMenu(
+                              context,
+                              itemType: manga.itemType,
+                              track: Track(
+                                status: TrackStatus.planToRead,
+                                syncId: entries[index].syncId!,
+                                title: manga.name!,
+                              ),
+                            );
                             if (trackSearch != null) {
                               await ref
                                   .read(

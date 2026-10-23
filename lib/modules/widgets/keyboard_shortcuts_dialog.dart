@@ -18,8 +18,7 @@ Future<void> showKeyboardShortcuts(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              for (final (label, keys) in shortcuts)
-                KeyboardShortcutRow(label: label, keys: keys),
+              for (final (label, keys) in shortcuts) KeyboardShortcutRow(label: label, keys: keys),
             ],
           ),
         ),

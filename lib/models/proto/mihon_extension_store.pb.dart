@@ -58,12 +58,11 @@ class ExtensionStoreContact extends $pb.GeneratedMessage {
   @$core.override
   ExtensionStoreContact createEmptyInstance() => create();
 
-  static $pb.PbList<ExtensionStoreContact> createRepeated() =>
-      $pb.PbList<ExtensionStoreContact>();
+  static $pb.PbList<ExtensionStoreContact> createRepeated() => $pb.PbList<ExtensionStoreContact>();
 
   @$core.pragma('dart2js:noInline')
-  static ExtensionStoreContact getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<ExtensionStoreContact>(create);
+  static ExtensionStoreContact getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ExtensionStoreContact>(create);
   static ExtensionStoreContact? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -126,12 +125,11 @@ class ExtensionStoreResources extends $pb.GeneratedMessage {
   @$core.override
   ExtensionStoreResources createEmptyInstance() => create();
 
-  static $pb.PbList<ExtensionStoreResources> createRepeated() =>
-      $pb.PbList<ExtensionStoreResources>();
+  static $pb.PbList<ExtensionStoreResources> createRepeated() => $pb.PbList<ExtensionStoreResources>();
 
   @$core.pragma('dart2js:noInline')
-  static ExtensionStoreResources getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<ExtensionStoreResources>(create);
+  static ExtensionStoreResources getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ExtensionStoreResources>(create);
   static ExtensionStoreResources? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -206,12 +204,11 @@ class ExtensionStoreSource extends $pb.GeneratedMessage {
   @$core.override
   ExtensionStoreSource createEmptyInstance() => create();
 
-  static $pb.PbList<ExtensionStoreSource> createRepeated() =>
-      $pb.PbList<ExtensionStoreSource>();
+  static $pb.PbList<ExtensionStoreSource> createRepeated() => $pb.PbList<ExtensionStoreSource>();
 
   @$core.pragma('dart2js:noInline')
-  static ExtensionStoreSource getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<ExtensionStoreSource>(create);
+  static ExtensionStoreSource getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ExtensionStoreSource>(create);
   static ExtensionStoreSource? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -330,12 +327,11 @@ class ExtensionStoreItem extends $pb.GeneratedMessage {
   @$core.override
   ExtensionStoreItem createEmptyInstance() => create();
 
-  static $pb.PbList<ExtensionStoreItem> createRepeated() =>
-      $pb.PbList<ExtensionStoreItem>();
+  static $pb.PbList<ExtensionStoreItem> createRepeated() => $pb.PbList<ExtensionStoreItem>();
 
   @$core.pragma('dart2js:noInline')
-  static ExtensionStoreItem getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<ExtensionStoreItem>(create);
+  static ExtensionStoreItem getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ExtensionStoreItem>(create);
   static ExtensionStoreItem? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -433,18 +429,16 @@ class ExtensionStoreExtensionList extends $pb.GeneratedMessage {
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static ExtensionStoreExtensionList create() =>
-      ExtensionStoreExtensionList._();
+  static ExtensionStoreExtensionList create() => ExtensionStoreExtensionList._();
 
   @$core.override
   ExtensionStoreExtensionList createEmptyInstance() => create();
 
-  static $pb.PbList<ExtensionStoreExtensionList> createRepeated() =>
-      $pb.PbList<ExtensionStoreExtensionList>();
+  static $pb.PbList<ExtensionStoreExtensionList> createRepeated() => $pb.PbList<ExtensionStoreExtensionList>();
 
   @$core.pragma('dart2js:noInline')
-  static ExtensionStoreExtensionList getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<ExtensionStoreExtensionList>(create);
+  static ExtensionStoreExtensionList getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ExtensionStoreExtensionList>(create);
   static ExtensionStoreExtensionList? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -521,12 +515,11 @@ class NetworkExtensionStore extends $pb.GeneratedMessage {
   @$core.override
   NetworkExtensionStore createEmptyInstance() => create();
 
-  static $pb.PbList<NetworkExtensionStore> createRepeated() =>
-      $pb.PbList<NetworkExtensionStore>();
+  static $pb.PbList<NetworkExtensionStore> createRepeated() => $pb.PbList<NetworkExtensionStore>();
 
   @$core.pragma('dart2js:noInline')
-  static NetworkExtensionStore getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<NetworkExtensionStore>(create);
+  static NetworkExtensionStore getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<NetworkExtensionStore>(create);
   static NetworkExtensionStore? _defaultInstance;
 
   @$pb.TagNumber(1)
@@ -572,7 +565,5 @@ class NetworkExtensionStore extends $pb.GeneratedMessage {
   }
 }
 
-const $core.bool _omitFieldNames =
-    $core.bool.fromEnvironment('protobuf.omit_field_names');
-const $core.bool _omitMessageNames =
-    $core.bool.fromEnvironment('protobuf.omit_message_names');
+const $core.bool _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
+const $core.bool _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

@@ -224,15 +224,10 @@ Future<void> _showDialogLogin(BuildContext context, WidgetRef ref) async {
                     errorText: errorMessage.isEmpty ? null : errorMessage,
                     errorMaxLines: 3,
                     suffixIcon: IconButton(
-                      tooltip: obscureText
-                          ? l10n.show_password
-                          : l10n.hide_password,
-                      onPressed: () =>
-                          setState(() => obscureText = !obscureText),
+                      tooltip: obscureText ? l10n.show_password : l10n.hide_password,
+                      onPressed: () => setState(() => obscureText = !obscureText),
                       icon: Icon(
-                        obscureText
-                            ? Symbols.visibility_rounded
-                            : Symbols.visibility_off_rounded,
+                        obscureText ? Symbols.visibility_rounded : Symbols.visibility_off_rounded,
                       ),
                     ),
                   ),

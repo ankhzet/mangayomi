@@ -404,9 +404,7 @@ class Kitsu extends _$Kitsu implements BaseTracker {
 
   String? _convertDate(int dateValue) {
     if (dateValue == 0) return null;
-    return DateTime.fromMillisecondsSinceEpoch(dateValue)
-        .toUtc()
-        .toIso8601String();
+    return DateTime.fromMillisecondsSinceEpoch(dateValue).toUtc().toIso8601String();
   }
 
   int _parseDate(String? date) {

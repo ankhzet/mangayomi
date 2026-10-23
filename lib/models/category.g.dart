@@ -108,9 +108,7 @@ Category _categoryDeserialize(
 ) {
   final object = Category(
     clientId: reader.readLongOrNull(offsets[0]),
-    forItemType:
-        _CategoryforItemTypeValueEnumMap[reader.readByteOrNull(offsets[1])] ??
-        ItemType.manga,
+    forItemType: _CategoryforItemTypeValueEnumMap[reader.readByteOrNull(offsets[1])] ?? ItemType.manga,
     hide: reader.readBoolOrNull(offsets[3]),
     id: id,
     name: reader.readStringOrNull(offsets[4]),
@@ -132,9 +130,7 @@ P _categoryDeserializeProp<P>(
     case 0:
       return (reader.readLongOrNull(offset)) as P;
     case 1:
-      return (_CategoryforItemTypeValueEnumMap[reader.readByteOrNull(offset)] ??
-              ItemType.manga)
-          as P;
+      return (_CategoryforItemTypeValueEnumMap[reader.readByteOrNull(offset)] ?? ItemType.manga) as P;
     case 2:
       return (reader.readBoolOrNull(offset)) as P;
     case 3:
@@ -383,8 +379,7 @@ extension CategoryQueryWhere on QueryBuilder<Category, Category, QWhereClause> {
   }
 }
 
-extension CategoryQueryFilter
-    on QueryBuilder<Category, Category, QFilterCondition> {
+extension CategoryQueryFilter on QueryBuilder<Category, Category, QFilterCondition> {
   QueryBuilder<Category, Category, QAfterFilterCondition> clientIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1085,8 +1080,7 @@ extension CategoryQuerySortBy on QueryBuilder<Category, Category, QSortBy> {
   }
 }
 
-extension CategoryQuerySortThenBy
-    on QueryBuilder<Category, Category, QSortThenBy> {
+extension CategoryQuerySortThenBy on QueryBuilder<Category, Category, QSortThenBy> {
   QueryBuilder<Category, Category, QAfterSortBy> thenByClientId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'clientId', Sort.asc);
@@ -1196,8 +1190,7 @@ extension CategoryQuerySortThenBy
   }
 }
 
-extension CategoryQueryWhereDistinct
-    on QueryBuilder<Category, Category, QDistinct> {
+extension CategoryQueryWhereDistinct on QueryBuilder<Category, Category, QDistinct> {
   QueryBuilder<Category, Category, QDistinct> distinctByClientId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'clientId');

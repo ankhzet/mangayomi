@@ -54,12 +54,10 @@ class MangaHomeImageCardListTile extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<MangaHomeImageCardListTile> createState() =>
-      _MangaHomeImageCardListTileState();
+  ConsumerState<MangaHomeImageCardListTile> createState() => _MangaHomeImageCardListTileState();
 }
 
-class _MangaHomeImageCardListTileState
-    extends ConsumerState<MangaHomeImageCardListTile> {
+class _MangaHomeImageCardListTileState extends ConsumerState<MangaHomeImageCardListTile> {
   @override
   Widget build(BuildContext context) {
     return MangaImageCardListTileWidget(

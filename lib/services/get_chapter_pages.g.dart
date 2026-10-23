@@ -66,11 +66,7 @@ final class GetChapterPagesProvider
 String _$getChapterPagesHash() => r'a66f484ee4dffced26bd6e94138fd22f0d1988b3';
 
 final class GetChapterPagesFamily extends $Family
-    with
-        $FunctionalFamilyOverride<
-          FutureOr<GetChapterPagesModel>,
-          ({Chapter chapter, bool forceRefresh})
-        > {
+    with $FunctionalFamilyOverride<FutureOr<GetChapterPagesModel>, ({Chapter chapter, bool forceRefresh})> {
   GetChapterPagesFamily._()
     : super(
         retry: null,

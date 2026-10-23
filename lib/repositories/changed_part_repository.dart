@@ -18,15 +18,10 @@ import 'package:mangayomi/repositories/sync_preference_repository.dart';
 // (e.g. inside another repository's queued transaction) and this must NOT
 // open or queue one of its own, since Isar only allows one at a time.
 class ChangedPartRepository {
-  List<ChangedPart> getAll() =>
-      isar.changedParts.filter().idIsNotNull().findAllSync();
+  List<ChangedPart> getAll() => isar.changedParts.filter().idIsNotNull().findAllSync();
 
   List<ChangedPart> getByActions(List<ActionType> actionTypes) {
-    var query = isar.changedParts
-        .filter()
-        .idIsNotNull()
-        .and()
-        .actionTypeEqualTo(actionTypes.first);
+    var query = isar.changedParts.filter().idIsNotNull().and().actionTypeEqualTo(actionTypes.first);
     for (final at in actionTypes.skip(1)) {
       query = query.or().actionTypeEqualTo(at);
     }
@@ -52,11 +47,7 @@ class ChangedPartRepository {
     bool writeTxn, {
     int? clientId,
   }) {
-    final changedPart = isar.changedParts
-        .filter()
-        .actionTypeEqualTo(action)
-        .isarIdEqualTo(isarId)
-        .findFirstSync();
+    final changedPart = isar.changedParts.filter().actionTypeEqualTo(action).isarIdEqualTo(isarId).findFirstSync();
     void putChangedPart() {
       if (changedPart != null) {
         isar.changedParts.putSync(
@@ -92,11 +83,7 @@ class ChangedPartRepository {
     bool writeTxn, {
     int? clientId,
   }) async {
-    final changedPart = isar.changedParts
-        .filter()
-        .actionTypeEqualTo(action)
-        .isarIdEqualTo(isarId)
-        .findFirstSync();
+    final changedPart = isar.changedParts.filter().actionTypeEqualTo(action).isarIdEqualTo(isarId).findFirstSync();
     Future<void> putChangedPart() async {
       if (changedPart != null) {
         await isar.changedParts.put(

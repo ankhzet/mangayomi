@@ -26,8 +26,7 @@ class SubtitleSectionWidget extends StatefulWidget {
   final bool isLocal;
   final Chapter episode;
   final SubtitleTrack? effectiveSubtitleTrack;
-  final bool Function(SubtitleTrack? candidate, SubtitleTrack? effective)
-  isTrackSelected;
+  final bool Function(SubtitleTrack? candidate, SubtitleTrack? effective) isTrackSelected;
   final Future<void> Function(SubtitleTrack track) onSetSubtitleTrack;
   final TextEditingController subDelayController;
   final TextEditingController subSpeedController;
@@ -190,9 +189,7 @@ class _SubtitleSectionWidgetState extends State<SubtitleSectionWidget> {
           SettingsSectionLabel(context.l10n.tracks),
           ...uniqueSubtitle.map((sub) {
             final isNone = sub.subtitle?.id == "no";
-            final title = isNone
-                ? context.l10n.off
-                : (sub.title ?? subtitleTrackLabel(sub.subtitle));
+            final title = isNone ? context.l10n.off : (sub.title ?? subtitleTrackLabel(sub.subtitle));
             final selected = isNone
                 ? (effective == null || effective.id == "no")
                 : widget.isTrackSelected(sub.subtitle, effective);

@@ -10,8 +10,7 @@ import 'package:mangayomi/repositories/settings_repository.dart';
 /// newly queued downloads slot in at the end until the user moves them.
 class DownloadQueueOrder {
   /// The saved priority order (Download ids), or an empty list if none.
-  static List<int> get order =>
-      settingsRepository.current.downloadQueueOrder ?? const [];
+  static List<int> get order => settingsRepository.current.downloadQueueOrder ?? const [];
 
   /// Persists [ids] as the new priority order.
   static void setOrder(List<int> ids) {

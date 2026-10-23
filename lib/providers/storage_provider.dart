@@ -228,9 +228,7 @@ class StorageProvider {
     // and a black screen on launch. iOS keeps Documents so the DB remains
     // visible alongside backups via the Files app. Windows / Linux are
     // untouched — Documents is the conventional location there.
-    final dir = Platform.isMacOS
-        ? await getApplicationSupportDirectory()
-        : await _documentsDirectory();
+    final dir = Platform.isMacOS ? await getApplicationSupportDirectory() : await _documentsDirectory();
     String dbDir;
     if (Platform.isAndroid) return dir;
     if (Platform.isIOS) {
@@ -378,10 +376,7 @@ class StorageProvider {
       }
     }
 
-    final prefs = await isar.trackPreferences
-        .filter()
-        .syncIdIsNotNull()
-        .findAll();
+    final prefs = await isar.trackPreferences.filter().syncIdIsNotNull().findAll();
     if (prefs.isNotEmpty) {
       await isar.writeTxn(
         () => isar.trackPreferences.putAll([

@@ -87,9 +87,7 @@ class NovelHtmlContent extends StatelessWidget {
         ),
         "p": Style(
           fontFamily: fontFamily,
-          margin: removeExtraSpacing
-              ? Margins.only(bottom: 4)
-              : Margins.only(bottom: 8),
+          margin: removeExtraSpacing ? Margins.only(bottom: 4) : Margins.only(bottom: 8),
           fontSize: FontSize(fontSize.toDouble()),
           lineHeight: LineHeight(lineHeight),
           textAlign: textAlign,
@@ -194,9 +192,7 @@ class NovelHtmlContent extends StatelessWidget {
       final fileName = src.split("/").last;
       final image = epubBook!.images
           .firstWhereOrNull(
-            (img) =>
-                img.name.endsWith(fileName) ||
-                img.name.contains(fileName.replaceAll('%20', ' ')),
+            (img) => img.name.endsWith(fileName) || img.name.contains(fileName.replaceAll('%20', ' ')),
           )
           ?.content;
 
@@ -274,17 +270,13 @@ class NovelScrollProgressBanner extends StatelessWidget {
             );
             final pagination = cachedPagination();
             final String displayLabel;
-            if (!isContinuous &&
-                pagination != null &&
-                pagination.pageCount > 0) {
+            if (!isContinuous && pagination != null && pagination.pageCount > 0) {
               displayLabel = effectivePageMode == PageMode.doublePage
                   ? pagination.pageLabelForSpread(currentSpreadIndex())
                   : pagination.pageLabelForIndex(currentSpreadIndex());
             } else {
               final curMax = maxOffset();
-              final scrollPercentage = curMax > 0
-                  ? ((offset() / curMax) * 100).clamp(0, 100).toInt()
-                  : 0;
+              final scrollPercentage = curMax > 0 ? ((offset() / curMax) * 100).clamp(0, 100).toInt() : 0;
               displayLabel = '$scrollPercentage %';
             }
             return Row(

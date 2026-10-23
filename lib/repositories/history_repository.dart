@@ -10,38 +10,27 @@ import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/repositories/db_write_queue.dart';
 
 class HistoryRepository {
-  History? findByMangaId(int mangaId) =>
-      isar.historys.where().mangaIdEqualTo(mangaId).findFirstSync();
+  History? findByMangaId(int mangaId) => isar.historys.where().mangaIdEqualTo(mangaId).findFirstSync();
 
-  bool isEmptyForManga(int? mangaId) => mangaId == null
-      ? true
-      : isar.historys.where().mangaIdEqualTo(mangaId).isEmptySync();
+  bool isEmptyForManga(int? mangaId) =>
+      mangaId == null ? true : isar.historys.where().mangaIdEqualTo(mangaId).isEmptySync();
 
-  History? findFirstByMangaId(int? mangaId) => mangaId == null
-      ? null
-      : isar.historys.where().mangaIdEqualTo(mangaId).findFirstSync();
+  History? findFirstByMangaId(int? mangaId) =>
+      mangaId == null ? null : isar.historys.where().mangaIdEqualTo(mangaId).findFirstSync();
 
-  History? findByChapterId(int? chapterId) => chapterId == null
-      ? null
-      : isar.historys.where().chapterIdEqualTo(chapterId).findFirstSync();
+  History? findByChapterId(int? chapterId) =>
+      chapterId == null ? null : isar.historys.where().chapterIdEqualTo(chapterId).findFirstSync();
 
   History? getLatestHistory([ItemType? itemType]) {
     if (itemType == null) {
-      return isar.historys
-          .filter()
-          .chapterIdIsNotNull()
-          .sortByDateDesc()
-          .findFirstSync();
+      return isar.historys.filter().chapterIdIsNotNull().sortByDateDesc().findFirstSync();
     }
     return isar.historys
         .filter()
         .chapterIdIsNotNull()
         .and()
         .group(
-          (q) => q
-              .itemTypeEqualTo(itemType)
-              .or()
-              .chapter((q) => q.manga((q) => q.itemTypeEqualTo(itemType))),
+          (q) => q.itemTypeEqualTo(itemType).or().chapter((q) => q.manga((q) => q.itemTypeEqualTo(itemType))),
         )
         .sortByDateDesc()
         .findFirstSync();
@@ -49,22 +38,15 @@ class HistoryRepository {
 
   List<History> getAll() => isar.historys.filter().idIsNotNull().findAllSync();
 
-  List<History> getChangedSince(int since) => isar.historys
-      .filter()
-      .updatedAtGreaterThan(since, include: true)
-      .findAllSync();
+  List<History> getChangedSince(int since) =>
+      isar.historys.filter().updatedAtGreaterThan(since, include: true).findAllSync();
 
-  History? getByClientId(int clientId) => isar.historys
-      .filter()
-      .clientIdEqualTo(clientId)
-      .or()
-      .idEqualTo(clientId)
-      .findFirstSync();
+  History? getByClientId(int clientId) =>
+      isar.historys.filter().clientIdEqualTo(clientId).or().idEqualTo(clientId).findFirstSync();
 
   // Async twin, for callers already inside an async writeTxn/writeTransactionAsync
   // — Isar rejects a sync findAllSync() call from inside an async transaction.
-  Future<List<History>> getAllAsync() =>
-      isar.historys.filter().idIsNotNull().findAll();
+  Future<List<History>> getAllAsync() => isar.historys.filter().idIsNotNull().findAll();
 
   Stream<List<History>> watchByItemType(ItemType itemType) => isar.historys
       .filter()
@@ -82,35 +64,22 @@ class HistoryRepository {
       .filter()
       .chapter(
         (q) => q.manga(
-          (q) => q
-              .itemTypeEqualTo(itemType)
-              .and()
-              .nameContains(search, caseSensitive: false),
+          (q) => q.itemTypeEqualTo(itemType).and().nameContains(search, caseSensitive: false),
         ),
       )
       .watch(fireImmediately: true);
 
-  Future<List<Id>> getIdsByItemType(ItemType itemType) => isar.historys
-      .filter()
-      .chapter((q) => q.manga((q) => q.itemTypeEqualTo(itemType)))
-      .idProperty()
-      .findAll();
+  Future<List<Id>> getIdsByItemType(ItemType itemType) =>
+      isar.historys.filter().chapter((q) => q.manga((q) => q.itemTypeEqualTo(itemType))).idProperty().findAll();
 
-  Future<List<int?>> getReadingTimesByItemType(ItemType itemType) => isar
-      .historys
-      .filter()
-      .itemTypeEqualTo(itemType)
-      .readingTimeSecondsProperty()
-      .findAll();
+  Future<List<int?>> getReadingTimesByItemType(ItemType itemType) =>
+      isar.historys.filter().itemTypeEqualTo(itemType).readingTimeSecondsProperty().findAll();
 
-  List<History> getAllByMangaId(int? mangaId) => mangaId == null
-      ? const []
-      : isar.historys.where().mangaIdEqualTo(mangaId).findAllSync();
+  List<History> getAllByMangaId(int? mangaId) =>
+      mangaId == null ? const [] : isar.historys.where().mangaIdEqualTo(mangaId).findAllSync();
 
-  int countByMangaIds(List<int> mangaIds) => isar.historys
-      .filter()
-      .anyOf(mangaIds, (q, id) => q.mangaIdEqualTo(id))
-      .countSync();
+  int countByMangaIds(List<int> mangaIds) =>
+      isar.historys.filter().anyOf(mangaIds, (q, id) => q.mangaIdEqualTo(id)).countSync();
 
   List<History> getAllByMangaIdSortedByDate(int? mangaId) =>
       isar.historys.filter().mangaIdEqualTo(mangaId).sortByDate().findAllSync();
@@ -126,8 +95,7 @@ class HistoryRepository {
     });
   });
 
-  Future<void> deleteAll(List<int> ids) =>
-      dbWriteQueue.run(() => isar.writeTxn(() => isar.historys.deleteAll(ids)));
+  Future<void> deleteAll(List<int> ids) => dbWriteQueue.run(() => isar.writeTxn(() => isar.historys.deleteAll(ids)));
 
   Future<void> delete(int id) => dbWriteQueue.run(() {
     isar.writeTxnSync(() {
@@ -150,8 +118,7 @@ class HistoryRepository {
 
   void putSync(History history) => isar.historys.putSync(history);
 
-  void putAllSync(List<History> histories) =>
-      isar.historys.putAllSync(histories);
+  void putAllSync(List<History> histories) => isar.historys.putAllSync(histories);
 
   void clearSync() => isar.historys.clearSync();
 
@@ -160,15 +127,12 @@ class HistoryRepository {
   Future<bool> deleteAsync(int id) => isar.historys.delete(id);
 
   // Escape hatch for history-rooted transactions too specific to name.
-  Future<T> transaction<T>(FutureOr<T> Function() body) =>
-      dbWriteQueue.run(body);
+  Future<T> transaction<T>(FutureOr<T> Function() body) => dbWriteQueue.run(body);
 
   // Same, but opens the write transaction too, so callers never touch isar.
-  Future<T> writeTransaction<T>(T Function() body) =>
-      dbWriteQueue.run(() => isar.writeTxnSync(body));
+  Future<T> writeTransaction<T>(T Function() body) => dbWriteQueue.run(() => isar.writeTxnSync(body));
 
-  Future<T> writeTransactionAsync<T>(Future<T> Function() body) =>
-      dbWriteQueue.run(() => isar.writeTxn(body));
+  Future<T> writeTransactionAsync<T>(Future<T> Function() body) => dbWriteQueue.run(() => isar.writeTxn(body));
 }
 
 final historyRepository = HistoryRepository();

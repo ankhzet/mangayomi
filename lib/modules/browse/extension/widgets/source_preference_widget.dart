@@ -35,9 +35,7 @@ class _SourcePreferenceWidgetState extends State<SourcePreferenceWidget> {
           final message = pref.dialogMessage ?? '';
           final value = await showShioriPrompt(
             context,
-            title: (pref.dialogTitle?.isNotEmpty ?? false)
-                ? pref.dialogTitle!
-                : pref.title!,
+            title: (pref.dialogTitle?.isNotEmpty ?? false) ? pref.dialogTitle! : pref.title!,
             message: message.isEmpty ? null : message,
             confirmLabel: context.l10n.ok,
             initialValue: pref.value ?? '',
@@ -69,8 +67,7 @@ class _SourcePreferenceWidgetState extends State<SourcePreferenceWidget> {
         description: (pref.summary?.isNotEmpty ?? false) ? pref.summary : null,
         value: pref.valueIndex!,
         options: [
-          for (final (i, entry) in pref.entries!.indexed)
-            ShioriChoice(i, entry),
+          for (final (i, entry) in pref.entries!.indexed) ShioriChoice(i, entry),
         ],
         onChanged: (i) => _save(preference, () => pref.valueIndex = i),
       );
@@ -86,8 +83,7 @@ class _SourcePreferenceWidgetState extends State<SourcePreferenceWidget> {
             title: pref.title!,
             selected: {...?pref.values},
             options: [
-              for (final (i, entry) in pref.entries!.indexed)
-                ShioriChoice(pref.entryValues![i], entry),
+              for (final (i, entry) in pref.entries!.indexed) ShioriChoice(pref.entryValues![i], entry),
             ],
           );
           if (picked == null) return;

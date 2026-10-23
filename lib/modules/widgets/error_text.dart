@@ -9,6 +9,5 @@ class ErrorText extends StatelessWidget {
   const ErrorText(this.errorText, {super.key});
 
   @override
-  Widget build(BuildContext context) =>
-      ErrorState(detail: errorText?.toString());
+  Widget build(BuildContext context) => ErrorState(detail: errorText?.toString());
 }

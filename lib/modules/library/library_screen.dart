@@ -276,9 +276,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
                 );
               }
 
-              final withoutCategory = man
-                  .where((m) => m.categories == null || m.categories!.isEmpty)
-                  .toList();
+              final withoutCategory = man.where((m) => m.categories == null || m.categories!.isEmpty).toList();
               // Get the number of items for the app bar
               final numberOfItemsList = ref.watch(
                 filteredLibraryMangaProvider(
@@ -368,8 +366,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
     required int downloadFilterType,
     required bool downloadedOnly,
   }) {
-    final sortedData = [...data]
-      ..sort((a, b) => (a.pos ?? 0).compareTo(b.pos ?? 0));
+    final sortedData = [...data]..sort((a, b) => (a.pos ?? 0).compareTo(b.pos ?? 0));
     final entr = sortedData.where((e) => !(e.hide ?? false)).toList();
     int tabCount = withoutCategory.isNotEmpty ? entr.length + 1 : entr.length;
 
@@ -484,8 +481,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
             children: [
               Tab(text: l10n.default0),
               // Default category doesn't have a single ID — use inline count
-              if (showNumbersOfItems)
-                _DefaultCategoryBadge(itemType: widget.itemType),
+              if (showNumbersOfItems) _DefaultCategoryBadge(itemType: widget.itemType),
             ],
           ),
         for (var i = 0; i < entr.length; i++)
@@ -524,9 +520,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
         centerTitle: false,
         backgroundColor: Colors.transparent,
         title: Text(
-          isGroupedNavRoute(ref, route)
-              ? navGroupTitle(context, route)
-              : widget.itemType.localized(context.l10n),
+          isGroupedNavRoute(ref, route) ? navGroupTitle(context, route) : widget.itemType.localized(context.l10n),
           style: tokens.text.screenTitle.copyWith(color: tokens.color.fg),
         ),
       ),
@@ -599,9 +593,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> with TickerProvid
               icon: const Icon(Symbols.label_rounded),
               tooltip: l10n.set_categories,
               onPressed: () {
-                final List<Manga> bulkMangas = mangaIds
-                    .map((id) => mangaRepository.getById(id))
-                    .toList();
+                final List<Manga> bulkMangas = mangaIds.map((id) => mangaRepository.getById(id)).toList();
                 showCategorySelectionDialog(
                   context: context,
                   ref: ref,
@@ -690,9 +682,7 @@ class _DefaultCategoryBadge extends ConsumerWidget {
     );
     return mangas.when(
       data: (data) {
-        final count = data
-            .where((m) => m.categories == null || m.categories!.isEmpty)
-            .length;
+        final count = data.where((m) => m.categories == null || m.categories!.isEmpty).length;
         // The gap lives here so a tab with no badge keeps no trailing space.
         return Padding(
           padding: const EdgeInsetsDirectional.only(start: ShioriSpace.s4),
@@ -764,9 +754,7 @@ void addTorrent(BuildContext context, {Manga? manga}) {
                   ),
                   ShioriButton(
                     label: l10n.add,
-                    onPressed: torrentUrl.trim().isEmpty
-                        ? null
-                        : () => add(fromUrl: true),
+                    onPressed: torrentUrl.trim().isEmpty ? null : () => add(fromUrl: true),
                   ),
                 ],
               ],

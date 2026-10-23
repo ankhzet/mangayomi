@@ -58,15 +58,12 @@ class UpdateErrorsScreen extends ConsumerWidget {
     final groups = <String, List<(UpdateError, Manga?)>>{};
     for (final err in errors) {
       final manga = mangaRepository.findById(err.mangaId);
-      final source = (manga?.source ?? '').isEmpty
-          ? l10n.mass_migration_unknown_source
-          : manga!.source!;
+      final source = (manga?.source ?? '').isEmpty ? l10n.mass_migration_unknown_source : manga!.source!;
       groups.putIfAbsent(source, () => []).add((err, manga));
     }
     return ListView(
       children: [
-        for (final MapEntry(key: source, value: entries) in groups.entries)
-          ..._group(context, ref, source, entries),
+        for (final MapEntry(key: source, value: entries) in groups.entries) ..._group(context, ref, source, entries),
       ],
     );
   }
@@ -122,8 +119,7 @@ class UpdateErrorsScreen extends ConsumerWidget {
               IconButton(
                 tooltip: context.l10n.dismiss,
                 icon: const Icon(Symbols.close_rounded),
-                onPressed: () =>
-                    ref.read(updateErrorsProvider.notifier).remove(err.mangaId),
+                onPressed: () => ref.read(updateErrorsProvider.notifier).remove(err.mangaId),
               ),
             ],
           ),

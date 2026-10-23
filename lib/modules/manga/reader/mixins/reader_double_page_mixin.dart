@@ -12,8 +12,7 @@ import 'package:mangayomi/services/get_chapter_pages.dart';
 /// Encapsulates double-page spread index conversions, orientation-aware
 /// [PageMode] resolution, and dispose-safe synchronous index math for the
 /// manga reader.
-mixin ReaderDoublePageMixin<T extends ConsumerStatefulWidget>
-    on ConsumerState<T>, ReaderMemoryManagement {
+mixin ReaderDoublePageMixin<T extends ConsumerStatefulWidget> on ConsumerState<T>, ReaderMemoryManagement {
   Chapter get activeChapterForDoublePage;
   ReaderController get activeReaderControllerForDoublePage;
   GetChapterPagesModel get activeChapterUrlModelForDoublePage;
@@ -56,23 +55,16 @@ mixin ReaderDoublePageMixin<T extends ConsumerStatefulWidget>
   /// Where page [pageInChapter] of the current chapter sits in [pages], or
   /// -1 if it is not loaded.
   int actualIndexOfChapterPage(int pageInChapter) => pages.indexWhere(
-    (p) =>
-        !p.isTransitionPage &&
-        p.chapter?.id == activeChapterForDoublePage.id &&
-        p.index == pageInChapter,
+    (p) => !p.isTransitionPage && p.chapter?.id == activeChapterForDoublePage.id && p.index == pageInChapter,
   );
 
   /// Effective [PageMode] accounting for automatic double-page orientation detection.
   PageMode get effectivePageMode {
     final auto = ref.read(doublePageAutoStateProvider);
     if (auto && mounted) {
-      final orientation =
-          lastKnownOrientation ??
-          (context.mounted ? MediaQuery.maybeOrientationOf(context) : null);
+      final orientation = lastKnownOrientation ?? (context.mounted ? MediaQuery.maybeOrientationOf(context) : null);
       if (orientation != null) {
-        return orientation == Orientation.landscape
-            ? PageMode.doublePage
-            : PageMode.onePage;
+        return orientation == Orientation.landscape ? PageMode.doublePage : PageMode.onePage;
       }
     }
     return configuredPageMode;
@@ -83,14 +75,9 @@ mixin ReaderDoublePageMixin<T extends ConsumerStatefulWidget>
     final auto = settingsRepository.current.doublePageAuto ?? false;
     if (auto) {
       final orientation =
-          lastKnownOrientation ??
-          (mounted && context.mounted
-              ? MediaQuery.maybeOrientationOf(context)
-              : null);
+          lastKnownOrientation ?? (mounted && context.mounted ? MediaQuery.maybeOrientationOf(context) : null);
       if (orientation != null) {
-        return orientation == Orientation.landscape
-            ? PageMode.doublePage
-            : PageMode.onePage;
+        return orientation == Orientation.landscape ? PageMode.doublePage : PageMode.onePage;
       }
     }
     return configuredPageMode;
@@ -101,33 +88,27 @@ mixin ReaderDoublePageMixin<T extends ConsumerStatefulWidget>
   /// Uses ref.read() so cannot be called during dispose.
   bool get isDoublePageActive {
     final currentMode = activeReaderMode ?? cachedReaderMode;
-    return effectivePageMode == PageMode.doublePage &&
-        !currentMode.isHorizontalContinuous;
+    return effectivePageMode == PageMode.doublePage && !currentMode.isHorizontalContinuous;
   }
 
   /// Safe version of [isDoublePageActive] that uses cached reader mode.
   /// Safe to call during dispose without Riverpod assertion errors.
   bool get isDoublePageActiveSync =>
-      effectivePageModeSync == PageMode.doublePage &&
-      !cachedReaderMode.isHorizontalContinuous;
+      effectivePageModeSync == PageMode.doublePage && !cachedReaderMode.isHorizontalContinuous;
 
   /// Converts a page view index (from ExtendedPageController) to the actual
   /// index in the [pages] array for double page mode.
-  int pageViewToActualIndex(int pageViewIndex) =>
-      indexMath.pageViewToActualIndex(pageViewIndex);
+  int pageViewToActualIndex(int pageViewIndex) => indexMath.pageViewToActualIndex(pageViewIndex);
 
   /// Safe version that uses cached reader mode for use in dispose.
-  int pageViewToActualIndexSync(int pageViewIndex) =>
-      indexMathSync.pageViewToActualIndex(pageViewIndex);
+  int pageViewToActualIndexSync(int pageViewIndex) => indexMathSync.pageViewToActualIndex(pageViewIndex);
 
   /// Converts an actual [pages] array index to a page view index
   /// for double page mode.
-  int actualToPageViewIndex(int actualIndex) =>
-      indexMath.actualToPageViewIndex(actualIndex);
+  int actualToPageViewIndex(int actualIndex) => indexMath.actualToPageViewIndex(actualIndex);
 
   /// Safe version of [actualToPageViewIndex] that uses cached reader mode and repository settings.
-  int actualToPageViewIndexSync(int actualIndex) =>
-      indexMathSync.actualToPageViewIndex(actualIndex);
+  int actualToPageViewIndexSync(int actualIndex) => indexMathSync.actualToPageViewIndex(actualIndex);
 
   /// Returns the actual index in the [pages] array for the currently viewed page.
   /// Unlike [currentDoublePageDisplayIndex] (which is local to the active chapter, e.g. 0..N),
@@ -135,9 +116,7 @@ mixin ReaderDoublePageMixin<T extends ConsumerStatefulWidget>
   int getCurrentPagesActualIndex([PageMode? fromMode]) {
     final effectiveMode = fromMode ?? effectivePageMode;
     final currentMode = activeReaderMode ?? cachedReaderMode;
-    final isDouble =
-        effectiveMode == PageMode.doublePage &&
-        !currentMode.isHorizontalContinuous;
+    final isDouble = effectiveMode == PageMode.doublePage && !currentMode.isHorizontalContinuous;
     final curPvIdx = currentDoublePageViewIndex;
     if (curPvIdx != null) {
       if (isDouble) {
@@ -159,9 +138,7 @@ mixin ReaderDoublePageMixin<T extends ConsumerStatefulWidget>
     }
     final displayIdx = currentDoublePageDisplayIndex;
     final foundIdx = pages.indexWhere(
-      (p) =>
-          p.chapter?.id == activeChapterForDoublePage.id &&
-          p.index == displayIdx,
+      (p) => p.chapter?.id == activeChapterForDoublePage.id && p.index == displayIdx,
     );
     if (foundIdx != -1) return foundIdx;
     return 0;

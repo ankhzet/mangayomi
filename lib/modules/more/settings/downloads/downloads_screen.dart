@@ -48,36 +48,28 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                 autofocus: isTv,
                 icon: Symbols.folder_open_rounded,
                 title: l10n.download_location,
-                subtitle: downloadLocation.$2.isEmpty
-                    ? downloadLocation.$1
-                    : downloadLocation.$2,
+                subtitle: downloadLocation.$2.isEmpty ? downloadLocation.$1 : downloadLocation.$2,
                 onTap: () async {
                   final result = await _pickDirectory();
                   if (result != null) {
-                    ref
-                        .read(downloadLocationStateProvider.notifier)
-                        .set(result);
+                    ref.read(downloadLocationStateProvider.notifier).set(result);
                   }
                 },
               ),
               ShioriSwitchRow(
                 title: l10n.only_on_wifi,
                 value: onlyOnWifiState,
-                onChanged: (v) =>
-                    ref.read(onlyOnWifiStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(onlyOnWifiStateProvider.notifier).set(v),
               ),
               ShioriSwitchRow(
                 title: l10n.save_as_cbz_archive,
                 value: saveAsCBZArchiveState,
-                onChanged: (v) =>
-                    ref.read(saveAsCBZArchiveStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(saveAsCBZArchiveStateProvider.notifier).set(v),
               ),
               ShioriSwitchRow(
                 title: l10n.delete_download_after_reading,
                 value: deleteDownloadAfterReading,
-                onChanged: (v) => ref
-                    .read(deleteDownloadAfterReadingStateProvider.notifier)
-                    .set(v),
+                onChanged: (v) => ref.read(deleteDownloadAfterReadingStateProvider.notifier).set(v),
               ),
             ],
           ),
@@ -88,9 +80,7 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                 title: l10n.allow_concurrent_downloads,
                 subtitle: l10n.allow_concurrent_downloads_subtitle,
                 value: allowConcurrentDownloads,
-                onChanged: (v) => ref
-                    .read(allowConcurrentDownloadsStateProvider.notifier)
-                    .set(v),
+                onChanged: (v) => ref.read(allowConcurrentDownloadsStateProvider.notifier).set(v),
               ),
               if (allowConcurrentDownloads)
                 ShioriSliderRow(
@@ -98,33 +88,22 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                   value: concurrentDownloads.toDouble(),
                   min: 1,
                   // Room for a value set higher before this was a slider.
-                  max: concurrentDownloads > 20
-                      ? concurrentDownloads.toDouble()
-                      : 20,
-                  divisions: concurrentDownloads > 20
-                      ? concurrentDownloads - 1
-                      : 19,
-                  onChanged: (v) => ref
-                      .read(concurrentDownloadsStateProvider.notifier)
-                      .set(v.round()),
+                  max: concurrentDownloads > 20 ? concurrentDownloads.toDouble() : 20,
+                  divisions: concurrentDownloads > 20 ? concurrentDownloads - 1 : 19,
+                  onChanged: (v) => ref.read(concurrentDownloadsStateProvider.notifier).set(v.round()),
                 ),
               ShioriSliderRow(
                 title: l10n.download_delay,
-                subtitle: downloadDelaySeconds == 0
-                    ? l10n.download_delay_subtitle
-                    : null,
+                subtitle: downloadDelaySeconds == 0 ? l10n.download_delay_subtitle : null,
                 value: downloadDelaySeconds.toDouble(),
                 min: 0,
                 max: 120,
                 divisions: 120,
                 valueLabel: (v) => l10n.seconds_short(v.round()),
                 defaultValue: 0,
-                onReset: () =>
-                    ref.read(downloadDelaySecondsStateProvider.notifier).set(0),
+                onReset: () => ref.read(downloadDelaySecondsStateProvider.notifier).set(0),
                 resetTooltip: l10n.reset,
-                onChanged: (v) => ref
-                    .read(downloadDelaySecondsStateProvider.notifier)
-                    .set(v.round()),
+                onChanged: (v) => ref.read(downloadDelaySecondsStateProvider.notifier).set(v.round()),
               ),
             ],
           ),
@@ -143,8 +122,7 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                         snapshot.data!,
                         isDefault: true,
                       ),
-                    for (final folder in localFolders)
-                      _localFolderRow(l10n, localFolders, folder),
+                    for (final folder in localFolders) _localFolderRow(l10n, localFolders, folder),
                   ],
                 ),
               ),
@@ -184,8 +162,7 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
       title: context.l10n.name,
       label: context.l10n.name,
       confirmLabel: context.l10n.add,
-      initialValue:
-          LocalFolder.fromPath(path: result).name ?? p.basename(result),
+      initialValue: LocalFolder.fromPath(path: result).name ?? p.basename(result),
     );
     if (name == null || name.trim().isEmpty) return;
     ref.read(localFoldersStateProvider.notifier).set([
@@ -228,8 +205,7 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
                     .set(
                       localFolders
                           .where(
-                            (e) =>
-                                e.name != folder.name || e.path != folder.path,
+                            (e) => e.name != folder.name || e.path != folder.path,
                           )
                           .toList(),
                     );
@@ -299,8 +275,7 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
             Text.rich(
               TextSpan(
                 children: [
-                  for (int i = 1; i < level; i++)
-                    const WidgetSpan(child: SizedBox(width: ShioriSpace.s24)),
+                  for (int i = 1; i < level; i++) const WidgetSpan(child: SizedBox(width: ShioriSpace.s24)),
                   if (level > 0)
                     WidgetSpan(
                       child: Icon(
@@ -323,8 +298,7 @@ class _DownloadsScreenState extends ConsumerState<DownloadsScreen> {
       return Text.rich(
         TextSpan(
           children: [
-            for (int i = 1; i < level; i++)
-              const WidgetSpan(child: SizedBox(width: ShioriSpace.s24)),
+            for (int i = 1; i < level; i++) const WidgetSpan(child: SizedBox(width: ShioriSpace.s24)),
             if (level > 0)
               WidgetSpan(
                 child: Icon(Symbols.subdirectory_arrow_right_rounded, fill: 1),

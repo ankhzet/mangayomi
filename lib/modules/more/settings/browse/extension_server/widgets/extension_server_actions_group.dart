@@ -56,9 +56,7 @@ class ExtensionServerActionsGroup extends StatelessWidget {
         ShioriSettingRow(
           icon: isChecking
               ? Symbols.sync_rounded
-              : (isInstalled
-                    ? Symbols.check_circle_rounded
-                    : Symbols.error_rounded),
+              : (isInstalled ? Symbols.check_circle_rounded : Symbols.error_rounded),
           title: statusLabel,
           subtitle: versions.isEmpty ? null : versions,
           onTap: isDownloading ? null : onRefreshStatus,
@@ -94,21 +92,13 @@ class ExtensionServerActionsGroup extends StatelessWidget {
           ),
         ShioriSettingRow(
           icon: Symbols.folder_open_rounded,
-          title: Platform.isIOS
-              ? l10n.app_install_location
-              : l10n.install_location,
-          subtitle: selectedInstallDirectory.isEmpty
-              ? l10n.not_configured
-              : selectedInstallDirectory,
-          onTap: requiresJre && !isDownloading
-              ? onChooseInstallDirectory
-              : null,
+          title: Platform.isIOS ? l10n.app_install_location : l10n.install_location,
+          subtitle: selectedInstallDirectory.isEmpty ? l10n.not_configured : selectedInstallDirectory,
+          onTap: requiresJre && !isDownloading ? onChooseInstallDirectory : null,
         ),
         ShioriSettingRow(
           icon: Symbols.link_rounded,
-          title: Platform.isIOS
-              ? l10n.import_existing_jar
-              : l10n.detect_files_in_selected_folder,
+          title: Platform.isIOS ? l10n.import_existing_jar : l10n.detect_files_in_selected_folder,
           enabled: !isDownloading && canDetectFilesInSelectedFolder,
           onTap: onUseExistingLocation,
         ),

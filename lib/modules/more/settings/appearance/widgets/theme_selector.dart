@@ -46,9 +46,7 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
 
                 return _TvSwatchFocus(
                   onSelect: () {
-                    ref
-                        .read(flexSchemeColorStateProvider.notifier)
-                        .setTheme(color, index);
+                    ref.read(flexSchemeColorStateProvider.notifier).setTheme(color, index);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(ShioriSpace.s8),
@@ -70,9 +68,7 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
                               padding: EdgeInsets.zero,
                               borderRadius: 0,
                               onSelect: () {
-                                ref
-                                    .read(flexSchemeColorStateProvider.notifier)
-                                    .setTheme(color, index);
+                                ref.read(flexSchemeColorStateProvider.notifier).setTheme(color, index);
                               },
                               optionButtonPadding: EdgeInsets.zero,
                               optionButtonMargin: EdgeInsets.zero,

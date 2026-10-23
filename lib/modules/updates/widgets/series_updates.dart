@@ -95,8 +95,7 @@ class _SeriesUpdatesTileState extends ConsumerState<SeriesUpdatesTile> {
             leading: ShioriThumbnail(
               height: height,
               semanticLabel: manga.name,
-              onTap: () =>
-                  context.push('/manga-reader/detail', extra: manga.id),
+              onTap: () => context.push('/manga-reader/detail', extra: manga.id),
               child: DeferredCoverImage(
                 width: height * coverAspect,
                 height: height,
@@ -105,9 +104,7 @@ class _SeriesUpdatesTileState extends ConsumerState<SeriesUpdatesTile> {
                       ? MemoryImage(manga.customCoverImage as Uint8List)
                       : coverProvider(
                           toImgUrl(
-                            manga.customCoverFromTracker ??
-                                manga.imageUrl ??
-                                '',
+                            manga.customCoverFromTracker ?? manga.imageUrl ?? '',
                           ),
                           headers: ref.watch(
                             headersProvider(
@@ -124,8 +121,7 @@ class _SeriesUpdatesTileState extends ConsumerState<SeriesUpdatesTile> {
               ),
             ),
             title: manga.name!,
-            subtitle:
-                '${l10n.n_new_chapters(chapters.length)} · ${chapters.first.name}',
+            subtitle: '${l10n.n_new_chapters(chapters.length)} · ${chapters.first.name}',
             dimmed: unread == 0,
             onTap: () => setState(() => _open = !_open),
             trailing: AnimatedRotation(

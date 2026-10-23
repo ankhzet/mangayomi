@@ -19,13 +19,13 @@ class OnboardingLanguageList extends ConsumerWidget {
     final current = ref.watch(l10nLocaleStateProvider);
     final locales = [...AppLocalizations.supportedLocales]
       ..sort(
-        (a, b) => languageName(context, a.toLanguageTag())
-            .toLowerCase()
-            .compareTo(languageName(context, b.toLanguageTag()).toLowerCase()),
+        (a, b) => languageName(
+          context,
+          a.toLanguageTag(),
+        ).toLowerCase().compareTo(languageName(context, b.toLanguageTag()).toLowerCase()),
       );
     bool isCurrent(Locale l) =>
-        l.languageCode == current.languageCode &&
-        (l.countryCode ?? '') == (current.countryCode ?? '');
+        l.languageCode == current.languageCode && (l.countryCode ?? '') == (current.countryCode ?? '');
     return ConstrainedBox(
       constraints: BoxConstraints(maxHeight: isTv ? 360 : 300),
       child: Material(
@@ -44,17 +44,11 @@ class OnboardingLanguageList extends ConsumerWidget {
                   languageName(context, locale.toLanguageTag()),
                   style: tokens.text.row.copyWith(
                     color: c.fg,
-                    fontWeight: isCurrent(locale)
-                        ? FontWeight.w700
-                        : FontWeight.w400,
+                    fontWeight: isCurrent(locale) ? FontWeight.w700 : FontWeight.w400,
                   ),
                 ),
-                trailing: isCurrent(locale)
-                    ? Icon(Symbols.check_rounded, color: c.accentInk)
-                    : null,
-                onTap: () => ref
-                    .read(l10nLocaleStateProvider.notifier)
-                    .setLocale(locale),
+                trailing: isCurrent(locale) ? Icon(Symbols.check_rounded, color: c.accentInk) : null,
+                onTap: () => ref.read(l10nLocaleStateProvider.notifier).setLocale(locale),
               ),
           ],
         ),

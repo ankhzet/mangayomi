@@ -26,9 +26,7 @@ class MassMigrationApplyingPhase extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final total = selectedItems.isEmpty ? 1 : selectedItems.length;
-    final currentItem = selectedItems.isEmpty
-        ? null
-        : selectedItems[currentIndex.clamp(0, selectedItems.length - 1)];
+    final currentItem = selectedItems.isEmpty ? null : selectedItems[currentIndex.clamp(0, selectedItems.length - 1)];
 
     return Padding(
       padding: const EdgeInsets.all(ShioriSpace.s16),
@@ -79,16 +77,14 @@ class MassMigrationApplyingPhase extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            currentItem.sourceItem.name ??
-                                l10n.mass_migration_unknown_title,
+                            currentItem.sourceItem.name ?? l10n.mass_migration_unknown_title,
                             style: context.shiori.text.section.copyWith(
                               color: context.shiori.color.fg,
                             ),
                           ),
                           const SizedBox(height: ShioriSpace.s8),
                           Text(
-                            currentItem.selectedCandidate?.name ??
-                                l10n.mass_migration_unknown_match,
+                            currentItem.selectedCandidate?.name ?? l10n.mass_migration_unknown_match,
                             style: context.shiori.caption,
                           ),
                         ],

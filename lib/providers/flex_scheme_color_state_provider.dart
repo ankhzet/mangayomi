@@ -15,9 +15,7 @@ class FlexSchemeColorState extends _$FlexSchemeColorState {
   @override
   (FlexSchemeColor color, int index) build() {
     final index = settingsRepository.current.flexSchemeColorIndex!;
-    final color = ref.read(themeModeStateProvider)
-        ? ThemeAA.schemes[index].dark
-        : ThemeAA.schemes[index].light;
+    final color = ref.read(themeModeStateProvider) ? ThemeAA.schemes[index].dark : ThemeAA.schemes[index].light;
     return (color, index);
   }
 

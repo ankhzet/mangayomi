@@ -122,8 +122,7 @@ class FilterWidget extends StatelessWidget {
             label: filterState.name,
             type: filterState.state,
             onTap: () {
-              filterList[idx] = filterState
-                ..state = (filterState.state + 1) % 3;
+              filterList[idx] = filterState..state = (filterState.state + 1) % 3;
               onChanged(filterList);
             },
           );
@@ -183,13 +182,10 @@ class FilterWidget extends StatelessWidget {
             title: filterState.name,
             value: filterState.state,
             options: [
-              for (final (i, e) in filterState.values.indexed)
-                ShioriChoice(i, e.name as String),
+              for (final (i, e) in filterState.values.indexed) ShioriChoice(i, e.name as String),
             ],
             // A long list (genres, years) gets a search field.
-            searchHint: filterState.values.length > 10
-                ? MaterialLocalizations.of(context).searchFieldLabel
-                : null,
+            searchHint: filterState.values.length > 10 ? MaterialLocalizations.of(context).searchFieldLabel : null,
             onChanged: (i) {
               filterState.state = i;
               onChanged(filterList);

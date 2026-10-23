@@ -12,8 +12,7 @@ part of 'backup_encryption.dart';
 @ProviderFor(BackupEncryptionEnabled)
 final backupEncryptionEnabledProvider = BackupEncryptionEnabledProvider._();
 
-final class BackupEncryptionEnabledProvider
-    extends $NotifierProvider<BackupEncryptionEnabled, bool> {
+final class BackupEncryptionEnabledProvider extends $NotifierProvider<BackupEncryptionEnabled, bool> {
   BackupEncryptionEnabledProvider._()
     : super(
         from: null,
@@ -41,8 +40,7 @@ final class BackupEncryptionEnabledProvider
   }
 }
 
-String _$backupEncryptionEnabledHash() =>
-    r'eefefd0a13e6a12ae74ccddc7f161b9898f2d764';
+String _$backupEncryptionEnabledHash() => r'eefefd0a13e6a12ae74ccddc7f161b9898f2d764';
 
 abstract class _$BackupEncryptionEnabled extends $Notifier<bool> {
   bool build();
@@ -50,14 +48,7 @@ abstract class _$BackupEncryptionEnabled extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

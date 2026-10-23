@@ -40,8 +40,7 @@ final class DefaultSubtitleLangStateProvider extends $NotifierProvider<DefaultSu
   }
 }
 
-String _$defaultSubtitleLangStateHash() =>
-    r'005aa9daa9d41807fa2d4af830c3bb6c8b376604';
+String _$defaultSubtitleLangStateHash() => r'005aa9daa9d41807fa2d4af830c3bb6c8b376604';
 
 abstract class _$DefaultSubtitleLangState extends $Notifier<Locale> {
   Locale build();
@@ -49,14 +48,7 @@ abstract class _$DefaultSubtitleLangState extends $Notifier<Locale> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<Locale, Locale>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<Locale, Locale>,
-              Locale,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<Locale, Locale>, Locale, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -92,8 +84,7 @@ final class MarkEpisodeAsSeenTypeStateProvider extends $NotifierProvider<MarkEpi
   }
 }
 
-String _$markEpisodeAsSeenTypeStateHash() =>
-    r'7dbaabced494aa2ecae1e6a0b4a166b978f9fda7';
+String _$markEpisodeAsSeenTypeStateHash() => r'7dbaabced494aa2ecae1e6a0b4a166b978f9fda7';
 
 abstract class _$MarkEpisodeAsSeenTypeState extends $Notifier<int> {
   int build();
@@ -101,14 +92,7 @@ abstract class _$MarkEpisodeAsSeenTypeState extends $Notifier<int> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -144,8 +128,7 @@ final class DefaultSkipIntroLengthStateProvider extends $NotifierProvider<Defaul
   }
 }
 
-String _$defaultSkipIntroLengthStateHash() =>
-    r'ea422481058a8bd9d98da1090d95df0b774db159';
+String _$defaultSkipIntroLengthStateHash() => r'ea422481058a8bd9d98da1090d95df0b774db159';
 
 abstract class _$DefaultSkipIntroLengthState extends $Notifier<int> {
   int build();
@@ -153,14 +136,7 @@ abstract class _$DefaultSkipIntroLengthState extends $Notifier<int> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -197,8 +173,7 @@ final class DefaultDoubleTapToSkipLengthStateProvider
   }
 }
 
-String _$defaultDoubleTapToSkipLengthStateHash() =>
-    r'0c3ab08f1f07d6e7d711691d195690d99e78bd30';
+String _$defaultDoubleTapToSkipLengthStateHash() => r'0c3ab08f1f07d6e7d711691d195690d99e78bd30';
 
 abstract class _$DefaultDoubleTapToSkipLengthState extends $Notifier<int> {
   int build();
@@ -206,14 +181,7 @@ abstract class _$DefaultDoubleTapToSkipLengthState extends $Notifier<int> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -249,8 +217,7 @@ final class DefaultPlayBackSpeedStateProvider extends $NotifierProvider<DefaultP
   }
 }
 
-String _$defaultPlayBackSpeedStateHash() =>
-    r'e3a13baa73c698630043e85ea2c724dbd6ac7601';
+String _$defaultPlayBackSpeedStateHash() => r'e3a13baa73c698630043e85ea2c724dbd6ac7601';
 
 abstract class _$DefaultPlayBackSpeedState extends $Notifier<double> {
   double build();
@@ -258,14 +225,7 @@ abstract class _$DefaultPlayBackSpeedState extends $Notifier<double> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<double, double>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<double, double>,
-              double,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<double, double>, double, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -301,8 +261,7 @@ final class FullScreenPlayerStateProvider extends $NotifierProvider<FullScreenPl
   }
 }
 
-String _$fullScreenPlayerStateHash() =>
-    r'4186d10e5a3e1379533e2088c7ebabc1fd28663d';
+String _$fullScreenPlayerStateHash() => r'4186d10e5a3e1379533e2088c7ebabc1fd28663d';
 
 abstract class _$FullScreenPlayerState extends $Notifier<bool> {
   bool build();
@@ -310,14 +269,7 @@ abstract class _$FullScreenPlayerState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -353,8 +305,7 @@ final class EnableAniSkipStateProvider extends $NotifierProvider<EnableAniSkipSt
   }
 }
 
-String _$enableAniSkipStateHash() =>
-    r'bf94db4c311e27192c0f05938032a7b18dd3a4b5';
+String _$enableAniSkipStateHash() => r'bf94db4c311e27192c0f05938032a7b18dd3a4b5';
 
 abstract class _$EnableAniSkipState extends $Notifier<bool> {
   bool build();
@@ -362,14 +313,7 @@ abstract class _$EnableAniSkipState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -405,8 +349,7 @@ final class EnableAutoSkipStateProvider extends $NotifierProvider<EnableAutoSkip
   }
 }
 
-String _$enableAutoSkipStateHash() =>
-    r'e9680772c27972ab498294ba57c9f1595ab73897';
+String _$enableAutoSkipStateHash() => r'e9680772c27972ab498294ba57c9f1595ab73897';
 
 abstract class _$EnableAutoSkipState extends $Notifier<bool> {
   bool build();
@@ -414,14 +357,7 @@ abstract class _$EnableAutoSkipState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -457,8 +393,7 @@ final class AniSkipTimeoutLengthStateProvider extends $NotifierProvider<AniSkipT
   }
 }
 
-String _$aniSkipTimeoutLengthStateHash() =>
-    r'c6aa5adfdc61d1ecfb0bb9380616c0bbac443142';
+String _$aniSkipTimeoutLengthStateHash() => r'c6aa5adfdc61d1ecfb0bb9380616c0bbac443142';
 
 abstract class _$AniSkipTimeoutLengthState extends $Notifier<int> {
   int build();
@@ -466,14 +401,7 @@ abstract class _$AniSkipTimeoutLengthState extends $Notifier<int> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -517,14 +445,7 @@ abstract class _$UseLibassState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -568,14 +489,7 @@ abstract class _$UseMpvConfigState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -611,8 +525,7 @@ final class ForceLandscapePlayerStateProvider extends $NotifierProvider<ForceLan
   }
 }
 
-String _$forceLandscapePlayerStateHash() =>
-    r'aa7c06ed0c25ff0ffa6a9c44806ef51db885cabd';
+String _$forceLandscapePlayerStateHash() => r'aa7c06ed0c25ff0ffa6a9c44806ef51db885cabd';
 
 abstract class _$ForceLandscapePlayerState extends $Notifier<bool> {
   bool build();
@@ -620,14 +533,7 @@ abstract class _$ForceLandscapePlayerState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

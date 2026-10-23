@@ -359,9 +359,7 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen> with Single
             _buildStatisticColumn(
               value: _formatDuration(totalSeconds),
               label: l10n.total,
-              icon: isAnime
-                  ? Symbols.play_circle_rounded
-                  : Symbols.auto_stories_rounded,
+              icon: isAnime ? Symbols.play_circle_rounded : Symbols.auto_stories_rounded,
             ),
             _buildStatisticColumn(
               value: _formatDuration(averagePerTitle),

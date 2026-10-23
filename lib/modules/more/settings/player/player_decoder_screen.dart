@@ -35,8 +35,7 @@ class _PlayerDecoderScreenState extends ConsumerState<PlayerDecoderScreen> {
                 title: l10n.enable_hardware_accel,
                 subtitle: l10n.enable_hardware_accel_info,
                 value: enableHardwareAccel,
-                onChanged: (v) =>
-                    ref.read(enableHardwareAccelStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(enableHardwareAccelStateProvider.notifier).set(v),
               ),
               ShioriValueRow<String>(
                 title: l10n.hwdec,
@@ -74,16 +73,13 @@ class _PlayerDecoderScreenState extends ConsumerState<PlayerDecoderScreen> {
                   ),
                   ShioriChoice('crystalhd', 'crystalhd'),
                 ],
-                onChanged: (v) => ref
-                    .read(hwdecModeStateProvider(rawValue: true).notifier)
-                    .set(v),
+                onChanged: (v) => ref.read(hwdecModeStateProvider(rawValue: true).notifier).set(v),
               ),
               ShioriSwitchRow(
                 title: l10n.enable_gpu_next,
                 subtitle: l10n.enable_gpu_next_info,
                 value: useGpuNext,
-                onChanged: (v) =>
-                    ref.read(useGpuNextStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(useGpuNextStateProvider.notifier).set(v),
               ),
               ShioriValueRow<DebandingType>(
                 title: l10n.debanding,
@@ -93,15 +89,13 @@ class _PlayerDecoderScreenState extends ConsumerState<PlayerDecoderScreen> {
                   ShioriChoice(DebandingType.cpu, 'CPU'),
                   ShioriChoice(DebandingType.gpu, 'GPU'),
                 ],
-                onChanged: (v) =>
-                    ref.read(debandingStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(debandingStateProvider.notifier).set(v),
               ),
               ShioriSwitchRow(
                 title: l10n.use_yuv420p,
                 subtitle: l10n.use_yuv420p_info,
                 value: useYUV420P,
-                onChanged: (v) =>
-                    ref.read(useYUV420PStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(useYUV420PStateProvider.notifier).set(v),
               ),
             ],
           ),

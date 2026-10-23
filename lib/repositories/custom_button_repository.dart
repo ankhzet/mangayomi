@@ -4,25 +4,18 @@ import 'package:mangayomi/models/custom_button.dart';
 import 'package:mangayomi/repositories/db_write_queue.dart';
 
 class CustomButtonRepository {
-  List<CustomButton> getAllSortedByPos() =>
-      isar.customButtons.where().sortByPos().findAllSync();
+  List<CustomButton> getAllSortedByPos() => isar.customButtons.where().sortByPos().findAllSync();
 
-  Stream<List<CustomButton>> watchAllSortedByPos() => isar.customButtons
-      .filter()
-      .idIsNotNull()
-      .sortByPos()
-      .watch(fireImmediately: true);
+  Stream<List<CustomButton>> watchAllSortedByPos() =>
+      isar.customButtons.filter().idIsNotNull().sortByPos().watch(fireImmediately: true);
 
-  List<CustomButton> getAll() =>
-      isar.customButtons.filter().idIsNotNull().findAllSync();
+  List<CustomButton> getAll() => isar.customButtons.filter().idIsNotNull().findAllSync();
 
-  Future<CustomButton?> findFirst() =>
-      isar.customButtons.filter().idIsNotNull().findFirst();
+  Future<CustomButton?> findFirst() => isar.customButtons.filter().idIsNotNull().findFirst();
 
   Future<int> count() => isar.customButtons.count();
 
-  Future<CustomButton?> findById(int? id) =>
-      isar.customButtons.filter().idEqualTo(id).findFirst();
+  Future<CustomButton?> findById(int? id) => isar.customButtons.filter().idEqualTo(id).findFirst();
 
   // Stamps updatedAt for callers that just want to persist a mutated
   // CustomButton they already hold, without setting the timestamp themselves.
@@ -42,8 +35,7 @@ class CustomButtonRepository {
   // Sync primitives below are for callers already inside a write transaction
   // opened by another repository's transaction()/writeTransaction() (e.g.
   // restoreRepository) — they don't queue on their own.
-  void putAllSync(List<CustomButton> buttons) =>
-      isar.customButtons.putAllSync(buttons);
+  void putAllSync(List<CustomButton> buttons) => isar.customButtons.putAllSync(buttons);
 
   void clearSync() => isar.customButtons.clearSync();
 }

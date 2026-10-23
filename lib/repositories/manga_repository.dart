@@ -25,12 +25,8 @@ class MangaRepository {
 
   Future<Manga?> findByIdAsync(int id) => isar.mangas.get(id);
 
-  Future<Manga?> findLocalArchiveByName(String? name) => isar.mangas
-      .filter()
-      .isLocalArchiveEqualTo(true)
-      .sourceEqualTo("local")
-      .nameEqualTo(name)
-      .findFirst();
+  Future<Manga?> findLocalArchiveByName(String? name) =>
+      isar.mangas.filter().isLocalArchiveEqualTo(true).sourceEqualTo("local").nameEqualTo(name).findFirst();
 
   /// Other favorited entries with this exact name under this item type,
   /// regardless of source. Used to warn before adding a manga that's already
@@ -39,55 +35,30 @@ class MangaRepository {
   Future<List<Manga>> findFavoritesByItemTypeAndName(
     ItemType itemType,
     String? name,
-  ) => isar.mangas
-      .filter()
-      .itemTypeEqualTo(itemType)
-      .nameEqualTo(name)
-      .favoriteEqualTo(true)
-      .findAll();
+  ) => isar.mangas.filter().itemTypeEqualTo(itemType).nameEqualTo(name).favoriteEqualTo(true).findAll();
 
   Future<bool> isEmptyByLangNameSource(
     String? lang,
     String? name,
     String? source,
-  ) => isar.mangas
-      .filter()
-      .langEqualTo(lang)
-      .nameEqualTo(name)
-      .sourceEqualTo(source)
-      .isEmpty();
+  ) => isar.mangas.filter().langEqualTo(lang).nameEqualTo(name).sourceEqualTo(source).isEmpty();
 
   Future<List<Manga>> findAllByLangNameSource(
     String? lang,
     String? name,
     String? source,
-  ) => isar.mangas
-      .filter()
-      .langEqualTo(lang)
-      .nameEqualTo(name)
-      .sourceEqualTo(source)
-      .findAll();
+  ) => isar.mangas.filter().langEqualTo(lang).nameEqualTo(name).sourceEqualTo(source).findAll();
 
   List<Manga> getAll() => isar.mangas.where().findAllSync();
 
-  List<Manga> getChangedSince(int since) => isar.mangas
-      .filter()
-      .updatedAtGreaterThan(since, include: true)
-      .findAllSync();
+  List<Manga> getChangedSince(int since) =>
+      isar.mangas.filter().updatedAtGreaterThan(since, include: true).findAllSync();
 
-  Manga? getByClientId(int clientId) => isar.mangas
-      .filter()
-      .clientIdEqualTo(clientId)
-      .or()
-      .idEqualTo(clientId)
-      .findFirstSync();
+  Manga? getByClientId(int clientId) =>
+      isar.mangas.filter().clientIdEqualTo(clientId).or().idEqualTo(clientId).findFirstSync();
 
-  Manga? findByLinkAndItemType(String link, ItemType itemType) => isar.mangas
-      .filter()
-      .linkEqualTo(link)
-      .and()
-      .itemTypeEqualTo(itemType)
-      .findFirstSync();
+  Manga? findByLinkAndItemType(String link, ItemType itemType) =>
+      isar.mangas.filter().linkEqualTo(link).and().itemTypeEqualTo(itemType).findFirstSync();
 
   // Async twin, for callers already inside an async writeTxn/writeTransactionAsync
   // — Isar rejects a sync findAllSync() call from inside an async transaction.
@@ -114,27 +85,20 @@ class MangaRepository {
       .idProperty()
       .watch(fireImmediately: true);
 
-  List<Manga> getNonFavorites() =>
-      isar.mangas.filter().favoriteEqualTo(false).findAllSync();
+  List<Manga> getNonFavorites() => isar.mangas.filter().favoriteEqualTo(false).findAllSync();
 
   List<Manga> getByItemTypeNames(Iterable<ItemType?> itemTypes) => isar.mangas
       .filter()
       .anyOf(
         itemTypes,
-        (q, element) =>
-            element == null ? q.idIsNull() : q.itemTypeEqualTo(element),
+        (q, element) => element == null ? q.idIsNull() : q.itemTypeEqualTo(element),
       )
       .findAllSync();
 
-  List<Manga> getLocalArchive() =>
-      isar.mangas.filter().isLocalArchiveEqualTo(true).findAllSync();
+  List<Manga> getLocalArchive() => isar.mangas.filter().isLocalArchiveEqualTo(true).findAllSync();
 
-  List<Manga> getBySourceLocalOrArchive() => isar.mangas
-      .filter()
-      .sourceEqualTo("local")
-      .or()
-      .sourceEqualTo("archive")
-      .findAllSync();
+  List<Manga> getBySourceLocalOrArchive() =>
+      isar.mangas.filter().sourceEqualTo("local").or().sourceEqualTo("archive").findAllSync();
 
   Future<List<Manga>> getLocalByItemTypeSortedByDateAdded(
     ItemType itemType,
@@ -144,12 +108,7 @@ class MangaRepository {
       .filter()
       .itemTypeEqualTo(itemType)
       .group(
-        (q) => q
-            .sourceEqualTo("local")
-            .or()
-            .linkContains("Mangayomi/local")
-            .or()
-            .linkContains("Mangayomi\\local"),
+        (q) => q.sourceEqualTo("local").or().linkContains("Mangayomi/local").or().linkContains("Mangayomi\\local"),
       )
       .sortByDateAddedDesc()
       .offset(offset)
@@ -164,12 +123,7 @@ class MangaRepository {
       .filter()
       .itemTypeEqualTo(itemType)
       .group(
-        (q) => q
-            .sourceEqualTo("local")
-            .or()
-            .linkContains("Mangayomi/local")
-            .or()
-            .linkContains("Mangayomi\\local"),
+        (q) => q.sourceEqualTo("local").or().linkContains("Mangayomi/local").or().linkContains("Mangayomi\\local"),
       )
       .sortByName()
       .offset(offset)
@@ -185,26 +139,18 @@ class MangaRepository {
       .filter()
       .itemTypeEqualTo(itemType)
       .group(
-        (q) => q
-            .sourceEqualTo("local")
-            .or()
-            .linkContains("Mangayomi/local")
-            .or()
-            .linkContains("Mangayomi\\local"),
+        (q) => q.sourceEqualTo("local").or().linkContains("Mangayomi/local").or().linkContains("Mangayomi\\local"),
       )
       .nameContains(query, caseSensitive: false)
       .offset(offset)
       .limit(limit)
       .findAll();
 
-  List<Manga> getFavorites() =>
-      isar.mangas.where().favoriteEqualToAnyItemType(true).findAllSync();
+  List<Manga> getFavorites() => isar.mangas.where().favoriteEqualToAnyItemType(true).findAllSync();
 
-  int countFavorites() =>
-      isar.mangas.where().favoriteEqualToAnyItemType(true).countSync();
+  int countFavorites() => isar.mangas.where().favoriteEqualToAnyItemType(true).countSync();
 
-  List<Manga> getByItemType(ItemType itemType) =>
-      isar.mangas.filter().itemTypeEqualTo(itemType).findAllSync();
+  List<Manga> getByItemType(ItemType itemType) => isar.mangas.filter().itemTypeEqualTo(itemType).findAllSync();
 
   Future<int> countFavoritesByItemType(ItemType itemType) =>
       isar.mangas.where().favoriteItemTypeEqualTo(true, itemType).count();
@@ -219,22 +165,12 @@ class MangaRepository {
 
   Future<List<Manga>> getFavoritesNonLocalArchiveByItemType(
     ItemType itemType,
-  ) => isar.mangas
-      .where()
-      .favoriteItemTypeEqualTo(true, itemType)
-      .filter()
-      .isLocalArchiveEqualTo(false)
-      .findAll();
+  ) => isar.mangas.where().favoriteItemTypeEqualTo(true, itemType).filter().isLocalArchiveEqualTo(false).findAll();
 
-  List<Manga> getFavoritesNonLocalArchive() => isar.mangas
-      .where()
-      .favoriteEqualToAnyItemType(true)
-      .filter()
-      .isLocalArchiveEqualTo(false)
-      .findAllSync();
+  List<Manga> getFavoritesNonLocalArchive() =>
+      isar.mangas.where().favoriteEqualToAnyItemType(true).filter().isLocalArchiveEqualTo(false).findAllSync();
 
-  List<Manga> getFavoritesByItemTypeIdNotNull(ItemType itemType) =>
-      getFavoritesByItemType(itemType);
+  List<Manga> getFavoritesByItemTypeIdNotNull(ItemType itemType) => getFavoritesByItemType(itemType);
 
   List<Manga> getFavoritesByItemType(ItemType itemType) =>
       isar.mangas.where().favoriteItemTypeEqualTo(true, itemType).findAllSync();
@@ -256,19 +192,10 @@ class MangaRepository {
     String? lang,
     String? name,
     String? source,
-  ) => isar.mangas
-      .filter()
-      .langEqualTo(lang)
-      .nameEqualTo(name)
-      .sourceEqualTo(source)
-      .watch(fireImmediately: true);
+  ) => isar.mangas.filter().langEqualTo(lang).nameEqualTo(name).sourceEqualTo(source).watch(fireImmediately: true);
 
-  Stream<List<Manga>> watchBySourceAndLang(String? source, String? lang) => isar
-      .mangas
-      .filter()
-      .sourceEqualTo(source)
-      .langEqualTo(lang)
-      .watch(fireImmediately: true);
+  Stream<List<Manga>> watchBySourceAndLang(String? source, String? lang) =>
+      isar.mangas.filter().sourceEqualTo(source).langEqualTo(lang).watch(fireImmediately: true);
 
   Stream<List<Manga>> watchFavoritesByItemTypeAndName(
     ItemType itemType,
@@ -280,19 +207,14 @@ class MangaRepository {
       .favoriteEqualTo(true)
       .watch(fireImmediately: true);
 
-  Stream<Manga?> watchById(int id) =>
-      isar.mangas.watchObject(id, fireImmediately: true);
+  Stream<Manga?> watchById(int id) => isar.mangas.watchObject(id, fireImmediately: true);
 
   // Same query isar_providers.dart already runs; relocated, not changed.
   Stream<List<Manga>> watchFavorites(ItemType itemType, {int? categoryId}) {
     final base = isar.mangas.where().favoriteItemTypeEqualTo(true, itemType);
     return categoryId == null
         ? base.watch(fireImmediately: true)
-        : base
-              .filter()
-              .categoriesIsNotEmpty()
-              .categoriesElementEqualTo(categoryId)
-              .watch(fireImmediately: true);
+        : base.filter().categoriesIsNotEmpty().categoriesElementEqualTo(categoryId).watch(fireImmediately: true);
   }
 
   // Same query isar_providers.dart already runs; relocated, not changed.
@@ -318,8 +240,7 @@ class MangaRepository {
     });
   });
 
-  Future<void> putAll(List<Manga> mangas) =>
-      dbWriteQueue.run(() => isar.writeTxn(() => isar.mangas.putAll(mangas)));
+  Future<void> putAll(List<Manga> mangas) => dbWriteQueue.run(() => isar.writeTxn(() => isar.mangas.putAll(mangas)));
 
   // Stamps updatedAt for callers that just want to persist a mutated Manga
   // they already hold, without setting the timestamp themselves.
@@ -340,8 +261,7 @@ class MangaRepository {
     return id;
   });
 
-  Future<void> delete(int id) =>
-      dbWriteQueue.run(() => isar.writeTxn(() => isar.mangas.delete(id)));
+  Future<void> delete(int id) => dbWriteQueue.run(() => isar.writeTxn(() => isar.mangas.delete(id)));
 
   // Sync primitive below is for callers already inside a write transaction
   // opened by transaction()/writeTransaction() — it doesn't queue on its own.
@@ -361,12 +281,10 @@ class MangaRepository {
   // a source refresh against existing chapters, importing a new manga with
   // its first batch of chapters, etc.) — still queued through dbWriteQueue,
   // just without inventing a one-call-site method for each shape.
-  Future<T> transaction<T>(FutureOr<T> Function() body) =>
-      dbWriteQueue.run(body);
+  Future<T> transaction<T>(FutureOr<T> Function() body) => dbWriteQueue.run(body);
 
   // Same, but opens the write transaction too, so callers never touch isar.
-  Future<T> writeTransaction<T>(T Function() body) =>
-      dbWriteQueue.run(() => isar.writeTxnSync(body));
+  Future<T> writeTransaction<T>(T Function() body) => dbWriteQueue.run(() => isar.writeTxnSync(body));
 
   // Async variant, for bodies that need to await other async isar calls
   // inside the same transaction.
@@ -394,10 +312,7 @@ class MangaRepository {
   // chapters, and the manga itself. Notifies the sync outbox so the removal
   // propagates. Must run inside an already-open write transaction.
   void wipeManga(Manga manga) {
-    final histories = isar.historys
-        .where()
-        .mangaIdEqualTo(manga.id)
-        .findAllSync();
+    final histories = isar.historys.where().mangaIdEqualTo(manga.id).findAllSync();
     for (var history in histories) {
       isar.historys.deleteSync(history.id!);
       changedPartRepository.recordIfSyncOn(
@@ -454,10 +369,7 @@ class MangaRepository {
   }) => dbWriteQueue.run(() {
     isar.writeTxnSync(() {
       for (final manga in mangaList) {
-        final chapterIds = chapterRepository
-            .getAllByMangaId(manga.id)
-            .map((c) => c.id!)
-            .toList();
+        final chapterIds = chapterRepository.getAllByMangaId(manga.id).map((c) => c.id!).toList();
         if (chapterIds.isNotEmpty) {
           if (!keepDownloads) isar.downloads.deleteAllSync(chapterIds);
           isar.chapters.deleteAllSync(chapterIds);
@@ -466,15 +378,9 @@ class MangaRepository {
       final mangaIds = mangaList.map((m) => m.id!).toList();
       if (mangaIds.isNotEmpty) {
         if (!keepHistory) {
-          isar.historys
-              .filter()
-              .anyOf(mangaIds, (q, id) => q.mangaIdEqualTo(id))
-              .deleteAllSync();
+          isar.historys.filter().anyOf(mangaIds, (q, id) => q.mangaIdEqualTo(id)).deleteAllSync();
         }
-        isar.updates
-            .filter()
-            .anyOf(mangaIds, (q, id) => q.mangaIdEqualTo(id))
-            .deleteAllSync();
+        isar.updates.filter().anyOf(mangaIds, (q, id) => q.mangaIdEqualTo(id)).deleteAllSync();
         isar.mangas.deleteAllSync(mangaIds);
       }
       if (removeSourceId != null) {
@@ -488,106 +394,96 @@ class MangaRepository {
   // syncId) are reassigned to it, duplicates are dropped in favour of
   // primary's copy (keeping read state if only the dropped copy had it), and
   // each of `others` is deleted once its rows are gone.
-  Future<void> mergeGroup(Manga primary, List<Manga> others) =>
-      dbWriteQueue.run(() {
-        isar.writeTxnSync(() {
-          final primaryByUrl = <String, Chapter>{
-            for (final c in chapterRepository.getAllByMangaId(primary.id))
-              ?_chapterDedupKey(c): c,
-          };
+  Future<void> mergeGroup(Manga primary, List<Manga> others) => dbWriteQueue.run(() {
+    isar.writeTxnSync(() {
+      final primaryByUrl = <String, Chapter>{
+        for (final c in chapterRepository.getAllByMangaId(primary.id)) ?_chapterDedupKey(c): c,
+      };
 
-          for (final other in others) {
-            final otherId = other.id!;
-            final otherChapters = chapterRepository.getAllByMangaId(otherId);
+      for (final other in others) {
+        final otherId = other.id!;
+        final otherChapters = chapterRepository.getAllByMangaId(otherId);
 
-            final remap = <int, Chapter>{};
-            final chaptersToDelete = <int>[];
-            final chaptersToUpdate = <Chapter>[];
+        final remap = <int, Chapter>{};
+        final chaptersToDelete = <int>[];
+        final chaptersToUpdate = <Chapter>[];
 
-            for (final chapter in otherChapters) {
-              final key = _chapterDedupKey(chapter);
-              final existing = key != null ? primaryByUrl[key] : null;
-              if (existing != null) {
-                final otherHasState =
-                    (chapter.isRead ?? false) ||
-                    (chapter.lastPageRead ?? '').isNotEmpty;
-                final existingHasState =
-                    (existing.isRead ?? false) ||
-                    (existing.lastPageRead ?? '').isNotEmpty;
-                if (otherHasState && !existingHasState) {
-                  existing.isRead = chapter.isRead;
-                  existing.lastPageRead = chapter.lastPageRead;
-                  chaptersToUpdate.add(existing);
-                }
-                remap[chapter.id!] = existing;
-                chaptersToDelete.add(chapter.id!);
-              } else {
-                chapter.mangaId = primary.id;
-                chapter.manga.value = primary;
-                isar.chapters.putSync(chapter);
-                chapter.manga.saveSync();
-                if (key != null) primaryByUrl[key] = chapter;
-                remap[chapter.id!] = chapter;
-              }
+        for (final chapter in otherChapters) {
+          final key = _chapterDedupKey(chapter);
+          final existing = key != null ? primaryByUrl[key] : null;
+          if (existing != null) {
+            final otherHasState = (chapter.isRead ?? false) || (chapter.lastPageRead ?? '').isNotEmpty;
+            final existingHasState = (existing.isRead ?? false) || (existing.lastPageRead ?? '').isNotEmpty;
+            if (otherHasState && !existingHasState) {
+              existing.isRead = chapter.isRead;
+              existing.lastPageRead = chapter.lastPageRead;
+              chaptersToUpdate.add(existing);
             }
-            if (chaptersToUpdate.isNotEmpty) {
-              isar.chapters.putAllSync(chaptersToUpdate);
-            }
-
-            final historyEntries = historyRepository.getAllByMangaId(otherId);
-            for (final h in historyEntries) {
-              final kept = h.chapterId != null ? remap[h.chapterId] : null;
-              if (kept == null) {
-                isar.historys.deleteSync(h.id!);
-                continue;
-              }
-              h.mangaId = primary.id;
-              h.chapterId = kept.id;
-              h.chapter.value = kept;
-              isar.historys.putSync(h);
-              h.chapter.saveSync();
-            }
-
-            final updateEntries = updateRepository.getAllByMangaId(otherId);
-            for (final u in updateEntries) {
-              u.chapter.loadSync();
-              final oldChapter = u.chapter.value;
-              final kept = oldChapter != null ? remap[oldChapter.id] : null;
-              if (kept == null) {
-                isar.updates.deleteSync(u.id!);
-                continue;
-              }
-              u.mangaId = primary.id;
-              u.chapter.value = kept;
-              isar.updates.putSync(u);
-              u.chapter.saveSync();
-            }
-
-            final primarySyncIds = trackRepository
-                .getAllByMangaId(primary.id)
-                .map((t) => t.syncId)
-                .toSet();
-            for (final t in trackRepository.getAllByMangaId(otherId)) {
-              if (t.syncId != null && primarySyncIds.contains(t.syncId)) {
-                isar.tracks.deleteSync(t.id!);
-              } else {
-                t.mangaId = primary.id;
-                isar.tracks.putSync(t);
-                primarySyncIds.add(t.syncId);
-              }
-            }
-
-            if (chaptersToDelete.isNotEmpty) {
-              isar.downloads.deleteAllSync(chaptersToDelete);
-              isar.chapters.deleteAllSync(chaptersToDelete);
-            }
-            isar.mangas.deleteSync(otherId);
+            remap[chapter.id!] = existing;
+            chaptersToDelete.add(chapter.id!);
+          } else {
+            chapter.mangaId = primary.id;
+            chapter.manga.value = primary;
+            isar.chapters.putSync(chapter);
+            chapter.manga.saveSync();
+            if (key != null) primaryByUrl[key] = chapter;
+            remap[chapter.id!] = chapter;
           }
-        });
-      });
+        }
+        if (chaptersToUpdate.isNotEmpty) {
+          isar.chapters.putAllSync(chaptersToUpdate);
+        }
+
+        final historyEntries = historyRepository.getAllByMangaId(otherId);
+        for (final h in historyEntries) {
+          final kept = h.chapterId != null ? remap[h.chapterId] : null;
+          if (kept == null) {
+            isar.historys.deleteSync(h.id!);
+            continue;
+          }
+          h.mangaId = primary.id;
+          h.chapterId = kept.id;
+          h.chapter.value = kept;
+          isar.historys.putSync(h);
+          h.chapter.saveSync();
+        }
+
+        final updateEntries = updateRepository.getAllByMangaId(otherId);
+        for (final u in updateEntries) {
+          u.chapter.loadSync();
+          final oldChapter = u.chapter.value;
+          final kept = oldChapter != null ? remap[oldChapter.id] : null;
+          if (kept == null) {
+            isar.updates.deleteSync(u.id!);
+            continue;
+          }
+          u.mangaId = primary.id;
+          u.chapter.value = kept;
+          isar.updates.putSync(u);
+          u.chapter.saveSync();
+        }
+
+        final primarySyncIds = trackRepository.getAllByMangaId(primary.id).map((t) => t.syncId).toSet();
+        for (final t in trackRepository.getAllByMangaId(otherId)) {
+          if (t.syncId != null && primarySyncIds.contains(t.syncId)) {
+            isar.tracks.deleteSync(t.id!);
+          } else {
+            t.mangaId = primary.id;
+            isar.tracks.putSync(t);
+            primarySyncIds.add(t.syncId);
+          }
+        }
+
+        if (chaptersToDelete.isNotEmpty) {
+          isar.downloads.deleteAllSync(chaptersToDelete);
+          isar.chapters.deleteAllSync(chaptersToDelete);
+        }
+        isar.mangas.deleteSync(otherId);
+      }
+    });
+  });
 }
 
-String? _chapterDedupKey(Chapter c) =>
-    (c.url ?? '').isNotEmpty ? c.url!.getUrlWithoutDomain : null;
+String? _chapterDedupKey(Chapter c) => (c.url ?? '').isNotEmpty ? c.url!.getUrlWithoutDomain : null;
 
 final mangaRepository = MangaRepository();

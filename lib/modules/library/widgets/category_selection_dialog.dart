@@ -49,8 +49,7 @@ void showCategorySelectionDialog({
                   compact: true,
                 );
                 if (!snapshot.hasData || snapshot.data!.isEmpty) return empty;
-                var entries = (snapshot.data!
-                  ..sort((a, b) => (a.pos ?? 0).compareTo(b.pos ?? 0)));
+                var entries = (snapshot.data!..sort((a, b) => (a.pos ?? 0).compareTo(b.pos ?? 0)));
                 if (isFavorite || isBulk) {
                   // When item is in library, hide hidden categories in list
                   entries = entries.where((e) => !(e.hide ?? false)).toList();
@@ -69,9 +68,7 @@ void showCategorySelectionDialog({
                           label: category.name!,
                           onTap: () {
                             setState(() {
-                              isSelected
-                                  ? categoryIds.remove(category.id)
-                                  : categoryIds.add(category.id!);
+                              isSelected ? categoryIds.remove(category.id) : categoryIds.add(category.id!);
                             });
                           },
                           type: isSelected ? 1 : 0,

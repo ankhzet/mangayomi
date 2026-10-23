@@ -168,8 +168,7 @@ Future<void> downloadChapter(
           await dir
                 .list()
                 .where(
-                  (entity) =>
-                      entity is File && isRecognizedImageFile(entity.path),
+                  (entity) => entity is File && isRecognizedImageFile(entity.path),
                 )
                 .cast<File>()
                 .toList()
@@ -242,8 +241,7 @@ Future<void> downloadChapter(
       // completion.
       final now = DateTime.now();
       if (!progress.isCompleted &&
-          (percent == lastPersistedPercent ||
-              now.difference(lastPersistTime).inMilliseconds < 500)) {
+          (percent == lastPersistedPercent || now.difference(lastPersistTime).inMilliseconds < 500)) {
         return;
       }
       lastPersistedPercent = percent;
@@ -402,10 +400,8 @@ Future<void> downloadChapter(
         }
       }
       bool cbzFileExist =
-          (await File(p.join(mangaMainDirectory.path, "${chapter.name}.cbz"))
-                  .exists() ||
-              await File(p.join(mangaMainDirectory.path, "$chapterName.cbz"))
-                  .exists()) &&
+          (await File(p.join(mangaMainDirectory.path, "${chapter.name}.cbz")).exists() ||
+              await File(p.join(mangaMainDirectory.path, "$chapterName.cbz")).exists()) &&
           ref.read(saveAsCBZArchiveStateProvider);
       bool mp4FileExist = await File(
         p.join(mangaMainDirectory.path, "$chapterName.mp4"),
@@ -420,8 +416,7 @@ Future<void> downloadChapter(
         await storageProvider.createDirectorySafely(mainDirectory.path);
         for (var index = 0; index < pageUrls.length; index++) {
           if (Platform.isAndroid) {
-            if (!(await File(p.join(mainDirectory.path, ".nomedia"))
-                .exists())) {
+            if (!(await File(p.join(mainDirectory.path, ".nomedia")).exists())) {
               await File(p.join(mainDirectory.path, ".nomedia")).create();
             }
           }
@@ -578,12 +573,9 @@ Future<void> processDownloads(Ref ref, {bool? useWifi}) async {
     }
   } catch (error) {
     final context = navigatorKey.currentContext;
-    final l10n = context == null || !context.mounted
-        ? null
-        : l10nLocalizations(context);
+    final l10n = context == null || !context.mounted ? null : l10nLocalizations(context);
     botToast(
-      l10n?.download_queue_start_failed('$error') ??
-          'Could not start the download queue: $error',
+      l10n?.download_queue_start_failed('$error') ?? 'Could not start the download queue: $error',
     );
   } finally {
     keepAlive.close();

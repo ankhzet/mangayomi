@@ -77,8 +77,7 @@ class _GlyphPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_GlyphPainter old) =>
-      old.data != data || old.color != color || old.filled != filled;
+  bool shouldRepaint(_GlyphPainter old) => old.data != data || old.color != color || old.filled != filled;
 }
 
 final _cache = <String, Path>{};
@@ -87,10 +86,7 @@ final _cache = <String, Path>{};
 Path _parse(String data) => Path.from(
   _cache.putIfAbsent(data, () {
     final path = Path();
-    final tokens = RegExp(r'[MLCQZ]|-?\d+(?:\.\d+)?')
-        .allMatches(data)
-        .map((m) => m.group(0)!)
-        .toList();
+    final tokens = RegExp(r'[MLCQZ]|-?\d+(?:\.\d+)?').allMatches(data).map((m) => m.group(0)!).toList();
     var command = 'M';
     var i = 0;
     double next() => double.parse(tokens[i++]);

@@ -12,8 +12,7 @@ part of 'sync_providers.dart';
 @ProviderFor(Synching)
 final synchingProvider = SynchingFamily._();
 
-final class SynchingProvider
-    extends $NotifierProvider<Synching, SyncPreference> {
+final class SynchingProvider extends $NotifierProvider<Synching, SyncPreference> {
   SynchingProvider._({
     required SynchingFamily super.from,
     required int? super.argument,
@@ -61,14 +60,7 @@ final class SynchingProvider
 String _$synchingHash() => r'422773300c817094fecf0e9a0ae2fbc97c8beb51';
 
 final class SynchingFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          Synching,
-          SyncPreference,
-          SyncPreference,
-          SyncPreference,
-          int?
-        > {
+    with $ClassFamilyOverride<Synching, SyncPreference, SyncPreference, SyncPreference, int?> {
   SynchingFamily._()
     : super(
         retry: null,
@@ -78,8 +70,7 @@ final class SynchingFamily extends $Family
         isAutoDispose: true,
       );
 
-  SynchingProvider call({required int? syncId}) =>
-      SynchingProvider._(argument: syncId, from: this);
+  SynchingProvider call({required int? syncId}) => SynchingProvider._(argument: syncId, from: this);
 
   @override
   String toString() => r'synchingProvider';
@@ -96,12 +87,7 @@ abstract class _$Synching extends $Notifier<SyncPreference> {
     final ref = this.ref as $Ref<SyncPreference, SyncPreference>;
     final element =
         ref.element
-            as $ClassProviderElement<
-              AnyNotifier<SyncPreference, SyncPreference>,
-              SyncPreference,
-              Object?,
-              Object?
-            >;
+            as $ClassProviderElement<AnyNotifier<SyncPreference, SyncPreference>, SyncPreference, Object?, Object?>;
     return element.handleCreate(ref, () => build(syncId: _$args));
   }
 }
@@ -118,8 +104,7 @@ final restoreSyncGuardProvider = RestoreSyncGuardProvider._();
 /// main_screen.dart pauses the auto-sync timer while this is true, and
 /// syncServerProvider itself checks it too, so a manual sync trigger or an
 /// already-running periodic timer can't race with an in-progress restore.
-final class RestoreSyncGuardProvider
-    extends $NotifierProvider<RestoreSyncGuard, bool> {
+final class RestoreSyncGuardProvider extends $NotifierProvider<RestoreSyncGuard, bool> {
   /// True while a restore (and its post-restore upload) is in progress.
   /// main_screen.dart pauses the auto-sync timer while this is true, and
   /// syncServerProvider itself checks it too, so a manual sync trigger or an
@@ -164,14 +149,7 @@ abstract class _$RestoreSyncGuard extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

@@ -59,8 +59,7 @@ final class GetMangaCategorieStreamProvider
   }
 }
 
-String _$getMangaCategorieStreamHash() =>
-    r'1d2139801c20ebecbfedd8e57648986cb4545e2d';
+String _$getMangaCategorieStreamHash() => r'1d2139801c20ebecbfedd8e57648986cb4545e2d';
 
 final class GetMangaCategorieStreamFamily extends $Family
     with $FunctionalFamilyOverride<Stream<List<Category>>, ItemType> {

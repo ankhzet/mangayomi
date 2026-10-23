@@ -78,9 +78,7 @@ class _WatchOrderScreenState extends State<WatchOrderScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       final rowContext = _currentRowKey.currentContext;
-      final position = rowContext == null
-          ? null
-          : Scrollable.maybeOf(rowContext)?.position;
+      final position = rowContext == null ? null : Scrollable.maybeOf(rowContext)?.position;
       if (position == null || !position.hasContentDimensions) {
         // Not ready yet. Frames are cheap and this stops within ~10 of them.
         if (attempt < 10) _tryAnchor(attempt + 1);
@@ -115,9 +113,7 @@ class _WatchOrderScreenState extends State<WatchOrderScreen> {
           // has to pass its display name here. Its `username` is a numeric
           // viewer id, which the lookup silently answers nothing for.
           final data = await fetchSequels(mal?.username, anilist?.displayName);
-          sequels = data
-              .where((e) => e.reason.any((r) => r.id == mediaId.toString()))
-              .toList();
+          sequels = data.where((e) => e.reason.any((r) => r.id == mediaId.toString())).toList();
         }
       } else {
         plan = await _fetchPlan(selectedSourceKey: _requestedSourceKey);
@@ -326,19 +322,17 @@ class _WatchOrderScreenState extends State<WatchOrderScreen> {
   String _sourceLabel(WatchOrderSource source) {
     final l10n = context.l10n;
     return switch (source.kind) {
-      WatchOrderSourceKind.animeReleaseOrder =>
-        '${l10n.watch_order_source_release_order} · ${source.service}',
-      WatchOrderSourceKind.traktOfficialList =>
-        l10n.watch_order_source_official_collection(
-          source.name ?? source.service,
-        ),
-      WatchOrderSourceKind.traktCommunityList when source.author != null =>
-        l10n.watch_order_source_community_list(
-          source.name ?? source.service,
-          source.author!,
-        ),
-      WatchOrderSourceKind.traktCommunityList =>
-        l10n.watch_order_source_trakt_collection(source.name ?? source.service),
+      WatchOrderSourceKind.animeReleaseOrder => '${l10n.watch_order_source_release_order} · ${source.service}',
+      WatchOrderSourceKind.traktOfficialList => l10n.watch_order_source_official_collection(
+        source.name ?? source.service,
+      ),
+      WatchOrderSourceKind.traktCommunityList when source.author != null => l10n.watch_order_source_community_list(
+        source.name ?? source.service,
+        source.author!,
+      ),
+      WatchOrderSourceKind.traktCommunityList => l10n.watch_order_source_trakt_collection(
+        source.name ?? source.service,
+      ),
       WatchOrderSourceKind.traktSeasons => l10n.watch_order_source_seasons(
         widget.media.title,
       ),
@@ -371,10 +365,7 @@ class _WatchOrderScreenState extends State<WatchOrderScreen> {
           child: Column(
             children: [
               for (var index = 0; index < items.length; index++)
-                if (items[index].depth == 0)
-                  _topLevelRow(items, index)
-                else
-                  _childRow(items[index]),
+                if (items[index].depth == 0) _topLevelRow(items, index) else _childRow(items[index]),
             ],
           ),
         ),
@@ -385,9 +376,7 @@ class _WatchOrderScreenState extends State<WatchOrderScreen> {
   Widget _topLevelRow(List<WatchOrderItem> items, int index) {
     final item = items[index];
     final isCurrent = item.role == WatchOrderRole.current;
-    final hasLaterTitle = items
-        .skip(index + 1)
-        .any((candidate) => candidate.depth == 0);
+    final hasLaterTitle = items.skip(index + 1).any((candidate) => candidate.depth == 0);
     return Column(
       children: [
         Material(
@@ -401,9 +390,7 @@ class _WatchOrderScreenState extends State<WatchOrderScreen> {
             focusColor: context.shiori.color.accent.withValues(
               alpha: Alphas.focus,
             ),
-            onTap: item.searchTarget == null
-                ? null
-                : () => _openWatchOrder(item),
+            onTap: item.searchTarget == null ? null : () => _openWatchOrder(item),
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: ShioriSpace.s8,
@@ -534,9 +521,7 @@ class _WatchOrderScreenState extends State<WatchOrderScreen> {
             fontWeight: FontWeight.w700,
           ),
         ),
-        if (item.nameEnglish != null &&
-            item.nameEnglish!.isNotEmpty &&
-            item.nameEnglish != item.name)
+        if (item.nameEnglish != null && item.nameEnglish!.isNotEmpty && item.nameEnglish != item.name)
           Text(
             item.nameEnglish!,
             maxLines: 1,
@@ -598,9 +583,7 @@ class _WatchOrderScreenState extends State<WatchOrderScreen> {
       height: height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(ShioriShape.cover),
-        border: isCurrent
-            ? Border.all(color: context.shiori.color.accentInk, width: 3)
-            : null,
+        border: isCurrent ? Border.all(color: context.shiori.color.accentInk, width: 3) : null,
         image: DecorationImage(
           image: CustomExtendedNetworkImageProvider(toImgUrl(imageUrl ?? "")),
           fit: BoxFit.cover,
@@ -665,11 +648,14 @@ class _WatchOrderScreenState extends State<WatchOrderScreen> {
       builder: (context, constraints) {
         // Make sure that (constraints.maxWidth - (35 + 5)) is strictly positive.
         final double availableWidth = constraints.maxWidth - (35 + 5);
-        final textPainter = TextPainter(
-          text: TextSpan(text: text, style: context.shiori.text.row),
-          maxLines: 1,
-          textDirection: TextDirection.ltr,
-        )..layout(maxWidth: availableWidth > 0 ? availableWidth : 1.0); // - Download icon size (download_page_widget.dart, Widget Build SizedBox width: 35)
+        final textPainter =
+            TextPainter(
+              text: TextSpan(text: text, style: context.shiori.text.row),
+              maxLines: 1,
+              textDirection: TextDirection.ltr,
+            )..layout(
+              maxWidth: availableWidth > 0 ? availableWidth : 1.0,
+            ); // - Download icon size (download_page_widget.dart, Widget Build SizedBox width: 35)
 
         final isOverflowing = textPainter.didExceedMaxLines;
 

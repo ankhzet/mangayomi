@@ -24,11 +24,7 @@ class ListTileChapterSort extends StatelessWidget {
     final c = tokens.color;
     return Semantics(
       selected: showLeading,
-      value: showLeading
-          ? (reverse
-                ? context.l10n.sort_ascending
-                : context.l10n.sort_descending)
-          : null,
+      value: showLeading ? (reverse ? context.l10n.sort_ascending : context.l10n.sort_descending) : null,
       child: Material(
         type: MaterialType.transparency,
         child: ListTile(

@@ -97,9 +97,7 @@ Uri buildIssueUrl(
 /// The last few errors as plain text, for the "Recent errors" block and for
 /// anyone who would rather copy the lot than open a browser.
 String recentErrorsText(List<CrashReport> reports, {int take = 5}) {
-  final recent = reports.length <= take
-      ? reports
-      : reports.sublist(reports.length - take);
+  final recent = reports.length <= take ? reports : reports.sublist(reports.length - take);
   return recent
       .map(
         (r) =>
@@ -150,9 +148,7 @@ Uri _fitIssueUrl(Map<String, String> query) {
       final value = query[entry.key]!;
       if (value.length <= entry.value) continue;
       final reduction = value.length ~/ 4 < 64 ? 64 : value.length ~/ 4;
-      final nextLength = value.length - reduction < entry.value
-          ? entry.value
-          : value.length - reduction;
+      final nextLength = value.length - reduction < entry.value ? entry.value : value.length - reduction;
       query[entry.key] = _capTo(value, nextLength);
       changed = true;
       break;

@@ -136,17 +136,13 @@ class ReaderController extends _$ReaderController with ChapterControllerMixin, C
     if (pageLength == 0 || (!save && newIndex == _lastSavedIndex)) return;
     _lastSavedIndex = newIndex;
     final isContinuousLike = getCachedIsContinuousLike();
-    final isRead = isContinuousLike
-        ? (newIndex + 2) >= pageLength - 1
-        : (newIndex + 2) >= pageLength;
+    final isRead = isContinuousLike ? (newIndex + 2) >= pageLength - 1 : (newIndex + 2) >= pageLength;
     if (isRead || save) {
       void executeSave() {
         if (chapter.isRead! || incognitoMode) return;
         List<ChapterPageIndex>? chapterPageIndexs = [];
-        for (var chapterPageIndex
-            in getIsarSetting().chapterPageIndexList ?? []) {
-          if (chapterPageIndex.chapterId != chapter.id &&
-              (chapterPageIndex.index ?? 0) > 0) {
+        for (var chapterPageIndex in getIsarSetting().chapterPageIndexList ?? []) {
+          if (chapterPageIndex.chapterId != chapter.id && (chapterPageIndex.index ?? 0) > 0) {
             chapterPageIndexs.add(chapterPageIndex);
           }
         }

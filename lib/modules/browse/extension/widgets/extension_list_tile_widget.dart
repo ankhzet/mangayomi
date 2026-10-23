@@ -33,8 +33,7 @@ class _ExtensionListTileWidgetState extends ConsumerState<ExtensionListTileWidge
           ) <
           0;
 
-  bool get _sourceNotEmpty =>
-      widget.source.sourceCode != null && widget.source.sourceCode!.isNotEmpty;
+  bool get _sourceNotEmpty => widget.source.sourceCode != null && widget.source.sourceCode!.isNotEmpty;
 
   Future<void> _handleSourceFetch() async {
     setState(() => _isLoading = true);
@@ -112,8 +111,7 @@ class _ExtensionListTileWidgetState extends ConsumerState<ExtensionListTileWidge
             ].join(' · '),
             style: tokens.caption,
           ),
-          if (widget.source.isNsfw ?? false)
-            EntryBadgeChip(label: 'NSFW', tone: tokens.color.error),
+          if (widget.source.isNsfw ?? false) EntryBadgeChip(label: 'NSFW', tone: tokens.color.error),
           if (widget.source.isObsolete ?? false)
             EntryBadgeChip(
               label: context.l10n.obsolete.toUpperCase(),

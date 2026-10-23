@@ -64,9 +64,7 @@ String audioTrackLabel(AudioTrack? track) {
   final sampleRate = track.samplerate;
   if (sampleRate != null && sampleRate > 0) {
     final kilohertz = sampleRate / 1000;
-    final rate = kilohertz == kilohertz.roundToDouble()
-        ? kilohertz.toInt().toString()
-        : kilohertz.toStringAsFixed(1);
+    final rate = kilohertz == kilohertz.roundToDouble() ? kilohertz.toInt().toString() : kilohertz.toStringAsFixed(1);
     details.add('${rate}kHz');
   }
 

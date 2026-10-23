@@ -86,8 +86,7 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
       _loadImage(refresh: true, evictCache: false);
       return;
     }
-    final bool imageLoaded =
-        _uiImage == null && widget.data.decodedImage != null;
+    final bool imageLoaded = _uiImage == null && widget.data.decodedImage != null;
     if (imageLoaded) {
       _uiImage?.dispose();
       _uiImage = widget.data.decodedImage!.clone();
@@ -155,8 +154,7 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
       });
     }
 
-    final String? path =
-        widget.data.resolvedFilePath ?? await widget.data.getLocalFilePath;
+    final String? path = widget.data.resolvedFilePath ?? await widget.data.getLocalFilePath;
     if (path != null) {
       widget.data.resolvedFilePath = path;
     }
@@ -168,9 +166,7 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
       _streamListener = ImageStreamListener(
         (info, syncCall) async {
           _cleanStream();
-          final cachedPath =
-              widget.data.resolvedFilePath ??
-              await widget.data.getLocalFilePath;
+          final cachedPath = widget.data.resolvedFilePath ?? await widget.data.getLocalFilePath;
           if (cachedPath != null) {
             widget.data.resolvedFilePath = cachedPath;
           }
@@ -380,13 +376,11 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
     final placeholderHeight = hasDimensions
         ? (widget.isHorizontal
               ? context.height(0.8)
-              : MediaQuery.of(context).size.width *
-                    (widget.data.loadedHeight! / widget.data.loadedWidth!))
+              : MediaQuery.of(context).size.width * (widget.data.loadedHeight! / widget.data.loadedWidth!))
         : context.height(0.8);
     final placeholderWidth = widget.isHorizontal
         ? (hasDimensions
-              ? context.height(0.8) *
-                    (widget.data.loadedWidth! / widget.data.loadedHeight!)
+              ? context.height(0.8) * (widget.data.loadedWidth! / widget.data.loadedHeight!)
               : (widget.data.loadedWidth ?? context.width(0.8)))
         : double.infinity;
 

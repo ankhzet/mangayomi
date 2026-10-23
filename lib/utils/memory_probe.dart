@@ -44,8 +44,7 @@ class MemorySample {
   final int decodedMaxBytes;
 
   /// How full the byte budget is, 0 to 1.
-  double get cacheFullness =>
-      imageCacheMaxBytes == 0 ? 0 : imageCacheBytes / imageCacheMaxBytes;
+  double get cacheFullness => imageCacheMaxBytes == 0 ? 0 : imageCacheBytes / imageCacheMaxBytes;
 
   /// Whether this reading is close enough to the ceiling that the next image
   /// decoded will evict something.
@@ -115,18 +114,10 @@ class MemoryStats {
   MemoryStats add(MemorySample sample) => MemoryStats(
     samples: samples + 1,
     atCeiling: atCeiling + (sample.atCeiling ? 1 : 0),
-    peakRssBytes: sample.rssBytes > peakRssBytes
-        ? sample.rssBytes
-        : peakRssBytes,
-    peakCacheBytes: sample.imageCacheBytes > peakCacheBytes
-        ? sample.imageCacheBytes
-        : peakCacheBytes,
-    peakCacheCount: sample.imageCacheCount > peakCacheCount
-        ? sample.imageCacheCount
-        : peakCacheCount,
-    peakDecodedBytes: sample.decodedBytes > peakDecodedBytes
-        ? sample.decodedBytes
-        : peakDecodedBytes,
+    peakRssBytes: sample.rssBytes > peakRssBytes ? sample.rssBytes : peakRssBytes,
+    peakCacheBytes: sample.imageCacheBytes > peakCacheBytes ? sample.imageCacheBytes : peakCacheBytes,
+    peakCacheCount: sample.imageCacheCount > peakCacheCount ? sample.imageCacheCount : peakCacheCount,
+    peakDecodedBytes: sample.decodedBytes > peakDecodedBytes ? sample.decodedBytes : peakDecodedBytes,
     latest: sample,
   );
 }
@@ -140,9 +131,7 @@ String formatBytes(int bytes) {
   if (bytes < 1024) return '$bytes B';
   if (bytes < mb) return '${(bytes / 1024).toStringAsFixed(0)} KB';
   final megabytes = bytes / mb;
-  return megabytes >= 100
-      ? '${megabytes.toStringAsFixed(0)} MB'
-      : '${megabytes.toStringAsFixed(1)} MB';
+  return megabytes >= 100 ? '${megabytes.toStringAsFixed(0)} MB' : '${megabytes.toStringAsFixed(1)} MB';
 }
 
 /// Samples memory on a timer while it is switched on.

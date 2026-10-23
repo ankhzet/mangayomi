@@ -22,11 +22,7 @@ class SettingsRepository {
 
   List<Settings> getAll() => isar.settings.filter().idIsNotNull().findAllSync();
 
-  Stream<Settings> watch() => isar.settings
-      .where()
-      .idEqualTo(227)
-      .watch(fireImmediately: true)
-      .map((l) => l.first);
+  Stream<Settings> watch() => isar.settings.where().idEqualTo(227).watch(fireImmediately: true).map((l) => l.first);
 
   Future<void> update(void Function(Settings s) mutate) => dbWriteQueue.run(() {
     isar.writeTxnSync(() {
@@ -55,22 +51,18 @@ class SettingsRepository {
 
   Future<int> putAsync(Settings s) => isar.settings.put(s);
 
-  void putAllSync(List<Settings> settingsList) =>
-      isar.settings.putAllSync(settingsList);
+  void putAllSync(List<Settings> settingsList) => isar.settings.putAllSync(settingsList);
 
   void clearSync() => isar.settings.clearSync();
 
   // Escape hatch for Settings-rooted transactions too specific to name
   // (e.g. first-run seeding).
-  Future<T> transaction<T>(FutureOr<T> Function() body) =>
-      dbWriteQueue.run(body);
+  Future<T> transaction<T>(FutureOr<T> Function() body) => dbWriteQueue.run(body);
 
   // Same, but opens the write transaction too, so callers never touch isar.
-  Future<T> writeTransaction<T>(T Function() body) =>
-      dbWriteQueue.run(() => isar.writeTxnSync(body));
+  Future<T> writeTransaction<T>(T Function() body) => dbWriteQueue.run(() => isar.writeTxnSync(body));
 
-  Future<T> writeTransactionAsync<T>(Future<T> Function() body) =>
-      dbWriteQueue.run(() => isar.writeTxn(body));
+  Future<T> writeTransactionAsync<T>(Future<T> Function() body) => dbWriteQueue.run(() => isar.writeTxn(body));
 }
 
 final settingsRepository = SettingsRepository();

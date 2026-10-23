@@ -48,18 +48,13 @@ class TachiyomiRestoreService {
       CodedBufferReader(content, sizeLimit: 250 << 20),
     );
 
-    final installedSources = sourceRepository
-        .getAll()
-        .where((s) => s.isAdded ?? false)
-        .toList();
+    final installedSources = sourceRepository.getAll().where((s) => s.isAdded ?? false).toList();
 
     Source? resolveSource(String originalName, ItemType itemType) {
       final decision = sourceDecisions[originalName];
       if (decision != null) return sourceRepository.getById(decision);
       return installedSources.firstWhereOrNull(
-        (s) =>
-            s.itemType == itemType &&
-            s.name?.toLowerCase() == originalName.toLowerCase(),
+        (s) => s.itemType == itemType && s.name?.toLowerCase() == originalName.toLowerCase(),
       );
     }
 
@@ -71,9 +66,7 @@ class TachiyomiRestoreService {
         chapterRepository.clearSync();
         historyRepository.clearSync();
       }
-      final existingCategories = merge
-          ? categoryRepository.getByItemType(ItemType.manga)
-          : <Category>[];
+      final existingCategories = merge ? categoryRepository.getByItemType(ItemType.manga) : <Category>[];
       for (var category in backup.backupCategories) {
         final order = protoInt(category.order);
         final existing = existingCategories.firstWhereOrNull(
@@ -101,10 +94,7 @@ class TachiyomiRestoreService {
       for (var tempManga in backup.backupManga) {
         final sourceId = protoInt(tempManga.source);
         final categoryOrders = tempManga.categories.map(protoInt).toSet();
-        final newCategoryIds = categoryOrders
-            .map((o) => categoryByOrder[o]?.id)
-            .whereType<int>()
-            .toList();
+        final newCategoryIds = categoryOrders.map((o) => categoryByOrder[o]?.id).whereType<int>().toList();
         final existingManga = existingMangaByLink[tempManga.url];
         final Manga manga;
         final bool isNewManga = existingManga == null;
@@ -114,10 +104,7 @@ class TachiyomiRestoreService {
           manga.categories = {...?manga.categories, ...newCategoryIds}.toList();
         } else {
           final originalSourceName =
-              backup.backupSources
-                  .firstWhereOrNull((src) => protoInt(src.sourceId) == sourceId)
-                  ?.name ??
-              "Unknown";
+              backup.backupSources.firstWhereOrNull((src) => protoInt(src.sourceId) == sourceId)?.name ?? "Unknown";
           final boundSource = resolveSource(originalSourceName, ItemType.manga);
           manga = Manga(
             source: boundSource?.name ?? originalSourceName,
@@ -159,17 +146,13 @@ class TachiyomiRestoreService {
                 : "${DateTime.now().millisecondsSinceEpoch - protoInt(tempChapter.dateUpload).abs()}",
             isBookmarked: tempChapter.bookmark,
             isRead: tempChapter.read,
-            lastPageRead: protoInt(tempChapter.lastPageRead) != 0
-                ? "${protoInt(tempChapter.lastPageRead)}"
-                : "1",
+            lastPageRead: protoInt(tempChapter.lastPageRead) != 0 ? "${protoInt(tempChapter.lastPageRead)}" : "1",
             scanlator: tempChapter.scanlator,
             url: tempChapter.url,
           );
           chapterRepository.putSync(chapter..manga.value = manga);
           chapter.manga.saveSync();
-          if ((history == null ||
-              int.parse(history.date ?? "0") <
-                  protoInt(tempChapter.lastModifiedAt))) {
+          if ((history == null || int.parse(history.date ?? "0") < protoInt(tempChapter.lastModifiedAt))) {
             history = History(
               mangaId: manga.id,
               date: bkType != BackupType.neko
@@ -180,9 +163,7 @@ class TachiyomiRestoreService {
             )..chapter.value = chapter;
           }
         }
-        if (history != null &&
-            (!merge ||
-                historyRepository.findFirstByMangaId(manga.id) == null)) {
+        if (history != null && (!merge || historyRepository.findFirstByMangaId(manga.id) == null)) {
           historyRepository.putSync(history);
           history.chapter.saveSync();
         }
@@ -194,17 +175,13 @@ class TachiyomiRestoreService {
       final animeCategories = backupAnime.backupAnimeCategories.isNotEmpty
           ? backupAnime.backupAnimeCategories
           : backupAnime.legacyBackupAnimeCategories;
-      final animeEntries = backupAnime.backupAnime.isNotEmpty
-          ? backupAnime.backupAnime
-          : backupAnime.legacyBackupAnime;
+      final animeEntries = backupAnime.backupAnime.isNotEmpty ? backupAnime.backupAnime : backupAnime.legacyBackupAnime;
       final animeSources = backupAnime.backupAnimeSources.isNotEmpty
           ? backupAnime.backupAnimeSources
           : backupAnime.legacyBackupAnimeSources;
       final categoryByOrder = <int, Category>{};
       await restoreRepository.run(() {
-        final existingAnimeCategories = merge
-            ? categoryRepository.getByItemType(ItemType.anime)
-            : <Category>[];
+        final existingAnimeCategories = merge ? categoryRepository.getByItemType(ItemType.anime) : <Category>[];
         for (var category in animeCategories) {
           final order = protoInt(category.order);
           final existing = existingAnimeCategories.firstWhereOrNull(
@@ -232,10 +209,7 @@ class TachiyomiRestoreService {
         for (var tempAnime in animeEntries) {
           final sourceId = protoInt(tempAnime.source);
           final categoryOrders = tempAnime.categories.map(protoInt).toSet();
-          final newCategoryIds = categoryOrders
-              .map((o) => categoryByOrder[o]?.id)
-              .whereType<int>()
-              .toList();
+          final newCategoryIds = categoryOrders.map((o) => categoryByOrder[o]?.id).whereType<int>().toList();
           final existingAnime = existingAnimeByLink[tempAnime.url];
           final Manga anime;
           final bool isNewAnime = existingAnime == null;
@@ -301,9 +275,7 @@ class TachiyomiRestoreService {
             );
             chapterRepository.putSync(episode..manga.value = anime);
             episode.manga.saveSync();
-            if ((history == null ||
-                int.parse(history.date ?? "0") <
-                    protoInt(tempEpisode.lastModifiedAt))) {
+            if ((history == null || int.parse(history.date ?? "0") < protoInt(tempEpisode.lastModifiedAt))) {
               history = History(
                 mangaId: anime.id,
                 date: "${protoInt(tempEpisode.lastModifiedAt)}",
@@ -312,9 +284,7 @@ class TachiyomiRestoreService {
               )..chapter.value = episode;
             }
           }
-          if (history != null &&
-              (!merge ||
-                  historyRepository.findFirstByMangaId(anime.id) == null)) {
+          if (history != null && (!merge || historyRepository.findFirstByMangaId(anime.id) == null)) {
             historyRepository.putSync(history);
             history.chapter.saveSync();
           }

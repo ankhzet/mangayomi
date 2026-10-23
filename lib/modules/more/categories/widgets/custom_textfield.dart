@@ -23,9 +23,7 @@ Future<String?> promptCategoryName(
     validator: (text) {
       final t = text.trim();
       if (t == initial) return null;
-      return existing.any((c) => c.name == t)
-          ? l10n.add_category_error_exist
-          : null;
+      return existing.any((c) => c.name == t) ? l10n.add_category_error_exist : null;
     },
   );
   final trimmed = name?.trim();

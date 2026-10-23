@@ -20,9 +20,7 @@ class TvHomeCard extends ConsumerWidget {
     final unread = manga.chapters.where((c) => !(c.isRead ?? true)).length;
     // Series progress = episodes watched / total (episode duration isn't
     // reliably stored, so within-episode progress isn't available).
-    final progress = (total > 0 && read > 0 && read < total)
-        ? read / total
-        : 0.0;
+    final progress = (total > 0 && read > 0 && read < total) ? read / total : 0.0;
     final source = manga.source ?? '';
     return CoverViewWidget(
       isComfortableGrid: true,

@@ -12,8 +12,7 @@ part of 'file_scanner.dart';
 @ProviderFor(LocalFoldersState)
 final localFoldersStateProvider = LocalFoldersStateProvider._();
 
-final class LocalFoldersStateProvider
-    extends $NotifierProvider<LocalFoldersState, List<LocalFolder>> {
+final class LocalFoldersStateProvider extends $NotifierProvider<LocalFoldersState, List<LocalFolder>> {
   LocalFoldersStateProvider._()
     : super(
         from: null,
@@ -62,11 +61,9 @@ abstract class _$LocalFoldersState extends $Notifier<List<LocalFolder>> {
 }
 
 @ProviderFor(DownloadLocalFolderNameState)
-final downloadLocalFolderNameStateProvider =
-    DownloadLocalFolderNameStateProvider._();
+final downloadLocalFolderNameStateProvider = DownloadLocalFolderNameStateProvider._();
 
-final class DownloadLocalFolderNameStateProvider
-    extends $NotifierProvider<DownloadLocalFolderNameState, String?> {
+final class DownloadLocalFolderNameStateProvider extends $NotifierProvider<DownloadLocalFolderNameState, String?> {
   DownloadLocalFolderNameStateProvider._()
     : super(
         from: null,
@@ -94,8 +91,7 @@ final class DownloadLocalFolderNameStateProvider
   }
 }
 
-String _$downloadLocalFolderNameStateHash() =>
-    r'7b0b53217a77ef741221bd74cd1903789512e98e';
+String _$downloadLocalFolderNameStateHash() => r'7b0b53217a77ef741221bd74cd1903789512e98e';
 
 abstract class _$DownloadLocalFolderNameState extends $Notifier<String?> {
   String? build();
@@ -103,14 +99,7 @@ abstract class _$DownloadLocalFolderNameState extends $Notifier<String?> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<String?, String?>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String?, String?>,
-              String?,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String?, String?>, String?, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

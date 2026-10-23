@@ -314,9 +314,7 @@ Manga _mangaDeserialize(
     imageUrl: reader.readStringOrNull(offsets[10]),
     isLocalArchive: reader.readBoolOrNull(offsets[11]),
     isManga: reader.readBoolOrNull(offsets[12]),
-    itemType:
-        _MangaitemTypeValueEnumMap[reader.readByteOrNull(offsets[13])] ??
-        ItemType.manga,
+    itemType: _MangaitemTypeValueEnumMap[reader.readByteOrNull(offsets[13])] ?? ItemType.manga,
     lang: reader.readStringOrNull(offsets[14]),
     lastRead: reader.readLongOrNull(offsets[15]),
     lastUpdate: reader.readLongOrNull(offsets[16]),
@@ -325,9 +323,7 @@ Manga _mangaDeserialize(
     smartUpdateDays: reader.readLongOrNull(offsets[19]),
     source: reader.readStringOrNull(offsets[20]),
     sourceId: reader.readLongOrNull(offsets[21]),
-    status:
-        _MangastatusValueEnumMap[reader.readByteOrNull(offsets[22])] ??
-        Status.ongoing,
+    status: _MangastatusValueEnumMap[reader.readByteOrNull(offsets[22])] ?? Status.ongoing,
     updatedAt: reader.readLongOrNull(offsets[23]),
   );
   return object;
@@ -367,9 +363,7 @@ P _mangaDeserializeProp<P>(
     case 12:
       return (reader.readBoolOrNull(offset)) as P;
     case 13:
-      return (_MangaitemTypeValueEnumMap[reader.readByteOrNull(offset)] ??
-              ItemType.manga)
-          as P;
+      return (_MangaitemTypeValueEnumMap[reader.readByteOrNull(offset)] ?? ItemType.manga) as P;
     case 14:
       return (reader.readStringOrNull(offset)) as P;
     case 15:
@@ -387,9 +381,7 @@ P _mangaDeserializeProp<P>(
     case 21:
       return (reader.readLongOrNull(offset)) as P;
     case 22:
-      return (_MangastatusValueEnumMap[reader.readByteOrNull(offset)] ??
-              Status.ongoing)
-          as P;
+      return (_MangastatusValueEnumMap[reader.readByteOrNull(offset)] ?? Status.ongoing) as P;
     case 23:
       return (reader.readLongOrNull(offset)) as P;
     default:
@@ -858,8 +850,7 @@ extension MangaQueryWhere on QueryBuilder<Manga, Manga, QWhereClause> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterWhereClause>
-  favoriteEqualToItemTypeNotEqualTo(bool? favorite, ItemType itemType) {
+  QueryBuilder<Manga, Manga, QAfterWhereClause> favoriteEqualToItemTypeNotEqualTo(bool? favorite, ItemType itemType) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -901,8 +892,7 @@ extension MangaQueryWhere on QueryBuilder<Manga, Manga, QWhereClause> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterWhereClause>
-  favoriteEqualToItemTypeGreaterThan(
+  QueryBuilder<Manga, Manga, QAfterWhereClause> favoriteEqualToItemTypeGreaterThan(
     bool? favorite,
     ItemType itemType, {
     bool include = false,
@@ -1557,8 +1547,7 @@ extension MangaQueryFilter on QueryBuilder<Manga, Manga, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Manga, Manga, QAfterFilterCondition>
-  customCoverFromTrackerIsNull() {
+  QueryBuilder<Manga, Manga, QAfterFilterCondition> customCoverFromTrackerIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'customCoverFromTracker'),
@@ -4543,8 +4532,7 @@ extension MangaQueryProperty on QueryBuilder<Manga, Manga, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Manga, String?, QQueryOperations>
-  customCoverFromTrackerProperty() {
+  QueryBuilder<Manga, String?, QQueryOperations> customCoverFromTrackerProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'customCoverFromTracker');
     });

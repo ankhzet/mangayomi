@@ -33,8 +33,7 @@ class _CustomNavigationSettingsState extends ConsumerState<CustomNavigationSetti
                 title: l10n.anime_only_tv_layout,
                 subtitle: l10n.anime_only_beta_subtitle,
                 value: ref.watch(animeOnlyTvModeProvider),
-                onChanged: (v) =>
-                    ref.read(animeOnlyTvModeProvider.notifier).set(v),
+                onChanged: (v) => ref.read(animeOnlyTvModeProvider.notifier).set(v),
               ),
               ShioriSwitchRow(
                 title: l10n.group_nav_destinations,
@@ -48,9 +47,7 @@ class _CustomNavigationSettingsState extends ConsumerState<CustomNavigationSetti
                 ShioriSwitchRow(
                   title: l10n.merge_library_nav_mobile,
                   value: mergeLibraryNavMobile,
-                  onChanged: (v) => ref
-                      .read(mergeLibraryNavMobileStateProvider.notifier)
-                      .set(v),
+                  onChanged: (v) => ref.read(mergeLibraryNavMobileStateProvider.notifier).set(v),
                 ),
             ],
           ),

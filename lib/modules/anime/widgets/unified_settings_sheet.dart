@@ -157,10 +157,7 @@ Future<void> showDesktopPlayerSettingsMenu(
   // flipping above when (as here, a bottom control bar) there's no room
   // below, exactly like YouTube's gear menu growing upward from the bar.
   final RelativeRect position;
-  if (button != null &&
-      button.attached &&
-      button.hasSize &&
-      button.size != overlay.size) {
+  if (button != null && button.attached && button.hasSize && button.size != overlay.size) {
     position = RelativeRect.fromRect(
       Rect.fromPoints(
         button.localToGlobal(Offset.zero, ancestor: overlay),

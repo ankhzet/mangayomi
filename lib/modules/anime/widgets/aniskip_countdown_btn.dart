@@ -85,9 +85,7 @@ class _AniSkipCountDownButtonState extends ConsumerState<AniSkipCountDownButton>
           child: AnimatedBuilder(
             animation: _controller,
             builder: (context, child) {
-              final remaining =
-                  widget.timeoutLength -
-                  (_controller.duration! * _controller.value).inSeconds;
+              final remaining = widget.timeoutLength - (_controller.duration! * _controller.value).inSeconds;
               return ConstrainedBox(
                 constraints: BoxConstraints(
                   minHeight: tokens.density.minTarget,

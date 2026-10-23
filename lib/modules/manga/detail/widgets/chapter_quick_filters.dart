@@ -32,8 +32,7 @@ class ChapterQuickFilters extends ConsumerWidget {
     // Each filter carries its count, which a row of figures above the
     // header used to repeat: the number sits where it can be acted on.
     final chapters = manga.chapters.toList();
-    final downloadedIds =
-        ref.watch(downloadedChapterIdsProvider).asData?.value ?? const <int>{};
+    final downloadedIds = ref.watch(downloadedChapterIdsProvider).asData?.value ?? const <int>{};
     final chips = <(String, int, int, VoidCallback)>[
       (
         manga.itemType == ItemType.anime ? l10n.unwatched : l10n.unread,
@@ -71,9 +70,7 @@ class ChapterQuickFilters extends ConsumerWidget {
                 avatar: state == 0
                     ? null
                     : Icon(
-                        state == 1
-                            ? Symbols.check_rounded
-                            : Symbols.block_rounded,
+                        state == 1 ? Symbols.check_rounded : Symbols.block_rounded,
                         color: state == 1 ? c.accentInk : c.error.foreground,
                       ),
                 label: Text.rich(

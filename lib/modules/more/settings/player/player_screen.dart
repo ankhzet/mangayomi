@@ -34,8 +34,9 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
     final fullScreenPlayer = ref.watch(fullScreenPlayerStateProvider);
     final forceLandscapePlayer = ref.watch(forceLandscapePlayerStateProvider);
     final l10n = context.l10n;
-    List<ShioriChoice<T>> choices<T>(List<T> values, String Function(T) name) =>
-        [for (final v in values) ShioriChoice(v, name(v))];
+    List<ShioriChoice<T>> choices<T>(List<T> values, String Function(T) name) => [
+      for (final v in values) ShioriChoice(v, name(v)),
+    ];
     return Scaffold(
       appBar: AppBar(title: Text(l10n.internal_player)),
       body: ListView(
@@ -58,16 +59,13 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                   1.75,
                   2.0,
                 ], l10n.playback_speed_multiplier),
-                onChanged: (v) =>
-                    ref.read(defaultPlayBackSpeedStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(defaultPlayBackSpeedStateProvider.notifier).set(v),
               ),
               ShioriValueRow<int>(
                 title: l10n.default_skip_forward_skip_length,
                 value: defaultDoubleTapToSkipLength,
                 options: choices([1, 3, 5, 10, 20, 30], l10n.seconds_short),
-                onChanged: (v) => ref
-                    .read(defaultDoubleTapToSkipLengthStateProvider.notifier)
-                    .set(v),
+                onChanged: (v) => ref.read(defaultDoubleTapToSkipLengthStateProvider.notifier).set(v),
               ),
               ShioriSliderRow(
                 title: l10n.default_skip_intro_length,
@@ -77,21 +75,15 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                 divisions: 254,
                 valueLabel: (v) => l10n.seconds_short(v.round()),
                 defaultValue: 85,
-                onReset: () => ref
-                    .read(defaultSkipIntroLengthStateProvider.notifier)
-                    .set(85),
+                onReset: () => ref.read(defaultSkipIntroLengthStateProvider.notifier).set(85),
                 resetTooltip: l10n.reset,
-                onChanged: (v) => ref
-                    .read(defaultSkipIntroLengthStateProvider.notifier)
-                    .set(v.round()),
+                onChanged: (v) => ref.read(defaultSkipIntroLengthStateProvider.notifier).set(v.round()),
               ),
               ShioriValueRow<int>(
                 title: l10n.markEpisodeAsSeenSetting,
                 value: markEpisodeAsSeenType,
                 options: choices([70, 75, 80, 85, 90, 95, 100], (v) => '$v %'),
-                onChanged: (v) => ref
-                    .read(markEpisodeAsSeenTypeStateProvider.notifier)
-                    .set(v),
+                onChanged: (v) => ref.read(markEpisodeAsSeenTypeStateProvider.notifier).set(v),
               ),
             ],
           ),
@@ -106,16 +98,13 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                   AppLocalizations.supportedLocales,
                   (locale) => languageName(context, locale.toLanguageTag()),
                 ),
-                onChanged: (v) => ref
-                    .read(defaultSubtitleLangStateProvider.notifier)
-                    .setLocale(v),
+                onChanged: (v) => ref.read(defaultSubtitleLangStateProvider.notifier).setLocale(v),
               ),
               ShioriSwitchRow(
                 title: l10n.use_libass,
                 subtitle: l10n.use_libass_info,
                 value: useLibass,
-                onChanged: (v) =>
-                    ref.read(useLibassStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(useLibassStateProvider.notifier).set(v),
               ),
             ],
           ),
@@ -126,23 +115,19 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
               ShioriSwitchRow(
                 title: l10n.enable_aniskip,
                 value: enableAniSkip,
-                onChanged: (v) =>
-                    ref.read(enableAniSkipStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(enableAniSkipStateProvider.notifier).set(v),
               ),
               if (enableAniSkip) ...[
                 ShioriSwitchRow(
                   title: l10n.enable_auto_skip,
                   value: enableAutoSkip,
-                  onChanged: (v) =>
-                      ref.read(enableAutoSkipStateProvider.notifier).set(v),
+                  onChanged: (v) => ref.read(enableAutoSkipStateProvider.notifier).set(v),
                 ),
                 ShioriValueRow<int>(
                   title: l10n.aniskip_button_timeout,
                   value: aniSkipTimeoutLength,
                   options: choices([5, 6, 7, 8, 9, 10], l10n.seconds_short),
-                  onChanged: (v) => ref
-                      .read(aniSkipTimeoutLengthStateProvider.notifier)
-                      .set(v),
+                  onChanged: (v) => ref.read(aniSkipTimeoutLengthStateProvider.notifier).set(v),
                 ),
               ],
             ],
@@ -154,15 +139,13 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                 title: l10n.full_screen_player,
                 subtitle: l10n.full_screen_player_info,
                 value: fullScreenPlayer,
-                onChanged: (v) =>
-                    ref.read(fullScreenPlayerStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(fullScreenPlayerStateProvider.notifier).set(v),
               ),
               ShioriSwitchRow(
                 title: l10n.forceLandscapeMode,
                 subtitle: l10n.forceLandscapeModeSubtitle,
                 value: forceLandscapePlayer,
-                onChanged: (v) =>
-                    ref.read(forceLandscapePlayerStateProvider.notifier).set(v),
+                onChanged: (v) => ref.read(forceLandscapePlayerStateProvider.notifier).set(v),
               ),
             ],
           ),

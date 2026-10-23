@@ -40,8 +40,7 @@ class AidokuJsRequest {
   });
 
   @override
-  int get hashCode =>
-      contextId.hashCode ^ action.hashCode ^ script.hashCode ^ extra.hashCode;
+  int get hashCode => contextId.hashCode ^ action.hashCode ^ script.hashCode ^ extra.hashCode;
 
   @override
   bool operator ==(Object other) =>

@@ -75,8 +75,7 @@ class ExtensionsLang extends ConsumerWidget {
                   final now = DateTime.now().millisecondsSinceEpoch;
                   final toUpdate = entries
                       .where(
-                        (source) =>
-                            source.lang!.toLowerCase() == lang.toLowerCase(),
+                        (source) => source.lang!.toLowerCase() == lang.toLowerCase(),
                       )
                       .map(
                         (source) => source

@@ -15,8 +15,7 @@ import 'package:shiori/shiori.dart';
 /// Encapsulates discrete-page/double-page spread pagination caching,
 /// mode-transition progress preservation, and Text-to-Speech (TTS)
 /// synchronization for the Novel Reader.
-mixin NovelPaginationAndTtsMixin<T extends ConsumerStatefulWidget>
-    on ConsumerState<T> {
+mixin NovelPaginationAndTtsMixin<T extends ConsumerStatefulWidget> on ConsumerState<T> {
   // ── Host State Contract ───────────────────────────────────────────────────
   Chapter get chapter;
   EpubNovel? get epubBook;
@@ -56,8 +55,11 @@ mixin NovelPaginationAndTtsMixin<T extends ConsumerStatefulWidget>
   /// How long the current chapter takes to read, worked out once when its
   /// text arrives, for the time left beside the progress slider.
   double? chapterMinutes;
-  final ValueNotifier<({int paragraph, int wordStart, int wordEnd})>
-  ttsProgress = ValueNotifier((paragraph: -1, wordStart: -1, wordEnd: -1));
+  final ValueNotifier<({int paragraph, int wordStart, int wordEnd})> ttsProgress = ValueNotifier((
+    paragraph: -1,
+    wordStart: -1,
+    wordEnd: -1,
+  ));
   int ttsTotalBlocks = 0;
   StreamSubscription<int>? _ttsIndexSub;
   StreamSubscription<TtsState>? _ttsStateSub;
@@ -67,8 +69,7 @@ mixin NovelPaginationAndTtsMixin<T extends ConsumerStatefulWidget>
     _ttsIndexSub = NovelTtsService.instance.paragraphIndexStream.listen((i) {
       ttsProgress.value = (paragraph: i, wordStart: -1, wordEnd: -1);
       scrollToTtsParagraph(i);
-      if (lastEffectivePageMode == PageMode.doublePage &&
-          cachedPagination != null) {
+      if (lastEffectivePageMode == PageMode.doublePage && cachedPagination != null) {
         final targetSpread = cachedPagination!.spreadForBlock(i);
         if (spreadController.hasClients && targetSpread != currentSpreadIndex) {
           currentSpreadIndex = targetSpread;
@@ -95,9 +96,7 @@ mixin NovelPaginationAndTtsMixin<T extends ConsumerStatefulWidget>
   }
 
   void updatePaginatedOffsetBeforeDispose(ReaderMode readerMode) {
-    if (!readerMode.isContinuous &&
-        cachedPagination != null &&
-        cachedPagination!.pageCount > 0) {
+    if (!readerMode.isContinuous && cachedPagination != null && cachedPagination!.pageCount > 0) {
       final progress = lastEffectivePageMode == PageMode.doublePage
           ? cachedPagination!.progressForSpread(currentSpreadIndex)
           : cachedPagination!.progressForPage(currentSpreadIndex);
@@ -135,16 +134,14 @@ mixin NovelPaginationAndTtsMixin<T extends ConsumerStatefulWidget>
   }) {
     final prevEffectiveMode = lastEffectivePageMode ?? effectivePageMode;
     final prevReaderMode = lastReaderMode ?? readerMode;
-    if (prevEffectiveMode != effectivePageMode ||
-        prevReaderMode != readerMode) {
+    if (prevEffectiveMode != effectivePageMode || prevReaderMode != readerMode) {
       if (!readerMode.isContinuous) {
         autoScroll.value = false;
         stopAutoScroll();
         final double progress;
         if (prevReaderMode.isContinuous) {
           progress = maxOffset > 0 ? (offset / maxOffset).clamp(0.0, 1.0) : 0.0;
-        } else if (cachedPagination != null &&
-            cachedPagination!.pageCount > 0) {
+        } else if (cachedPagination != null && cachedPagination!.pageCount > 0) {
           progress = prevEffectiveMode == PageMode.doublePage
               ? cachedPagination!.progressForSpread(currentSpreadIndex)
               : cachedPagination!.progressForPage(currentSpreadIndex);
@@ -163,8 +160,7 @@ mixin NovelPaginationAndTtsMixin<T extends ConsumerStatefulWidget>
           }
         });
       } else {
-        final progress =
-            cachedPagination != null && cachedPagination!.pageCount > 0
+        final progress = cachedPagination != null && cachedPagination!.pageCount > 0
             ? (prevEffectiveMode == PageMode.doublePage
                   ? cachedPagination!.progressForSpread(currentSpreadIndex)
                   : cachedPagination!.progressForPage(currentSpreadIndex))
@@ -172,8 +168,7 @@ mixin NovelPaginationAndTtsMixin<T extends ConsumerStatefulWidget>
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (!mounted) return;
           if (scrollController.hasClients) {
-            final targetOffset =
-                progress * scrollController.position.maxScrollExtent;
+            final targetOffset = progress * scrollController.position.maxScrollExtent;
             scrollController.jumpTo(targetOffset);
             if (autoScroll.value) {
               startAutoScroll();
@@ -202,9 +197,7 @@ mixin NovelPaginationAndTtsMixin<T extends ConsumerStatefulWidget>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isDouble = effectivePageMode == PageMode.doublePage;
-        final singlePageWidth = isDouble
-            ? (constraints.maxWidth - 1.0) / 2
-            : constraints.maxWidth;
+        final singlePageWidth = isDouble ? (constraints.maxWidth - 1.0) / 2 : constraints.maxWidth;
         final pageHeight = constraints.maxHeight;
 
         if (cachedPagination == null ||
@@ -256,9 +249,7 @@ mixin NovelPaginationAndTtsMixin<T extends ConsumerStatefulWidget>
         }
 
         final pagination = cachedPagination!;
-        final totalCount = isDouble
-            ? pagination.spreadCount
-            : pagination.pageCount;
+        final totalCount = isDouble ? pagination.spreadCount : pagination.pageCount;
 
         return Container(
           color: parsedBackgroundColor,

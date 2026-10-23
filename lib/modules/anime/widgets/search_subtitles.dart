@@ -169,8 +169,7 @@ class _SubtitlesWidgetSearchState extends ConsumerState<SubtitlesWidgetSearch> {
                             suffixIcon: _controller.text.isEmpty
                                 ? null
                                 : IconButton(
-                                    tooltip: MaterialLocalizations.of(context)
-                                        .clearButtonTooltip,
+                                    tooltip: MaterialLocalizations.of(context).clearButtonTooltip,
                                     onPressed: _controller.clear,
                                     icon: const Icon(Symbols.close_rounded),
                                   ),
@@ -183,9 +182,7 @@ class _SubtitlesWidgetSearchState extends ConsumerState<SubtitlesWidgetSearch> {
                 ),
               ),
               Flexible(
-                child: body is ListView
-                    ? body
-                    : SizedBox(height: context.shiori.scaled(240), child: body),
+                child: body is ListView ? body : SizedBox(height: context.shiori.scaled(240), child: body),
               ),
             ],
           ),
@@ -290,13 +287,10 @@ class _SubtitlesWidgetSearchState extends ConsumerState<SubtitlesWidgetSearch> {
     try {
       final subtitle = subtitles![index];
       final storageProvider = StorageProvider();
-      final resolvedArchivePath =
-          widget.chapter.archivePath?.isNotEmpty ?? false
+      final resolvedArchivePath = widget.chapter.archivePath?.isNotEmpty ?? false
           ? await resolveLocalArchivePath(widget.chapter.archivePath!)
           : null;
-      final animeDir =
-          resolvedArchivePath != null &&
-              widget.chapter.manga.value?.source == "local"
+      final animeDir = resolvedArchivePath != null && widget.chapter.manga.value?.source == "local"
           ? Directory(path.dirname(resolvedArchivePath))
           : null;
       final chapterDirectory = (await storageProvider.getMangaChapterDirectory(

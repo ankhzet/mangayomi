@@ -37,8 +37,7 @@ Map<String, String> headers(
 
   if (mSource == null) return {};
 
-  final cacheKey =
-      '${mSource.id}|${mSource.version}|${mSource.sourceCode?.hashCode}|$androidProxyServer';
+  final cacheKey = '${mSource.id}|${mSource.version}|${mSource.sourceCode?.hashCode}|$androidProxyServer';
   final base = _sourceHeadersCache.putIfAbsent(cacheKey, () {
     final headers = <String, String>{};
     // A source whose code will not run (empty, broken, half installed) has

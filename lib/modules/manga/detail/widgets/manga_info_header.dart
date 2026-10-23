@@ -150,12 +150,7 @@ class _MangaInfoHeaderState extends ConsumerState<MangaInfoHeader> {
                         : _expanded || context.isTablet
                         ? Wrap(
                             children: [
-                              for (
-                                var i = 0;
-                                i < widget.manga.genre!.length;
-                                i++
-                              )
-                                _genreChip(i, l10n),
+                              for (var i = 0; i < widget.manga.genre!.length; i++) _genreChip(i, l10n),
                             ],
                           )
                         : SingleChildScrollView(
@@ -163,12 +158,7 @@ class _MangaInfoHeaderState extends ConsumerState<MangaInfoHeader> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                for (
-                                  var i = 0;
-                                  i < widget.manga.genre!.length;
-                                  i++
-                                )
-                                  _genreChip(i, l10n),
+                                for (var i = 0; i < widget.manga.genre!.length; i++) _genreChip(i, l10n),
                               ],
                             ),
                           ),
@@ -201,31 +191,23 @@ class _MangaInfoHeaderState extends ConsumerState<MangaInfoHeader> {
                                           : l10n.n_episodes(
                                               widget.chapterLength,
                                             ),
-                                      style: context.shiori.text.section
-                                          .copyWith(
-                                            color: context.shiori.color.fg,
-                                          ),
+                                      style: context.shiori.text.section.copyWith(
+                                        color: context.shiori.color.fg,
+                                      ),
                                     ),
                                     Builder(
                                       builder: (context) {
-                                        final missing = widget.manga
-                                            .missingChapterCount();
+                                        final missing = widget.manga.missingChapterCount();
                                         if (missing <= 0) {
                                           return const SizedBox.shrink();
                                         }
                                         return Text(
-                                          widget.manga.itemType !=
-                                                  ItemType.anime
+                                          widget.manga.itemType != ItemType.anime
                                               ? l10n.missing_chapters(missing)
                                               : l10n.missing_episodes(missing),
-                                          style: context.shiori.text.meta
-                                              .copyWith(
-                                                color: context
-                                                    .shiori
-                                                    .color
-                                                    .error
-                                                    .foreground,
-                                              ),
+                                          style: context.shiori.text.meta.copyWith(
+                                            color: context.shiori.color.error.foreground,
+                                          ),
                                         );
                                       },
                                     ),
@@ -250,8 +232,7 @@ class _MangaInfoHeaderState extends ConsumerState<MangaInfoHeader> {
                                     if (manga.source == "torrent") {
                                       addTorrent(context, manga: manga);
                                     } else {
-                                      final splitChapters =
-                                          manga.itemType == ItemType.novel
+                                      final splitChapters = manga.itemType == ItemType.novel
                                           ? await showSplitChaptersDialog(
                                               context,
                                             )
@@ -329,13 +310,10 @@ class _MangaInfoHeaderState extends ConsumerState<MangaInfoHeader> {
 
   Widget _coverCard() {
     final imageProvider = widget.manga.customCoverImage != null
-        ? MemoryImage(widget.manga.customCoverImage as Uint8List)
-              as ImageProvider
+        ? MemoryImage(widget.manga.customCoverImage as Uint8List) as ImageProvider
         : CustomExtendedNetworkImageProvider(
             toImgUrl(
-              widget.manga.customCoverFromTracker ??
-                  widget.manga.imageUrl ??
-                  "",
+              widget.manga.customCoverFromTracker ?? widget.manga.imageUrl ?? "",
             ),
             headers: widget.manga.isLocalArchive!
                 ? null
@@ -376,9 +354,7 @@ class _MangaInfoHeaderState extends ConsumerState<MangaInfoHeader> {
             width: 100,
             height: 100 / coverAspect,
             // The library cover lands here when the page opens.
-            child: id == null
-                ? cover
-                : Hero(tag: coverHeroTag(id), child: cover),
+            child: id == null ? cover : Hero(tag: coverHeroTag(id), child: cover),
           ),
         ),
       ),
@@ -482,8 +458,7 @@ class _MangaInfoHeaderState extends ConsumerState<MangaInfoHeader> {
       label: widget.manga.smartUpdateDays != null
           ? context.l10n.every_n_days(widget.manga.smartUpdateDays!)
           : context.l10n.update_interval_unknown,
-      onPressed: () =>
-          context.push("/calendarScreen", extra: widget.manga.itemType),
+      onPressed: () => context.push("/calendarScreen", extra: widget.manga.itemType),
     );
   }
 

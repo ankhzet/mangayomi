@@ -8,6 +8,5 @@ class DeepLinkResult {
   Listing? listing;
 
   @override
-  String toString() =>
-      'DeepLinkResult(manga: $mangaKey, chapter: $chapterKey, listing: $listing)';
+  String toString() => 'DeepLinkResult(manga: $mangaKey, chapter: $chapterKey, listing: $listing)';
 }

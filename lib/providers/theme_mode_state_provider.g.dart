@@ -12,8 +12,7 @@ part of 'theme_mode_state_provider.dart';
 @ProviderFor(ThemeModeState)
 final themeModeStateProvider = ThemeModeStateProvider._();
 
-final class ThemeModeStateProvider
-    extends $NotifierProvider<ThemeModeState, bool> {
+final class ThemeModeStateProvider extends $NotifierProvider<ThemeModeState, bool> {
   ThemeModeStateProvider._()
     : super(
         from: null,
@@ -49,14 +48,7 @@ abstract class _$ThemeModeState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -64,8 +56,7 @@ abstract class _$ThemeModeState extends $Notifier<bool> {
 @ProviderFor(FollowSystemThemeState)
 final followSystemThemeStateProvider = FollowSystemThemeStateProvider._();
 
-final class FollowSystemThemeStateProvider
-    extends $NotifierProvider<FollowSystemThemeState, bool> {
+final class FollowSystemThemeStateProvider extends $NotifierProvider<FollowSystemThemeState, bool> {
   FollowSystemThemeStateProvider._()
     : super(
         from: null,
@@ -93,8 +84,7 @@ final class FollowSystemThemeStateProvider
   }
 }
 
-String _$followSystemThemeStateHash() =>
-    r'64420ad3a07a0f4d0a54e6a5502b8db62ff355c9';
+String _$followSystemThemeStateHash() => r'64420ad3a07a0f4d0a54e6a5502b8db62ff355c9';
 
 abstract class _$FollowSystemThemeState extends $Notifier<bool> {
   bool build();
@@ -102,14 +92,7 @@ abstract class _$FollowSystemThemeState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }

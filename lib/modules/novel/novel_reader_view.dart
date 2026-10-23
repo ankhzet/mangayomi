@@ -70,11 +70,7 @@ class NovelWebView extends ConsumerStatefulWidget {
 }
 
 class _NovelWebViewState extends ConsumerState<NovelWebView>
-    with
-        TickerProviderStateMixin,
-        WidgetsBindingObserver,
-        ReaderAutoScroll,
-        NovelPaginationAndTtsMixin<NovelWebView> {
+    with TickerProviderStateMixin, WidgetsBindingObserver, ReaderAutoScroll, NovelPaginationAndTtsMixin<NovelWebView> {
   @override
   ValueNotifier<bool> get autoScrollEnabled => _autoScroll;
   @override
@@ -160,8 +156,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     final keepOn = ref.read(keepScreenOnReaderStateProvider);
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.detached) {
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
       _readingStopwatch.stop();
       if (keepOn) {
         WakelockPlus.disable();
@@ -209,8 +204,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
   EpubNovel? epubBook;
 
   @override
-  final StreamController<double> rebuildDetail =
-      StreamController<double>.broadcast();
+  final StreamController<double> rebuildDetail = StreamController<double>.broadcast();
   @override
   void initState() {
     super.initState();
@@ -256,8 +250,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
 
   Size get size => View.of(context).physicalSize / pixelRatio;
 
-  Color _backgroundColor(BuildContext context) =>
-      context.shiori.color.ink1.withValues(alpha: Alphas.chrome);
+  Color _backgroundColor(BuildContext context) => context.shiori.color.ink1.withValues(alpha: Alphas.chrome);
 
   void _setFullScreen({bool? value}) async {
     if (isDesktop) {
@@ -292,9 +285,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
     if (!next && !readerController.hasPreviousChapter) return;
     pushReplacementMangaReaderView(
       context: context,
-      chapter: next
-          ? readerController.getNextChapter()
-          : readerController.getPrevChapter(),
+      chapter: next ? readerController.getNextChapter() : readerController.getPrevChapter(),
     );
   }
 
@@ -321,9 +312,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
     final doublePageAuto = ref.watch(doublePageAutoStateProvider);
     final orientation = MediaQuery.orientationOf(context);
     final effectivePageMode = doublePageAuto
-        ? (orientation == Orientation.landscape
-              ? PageMode.doublePage
-              : PageMode.onePage)
+        ? (orientation == Orientation.landscape ? PageMode.doublePage : PageMode.onePage)
         : _pageMode;
 
     syncPaginationModeTransition(
@@ -408,20 +397,15 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                 ref.watch(novelFontFamilyStateProvider),
                               );
 
-                              if (!scrollRestoreScheduled &&
-                                  _readerMode.isContinuous) {
+                              if (!scrollRestoreScheduled && _readerMode.isContinuous) {
                                 scrollRestoreScheduled = true;
                                 Future.delayed(
                                   const Duration(milliseconds: 100),
                                   () {
-                                    if (!scrolled &&
-                                        mounted &&
-                                        scrollController.hasClients) {
+                                    if (!scrolled && mounted && scrollController.hasClients) {
                                       scrollController
                                           .animateTo(
-                                            scrollController
-                                                    .position
-                                                    .maxScrollExtent *
+                                            scrollController.position.maxScrollExtent *
                                                 (double.tryParse(
                                                       chapter.lastPageRead!,
                                                     ) ??
@@ -434,8 +418,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                           .then((value) {
                                             if (!mounted) return;
                                             scrolled = true;
-                                            if (_autoScroll.value &&
-                                                _isContinuousMode()) {
+                                            if (_autoScroll.value && _isContinuousMode()) {
                                               startAutoScroll();
                                             }
                                           });
@@ -459,13 +442,12 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                     builder: (context, tts, _) {
                                       String htmlData = data.$1;
                                       if (showTts && tts.paragraph >= 0) {
-                                        final result = NovelTtsService.instance
-                                            .highlightHtml(
-                                              data.$1,
-                                              tts.paragraph,
-                                              wordStart: tts.wordStart,
-                                              wordEnd: tts.wordEnd,
-                                            );
+                                        final result = NovelTtsService.instance.highlightHtml(
+                                          data.$1,
+                                          tts.paragraph,
+                                          wordStart: tts.wordStart,
+                                          wordEnd: tts.wordEnd,
+                                        );
                                         htmlData = result.$1;
                                         ttsTotalBlocks = result.$2;
                                       }
@@ -474,12 +456,11 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                         customTextColor,
                                         fallback: Colors.white,
                                       );
-                                      final parsedBackgroundColor =
-                                          parseNovelColor(
-                                            customBackgroundColor,
-                                            // shiori: the book's own styles, set against whatever page colour the reader chose
-                                            fallback: const Color(0xFF292832),
-                                          );
+                                      final parsedBackgroundColor = parseNovelColor(
+                                        customBackgroundColor,
+                                        // shiori: the book's own styles, set against whatever page colour the reader chose
+                                        fallback: const Color(0xFF292832),
+                                      );
                                       final textAlignEnum = getNovelTextAlign(
                                         textAlign,
                                       );
@@ -492,12 +473,10 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                           lineHeight: lineHeight,
                                           padding: padding,
                                           fontFamily: fontFamily,
-                                          removeExtraSpacing:
-                                              removeExtraSpacing,
+                                          removeExtraSpacing: removeExtraSpacing,
                                           textAlignEnum: textAlignEnum,
                                           parsedTextColor: parsedTextColor,
-                                          parsedBackgroundColor:
-                                              parsedBackgroundColor,
+                                          parsedBackgroundColor: parsedBackgroundColor,
                                           tts: tts,
                                         );
                                       }
@@ -512,8 +491,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                           },
                                           child: CustomScrollView(
                                             controller: scrollController,
-                                            physics:
-                                                const BouncingScrollPhysics(),
+                                            physics: const BouncingScrollPhysics(),
                                             slivers: [
                                               SliverToBoxAdapter(
                                                 child: NovelHtmlContent(
@@ -523,11 +501,9 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                                                   lineHeight: lineHeight,
                                                   padding: padding,
                                                   textAlign: textAlignEnum,
-                                                  removeExtraSpacing:
-                                                      removeExtraSpacing,
+                                                  removeExtraSpacing: removeExtraSpacing,
                                                   textColor: parsedTextColor,
-                                                  backgroundColor:
-                                                      parsedBackgroundColor,
+                                                  backgroundColor: parsedBackgroundColor,
                                                   showTts: showTts,
                                                   tts: tts,
                                                   epubBook: epubBook,
@@ -576,9 +552,7 @@ class _NovelWebViewState extends ConsumerState<NovelWebView>
                     if (ttsSupported && showTts && currentHtmlContent != null)
                       Positioned(
                         // Just above the panel while it is shown.
-                        bottom: _isView
-                            ? novelBottomBarHeightAbove(context)
-                            : 0,
+                        bottom: _isView ? novelBottomBarHeightAbove(context) : 0,
                         left: 0,
                         right: 0,
                         child: TtsPlayerBar(

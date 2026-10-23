@@ -2,8 +2,7 @@ import 'package:mangayomi/models/settings.dart';
 
 /// An ARGB colour as the `#AARRGGBB` string mpv's colour options take.
 String toMpvColor(int a, int r, int g, int b) {
-  final hex =
-      ((a & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
+  final hex = ((a & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
   return '#${hex.toRadixString(16).padLeft(8, '0').toUpperCase()}';
 }
 

@@ -34,36 +34,30 @@ class SourcesFilterScreen extends ConsumerWidget {
                   CustomSliverGroupedListView<Source, String>(
                     elements: entries,
                     groupBy: (element) => element.lang!,
-                    groupSeparatorBuilder: (String groupByValue) =>
-                        ShioriSwitchRow(
-                          value: entries
-                              .where(
-                                (element) =>
-                                    element.lang!.toLowerCase() ==
-                                        groupByValue &&
-                                    element.isActive! &&
-                                    element.itemType == itemType,
-                              )
-                              .isNotEmpty,
-                          onChanged: (val) {
-                            final now = DateTime.now().millisecondsSinceEpoch;
-                            final toUpdate = entries
-                                .where(
-                                  (source) =>
-                                      source.lang!.toLowerCase() ==
-                                      groupByValue,
-                                )
-                                .map(
-                                  (source) => source
-                                    ..isActive = val == true
-                                    ..updatedAt = now,
-                                )
-                                .toList();
-                            sourceRepository.putAll(toUpdate);
-                          },
-                          title: languageName(context, groupByValue),
-                        ),
-                      ),
+                    groupSeparatorBuilder: (String groupByValue) => ShioriSwitchRow(
+                      value: entries
+                          .where(
+                            (element) =>
+                                element.lang!.toLowerCase() == groupByValue &&
+                                element.isActive! &&
+                                element.itemType == itemType,
+                          )
+                          .isNotEmpty,
+                      onChanged: (val) {
+                        final now = DateTime.now().millisecondsSinceEpoch;
+                        final toUpdate = entries
+                            .where(
+                              (source) => source.lang!.toLowerCase() == groupByValue,
+                            )
+                            .map(
+                              (source) => source
+                                ..isActive = val == true
+                                ..updatedAt = now,
+                            )
+                            .toList();
+                        sourceRepository.putAll(toUpdate);
+                      },
+                      title: languageName(context, groupByValue),
                     ),
                     itemBuilder: (context, Source element) {
                       if (entries

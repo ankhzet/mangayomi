@@ -36,18 +36,16 @@ class _TrackerSectionScreenState extends State<TrackerSectionScreen> {
   }
 
   void _subscribeToTracks() {
-    _trackStreamSub = trackRepository
-        .watchByItemTypeWithMangaId(widget.section.itemType)
-        .listen((tracks) {
-          if (mounted) {
-            setState(() {
-              _trackIndex = {
-                for (final t in tracks)
-                  if (t.mediaId != null) t.mediaId!: t,
-              };
-            });
-          }
+    _trackStreamSub = trackRepository.watchByItemTypeWithMangaId(widget.section.itemType).listen((tracks) {
+      if (mounted) {
+        setState(() {
+          _trackIndex = {
+            for (final t in tracks)
+              if (t.mediaId != null) t.mediaId!: t,
+          };
         });
+      }
+    });
   }
 
   @override
@@ -127,8 +125,7 @@ class _TrackerSectionScreenState extends State<TrackerSectionScreen> {
   }
 
   Future<void> _fetchData() async {
-    final key =
-        "${widget.section.syncId}-${widget.section.itemType.name}-${widget.section.name}";
+    final key = "${widget.section.syncId}-${widget.section.itemType.name}-${widget.section.name}";
     if (await _checkCache(key)) return;
     try {
       _errorMessage = "";

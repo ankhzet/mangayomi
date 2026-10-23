@@ -433,8 +433,7 @@ class M3u8DownloaderException implements Exception {
 }
 
 /// Short, source-specific name prevents long Windows paths and mixing variants.
-String m3u8TempDirectoryName(String url) =>
-    '.tmp_hls_${sha256.convert(utf8.encode(url)).toString().substring(0, 16)}';
+String m3u8TempDirectoryName(String url) => '.tmp_hls_${sha256.convert(utf8.encode(url)).toString().substring(0, 16)}';
 
 Future<void> mergeM3u8Segments(
   String output,

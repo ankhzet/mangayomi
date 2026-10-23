@@ -45,46 +45,30 @@ class MangayomiRestoreService {
     }
 
     try {
-      final manga = (backup["manga"] as List?)
-          ?.map((e) => Manga.fromJson(e)..itemType = convertToItemType(e))
-          .toList();
-      final chapters = (backup["chapters"] as List?)
-          ?.map((e) => Chapter.fromJson(e))
-          .toList();
+      final manga = (backup["manga"] as List?)?.map((e) => Manga.fromJson(e)..itemType = convertToItemType(e)).toList();
+      final chapters = (backup["chapters"] as List?)?.map((e) => Chapter.fromJson(e)).toList();
       final categories = (backup["categories"] as List?)
           ?.map(
-            (e) =>
-                Category.fromJson(e)
-                  ..forItemType = convertToItemTypeCategory(e),
+            (e) => Category.fromJson(e)..forItemType = convertToItemTypeCategory(e),
           )
           .toList();
       final track = (backup["tracks"] as List?)
           ?.map((e) => Track.fromJson(e)..itemType = convertToItemType(e))
           .toList();
-      final trackPreferences = (backup["trackPreferences"] as List?)
-          ?.map((e) => TrackPreference.fromJson(e))
-          .toList();
+      final trackPreferences = (backup["trackPreferences"] as List?)?.map((e) => TrackPreference.fromJson(e)).toList();
       final history = (backup["history"] as List?)
           ?.map((e) => History.fromJson(e)..itemType = convertToItemType(e))
           .toList();
-      final downloads = (backup["downloads"] as List?)
-          ?.map((e) => Download.fromJson(e))
-          .toList();
-      final settings = (backup["settings"] as List?)
-          ?.map((e) => Settings.fromJson(e))
-          .toList();
+      final downloads = (backup["downloads"] as List?)?.map((e) => Download.fromJson(e)).toList();
+      final settings = (backup["settings"] as List?)?.map((e) => Settings.fromJson(e)).toList();
       final extensions = (backup["extensions"] as List?)
           ?.map((e) => Source.fromJson(e)..itemType = convertToItemType(e))
           .toList();
       final sourcesPrefs = (backup["extensions_preferences"] as List?)
           ?.map((e) => SourcePreference.fromJson(e))
           .toList();
-      final updates = (backup["updates"] as List?)
-          ?.map((e) => Update.fromJson(e))
-          .toList();
-      final customButtons = (backup["customButtons"] as List?)
-          ?.map((e) => CustomButton.fromJson(e))
-          .toList();
+      final updates = (backup["updates"] as List?)?.map((e) => Update.fromJson(e)).toList();
+      final customButtons = (backup["customButtons"] as List?)?.map((e) => CustomButton.fromJson(e)).toList();
 
       final currentSettings = settingsRepository.currentOrNull;
       await restoreRepository.run(() {
@@ -164,8 +148,7 @@ class MangayomiRestoreService {
               };
               final updatesToPut = <Update>[];
               for (var update in updates) {
-                final matchingChapter =
-                    chapterMapByKey["${update.mangaId}_${update.chapterName}"];
+                final matchingChapter = chapterMapByKey["${update.mangaId}_${update.chapterName}"];
                 if (matchingChapter != null) {
                   update.chapter.value = matchingChapter;
                   updatesToPut.add(update);
@@ -246,8 +229,7 @@ class MangayomiRestoreService {
       for (final category in categories) {
         final oldId = category.id;
         final existing = existingCategories.firstWhereOrNull(
-          (c) =>
-              c.name == category.name && c.forItemType == category.forItemType,
+          (c) => c.name == category.name && c.forItemType == category.forItemType,
         );
         if (existing != null) {
           if (oldId != null) oldToNewCategoryId[oldId] = existing.id!;
@@ -270,9 +252,7 @@ class MangayomiRestoreService {
       for (final tempManga in manga) {
         final oldId = tempManga.id;
         final key = '${tempManga.itemType.index}|${tempManga.link}';
-        final existing = tempManga.link != null
-            ? existingMangaByKey[key]
-            : null;
+        final existing = tempManga.link != null ? existingMangaByKey[key] : null;
         final remappedCategories = (tempManga.categories ?? [])
             .map((id) => oldToNewCategoryId[id])
             .whereType<int>()
@@ -292,8 +272,7 @@ class MangayomiRestoreService {
         final boundSource = decidedSourceId != null
             ? sourceRepository.getById(decidedSourceId)
             : installedSourcesFor(tempManga.itemType).firstWhereOrNull(
-                (s) =>
-                    s.name?.toLowerCase() == originalSourceName.toLowerCase(),
+                (s) => s.name?.toLowerCase() == originalSourceName.toLowerCase(),
               );
         tempManga.id = null;
         tempManga.categories = remappedCategories;
@@ -314,18 +293,12 @@ class MangayomiRestoreService {
     if (chapters != null) {
       final existingUrlsByMangaId = <int, Set<String>>{};
       for (final tempChapter in chapters) {
-        final newMangaId = tempChapter.mangaId != null
-            ? oldToNewMangaId[tempChapter.mangaId]
-            : null;
+        final newMangaId = tempChapter.mangaId != null ? oldToNewMangaId[tempChapter.mangaId] : null;
         if (newMangaId == null) continue;
         if (!newMangaIds.contains(newMangaId)) continue;
         final existingUrls = existingUrlsByMangaId.putIfAbsent(
           newMangaId,
-          () => chapterRepository
-              .getAllByMangaId(newMangaId)
-              .map((c) => c.url)
-              .whereType<String>()
-              .toSet(),
+          () => chapterRepository.getAllByMangaId(newMangaId).map((c) => c.url).whereType<String>().toSet(),
         );
         if (tempChapter.url != null && existingUrls.contains(tempChapter.url)) {
           continue;
@@ -344,12 +317,8 @@ class MangayomiRestoreService {
 
     if (history != null) {
       for (final tempHistory in history) {
-        final newChapterId = tempHistory.chapterId != null
-            ? oldToNewChapterId[tempHistory.chapterId]
-            : null;
-        final newMangaId = tempHistory.mangaId != null
-            ? oldToNewMangaId[tempHistory.mangaId]
-            : null;
+        final newChapterId = tempHistory.chapterId != null ? oldToNewChapterId[tempHistory.chapterId] : null;
+        final newMangaId = tempHistory.mangaId != null ? oldToNewMangaId[tempHistory.mangaId] : null;
         if (newChapterId == null || newMangaId == null) continue;
         final chapterRef = chapterRepository.findByIdSync(newChapterId);
         if (chapterRef == null) continue;
@@ -363,9 +332,7 @@ class MangayomiRestoreService {
 
     if (updates != null) {
       for (final tempUpdate in updates) {
-        final newMangaId = tempUpdate.mangaId != null
-            ? oldToNewMangaId[tempUpdate.mangaId]
-            : null;
+        final newMangaId = tempUpdate.mangaId != null ? oldToNewMangaId[tempUpdate.mangaId] : null;
         if (newMangaId == null || !newMangaIds.contains(newMangaId)) continue;
         final chapter = chapterRepository.findByMangaIdAndName(
           newMangaId,

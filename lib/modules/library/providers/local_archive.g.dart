@@ -62,8 +62,7 @@ final class ImportArchivesFromFileProvider extends $FunctionalProvider<AsyncValu
   }
 }
 
-String _$importArchivesFromFileHash() =>
-    r'f13d1aa84a229cf153bde34279d279099488d16e';
+String _$importArchivesFromFileHash() => r'f13d1aa84a229cf153bde34279d279099488d16e';
 
 final class ImportArchivesFromFileFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<dynamic>, (Manga?, {ItemType itemType, bool init, bool splitChapters})> {

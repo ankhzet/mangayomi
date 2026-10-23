@@ -45,9 +45,7 @@ class _TrackingDetailState extends State<TrackingDetail> with TickerProviderStat
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            widget.trackerPref.syncId == -1
-                ? context.l10n.local
-                : trackInfos(widget.trackerPref.syncId!).$2,
+            widget.trackerPref.syncId == -1 ? context.l10n.local : trackInfos(widget.trackerPref.syncId!).$2,
           ),
           bottom: TabBar(
             controller: _tabBarController,

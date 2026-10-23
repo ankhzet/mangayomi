@@ -6,10 +6,8 @@ import 'package:mangayomi/repositories/db_write_queue.dart';
 class SyncPreferenceRepository {
   SyncPreference? getById(int id) => isar.syncPreferences.getSync(id);
 
-  Stream<List<SyncPreference>> watchAllWithSyncId() => isar.syncPreferences
-      .filter()
-      .syncIdIsNotNull()
-      .watch(fireImmediately: true);
+  Stream<List<SyncPreference>> watchAllWithSyncId() =>
+      isar.syncPreferences.filter().syncIdIsNotNull().watch(fireImmediately: true);
 
   // No updatedAt stamping - SyncPreference is local-only (never synced
   // itself), so it has no such field.

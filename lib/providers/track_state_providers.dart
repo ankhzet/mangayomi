@@ -65,9 +65,7 @@ class TrackState extends _$TrackState {
   }
 
   void writeBack(Track t) {
-    widgetRef
-        .read(tracksProvider(syncId: t.syncId!).notifier)
-        .updateTrackManga(t, itemType!);
+    widgetRef.read(tracksProvider(syncId: t.syncId!).notifier).updateTrackManga(t, itemType!);
   }
 
   Future updateManga() async {
@@ -232,8 +230,7 @@ class TrackState extends _$TrackState {
 }
 
 @riverpod
-class LastTrackerLibraryLocationState
-    extends _$LastTrackerLibraryLocationState {
+class LastTrackerLibraryLocationState extends _$LastTrackerLibraryLocationState {
   @override
   (int, bool) build() {
     final value = settingsRepository.current.lastTrackerLibraryLocation;

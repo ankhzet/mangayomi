@@ -16,8 +16,7 @@ class DefaultSubtitleLangState extends _$DefaultSubtitleLangState {
   }
 
   L10nLocale? _getLocale() {
-    return settingsRepository.current.defaultSubtitleLang ??
-        L10nLocale(languageCode: "en", countryCode: "");
+    return settingsRepository.current.defaultSubtitleLang ?? L10nLocale(languageCode: "en", countryCode: "");
   }
 
   void setLocale(Locale locale) async {

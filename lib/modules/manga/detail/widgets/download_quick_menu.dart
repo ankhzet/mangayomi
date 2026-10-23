@@ -13,8 +13,7 @@ import 'package:mangayomi/utils/extensions/manga_extensions.dart';
 class DownloadQuickMenu extends StatelessWidget {
   final ItemType itemType;
   final Manga manga;
-  final Future<void> Function(BuildContext context, List<Chapter> chapters)
-  onDownload;
+  final Future<void> Function(BuildContext context, List<Chapter> chapters) onDownload;
 
   const DownloadQuickMenu({
     super.key,
@@ -35,9 +34,7 @@ class DownloadQuickMenu extends StatelessWidget {
               count: [1, 5, 10, 25][value],
               downloads: downloadRepository.getAll(),
             )
-          : chapters
-                .where((chapter) => value == 5 || chapter.isRead != true)
-                .toList();
+          : chapters.where((chapter) => value == 5 || chapter.isRead != true).toList();
       await onDownload(context, chaptersToDownload);
     }
 

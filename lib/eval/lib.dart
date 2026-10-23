@@ -32,8 +32,7 @@ ExtensionService getCachedExtensionService(
   Source source,
   String androidProxyServer,
 ) {
-  final key =
-      '${source.id}|${source.version}|${source.sourceCode?.hashCode}|$androidProxyServer';
+  final key = '${source.id}|${source.version}|${source.sourceCode?.hashCode}|$androidProxyServer';
   final cached = _serviceCache.remove(key);
   if (cached != null) {
     _serviceCache[key] = cached; // re-insert as most recently used

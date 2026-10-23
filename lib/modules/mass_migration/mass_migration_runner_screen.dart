@@ -64,9 +64,7 @@ class _MassMigrationRunnerScreenState extends ConsumerState<MassMigrationRunnerS
         _MassMigrationPhase.applying => MassMigrationApplyingPhase(
           destinationSource: widget.destinationSource,
           sourceGroup: widget.sourceGroup,
-          selectedItems: _resolvedItems
-              .where((item) => item.shouldMigrate)
-              .toList(),
+          selectedItems: _resolvedItems.where((item) => item.shouldMigrate).toList(),
           currentIndex: _currentIndex,
           isWaitingForNextItem: _isWaitingForNextItem,
         ),

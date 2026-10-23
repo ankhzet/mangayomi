@@ -67,12 +67,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get last_update_check => '最后更新检查';
 
   @override
-  String last_entry_delete_warning(
-    num count,
-    Object entryType,
-    Object entryTypePlural,
-    Object mediaType,
-  ) {
+  String last_entry_delete_warning(num count, Object entryType, Object entryTypePlural, Object mediaType) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -564,8 +559,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tint_surfaces_with_palette => '用调色板为界面着色';
 
   @override
-  String get tint_surfaces_with_palette_subtitle =>
-      '像以前一样，用所选调色板为背景、卡片和栏着色。关闭时它们保持中性色，调色板只用于强调色。';
+  String get tint_surfaces_with_palette_subtitle => '像以前一样，用所选调色板为背景、卡片和栏着色。关闭时它们保持中性色，调色板只用于强调色。';
 
   @override
   String get novel_reader_font => '小说阅读器字体';
@@ -1264,8 +1258,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get show_nav_double_tap_tooltip => '显示双击搜索提示';
 
   @override
-  String get show_nav_double_tap_tooltip_subtitle =>
-      '在漫画/动画/小说导航栏上显示提示，说明双击可打开全局搜索。';
+  String get show_nav_double_tap_tooltip_subtitle => '在漫画/动画/小说导航栏上显示提示，说明双击可打开全局搜索。';
 
   @override
   String already_in_library(Object source, Object title) {
@@ -1502,8 +1495,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get restore_sync_disabled_question_title => '同步当前已禁用';
 
   @override
-  String get restore_sync_disabled_question_message =>
-      '同步已关闭。是否重新开启并将恢复的数据上传到服务器？';
+  String get restore_sync_disabled_question_message => '同步已关闭。是否重新开启并将恢复的数据上传到服务器？';
 
   @override
   String get restore_sync_question_reenable => '是，重新开启并同步';
@@ -2091,8 +2083,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get custom_buttons_startup => 'lua 代码（启动时）';
 
   @override
-  String get custom_buttons_add_warning =>
-      '此按钮会在视频播放器中运行下面的 Lua 代码，这些代码可以访问你的文件并运行程序。只有在你信任此链接的来源时才添加。';
+  String get custom_buttons_add_warning => '此按钮会在视频播放器中运行下面的 Lua 代码，这些代码可以访问你的文件并运行程序。只有在你信任此链接的来源时才添加。';
 
   @override
   String n_days(Object n) {
@@ -2343,8 +2334,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get cloudflare_resolution_webview_server_start_failed =>
-      '无法启动 Cloudflare 验证 Webview 服务。';
+  String get cloudflare_resolution_webview_server_start_failed => '无法启动 Cloudflare 验证 Webview 服务。';
 
   @override
   String tracker_token_expired(Object tracker) {
@@ -2831,8 +2821,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get allow_concurrent_downloads => '允许并发下载';
 
   @override
-  String get allow_concurrent_downloads_subtitle =>
-      '同时从不同来源下载。单个来源仍然一次下载一个章节，因此不会过载。关闭后，可在任何地方一次下载一个。';
+  String get allow_concurrent_downloads_subtitle => '同时从不同来源下载。单个来源仍然一次下载一个章节，因此不会过载。关闭后，可在任何地方一次下载一个。';
 
   @override
   String get download_delay => '下载延迟';
@@ -2930,11 +2919,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get import_summary_title => '准备导入';
 
   @override
-  String import_summary_message(
-    Object newSeries,
-    Object updatedSeries,
-    Object newChapters,
-  ) {
+  String import_summary_message(Object newSeries, Object updatedSeries, Object newChapters) {
     return '将导入 $newSeries 个新条目，更新 $updatedSeries 个已有条目，并添加 $newChapters 个章节。';
   }
 
@@ -2942,11 +2927,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get import_summary_confirm => '导入';
 
   @override
-  String import_result_message(
-    Object newSeries,
-    Object updatedSeries,
-    Object newChapters,
-  ) {
+  String import_result_message(Object newSeries, Object updatedSeries, Object newChapters) {
     return '已导入 $newSeries 个新条目，更新 $updatedSeries 个条目，添加 $newChapters 个章节。';
   }
 
@@ -3131,8 +3112,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboarding_language_body => 'Mangayomi 将以此语言显示。之后可在“外观”中更改。';
 
   @override
-  String get onboarding_nav_grouped_body =>
-      '为每个书库保留一个标签页，或将它们合并到一个“书库”标签页，并将“更新”和“历史”合并到一个“动态”标签页。';
+  String get onboarding_nav_grouped_body => '为每个书库保留一个标签页，或将它们合并到一个“书库”标签页，并将“更新”和“历史”合并到一个“动态”标签页。';
 
   @override
   String get onboarding_nav_grouped => '合并的标签页';
@@ -3260,8 +3240,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get global_search_all_nsfw_hint => '请在浏览设置中开启 NSFW 来源后再进行搜索。';
 
   @override
-  String get missing_source_check_result_message =>
-      '这些条目关联的图源未安装。点击可进行迁移或安装对应扩展。';
+  String get missing_source_check_result_message => '这些条目关联的图源未安装。点击可进行迁移或安装对应扩展。';
 
   @override
   String get related_titles => '相关作品';
@@ -3552,8 +3531,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get group_nav_destinations => '合并导航';
 
   @override
-  String get group_nav_destinations_subtitle =>
-      '一个可在漫画、动画和小说之间切换的“书库”标签，以及一个包含更新和历史的“动态”标签';
+  String get group_nav_destinations_subtitle => '一个可在漫画、动画和小说之间切换的“书库”标签，以及一个包含更新和历史的“动态”标签';
 
   @override
   String get search_all_sources => '搜索所有来源';
@@ -3920,8 +3898,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get cloudflare_bypass_proxy_hint => '可选的 FlareSolverr 或 Byparr 地址';
 
   @override
-  String get cloudflare_bypass_proxy_message =>
-      'FlareSolverr 或 Byparr 端点。留空即关闭。';
+  String get cloudflare_bypass_proxy_message => 'FlareSolverr 或 Byparr 端点。留空即关闭。';
 
   @override
   String get group_explore => '探索';

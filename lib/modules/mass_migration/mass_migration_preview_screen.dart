@@ -74,14 +74,10 @@ class _MassMigrationPreviewScreenState extends State<MassMigrationPreviewScreen>
         title: Text(l10n.mass_migration_preview_items),
         actions: [
           IconButton(
-            tooltip: allSelected
-                ? l10n.deselect_all
-                : MaterialLocalizations.of(context).selectAllButtonLabel,
+            tooltip: allSelected ? l10n.deselect_all : MaterialLocalizations.of(context).selectAllButtonLabel,
             onPressed: total == 0 ? null : () => _setAll(!allSelected),
             icon: Icon(
-              allSelected
-                  ? Symbols.deselect_rounded
-                  : Symbols.select_all_rounded,
+              allSelected ? Symbols.deselect_rounded : Symbols.select_all_rounded,
             ),
           ),
         ],
@@ -93,8 +89,7 @@ class _MassMigrationPreviewScreenState extends State<MassMigrationPreviewScreen>
             title: Text(sourceGroup.sourceName),
             subtitle: Text(
               [
-                if ((sourceGroup.lang ?? '').isNotEmpty)
-                  languageName(context, sourceGroup.lang!),
+                if ((sourceGroup.lang ?? '').isNotEmpty) languageName(context, sourceGroup.lang!),
                 l10n.n_selected(_selected.length),
               ].join(' · '),
             ),
@@ -149,8 +144,7 @@ class _MassMigrationPreviewScreenState extends State<MassMigrationPreviewScreen>
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        manga.name ??
-                                            l10n.mass_migration_unknown_title,
+                                        manga.name ?? l10n.mass_migration_unknown_title,
                                         style: context.shiori.text.row.copyWith(
                                           color: context.shiori.color.fg,
                                           fontWeight: FontWeight.w600,

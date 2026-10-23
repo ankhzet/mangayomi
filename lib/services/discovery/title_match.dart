@@ -10,13 +10,10 @@ library;
 ///
 /// Only the separators are removed, so scripts that do not use spaces are
 /// left as one token rather than being erased.
-String normalizeTitle(String title) => title
-    .toLowerCase()
-    .replaceAll(RegExp(r'''[\s\-_:;,.!?'"()\[\]{}~/\\|+*&#@]+'''), ' ')
-    .trim();
+String normalizeTitle(String title) =>
+    title.toLowerCase().replaceAll(RegExp(r'''[\s\-_:;,.!?'"()\[\]{}~/\\|+*&#@]+'''), ' ').trim();
 
-List<String> _tokens(String normalized) =>
-    normalized.split(' ').where((t) => t.isNotEmpty).toList();
+List<String> _tokens(String normalized) => normalized.split(' ').where((t) => t.isNotEmpty).toList();
 
 /// How well two titles match, from 0 to 1.
 ///

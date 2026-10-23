@@ -14,15 +14,12 @@ class WindowsProtocolHandler extends ProtocolHandler {
 
     final prefix = _regPrefix(scheme);
     final capitalized = scheme[0].toUpperCase() + scheme.substring(1);
-    final cmd =
-        '${executable ?? Platform.resolvedExecutable} ${getArguments(arguments).map(_sanitize).join(' ')}';
+    final cmd = '${executable ?? Platform.resolvedExecutable} ${getArguments(arguments).map(_sanitize).join(' ')}';
 
     final rootKey = _hive.create(prefix);
     rootKey.setValue('', RegistryValue.string('URL:$capitalized'));
     rootKey.setValue('URL Protocol', RegistryValue.string(''));
-    rootKey
-        .create(r'shell\open\command')
-        .setValue('', RegistryValue.string(cmd));
+    rootKey.create(r'shell\open\command').setValue('', RegistryValue.string(cmd));
   }
 
   @override

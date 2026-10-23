@@ -4,12 +4,10 @@ import 'package:mangayomi/repositories/settings_repository.dart';
 import 'package:shiori/shiori.dart';
 
 /// Whether the gesture guide still has to be shown on this device.
-bool shouldShowGestureHint() =>
-    !(settingsRepository.current.playerGestureHintSeen ?? false);
+bool shouldShowGestureHint() => !(settingsRepository.current.playerGestureHintSeen ?? false);
 
 /// Records that the gesture guide was seen, so it never shows again.
-void markGestureHintSeen() =>
-    settingsRepository.update((s) => s.playerGestureHintSeen = true);
+void markGestureHintSeen() => settingsRepository.update((s) => s.playerGestureHintSeen = true);
 
 /// The phone player's gestures, shown once over the first video: brightness
 /// on the left, volume on the right, a double tap on either side to skip,

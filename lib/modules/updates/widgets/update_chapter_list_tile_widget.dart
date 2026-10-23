@@ -54,9 +54,7 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
       leading: ShioriThumbnail(
         height: height,
         semanticLabel: openDetail ? manga.name : null,
-        onTap: openDetail
-            ? () => context.push('/manga-reader/detail', extra: manga.id)
-            : null,
+        onTap: openDetail ? () => context.push('/manga-reader/detail', extra: manga.id) : null,
         child: DeferredCoverImage(
           width: height * coverAspect,
           height: height,
@@ -87,8 +85,7 @@ class UpdateChapterListTileWidget extends ConsumerWidget {
         children: [
           Expanded(
             child: TvRowButton(
-              onTap: () =>
-                  chapter.pushToReaderView(context, ignoreIsRead: true),
+              onTap: () => chapter.pushToReaderView(context, ignoreIsRead: true),
               child: _row(context, ref),
             ),
           ),

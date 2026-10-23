@@ -14,9 +14,7 @@ final _words = RegExp(r'\S+');
 double readingMinutes(String html) {
   final text = html.replaceAll(_tags, ' ').replaceAll(_entities, ' ');
   final cjk = _cjk.allMatches(text).length;
-  return cjk > text.length / 4
-      ? cjk / _charsPerMinute
-      : _words.allMatches(text).length / _wordsPerMinute;
+  return cjk > text.length / 4 ? cjk / _charsPerMinute : _words.allMatches(text).length / _wordsPerMinute;
 }
 
 /// Minutes left of [total] with [progress] (0 to 1) read. Rounded up, so
@@ -27,5 +25,4 @@ int minutesLeft(double total, double progress) {
 }
 
 /// [minutesLeft] of a chapter's [html].
-int readingMinutesLeft(String html, double progress) =>
-    minutesLeft(readingMinutes(html), progress);
+int readingMinutesLeft(String html, double progress) => minutesLeft(readingMinutes(html), progress);

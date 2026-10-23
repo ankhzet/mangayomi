@@ -39,9 +39,7 @@ class VideoQualitySectionWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: ShioriSpace.s8),
       child: Column(
         children: videoQuality.map((quality) {
-          final selected =
-              currentVideo!.videoTrack!.title == quality.videoTrack!.title ||
-              isLocal;
+          final selected = currentVideo!.videoTrack!.title == quality.videoTrack!.title || isLocal;
           return SettingsOptionRow(
             label: isLocal ? localQualityLabel : quality.videoTrack!.title!,
             selected: selected,
@@ -360,9 +358,7 @@ class AppearanceSectionWidget extends ConsumerWidget {
                     title: context.l10n.override_ass_subtitles,
                     subtitle: context.l10n.override_ass_subtitles_info,
                     onChanged: (val) {
-                      ref
-                          .read(subtitleSettingsStateProvider.notifier)
-                          .setOverrideAss(val);
+                      ref.read(subtitleSettingsStateProvider.notifier).setOverrideAss(val);
                     },
                   ),
                 );

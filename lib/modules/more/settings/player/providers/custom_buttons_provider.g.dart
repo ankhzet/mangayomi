@@ -41,5 +41,4 @@ final class GetCustomButtonsStreamProvider
   }
 }
 
-String _$getCustomButtonsStreamHash() =>
-    r'bbebe5abc571aa9e046582aa34aafafaccb99eca';
+String _$getCustomButtonsStreamHash() => r'bbebe5abc571aa9e046582aa34aafafaccb99eca';

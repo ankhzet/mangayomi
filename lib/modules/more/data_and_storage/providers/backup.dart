@@ -47,9 +47,7 @@ Future<void> doBackUp(
       // everything it needs is read before the dialog closes.
       final l10n = context.l10n;
       final box = context.findRenderObject() as RenderBox?;
-      final origin = box == null
-          ? null
-          : box.localToGlobal(Offset.zero) & box.size;
+      final origin = box == null ? null : box.localToGlobal(Offset.zero) & box.size;
       Navigator.pop(context);
       botToast(
         "Backup created!",
@@ -93,10 +91,7 @@ Future<String> writeMangayomiBackupZip({
   Map<String, dynamic> datas = {};
   datas.addAll({"version": "2"});
   if (list.contains(0)) {
-    final res = mangaRepository
-        .getFavoritesNonLocalArchive()
-        .map((e) => e.toJson())
-        .toList();
+    final res = mangaRepository.getFavoritesNonLocalArchive().map((e) => e.toJson()).toList();
     datas.addAll({"manga": res});
   }
   if (list.contains(1)) {
@@ -131,17 +126,11 @@ Future<String> writeMangayomiBackupZip({
     });
   }
   if (list.contains(7)) {
-    final res = sourcePreferenceRepository
-        .getAll()
-        .map((e) => e.toJson())
-        .toList();
+    final res = sourcePreferenceRepository.getAll().map((e) => e.toJson()).toList();
     datas.addAll({"extensions_preferences": res});
   }
   if (list.contains(8)) {
-    final res_ = trackRepository
-        .getAllPreferences()
-        .map((e) => e.toJson())
-        .toList();
+    final res_ = trackRepository.getAllPreferences().map((e) => e.toJson()).toList();
     datas.addAll({"trackPreferences": res_});
   }
   if (list.contains(9)) {
@@ -153,8 +142,7 @@ Future<String> writeMangayomiBackupZip({
     datas.addAll({"customButtons": res});
   }
   String? encryptionPassword;
-  if (encrypt &&
-      (settingsRepository.currentOrNull?.backupEncryptionEnabled ?? false)) {
+  if (encrypt && (settingsRepository.currentOrNull?.backupEncryptionEnabled ?? false)) {
     encryptionPassword = await BackupPasswordStorage.get();
     if (encryptionPassword == null) {
       throw Exception(
@@ -165,8 +153,7 @@ Future<String> writeMangayomiBackupZip({
     datas.addAll({"backupEncryptionPassword": encryptionPassword});
   }
   final regExp = RegExp(r'[^a-zA-Z0-9 .()\-\s]');
-  final name =
-      'mangayomi_${DateTime.now().toString().replaceAll(regExp, '_').replaceAll(' ', '_')}';
+  final name = 'mangayomi_${DateTime.now().toString().replaceAll(regExp, '_').replaceAll(' ', '_')}';
   final backupFilePath = p.join(directory, "$name.backup.db");
   final file = File(backupFilePath);
 

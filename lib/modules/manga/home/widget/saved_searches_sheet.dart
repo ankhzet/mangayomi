@@ -16,9 +16,7 @@ Future<void> showSavedSearchesSheet({
     title: context.l10n.saved_searches,
     builder: (ctx) => Consumer(
       builder: (ctx, ref, _) {
-        final saved =
-            ref.watch(savedSearchesProvider)[source.id] ??
-            const <SavedSearch>[];
+        final saved = ref.watch(savedSearchesProvider)[source.id] ?? const <SavedSearch>[];
         if (saved.isEmpty) {
           return ShioriEmptyState(
             icon: Symbols.bookmark_rounded,
@@ -39,12 +37,9 @@ Future<void> showSavedSearchesSheet({
                   onSelect(s.query);
                 },
                 trailing: IconButton(
-                  tooltip: MaterialLocalizations.of(context)
-                      .deleteButtonTooltip,
+                  tooltip: MaterialLocalizations.of(context).deleteButtonTooltip,
                   icon: const Icon(Symbols.delete_rounded),
-                  onPressed: () => ref
-                      .read(savedSearchesProvider.notifier)
-                      .remove(source.id!, s.name),
+                  onPressed: () => ref.read(savedSearchesProvider.notifier).remove(source.id!, s.name),
                 ),
               ),
           ],

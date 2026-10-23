@@ -150,15 +150,9 @@ class ExpandableTextState extends State<ExpandableText> with TickerProviderState
       effectiveTextStyle = defaultTextStyle.style.merge(widget.style);
     }
 
-    final linkText =
-        (_expanded ? widget.collapseText : widget.expandText) ?? '';
-    final linkColor =
-        widget.linkColor ??
-        widget.linkStyle?.color ??
-        context.shiori.color.accentInk;
-    final linkTextStyle = effectiveTextStyle!
-        .merge(widget.linkStyle)
-        .copyWith(color: linkColor);
+    final linkText = (_expanded ? widget.collapseText : widget.expandText) ?? '';
+    final linkColor = widget.linkColor ?? widget.linkStyle?.color ?? context.shiori.color.accentInk;
+    final linkTextStyle = effectiveTextStyle!.merge(widget.linkStyle).copyWith(color: linkColor);
 
     final prefixText = widget.prefixText != null && widget.prefixText!.isNotEmpty ? '${widget.prefixText} ' : '';
 
@@ -324,8 +318,7 @@ class ExpandableTextState extends State<ExpandableText> with TickerProviderState
                             alignment: Alignment.bottomCenter,
                             child: Icon(
                               fill: 1,
-                              widget.expandIcon ??
-                                  Symbols.keyboard_arrow_down_rounded,
+                              widget.expandIcon ?? Symbols.keyboard_arrow_down_rounded,
                               color: context.shiori.color.fgMuted,
                             ),
                           ),
@@ -342,10 +335,8 @@ class ExpandableTextState extends State<ExpandableText> with TickerProviderState
                     child: Icon(
                       fill: 1,
                       _expanded
-                          ? widget.collapseIcon ??
-                                Symbols.keyboard_arrow_up_rounded
-                          : widget.expandIcon ??
-                                Symbols.keyboard_arrow_down_rounded,
+                          ? widget.collapseIcon ?? Symbols.keyboard_arrow_up_rounded
+                          : widget.expandIcon ?? Symbols.keyboard_arrow_down_rounded,
                       color: context.shiori.color.fgMuted,
                     ),
                   ),

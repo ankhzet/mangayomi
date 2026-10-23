@@ -34,9 +34,7 @@ class MExtensionServerPlatform {
 
     return _iosStartOperation ??=
         _startServer(
-          baseUrl: forceLocal
-              ? _iosActiveBaseUrl ?? 'http://127.0.0.1:0'
-              : null,
+          baseUrl: forceLocal ? _iosActiveBaseUrl ?? 'http://127.0.0.1:0' : null,
         ).whenComplete(() {
           _iosStartOperation = null;
         });
@@ -64,12 +62,10 @@ class MExtensionServerPlatform {
             final settings = settingsRepository.currentOrNull;
             final jrePath = settings?.jrePath;
             final serverJarPath = settings?.extensionServerPath;
-            if ((jrePath?.isEmpty ?? true) ||
-                (serverJarPath?.isEmpty ?? true)) {
+            if ((jrePath?.isEmpty ?? true) || (serverJarPath?.isEmpty ?? true)) {
               return;
             }
-            if (!await File(jrePath!).exists() ||
-                !await File(serverJarPath!).exists()) {
+            if (!await File(jrePath!).exists() || !await File(serverJarPath!).exists()) {
               return;
             }
             await MExtensionServer().startServer(
@@ -110,11 +106,8 @@ class MExtensionServerPlatform {
   Future<bool> _isOurServer(String baseUrl) async {
     for (var i = 0; i < 20; i++) {
       try {
-        final res = await http
-            .get(Uri.parse("$baseUrl/capabilities"))
-            .timeout(const Duration(milliseconds: 500));
-        if (res.statusCode == 200 &&
-            res.body.contains('"mangayomiMihonBridge"')) {
+        final res = await http.get(Uri.parse("$baseUrl/capabilities")).timeout(const Duration(milliseconds: 500));
+        if (res.statusCode == 200 && res.body.contains('"mangayomiMihonBridge"')) {
           return true;
         }
       } catch (_) {}
@@ -131,11 +124,9 @@ class MExtensionServerPlatform {
     } catch (_) {}
   }
 
-  Future<bool> checkLocalServer() async =>
-      _iosActiveBaseUrl != null && await _check(_iosActiveBaseUrl!);
+  Future<bool> checkLocalServer() async => _iosActiveBaseUrl != null && await _check(_iosActiveBaseUrl!);
 
   String get _baseUrl => ref != null
       ? ref.read(androidProxyServerStateProvider) as String
-      : (settingsRepository.currentOrNull?.androidProxyServer ??
-            "http://127.0.0.1:8080");
+      : (settingsRepository.currentOrNull?.androidProxyServer ?? "http://127.0.0.1:8080");
 }

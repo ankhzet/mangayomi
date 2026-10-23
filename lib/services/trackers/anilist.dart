@@ -157,9 +157,7 @@ class Anilist extends _$Anilist implements BaseTracker {
     final entries = List<Map<String, dynamic>>.from(
       data['Page']['media'] as List,
     );
-    return entries
-        .map((jsonRes) => _mediaToTrackSearch(jsonRes, contentUnit))
-        .toList();
+    return entries.map((jsonRes) => _mediaToTrackSearch(jsonRes, contentUnit)).toList();
   }
 
   @override
@@ -252,9 +250,7 @@ class Anilist extends _$Anilist implements BaseTracker {
     final entries = List<Map<String, dynamic>>.from(
       data['Page']['media'] as List,
     );
-    return entries
-        .map((jsonRes) => _mediaToTrackSearch(jsonRes, contentUnit))
-        .toList();
+    return entries.map((jsonRes) => _mediaToTrackSearch(jsonRes, contentUnit)).toList();
   }
 
   /// A `media` node from a search or ranking query, as a search result.
@@ -270,10 +266,7 @@ class Anilist extends _$Anilist implements BaseTracker {
     totalChapter: jsonRes[contentUnit] ?? 0,
     coverUrl: jsonRes['coverImage']['large'] ?? "",
     title: jsonRes['title']['userPreferred'],
-    startDate:
-        jsonRes["start_date"] ??
-        DateTime.fromMillisecondsSinceEpoch(parseDate(jsonRes, 'startDate'))
-            .toString(),
+    startDate: jsonRes["start_date"] ?? DateTime.fromMillisecondsSinceEpoch(parseDate(jsonRes, 'startDate')).toString(),
     publishingType: "",
     publishingStatus: jsonRes['status'],
     score: jsonRes["averageScore"] != null ? jsonRes["averageScore"] * 1.0 : 0,
@@ -389,13 +382,11 @@ class Anilist extends _$Anilist implements BaseTracker {
       if (response.statusCode == 429) {
         if (attempt <= maxRetries) {
           final retryAfterHeader = response.headers['retry-after'];
-          final waitSeconds =
-              int.tryParse(retryAfterHeader ?? '') ?? (attempt * 2);
+          final waitSeconds = int.tryParse(retryAfterHeader ?? '') ?? (attempt * 2);
           // Add micro-jitter (0~800ms) to avoid thundering herd on concurrent requests
           final jitterMs = Random().nextInt(800);
           await Future.delayed(
-            Duration(seconds: waitSeconds.clamp(1, 30)) +
-                Duration(milliseconds: jitterMs),
+            Duration(seconds: waitSeconds.clamp(1, 30)) + Duration(milliseconds: jitterMs),
           );
           continue;
         }

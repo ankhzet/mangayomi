@@ -27,15 +27,9 @@ Future<void> fetchSourcesList({
   final url = repo?.jsonUrl;
   if (url == null) return;
 
-  if (repo != null &&
-      (repo.name == null ||
-          repo.name!.isEmpty ||
-          repo.name == '.dist' ||
-          repo.name == 'dist')) {
+  if (repo != null && (repo.name == null || repo.name!.isEmpty || repo.name == '.dist' || repo.name == 'dist')) {
     final uri = Uri.tryParse(url);
-    if (uri != null &&
-        uri.host == 'raw.githubusercontent.com' &&
-        uri.pathSegments.length >= 2) {
+    if (uri != null && uri.host == 'raw.githubusercontent.com' && uri.pathSegments.length >= 2) {
       repo.name = uri.pathSegments[1];
     }
   }
@@ -98,8 +92,7 @@ Future<void> fetchSourcesList({
                     ..sourceCodeLanguage = SourceCodeLanguage.lnreader
                     ..itemType = ItemType.novel
                     ..notes = "Performance might be poor due to limited engine";
-                  src.id =
-                      'lnreader-plugin-"${src.name}"."${src.lang}"'.hashCode;
+                  src.id = 'lnreader-plugin-"${src.name}"."${src.lang}"'.hashCode;
                   yield src;
                 } else {
                   yield Source.fromJson(e);
@@ -110,8 +103,7 @@ Future<void> fetchSourcesList({
                     source.itemType == itemType &&
                     (source.appMinVerReq == null ||
                         source.appMinVerReq!.isEmpty ||
-                        compareVersions(info.version, source.appMinVerReq!) >
-                            -1),
+                        compareVersions(info.version, source.appMinVerReq!) > -1),
               )
               .toList();
         }
@@ -164,8 +156,7 @@ Future<void> _updateSource(
   final http = MClient.init(reqcopyWith: {'useDartHttpClient': true});
   final req = await http.get(Uri.parse(source.sourceCodeUrl!));
   final sourceCode =
-      (source.sourceCodeLanguage == SourceCodeLanguage.mihon ||
-          source.sourceCodeLanguage == SourceCodeLanguage.aidoku)
+      (source.sourceCodeLanguage == SourceCodeLanguage.mihon || source.sourceCodeLanguage == SourceCodeLanguage.aidoku)
       ? base64.encode(req.bodyBytes)
       : req.body;
 
@@ -203,9 +194,7 @@ Future<void> _updateSource(
     );
   }
 
-  final existing = source.id != null
-      ? sourceRepository.getById(source.id!)
-      : null;
+  final existing = source.id != null ? sourceRepository.getById(source.id!) : null;
   final updatedSource = Source()
     ..headers = jsonEncode(headers)
     ..supportLatest = supportLatest
@@ -311,22 +300,12 @@ Future<void> checkIfSourceIsObsolete(
 }
 
 int compareVersions(String version1, String version2) {
-  final clean1 = version1
-      .trim()
-      .replaceFirst(RegExp(r'^[vV]'), '')
-      .split(RegExp(r'[-+]'))
-      .first;
-  final clean2 = version2
-      .trim()
-      .replaceFirst(RegExp(r'^[vV]'), '')
-      .split(RegExp(r'[-+]'))
-      .first;
+  final clean1 = version1.trim().replaceFirst(RegExp(r'^[vV]'), '').split(RegExp(r'[-+]')).first;
+  final clean2 = version2.trim().replaceFirst(RegExp(r'^[vV]'), '').split(RegExp(r'[-+]')).first;
 
   final v1Parts = clean1.split('.');
   final v2Parts = clean2.split('.');
-  final maxLength = v1Parts.length > v2Parts.length
-      ? v1Parts.length
-      : v2Parts.length;
+  final maxLength = v1Parts.length > v2Parts.length ? v1Parts.length : v2Parts.length;
 
   for (var i = 0; i < maxLength; i++) {
     final v1Value = i < v1Parts.length ? (int.tryParse(v1Parts[i]) ?? 0) : 0;

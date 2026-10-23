@@ -79,8 +79,7 @@ class _DestinationSourceTile extends StatelessWidget {
       title: Text(source.name ?? l10n.mass_migration_unknown_source),
       subtitle: Text(
         [
-          if ((source.lang ?? '').isNotEmpty)
-            languageName(context, source.lang!),
+          if ((source.lang ?? '').isNotEmpty) languageName(context, source.lang!),
           l10n.mass_migration_installed,
         ].join(' · '),
       ),

@@ -12,8 +12,7 @@ part of 'browse_state_provider.dart';
 @ProviderFor(AndroidProxyServerState)
 final androidProxyServerStateProvider = AndroidProxyServerStateProvider._();
 
-final class AndroidProxyServerStateProvider
-    extends $NotifierProvider<AndroidProxyServerState, String> {
+final class AndroidProxyServerStateProvider extends $NotifierProvider<AndroidProxyServerState, String> {
   AndroidProxyServerStateProvider._()
     : super(
         from: null,
@@ -41,8 +40,7 @@ final class AndroidProxyServerStateProvider
   }
 }
 
-String _$androidProxyServerStateHash() =>
-    r'467140adbc0ca4bcd3bf904bcce8afd720226281';
+String _$androidProxyServerStateHash() => r'467140adbc0ca4bcd3bf904bcce8afd720226281';
 
 abstract class _$AndroidProxyServerState extends $Notifier<String> {
   String build();
@@ -50,21 +48,13 @@ abstract class _$AndroidProxyServerState extends $Notifier<String> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String, String>,
-              String,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(AutoStartExtensionServerOnLaunchState)
-final autoStartExtensionServerOnLaunchStateProvider =
-    AutoStartExtensionServerOnLaunchStateProvider._();
+final autoStartExtensionServerOnLaunchStateProvider = AutoStartExtensionServerOnLaunchStateProvider._();
 
 final class AutoStartExtensionServerOnLaunchStateProvider
     extends $NotifierProvider<AutoStartExtensionServerOnLaunchState, bool> {
@@ -80,13 +70,11 @@ final class AutoStartExtensionServerOnLaunchStateProvider
       );
 
   @override
-  String debugGetCreateSourceHash() =>
-      _$autoStartExtensionServerOnLaunchStateHash();
+  String debugGetCreateSourceHash() => _$autoStartExtensionServerOnLaunchStateHash();
 
   @$internal
   @override
-  AutoStartExtensionServerOnLaunchState create() =>
-      AutoStartExtensionServerOnLaunchState();
+  AutoStartExtensionServerOnLaunchState create() => AutoStartExtensionServerOnLaunchState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(bool value) {
@@ -97,8 +85,7 @@ final class AutoStartExtensionServerOnLaunchStateProvider
   }
 }
 
-String _$autoStartExtensionServerOnLaunchStateHash() =>
-    r'd312820e810888adde370f3b6fb74ee34cdde354';
+String _$autoStartExtensionServerOnLaunchStateHash() => r'd312820e810888adde370f3b6fb74ee34cdde354';
 
 abstract class _$AutoStartExtensionServerOnLaunchState extends $Notifier<bool> {
   bool build();
@@ -106,24 +93,15 @@ abstract class _$AutoStartExtensionServerOnLaunchState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(OnlyIncludePinnedSourceState)
-final onlyIncludePinnedSourceStateProvider =
-    OnlyIncludePinnedSourceStateProvider._();
+final onlyIncludePinnedSourceStateProvider = OnlyIncludePinnedSourceStateProvider._();
 
-final class OnlyIncludePinnedSourceStateProvider
-    extends $NotifierProvider<OnlyIncludePinnedSourceState, bool> {
+final class OnlyIncludePinnedSourceStateProvider extends $NotifierProvider<OnlyIncludePinnedSourceState, bool> {
   OnlyIncludePinnedSourceStateProvider._()
     : super(
         from: null,
@@ -151,8 +129,7 @@ final class OnlyIncludePinnedSourceStateProvider
   }
 }
 
-String _$onlyIncludePinnedSourceStateHash() =>
-    r'4bf4198428614f48e0f293a7c3675744fe110b57';
+String _$onlyIncludePinnedSourceStateHash() => r'4bf4198428614f48e0f293a7c3675744fe110b57';
 
 abstract class _$OnlyIncludePinnedSourceState extends $Notifier<bool> {
   bool build();
@@ -160,14 +137,7 @@ abstract class _$OnlyIncludePinnedSourceState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -175,8 +145,7 @@ abstract class _$OnlyIncludePinnedSourceState extends $Notifier<bool> {
 @ProviderFor(ShowNSFWState)
 final showNSFWStateProvider = ShowNSFWStateProvider._();
 
-final class ShowNSFWStateProvider
-    extends $NotifierProvider<ShowNSFWState, bool> {
+final class ShowNSFWStateProvider extends $NotifierProvider<ShowNSFWState, bool> {
   ShowNSFWStateProvider._()
     : super(
         from: null,
@@ -212,24 +181,15 @@ abstract class _$ShowNSFWState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(ShowNavDoubleTapTooltipState)
-final showNavDoubleTapTooltipStateProvider =
-    ShowNavDoubleTapTooltipStateProvider._();
+final showNavDoubleTapTooltipStateProvider = ShowNavDoubleTapTooltipStateProvider._();
 
-final class ShowNavDoubleTapTooltipStateProvider
-    extends $NotifierProvider<ShowNavDoubleTapTooltipState, bool> {
+final class ShowNavDoubleTapTooltipStateProvider extends $NotifierProvider<ShowNavDoubleTapTooltipState, bool> {
   ShowNavDoubleTapTooltipStateProvider._()
     : super(
         from: null,
@@ -257,8 +217,7 @@ final class ShowNavDoubleTapTooltipStateProvider
   }
 }
 
-String _$showNavDoubleTapTooltipStateHash() =>
-    r'e0c10c8c89933775a5a7e29d68ccb044eda11a90';
+String _$showNavDoubleTapTooltipStateHash() => r'e0c10c8c89933775a5a7e29d68ccb044eda11a90';
 
 abstract class _$ShowNavDoubleTapTooltipState extends $Notifier<bool> {
   bool build();
@@ -266,14 +225,7 @@ abstract class _$ShowNavDoubleTapTooltipState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -281,8 +233,7 @@ abstract class _$ShowNavDoubleTapTooltipState extends $Notifier<bool> {
 @ProviderFor(ExtensionsRepoState)
 final extensionsRepoStateProvider = ExtensionsRepoStateFamily._();
 
-final class ExtensionsRepoStateProvider
-    extends $NotifierProvider<ExtensionsRepoState, List<Repo>> {
+final class ExtensionsRepoStateProvider extends $NotifierProvider<ExtensionsRepoState, List<Repo>> {
   ExtensionsRepoStateProvider._({
     required ExtensionsRepoStateFamily super.from,
     required ItemType super.argument,
@@ -327,18 +278,10 @@ final class ExtensionsRepoStateProvider
   }
 }
 
-String _$extensionsRepoStateHash() =>
-    r'22e3089ffd5f35f645d9bb4c1404aa569caa2556';
+String _$extensionsRepoStateHash() => r'22e3089ffd5f35f645d9bb4c1404aa569caa2556';
 
 final class ExtensionsRepoStateFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          ExtensionsRepoState,
-          List<Repo>,
-          List<Repo>,
-          List<Repo>,
-          ItemType
-        > {
+    with $ClassFamilyOverride<ExtensionsRepoState, List<Repo>, List<Repo>, List<Repo>, ItemType> {
   ExtensionsRepoStateFamily._()
     : super(
         retry: null,
@@ -348,8 +291,7 @@ final class ExtensionsRepoStateFamily extends $Family
         isAutoDispose: true,
       );
 
-  ExtensionsRepoStateProvider call(ItemType itemType) =>
-      ExtensionsRepoStateProvider._(argument: itemType, from: this);
+  ExtensionsRepoStateProvider call(ItemType itemType) => ExtensionsRepoStateProvider._(argument: itemType, from: this);
 
   @override
   String toString() => r'extensionsRepoStateProvider';
@@ -365,13 +307,7 @@ abstract class _$ExtensionsRepoState extends $Notifier<List<Repo>> {
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<List<Repo>, List<Repo>>;
     final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<List<Repo>, List<Repo>>,
-              List<Repo>,
-              Object?,
-              Object?
-            >;
+        ref.element as $ClassProviderElement<AnyNotifier<List<Repo>, List<Repo>>, List<Repo>, Object?, Object?>;
     return element.handleCreate(ref, () => build(_$args));
   }
 }
@@ -379,8 +315,7 @@ abstract class _$ExtensionsRepoState extends $Notifier<List<Repo>> {
 @ProviderFor(AutoUpdateExtensionsState)
 final autoUpdateExtensionsStateProvider = AutoUpdateExtensionsStateProvider._();
 
-final class AutoUpdateExtensionsStateProvider
-    extends $NotifierProvider<AutoUpdateExtensionsState, bool> {
+final class AutoUpdateExtensionsStateProvider extends $NotifierProvider<AutoUpdateExtensionsState, bool> {
   AutoUpdateExtensionsStateProvider._()
     : super(
         from: null,
@@ -408,8 +343,7 @@ final class AutoUpdateExtensionsStateProvider
   }
 }
 
-String _$autoUpdateExtensionsStateHash() =>
-    r'b48592e06dd793eccd601c1cecddc76d655dd577';
+String _$autoUpdateExtensionsStateHash() => r'b48592e06dd793eccd601c1cecddc76d655dd577';
 
 abstract class _$AutoUpdateExtensionsState extends $Notifier<bool> {
   bool build();
@@ -417,24 +351,15 @@ abstract class _$AutoUpdateExtensionsState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
 
 @ProviderFor(CheckForExtensionsUpdateState)
-final checkForExtensionsUpdateStateProvider =
-    CheckForExtensionsUpdateStateProvider._();
+final checkForExtensionsUpdateStateProvider = CheckForExtensionsUpdateStateProvider._();
 
-final class CheckForExtensionsUpdateStateProvider
-    extends $NotifierProvider<CheckForExtensionsUpdateState, bool> {
+final class CheckForExtensionsUpdateStateProvider extends $NotifierProvider<CheckForExtensionsUpdateState, bool> {
   CheckForExtensionsUpdateStateProvider._()
     : super(
         from: null,
@@ -462,8 +387,7 @@ final class CheckForExtensionsUpdateStateProvider
   }
 }
 
-String _$checkForExtensionsUpdateStateHash() =>
-    r'afa9cd5f07c10a9a239a19858d87c7a6419842f6';
+String _$checkForExtensionsUpdateStateHash() => r'afa9cd5f07c10a9a239a19858d87c7a6419842f6';
 
 abstract class _$CheckForExtensionsUpdateState extends $Notifier<bool> {
   bool build();
@@ -471,14 +395,7 @@ abstract class _$CheckForExtensionsUpdateState extends $Notifier<bool> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<bool, bool>,
-              bool,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
     return element.handleCreate(ref, build);
   }
 }
@@ -486,8 +403,7 @@ abstract class _$CheckForExtensionsUpdateState extends $Notifier<bool> {
 @ProviderFor(getRepoInfos)
 final getRepoInfosProvider = GetRepoInfosFamily._();
 
-final class GetRepoInfosProvider
-    extends $FunctionalProvider<AsyncValue<Repo?>, Repo?, FutureOr<Repo?>>
+final class GetRepoInfosProvider extends $FunctionalProvider<AsyncValue<Repo?>, Repo?, FutureOr<Repo?>>
     with $FutureModifier<Repo?>, $FutureProvider<Repo?> {
   GetRepoInfosProvider._({
     required GetRepoInfosFamily super.from,
@@ -512,8 +428,7 @@ final class GetRepoInfosProvider
 
   @$internal
   @override
-  $FutureProviderElement<Repo?> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<Repo?> $createElement($ProviderPointer pointer) => $FutureProviderElement(pointer);
 
   @override
   FutureOr<Repo?> create(Ref ref) {
@@ -534,8 +449,7 @@ final class GetRepoInfosProvider
 
 String _$getRepoInfosHash() => r'3bb175fd2be99ad6c0764de12caf1ff2f200f82a';
 
-final class GetRepoInfosFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<Repo?>, String> {
+final class GetRepoInfosFamily extends $Family with $FunctionalFamilyOverride<FutureOr<Repo?>, String> {
   GetRepoInfosFamily._()
     : super(
         retry: null,
@@ -545,8 +459,7 @@ final class GetRepoInfosFamily extends $Family
         isAutoDispose: true,
       );
 
-  GetRepoInfosProvider call({required String jsonUrl}) =>
-      GetRepoInfosProvider._(argument: jsonUrl, from: this);
+  GetRepoInfosProvider call({required String jsonUrl}) => GetRepoInfosProvider._(argument: jsonUrl, from: this);
 
   @override
   String toString() => r'getRepoInfosProvider';

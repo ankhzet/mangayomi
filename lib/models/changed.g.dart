@@ -341,8 +341,7 @@ extension ChangedPartQueryFilter on QueryBuilder<ChangedPart, ChangedPart, QFilt
     });
   }
 
-  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition>
-  clientIdIsNull() {
+  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition> clientIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNull(property: r'clientId'),
@@ -350,8 +349,7 @@ extension ChangedPartQueryFilter on QueryBuilder<ChangedPart, ChangedPart, QFilt
     });
   }
 
-  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition>
-  clientIdIsNotNull() {
+  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition> clientIdIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const FilterCondition.isNotNull(property: r'clientId'),
@@ -369,8 +367,10 @@ extension ChangedPartQueryFilter on QueryBuilder<ChangedPart, ChangedPart, QFilt
     });
   }
 
-  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition>
-  clientIdGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition> clientIdGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.greaterThan(
@@ -382,8 +382,7 @@ extension ChangedPartQueryFilter on QueryBuilder<ChangedPart, ChangedPart, QFilt
     });
   }
 
-  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition>
-  clientIdLessThan(int? value, {bool include = false}) {
+  QueryBuilder<ChangedPart, ChangedPart, QAfterFilterCondition> clientIdLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         FilterCondition.lessThan(

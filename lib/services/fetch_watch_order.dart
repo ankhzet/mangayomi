@@ -36,10 +36,7 @@ Future<List<SequelItem>> fetchSequels(
       body: "user=${malUsername ?? anilistUsername}&list_source=${malUsername != null ? "mal" : "anilist"}$_sequelData",
     );
     final data = jsonDecode(res.body) as Map<String, dynamic>?;
-    return (data?["data"] as List?)
-            ?.map((e) => SequelItem.fromJson(e))
-            .toList() ??
-        [];
+    return (data?["data"] as List?)?.map((e) => SequelItem.fromJson(e)).toList() ?? [];
   } catch (error, stackTrace) {
     recordError(error, stack: stackTrace, source: 'fetch_watch_order');
     return [];
@@ -125,8 +122,7 @@ Future<WatchOrderPlan> fetchWatchOrder(
   }
 
   // Order by air date (the reliable watch order); undated entries sink last.
-  final unique = collected.values.toList()
-    ..sort((a, b) => a.startSortKey.compareTo(b.startSortKey));
+  final unique = collected.values.toList()..sort((a, b) => a.startSortKey.compareTo(b.startSortKey));
 
   // The queried title is the anchor: entries before it are "previous", it is
   // "current", entries after are "next".
@@ -274,9 +270,7 @@ Future<WatchOrderPlan?> fetchWatchOrderForMedia(
   );
   if (resolved.catalog == DiscoveryCatalog.anilist) {
     final id = resolved.anilistId;
-    return id == null
-        ? fetchWatchOrderByName(media.title)
-        : fetchWatchOrder(id.toString());
+    return id == null ? fetchWatchOrderByName(media.title) : fetchWatchOrder(id.toString());
   }
   return fetchWesternWatchOrder(
     media,

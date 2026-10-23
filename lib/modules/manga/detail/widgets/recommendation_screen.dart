@@ -100,9 +100,7 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
           // to two columns instead so they never run into empty space.
           : LayoutBuilder(
               builder: (context, constraints) {
-                final columns = constraints.maxWidth >= _twoColumnBreakpoint
-                    ? 2
-                    : 1;
+                final columns = constraints.maxWidth >= _twoColumnBreakpoint ? 2 : 1;
                 return GridView.builder(
                   padding: tvPageInsets,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -112,8 +110,7 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
                     mainAxisSpacing: 10,
                   ),
                   itemCount: data!.length,
-                  itemBuilder: (context, index) =>
-                      _card(context, data![index], index),
+                  itemBuilder: (context, index) => _card(context, data![index], index),
                 );
               },
             ),
@@ -179,8 +176,7 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    if (rec.description != null &&
-                        rec.description!.isNotEmpty) ...[
+                    if (rec.description != null && rec.description!.isNotEmpty) ...[
                       const SizedBox(height: ShioriSpace.s4),
                       // Non-flex children (title, chips) are laid out first,
                       // so this gets whatever height the fixed-size card has
@@ -192,11 +188,8 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
                               height: _descriptionLineHeight,
                             );
                             final lineExtent =
-                                MediaQuery.textScalerOf(context)
-                                    .scale(style.fontSize!) *
-                                _descriptionLineHeight;
-                            final lines = (constraints.maxHeight / lineExtent)
-                                .floor();
+                                MediaQuery.textScalerOf(context).scale(style.fontSize!) * _descriptionLineHeight;
+                            final lines = (constraints.maxHeight / lineExtent).floor();
                             if (lines < 1) return const SizedBox.shrink();
                             return Text(
                               rec.description!,
@@ -275,6 +268,5 @@ class _RecommendationScreenState extends State<RecommendationScreen> {
     );
   }
 
-  Widget _chip(BuildContext context, String text) =>
-      EntryBadgeChip(label: text);
+  Widget _chip(BuildContext context, String text) => EntryBadgeChip(label: text);
 }

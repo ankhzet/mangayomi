@@ -23,9 +23,7 @@ import 'package:mangayomi/utils/error_toast.dart';
 part 'myanimelist.g.dart';
 
 @riverpod
-class MyAnimeList extends _$MyAnimeList
-    with ExpiringOAuthTracker
-    implements BaseTracker {
+class MyAnimeList extends _$MyAnimeList with ExpiringOAuthTracker implements BaseTracker {
   final http = MClient.init(reqcopyWith: {'useDartHttpClient': true});
   static const _baseOAuthUrl = 'https://myanimelist.net/v1/oauth2';
   static const _baseApiUrl = 'https://api.myanimelist.net/v2';
@@ -74,8 +72,7 @@ class MyAnimeList extends _$MyAnimeList
   String get trackerName => "MyAnimeList";
 
   @override
-  Future<void> saveRefreshedOAuth(OAuth oAuth) async =>
-      _saveOAuth(await _getUserName(oAuth.accessToken!), oAuth);
+  Future<void> saveRefreshedOAuth(OAuth oAuth) async => _saveOAuth(await _getUserName(oAuth.accessToken!), oAuth);
 
   @override
   Future<OAuth?> refreshOAuth(OAuth oldOAuth) async {

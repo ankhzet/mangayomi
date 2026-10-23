@@ -75,6 +75,5 @@ class BackupPasswordStorage {
     await _clearPlaintextFallback();
   }
 
-  static Future<void> _clearPlaintextFallback() =>
-      backupPasswordRepository.clearPlaintextFallback();
+  static Future<void> _clearPlaintextFallback() => backupPasswordRepository.clearPlaintextFallback();
 }

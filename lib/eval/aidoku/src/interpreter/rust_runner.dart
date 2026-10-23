@@ -22,11 +22,9 @@ class AidokuRustRunner implements AidokuRunner {
   static Future<AidokuRustRunner> create({
     required Uint8List bytes,
     required String sourceKey,
-    required FutureOr<rust.AidokuNetResponse> Function(rust.AidokuNetRequest)
-    requestHandler,
+    required FutureOr<rust.AidokuNetResponse> Function(rust.AidokuNetRequest) requestHandler,
     void Function(String message)? printHandler,
-    FutureOr<rust_js.AidokuJsResponse> Function(rust_js.AidokuJsRequest)?
-    jsHandler,
+    FutureOr<rust_js.AidokuJsResponse> Function(rust_js.AidokuJsRequest)? jsHandler,
   }) async {
     AidokuLogger.log(
       'RustRunner',
@@ -297,9 +295,7 @@ class AidokuRustRunner implements AidokuRunner {
       title: c.title,
       chapterNumber: c.chapterNumber,
       volumeNumber: c.volumeNumber,
-      dateUploaded: c.dateUploaded != null
-          ? DateTime.fromMillisecondsSinceEpoch(c.dateUploaded!.toInt() * 1000)
-          : null,
+      dateUploaded: c.dateUploaded != null ? DateTime.fromMillisecondsSinceEpoch(c.dateUploaded!.toInt() * 1000) : null,
       scanlators: c.scanlators,
       url: c.url,
       language: c.language,
@@ -334,9 +330,7 @@ class AidokuRustRunner implements AidokuRunner {
       title: c.title,
       chapterNumber: c.chapterNumber,
       volumeNumber: c.volumeNumber,
-      dateUploaded: c.dateUploaded != null
-          ? c.dateUploaded!.millisecondsSinceEpoch ~/ 1000
-          : null,
+      dateUploaded: c.dateUploaded != null ? c.dateUploaded!.millisecondsSinceEpoch ~/ 1000 : null,
       scanlators: c.scanlators,
       url: c.url,
       language: c.language,
@@ -373,16 +367,13 @@ class AidokuRustRunner implements AidokuRunner {
   static Page _mapPage(rust.AidokuPage p) {
     return p.when(
       url: (url, context) {
-        final ctx = context.isNotEmpty
-            ? Map.fromEntries(context.map((e) => MapEntry(e.$1, e.$2)))
-            : null;
+        final ctx = context.isNotEmpty ? Map.fromEntries(context.map((e) => MapEntry(e.$1, e.$2))) : null;
         return Page(
           content: PageContentUrl(url: url, context: ctx),
         );
       },
       text: (text) => Page(content: PageContentText(text)),
-      image: (data) =>
-          Page(content: PageContentImage(imageRef: 0, imageData: data)),
+      image: (data) => Page(content: PageContentImage(imageRef: 0, imageData: data)),
       zipFile: (url, filePath) => Page(
         content: PageContentZipFile(url: url, filePath: filePath),
       ),

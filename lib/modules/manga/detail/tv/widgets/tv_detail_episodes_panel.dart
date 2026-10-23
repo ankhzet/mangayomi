@@ -105,9 +105,7 @@ class _TvDetailEpisodeRowState extends State<TvDetailEpisodeRow> {
     final ep = widget.episode;
     final watched = ep.isRead ?? false;
     final filler = ep.isFiller ?? false;
-    final title = (ep.name ?? '').trim().isEmpty
-        ? 'Episode ${widget.index + 1}'
-        : ep.name!.trim();
+    final title = (ep.name ?? '').trim().isEmpty ? 'Episode ${widget.index + 1}' : ep.name!.trim();
     return Focus(
       onFocusChange: (f) => setState(() => _focused = f),
       onKeyEvent: (node, event) {
@@ -129,9 +127,7 @@ class _TvDetailEpisodeRowState extends State<TvDetailEpisodeRow> {
           margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           decoration: BoxDecoration(
-            color: _focused
-                ? widget.accent.withValues(alpha: Alphas.accentTint)
-                : Colors.transparent,
+            color: _focused ? widget.accent.withValues(alpha: Alphas.accentTint) : Colors.transparent,
             borderRadius: BorderRadius.circular(ShioriShape.card),
           ),
           child: Row(
@@ -143,9 +139,7 @@ class _TvDetailEpisodeRowState extends State<TvDetailEpisodeRow> {
                 height: 34,
                 margin: const EdgeInsets.only(right: 12),
                 decoration: BoxDecoration(
-                  color: watched
-                      ? context.shiori.color.fgMuted.withValues(alpha: 0.3)
-                      : widget.accent,
+                  color: watched ? context.shiori.color.fgMuted.withValues(alpha: 0.3) : widget.accent,
                   borderRadius: BorderRadius.circular(ShioriShape.card),
                 ),
               ),

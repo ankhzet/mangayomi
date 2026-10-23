@@ -72,9 +72,7 @@ class SyncServer extends _$SyncServer {
       final redirectUri = isDesktop
           ? 'http://localhost:$_desktopOAuthCallbackPort/callback'
           : 'mangayomi://oauth-callback';
-      final callbackUrlScheme = isDesktop
-          ? 'http://localhost:$_desktopOAuthCallbackPort'
-          : 'mangayomi';
+      final callbackUrlScheme = isDesktop ? 'http://localhost:$_desktopOAuthCallbackPort' : 'mangayomi';
 
       final authorizeUrl = Uri.parse('$server/api/oauth/authorize').replace(
         queryParameters: {
@@ -116,9 +114,7 @@ class SyncServer extends _$SyncServer {
         return (false, "Auth failed");
       }
 
-      ref
-          .read(synchingProvider(syncId: syncId).notifier)
-          .login(server, username, accessToken);
+      ref.read(synchingProvider(syncId: syncId).notifier).login(server, username, accessToken);
       botToast(l10n.sync_logged);
       return (true, "");
     } catch (e, stackTrace) {
@@ -127,8 +123,7 @@ class SyncServer extends _$SyncServer {
     }
   }
 
-  String _normalizePkceSegment(List<int> bytes) =>
-      base64Url.encode(bytes).replaceAll('=', '');
+  String _normalizePkceSegment(List<int> bytes) => base64Url.encode(bytes).replaceAll('=', '');
 
   String _generatePkceVerifier() {
     final bytes = List<int>.generate(32, (_) => Random.secure().nextInt(256));
@@ -141,9 +136,7 @@ class SyncServer extends _$SyncServer {
       _normalizePkceSegment(sha256.convert(utf8.encode(verifier)).bytes);
 
   String _normalizeServer(String server) =>
-      server.isNotEmpty && server[server.length - 1] == '/'
-      ? server.substring(0, server.length - 1)
-      : server;
+      server.isNotEmpty && server[server.length - 1] == '/' ? server.substring(0, server.length - 1) : server;
 
   // ------------------------------------------------------------------
   // Public entry point
@@ -335,8 +328,7 @@ class SyncServer extends _$SyncServer {
   // over just leaving them alone.
   // ------------------------------------------------------------------
 
-  Future<bool> _fullDownload(Synching notifier) =>
-      _syncLoop(notifier, since: 0);
+  Future<bool> _fullDownload(Synching notifier) => _syncLoop(notifier, since: 0);
 
   // ------------------------------------------------------------------
   // Wire transport
@@ -404,7 +396,5 @@ Future<void> autoSyncIfDue(dynamic ref, {int syncId = 1}) async {
   if (ref.read(syncProgressProvider(syncId: syncId)).active) return;
   if (ref.read(restoreSyncGuardProvider)) return;
 
-  await ref
-      .read(syncServerProvider(syncId: syncId).notifier)
-      .startSync(null, true);
+  await ref.read(syncServerProvider(syncId: syncId).notifier).startSync(null, true);
 }

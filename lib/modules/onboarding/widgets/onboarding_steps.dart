@@ -10,12 +10,11 @@ import 'package:mangayomi/utils/platform_utils.dart';
 import 'package:shiori/shiori.dart';
 
 /// Formats the display name for a library [ItemType].
-String onboardingLibraryLabel(AppLocalizations l10n, ItemType type) =>
-    switch (type) {
-      ItemType.manga => l10n.manga,
-      ItemType.anime => l10n.anime,
-      ItemType.novel => l10n.novel,
-    };
+String onboardingLibraryLabel(AppLocalizations l10n, ItemType type) => switch (type) {
+  ItemType.manga => l10n.manga,
+  ItemType.anime => l10n.anime,
+  ItemType.novel => l10n.novel,
+};
 
 /// Step where the user chooses which library types (manga, anime, novel) to keep.
 class OnboardingLibrariesStep extends StatelessWidget {
@@ -87,8 +86,7 @@ class OnboardingNavigationStep extends StatelessWidget {
       children: [
         OnboardingChoiceRow<bool>(
           values: const [false, true],
-          label: (merged) =>
-              merged ? l10n.onboarding_nav_grouped : l10n.onboarding_nav_split,
+          label: (merged) => merged ? l10n.onboarding_nav_grouped : l10n.onboarding_nav_split,
           isSelected: (merged) => merged == mergeLibraries,
           onTap: onChanged,
         ),

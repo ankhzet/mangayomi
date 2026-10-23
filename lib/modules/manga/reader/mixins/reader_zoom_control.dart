@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mangayomi/modules/manga/reader/subsampling_scale_image_view/subsampling_scale_image_view.dart'
-    as ssiv;
+import 'package:mangayomi/modules/manga/reader/subsampling_scale_image_view/subsampling_scale_image_view.dart' as ssiv;
 import 'package:mangayomi/modules/manga/reader/utils/double_page_zoom_pan.dart';
 import 'package:photo_view/photo_view.dart';
 
 /// Manages single-page and double-page zoom state, keyboard zoom steps,
 /// and pan navigation across zoomed double-page spreads.
-mixin ReaderZoomControl<T extends ConsumerStatefulWidget>
-    on ConsumerState<T>, TickerProviderStateMixin<T> {
+mixin ReaderZoomControl<T extends ConsumerStatefulWidget> on ConsumerState<T>, TickerProviderStateMixin<T> {
   final Map<int, ssiv.SubsamplingScaleImageViewController> pageControllers = {};
   final Map<int, PhotoViewController> doublePageControllers = {};
 

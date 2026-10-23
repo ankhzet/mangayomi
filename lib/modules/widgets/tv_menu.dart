@@ -167,9 +167,7 @@ class _TvMenuRowState extends State<_TvMenuRow> {
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(ShioriShape.card),
-            color: _focused
-                ? widget.accent.withValues(alpha: 0.30)
-                : Colors.transparent,
+            color: _focused ? widget.accent.withValues(alpha: 0.30) : Colors.transparent,
           ),
           child: Row(
             children: [

@@ -123,8 +123,7 @@ class _TvAnimeHomeViewState extends ConsumerState<TvAnimeHomeView> {
 
   /// Synchronous read matching getAllMangaStreamProvider(categoryId: null) —
   /// used to seed the first frame so the spinner never flashes for local data.
-  List<Manga> _favoriteAnimeSync() =>
-      mangaRepository.getFavoritesByItemTypeIdNotNull(ItemType.anime);
+  List<Manga> _favoriteAnimeSync() => mangaRepository.getFavoritesByItemTypeIdNotNull(ItemType.anime);
 
   @override
   Widget build(BuildContext context) {
@@ -242,8 +241,7 @@ class _TvAnimeHomeViewState extends ConsumerState<TvAnimeHomeView> {
               ? sortState.index == 3
                     ? sortByUnreadCount(
                         filtered,
-                        unreadCountOf: (manga) =>
-                            manga.unreadChaptersCount(settings),
+                        unreadCountOf: (manga) => manga.unreadChaptersCount(settings),
                         descending: true,
                       )
                     : filtered.reversed.toList()

@@ -13,8 +13,7 @@ library;
 /// `MProvider` throws `"<name> not implemented"` on purpose for anything a
 /// source chooses not to define, and falling back to a default there is
 /// correct. Everything else has to reach the reader.
-bool isNotImplementedError(String message) =>
-    message.contains('not implemented');
+bool isNotImplementedError(String message) => message.contains('not implemented');
 
 /// What to tell the reader when a source fails.
 ///

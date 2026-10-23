@@ -105,9 +105,7 @@ final class MediaCatalogResolver {
           .toList(growable: false);
       final normalizedTitle = normalizeTitle(media.title);
       final best = compatible.indexWhere(
-        (candidate) =>
-            _titles(candidate)
-                .any((title) => normalizeTitle(title) == normalizedTitle),
+        (candidate) => _titles(candidate).any((title) => normalizeTitle(title) == normalizedTitle),
       );
       if (best != -1) {
         return ResolvedDiscoveryCatalog(

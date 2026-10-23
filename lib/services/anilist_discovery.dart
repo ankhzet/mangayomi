@@ -59,8 +59,7 @@ const String _searchFields = '''
     season
     seasonYear''';
 
-String _mediaTypeOf(ItemType itemType) =>
-    itemType == ItemType.anime ? "ANIME" : "MANGA";
+String _mediaTypeOf(ItemType itemType) => itemType == ItemType.anime ? "ANIME" : "MANGA";
 
 /// How long to wait before deciding AniList is not going to answer.
 ///
@@ -169,10 +168,7 @@ $_searchFields
     }''';
   final data = await _executeGraphQL(query, variables);
   final list = data?["Page"]?["media"] as List?;
-  return list
-          ?.map((e) => DiscoveryMedia.fromJson(e as Map<String, dynamic>))
-          .toList() ??
-      const [];
+  return list?.map((e) => DiscoveryMedia.fromJson(e as Map<String, dynamic>)).toList() ?? const [];
 }
 
 /// Best-effort resolve a title to a media id, and say who it belongs to.
@@ -268,10 +264,7 @@ $_mediaFields
   if (media == null) return (null, const <DiscoveryRelation>[]);
   final edges = media["relations"]?["edges"] as List?;
   final relations =
-      edges
-          ?.map((e) => DiscoveryRelation.fromEdge(e as Map<String, dynamic>))
-          .toList() ??
-      <DiscoveryRelation>[];
+      edges?.map((e) => DiscoveryRelation.fromEdge(e as Map<String, dynamic>)).toList() ?? <DiscoveryRelation>[];
   return (DiscoveryMedia.fromJson(media), relations);
 }
 
@@ -337,8 +330,7 @@ class DiscoveryMedia {
 
   /// Chronological key (year then month) for release-order sorting; undated
   /// entries sort last.
-  int get startSortKey =>
-      startYear == null ? 1 << 30 : startYear! * 12 + (startMonth ?? 0);
+  int get startSortKey => startYear == null ? 1 << 30 : startYear! * 12 + (startMonth ?? 0);
 
   factory DiscoveryMedia.fromJson(Map<String, dynamic> json) {
     final t = json["title"] as Map<String, dynamic>?;
@@ -363,8 +355,7 @@ class DiscoveryMedia {
       seasonYear: json["seasonYear"] as int?,
       type: json["type"] as String?,
       startYear: (json["startDate"] as Map<String, dynamic>?)?["year"] as int?,
-      startMonth:
-          (json["startDate"] as Map<String, dynamic>?)?["month"] as int?,
+      startMonth: (json["startDate"] as Map<String, dynamic>?)?["month"] as int?,
     );
   }
 }
@@ -376,9 +367,8 @@ class DiscoveryRelation {
 
   DiscoveryRelation({required this.relationType, required this.media});
 
-  factory DiscoveryRelation.fromEdge(Map<String, dynamic> edge) =>
-      DiscoveryRelation(
-        relationType: edge["relationType"] as String? ?? "",
-        media: DiscoveryMedia.fromJson(edge["node"] as Map<String, dynamic>),
-      );
+  factory DiscoveryRelation.fromEdge(Map<String, dynamic> edge) => DiscoveryRelation(
+    relationType: edge["relationType"] as String? ?? "",
+    media: DiscoveryMedia.fromJson(edge["node"] as Map<String, dynamic>),
+  );
 }

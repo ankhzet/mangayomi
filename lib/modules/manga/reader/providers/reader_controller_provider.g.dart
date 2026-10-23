@@ -84,14 +84,7 @@ abstract class _$CurrentIndex extends $Notifier<int> {
   @override
   WhenComplete runBuild() {
     final ref = this.ref as $Ref<int, int>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<int, int>,
-              int,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<int, int>, int, Object?, Object?>;
     return element.handleCreate(ref, () => build(_$args));
   }
 }
@@ -175,12 +168,7 @@ abstract class _$ReaderController extends $Notifier<KeepAliveLink> {
     final ref = this.ref as $Ref<KeepAliveLink, KeepAliveLink>;
     final element =
         ref.element
-            as $ClassProviderElement<
-              AnyNotifier<KeepAliveLink, KeepAliveLink>,
-              KeepAliveLink,
-              Object?,
-              Object?
-            >;
+            as $ClassProviderElement<AnyNotifier<KeepAliveLink, KeepAliveLink>, KeepAliveLink, Object?, Object?>;
     return element.handleCreate(ref, () => build(chapter: _$args));
   }
 }

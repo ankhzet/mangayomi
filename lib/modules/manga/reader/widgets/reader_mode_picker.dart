@@ -61,11 +61,9 @@ class ReaderModePicker extends StatelessWidget {
               const gap = ShioriSpace.s8;
               final columns = math.max(
                 3,
-                ((constraints.maxWidth + gap) / (tokens.scaled(112) + gap))
-                    .floor(),
+                ((constraints.maxWidth + gap) / (tokens.scaled(112) + gap)).floor(),
               );
-              final width =
-                  (constraints.maxWidth - gap * (columns - 1)) / columns;
+              final width = (constraints.maxWidth - gap * (columns - 1)) / columns;
               return Wrap(
                 spacing: gap,
                 runSpacing: gap,
@@ -139,11 +137,7 @@ class _ModeTile extends StatelessWidget {
       color: fg,
       fontWeight: selected ? FontWeight.w700 : null,
     );
-    final labelHeight =
-        2 *
-        (label.fontSize ?? 12) *
-        (label.height ?? 1.3) *
-        MediaQuery.textScalerOf(context).scale(1);
+    final labelHeight = 2 * (label.fontSize ?? 12) * (label.height ?? 1.3) * MediaQuery.textScalerOf(context).scale(1);
     final icon = ReaderModeGlyph(
       mode,
       size: tokens.scaled(28),
@@ -155,9 +149,7 @@ class _ModeTile extends StatelessWidget {
       selected: selected,
       inMutuallyExclusiveGroup: true,
       child: Material(
-        color: selected
-            ? c.accent.withValues(alpha: Alphas.accentTint)
-            : c.ink2,
+        color: selected ? c.accent.withValues(alpha: Alphas.accentTint) : c.ink2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(ShioriShape.card),
           side: BorderSide(

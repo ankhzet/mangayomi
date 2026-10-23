@@ -15,8 +15,7 @@ final updateErrorsProvider = NotifierProvider<UpdateErrorsNotifier, List<UpdateE
 
 class UpdateErrorsNotifier extends Notifier<List<UpdateError>> {
   @override
-  List<UpdateError> build() =>
-      settingsRepository.current.updateErrorsList ?? const [];
+  List<UpdateError> build() => settingsRepository.current.updateErrorsList ?? const [];
 
   /// Replaces the stored failures with the latest update run's results.
   void set(List<UpdateError> errors) {

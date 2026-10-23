@@ -130,8 +130,7 @@ class _Banner extends StatelessWidget {
                     style: TextButton.styleFrom(foregroundColor: fg),
                     icon: const Icon(Symbols.code_rounded),
                     label: Text(l10n.edit_code),
-                    onPressed: () =>
-                        context.push('/codeEditor', extra: source.id),
+                    onPressed: () => context.push('/codeEditor', extra: source.id),
                   ),
                 ],
               ),

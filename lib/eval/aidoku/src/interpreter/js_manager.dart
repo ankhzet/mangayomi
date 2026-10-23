@@ -2,8 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_inappwebview/flutter_inappwebview.dart'
-    as flutter_inappwebview;
+import 'package:flutter_inappwebview/flutter_inappwebview.dart' as flutter_inappwebview;
 import 'package:flutter_qjs/flutter_qjs.dart';
 import 'package:http/http.dart' as http;
 import 'package:mangayomi/services/http/m_client.dart';
@@ -122,9 +121,7 @@ class AidokuJsManager {
               error: 'JS runtime not available',
             );
           }
-          final escapedKey = request.script
-              .replaceAll(r'\', r'\\')
-              .replaceAll('"', r'\"');
+          final escapedKey = request.script.replaceAll(r'\', r'\\').replaceAll('"', r'\"');
           final res = runtime.evaluate('globalThis["$escapedKey"]');
           if (res.isError) {
             return rust_js.AidokuJsResponse(
@@ -352,9 +349,7 @@ class _AidokuWebviewContext {
         webViewEnvironment: webViewEnvironment,
         initialData: flutter_inappwebview.InAppWebViewInitialData(
           data: htmlData,
-          baseUrl: baseUrlData != null
-              ? flutter_inappwebview.WebUri(baseUrlData)
-              : null,
+          baseUrl: baseUrlData != null ? flutter_inappwebview.WebUri(baseUrlData) : null,
         ),
         onWebViewCreated: (c) {
           controller = c;

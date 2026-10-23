@@ -67,12 +67,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get last_update_check => 'आखिरी अपडेट जांच';
 
   @override
-  String last_entry_delete_warning(
-    num count,
-    Object entryType,
-    Object entryTypePlural,
-    Object mediaType,
-  ) {
+  String last_entry_delete_warning(num count, Object entryType, Object entryTypePlural, Object mediaType) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -791,8 +786,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get developer_mode => 'डेवलपर मोड';
 
   @override
-  String get developer_mode_subtitle =>
-      'एक्सटेंशन डेवलपर उपकरण दिखाएं (एक्सटेंशन बनाएं, कोड संपादित करें)';
+  String get developer_mode_subtitle => 'एक्सटेंशन डेवलपर उपकरण दिखाएं (एक्सटेंशन बनाएं, कोड संपादित करें)';
 
   @override
   String get choose_extension_language => 'एक्सटेंशन की भाषा चुनें';
@@ -828,8 +822,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get api_url_example => 'उदा: https://api.example.com';
 
   @override
-  String get extension_notes_example =>
-      'उदा: इस एक्सटेंशन के लिए लॉगिन आवश्यक है';
+  String get extension_notes_example => 'उदा: इस एक्सटेंशन के लिए लॉगिन आवश्यक है';
 
   @override
   String get type => 'प्रकार';
@@ -1074,8 +1067,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sync_failed => 'सिंक विफल';
 
   @override
-  String get sync_restore_in_progress =>
-      'सिंक छोड़ दिया गया — पुनर्स्थापना जारी है';
+  String get sync_restore_in_progress => 'सिंक छोड़ दिया गया — पुनर्स्थापना जारी है';
 
   @override
   String sync_progress_percent(Object percent) {
@@ -1110,8 +1102,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get sync_status_connected => 'कनेक्टेड';
 
   @override
-  String get sync_status_unauthorized =>
-      'सत्र समाप्त हो गया, कृपया पुनः लॉगिन करें';
+  String get sync_status_unauthorized => 'सत्र समाप्त हो गया, कृपया पुनः लॉगिन करें';
 
   @override
   String get sync_status_unreachable => 'सर्वर तक पहुंच संभव नहीं है';
@@ -1422,8 +1413,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get encrypt_backups => 'बैकअप एन्क्रिप्ट करें';
 
   @override
-  String get encrypt_backups_info =>
-      'AES एन्क्रिप्शन के साथ पासवर्ड से बैकअप सुरक्षित करें';
+  String get encrypt_backups_info => 'AES एन्क्रिप्शन के साथ पासवर्ड से बैकअप सुरक्षित करें';
 
   @override
   String get no_secure_storage => 'कोई सुरक्षित स्टोरेज नहीं मिला';
@@ -1448,12 +1438,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get passwords_do_not_match => 'पासवर्ड मेल नहीं खाते';
 
   @override
-  String get password_required_to_restore =>
-      'इस बैकअप को पुनर्स्थापित करने के लिए पासवर्ड आवश्यक है।';
+  String get password_required_to_restore => 'इस बैकअप को पुनर्स्थापित करने के लिए पासवर्ड आवश्यक है।';
 
   @override
-  String get restore_backup_subtitle =>
-      'बैकअप फ़ाइल से पुस्तकालय पुनर्स्थापित करें';
+  String get restore_backup_subtitle => 'बैकअप फ़ाइल से पुस्तकालय पुनर्स्थापित करें';
 
   @override
   String get automatic_backups => 'स्वचालित बैकअप';
@@ -1515,12 +1503,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get restore_sync_question_deny => 'नहीं, सिंक अक्षम करें';
 
   @override
-  String get sync_disabled_after_restore =>
-      'सिंक अक्षम कर दिया गया है। आप सेटिंग्स में इसे फिर से सक्षम कर सकते हैं।';
+  String get sync_disabled_after_restore => 'सिंक अक्षम कर दिया गया है। आप सेटिंग्स में इसे फिर से सक्षम कर सकते हैं।';
 
   @override
-  String get restore_sync_disabled_question_title =>
-      'सिंक वर्तमान में अक्षम है';
+  String get restore_sync_disabled_question_title => 'सिंक वर्तमान में अक्षम है';
 
   @override
   String get restore_sync_disabled_question_message =>
@@ -1533,12 +1519,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get restore_sync_question_keep_disabled => 'अक्षम रखें';
 
   @override
-  String get restore_sync_uploading =>
-      'पुनर्स्थापित डेटा सर्वर पर सिंक हो रहा है…';
+  String get restore_sync_uploading => 'पुनर्स्थापित डेटा सर्वर पर सिंक हो रहा है…';
 
   @override
-  String get restore_sync_upload_success =>
-      'डेटा सर्वर पर सफलतापूर्वक सिंक हो गया';
+  String get restore_sync_upload_success => 'डेटा सर्वर पर सफलतापूर्वक सिंक हो गया';
 
   @override
   String get services => 'सेवाएँ';
@@ -1584,8 +1568,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get markEpisodeAsSeenSetting => 'एपिसोड को कब देखा गया के रूप में चिह्नित करना है';
 
   @override
-  String get mark_duplicate_chapters_read =>
-      'डुप्लिकेट अध्याय संख्याओं को पढ़ा गया के रूप में चिह्नित करें';
+  String get mark_duplicate_chapters_read => 'डुप्लिकेट अध्याय संख्याओं को पढ़ा गया के रूप में चिह्नित करें';
 
   @override
   String get default_skip_intro_length => 'डिफ़ॉल्ट परिचय छोड़ने की अवधि';
@@ -1786,8 +1769,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get override_ass_subtitles => 'ASS उपशीर्षक ओवरराइड करें';
 
   @override
-  String get override_ass_subtitles_info =>
-      'ASS/SSA उपशीर्षक पर कस्टम स्टाइलिंग लागू करें';
+  String get override_ass_subtitles_info => 'ASS/SSA उपशीर्षक पर कस्टम स्टाइलिंग लागू करें';
 
   @override
   String get torrent_stream => 'टॉरेंट स्ट्रीम';
@@ -1917,8 +1899,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get custom_dns => 'कस्टम DNS (सिस्टम DNS का उपयोग करने के लिए खाली छोड़ें)';
 
   @override
-  String get android_proxy_server =>
-      'Android प्रॉक्सी सर्वर (M-Extension-Server)';
+  String get android_proxy_server => 'Android प्रॉक्सी सर्वर (M-Extension-Server)';
 
   @override
   String get get_m_extension_server => 'M-Extension-Server प्राप्त करें';
@@ -1952,8 +1933,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get url_cannot_be_empty => 'URL खाली नहीं हो सकता';
 
   @override
-  String get url_must_end_with_dot_json_or_dot_pb =>
-      'URL .json / .pb के साथ समाप्त होना चाहिए';
+  String get url_must_end_with_dot_json_or_dot_pb => 'URL .json / .pb के साथ समाप्त होना चाहिए';
 
   @override
   String get repo_url => 'रेपो URL';
@@ -1984,8 +1964,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get add_repo_sources_to_add => 'जोड़ी जाने वाली एक्सटेंशन सूचियाँ:';
 
   @override
-  String get add_repo_warning =>
-      'इन रिपॉज़िटरी के एक्सटेंशन ऐप के अंदर चलते हैं। केवल भरोसेमंद रिपॉज़िटरी ही जोड़ें।';
+  String get add_repo_warning => 'इन रिपॉज़िटरी के एक्सटेंशन ऐप के अंदर चलते हैं। केवल भरोसेमंद रिपॉज़िटरी ही जोड़ें।';
 
   @override
   String get genre_search_library => 'लाइब्रेरी में शैली खोजें';
@@ -2311,8 +2290,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get ask_download_destination => 'डाउनलोड स्थान पूछें';
 
   @override
-  String get ask_download_destination_desc =>
-      'प्रत्येक डाउनलोड से पहले फ़ोल्डर चुनें।';
+  String get ask_download_destination_desc => 'प्रत्येक डाउनलोड से पहले फ़ोल्डर चुनें।';
 
   @override
   String get select_download_destination => 'डाउनलोड स्थान चुनें';
@@ -2321,8 +2299,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get clear_local_library => 'स्थानीय लाइब्रेरी साफ़ करें';
 
   @override
-  String get clear_local_library_desc =>
-      'लाइब्रेरी से स्थानीय फ़ोल्डर और संग्रह हटाएं।';
+  String get clear_local_library_desc => 'लाइब्रेरी से स्थानीय फ़ोल्डर और संग्रह हटाएं।';
 
   @override
   String get clear_local_library_msg =>
@@ -2332,8 +2309,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get custom => 'कस्टम';
 
   @override
-  String get no_local_folder_available_for_downloads =>
-      'डाउनलोड के लिए कोई स्थानीय फ़ोल्डर उपलब्ध नहीं है';
+  String get no_local_folder_available_for_downloads => 'डाउनलोड के लिए कोई स्थानीय फ़ोल्डर उपलब्ध नहीं है';
 
   @override
   String failed_to_create_cbz(Object error) {
@@ -2387,8 +2363,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get cloudflare_resolution_webview_server_start_failed =>
-      'क्लाउडफ्लेयर रिज़ॉल्यूशन सर्वर प्रारंभ नहीं हो सका।';
+  String get cloudflare_resolution_webview_server_start_failed => 'क्लाउडफ्लेयर रिज़ॉल्यूशन सर्वर प्रारंभ नहीं हो सका।';
 
   @override
   String tracker_token_expired(Object tracker) {
@@ -2678,8 +2653,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get extension_server_jar_imported => 'Extension server JAR was imported.';
 
   @override
-  String get could_not_launch_apk_bridge_page =>
-      'Could not launch the M-Extension-Server page.';
+  String get could_not_launch_apk_bridge_page => 'Could not launch the M-Extension-Server page.';
 
   @override
   String get proxy_server_ip_hint => 'सर्वर IP (उदा: 10.0.0.5 या https://example.com)';
@@ -2691,8 +2665,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get zero_interpreter => 'Zero दुभाषिया';
 
   @override
-  String get zero_interpreter_description =>
-      'Zero दुभाषिया सर्वर को स्वतः या मैन्युअल नियंत्रित करें।';
+  String get zero_interpreter_description => 'Zero दुभाषिया सर्वर को स्वतः या मैन्युअल नियंत्रित करें।';
 
   @override
   String get start_server_on_launch => 'लॉन्च पर सर्वर प्रारंभ करें';
@@ -2784,15 +2757,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get double_page_single_first_page => 'पहला पृष्ठ एकल';
 
   @override
-  String get double_page_single_first_page_subtitle =>
-      'दोहरे पृष्ठ मोड में पहले पृष्ठ को अकेले प्रदर्शित करें';
+  String get double_page_single_first_page_subtitle => 'दोहरे पृष्ठ मोड में पहले पृष्ठ को अकेले प्रदर्शित करें';
 
   @override
   String get double_page_auto => 'स्वचालित दोहरा पृष्ठ';
 
   @override
-  String get double_page_auto_subtitle =>
-      'लैंडस्केप में स्वचालित रूप से दोहरे पृष्ठ मोड पर स्विच करें';
+  String get double_page_auto_subtitle => 'लैंडस्केप में स्वचालित रूप से दोहरे पृष्ठ मोड पर स्विच करें';
 
   @override
   String get landscape_zoom => 'स्वचालित लैंडस्केप ज़ूम';
@@ -2880,8 +2851,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get app_ui_scale => 'इंटरफ़ेस स्केल';
 
   @override
-  String get app_ui_scale_subtitle =>
-      'इंटरफ़ेस को अपने स्क्रीन और देखने की दूरी के अनुसार बड़ा या छोटा बनाएं।';
+  String get app_ui_scale_subtitle => 'इंटरफ़ेस को अपने स्क्रीन और देखने की दूरी के अनुसार बड़ा या छोटा बनाएं।';
 
   @override
   String get allow_concurrent_downloads => 'समवर्ती डाउनलोड की अनुमति दें';
@@ -2934,22 +2904,19 @@ class AppLocalizationsHi extends AppLocalizations {
   String get import_mode_title => 'इसे कैसे आयात किया जाना चाहिए?';
 
   @override
-  String get import_mode_message =>
-      'इस बैकअप को वर्तमान लाइब्रेरी में मर्ज करें या पूरी लाइब्रेरी बदलें।';
+  String get import_mode_message => 'इस बैकअप को वर्तमान लाइब्रेरी में मर्ज करें या पूरी लाइब्रेरी बदलें।';
 
   @override
   String get import_mode_keep_existing => 'मर्ज करें';
 
   @override
-  String get import_mode_keep_existing_subtitle =>
-      'नई श्रृंखला जोड़ता है और मौजूदा को अपडेट करता है।';
+  String get import_mode_keep_existing_subtitle => 'नई श्रृंखला जोड़ता है और मौजूदा को अपडेट करता है।';
 
   @override
   String get import_mode_replace => 'बदलें';
 
   @override
-  String get import_mode_replace_subtitle =>
-      'वर्तमान लाइब्रेरी को हटाकर बैकअप से बदलता है।';
+  String get import_mode_replace_subtitle => 'वर्तमान लाइब्रेरी को हटाकर बैकअप से बदलता है।';
 
   @override
   String get replace_summary_title => 'लाइब्रेरी बदलने के लिए तैयार';
@@ -2971,8 +2938,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get category_conflict_title => 'मौजूदा श्रेणियां मिलीं';
 
   @override
-  String get category_conflict_message =>
-      'बैकअप में ऐसी श्रेणियां हैं जो पहले से मौजूद हैं।';
+  String get category_conflict_message => 'बैकअप में ऐसी श्रेणियां हैं जो पहले से मौजूद हैं।';
 
   @override
   String get category_conflict_keep => 'रखें — मौजूदा श्रेणी में मर्ज करें';
@@ -2984,8 +2950,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get source_conflict_title => 'स्रोत नहीं मिले';
 
   @override
-  String get source_conflict_message =>
-      'कुछ स्रोत स्थापित एक्सटेंशन से मेल नहीं खाते।';
+  String get source_conflict_message => 'कुछ स्रोत स्थापित एक्सटेंशन से मेल नहीं खाते।';
 
   @override
   String get source_conflict_keep => 'मूल नाम रखें';
@@ -2994,11 +2959,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get import_summary_title => 'आयात करने के लिए तैयार';
 
   @override
-  String import_summary_message(
-    Object newSeries,
-    Object updatedSeries,
-    Object newChapters,
-  ) {
+  String import_summary_message(Object newSeries, Object updatedSeries, Object newChapters) {
     return '$newSeries नई श्रृंखलाएं, $updatedSeries अपडेटेड, और $newChapters नए अध्याय।';
   }
 
@@ -3006,11 +2967,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get import_summary_confirm => 'आयात करें';
 
   @override
-  String import_result_message(
-    Object newSeries,
-    Object updatedSeries,
-    Object newChapters,
-  ) {
+  String import_result_message(Object newSeries, Object updatedSeries, Object newChapters) {
     return '$newSeries नई श्रृंखलाएं आयात की गईं, $updatedSeries अपडेटेड, $newChapters अध्याय जोड़े गए।';
   }
 
@@ -3018,8 +2975,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get roll_back => 'रोलबैक करें';
 
   @override
-  String get roll_back_confirm_message =>
-      'यह लाइब्रेरी को इस बदलाव से ठीक पहले के स्नैपशॉट पर पुनर्स्थापित करता है।';
+  String get roll_back_confirm_message => 'यह लाइब्रेरी को इस बदलाव से ठीक पहले के स्नैपशॉट पर पुनर्स्थापित करता है।';
 
   @override
   String get roll_back_done => 'पिछले स्नैपशॉट पर रोलबैक कर दिया गया।';
@@ -3044,8 +3000,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get delete_source_title => 'स्रोत और उसकी मंगा हटाएं';
 
   @override
-  String get delete_source_subtitle =>
-      'स्रोत और उससे जुड़ी सभी मंगा, अध्याय, डाउनलोड और इतिहास हटाएं।';
+  String get delete_source_subtitle => 'स्रोत और उससे जुड़ी सभी मंगा, अध्याय, डाउनलोड और इतिहास हटाएं।';
 
   @override
   String get delete_source_pick_title => 'हटाने के लिए स्रोत चुनें';
@@ -3069,8 +3024,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get delete_source_also_remove_extension =>
-      'स्थापित एक्सटेंशन भी हटाएं';
+  String get delete_source_also_remove_extension => 'स्थापित एक्सटेंशन भी हटाएं';
 
   @override
   String get delete_source_keep_history => 'पठन इतिहास रखें';
@@ -3090,8 +3044,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get merge_manga_title => 'डुप्लिकेट मंगा मर्ज करें';
 
   @override
-  String get merge_manga_subtitle =>
-      'समान शीर्षक वाली मंगा को एक में संयोजित करता है।';
+  String get merge_manga_subtitle => 'समान शीर्षक वाली मंगा को एक में संयोजित करता है।';
 
   @override
   String get merge_manga_none_found => 'कोई डुप्लिकेट मंगा नहीं मिली।';
@@ -3100,12 +3053,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get merge_manga_pick_title => 'संभावित डुप्लिकेट मंगा';
 
   @override
-  String get merge_manga_choose_primary_title =>
-      'दूसरों को किसमें मर्ज किया जाना चाहिए?';
+  String get merge_manga_choose_primary_title => 'दूसरों को किसमें मर्ज किया जाना चाहिए?';
 
   @override
-  String get merge_manga_choose_primary_message =>
-      'अध्याय, इतिहास और ट्रैकिंग चुनी गई प्रविष्टि में शामिल हो जाएंगे।';
+  String get merge_manga_choose_primary_message => 'अध्याय, इतिहास और ट्रैकिंग चुनी गई प्रविष्टि में शामिल हो जाएंगे।';
 
   @override
   String merge_manga_chapters_subtitle(int count) {
@@ -3153,8 +3104,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get error_reports => 'त्रुटि रिपोर्ट';
 
   @override
-  String get error_reports_subtitle =>
-      'ऐप द्वारा पकड़ी गई त्रुटियां और रिपोर्ट करने का तरीका';
+  String get error_reports_subtitle => 'ऐप द्वारा पकड़ी गई त्रुटियां और रिपोर्ट करने का तरीका';
 
   @override
   String get error_reports_empty => 'कोई त्रुटि नहीं है।';
@@ -3185,16 +3135,14 @@ class AppLocalizationsHi extends AppLocalizations {
       'यह त्रुटि किसी एक्सटेंशन से आई है, Mangayomi से नहीं। एक्सटेंशन उस रिपॉजिटरी के प्रबंधकों द्वारा लिखे और बनाए रखे जाते हैं जहाँ से आपने यह स्रोत स्थापित किया है, इसलिए सुधार वहीं होना चाहिए।';
 
   @override
-  String get error_reports_already_reported =>
-      'पहले ही रिपोर्ट किया जा चुका है';
+  String get error_reports_already_reported => 'पहले ही रिपोर्ट किया जा चुका है';
 
   @override
   String get error_reports_expected_failure =>
       'यह आमतौर पर ऐप के बजाय स्रोत या नेटवर्क के कारण होता है: समाप्त हो चुका लिंक, डाउन सर्वर या टूटा हुआ कनेक्शन।';
 
   @override
-  String get share_unavailable_copied =>
-      'साझाकरण उपलब्ध नहीं है, क्लिपबोर्ड पर कॉपी किया गया।';
+  String get share_unavailable_copied => 'साझाकरण उपलब्ध नहीं है, क्लिपबोर्ड पर कॉपी किया गया।';
 
   @override
   String get onboarding_title => 'Mangayomi में आपका स्वागत है';
@@ -3203,8 +3151,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get onboarding_language_title => 'अपनी भाषा चुनें';
 
   @override
-  String get onboarding_language_body =>
-      'Mangayomi इसी भाषा में दिखेगा। आप इसे बाद में रूप-रंग में बदल सकते हैं।';
+  String get onboarding_language_body => 'Mangayomi इसी भाषा में दिखेगा। आप इसे बाद में रूप-रंग में बदल सकते हैं।';
 
   @override
   String get onboarding_nav_grouped_body =>
@@ -3214,12 +3161,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get onboarding_nav_grouped => 'समूहित टैब';
 
   @override
-  String get onboarding_nav_grouped_inside =>
-      'हर समूहित टैब अपनी स्क्रीन के ऊपर से बदला जाता है';
+  String get onboarding_nav_grouped_inside => 'हर समूहित टैब अपनी स्क्रीन के ऊपर से बदला जाता है';
 
   @override
-  String get onboarding_libraries_body =>
-      'चुनें कि आप क्या पढ़ना और देखना चाहते हैं।';
+  String get onboarding_libraries_body => 'चुनें कि आप क्या पढ़ना और देखना चाहते हैं।';
 
   @override
   String get onboarding_nav_title => 'आपकी लाइब्रेरी';
@@ -3271,8 +3216,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get onboarding_repo_title => 'स्रोत जोड़ें';
 
   @override
-  String get onboarding_body =>
-      'एक्सटेंशन स्थापित करने के लिए रिपॉजिटरी जोड़ें।';
+  String get onboarding_body => 'एक्सटेंशन स्थापित करने के लिए रिपॉजिटरी जोड़ें।';
 
   @override
   String get onboarding_add => 'रिपॉजिटरी जोड़ें';
@@ -3284,22 +3228,19 @@ class AppLocalizationsHi extends AppLocalizations {
   String get onboarding_continue => 'जारी रखें';
 
   @override
-  String get onboarding_later =>
-      'आप इसे बाद में सेटिंग्स > ब्राउज़ में जोड़ सकते हैं।';
+  String get onboarding_later => 'आप इसे बाद में सेटिंग्स > ब्राउज़ में जोड़ सकते हैं।';
 
   @override
   String get onboarding_replay => 'स्वागत स्क्रीन दिखाएं';
 
   @override
-  String get onboarding_replay_subtitle =>
-      'प्रारंभिक सेटअप स्क्रीन पुनः खोलें।';
+  String get onboarding_replay_subtitle => 'प्रारंभिक सेटअप स्क्रीन पुनः खोलें।';
 
   @override
   String get missing_source_check_title => 'अनुपलब्ध स्रोतों की जाँच करें';
 
   @override
-  String get missing_source_check_subtitle =>
-      'ऐसी प्रविष्टियाँ खोजें जिनका एक्सटेंशन स्थापित नहीं है।';
+  String get missing_source_check_subtitle => 'ऐसी प्रविष्टियाँ खोजें जिनका एक्सटेंशन स्थापित नहीं है।';
 
   @override
   String get missing_source_check_none_found => 'सभी स्रोत स्थापित हैं।';
@@ -3340,12 +3281,10 @@ class AppLocalizationsHi extends AppLocalizations {
       'किसी एक को पिन करें, या ब्राउज़ सेटिंग्स में \"केवल पिन किए गए स्रोतों को शामिल करें\" बंद करें।';
 
   @override
-  String get global_search_all_nsfw =>
-      'इसके लिए आपके सभी स्रोत NSFW चिह्नित हैं और छिपे हुए हैं।';
+  String get global_search_all_nsfw => 'इसके लिए आपके सभी स्रोत NSFW चिह्नित हैं और छिपे हुए हैं।';
 
   @override
-  String get global_search_all_nsfw_hint =>
-      'उन्हें खोजने के लिए ब्राउज़ सेटिंग्स में NSFW स्रोत चालू करें।';
+  String get global_search_all_nsfw_hint => 'उन्हें खोजने के लिए ब्राउज़ सेटिंग्स में NSFW स्रोत चालू करें।';
 
   @override
   String get missing_source_check_result_message =>
@@ -3404,8 +3343,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get auto_library_update_wifi_only => 'केवल वाई-फ़ाई पर';
 
   @override
-  String get auto_library_update_wifi_only_subtitle =>
-      'मोबाइल डेटा पर होने पर निर्धारित अपडेट छोड़ें।';
+  String get auto_library_update_wifi_only_subtitle => 'मोबाइल डेटा पर होने पर निर्धारित अपडेट छोड़ें।';
 
   @override
   String get padding => 'पैडिंग';
@@ -3655,8 +3593,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get show_continue_shelf => 'जो आप पढ़ रहे हैं वह दिखाएँ';
 
   @override
-  String get show_continue_shelf_subtitle =>
-      'लाइब्रेरी के ऊपर चल रही सीरीज़ की एक पंक्ति';
+  String get show_continue_shelf_subtitle => 'लाइब्रेरी के ऊपर चल रही सीरीज़ की एक पंक्ति';
 
   @override
   String get excluded => 'शामिल नहीं';
@@ -3677,8 +3614,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get search_settings => 'सेटिंग खोजें';
 
   @override
-  String get search_settings_hint =>
-      'किसी सेटिंग का नाम या उसके विवरण का कोई शब्द लिखें';
+  String get search_settings_hint => 'किसी सेटिंग का नाम या उसके विवरण का कोई शब्द लिखें';
 
   @override
   String reading_mode_for(String name) {
@@ -3700,20 +3636,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String get page_layout => 'पेज लेआउट और ज़ूम';
 
   @override
-  String get reader_section_mode_summary =>
-      'डिफ़ॉल्ट मोड, स्केल, बैकग्राउंड, प्रीलोडिंग, फ़ुलस्क्रीन';
+  String get reader_section_mode_summary => 'डिफ़ॉल्ट मोड, स्केल, बैकग्राउंड, प्रीलोडिंग, फ़ुलस्क्रीन';
 
   @override
-  String get reader_section_layout_summary =>
-      'चौड़े पेज, डबल पेज, लैंडस्केप ज़ूम';
+  String get reader_section_layout_summary => 'चौड़े पेज, डबल पेज, लैंडस्केप ज़ूम';
 
   @override
-  String get reader_section_navigation_summary =>
-      'टैप ज़ोन, लेआउट, मेनू छिपाना, पेज फ़्लैश';
+  String get reader_section_navigation_summary => 'टैप ज़ोन, लेआउट, मेनू छिपाना, पेज फ़्लैश';
 
   @override
-  String get reader_section_swipe_summary =>
-      'सूची में अध्याय को स्वाइप करने पर क्या होता है';
+  String get reader_section_swipe_summary => 'सूची में अध्याय को स्वाइप करने पर क्या होता है';
 
   @override
   String get all_reader_settings => 'सभी रीडर सेटिंग';
@@ -3789,12 +3721,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get gesture_volume => 'वॉल्यूम के लिए दाईं ओर ऊपर या नीचे स्लाइड करें';
 
   @override
-  String get gesture_double_tap_skip =>
-      'पीछे या आगे जाने के लिए किसी तरफ़ दो बार टैप करें';
+  String get gesture_double_tap_skip => 'पीछे या आगे जाने के लिए किसी तरफ़ दो बार टैप करें';
 
   @override
-  String get gesture_drag_seek =>
-      'वीडियो में आगे-पीछे जाने के लिए बगल में खींचें';
+  String get gesture_drag_seek => 'वीडियो में आगे-पीछे जाने के लिए बगल में खींचें';
 
   @override
   String get gesture_long_press_speed => 'तेज़ करने के लिए दबाकर रखें';
@@ -3803,8 +3733,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get tap_to_continue => 'जारी रखने के लिए कहीं भी टैप करें';
 
   @override
-  String get empty_library_hint =>
-      'ब्राउज़ में कोई सीरीज़ ढूँढें और उसे अपनी लाइब्रेरी में जोड़ें।';
+  String get empty_library_hint => 'ब्राउज़ में कोई सीरीज़ ढूँढें और उसे अपनी लाइब्रेरी में जोड़ें।';
 
   @override
   String get more_filters => 'और फ़िल्टर';
@@ -3841,8 +3770,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get settings_appearance_summary => 'थीम, पैलेट, नेविगेशन, फ़ॉन्ट';
 
   @override
-  String get settings_novel_reader_summary =>
-      'फ़ॉन्ट, पेज का रंग, टेक्स्ट टू स्पीच';
+  String get settings_novel_reader_summary => 'फ़ॉन्ट, पेज का रंग, टेक्स्ट टू स्पीच';
 
   @override
   String get settings_player_summary => 'प्लेबैक, सबटाइटल, ऑडियो, डिकोडर';
@@ -3998,12 +3926,10 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get tv_player_beta_subtitle =>
-      'चालू: टीवी रिमोट के लिए बना प्लेयर। बंद: मूल प्लेयर।';
+  String get tv_player_beta_subtitle => 'चालू: टीवी रिमोट के लिए बना प्लेयर। बंद: मूल प्लेयर।';
 
   @override
-  String get anime_only_beta_subtitle =>
-      'पूरे ऐप में मंगा और नॉवेल छिपाएँ। सब दिखाने के लिए बंद करें।';
+  String get anime_only_beta_subtitle => 'पूरे ऐप में मंगा और नॉवेल छिपाएँ। सब दिखाने के लिए बंद करें।';
 
   @override
   String download_queue_start_failed(String error) {
@@ -4017,16 +3943,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get group_navigation => 'नेविगेशन';
 
   @override
-  String get tv_home_beta_subtitle =>
-      'सपाट ग्रिड की जगह पंक्तियों वाला एनीमे होम (जारी रखें, नए एपिसोड, श्रेणियाँ)';
+  String get tv_home_beta_subtitle => 'सपाट ग्रिड की जगह पंक्तियों वाला एनीमे होम (जारी रखें, नए एपिसोड, श्रेणियाँ)';
 
   @override
-  String get cloudflare_bypass_proxy_hint =>
-      'वैकल्पिक FlareSolverr या Byparr पता';
+  String get cloudflare_bypass_proxy_hint => 'वैकल्पिक FlareSolverr या Byparr पता';
 
   @override
-  String get cloudflare_bypass_proxy_message =>
-      'FlareSolverr या Byparr एंडपॉइंट। बंद करने के लिए खाली छोड़ें।';
+  String get cloudflare_bypass_proxy_message => 'FlareSolverr या Byparr एंडपॉइंट। बंद करने के लिए खाली छोड़ें।';
 
   @override
   String get group_explore => 'खोजें';
@@ -4035,8 +3958,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get explore_recommendations_subtitle => 'इसके जैसे शीर्षक';
 
   @override
-  String get explore_related_subtitle =>
-      'इसके रूपांतरण, स्पिन-ऑफ़ और अन्य संस्करण';
+  String get explore_related_subtitle => 'इसके रूपांतरण, स्पिन-ऑफ़ और अन्य संस्करण';
 
   @override
   String get explore_watch_order_subtitle => 'पूरी कहानी देखने का क्रम';
@@ -4214,8 +4136,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get code_no_result => 'अभी कोई परिणाम नहीं';
 
   @override
-  String get code_no_result_message =>
-      'कोई फ़ंक्शन चलाएँ और देखें कि वह क्या लौटाता है।';
+  String get code_no_result_message => 'कोई फ़ंक्शन चलाएँ और देखें कि वह क्या लौटाता है।';
 
   @override
   String get code_console => 'कंसोल';
@@ -4227,8 +4148,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get tv_empty_anime_library => 'आपकी एनीमे लाइब्रेरी खाली है';
 
   @override
-  String get tv_empty_anime_library_hint =>
-      'अपना होम भरने के लिए ब्राउज़ से एनीमे जोड़ें';
+  String get tv_empty_anime_library_hint => 'अपना होम भरने के लिए ब्राउज़ से एनीमे जोड़ें';
 
   @override
   String get browse_anime => 'एनीमे ब्राउज़ करें';
@@ -4307,12 +4227,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get no_categories_yet => 'अभी कोई श्रेणी नहीं';
 
   @override
-  String get no_categories_yet_message =>
-      'अपनी लाइब्रेरी को अपनी नाम दी और क्रमबद्ध की गई श्रेणियों में बाँटें।';
+  String get no_categories_yet_message => 'अपनी लाइब्रेरी को अपनी नाम दी और क्रमबद्ध की गई श्रेणियों में बाँटें।';
 
   @override
-  String get settings_keyboard_shortcuts_summary =>
-      'रीडर और प्लेयर की कुंजियाँ बदलें';
+  String get settings_keyboard_shortcuts_summary => 'रीडर और प्लेयर की कुंजियाँ बदलें';
 
   @override
   String get shortcut_reset_all => 'सभी शॉर्टकट रीसेट करें';

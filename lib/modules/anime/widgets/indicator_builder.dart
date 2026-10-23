@@ -35,17 +35,14 @@ class MediaIndicatorBuilder extends StatelessWidget {
     // finger and the figure in the same place.
     if (adaptiveMobilePlacement) {
       final insets = MediaQuery.viewPaddingOf(context);
-      final landscape =
-          MediaQuery.orientationOf(context) == Orientation.landscape;
+      final landscape = MediaQuery.orientationOf(context) == Orientation.landscape;
       return ValueListenableBuilder(
         valueListenable: value,
         builder: (context, value, _) => Visibility(
           visible: showAtZero || value > 0,
           child: IgnorePointer(
             child: Align(
-              alignment: isVolumeIndicator
-                  ? AlignmentDirectional.centerEnd
-                  : AlignmentDirectional.centerStart,
+              alignment: isVolumeIndicator ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
               child: Padding(
                 padding: EdgeInsetsDirectional.only(
                   start: insets.left + ShioriSpace.s32,
@@ -53,15 +50,11 @@ class MediaIndicatorBuilder extends StatelessWidget {
                 ),
                 child: ShioriGestureGauge(
                   key: ValueKey(
-                    isVolumeIndicator
-                        ? 'volume-indicator-card'
-                        : 'brightness-indicator-card',
+                    isVolumeIndicator ? 'volume-indicator-card' : 'brightness-indicator-card',
                   ),
                   value: value,
                   icon: _icon(value),
-                  label: isVolumeIndicator
-                      ? context.l10n.volume
-                      : context.l10n.brightness,
+                  label: isVolumeIndicator ? context.l10n.volume : context.l10n.brightness,
                   height: landscape ? 120 : 160,
                 ),
               ),
@@ -85,9 +78,7 @@ class MediaIndicatorBuilder extends StatelessWidget {
               padding: EdgeInsets.only(top: top),
               child: SizedBox(
                 key: ValueKey(
-                  isVolumeIndicator
-                      ? 'volume-indicator-card'
-                      : 'brightness-indicator-card',
+                  isVolumeIndicator ? 'volume-indicator-card' : 'brightness-indicator-card',
                 ),
                 height: 42,
                 width: 210,

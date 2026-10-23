@@ -40,8 +40,7 @@ final class AlgorithmWeightsStateProvider extends $NotifierProvider<AlgorithmWei
   }
 }
 
-String _$algorithmWeightsStateHash() =>
-    r'de3661f0783a61385f88f9fbfd5613e71f7acdb0';
+String _$algorithmWeightsStateHash() => r'de3661f0783a61385f88f9fbfd5613e71f7acdb0';
 
 abstract class _$AlgorithmWeightsState extends $Notifier<AlgorithmWeights> {
   AlgorithmWeights build();

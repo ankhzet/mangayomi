@@ -44,19 +44,13 @@ class KotatsuRestoreService {
             source: tempManga["source"],
             author: tempManga["author"],
             artist: null,
-            genre:
-                (tempManga["tags"] as List?)
-                    ?.map((t) => t["title"] as String)
-                    .toList() ??
-                [],
+            genre: (tempManga["tags"] as List?)?.map((t) => t["title"] as String).toList() ?? [],
             imageUrl: tempManga["large_cover_url"],
             lang: 'en',
             link: tempManga["url"],
             name: tempManga["title"],
             status: Status.values.firstWhere(
-              (s) =>
-                  s.name.toLowerCase() ==
-                  (tempManga["state"] as String?)?.toLowerCase(),
+              (s) => s.name.toLowerCase() == (tempManga["state"] as String?)?.toLowerCase(),
               orElse: () => Status.unknown,
             ),
             description: null,

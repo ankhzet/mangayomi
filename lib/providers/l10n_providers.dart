@@ -14,8 +14,7 @@ class L10nLocaleState extends _$L10nLocaleState {
   }
 
   L10nLocale _getLocale() {
-    return settingsRepository.current.locale ??
-        L10nLocale(languageCode: "en", countryCode: "");
+    return settingsRepository.current.locale ?? L10nLocale(languageCode: "en", countryCode: "");
   }
 
   /// On a new install, whose language was never chosen, takes the device's
@@ -28,14 +27,10 @@ class L10nLocaleState extends _$L10nLocaleState {
     final match =
         supported
             .where(
-              (l) =>
-                  l.languageCode == device.languageCode &&
-                  (l.countryCode ?? '') == (device.countryCode ?? ''),
+              (l) => l.languageCode == device.languageCode && (l.countryCode ?? '') == (device.countryCode ?? ''),
             )
             .firstOrNull ??
-        supported
-            .where((l) => l.languageCode == device.languageCode)
-            .firstOrNull;
+        supported.where((l) => l.languageCode == device.languageCode).firstOrNull;
     if (match != null) setLocale(match);
   }
 

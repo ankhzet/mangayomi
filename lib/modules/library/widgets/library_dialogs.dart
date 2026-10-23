@@ -48,9 +48,7 @@ void showDeleteMangaDialog({
                       onChanged: (v) => setState(() => deleteFromLib = v),
                     ),
                     ShioriSwitchRow(
-                      title: itemType != ItemType.anime
-                          ? l10n.downloaded_chapters
-                          : l10n.downloaded_episodes,
+                      title: itemType != ItemType.anime ? l10n.downloaded_chapters : l10n.downloaded_episodes,
                       value: deleteDownloads,
                       onChanged: (v) => setState(() => deleteDownloads = v),
                     ),
@@ -101,8 +99,7 @@ void showDeleteMangaDialog({
                                 // remove it too so we don't leave orphaned folders on disk.
                                 if (mangaDirectory.isNotEmpty) {
                                   final path = Directory(mangaDirectory);
-                                  if (path.existsSync() &&
-                                      path.listSync().isEmpty) {
+                                  if (path.existsSync() && path.listSync().isEmpty) {
                                     path.deleteSync(recursive: true);
                                   }
                                 }
@@ -110,9 +107,7 @@ void showDeleteMangaDialog({
                             }
 
                             ref.read(mangasListStateProvider.notifier).clear();
-                            ref
-                                .read(isLongPressedStateProvider.notifier)
-                                .update(false);
+                            ref.read(isLongPressedStateProvider.notifier).update(false);
                             if (context.mounted) {
                               Navigator.pop(context);
                             }
@@ -200,9 +195,7 @@ void showImportLocalDialog(BuildContext context, ItemType itemType) {
                     title: l10n.split_epub_chapters,
                     subtitle: l10n.split_epub_chapters_description,
                     value: splitChapters,
-                    onChanged: isLoading
-                        ? null
-                        : (v) => setState(() => splitChapters = v),
+                    onChanged: isLoading ? null : (v) => setState(() => splitChapters = v),
                   ),
               ],
             ),

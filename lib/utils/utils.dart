@@ -12,13 +12,9 @@ Source? getSource(
       installedOnly: installedOnly,
     );
     bool byNameAndLang(Source element) =>
-        element.name!.toLowerCase() == name.toLowerCase() &&
-        element.lang == lang &&
-        element.sourceCode != null;
+        element.name!.toLowerCase() == name.toLowerCase() && element.lang == lang && element.sourceCode != null;
     return sourcesList.firstWhere(
-      (element) => sourceId != null
-          ? element.id == sourceId && element.sourceCode != null
-          : byNameAndLang(element),
+      (element) => sourceId != null ? element.id == sourceId && element.sourceCode != null : byNameAndLang(element),
       orElse: () {
         if (sourceId == null) throw ("Error when getting source");
         // The exact id is gone - e.g. the same source got reinstalled from a

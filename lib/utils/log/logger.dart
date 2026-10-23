@@ -11,13 +11,23 @@ class AppLogger {
   static bool _initialized = false;
   static bool _busy = false;
 
+  /// Messages logged before [init] completes (e.g. startup failures), written
+  /// out once the sink opens. Bounded so a disabled logger can't grow it.
+  static final List<String> _pending = [];
+  static const _maxPending = 200;
+  static bool _resolved = false;
+
   /// Initialize the logger
   static Future<void> init() async {
     if (_initialized || _busy) return;
     _busy = true;
     try {
       final enabled = (await isar.settings.get(227))?.enableLogs ?? false;
-      if (!enabled) return;
+      if (!enabled) {
+        _resolved = true;
+        _pending.clear();
+        return;
+      }
       final storage = StorageProvider();
       final directory = await storage.getDefaultDirectory();
       _logFile = File(path.join(directory!.path, 'logs.txt'));
@@ -32,23 +42,29 @@ class AppLogger {
 
       _sink = _logFile!.openWrite(mode: FileMode.append);
       _initialized = true;
+      _resolved = true;
 
       log('\n\nLogger initialized\n\n');
+      _pending.forEach(_sink!.writeln);
+      _pending.clear();
     } finally {
       _busy = false;
     }
   }
 
   static void log(String message, {LogLevel logLevel = LogLevel.info}) {
-    if (!_initialized || _sink == null) return;
-
     final now = DateTime.now();
     final timestamp =
         '${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year.toString().padLeft(4, '0')} '
         '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
 
     final logMessage = '[$timestamp][${logLevel.toString()}] $message';
-    _sink!.writeln(logMessage);
+    if (_initialized && _sink != null) {
+      _sink!.writeln(logMessage);
+      return;
+    }
+    if (_resolved) return;
+    if (_pending.length < _maxPending) _pending.add(logMessage);
   }
 
   static Future<void> dispose() async {
@@ -70,8 +86,7 @@ enum LogLevel {
   debug,
   info,
   warning,
-  error
-  ;
+  error;
 
   @override
   String toString() {

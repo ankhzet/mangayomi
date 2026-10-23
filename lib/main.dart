@@ -91,42 +91,20 @@ void main(List<String> args) async {
         return true; // handled — prevent app termination
       };
 
-      MediaKit.ensureInitialized();
-      await RustLib.init();
-      // Detect Android TV / leanback so the UI can branch on form factor.
-      // No-op on other platforms. See #729.
-      await initIsTv();
-      await getIsolateService.start();
-      await ffiImageDecoder.start();
-      if (!isMobile) {
-        await windowManager.ensureInitialized();
-        await WindowGeometry.restore();
-      }
-      if (Platform.isWindows) {
-        registerProtocolHandler("mangayomi");
-      }
-      if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
-        final availableVersion = await WebViewEnvironment.getAvailableVersion();
-        if (availableVersion != null) {
-          final document = await getApplicationDocumentsDirectory();
-          webViewEnvironment = await WebViewEnvironment.create(
-            settings: WebViewEnvironmentSettings(
-              userDataFolder: p.join(document.path, 'flutter_inappwebview'),
-            ),
-          );
-        }
-      }
       final storage = StorageProvider();
       // Don't force the Android "all files access" (MANAGE_EXTERNAL_STORAGE)
       // prompt at launch. The database lives in scoped app storage, so the app
       // can start, browse and read online without it. The permission is still
       // requested lazily by `createDirectorySafely` / `initDB` the first time a
       // public path actually needs to be written (e.g. a download). See #740.
+      // Any failure before runApp would otherwise leave a blank window, so
+      // surface it on the startup error screen instead.
       Object? startupError;
       try {
+        await _initPlatform();
         isar = await storage.initDB(null, inspector: kDebugMode);
       } catch (e, st) {
-        AppLogger.log('DB init failed: $e\n$st', logLevel: LogLevel.error);
+        AppLogger.log('Startup failed: $e\n$st', logLevel: LogLevel.error);
         startupError = e;
       }
       runApp(
@@ -144,6 +122,34 @@ void main(List<String> args) async {
       );
     },
   );
+}
+
+Future<void> _initPlatform() async {
+  MediaKit.ensureInitialized();
+  await RustLib.init();
+  // Detect Android TV / leanback so the UI can branch on form factor.
+  // No-op on other platforms. See #729.
+  await initIsTv();
+  await getIsolateService.start();
+  await ffiImageDecoder.start();
+  if (!isMobile) {
+    await windowManager.ensureInitialized();
+    await WindowGeometry.restore();
+  }
+  if (Platform.isWindows) {
+    registerProtocolHandler("mangayomi");
+  }
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
+    final availableVersion = await WebViewEnvironment.getAvailableVersion();
+    if (availableVersion != null) {
+      final document = await getApplicationDocumentsDirectory();
+      webViewEnvironment = await WebViewEnvironment.create(
+        settings: WebViewEnvironmentSettings(
+          userDataFolder: p.join(document.path, 'flutter_inappwebview'),
+        ),
+      );
+    }
+  }
 }
 
 class _StartupErrorApp extends StatelessWidget {

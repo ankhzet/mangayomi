@@ -37,32 +37,6 @@ int compareComposite(ChapterCompositeNumber a, ChapterCompositeNumber b) {
   return 0;
 }
 
-final Map<String, String> chapterTitles = {};
-
-String calculateTitle(ChapterCompositeNumber number, String? name) {
-  final (vol, chap, sub) = number;
-  final key = '$vol.$chap.$sub:${name ?? ''}';
-  final has = chapterTitles[key];
-
-  if (has != null) {
-    return has;
-  }
-
-  String title = (sub > 0) ? '$chap.$sub' : '$chap';
-
-  if (vol > 0) {
-    title = 'Vol. $vol, Ch. $title';
-  } else {
-    title = 'Chapter $title';
-  }
-
-  if (name != null && name.contains(':')) {
-    title += ': ${name.split(':').last.trim()}';
-  }
-
-  return chapterTitles[key] = title;
-}
-
 final RegExp numberRegexp = RegExp(
   r'((v(\.|ol(\.|ume))\s*(?<v>\d+))\s*)?(c(\.|h(\.|ap(\.|t(\.|er))))\s*)?(?<c>\d+)(\.(?<s>\d+))?',
   caseSensitive: false,
@@ -84,7 +58,10 @@ class Chapter {
   @Index(composite: [CompositeIndex('isRead')])
   int? mangaId;
 
-  String? get name => calculateTitle(compositeOrder, _name);
+  /// The title as the source gives it. Stored verbatim: downloads, archives
+  /// and duplicate detection are keyed on it. Showing chapters by number is
+  /// a display choice (see `chapterDisplayName`).
+  String? get name => _name;
 
   set name(String? value) {
     _name = value;

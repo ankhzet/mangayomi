@@ -83,6 +83,7 @@ void main(List<String> args) async {
 
       // Async errors that escape the Flutter framework (PlatformDispatcher)
       PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
+        debugPrint('PlatformDispatcher error: $error\n$stack');
         AppLogger.log(
           'PlatformDispatcher error: $error\n$stack',
           logLevel: LogLevel.error,
@@ -136,6 +137,7 @@ void main(List<String> args) async {
       if (startupError == null) unawaited(_postLaunchInit(storage));
     },
     (Object error, StackTrace stack) {
+      debugPrint('runZonedGuarded error: $error\n$stack');
       AppLogger.log(
         'runZonedGuarded error: $error\n$stack',
         logLevel: LogLevel.error,

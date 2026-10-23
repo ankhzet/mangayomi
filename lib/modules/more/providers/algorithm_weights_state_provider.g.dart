@@ -40,13 +40,14 @@ final class AlgorithmWeightsStateProvider extends $NotifierProvider<AlgorithmWei
   }
 }
 
-String _$algorithmWeightsStateHash() => r'5c20cb9b195a73161b485e082ad024b138c3da9c';
+String _$algorithmWeightsStateHash() =>
+    r'de3661f0783a61385f88f9fbfd5613e71f7acdb0';
 
 abstract class _$AlgorithmWeightsState extends $Notifier<AlgorithmWeights> {
   AlgorithmWeights build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<AlgorithmWeights, AlgorithmWeights>;
     final element =
         ref.element
@@ -56,6 +57,6 @@ abstract class _$AlgorithmWeightsState extends $Notifier<AlgorithmWeights> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

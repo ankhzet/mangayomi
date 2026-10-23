@@ -1,13 +1,17 @@
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
+
 import 'dart:async';
 import 'dart:io';
+
 import 'package:mangayomi/eval/model/m_source.dart';
-import 'package:mangayomi/main.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart' as flutter_inappwebview;
+import 'package:mangayomi/repositories/settings_repository.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart'
+    as flutter_inappwebview;
 import 'package:mangayomi/models/settings.dart';
 import 'package:http/io_client.dart';
 import 'package:mangayomi/services/http/rhttp/src/model/settings.dart';
@@ -17,6 +21,12 @@ import 'package:mangayomi/services/http/doh/doh_resolver.dart';
 import 'package:mangayomi/services/http/doh/doh_providers.dart';
 import 'package:mangayomi/services/http/doh/doh_custom_store.dart';
 import 'package:mangayomi/services/http/cf_proxy_store.dart';
+import 'package:mangayomi/utils/localized_message.dart';
+import 'package:mangayomi/utils/constant.dart';
+import 'package:mangayomi/utils/error_toast.dart';
+
+flutter_inappwebview.WebViewEnvironment? webViewEnvironment;
+String? customDns;
 
 class MClient {
   MClient();
@@ -54,8 +64,9 @@ class MClient {
     Map<String, dynamic>? reqcopyWith,
     rhttp.ClientSettings? settings,
     bool showCloudFlareError = true,
+    bool useDefaultUserAgent = false,
   }) {
-    final appSettings = isar.settings.getSync(227);
+    final appSettings = settingsRepository.currentOrNull;
     final useDoH = appSettings?.doHEnabled ?? false;
     final doHProviderId = appSettings?.doHProviderId;
 
@@ -86,24 +97,56 @@ class MClient {
       client: httpClient(settings: clientSettings, reqcopyWith: reqcopyWith),
       retryPolicy: ResolveCloudFlareChallenge(showCloudFlareError),
       interceptors: [
-        MCookieManager(reqcopyWith),
+        MCookieManager(reqcopyWith, useDefaultUserAgent: useDefaultUserAgent),
         LoggerInterceptor(showCloudFlareError),
       ],
     );
   }
 
-  static Map<String, String> getCookiesPref(String url) {
-    final cookiesList = isar.settings.getSync(227)!.cookiesList ?? [];
+  // Matches request/stored hosts either way (exact, or one a subdomain of
+  // the other) on a real dot boundary - a plain host.contains(stored) check
+  // only matched when the stored host happened to be the shorter one, so a
+  // cookie captured under a more specific host (e.g. the WebView landing on
+  // "www.example.com") never got attached to requests against the bare
+  // domain "example.com" a source actually scrapes, leaving Cloudflare
+  // looking "unresolved" even right after a successful manual bypass.
+  static bool _hostsMatch(String a, String b) {
+    return a == b || a.endsWith('.$b') || b.endsWith('.$a') || a.contains(b);
+  }
+
+  static Map<String, String> getCookiesPref(
+    String url, {
+    List<MCookie>? cookiesList,
+  }) {
+    cookiesList ??= settingsRepository.currentOrNull?.cookiesList ?? [];
     if (cookiesList.isEmpty) return {};
     final host = Uri.parse(url).host;
-    final cookies = cookiesList
-        .firstWhere(
-          (element) => element.host == host || host.contains(element.host!),
-          orElse: () => MCookie(cookie: ""),
-        )
-        .cookie!;
-    if (cookies.isEmpty) return {};
-    return {HttpHeaders.cookieHeader: cookies};
+    final matching = cookiesList.where(
+      (element) =>
+          element.host != null &&
+          element.cookie != null &&
+          element.cookie!.isNotEmpty &&
+          _hostsMatch(host, element.host!),
+    );
+    if (matching.isEmpty) return {};
+    final cookieMap = <String, String>{};
+    for (final entry in matching) {
+      for (final pair in entry.cookie!.split(';')) {
+        final trimmed = pair.trim();
+        if (trimmed.isEmpty) continue;
+        final parts = trimmed.split('=');
+        if (parts.length >= 2) {
+          final key = parts[0].trim();
+          final val = parts.sublist(1).join('=').trim();
+          cookieMap[key] = val;
+        }
+      }
+    }
+    if (cookieMap.isEmpty) return {};
+    final combined = cookieMap.entries
+        .map((e) => '${e.key}=${e.value}')
+        .join('; ');
+    return {HttpHeaders.cookieHeader: combined};
   }
 
   static Future<void> setCookie(
@@ -130,27 +173,18 @@ class MClient {
     if (cookies.isNotEmpty) {
       final host = Uri.parse(url).host;
       final newCookie = cookies.join("; ");
-      final settings = await isar.settings.get(227);
-      final existingCookies = settings!.cookiesList ?? [];
+      final existingCookies = settingsRepository.current.cookiesList ?? [];
       final filteredCookies = removeCookiesForHost(existingCookies, host);
       filteredCookies.add(
         MCookie()
           ..host = host
           ..cookie = newCookie,
       );
-      await isar.writeTxn(
-        () => isar.settings.put(settings..cookiesList = filteredCookies),
-      );
+      await settingsRepository.update((s) => s.cookiesList = filteredCookies);
     }
+    ua = normalizeUserAgent(ua);
     if (ua.isNotEmpty) {
-      final settings = await isar.settings.get(227);
-      await isar.writeTxn(
-        () => isar.settings.put(
-          settings!
-            ..userAgent = ua
-            ..updatedAt = DateTime.now().millisecondsSinceEpoch,
-        ),
-      );
+      await settingsRepository.update((s) => s.userAgent = ua);
     }
   }
 
@@ -158,35 +192,38 @@ class MClient {
     List<MCookie> allCookies,
     String host,
   ) {
-    return allCookies.where((cookie) => cookie.host != host && !host.contains(cookie.host!)).toList();
+    return allCookies
+        .where((cookie) => !_hostsMatch(host, cookie.host!))
+        .toList();
   }
 
   static Future<void> deleteAllCookies(String url) async {
-    final settings = await isar.settings.get(227);
-    final oldCookies = settings!.cookiesList ?? [];
+    final oldCookies = settingsRepository.current.cookiesList ?? [];
     final host = Uri.parse(url).host;
-    settings.cookiesList = removeCookiesForHost(oldCookies, host);
-    await isar.writeTxn(() => isar.settings.put(settings));
+    final newCookies = removeCookiesForHost(oldCookies, host);
+    await settingsRepository.update((s) => s.cookiesList = newCookies);
   }
 }
 
 class MCookieManager extends InterceptorContract {
-  MCookieManager(this.reqcopyWith);
+  MCookieManager(this.reqcopyWith, {this.useDefaultUserAgent = false});
+
   Map<String, dynamic>? reqcopyWith;
+  final bool useDefaultUserAgent;
 
   @override
   Future<BaseRequest> interceptRequest({required BaseRequest request}) async {
-    final cookie = MClient.getCookiesPref(request.url.toString());
-    if (cookie.isNotEmpty) {
-      final settings = await isar.settings.get(227);
-      final userAgent = settings!.userAgent!;
-      if (request.headers[HttpHeaders.cookieHeader] == null) {
-        request.headers.addAll(cookie);
-      }
-      if (request.headers[HttpHeaders.userAgentHeader] == null) {
-        request.headers[HttpHeaders.userAgentHeader] = userAgent;
-      }
-    }
+    final settings = settingsRepository.currentOrNull;
+    final cookie = MClient.getCookiesPref(
+      request.url.toString(),
+      cookiesList: settings?.cookiesList ?? const <MCookie>[],
+    );
+    applyStoredRequestHeaders(
+      request,
+      cookieHeaders: cookie,
+      userAgent: settings?.userAgent ?? defaultUserAgent,
+      useDefaultUserAgent: useDefaultUserAgent,
+    );
     try {
       if (reqcopyWith != null) {
         if (reqcopyWith!["followRedirects"] != null) {
@@ -214,17 +251,94 @@ class MCookieManager extends InterceptorContract {
   }
 }
 
+/// Linux WebViews can persist `navigator.userAgent` as a JSON string, including
+/// the outer quotes. Normalize both newly captured and already saved values so
+/// they cannot keep producing rejected requests after an app update.
+@visibleForTesting
+String normalizeUserAgent(String userAgent) {
+  final value = userAgent.trim();
+  if (value.length >= 2 && value.startsWith('"') && value.endsWith('"')) {
+    try {
+      final decoded = jsonDecode(value);
+      if (decoded is String) return decoded.trim();
+    } catch (_) {}
+  }
+  return value;
+}
+
+/// Applies the configured browser identity as a fallback. Extensions that need
+/// a source-specific user agent keep their explicit header.
+@visibleForTesting
+void applyDefaultUserAgent(BaseRequest request, String? userAgent) {
+  if (hasUserAgentHeader(request.headers) || userAgent == null) return;
+
+  final normalized = normalizeUserAgent(userAgent);
+  if (normalized.isNotEmpty) {
+    request.headers[HttpHeaders.userAgentHeader] = normalized;
+  }
+}
+
+@visibleForTesting
+bool hasUserAgentHeader(Map<String, String> headers) =>
+    headers.keys.any((key) => key.toLowerCase() == HttpHeaders.userAgentHeader);
+
+@visibleForTesting
+void applyStoredRequestHeaders(
+  BaseRequest request, {
+  required Map<String, String> cookieHeaders,
+  required String? userAgent,
+  required bool useDefaultUserAgent,
+}) {
+  if (cookieHeaders.isNotEmpty &&
+      request.headers[HttpHeaders.cookieHeader] == null) {
+    request.headers.addAll(cookieHeaders);
+  }
+  if (cookieHeaders.isNotEmpty || useDefaultUserAgent) {
+    applyDefaultUserAgent(request, userAgent);
+  }
+}
+
+const _redactedHeaders = {
+  'authorization',
+  'proxy-authorization',
+  'cookie',
+  'set-cookie',
+  'x-api-key',
+  'simkl-api-key',
+  'trakt-api-key',
+};
+
+/// Logs end up in a file users share on bug reports, so tracker bearer
+/// tokens and site session cookies must never be written there.
+@visibleForTesting
+Map<String, String> redactHeaders(Map<String, String> headers) => {
+  for (final MapEntry(:key, :value) in headers.entries)
+    key: _redactedHeaders.contains(key.toLowerCase()) ? '<redacted>' : value,
+};
+
+final _redactedHeaderInText = RegExp(
+  '\\b(${_redactedHeaders.map(RegExp.escape).join('|')}): [^,}]*',
+  caseSensitive: false,
+);
+
+/// [redactHeaders] for a line that already holds a printed header map, such
+/// as the worker isolate's request logs, which reach the main isolate as text.
+String redactHeadersInText(String text) =>
+    text.replaceAllMapped(_redactedHeaderInText, (m) => '${m[1]}: <redacted>');
+
 class LoggerInterceptor extends InterceptorContract {
   LoggerInterceptor(this.showCloudFlareError);
   bool showCloudFlareError;
   @override
   Future<BaseRequest> interceptRequest({required BaseRequest request}) async {
-    final content = "----- Request -----\n${request.toString()}\nheaders: ${request.headers.toString()}";
+    final head = "----- Request -----\n${request.toString()}\nheaders: ";
 
     if (kDebugMode || useLogger) {
+      // The console keeps the real headers for debugging; only the log file,
+      // which gets shared, has them redacted.
       // ignore: avoid_print
-      print(content);
-      Logger.add(LoggerLevel.info, content);
+      print("$head${request.headers}");
+      Logger.add(LoggerLevel.info, "$head${redactHeaders(request.headers)}");
     }
 
     return request;
@@ -245,14 +359,11 @@ class LoggerInterceptor extends InterceptorContract {
         Logger.add(LoggerLevel.info, content);
       }
       if (cloudflare) {
-        try {
-          botToast(
-            "${response.statusCode} Failed to bypass Cloudflare",
-            hasCloudFlare: cloudflare,
-            url: response.request!.url.toString(),
-          );
-        } catch (e) {
-          throw "Failed to bypass Cloudflare.\n\n\nYou can try to bypass it manually in the webview \n\n\nstatusCode: ${response.statusCode}";
+        final scope = Zone.current[_cloudflareAlertScopeKey];
+        if (scope is CloudflareAlertScope) {
+          scope._record(response);
+        } else {
+          _showCloudflareAlert(response);
         }
       }
     }
@@ -261,9 +372,84 @@ class LoggerInterceptor extends InterceptorContract {
   }
 }
 
+final _cloudflareAlertScopeKey = Object();
+
+/// Defers a final Cloudflare alert until a higher-level operation knows
+/// whether that challenged request actually prevented a usable result.
+class CloudflareAlertScope {
+  CloudflareAlertScope({void Function(BaseResponse)? onShow})
+    : _onShow = onShow ?? _showCloudflareAlert;
+
+  final void Function(BaseResponse) _onShow;
+  BaseResponse? _pendingResponse;
+
+  Future<T> run<T>(
+    Future<T> Function() operation, {
+    required bool Function(T result) hasUsableResult,
+  }) async {
+    _pendingResponse = null;
+    try {
+      final result = await runZoned(
+        operation,
+        zoneValues: {_cloudflareAlertScopeKey: this},
+      );
+      _complete(hasUsableResult: hasUsableResult(result));
+      return result;
+    } catch (_) {
+      _complete(hasUsableResult: false);
+      rethrow;
+    }
+  }
+
+  void _record(BaseResponse response) {
+    _pendingResponse = response;
+  }
+
+  void _complete({required bool hasUsableResult}) {
+    if (hasUsableResult) {
+      _pendingResponse = null;
+      return;
+    }
+    final response = _pendingResponse;
+    _pendingResponse = null;
+    if (response != null) _onShow(response);
+  }
+}
+
+void _showCloudflareAlert(BaseResponse response) {
+  // The in-app resolver is disabled on Linux, and cookies cannot be read back
+  // from a webview there either, so the offer to solve it manually in one is
+  // an offer nobody on Linux can take. A proxy is the only thing that gets
+  // past this, so say that instead.
+  final noResolverAvailable =
+      Platform.isLinux && CfProxyStore.url.trim().isEmpty;
+  try {
+    botToast(
+      noResolverAvailable
+          ? "Cloudflare check. Add bypass URL: Settings > General."
+          : "Cloudflare verification required (HTTP ${response.statusCode})",
+      // The button opens the webview resolver, which does nothing on Linux.
+      hasCloudFlare: !noResolverAvailable,
+      url: response.request?.url.toString(),
+      maxLines: noResolverAvailable ? 6 : 2,
+    );
+  } catch (e) {
+    throw noResolverAvailable
+        ? "Blocked by Cloudflare.\n\n\nThe in-app resolver is not available on Linux. Set a FlareSolverr or Byparr URL in Settings > General.\n\n\nstatusCode: ${response.statusCode}"
+        : "Failed to bypass Cloudflare.\n\n\nYou can try to bypass it manually in the webview \n\n\nstatusCode: ${response.statusCode}";
+  }
+}
+
 bool isCloudflare(BaseResponse response) {
-  return [403, 503].contains(response.statusCode) &&
-      ["cloudflare-nginx", "cloudflare"].contains(response.headers["server"]);
+  // `server: cloudflare` only means Cloudflare proxied the response. The
+  // origin can still return its own ordinary 403 or 503. Cloudflare documents
+  // `cf-mitigated: challenge` as the authoritative Challenge Page signal.
+  for (final entry in response.headers.entries) {
+    if (entry.key.trim().toLowerCase() == 'cf-mitigated') {
+      return entry.value.trim().toLowerCase() == 'challenge';
+    }
+  }
+  return false;
 }
 
 class ResolveCloudFlareChallenge extends RetryPolicy {
@@ -282,13 +468,13 @@ class ResolveCloudFlareChallenge extends RetryPolicy {
     // resolver below is disabled.
     final proxyUrl = CfProxyStore.url.trim();
     if (proxyUrl.isNotEmpty) {
-      return _solveWithCfProxy(proxyUrl, url);
+      return solveWithCfProxy(proxyUrl, url);
     }
 
     // Fall back to the bundled webview resolver (not available on Linux).
     if (Platform.isLinux) return false;
     try {
-      return http
+      return await http
           .post(
             Uri.parse('http://localhost:$cfPort/resolve_cf'),
             headers: {HttpHeaders.contentTypeHeader: 'application/json'},
@@ -301,7 +487,8 @@ class ResolveCloudFlareChallenge extends RetryPolicy {
             }
             return false;
           });
-    } catch (e) {
+    } catch (e, stackTrace) {
+      recordError(e, stack: stackTrace, source: 'm_client');
       return false;
     }
   }
@@ -313,7 +500,7 @@ class ResolveCloudFlareChallenge extends RetryPolicy {
 /// On success it stores the returned `cf_clearance` cookies + user-agent via
 /// [MClient.setCookie] (exactly like the webview resolver does), so the retried
 /// request carries them, and returns `true` to trigger the retry.
-Future<bool> _solveWithCfProxy(String proxyUrl, String targetUrl) async {
+Future<bool> solveWithCfProxy(String proxyUrl, String targetUrl) async {
   try {
     final res = await http
         .post(
@@ -383,7 +570,11 @@ Future<void> webviewServer() async {
         "Couldn't start Cloudflare Resolution Webview Server: $e\n$st",
       );
     }
-    botToast("Couldn't start Cloudflare Resolution Webview Server.");
+    botToast(
+      localizedMessage(
+        (l10n) => l10n.cloudflare_resolution_webview_server_start_failed,
+      ),
+    );
   }
 }
 
@@ -398,10 +589,10 @@ Future<void> stopwebviewServer() async {
   }
 }
 
-void _handleResolveCf(HttpRequest request) async {
+Future<void> _handleResolveCf(HttpRequest request) async {
   int time = 0;
   bool timeOut = false;
-  bool isCloudFlare = true;
+  bool solved = false;
   try {
     final body = await utf8.decoder.bind(request).join();
     final data = jsonDecode(body) as Map<String, dynamic>;
@@ -415,36 +606,47 @@ void _handleResolveCf(HttpRequest request) async {
       return;
     }
 
+    final webUri = flutter_inappwebview.WebUri(url);
+
+    // Whether the challenge actually passed is determined by Cloudflare's
+    // own cf_clearance cookie, which it only sets once the challenge is
+    // solved. The previous check (a string search for '#challenge-success-
+    // text' in document.head.innerHTML) is unreliable: Cloudflare's
+    // challenge template references that id in a <style> block in <head>
+    // from the very first load, pass or fail, so the search was true
+    // immediately and the resolver silently ran out the clock without ever
+    // saving cookies.
+    Future<bool> hasClearanceCookie(
+      flutter_inappwebview.InAppWebViewController? controller,
+    ) async {
+      try {
+        final cookies = await flutter_inappwebview.CookieManager.instance(
+          webViewEnvironment: webViewEnvironment,
+        ).getCookies(url: webUri, webViewController: controller);
+        return cookies.any((c) => c.name == 'cf_clearance');
+      } catch (_) {
+        return false;
+      }
+    }
+
     flutter_inappwebview.HeadlessInAppWebView? headlessWebView;
     headlessWebView = flutter_inappwebview.HeadlessInAppWebView(
       webViewEnvironment: webViewEnvironment,
-      initialUrlRequest: flutter_inappwebview.URLRequest(
-        url: flutter_inappwebview.WebUri(url),
-      ),
+      initialUrlRequest: flutter_inappwebview.URLRequest(url: webUri),
       onLoadStop: (controller, url) async {
-        try {
-          isCloudFlare = await controller.platform.evaluateJavascript(
-            source: "document.head.innerHTML.includes('#challenge-success-text')",
-          );
-        } catch (_) {
-          isCloudFlare = false;
-        }
+        solved = await hasClearanceCookie(controller);
 
         await Future.doWhile(() async {
-          if (!timeOut && isCloudFlare) {
-            try {
-              isCloudFlare = await controller.platform.evaluateJavascript(
-                source: "document.head.innerHTML.includes('#challenge-success-text')",
-              );
-            } catch (_) {
-              isCloudFlare = false;
-            }
+          if (!timeOut && !solved) {
+            solved = await hasClearanceCookie(controller);
           }
-          if (isCloudFlare) await Future.delayed(Duration(milliseconds: 300));
-
-          return isCloudFlare;
+          if (!solved) {
+            await Future.delayed(const Duration(milliseconds: 300));
+          }
+          return !solved && !timeOut;
         });
-        if (!timeOut) {
+
+        if (solved) {
           final ua =
               await controller.evaluateJavascript(
                 source: "navigator.userAgent",
@@ -459,7 +661,7 @@ void _handleResolveCf(HttpRequest request) async {
 
     await Future.doWhile(() async {
       timeOut = time == 15;
-      if (!isCloudFlare || timeOut) {
+      if (solved || timeOut) {
         return false;
       }
       await Future.delayed(const Duration(seconds: 1));
@@ -472,7 +674,7 @@ void _handleResolveCf(HttpRequest request) async {
 
     request.response
       ..headers.contentType = ContentType.json
-      ..write(jsonEncode({'result': isCloudFlare}))
+      ..write(jsonEncode({'result': solved}))
       ..close();
   } catch (e) {
     request.response

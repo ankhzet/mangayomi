@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
-import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
+import 'package:mangayomi/repositories/chapter_repository.dart';
+import 'package:mangayomi/repositories/manga_repository.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/services/torrent_server.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,16 +14,16 @@ Future addTorrentFromUrlOrFromFile(
   required bool init,
   String? url,
 }) async {
-  FilePickerResult? result;
+  List<PlatformFile>? files;
   if (url == null) {
-    result = await FilePicker.pickFiles(
-      allowMultiple: true,
+    files = await FilePicker.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['torrent'],
+      linuxOptions: const LinuxOptions(lockParentWindow: true),
     );
   }
 
-  if (result != null || url != null) {
+  if (files?.isNotEmpty ?? false || url != null) {
     String torrentName = "";
     if (url != null) {
       torrentName = (await MTorrentServer().getTorrentPlaylist(
@@ -42,7 +43,7 @@ Future addTorrentFromUrlOrFromFile(
           imageUrl: '',
           lang: '',
           link: '',
-          name: url != null ? torrentName : _getName(result!.files.first.path!),
+          name: url != null ? torrentName : _getName(files!.first.path!),
           dateAdded: dateNow,
           lastUpdate: dateNow,
           status: Status.unknown,
@@ -55,34 +56,34 @@ Future addTorrentFromUrlOrFromFile(
 
     if (url != null) {
       manga.customCoverImage = null;
-      isar.writeTxnSync(() {
-        isar.mangas.putSync(manga);
+      await mangaRepository.writeTransaction(() {
+        mangaRepository.putSync(manga);
         final chapters = Chapter(
           name: torrentName,
           url: url,
           mangaId: manga.id,
           updatedAt: DateTime.now().millisecondsSinceEpoch,
         )..manga.value = manga;
-        isar.chapters.putSync(chapters);
+        chapterRepository.putSync(chapters);
         chapters.manga.saveSync();
       });
     } else {
-      for (var file in result!.files.reversed.toList()) {
+      for (var file in files!.reversed) {
         String name = _getName(file.path!);
 
         if (init) {
           manga.customCoverImage = null;
         }
 
-        isar.writeTxnSync(() {
-          isar.mangas.putSync(manga);
+        await mangaRepository.writeTransaction(() {
+          mangaRepository.putSync(manga);
           final chapters = Chapter(
             name: name,
             archivePath: file.path,
             mangaId: manga.id,
             updatedAt: DateTime.now().millisecondsSinceEpoch,
           )..manga.value = manga;
-          isar.chapters.putSync(chapters);
+          chapterRepository.putSync(chapters);
           chapters.manga.saveSync();
         });
       }

@@ -63,7 +63,7 @@ final class SourceBaseUrlProvider extends $FunctionalProvider<String, String, St
   }
 }
 
-String _$sourceBaseUrlHash() => r'8b39ad1c4c8283700b2d16dfa3036acc766bb5d4';
+String _$sourceBaseUrlHash() => r'f7eef303b5c28ca3eaa6ae77e0069afdda5a10af';
 
 final class SourceBaseUrlFamily extends $Family with $FunctionalFamilyOverride<String, Source> {
   SourceBaseUrlFamily._()

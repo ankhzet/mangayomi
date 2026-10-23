@@ -4,13 +4,16 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
+
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:mangayomi/modules/manga/reader/u_chap_data_preload.dart';
-import 'package:mangayomi/modules/widgets/custom_extended_image_provider.dart';
+import 'package:mangayomi/services/reader/u_chap_data_preload.dart';
+import 'package:mangayomi/services/http/custom_extended_image_provider.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
+import 'package:mangayomi/utils/constant.dart';
+import 'package:mangayomi/utils/downloaded_page_file.dart';
 import 'package:mangayomi/utils/headers.dart';
 import 'package:mangayomi/utils/reg_exp_matcher.dart';
 import 'package:path/path.dart' as p;
@@ -76,18 +79,33 @@ extension ImageProviderExtension on ImageProvider {
 extension UChapDataPreloadExtensions on UChapDataPreload {
   Future<String?> get getLocalFilePath async {
     if (isTransitionPage) return null;
+    if (resolvedFilePath != null) return resolvedFilePath;
+    if (localImagePath != null) {
+      // Local image-folder page: this already IS a real file on disk, so
+      // just hand back its path directly rather than reading it into memory
+      // and writing it back out to a temp file for no reason.
+      return localImagePath;
+    }
     if (archiveImage != null) {
-      final tempDir = Directory.systemTemp;
-      final tempFile = File(
-        p.join(tempDir.path, 'mangayomi_archive_${index ?? pageIndex}.jpg'),
+      final sourceKey = [
+        chapter?.id?.toString(),
+        chapter?.archivePath,
+        directory?.path,
+        chapter?.url,
+      ].whereType<String>().where((value) => value.isNotEmpty).join('|');
+      final baseName =
+          'mangayomi_archive_${keyToMd5(sourceKey)}_${index ?? pageIndex}';
+      final bytes = archiveImage!;
+      final tempFile = await cacheImageBytesToTempFile(
+        tempDir: Directory.systemTemp,
+        baseName: baseName,
+        extension: detectImageExtension(bytes),
+        bytesProvider: () => bytes,
       );
-      if (!tempFile.existsSync()) {
-        tempFile.writeAsBytesSync(archiveImage!);
-      }
       return tempFile.path;
     }
     if (isLocale == true && directory != null && index != null) {
-      return p.join(directory!.path, "${padIndex(index!)}.jpg");
+      return findDownloadedPageFile(directory!, index!)?.path;
     }
     if (pageUrl != null) {
       final cachedImage = await _getCachedImageFile(pageUrl!.url);
@@ -102,10 +120,11 @@ extension UChapDataPreloadExtensions on UChapDataPreload {
     Uint8List? imageBytes;
     if (archiveImage != null) {
       imageBytes = archiveImage;
+    } else if (localImagePath != null) {
+      imageBytes = await File(localImagePath!).readAsBytes();
     } else if (isLocale == true && directory != null && index != null) {
-      imageBytes = File(
-        p.join(directory!.path, "${padIndex(index!)}.jpg"),
-      ).readAsBytesSync();
+      final file = await findDownloadedPageFileAsync(directory!, index!);
+      imageBytes = await file?.readAsBytes();
     } else {
       File? cachedImage;
       if (pageUrl != null) {
@@ -115,7 +134,7 @@ extension UChapDataPreloadExtensions on UChapDataPreload {
           cachedImage = await _getCachedImageFile(pageUrl!.url);
         }
       }
-      imageBytes = cachedImage?.readAsBytesSync();
+      imageBytes = await cachedImage?.readAsBytes();
     }
     return imageBytes;
   }
@@ -127,7 +146,7 @@ extension UChapDataPreloadExtensions on UChapDataPreload {
     final data = this;
 
     if (data.isTransitionPage) {
-      return const AssetImage('assets/transparent.png') as ImageProvider<Object>;
+      return const AssetImage(transparentAsset) as ImageProvider<Object>;
     }
 
     final isLocale = data.isLocale!;
@@ -135,46 +154,53 @@ extension UChapDataPreloadExtensions on UChapDataPreload {
     return isLocale
         ? archiveImage != null
               ? MemoryImage(archiveImage)
+              : data.localImagePath != null
+              ? FileImage(File(data.localImagePath!))
               : FileImage(
-                  File(
-                    p.join(
-                      data.directory!.path,
-                      "${padIndex(data.index!)}.jpg",
-                    ),
-                  ),
+                  findDownloadedPageFile(data.directory!, data.index!) ??
+                      // Nothing found under any known extension - fall back
+                      // to the historical .jpg guess so this still fails via
+                      // FileImage's own "file not found" error handling
+                      // rather than throwing here.
+                      File(
+                        p.join(
+                          data.directory!.path,
+                          "${padIndex(data.index!)}.jpg",
+                        ),
+                      ),
                 )
         : CustomExtendedNetworkImageProvider(
-                data.pageUrl!.url.trim(),
-                cache: true,
-                cacheMaxAge: const Duration(days: 7),
-                showCloudFlareError: showCloudFlareError,
-                imageCacheFolderName: "cacheimagemanga",
-                headers: {
-                  ...data.pageUrl!.headers ?? {},
-                  if (ref.context.mounted)
-                    ...ref.watch(
-                      headersProvider(
-                        source: data.chapter!.manga.value!.source!,
-                        lang: data.chapter!.manga.value!.lang!,
-                        sourceId: data.chapter!.manga.value!.sourceId,
-                      ),
-                    ),
-                },
-              )
-              as ImageProvider<Object>;
+            data.pageUrl!.url.trim(),
+            cache: true,
+            cacheMaxAge: const Duration(days: 7),
+            showCloudFlareError: showCloudFlareError,
+            imageCacheFolderName: "cacheimagemanga",
+            headers: {
+              ...data.pageUrl!.headers ?? {},
+              if (ref.context.mounted)
+                ...ref.watch(
+                  headersProvider(
+                    source: data.chapter!.manga.value!.source!,
+                    lang: data.chapter!.manga.value!.lang!,
+                    sourceId: data.chapter!.manga.value!.sourceId,
+                  ),
+                ),
+            },
+          ) as ImageProvider<Object>;
   }
 }
 
 Future<File?> _getCachedImageFile(String url, {String? cacheKey}) async {
   try {
+    // Cache files are named exactly by their md5 key, so the path can be
+    // built directly — listing the whole cache directory to find one file
+    // scaled with the cache size.
     final String key = cacheKey ?? keyToMd5(url);
-    final Directory cacheImagesDirectory = await StorageProvider().getCacheDirectory('cacheimagemanga');
-    if (cacheImagesDirectory.existsSync()) {
-      await for (final FileSystemEntity file in cacheImagesDirectory.list()) {
-        if (file.path.endsWith(key)) {
-          return File(file.path);
-        }
-      }
+    final Directory cacheImagesDirectory = await StorageProvider()
+        .getCacheDirectory('cacheimagemanga');
+    final file = File(p.join(cacheImagesDirectory.path, key));
+    if (await file.exists()) {
+      return file;
     }
   } catch (_) {
     return null;

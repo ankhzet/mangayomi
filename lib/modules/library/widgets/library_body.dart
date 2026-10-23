@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mangayomi/modules/browse/providers/browse_initial_tab_provider.dart';
+import 'package:mangayomi/modules/browse/browse_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
@@ -8,10 +11,13 @@ import 'package:mangayomi/modules/library/providers/library_source_badge_provide
 import 'package:mangayomi/modules/library/providers/library_state_provider.dart';
 import 'package:mangayomi/modules/library/widgets/library_gridview_widget.dart';
 import 'package:mangayomi/modules/library/widgets/library_listview_widget.dart';
-import 'package:mangayomi/modules/widgets/error_text.dart';
-import 'package:mangayomi/modules/widgets/progress_center.dart';
+import 'package:mangayomi/modules/library/widgets/library_entry_utils.dart';
+import 'package:mangayomi/modules/widgets/cover_grid_skeleton.dart';
+import 'package:mangayomi/modules/widgets/error_state.dart';
+import 'package:mangayomi/modules/library/widgets/library_update_runner.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/services/library_updater.dart';
+import 'package:mangayomi/utils/extensions/manga_extensions.dart';
+import 'package:shiori/shiori.dart';
 
 /// Displays the library body content for a given category (or uncategorized).
 ///
@@ -38,6 +44,7 @@ class LibraryBody extends ConsumerWidget {
   final bool downloadedOnly;
   final String searchQuery;
   final bool ignoreFiltersOnSearch;
+  final List<String> sourceIds;
 
   const LibraryBody({
     super.key,
@@ -60,6 +67,7 @@ class LibraryBody extends ConsumerWidget {
     required this.downloadedOnly,
     required this.searchQuery,
     required this.ignoreFiltersOnSearch,
+    required this.sourceIds,
   });
 
   @override
@@ -104,14 +112,44 @@ class LibraryBody extends ConsumerWidget {
             downloadedOnly: downloadedOnly,
             searchQuery: searchQuery,
             ignoreFiltersOnSearch: ignoreFiltersOnSearch,
+            sourceIds: sourceIds,
+            settings: settings,
           ),
         );
 
         if (entries.isEmpty) {
-          return Center(child: Text(l10n.empty_library));
+          // A search or a filter that matches nothing is not an empty
+          // library; say which it is.
+          final narrowed = searchQuery.isNotEmpty || data.isNotEmpty;
+          return ShioriEmptyState(
+            icon: narrowed
+                ? Symbols.search_off_rounded
+                : Symbols.collections_bookmark_rounded,
+            title: narrowed ? l10n.no_result : l10n.empty_library,
+            message: narrowed ? null : l10n.empty_library_hint,
+            // An empty library leads somewhere: the sources for this media.
+            actionLabel: narrowed ? null : l10n.browse,
+            onAction: narrowed
+                ? null
+                : () {
+                    ref
+                        .read(browseInitialTabProvider.notifier)
+                        .request(BrowseTab(itemType, BrowseTabKind.sources));
+                    context.go('/browse');
+                  },
+          );
         }
 
-        final entriesManga = reverse ? entries.reversed.toList() : entries;
+        final entriesManga = reverse
+            ? sortType == 3
+                  ? sortByUnreadCount(
+                      entries,
+                      unreadCountOf: (manga) =>
+                          manga.unreadChaptersCount(settings),
+                      descending: true,
+                    )
+                  : entries.reversed.toList()
+            : entries;
         return RefreshIndicator(
           onRefresh: () async {
             await updateLibrary(
@@ -129,6 +167,7 @@ class LibraryBody extends ConsumerWidget {
                   language: language,
                   mangaIdsList: mangaIdsList,
                   localSource: localSource,
+                  settings: settings,
                 )
               : LibraryGridViewWidget(
                   entriesManga: entriesManga,
@@ -141,11 +180,24 @@ class LibraryBody extends ConsumerWidget {
                   mangaIdsList: mangaIdsList,
                   localSource: localSource,
                   itemType: itemType,
+                  settings: settings,
                 ),
         );
       },
-      error: (error, _) => ErrorText(error),
-      loading: () => const ProgressCenter(),
+      error: (error, _) => ErrorState(detail: error.toString()),
+      loading: () => displayType == DisplayType.list
+          ? ListView(
+              physics: const NeverScrollableScrollPhysics(),
+              children: [for (var i = 0; i < 8; i++) const ShioriSkeletonRow()],
+            )
+          : CoverGridSkeleton(
+              gridSize: ref.watch(
+                libraryGridSizeStateProvider(itemType: itemType),
+              ),
+              childAspectRatio: displayType == DisplayType.comfortableGrid
+                  ? 0.642
+                  : 0.69,
+            ),
     );
   }
 }
@@ -167,6 +219,7 @@ class CategoryBadge extends ConsumerWidget {
   final bool downloadedOnly;
   final String searchQuery;
   final bool ignoreFiltersOnSearch;
+  final List<String> sourceIds;
 
   const CategoryBadge({
     super.key,
@@ -182,6 +235,7 @@ class CategoryBadge extends ConsumerWidget {
     required this.downloadedOnly,
     required this.searchQuery,
     required this.ignoreFiltersOnSearch,
+    required this.sourceIds,
   });
 
   @override
@@ -211,22 +265,18 @@ class CategoryBadge extends ConsumerWidget {
             downloadedOnly: downloadedOnly,
             searchQuery: searchQuery,
             ignoreFiltersOnSearch: ignoreFiltersOnSearch,
+            sourceIds: sourceIds,
+            settings: settings,
           ),
         );
-        return CircleAvatar(
-          backgroundColor: Theme.of(context).focusColor,
-          radius: 8,
-          child: Text(
-            filtered.length.toString(),
-            style: TextStyle(
-              fontSize: 10,
-              color: Theme.of(context).textTheme.bodySmall!.color,
-            ),
-          ),
+        // The gap lives here so a tab with no badge keeps no trailing space.
+        return Padding(
+          padding: const EdgeInsetsDirectional.only(start: ShioriSpace.s4),
+          child: EntryBadgeChip(label: filtered.length.toString()),
         );
       },
-      error: (error, _) => ErrorText(error),
-      loading: () => const ProgressCenter(),
+      error: (error, _) => const SizedBox.shrink(),
+      loading: () => const SizedBox.shrink(),
     );
   }
 }

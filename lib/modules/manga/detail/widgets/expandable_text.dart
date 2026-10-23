@@ -1,6 +1,8 @@
 import 'dart:math';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:shiori/shiori.dart';
 
 typedef StringCallback = void Function(String value);
 
@@ -148,9 +150,15 @@ class ExpandableTextState extends State<ExpandableText> with TickerProviderState
       effectiveTextStyle = defaultTextStyle.style.merge(widget.style);
     }
 
-    final linkText = (_expanded ? widget.collapseText : widget.expandText) ?? '';
-    final linkColor = widget.linkColor ?? widget.linkStyle?.color ?? Theme.of(context).colorScheme.secondary;
-    final linkTextStyle = effectiveTextStyle!.merge(widget.linkStyle).copyWith(color: linkColor);
+    final linkText =
+        (_expanded ? widget.collapseText : widget.expandText) ?? '';
+    final linkColor =
+        widget.linkColor ??
+        widget.linkStyle?.color ??
+        context.shiori.color.accentInk;
+    final linkTextStyle = effectiveTextStyle!
+        .merge(widget.linkStyle)
+        .copyWith(color: linkColor);
 
     final prefixText = widget.prefixText != null && widget.prefixText!.isNotEmpty ? '${widget.prefixText} ' : '';
 
@@ -304,8 +312,10 @@ class ExpandableTextState extends State<ExpandableText> with TickerProviderState
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               colors: [
-                                Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.2),
-                                Theme.of(context).scaffoldBackgroundColor,
+                                context.shiori.color.ink0.withValues(
+                                  alpha: 0.2,
+                                ),
+                                context.shiori.color.ink0,
                               ],
                               stops: const [0, 0.9],
                             ),
@@ -313,8 +323,10 @@ class ExpandableTextState extends State<ExpandableText> with TickerProviderState
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: Icon(
-                              widget.expandIcon ?? Icons.keyboard_arrow_down_sharp,
-                              color: Theme.of(context).iconTheme.color,
+                              fill: 1,
+                              widget.expandIcon ??
+                                  Symbols.keyboard_arrow_down_rounded,
+                              color: context.shiori.color.fgMuted,
                             ),
                           ),
                         ),
@@ -322,15 +334,19 @@ class ExpandableTextState extends State<ExpandableText> with TickerProviderState
                     ),
                 ],
               ),
-              // Collapse icon when expanded
-              if (widget.showExpandCollapseIcon && _expanded && hasExceededMaxLines)
+              if (widget.showExpandCollapseIcon && hasExceededMaxLines)
                 GestureDetector(
                   onTap: _linkTapped,
                   child: SizedBox(
                     height: 20,
                     child: Icon(
-                      widget.collapseIcon ?? Icons.keyboard_arrow_up_sharp,
-                      color: Theme.of(context).iconTheme.color,
+                      fill: 1,
+                      _expanded
+                          ? widget.collapseIcon ??
+                                Symbols.keyboard_arrow_up_rounded
+                          : widget.expandIcon ??
+                                Symbols.keyboard_arrow_down_rounded,
+                      color: context.shiori.color.fgMuted,
                     ),
                   ),
                 ),

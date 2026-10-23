@@ -1,20 +1,22 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:shiori/shiori.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mangayomi/main.dart';
 import 'package:mangayomi/modules/more/settings/general/providers/general_state_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/utils/constant.dart';
-import 'package:mangayomi/utils/global_style.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:mangayomi/utils/platform_utils.dart';
+import 'package:mangayomi/utils/share.dart';
 
 class MangaWebView extends ConsumerStatefulWidget {
   final String url;
@@ -53,12 +55,24 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
     if (Platform.isLinux) {
       _closeDesktopWebview();
     } else {
-      if (browser != null) {
-        if (browser!.isOpened()) browser!.close();
-        browser!.dispose();
-      }
+      _closeBrowser();
     }
     super.dispose();
+  }
+
+  bool _browserClosed = false;
+
+  /// Closes and disposes the Windows in-app browser at most once. It can be
+  /// asked to close from three places for one teardown (the in-app close
+  /// button, the native window's own close via onExit, and dispose()) —
+  /// disposing twice crashes with "used after being disposed".
+  void _closeBrowser() {
+    if (_browserClosed) return;
+    _browserClosed = true;
+    if (browser != null && browser!.isOpened()) {
+      browser!.close();
+    }
+    browser?.dispose();
   }
 
   Webview? _desktopWebview;
@@ -94,7 +108,32 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
       ua = null;
     }
     if (Platform.isLinux) {
-      _desktopWebview = await WebviewWindow.create();
+      // Like Windows, the controls live in this screen rather than in the
+      // webview window: the plugin's own title bar is a second Flutter engine,
+      // and tearing it down when the window closes crashes the app.
+      // Opened as a child of this window and centred on it, so size it to
+      // cover the area below the toolbar.
+      final size = MediaQuery.sizeOf(context);
+      _desktopWebview = await WebviewWindow.create(
+        configuration: CreateConfiguration(
+          title: widget.title,
+          titleBarHeight: 0,
+          windowWidth: (size.width - 64).round(),
+          windowHeight: (size.height - 180).round(),
+        ),
+      );
+      final navigating = _desktopWebview!.isNavigating;
+      navigating.addListener(() {
+        if (mounted) setState(() => _progress = navigating.value ? 0 : 1);
+      });
+      _desktopWebview!.setOnHistoryChangedCallback((canGoBack, canGoForward) {
+        if (mounted) {
+          setState(() {
+            _canGoback = canGoBack;
+            _canGoForward = canGoForward;
+          });
+        }
+      });
 
       _cookieTimer = Timer.periodic(const Duration(seconds: 1), (_) async {
         try {
@@ -104,8 +143,20 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
                 "navigator.userAgent",
               ) ??
               "";
-          final cookie = cookieList.map((e) => "${e.name}=${e.value}").join(";");
-          await MClient.setCookie(_url, ua, null, cookie: cookie);
+          final cookie = cookieList
+              .map((e) => "${e.name}=${e.value}")
+              .join(";");
+          await MClient.setCookie(widget.url, ua, null, cookie: cookie);
+          // location.href is the main frame's URL; the plugin's URL requests
+          // also include iframes (ads, captchas). Results come back
+          // JSON-encoded on Linux, quotes included.
+          final href = await _desktopWebview!.evaluateJavaScript(
+            "location.href",
+          );
+          final url = href == null ? null : jsonDecode(href) as String;
+          if (mounted && url != null && url != 'about:blank' && url != _url) {
+            setState(() => _url = url);
+          }
         } catch (_) {}
       });
       _desktopWebview!
@@ -138,6 +189,13 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
             });
           }
         },
+        onExitCallback: () {
+          // The native window has already torn itself down; mark it closed so
+          // dispose() and the in-app close button don't try to close/dispose
+          // it again, then pop this route once.
+          _browserClosed = true;
+          if (mounted) Navigator.pop(context);
+        },
       );
       await browser!.openUrlRequest(
         urlRequest: URLRequest(url: WebUri(widget.url)),
@@ -163,230 +221,257 @@ class _MangaWebViewState extends ConsumerState<MangaWebView> {
   @override
   Widget build(BuildContext context) {
     final l10n = l10nLocalizations(context);
-    return (!isNotWebviewWindow && Platform.isLinux)
-        ? Scaffold(
-            appBar: AppBar(
-              title: Text(
-                _title,
-                style: const TextStyle(
-                  overflow: TextOverflow.ellipsis,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              leading: IconButton(
-                onPressed: () {
-                  _closeDesktopWebview();
-                  _popWebviewRoute();
-                },
-                icon: const Icon(Icons.close),
-              ),
-            ),
-          )
-        : Material(
-            child: SafeArea(
-              child: WillPopScope(
-                onWillPop: () async {
-                  final canGoback = await _webViewController?.canGoBack();
-                  if (canGoback ?? false) {
-                    _webViewController?.goBack();
-                  } else if (context.mounted) {
-                    context.pop();
-                  }
-                  return false;
-                },
-                child: Column(
+    return Material(
+      child: SafeArea(
+        child: PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (didPop, result) async {
+            if (didPop) return;
+            final canGoback = await _webViewController?.canGoBack();
+            if (canGoback ?? false) {
+              _webViewController?.goBack();
+            } else if (context.mounted) {
+              context.pop();
+            }
+          },
+          child: Column(
+            children: [
+              SizedBox(
+                height: AppBar().preferredSize.height,
+                child: Row(
                   children: [
-                    SizedBox(
-                      height: AppBar().preferredSize.height,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: ListTile(
-                              dense: true,
-                              subtitle: Text(
-                                _url,
-                                style: const TextStyle(
-                                  fontSize: 10,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              title: Text(
-                                _title,
-                                style: const TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              leading: IconButton(
-                                onPressed: () {
-                                  if (Platform.isWindows) {
-                                    if (browser!.isOpened()) {
-                                      browser!.close();
-                                      browser!.dispose();
-                                    }
-                                  }
-                                  Navigator.pop(context);
-                                },
-                                icon: const Icon(Icons.close),
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.arrow_back,
-                              color: _canGoback ? null : Colors.grey,
-                            ),
-                            onPressed: _canGoback
-                                ? () {
-                                    _webViewController?.goBack();
-                                  }
-                                : null,
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.arrow_forward,
-                              color: _canGoForward ? null : Colors.grey,
-                            ),
-                            onPressed: _canGoForward
-                                ? () {
-                                    _webViewController?.goForward();
-                                  }
-                                : null,
-                          ),
-                          PopupMenuButton(
-                            popUpAnimationStyle: popupAnimationStyle,
-                            itemBuilder: (context) {
-                              return [
-                                PopupMenuItem<int>(
-                                  value: 0,
-                                  child: Text(l10n!.refresh),
-                                ),
-                                PopupMenuItem<int>(
-                                  value: 1,
-                                  child: Text(l10n.share),
-                                ),
-                                PopupMenuItem<int>(
-                                  value: 2,
-                                  child: Text(l10n.open_in_browser),
-                                ),
-                                PopupMenuItem<int>(
-                                  value: 3,
-                                  child: Text(l10n.clear_cookie),
-                                ),
-                              ];
-                            },
-                            onSelected: (value) async {
-                              if (value == 0) {
-                                _webViewController?.reload();
-                              } else if (value == 1) {
-                                final box = context.findRenderObject() as RenderBox?;
-                                SharePlus.instance.share(
-                                  ShareParams(
-                                    text: _url,
-                                    sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
-                                  ),
-                                );
-                              } else if (value == 2) {
-                                await InAppBrowser.openWithSystemBrowser(
-                                  url: WebUri(_url),
-                                );
-                              } else if (value == 3) {
-                                CookieManager.instance().deleteAllCookies();
-                                MClient.deleteAllCookies(_url);
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    _progress < 1.0 ? LinearProgressIndicator(value: _progress) : Container(),
-                    if (!Platform.isWindows)
-                      Expanded(
-                        // Android's WebView drives its own d-pad focus once it
-                        // has focus, but nothing here ever gave it any, so on a
-                        // TV the remote could not reach into the page at all.
-                        // That matters most for a Cloudflare challenge, which
-                        // is the whole reason this screen exists. Autofocus it
-                        // on TV so the keys land in the page rather than the
-                        // toolbar.
-                        child: Focus(
-                          autofocus: isTv,
-                          child: InAppWebView(
-                            webViewEnvironment: webViewEnvironment,
-                            onWebViewCreated: (controller) async {
-                              _webViewController = controller;
-                            },
-                            onLoadStart: (controller, url) async {
-                              setState(() {
-                                _url = url.toString();
-                              });
-                            },
-                            shouldOverrideUrlLoading: (controller, navigationAction) async {
-                              var uri = navigationAction.request.url!;
-                              if (![
-                                "http",
-                                "https",
-                                "file",
-                                "chrome",
-                                "data",
-                                "javascript",
-                                "about",
-                              ].contains(uri.scheme)) {
-                                if (await canLaunchUrl(uri)) {
-                                  await launchUrl(uri);
-                                  return NavigationActionPolicy.CANCEL;
-                                }
-                              }
-                              return NavigationActionPolicy.ALLOW;
-                            },
-                            onLoadStop: (controller, url) async {
-                              if (mounted) {
-                                setState(() {
-                                  _url = url.toString();
-                                });
-                              }
-                            },
-                            onProgressChanged: (controller, progress) async {
-                              if (mounted) {
-                                setState(() {
-                                  _progress = progress / 100;
-                                });
-                              }
-                            },
-                            onUpdateVisitedHistory: (controller, url, isReload) async {
-                              final ua =
-                                  await controller.evaluateJavascript(
-                                    source: "navigator.userAgent",
-                                  ) ??
-                                  "";
-                              await MClient.setCookie(
-                                url.toString(),
-                                ua,
-                                controller,
-                              );
-                              final canGoback = await controller.canGoBack();
-                              final canGoForward = await controller.canGoForward();
-                              final title = await controller.getTitle();
-                              if (mounted) {
-                                setState(() {
-                                  _url = url.toString();
-                                  _title = title!;
-                                  _canGoback = canGoback;
-                                  _canGoForward = canGoForward;
-                                });
-                              }
-                            },
-                            initialUrlRequest: URLRequest(
-                              url: WebUri(widget.url),
-                            ),
+                    Expanded(
+                      child: ListTile(
+                        dense: true,
+                        subtitle: Text(
+                          _url,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: context.shiori.caption,
+                        ),
+                        title: Text(
+                          _title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: context.shiori.text.row.copyWith(
+                            color: context.shiori.color.fg,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
+                        leading: IconButton(
+                          tooltip: MaterialLocalizations.of(context)
+                              .closeButtonTooltip,
+                          onPressed: () {
+                            if (Platform.isLinux) {
+                              _closeDesktopWebview();
+                              _popWebviewRoute();
+                              return;
+                            }
+                            if (Platform.isWindows) {
+                              _closeBrowser();
+                            }
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(Symbols.close_rounded, fill: 1),
+                        ),
                       ),
+                    ),
+                    IconButton(
+                      tooltip: MaterialLocalizations.of(context)
+                          .backButtonTooltip,
+                      icon: Icon(
+                        Symbols.arrow_back_rounded,
+                        fill: 1,
+                        color: _canGoback
+                            ? null
+                            : context.shiori.color.fg.withValues(
+                                alpha: Alphas.disabled,
+                              ),
+                      ),
+                      onPressed: _canGoback
+                          ? () {
+                              if (Platform.isLinux) {
+                                _desktopWebview?.back();
+                              } else {
+                                _webViewController?.goBack();
+                              }
+                            }
+                          : null,
+                    ),
+                    IconButton(
+                      tooltip: context.l10n.go_forward,
+                      icon: Icon(
+                        Symbols.arrow_forward_rounded,
+                        fill: 1,
+                        color: _canGoForward
+                            ? null
+                            : context.shiori.color.fg.withValues(
+                                alpha: Alphas.disabled,
+                              ),
+                      ),
+                      onPressed: _canGoForward
+                          ? () {
+                              if (Platform.isLinux) {
+                                _desktopWebview?.forward();
+                              } else {
+                                _webViewController?.goForward();
+                              }
+                            }
+                          : null,
+                    ),
+                    ShioriMenuButton(
+                      tooltip: MaterialLocalizations.of(context)
+                          .moreButtonTooltip,
+                      items: [
+                        ShioriMenuItem(
+                          label: l10n!.refresh,
+                          icon: Symbols.refresh_rounded,
+                          onSelected: () => Platform.isLinux
+                              ? _desktopWebview?.reload()
+                              : _webViewController?.reload(),
+                        ),
+                        ShioriMenuItem(
+                          label: l10n.share,
+                          icon: Symbols.share_rounded,
+                          onSelected: () {
+                            final box =
+                                context.findRenderObject() as RenderBox?;
+                            shareOrCopy(
+                              ShareParams(
+                                text: _url,
+                                sharePositionOrigin:
+                                    box!.localToGlobal(Offset.zero) & box.size,
+                              ),
+                            );
+                          },
+                        ),
+                        ShioriMenuItem(
+                          label: l10n.open_in_browser,
+                          icon: Symbols.open_in_browser_rounded,
+                          // flutter_inappwebview has no Linux support.
+                          onSelected: () => Platform.isLinux
+                              ? launchUrl(
+                                  Uri.parse(_url),
+                                  mode: LaunchMode.externalApplication,
+                                )
+                              : InAppBrowser.openWithSystemBrowser(
+                                  url: WebUri(_url),
+                                ),
+                        ),
+                        null,
+                        ShioriMenuItem(
+                          label: l10n.clear_cookie,
+                          icon: Symbols.cookie_rounded,
+                          destructive: true,
+                          onSelected: () {
+                            if (Platform.isLinux) {
+                              WebviewWindow.clearAll();
+                            } else {
+                              CookieManager.instance().deleteAllCookies();
+                            }
+                            MClient.deleteAllCookies(_url);
+                          },
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
-            ),
-          );
+              _progress < 1.0
+                  // The Linux webview only says whether it is loading.
+                  ? ShioriProgressBar(
+                      value: Platform.isLinux ? null : _progress,
+                      height: 2,
+                    )
+                  : Container(),
+              if (isNotWebviewWindow)
+                Expanded(
+                  // Android's WebView drives its own d-pad focus once it
+                  // has focus, but nothing here ever gave it any, so on a
+                  // TV the remote could not reach into the page at all.
+                  // That matters most for a Cloudflare challenge, which
+                  // is the whole reason this screen exists. Autofocus it
+                  // on TV so the keys land in the page rather than the
+                  // toolbar.
+                  child: Focus(
+                    autofocus: isTv,
+                    child: InAppWebView(
+                      webViewEnvironment: webViewEnvironment,
+                      onWebViewCreated: (controller) async {
+                        _webViewController = controller;
+                      },
+                      onLoadStart: (controller, url) async {
+                        setState(() {
+                          _url = url.toString();
+                        });
+                      },
+                      shouldOverrideUrlLoading:
+                          (controller, navigationAction) async {
+                            var uri = navigationAction.request.url!;
+                            if (![
+                              "http",
+                              "https",
+                              "file",
+                              "chrome",
+                              "data",
+                              "javascript",
+                              "about",
+                            ].contains(uri.scheme)) {
+                              if (await canLaunchUrl(uri)) {
+                                await launchUrl(uri);
+                                return NavigationActionPolicy.CANCEL;
+                              }
+                            }
+                            return NavigationActionPolicy.ALLOW;
+                          },
+                      onLoadStop: (controller, url) async {
+                        if (mounted) {
+                          setState(() {
+                            _url = url.toString();
+                          });
+                        }
+                      },
+                      onProgressChanged: (controller, progress) async {
+                        if (mounted) {
+                          setState(() {
+                            _progress = progress / 100;
+                          });
+                        }
+                      },
+                      onUpdateVisitedHistory:
+                          (controller, url, isReload) async {
+                            final ua =
+                                await controller.evaluateJavascript(
+                                  source: "navigator.userAgent",
+                                ) ??
+                                "";
+                            await MClient.setCookie(
+                              url.toString(),
+                              ua,
+                              controller,
+                            );
+                            final canGoback = await controller.canGoBack();
+                            final canGoForward = await controller
+                                .canGoForward();
+                            final title = await controller.getTitle();
+                            if (mounted) {
+                              setState(() {
+                                _url = url.toString();
+                                _title = title!;
+                                _canGoback = canGoback;
+                                _canGoForward = canGoForward;
+                              });
+                            }
+                          },
+                      initialUrlRequest: URLRequest(url: WebUri(widget.url)),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -394,10 +479,12 @@ class MyInAppBrowser extends InAppBrowser {
   BuildContext context;
   void Function(InAppWebViewController) controller;
   void Function(int) onProgress;
+  void Function() onExitCallback;
   MyInAppBrowser({
     required this.context,
     required this.controller,
     required this.onProgress,
+    required this.onExitCallback,
   }) : super(webViewEnvironment: webViewEnvironment);
 
   @override
@@ -412,7 +499,7 @@ class MyInAppBrowser extends InAppBrowser {
 
   @override
   void onExit() {
-    Navigator.pop(context);
+    onExitCallback.call();
   }
 
   @override

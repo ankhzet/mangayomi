@@ -1,17 +1,27 @@
 import 'dart:io';
+
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
-import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/models/track_preference.dart';
+import 'package:mangayomi/repositories/track_repository.dart';
+
 import 'dart:convert';
+import 'dart:math';
+
 import 'package:mangayomi/models/track_search.dart';
-import 'package:mangayomi/modules/more/settings/track/myanimelist/model.dart';
-import 'package:mangayomi/modules/more/settings/track/providers/track_providers.dart';
+import 'package:mangayomi/models/oauth.dart';
+import 'package:mangayomi/providers/track_providers.dart';
 import 'package:mangayomi/services/http/m_client.dart';
+import 'package:mangayomi/utils/localized_message.dart';
+import 'package:mangayomi/services/discovery/service_availability.dart';
+
 import 'base_tracker.dart';
+import 'tracker_account.dart';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:mangayomi/utils/error_toast.dart';
 part 'anilist.g.dart';
 
 @riverpod
@@ -64,14 +74,17 @@ class Anilist extends _$Anilist implements BaseTracker {
           .login(
             TrackPreference(
               syncId: syncId,
-              username: currenUser.$1,
+              username: currenUser.$1.id,
+              displayName: currenUser.$1.name,
+              avatarUrl: currenUser.$1.avatarUrl,
               prefs: jsonEncode({"scoreFormat": currenUser.$2}),
               oAuth: jsonEncode(aLOAuth.toJson()),
             ),
           );
 
       return true;
-    } catch (e) {
+    } catch (e, stackTrace) {
+      recordError(e, stack: stackTrace, source: 'anilist');
       return false;
     }
   }
@@ -145,26 +158,7 @@ class Anilist extends _$Anilist implements BaseTracker {
       data['Page']['media'] as List,
     );
     return entries
-        .map(
-          (jsonRes) => TrackSearch(
-            libraryId: jsonRes['id'],
-            syncId: syncId,
-            trackingUrl: "",
-            mediaId: jsonRes['id'],
-            summary: jsonRes['description'] ?? "",
-            totalChapter: jsonRes[contentUnit] ?? 0,
-            coverUrl: jsonRes['coverImage']['large'] ?? "",
-            title: jsonRes['title']['userPreferred'],
-            startDate:
-                jsonRes["start_date"] ??
-                DateTime.fromMillisecondsSinceEpoch(
-                  parseDate(jsonRes, 'startDate'),
-                ).toString(),
-            publishingType: "",
-            publishingStatus: jsonRes['status'],
-            score: jsonRes["averageScore"] != null ? jsonRes["averageScore"] * 1.0 : 0,
-          ),
-        )
+        .map((jsonRes) => _mediaToTrackSearch(jsonRes, contentUnit))
         .toList();
   }
 
@@ -259,31 +253,47 @@ class Anilist extends _$Anilist implements BaseTracker {
       data['Page']['media'] as List,
     );
     return entries
-        .map(
-          (jsonRes) => TrackSearch(
-            libraryId: jsonRes['id'],
-            syncId: syncId,
-            trackingUrl: "",
-            mediaId: jsonRes['id'],
-            summary: jsonRes['description'] ?? "",
-            totalChapter: jsonRes[contentUnit] ?? 0,
-            coverUrl: jsonRes['coverImage']['large'] ?? "",
-            title: jsonRes['title']['userPreferred'],
-            startDate:
-                jsonRes["start_date"] ??
-                DateTime.fromMillisecondsSinceEpoch(
-                  parseDate(jsonRes, 'startDate'),
-                ).toString(),
-            publishingType: "",
-            publishingStatus: jsonRes['status'],
-            score: jsonRes["averageScore"] != null ? jsonRes["averageScore"] * 1.0 : 0,
-          ),
-        )
+        .map((jsonRes) => _mediaToTrackSearch(jsonRes, contentUnit))
         .toList();
   }
 
+  /// A `media` node from a search or ranking query, as a search result.
+  TrackSearch _mediaToTrackSearch(
+    Map<String, dynamic> jsonRes,
+    String contentUnit,
+  ) => TrackSearch(
+    libraryId: jsonRes['id'],
+    syncId: syncId,
+    trackingUrl: "",
+    mediaId: jsonRes['id'],
+    summary: jsonRes['description'] ?? "",
+    totalChapter: jsonRes[contentUnit] ?? 0,
+    coverUrl: jsonRes['coverImage']['large'] ?? "",
+    title: jsonRes['title']['userPreferred'],
+    startDate:
+        jsonRes["start_date"] ??
+        DateTime.fromMillisecondsSinceEpoch(parseDate(jsonRes, 'startDate'))
+            .toString(),
+    publishingType: "",
+    publishingStatus: jsonRes['status'],
+    score: jsonRes["averageScore"] != null ? jsonRes["averageScore"] * 1.0 : 0,
+  );
+
   @override
   Future<List<TrackSearch>> fetchUserData({bool isManga = true}) async {
+    return _fetchMediaList(status: "CURRENT", isManga: isManga);
+  }
+
+  // Plan to read / Plan to watch backlog fetching
+  Future<List<TrackSearch>> fetchPlanningData({bool isManga = true}) async {
+    return _fetchMediaList(status: "PLANNING", isManga: isManga);
+  }
+
+  // Shared GraphQL query and parsing helper
+  Future<List<TrackSearch>> _fetchMediaList({
+    required String status,
+    bool isManga = true,
+  }) async {
     final userId = int.parse(
       widgetRef.read(tracksProvider(syncId: syncId))!.username!,
     );
@@ -294,7 +304,7 @@ class Anilist extends _$Anilist implements BaseTracker {
         '''
     query(\$id: Int!) {
       Page {
-        mediaList(userId: \$id, type: $type, status: CURRENT, sort: UPDATED_TIME_DESC) {
+        mediaList(userId: \$id, type: $type, status: $status, sort: UPDATED_TIME_DESC) {
           id
           status
           scoreRaw: score(format: POINT_100)
@@ -354,27 +364,85 @@ class Anilist extends _$Anilist implements BaseTracker {
 
   Future<Map<String, dynamic>> _executeGraphQL(
     String document,
-    Map<String, dynamic> variables,
-  ) async {
-    final response = await http.post(
-      Uri.parse(_baseApiUrl),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${await _getAccessToken()}',
-      },
-      body: jsonEncode({'query': document, 'variables': variables}),
-    );
+    Map<String, dynamic> variables, {
+    int maxRetries = 3,
+  }) async {
+    // Same host as discovery, so the same outage applies: skip the request
+    // rather than wait out a client timeout on a service already known to be
+    // refusing.
+    final known = ServiceAvailability.outage(DiscoveryService.anilist);
+    if (known != null) throw known;
 
-    final decoded = jsonDecode(response.body) as Map<String, dynamic>;
+    int attempt = 0;
+    while (true) {
+      attempt++;
+      final response = await http.post(
+        Uri.parse(_baseApiUrl),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${await _getAccessToken()}',
+        },
+        body: jsonEncode({'query': document, 'variables': variables}),
+      );
 
-    return decoded['data'] as Map<String, dynamic>;
+      // HTTP 429 (Rate Limit): Retry with backoff & jitter; do not mark down service
+      if (response.statusCode == 429) {
+        if (attempt <= maxRetries) {
+          final retryAfterHeader = response.headers['retry-after'];
+          final waitSeconds =
+              int.tryParse(retryAfterHeader ?? '') ?? (attempt * 2);
+          // Add micro-jitter (0~800ms) to avoid thundering herd on concurrent requests
+          final jitterMs = Random().nextInt(800);
+          await Future.delayed(
+            Duration(seconds: waitSeconds.clamp(1, 30)) +
+                Duration(milliseconds: jitterMs),
+          );
+          continue;
+        }
+        // Do not call markDown on 429 to avoid premature 10-minute service outages
+        throw Exception('AniList rate limited (429): please wait a moment.');
+      }
+
+      Map<String, dynamic>? decoded;
+      try {
+        final parsed = jsonDecode(response.body);
+        if (parsed is Map<String, dynamic>) decoded = parsed;
+      } catch (_) {
+        decoded = null;
+      }
+
+      // Without this a refusal reached `decoded['data'] as Map` and died as a
+      // null cast, so a service saying plainly why it will not answer surfaced
+      // as a type error or, through the client's own timeout, as "Request timed
+      // out".
+      final refusal = anilistRefusal(response.statusCode, decoded);
+      if (refusal != null) {
+        throw ServiceAvailability.markDown(DiscoveryService.anilist, refusal);
+      }
+
+      final data = decoded?['data'];
+      if (data is! Map<String, dynamic>) {
+        throw Exception('AniList returned no data: ${response.statusCode}');
+      }
+      ServiceAvailability.markUp(DiscoveryService.anilist);
+      return data;
+    }
   }
 
-  Future<(String, String)> _getCurrentUser(String accessToken) async {
+  /// The viewer's account, and the score format stored alongside it.
+  ///
+  /// The id and the name are both needed and are not interchangeable. Two
+  /// queries here parse the id as an int, while chiaki.site's sequel lookup
+  /// wants the name, so storing only one of them makes the other caller wrong.
+  Future<(TrackerAccount, String)> _getCurrentUser(String accessToken) async {
     const query = '''
     query User {
       Viewer {
         id
+        name
+        avatar {
+          large
+        }
         mediaListOptions {
           scoreFormat
         }
@@ -394,9 +462,9 @@ class Anilist extends _$Anilist implements BaseTracker {
     );
     final data = json.decode(response.body);
 
-    final viewer = data['data']['Viewer'];
+    final viewer = data['data']['Viewer'] as Map<String, dynamic>;
     return (
-      viewer['id'].toString(),
+      anilistAccount(viewer),
       viewer['mediaListOptions']['scoreFormat'].toString(),
     );
   }
@@ -409,14 +477,16 @@ class Anilist extends _$Anilist implements BaseTracker {
     final expiresIn = DateTime.fromMillisecondsSinceEpoch(mALOAuth.expiresIn!);
     if (DateTime.now().isAfter(expiresIn)) {
       widgetRef.read(tracksProvider(syncId: syncId).notifier).logout();
-      botToast("Anilist Token expired");
+      botToast(
+        localizedMessage((l10n) => l10n.tracker_token_expired("AniList")),
+      );
       throw Exception("Token expired");
     }
     return mALOAuth.accessToken!;
   }
 
   String _toAnilistScore(int score) {
-    final prefs = isar.trackPreferences.getSync(syncId)!.prefs;
+    final prefs = trackRepository.getPreferenceById(syncId)!.prefs;
     final scoreFormat = jsonDecode(prefs!)['scoreFormat'];
     return switch (scoreFormat) {
       "POINT_10" => (score / 10).toString(),
@@ -497,7 +567,7 @@ class Anilist extends _$Anilist implements BaseTracker {
 
   @override
   String displayScore(int score) {
-    final prefs = isar.trackPreferences.getSync(syncId)!.prefs;
+    final prefs = trackRepository.getPreferenceById(syncId)!.prefs;
     final scoreFormat = jsonDecode(prefs!)['scoreFormat'];
     return switch (scoreFormat) {
       'POINT_5' => switch (score) {
@@ -516,7 +586,7 @@ class Anilist extends _$Anilist implements BaseTracker {
 
   @override
   (int, int) getScoreValue() {
-    final prefs = isar.trackPreferences.getSync(syncId)!.prefs;
+    final prefs = trackRepository.getPreferenceById(syncId)!.prefs;
     String scoreFormat = jsonDecode(prefs!)['scoreFormat'];
     return switch (scoreFormat) {
       'POINT_10' => (100, 10),

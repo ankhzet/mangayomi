@@ -56,7 +56,7 @@ final class GetPopularProvider extends $FunctionalProvider<AsyncValue<MPages?>, 
   }
 }
 
-String _$getPopularHash() => r'7e1139bc0f6a3a495fa0dc59d450bc7fd70f36a8';
+String _$getPopularHash() => r'51ed21ca8117b04eaae3d7adefcb9f57d56e4911';
 
 final class GetPopularFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<MPages?>, ({Source source, int page})> {

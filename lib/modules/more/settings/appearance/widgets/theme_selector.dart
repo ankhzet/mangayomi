@@ -1,9 +1,8 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:shiori/shiori.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/settings.dart';
+import 'package:mangayomi/modules/more/settings/appearance/providers/theme_mode_state_provider.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/modules/more/settings/appearance/providers/flex_scheme_color_state_provider.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
@@ -21,81 +20,68 @@ class ThemeSelector extends ConsumerStatefulWidget {
 class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
   @override
   Widget build(BuildContext context) {
-    int selected = isar.settings.getSync(227)!.flexSchemeColorIndex!;
+    final selected = ref.watch(
+      flexSchemeColorStateProvider.select((t) => t.$2),
+    );
     const double height = 45;
     const double width = height * 1.5;
     final ThemeData theme = Theme.of(context);
-    final bool isLight = Theme.of(context).brightness == Brightness.light;
-    final ColorScheme scheme = Theme.of(context).colorScheme;
+    final isDark = ref.watch(themeModeStateProvider);
     return SizedBox(
       height: 130,
       child: Row(
         children: [
           Expanded(
             child: SuperListView.builder(
-              padding: const EdgeInsetsDirectional.only(start: 8, end: 16),
+              padding: const EdgeInsetsDirectional.only(
+                start: ShioriSpace.s8,
+                end: ShioriSpace.s16,
+              ),
               physics: const ClampingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: ThemeAA.schemes.length,
               itemBuilder: (BuildContext context, int index) {
-                void select() {
-                  setState(() => selected = index);
-                  isLight
-                      ? ref.read(flexSchemeColorStateProvider.notifier).setTheme(ThemeAA.schemes[index].light, index)
-                      : ref.read(flexSchemeColorStateProvider.notifier).setTheme(ThemeAA.schemes[index].dark, index);
-                }
+                final scheme = ThemeAA.schemes[index];
+                final color = isDark ? scheme.dark : scheme.light;
 
                 return _TvSwatchFocus(
-                  onSelect: select,
+                  onSelect: () {
+                    ref
+                        .read(flexSchemeColorStateProvider.notifier)
+                        .setTheme(color, index);
+                  },
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(ShioriSpace.s8),
                     child: Stack(
                       children: [
                         Column(
                           children: [
                             FlexThemeModeOptionButton(
-                              flexSchemeColor: isLight ? ThemeAA.schemes[index].light : ThemeAA.schemes[index].dark,
+                              flexSchemeColor: color,
                               selected: selected == index,
                               selectedBorder: BorderSide(
-                                color: theme.primaryColorLight,
+                                color: context.shiori.color.accent,
                                 width: 4,
                               ),
                               unselectedBorder: BorderSide.none,
-                              backgroundColor: scheme.surface,
+                              backgroundColor: theme.colorScheme.surface,
                               width: width,
                               height: height,
                               padding: EdgeInsets.zero,
                               borderRadius: 0,
                               onSelect: () {
-                                setState(() {
-                                  selected = index;
-                                });
-                                isLight
-                                    ? ref
-                                          .read(
-                                            flexSchemeColorStateProvider.notifier,
-                                          )
-                                          .setTheme(
-                                            ThemeAA.schemes[selected].light,
-                                            selected,
-                                          )
-                                    : ref
-                                          .read(
-                                            flexSchemeColorStateProvider.notifier,
-                                          )
-                                          .setTheme(
-                                            ThemeAA.schemes[selected].dark,
-                                            selected,
-                                          );
+                                ref
+                                    .read(flexSchemeColorStateProvider.notifier)
+                                    .setTheme(color, index);
                               },
                               optionButtonPadding: EdgeInsets.zero,
                               optionButtonMargin: EdgeInsets.zero,
                             ),
-                            const SizedBox(height: 3),
+                            const SizedBox(height: ShioriSpace.s4),
                             Text(
                               ThemeAA.schemes[index].name,
-                              style: const TextStyle(
-                                fontSize: 12,
+                              style: TextStyle(
+                                fontSize: context.shiori.text.meta.fontSize,
                                 fontWeight: FontWeight.w300,
                               ),
                             ),
@@ -103,14 +89,16 @@ class _ThemeSelectorState extends ConsumerState<ThemeSelector> {
                         ),
                         if (selected == index)
                           Padding(
-                            padding: const EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(ShioriSpace.s4),
+                            // The picked palette's check, in the accent,
+                            // as the app marks a choice.
                             child: CircleAvatar(
                               radius: 14,
-                              backgroundColor: theme.primaryColorLight,
-                              child: FaIcon(
-                                FontAwesomeIcons.check,
-                                color: context.secondaryColor,
-                                size: 16,
+                              backgroundColor: context.shiori.color.accent,
+                              child: Icon(
+                                Symbols.check_rounded,
+                                color: context.shiori.color.onAccent,
+                                size: 18,
                               ),
                             ),
                           ),
@@ -151,7 +139,7 @@ class _TvSwatchFocusState extends State<_TvSwatchFocus> {
           Scrollable.ensureVisible(
             context,
             alignment: 0.5,
-            duration: const Duration(milliseconds: 200),
+            duration: ShioriMotion.standard,
           );
         }
       },
@@ -168,9 +156,9 @@ class _TvSwatchFocusState extends State<_TvSwatchFocus> {
         return KeyEventResult.ignored;
       },
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 120),
+        duration: ShioriMotion.fast,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(ShioriShape.cover),
           border: Border.all(
             color: _focused ? context.primaryColor : Colors.transparent,
             width: 3,

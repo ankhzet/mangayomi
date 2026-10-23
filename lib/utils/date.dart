@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:mangayomi/modules/more/settings/appearance/providers/date_format_state_provider.dart';
+import 'package:mangayomi/providers/date_format_state_provider.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
+
+/// DateFormat construction parses the pattern each time; cache instances so
+/// hot paths (grouped history/updates lists) don't rebuild them per call.
+final _dateFormatCache = <String, DateFormat>{};
+
+DateFormat _cachedFormatter(String pattern, String localeTag) =>
+    _dateFormatCache.putIfAbsent(
+      '$pattern|$localeTag',
+      () => DateFormat(pattern, localeTag),
+    );
 
 String dateFormat(
   String? timestamp, {
@@ -34,10 +44,6 @@ String dateFormat(
     final fiveDaysAgo = DateTime(now.year, now.month, now.day - 5);
     final sixDaysAgo = DateTime(now.year, now.month, now.day - 6);
     final aWeekAgo = DateTime(now.year, now.month, now.day - 7);
-    final formatter = DateFormat(
-      dateFormat.isEmpty ? dateFrmt : dateFormat,
-      locale.toLanguageTag(),
-    );
 
     if (date == today && useRelativeTimesTamps && relativeTimestamps != 0) {
       if (showHOURorMINUTE) {
@@ -75,7 +81,12 @@ String dateFormat(
         };
       }
     }
-    return forHistoryValue ? DateTime(dateTime.year, dateTime.month, dateTime.day).toString() : formatter.format(date);
+    return forHistoryValue
+        ? DateTime(dateTime.year, dateTime.month, dateTime.day).toString()
+        : _cachedFormatter(
+            dateFormat.isEmpty ? dateFrmt : dateFormat,
+            locale.toLanguageTag(),
+          ).format(date);
   }
   return date.toString();
 }
@@ -83,8 +94,11 @@ String dateFormat(
 String dateFormatHour(String timestamp, BuildContext context) {
   final locale = currentLocale(context);
   final dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp));
+  final localeTag = locale.toLanguageTag();
 
-  return DateFormat.Hm(locale.toLanguageTag()).format(dateTime);
+  return _dateFormatCache
+      .putIfAbsent('Hm|$localeTag', () => DateFormat.Hm(localeTag))
+      .format(dateTime);
 }
 
 List<String> dateFormatsList = [

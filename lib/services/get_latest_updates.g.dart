@@ -56,7 +56,7 @@ final class GetLatestUpdatesProvider extends $FunctionalProvider<AsyncValue<MPag
   }
 }
 
-String _$getLatestUpdatesHash() => r'6f99dfe1d4aa950b6852110ec23f92b5c73c413c';
+String _$getLatestUpdatesHash() => r'4014affec43c0351e8ed06fcca336afb0ae7ff16';
 
 final class GetLatestUpdatesFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<MPages?>, ({Source source, int page})> {

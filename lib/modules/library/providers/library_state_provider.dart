@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
+import 'package:mangayomi/modules/library/providers/tri_state_filter.dart';
 import 'package:mangayomi/modules/manga/detail/providers/state_providers.dart';
+import 'package:mangayomi/repositories/chapter_repository.dart';
+import 'package:mangayomi/repositories/manga_repository.dart';
+import 'package:mangayomi/repositories/settings_repository.dart';
 import 'package:mangayomi/utils/extensions/chapter_extensions.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -52,11 +55,7 @@ class LibraryDisplayTypeState extends _$LibraryDisplayTypeState {
         appSettings = settings..novelDisplayType = displayType;
     }
 
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-        appSettings..updatedAt = DateTime.now().millisecondsSinceEpoch,
-      );
-    });
+    settingsRepository.save(appSettings);
   }
 }
 
@@ -74,9 +73,7 @@ class LibraryGridSizeState extends _$LibraryGridSizeState {
     }
   }
 
-  Settings get settings {
-    return isar.settings.getSync(227)!;
-  }
+  Settings get settings => settingsRepository.current;
 
   void set(int? value, {bool end = false}) {
     Settings appSettings = Settings();
@@ -94,17 +91,14 @@ class LibraryGridSizeState extends _$LibraryGridSizeState {
           appSettings = settings..novelGridSize = value;
       }
 
-      isar.writeTxnSync(() {
-        isar.settings.putSync(
-          appSettings..updatedAt = DateTime.now().millisecondsSinceEpoch,
-        );
-      });
+      settingsRepository.save(appSettings);
     }
   }
 }
 
 @riverpod
-class MangaFilterDownloadedState extends _$MangaFilterDownloadedState {
+class MangaFilterDownloadedState extends _$MangaFilterDownloadedState
+    with TriStateFilterField, TriStateFilterCycle {
   @override
   int build({
     required List<Manga> mangaList,
@@ -115,50 +109,24 @@ class MangaFilterDownloadedState extends _$MangaFilterDownloadedState {
     return getType();
   }
 
-  int getType() {
-    switch (itemType) {
-      case ItemType.manga:
-        return settings.libraryFilterMangasDownloadType!;
-      case ItemType.anime:
-        return settings.libraryFilterAnimeDownloadType!;
-      default:
-        return settings.libraryFilterNovelDownloadType ?? 0;
-    }
-  }
-
-  void setType(int type) {
-    Settings appSettings = Settings();
-    switch (itemType) {
-      case ItemType.manga:
-        appSettings = settings..libraryFilterMangasDownloadType = type;
-        break;
-      case ItemType.anime:
-        appSettings = settings..libraryFilterAnimeDownloadType = type;
-        break;
-      default:
-        appSettings = settings..libraryFilterNovelDownloadType = type;
-    }
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-        appSettings..updatedAt = DateTime.now().millisecondsSinceEpoch,
-      );
-    });
-    state = type;
-  }
-
-  void update() {
-    if (state == 0) {
-      setType(1);
-    } else if (state == 1) {
-      setType(2);
-    } else {
-      setType(0);
-    }
-  }
+  @override
+  TriStateFilterFields get fields => TriStateFilterFields(
+    read: (s, t) => switch (t) {
+      ItemType.manga => s.libraryFilterMangasDownloadType!,
+      ItemType.anime => s.libraryFilterAnimeDownloadType!,
+      _ => s.libraryFilterNovelDownloadType ?? 0,
+    },
+    write: (s, t, type) => switch (t) {
+      ItemType.manga => s..libraryFilterMangasDownloadType = type,
+      ItemType.anime => s..libraryFilterAnimeDownloadType = type,
+      _ => s..libraryFilterNovelDownloadType = type,
+    },
+  );
 }
 
 @riverpod
-class MangaFilterUnreadState extends _$MangaFilterUnreadState {
+class MangaFilterUnreadState extends _$MangaFilterUnreadState
+    with TriStateFilterField, TriStateFilterCycle {
   @override
   int build({
     required List<Manga> mangaList,
@@ -169,65 +137,24 @@ class MangaFilterUnreadState extends _$MangaFilterUnreadState {
     return getType();
   }
 
-  int getType() {
-    switch (itemType) {
-      case ItemType.manga:
-        return settings.libraryFilterMangasUnreadType!;
-      case ItemType.anime:
-        return settings.libraryFilterAnimeUnreadType!;
-      default:
-        return settings.libraryFilterNovelUnreadType ?? 0;
-    }
-  }
-
-  void setType(int type) {
-    Settings appSettings = Settings();
-    switch (itemType) {
-      case ItemType.manga:
-        appSettings = settings..libraryFilterMangasUnreadType = type;
-        break;
-      case ItemType.anime:
-        appSettings = settings..libraryFilterAnimeUnreadType = type;
-        break;
-      default:
-        appSettings = settings..libraryFilterNovelUnreadType = type;
-    }
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-        appSettings..updatedAt = DateTime.now().millisecondsSinceEpoch,
-      );
-    });
-    state = type;
-  }
-
-  List<Manga> getData() {
-    if (getType() == 1) {
-      return mangaList.where((element) => element.chapters.any((chap) => !chap.isRead!)).toList();
-    } else if (getType() == 2) {
-      return mangaList.where((element) => element.chapters.every((chap) => chap.isRead!)).toList();
-    } else {
-      return mangaList;
-    }
-  }
-
-  List<Manga> update() {
-    if (state == 0) {
-      final data = mangaList.where((element) => element.chapters.any((chap) => !chap.isRead!)).toList();
-      setType(1);
-      return data;
-    } else if (state == 1) {
-      final data = mangaList.where((element) => element.chapters.every((chap) => chap.isRead!)).toList();
-      setType(2);
-      return data;
-    } else {
-      setType(0);
-      return mangaList;
-    }
-  }
+  @override
+  TriStateFilterFields get fields => TriStateFilterFields(
+    read: (s, t) => switch (t) {
+      ItemType.manga => s.libraryFilterMangasUnreadType!,
+      ItemType.anime => s.libraryFilterAnimeUnreadType!,
+      _ => s.libraryFilterNovelUnreadType ?? 0,
+    },
+    write: (s, t, type) => switch (t) {
+      ItemType.manga => s..libraryFilterMangasUnreadType = type,
+      ItemType.anime => s..libraryFilterAnimeUnreadType = type,
+      _ => s..libraryFilterNovelUnreadType = type,
+    },
+  );
 }
 
 @riverpod
-class MangaFilterStartedState extends _$MangaFilterStartedState {
+class MangaFilterStartedState extends _$MangaFilterStartedState
+    with TriStateFilterField, TriStateFilterCycle {
   @override
   int build({
     required List<Manga> mangaList,
@@ -238,65 +165,24 @@ class MangaFilterStartedState extends _$MangaFilterStartedState {
     return getType();
   }
 
-  int getType() {
-    switch (itemType) {
-      case ItemType.manga:
-        return settings.libraryFilterMangasStartedType!;
-      case ItemType.anime:
-        return settings.libraryFilterAnimeStartedType!;
-      default:
-        return settings.libraryFilterNovelStartedType ?? 0;
-    }
-  }
-
-  void setType(int type) {
-    Settings appSettings = Settings();
-    switch (itemType) {
-      case ItemType.manga:
-        appSettings = settings..libraryFilterMangasStartedType = type;
-        break;
-      case ItemType.anime:
-        appSettings = settings..libraryFilterAnimeStartedType = type;
-        break;
-      default:
-        appSettings = settings..libraryFilterNovelStartedType = type;
-    }
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-        appSettings..updatedAt = DateTime.now().millisecondsSinceEpoch,
-      );
-    });
-    state = type;
-  }
-
-  List<Manga> getData() {
-    if (getType() == 1) {
-      return mangaList.where((element) => element.chapters.any((chap) => !chap.isRead!)).toList();
-    } else if (getType() == 2) {
-      return mangaList.where((element) => element.chapters.every((chap) => chap.isRead!)).toList();
-    } else {
-      return mangaList;
-    }
-  }
-
-  List<Manga> update() {
-    if (state == 0) {
-      final data = mangaList.where((element) => element.chapters.any((chap) => !chap.isRead!)).toList();
-      setType(1);
-      return data;
-    } else if (state == 1) {
-      final data = mangaList.where((element) => element.chapters.every((chap) => chap.isRead!)).toList();
-      setType(2);
-      return data;
-    } else {
-      setType(0);
-      return mangaList;
-    }
-  }
+  @override
+  TriStateFilterFields get fields => TriStateFilterFields(
+    read: (s, t) => switch (t) {
+      ItemType.manga => s.libraryFilterMangasStartedType!,
+      ItemType.anime => s.libraryFilterAnimeStartedType!,
+      _ => s.libraryFilterNovelStartedType ?? 0,
+    },
+    write: (s, t, type) => switch (t) {
+      ItemType.manga => s..libraryFilterMangasStartedType = type,
+      ItemType.anime => s..libraryFilterAnimeStartedType = type,
+      _ => s..libraryFilterNovelStartedType = type,
+    },
+  );
 }
 
 @riverpod
-class MangaFilterBookmarkedState extends _$MangaFilterBookmarkedState {
+class MangaFilterBookmarkedState extends _$MangaFilterBookmarkedState
+    with TriStateFilterField, TriStateFilterCycle {
   @override
   int build({
     required List<Manga> mangaList,
@@ -307,83 +193,26 @@ class MangaFilterBookmarkedState extends _$MangaFilterBookmarkedState {
     return getType();
   }
 
-  int getType() {
-    switch (itemType) {
-      case ItemType.manga:
-        return settings.libraryFilterMangasBookMarkedType!;
-      case ItemType.anime:
-        return settings.libraryFilterAnimeBookMarkedType!;
-      default:
-        return settings.libraryFilterNovelBookMarkedType ?? 0;
-    }
-  }
-
-  void setType(int type) {
-    Settings appSettings = Settings();
-    switch (itemType) {
-      case ItemType.manga:
-        appSettings = settings..libraryFilterMangasBookMarkedType = type;
-        break;
-      case ItemType.anime:
-        appSettings = settings..libraryFilterAnimeBookMarkedType = type;
-        break;
-      default:
-        appSettings = settings..libraryFilterNovelBookMarkedType = type;
-    }
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-        appSettings..updatedAt = DateTime.now().millisecondsSinceEpoch,
-      );
-    });
-    state = type;
-  }
-
-  List<Manga> getData() {
-    if (getType() == 1) {
-      return mangaList
-          .where(
-            (element) => element.chapters.any((chap) => chap.isBookmarked!),
-          )
-          .toList();
-    } else if (getType() == 2) {
-      return mangaList
-          .where(
-            (element) => element.chapters.every((chap) => !chap.isBookmarked!),
-          )
-          .toList();
-    } else {
-      return mangaList;
-    }
-  }
-
-  List<Manga> update() {
-    if (state == 0) {
-      final data = mangaList
-          .where(
-            (element) => element.chapters.any((chap) => chap.isBookmarked!),
-          )
-          .toList();
-      setType(1);
-      return data;
-    } else if (state == 1) {
-      final data = mangaList
-          .where(
-            (element) => element.chapters.every((chap) => !chap.isBookmarked!),
-          )
-          .toList();
-      setType(2);
-      return data;
-    } else {
-      setType(0);
-      return mangaList;
-    }
-  }
+  @override
+  TriStateFilterFields get fields => TriStateFilterFields(
+    read: (s, t) => switch (t) {
+      ItemType.manga => s.libraryFilterMangasBookMarkedType!,
+      ItemType.anime => s.libraryFilterAnimeBookMarkedType!,
+      _ => s.libraryFilterNovelBookMarkedType ?? 0,
+    },
+    write: (s, t, type) => switch (t) {
+      ItemType.manga => s..libraryFilterMangasBookMarkedType = type,
+      ItemType.anime => s..libraryFilterAnimeBookMarkedType = type,
+      _ => s..libraryFilterNovelBookMarkedType = type,
+    },
+  );
 }
 
 // ── Completed filter ──────────────────────────────────────────────────────────
 
 @riverpod
-class MangaFilterCompletedState extends _$MangaFilterCompletedState {
+class MangaFilterCompletedState extends _$MangaFilterCompletedState
+    with TriStateFilterField, TriStateFilterCycle {
   @override
   int build({
     required List<Manga> mangaList,
@@ -394,52 +223,26 @@ class MangaFilterCompletedState extends _$MangaFilterCompletedState {
     return getType();
   }
 
-  int getType() {
-    switch (itemType) {
-      case ItemType.manga:
-        return settings.libraryFilterMangasCompletedType ?? 0;
-      case ItemType.anime:
-        return settings.libraryFilterAnimeCompletedType ?? 0;
-      default:
-        return settings.libraryFilterNovelCompletedType ?? 0;
-    }
-  }
-
-  void setType(int type) {
-    Settings appSettings = Settings();
-    switch (itemType) {
-      case ItemType.manga:
-        appSettings = settings..libraryFilterMangasCompletedType = type;
-        break;
-      case ItemType.anime:
-        appSettings = settings..libraryFilterAnimeCompletedType = type;
-        break;
-      default:
-        appSettings = settings..libraryFilterNovelCompletedType = type;
-    }
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-        appSettings..updatedAt = DateTime.now().millisecondsSinceEpoch,
-      );
-    });
-    state = type;
-  }
-
-  void update() {
-    if (state == 0) {
-      setType(1);
-    } else if (state == 1) {
-      setType(2);
-    } else {
-      setType(0);
-    }
-  }
+  @override
+  TriStateFilterFields get fields => TriStateFilterFields(
+    read: (s, t) => switch (t) {
+      ItemType.manga => s.libraryFilterMangasCompletedType ?? 0,
+      ItemType.anime => s.libraryFilterAnimeCompletedType ?? 0,
+      _ => s.libraryFilterNovelCompletedType ?? 0,
+    },
+    write: (s, t, type) => switch (t) {
+      ItemType.manga => s..libraryFilterMangasCompletedType = type,
+      ItemType.anime => s..libraryFilterAnimeCompletedType = type,
+      _ => s..libraryFilterNovelCompletedType = type,
+    },
+  );
 }
 
 // ── Tracking filter ───────────────────────────────────────────────────────────
 
 @riverpod
-class MangaFilterTrackingState extends _$MangaFilterTrackingState {
+class MangaFilterTrackingState extends _$MangaFilterTrackingState
+    with TriStateFilterField, TriStateFilterCycle {
   @override
   int build({
     required List<Manga> mangaList,
@@ -450,45 +253,83 @@ class MangaFilterTrackingState extends _$MangaFilterTrackingState {
     return getType();
   }
 
-  int getType() {
+  @override
+  TriStateFilterFields get fields => TriStateFilterFields(
+    read: (s, t) => switch (t) {
+      ItemType.manga => s.libraryFilterMangasTrackingType ?? 0,
+      ItemType.anime => s.libraryFilterAnimeTrackingType ?? 0,
+      _ => s.libraryFilterNovelTrackingType ?? 0,
+    },
+    write: (s, t, type) => switch (t) {
+      ItemType.manga => s..libraryFilterMangasTrackingType = type,
+      ItemType.anime => s..libraryFilterAnimeTrackingType = type,
+      _ => s..libraryFilterNovelTrackingType = type,
+    },
+  );
+}
+
+@riverpod
+class MangaFilterSourceState extends _$MangaFilterSourceState {
+  @override
+  (List<String>, List<String>, List<String>) build({
+    required List<Manga> mangaList,
+    required ItemType itemType,
+    required Settings settings,
+  }) {
+    final available = _getSources();
+    final persisted = _getFilterSources().where(available.contains).toList();
+    return (available, persisted, persisted);
+  }
+
+  List<String> _getSources() {
+    final names = <String>{};
+    for (final m in mangaList) {
+      if (m.source?.isNotEmpty ?? false) {
+        names.add(m.source!);
+      }
+    }
+    return names.toList();
+  }
+
+  List<String> _getFilterSources() {
     switch (itemType) {
       case ItemType.manga:
-        return settings.libraryFilterMangasTrackingType ?? 0;
+        return settings.libraryFilterMangasSourceIds ?? [];
       case ItemType.anime:
-        return settings.libraryFilterAnimeTrackingType ?? 0;
+        return settings.libraryFilterAnimeSourceIds ?? [];
       default:
-        return settings.libraryFilterNovelTrackingType ?? 0;
+        return settings.libraryFilterNovelSourceIds ?? [];
     }
   }
 
-  void setType(int type) {
+  void _persist(List<String> names) {
     Settings appSettings = Settings();
     switch (itemType) {
       case ItemType.manga:
-        appSettings = settings..libraryFilterMangasTrackingType = type;
+        appSettings = settings..libraryFilterMangasSourceIds = names;
         break;
       case ItemType.anime:
-        appSettings = settings..libraryFilterAnimeTrackingType = type;
+        appSettings = settings..libraryFilterAnimeSourceIds = names;
         break;
       default:
-        appSettings = settings..libraryFilterNovelTrackingType = type;
+        appSettings = settings..libraryFilterNovelSourceIds = names;
     }
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-        appSettings..updatedAt = DateTime.now().millisecondsSinceEpoch,
-      );
-    });
-    state = type;
+    settingsRepository.save(appSettings);
   }
 
-  void update() {
-    if (state == 0) {
-      setType(1);
-    } else if (state == 1) {
-      setType(2);
+  void setFilteredList(String source) {
+    final pending = List<String>.from(state.$3);
+    if (pending.contains(source)) {
+      pending.remove(source);
     } else {
-      setType(0);
+      pending.add(source);
     }
+    state = (state.$1, state.$2, pending);
+  }
+
+  void set(List<String> names) {
+    _persist(names);
+    state = (_getSources(), names, names);
   }
 }
 
@@ -542,12 +383,22 @@ class MangasFilterResultState extends _$MangasFilterResultState {
         settings: settings,
       ),
     );
+    final sourceFilterType = ref
+        .watch(
+          mangaFilterSourceStateProvider(
+            mangaList: mangaList,
+            itemType: itemType,
+            settings: settings,
+          ),
+        )
+        .$2;
     return downloadFilterType == 0 &&
         unreadFilterType == 0 &&
         startedFilterType == 0 &&
         bookmarkedFilterType == 0 &&
         completedFilterType == 0 &&
-        trackingFilterType == 0;
+        trackingFilterType == 0 &&
+        sourceFilterType.isEmpty;
   }
 }
 
@@ -578,11 +429,7 @@ class LibraryShowCategoryTabsState extends _$LibraryShowCategoryTabsState {
         appSettings = settings..novelLibraryShowCategoryTabs = value;
     }
     state = value;
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-        appSettings..updatedAt = DateTime.now().millisecondsSinceEpoch,
-      );
-    });
+    settingsRepository.save(appSettings);
   }
 }
 
@@ -613,11 +460,7 @@ class LibraryDownloadedChaptersState extends _$LibraryDownloadedChaptersState {
         appSettings = settings..novelLibraryDownloadedChapters = value;
     }
     state = value;
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-        appSettings..updatedAt = DateTime.now().millisecondsSinceEpoch,
-      );
-    });
+    settingsRepository.save(appSettings);
   }
 }
 
@@ -648,11 +491,7 @@ class LibraryLanguageState extends _$LibraryLanguageState {
         appSettings = settings..novelLibraryShowLanguage = value;
     }
     state = value;
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-        appSettings..updatedAt = DateTime.now().millisecondsSinceEpoch,
-      );
-    });
+    settingsRepository.save(appSettings);
   }
 }
 
@@ -683,11 +522,7 @@ class LibraryLocalSourceState extends _$LibraryLocalSourceState {
         appSettings = settings..novelLibraryLocalSource = value;
     }
     state = value;
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-        appSettings..updatedAt = DateTime.now().millisecondsSinceEpoch,
-      );
-    });
+    settingsRepository.save(appSettings);
   }
 }
 
@@ -718,11 +553,7 @@ class LibraryShowNumbersOfItemsState extends _$LibraryShowNumbersOfItemsState {
         appSettings = settings..novelLibraryShowNumbersOfItems = value;
     }
     state = value;
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-        appSettings..updatedAt = DateTime.now().millisecondsSinceEpoch,
-      );
-    });
+    settingsRepository.save(appSettings);
   }
 }
 
@@ -753,11 +584,7 @@ class LibraryShowContinueReadingButtonState extends _$LibraryShowContinueReading
         appSettings = settings..novelLibraryShowContinueReadingButton = value;
     }
     state = value;
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-        appSettings..updatedAt = DateTime.now().millisecondsSinceEpoch,
-      );
-    });
+    settingsRepository.save(appSettings);
   }
 }
 
@@ -794,11 +621,7 @@ class SortLibraryMangaState extends _$SortLibraryMangaState {
       default:
         appSettings = settings..sortLibraryNovel = value;
     }
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-        appSettings..updatedAt = DateTime.now().millisecondsSinceEpoch,
-      );
-    });
+    settingsRepository.save(appSettings);
     state = value;
   }
 
@@ -855,7 +678,7 @@ class MangasSetIsReadState extends _$MangasSetIsReadState {
     final allMangas = <Manga>[];
     final now = DateTime.now().millisecondsSinceEpoch;
     for (var mangaid in mangaIds) {
-      final manga = isar.mangas.getSync(mangaid)!;
+      final manga = mangaRepository.getById(mangaid);
       final chapters = manga.chapters;
       if (chapters.isEmpty) continue;
       if (markAsRead) chapters.last.updateTrackChapterRead(ref);
@@ -869,9 +692,9 @@ class MangasSetIsReadState extends _$MangasSetIsReadState {
       allMangas.add(manga);
     }
 
-    isar.writeTxnSync(() {
-      isar.chapters.putAllSync(allChapters);
-      isar.mangas.putAllSync(allMangas);
+    chapterRepository.writeTransaction(() {
+      chapterRepository.putAllSync(allChapters);
+      mangaRepository.putAllSync(allMangas);
     });
 
     ref.read(isLongPressedStateProvider.notifier).update(false);

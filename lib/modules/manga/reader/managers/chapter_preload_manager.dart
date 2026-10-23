@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+
 import 'package:flutter/foundation.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/modules/manga/reader/u_chap_data_preload.dart';
@@ -19,6 +20,12 @@ class ChapterPreloadManager {
 
   /// Queue of chapter IDs in order of loading (for LRU eviction)
   final Queue<String> _chapterLoadOrder = Queue();
+
+  /// Set of chapter IDs whose page data has been evicted (image/archive data
+  /// cleared but the pages themselves still sit in [_pages]). Lets callers
+  /// cheaply check "does this chapter need a reload?" in O(1) instead of
+  /// scanning every page of the chapter looking for cleared data.
+  final Set<String> _evictedChapterIds = {};
 
   /// Separate flags to allow concurrent prev/next preloading
   bool _isPreloadingNext = false;
@@ -53,6 +60,7 @@ class ChapterPreloadManager {
     _pages.clear();
     _loadedChapterIds.clear();
     _chapterLoadOrder.clear();
+    _evictedChapterIds.clear();
 
     _pages.addAll(initialPages);
 
@@ -295,6 +303,14 @@ class ChapterPreloadManager {
     return true;
   }
 
+  /// Returns `true` if [chapter]'s pages were evicted and still need a
+  /// reload before they can render. O(1) - use this to skip the more
+  /// expensive per-page scan in the common case where nothing was evicted.
+  bool isChapterEvicted(Chapter? chapter) {
+    final id = _getChapterIdentifier(chapter);
+    return id != null && _evictedChapterIds.contains(id);
+  }
+
   /// Gets a unique identifier for a chapter.
   String? _getChapterIdentifier(Chapter? chapter) {
     if (chapter == null) return null;
@@ -314,15 +330,12 @@ class ChapterPreloadManager {
     final currentId = _getChapterIdentifier(currentChapter);
     if (currentId == null) return [];
 
-    final loadedIdsInOrder = <String>[];
-    final seen = <String>{};
-    for (final page in _pages) {
-      if (page.isTransitionPage || page.chapter == null) continue;
-      final id = _getChapterIdentifier(page.chapter);
-      if (id != null && seen.add(id)) {
-        loadedIdsInOrder.add(id);
-      }
-    }
+    // _chapterLoadOrder is already maintained incrementally in the same
+    // left-to-right order chapters appear in _pages (appended on next-chapter
+    // preload, prepended on prev-chapter preload, pruned on eviction) - reuse
+    // it directly instead of re-deriving the same ordering with a full O(N)
+    // scan over every page on every call.
+    final loadedIdsInOrder = _chapterLoadOrder.toList();
 
     final currentIndex = loadedIdsInOrder.indexOf(currentId);
     if (currentIndex == -1) return [];
@@ -358,6 +371,7 @@ class ChapterPreloadManager {
 
     _loadedChapterIds.removeAll(idsToEvict);
     _chapterLoadOrder.removeWhere((id) => idsToEvict.contains(id));
+    _evictedChapterIds.addAll(idsToEvict);
 
     return evictedIndices;
   }
@@ -370,6 +384,7 @@ class ChapterPreloadManager {
       if (!_chapterLoadOrder.contains(chapterId)) {
         _chapterLoadOrder.add(chapterId);
       }
+      _evictedChapterIds.remove(chapterId);
     }
   }
 
@@ -379,6 +394,10 @@ class ChapterPreloadManager {
     _pages.removeAt(index);
     _pages.insert(index, page1);
     _pages.insert(index + 1, page2);
+    // Every page after the split moved one slot down.
+    for (int i = index; i < _pages.length; i++) {
+      _pages[i].pageIndex = i;
+    }
     onPagesUpdated?.call();
   }
 
@@ -393,6 +412,7 @@ class ChapterPreloadManager {
     _pages.clear();
     _loadedChapterIds.clear();
     _chapterLoadOrder.clear();
+    _evictedChapterIds.clear();
 
     // Clear callbacks
     onPagesUpdated = null;

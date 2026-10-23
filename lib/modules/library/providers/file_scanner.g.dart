@@ -12,7 +12,8 @@ part of 'file_scanner.dart';
 @ProviderFor(LocalFoldersState)
 final localFoldersStateProvider = LocalFoldersStateProvider._();
 
-final class LocalFoldersStateProvider extends $NotifierProvider<LocalFoldersState, List<String>> {
+final class LocalFoldersStateProvider
+    extends $NotifierProvider<LocalFoldersState, List<LocalFolder>> {
   LocalFoldersStateProvider._()
     : super(
         from: null,
@@ -32,25 +33,85 @@ final class LocalFoldersStateProvider extends $NotifierProvider<LocalFoldersStat
   LocalFoldersState create() => LocalFoldersState();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(List<String> value) {
+  Override overrideWithValue(List<LocalFolder> value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<List<String>>(value),
+      providerOverride: $SyncValueProvider<List<LocalFolder>>(value),
     );
   }
 }
 
-String _$localFoldersStateHash() => r'7cf7902ad34ee5ae018b2c9ac3849e822bc5f0b7';
+String _$localFoldersStateHash() => r'23812f818bb33d3d3b3aa8970b57585c4bd7a499';
 
-abstract class _$LocalFoldersState extends $Notifier<List<String>> {
-  List<String> build();
+abstract class _$LocalFoldersState extends $Notifier<List<LocalFolder>> {
+  List<LocalFolder> build();
   @$mustCallSuper
   @override
-  void runBuild() {
-    final ref = this.ref as $Ref<List<String>, List<String>>;
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<List<LocalFolder>, List<LocalFolder>>;
     final element =
-        ref.element as $ClassProviderElement<AnyNotifier<List<String>, List<String>>, List<String>, Object?, Object?>;
-    element.handleCreate(ref, build);
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<List<LocalFolder>, List<LocalFolder>>,
+              List<LocalFolder>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(DownloadLocalFolderNameState)
+final downloadLocalFolderNameStateProvider =
+    DownloadLocalFolderNameStateProvider._();
+
+final class DownloadLocalFolderNameStateProvider
+    extends $NotifierProvider<DownloadLocalFolderNameState, String?> {
+  DownloadLocalFolderNameStateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'downloadLocalFolderNameStateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$downloadLocalFolderNameStateHash();
+
+  @$internal
+  @override
+  DownloadLocalFolderNameState create() => DownloadLocalFolderNameState();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(String? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<String?>(value),
+    );
+  }
+}
+
+String _$downloadLocalFolderNameStateHash() =>
+    r'7b0b53217a77ef741221bd74cd1903789512e98e';
+
+abstract class _$DownloadLocalFolderNameState extends $Notifier<String?> {
+  String? build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<String?, String?>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<String?, String?>,
+              String?,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
   }
 }
 
@@ -136,4 +197,4 @@ final class ScanLocalLibraryProvider extends $FunctionalProvider<AsyncValue<void
   }
 }
 
-String _$scanLocalLibraryHash() => r'7fdedaa37917728d9f3b9d8f15090c94bdb34238';
+String _$scanLocalLibraryHash() => r'0b3286de36dd1c635f8e0960a714a83823fb7dfb';

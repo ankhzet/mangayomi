@@ -38,4 +38,4 @@ final class MigrationProvider extends $FunctionalProvider<AsyncValue<void>, void
   }
 }
 
-String _$migrationHash() => r'43d62ddf79798d616ac7d11ce50a47551ef42c98';
+String _$migrationHash() => r'277da41af1a17c4412636f9eda23327de4ba5cfb';

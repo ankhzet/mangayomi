@@ -45,7 +45,7 @@ final class RouterProvider extends $FunctionalProvider<GoRouter, GoRouter, GoRou
   }
 }
 
-String _$routerHash() => r'fe1b18b9e03bd3df71cf66eabd78f0da3ac36247';
+String _$routerHash() => r'54af74f86c7abb8c9bc8aa855e4348363c0566a7';
 
 @ProviderFor(RouterCurrentLocationState)
 final routerCurrentLocationStateProvider = RouterCurrentLocationStateProvider._();
@@ -84,9 +84,16 @@ abstract class _$RouterCurrentLocationState extends $Notifier<String?> {
   String? build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<String?, String?>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<String?, String?>, String?, Object?, Object?>;
-    element.handleCreate(ref, build);
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<String?, String?>,
+              String?,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
   }
 }

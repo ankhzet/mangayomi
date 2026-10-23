@@ -3,6 +3,7 @@ import 'package:mangayomi/models/video.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/utils/extensions/string_extensions.dart';
+import 'package:mangayomi/utils/error_toast.dart';
 
 class StreamTapeExtractor {
   Future<List<Video>> videosFromUrl(
@@ -33,7 +34,8 @@ class StreamTapeExtractor {
       final videoUrl = "https:${script.substringBefore("'")}${script.substringAfter("+ ('xcd").substringBefore("'")}";
 
       return [Video(videoUrl, quality, videoUrl)];
-    } catch (_) {
+    } catch (error, stackTrace) {
+      recordError(error, stack: stackTrace, source: 'streamtape_extractor');
       return [];
     }
   }

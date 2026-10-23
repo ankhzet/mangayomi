@@ -61,7 +61,8 @@ final class FetchItemSourcesListProvider extends $FunctionalProvider<AsyncValue<
   }
 }
 
-String _$fetchItemSourcesListHash() => r'219aed67d2329f03101f2270e2f344bf70eff128';
+String _$fetchItemSourcesListHash() =>
+    r'9296f418845ccbb8ece140870b38000361befe28';
 
 final class FetchItemSourcesListFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<void>, ({int? id, bool reFresh, ItemType itemType})> {

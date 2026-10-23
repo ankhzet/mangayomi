@@ -63,7 +63,7 @@ final class GetAllMangaStreamProvider
   }
 }
 
-String _$getAllMangaStreamHash() => r'5e86a22a68ca1a52aefa9c0bc675d284369beac5';
+String _$getAllMangaStreamHash() => r'95240271805b7dc64e47c37b7e6fcf5d06d32cab';
 
 final class GetAllMangaStreamFamily extends $Family
     with $FunctionalFamilyOverride<Stream<List<Manga>>, ({int? categoryId, ItemType itemType})> {
@@ -138,7 +138,8 @@ final class GetAllMangaWithoutCategoriesStreamProvider
   }
 }
 
-String _$getAllMangaWithoutCategoriesStreamHash() => r'61ea54070c7e87a45aeabce5fd21366faaf4ae6d';
+String _$getAllMangaWithoutCategoriesStreamHash() =>
+    r'7e22e4f7c5ebe653eb6b40e85d1bf7fedc86e2cb';
 
 final class GetAllMangaWithoutCategoriesStreamFamily extends $Family
     with $FunctionalFamilyOverride<Stream<List<Manga>>, ItemType> {
@@ -166,8 +167,9 @@ final class GetAllMangaWithoutCategoriesStreamFamily extends $Family
 final getSettingsStreamProvider = GetSettingsStreamProvider._();
 
 final class GetSettingsStreamProvider
-    extends $FunctionalProvider<AsyncValue<List<Settings>>, List<Settings>, Stream<List<Settings>>>
-    with $FutureModifier<List<Settings>>, $StreamProvider<List<Settings>> {
+    extends
+        $FunctionalProvider<AsyncValue<Settings>, Settings, Stream<Settings>>
+    with $FutureModifier<Settings>, $StreamProvider<Settings> {
   GetSettingsStreamProvider._()
     : super(
         from: null,
@@ -184,14 +186,13 @@ final class GetSettingsStreamProvider
 
   @$internal
   @override
-  $StreamProviderElement<List<Settings>> $createElement(
-    $ProviderPointer pointer,
-  ) => $StreamProviderElement(pointer);
+  $StreamProviderElement<Settings> $createElement($ProviderPointer pointer) =>
+      $StreamProviderElement(pointer);
 
   @override
-  Stream<List<Settings>> create(Ref ref) {
+  Stream<Settings> create(Ref ref) {
     return getSettingsStream(ref);
   }
 }
 
-String _$getSettingsStreamHash() => r'c5a51e0e3473b25d2365025832a27ed2cc029b27';
+String _$getSettingsStreamHash() => r'bbd743d60324ae71865df45d563399f8189de8f1';

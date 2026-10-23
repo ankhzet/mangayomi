@@ -1,22 +1,25 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:mangayomi/modules/browse/widgets/source_code_error_banner.dart';
+import 'package:shiori/shiori.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:isar_community/isar.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/eval/model/source_preference.dart';
-import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/changed.dart';
+import 'package:mangayomi/repositories/source_repository.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/modules/browse/extension/providers/extension_preferences_providers.dart';
 import 'package:mangayomi/modules/browse/extension/widgets/source_preference_widget.dart';
-import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
+import 'package:mangayomi/modules/browse/sources/widgets/source_list_tile.dart';
+import 'package:mangayomi/modules/widgets/entry_badge_chip.dart';
+import 'package:mangayomi/modules/browse/widgets/extension_server_warning_banner.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/services/get_source_preference.dart';
+import 'package:mangayomi/modules/more/settings/browse/providers/browse_state_provider.dart';
 import 'package:mangayomi/services/http/m_client.dart';
-import 'package:mangayomi/utils/cached_network.dart';
-import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/language.dart';
+import 'package:mangayomi/utils/platform_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ExtensionDetail extends ConsumerStatefulWidget {
@@ -28,15 +31,15 @@ class ExtensionDetail extends ConsumerStatefulWidget {
 }
 
 class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
-  late Source source = isar.sources.getSync(widget.source.id!)!;
+  late Source source = sourceRepository.getById(widget.source.id!)!;
   late List<SourcePreference>? sourcePreference = () {
     try {
       if (source.sourceCodeLanguage == SourceCodeLanguage.mihon && source.preferenceList != null) {
         return (jsonDecode(source.preferenceList!) as List).map((e) => SourcePreference.fromJson(e)).toList();
       }
-      return getSourcePreference(
-        source: source,
-      ).map((e) => getSourcePreferenceEntry(e.key!, source.id!)).toList();
+      return getSourcePreference(source: source)
+          .map((e) => getSourcePreferenceEntry(e.key!, source.id!))
+          .toList();
     } catch (e) {
       return null;
     }
@@ -57,294 +60,158 @@ class _ExtensionDetailState extends ConsumerState<ExtensionDetail> {
         actions: [
           if (source.repo?.website != null)
             IconButton(
+              tooltip: context.l10n.open_in_browser,
               onPressed: () {
                 _launchInBrowser(Uri.parse(source.repo!.website!));
               },
-              icon: Icon(Icons.open_in_new_outlined),
+              icon: Icon(Symbols.open_in_new_rounded),
             ),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(
-                    context,
-                  ).secondaryHeaderColor.withValues(alpha: 0.5),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: widget.source.iconUrl!.isEmpty
-                    ? const Icon(Icons.source_outlined, size: 140)
-                    : cachedNetworkImage(
-                        imageUrl: widget.source.iconUrl!,
-                        fit: BoxFit.contain,
-                        width: 140,
-                        height: 140,
-                        errorWidget: const SizedBox(
-                          width: 140,
-                          height: 140,
-                          child: Center(
-                            child: Icon(Icons.source_outlined, size: 140),
-                          ),
-                        ),
-                        headers: {},
-                      ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Text(
-                widget.source.name!,
-                style: const TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: context.primaryColor.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            widget.source.version!,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            l10n.version,
-                            style: const TextStyle(fontSize: 11),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            completeLanguageName(widget.source.lang!),
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            l10n.language,
-                            style: const TextStyle(fontSize: 11),
-                          ),
-                        ],
-                      ),
-                    ],
+            if (source.sourceCodeLanguage == SourceCodeLanguage.mihon)
+              const ExtensionServerWarningBanner(),
+            _Header(source: source),
+            // In developer mode, what failed in the source's code.
+            SourceCodeErrorBanner(source: source),
+            ShioriSettingsGroup(
+              children: [
+                if (ref.watch(developerModeStateProvider))
+                  ShioriSettingRow(
+                    icon: Symbols.code_rounded,
+                    title: l10n.edit_code,
+                    trailing: const Icon(Symbols.chevron_forward_rounded),
+                    onTap: () async {
+                      final res = await context.push(
+                        '/codeEditor',
+                        extra: source.id,
+                      );
+                      if (res != null && mounted) {
+                        setState(() {
+                          source = res as Source;
+                          sourcePreference = getSourcePreference(source: source)
+                              .map(
+                                (e) => getSourcePreferenceEntry(
+                                  e.key!,
+                                  source.id!,
+                                ),
+                              )
+                              .toList();
+                        });
+                      }
+                    },
                   ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: context.width(1),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(0),
-                    backgroundColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    elevation: 0,
-                    shadowColor: Colors.transparent,
+                if ((source.isLocal ?? false) &&
+                    ref.watch(developerModeStateProvider))
+                  ShioriSettingRow(
+                    icon: Symbols.edit_rounded,
+                    title: l10n.edit_metadata,
+                    trailing: const Icon(Symbols.chevron_forward_rounded),
+                    onTap: () async {
+                      final res = await context.push(
+                        '/createExtension',
+                        extra: source,
+                      );
+                      if (res != null && mounted) {
+                        setState(() => source = res as Source);
+                      }
+                    },
                   ),
-                  onPressed: () async {
-                    final res = await context.push(
-                      '/codeEditor',
-                      extra: source.id,
-                    );
-                    if (res != null && mounted) {
-                      setState(() {
-                        source = res as Source;
-                        sourcePreference = getSourcePreference(source: source)
-                            .map(
-                              (e) => getSourcePreferenceEntry(
-                                e.key!,
-                                source.id!,
-                              ),
-                            )
-                            .toList();
-                      });
-                    }
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(
-                          l10n.edit_code,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      const Icon(Icons.code),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: context.width(1),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(0),
-                    backgroundColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    elevation: 0,
-                    shadowColor: Colors.transparent,
-                  ),
-                  onPressed: () async {
+                ShioriSettingRow(
+                  icon: Symbols.cookie_rounded,
+                  title: l10n.delete_all_cookies,
+                  onTap: () {
                     MClient.deleteAllCookies(source.baseUrl ?? "");
-                    botToast("Cookies deleted!");
+                    botToast(l10n.cookies_deleted);
                   },
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      "Delete all cookies",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: context.width(1),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(0),
-                    side: BorderSide(color: context.primaryColor, width: 0.3),
-                    backgroundColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    elevation: 0,
-                    shadowColor: Colors.transparent,
-                  ),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (ctx) {
-                        return AlertDialog(
-                          title: Text(widget.source.name!),
-                          content: Text(
-                            l10n.uninstall_extension(widget.source.name!),
-                          ),
-                          actions: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(ctx);
-                                  },
-                                  child: Text(l10n.cancel),
-                                ),
-                                const SizedBox(width: 15),
-                                TextButton(
-                                  onPressed: () {
-                                    final sourcePrefsIds = isar.sourcePreferences
-                                        .filter()
-                                        .sourceIdEqualTo(source.id!)
-                                        .findAllSync()
-                                        .map((e) => e.id!)
-                                        .toList();
-                                    final sourcePrefsStringIds = isar.sourcePreferenceStringValues
-                                        .filter()
-                                        .sourceIdEqualTo(source.id!)
-                                        .findAllSync()
-                                        .map((e) => e.id)
-                                        .toList();
-                                    isar.writeTxnSync(() {
-                                      if (source.isObsolete ?? false) {
-                                        isar.sources.deleteSync(
-                                          widget.source.id!,
-                                        );
-                                        ref
-                                            .read(
-                                              synchingProvider(
-                                                syncId: 1,
-                                              ).notifier,
-                                            )
-                                            .addChangedPart(
-                                              ActionType.removeExtension,
-                                              source.id,
-                                              "{}",
-                                              false,
-                                            );
-                                      } else {
-                                        isar.sources.putSync(
-                                          widget.source
-                                            ..sourceCode = ""
-                                            ..isAdded = false
-                                            ..isPinned = false
-                                            ..updatedAt = DateTime.now().millisecondsSinceEpoch,
-                                        );
-                                      }
-                                      isar.sourcePreferences.deleteAllSync(
-                                        sourcePrefsIds,
-                                      );
-                                      isar.sourcePreferenceStringValues.deleteAllSync(sourcePrefsStringIds);
-                                    });
-
-                                    Navigator.pop(ctx);
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(l10n.ok),
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      },
+                ShioriSettingRow(
+                  icon: Symbols.delete_rounded,
+                  title: l10n.uninstall,
+                  destructive: true,
+                  onTap: () async {
+                    final confirmed = await showShioriConfirm(
+                      context,
+                      title: widget.source.name!,
+                      message: l10n.uninstall_extension(widget.source.name!),
+                      confirmLabel: l10n.uninstall,
+                      destructive: true,
                     );
+                    if (!confirmed || !context.mounted) return;
+                    sourceRepository.uninstall(source);
+                    Navigator.pop(context);
                   },
-                  child: Text(
-                    l10n.uninstall,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                 ),
-              ),
+              ],
             ),
-            if (sourcePreference != null)
-              SourcePreferenceWidget(
-                sourcePreference: sourcePreference!,
-                source: source,
+            if (sourcePreference?.isNotEmpty ?? false)
+              ShioriSettingsGroup(
+                title: l10n.extension_settings,
+                children: [
+                  SourcePreferenceWidget(
+                    sourcePreference: sourcePreference!,
+                    source: source,
+                  ),
+                ],
               ),
+            SizedBox(height: pageBottomInsets(context).bottom),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Who the extension is: its icon, its name, its version and language on
+/// one line, as in the lists, and the NSFW badge when it carries one.
+class _Header extends StatelessWidget {
+  const _Header({required this.source});
+
+  final Source source;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.shiori;
+    final l10n = context.l10n;
+    final meta = [
+      if (source.version?.isNotEmpty ?? false)
+        '${l10n.version} ${source.version}',
+      if (source.lang?.isNotEmpty ?? false)
+        languageName(context, source.lang!.toLowerCase()),
+    ].join(' · ');
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        ShioriSpace.s16,
+        ShioriSpace.s16,
+        ShioriSpace.s16,
+        ShioriSpace.s8,
+      ),
+      child: Row(
+        spacing: ShioriSpace.s16,
+        children: [
+          SourceIcon(iconUrl: source.iconUrl, size: tokens.scaled(72)),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: ShioriSpace.s4,
+              children: [
+                Text(
+                  source.name ?? '',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: tokens.text.seriesTitle.copyWith(
+                    color: tokens.color.fg,
+                  ),
+                ),
+                if (meta.isNotEmpty) Text(meta, style: tokens.caption),
+                if (source.isNsfw ?? false)
+                  EntryBadgeChip(label: 'NSFW (18+)', tone: tokens.color.error),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

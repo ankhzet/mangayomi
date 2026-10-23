@@ -8,12 +8,18 @@ part 'history.g.dart';
 class History {
   Id? id;
 
+  @Index()
+  int? clientId;
+
+  @Index()
   int? mangaId;
 
+  @Index()
   int? chapterId;
 
   bool? isManga;
 
+  @Index()
   @enumerated
   late ItemType itemType;
 
@@ -27,6 +33,7 @@ class History {
 
   History({
     this.id = Isar.autoIncrement,
+    this.clientId,
     this.isManga,
     required this.itemType,
     required this.chapterId,
@@ -38,6 +45,7 @@ class History {
 
   History.fromJson(Map<String, dynamic> json) {
     chapterId = json['chapterId'];
+    clientId = json['clientId'];
     date = json['date'];
     id = json['id'];
     isManga = json['isManga'];
@@ -49,6 +57,7 @@ class History {
 
   Map<String, dynamic> toJson() => {
     'chapterId': chapterId,
+    'clientId': clientId,
     'date': date,
     'id': id,
     'itemType': itemType.index,

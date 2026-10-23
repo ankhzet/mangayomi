@@ -1,28 +1,62 @@
-import 'package:mangayomi/main.dart';
+import 'package:mangayomi/repositories/chapter_repository.dart';
+import 'package:mangayomi/repositories/settings_repository.dart';
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/settings.dart';
-import 'package:mangayomi/modules/manga/reader/mixins/chapter_reader_settings_mixin.dart';
-import 'package:mangayomi/modules/manga/reader/mixins/chapter_controller_mixin.dart';
+import 'package:mangayomi/modules/reader_common/mixins/chapter_reader_settings_mixin.dart';
+import 'package:mangayomi/modules/reader_common/mixins/chapter_controller_mixin.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'novel_reader_controller_provider.g.dart';
 
 @riverpod
 class NovelReaderController extends _$NovelReaderController with ChapterControllerMixin, ChapterReaderSettingsMixin {
   @override
-  void build({required Chapter chapter}) {}
+  void build({required Chapter chapter}) {
+    _sessionChapter = chapterRepository.resolveForReading(chapter);
+    ref.onDispose(chapterRepository.retainForReading(this.chapter));
+  }
+
+  Chapter? _sessionChapter;
+  @override
+  Chapter get chapter => _sessionChapter ?? super.chapter;
 
   // Keep incognitoMode as a final field (read once, not on every access).
   @override
-  final bool incognitoMode = isar.settings.getSync(227)!.incognitoMode!;
+  final bool incognitoMode = settingsRepository.current.incognitoMode!;
 
-  // Override getIsarSetting to add per-instance caching; callers that mutate
-  // settings must call _invalidateSettingsCache() afterwards.
-  Settings? _cachedSettings;
-  @override
-  void onSettingsMutated() => _cachedSettings = null;
+  // ---------------------------------------------------------------------------
+  // Reader mode
+  // ---------------------------------------------------------------------------
 
-  @override
-  Settings getIsarSetting() => _cachedSettings ??= isar.settings.getSync(227)!;
+  ReaderMode getReaderMode() {
+    final personalReaderModeList =
+        getIsarSetting().personalReaderModeList ?? [];
+    final personalReaderMode = personalReaderModeList.where(
+      (element) => element.mangaId == getManga().id,
+    );
+    if (personalReaderMode.isNotEmpty) {
+      return personalReaderMode.first.readerMode;
+    }
+    return ReaderMode.verticalContinuous;
+  }
+
+  void setReaderMode(ReaderMode newReaderMode) {
+    List<PersonalReaderMode>? personalReaderModeLists = [];
+    for (var personalReaderMode
+        in getIsarSetting().personalReaderModeList ?? []) {
+      if (personalReaderMode.mangaId != getManga().id) {
+        personalReaderModeLists.add(personalReaderMode);
+      }
+    }
+    personalReaderModeLists.add(
+      PersonalReaderMode()
+        ..mangaId = getManga().id
+        ..readerMode = newReaderMode,
+    );
+    settingsRepository.save(
+      getIsarSetting()..personalReaderModeList = personalReaderModeLists,
+    );
+    onSettingsMutated();
+  }
 
   // ---------------------------------------------------------------------------
   // Scroll-position tracking
@@ -33,12 +67,9 @@ class NovelReaderController extends _$NovelReaderController with ChapterControll
     final isRead = (newOffset / (maxOffset != 0 ? maxOffset : 1)) >= 0.9;
     if (isRead || save) {
       final ch = chapter;
-      isar.writeTxnSync(() {
-        ch.isRead = isRead;
-        ch.lastPageRead = (maxOffset != 0 ? newOffset / maxOffset : 0).toString();
-        ch.updatedAt = DateTime.now().millisecondsSinceEpoch;
-        isar.chapters.putSync(ch);
-      });
+      ch.isRead = isRead;
+      ch.lastPageRead = (maxOffset != 0 ? newOffset / maxOffset : 0).toString();
+      chapterRepository.save(ch);
     }
   }
 }

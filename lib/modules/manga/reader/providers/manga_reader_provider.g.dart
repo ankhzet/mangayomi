@@ -59,7 +59,7 @@ final class MangaReaderProvider
   }
 }
 
-String _$mangaReaderHash() => r'cf8c44c6c3567ba4e9a0e08137ab2f29b71307eb';
+String _$mangaReaderHash() => r'9da0ffe2111395e34df6edbc9d4d57240eed723d';
 
 final class MangaReaderFamily extends $Family with $FunctionalFamilyOverride<FutureOr<ChapterWithPages>, int> {
   MangaReaderFamily._()

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/settings.dart';
+import 'package:mangayomi/repositories/settings_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mangayomi/l10n/generated/app_localizations.dart';
 part 'l10n_providers.g.dart';
@@ -14,21 +14,38 @@ class L10nLocaleState extends _$L10nLocaleState {
   }
 
   L10nLocale _getLocale() {
-    return isar.settings.getSync(227)?.locale ?? L10nLocale(languageCode: "en", countryCode: "");
+    return settingsRepository.current.locale ??
+        L10nLocale(languageCode: "en", countryCode: "");
+  }
+
+  /// On a new install, whose language was never chosen, takes the device's
+  /// language when the app speaks it. A new install otherwise opened in
+  /// English whatever the device was set to.
+  void adoptDeviceLocaleIfUnset() {
+    if (settingsRepository.current.locale != null) return;
+    final device = WidgetsBinding.instance.platformDispatcher.locale;
+    const supported = AppLocalizations.supportedLocales;
+    final match =
+        supported
+            .where(
+              (l) =>
+                  l.languageCode == device.languageCode &&
+                  (l.countryCode ?? '') == (device.countryCode ?? ''),
+            )
+            .firstOrNull ??
+        supported
+            .where((l) => l.languageCode == device.languageCode)
+            .firstOrNull;
+    if (match != null) setLocale(match);
   }
 
   void setLocale(Locale locale) async {
-    final settings = isar.settings.getSync(227)!;
-    isar.writeTxnSync(() {
-      isar.settings.putSync(
-        settings
-          ..locale = L10nLocale(
-            languageCode: locale.languageCode,
-            countryCode: locale.countryCode,
-          )
-          ..updatedAt = DateTime.now().millisecondsSinceEpoch,
-      );
-    });
+    settingsRepository.update(
+      (s) => s.locale = L10nLocale(
+        languageCode: locale.languageCode,
+        countryCode: locale.countryCode,
+      ),
+    );
     state = locale;
   }
 }

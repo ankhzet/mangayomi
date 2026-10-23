@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:isolate';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:mangayomi/eval/lib.dart';
-import 'package:mangayomi/main.dart';
+import 'package:mangayomi/repositories/db.dart';
 import 'package:mangayomi/models/source.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/services/http/m_client.dart';
@@ -40,13 +41,14 @@ class _IsolateWorker {
         completer.complete(message);
       }
       if (message is String) {
-        if (message.startsWith('LoggerLevel.warning:')) {
+        final logged = redactHeadersInText(message);
+        if (logged.startsWith('LoggerLevel.warning:')) {
           Logger.add(
             LoggerLevel.warning,
-            message.replaceFirst('LoggerLevel.warning:', ''),
+            logged.replaceFirst('LoggerLevel.warning:', ''),
           );
         } else {
-          Logger.add(LoggerLevel.info, message);
+          Logger.add(LoggerLevel.info, logged);
         }
         if (kDebugMode) {
           print(message.replaceFirst('LoggerLevel.warning:', ''));
@@ -145,6 +147,8 @@ class GetIsolateService {
                         return await service.getVideoList(url!);
                       case 'getPageList':
                         return await service.getPageList(url!);
+                      case 'getHtmlContent':
+                        return await service.getHtmlContent(query ?? '', url!);
                       case 'getHeaders':
                         return Future.value(service.getHeaders());
                       default:
@@ -201,6 +205,30 @@ class GetIsolateService {
     String? androidProxyServer,
     bool? useLogger,
   }) async {
+    if (source?.sourceCodeLanguage != SourceCodeLanguage.lnreader) {
+      return withExtensionService(source!, proxyServer ?? '', (service) async {
+        switch (serviceType) {
+          case 'getDetail':
+            return (await service.getDetail(url!)) as T;
+          case 'getPopular':
+            return (await service.getPopular(page!)) as T;
+          case 'getLatestUpdates':
+            return (await service.getLatestUpdates(page!)) as T;
+          case 'search':
+            return (await service.search(query!, page!, filterList!)) as T;
+          case 'getVideoList':
+            return (await service.getVideoList(url!)) as T;
+          case 'getPageList':
+            return (await service.getPageList(url!)) as T;
+          case 'getHtmlContent':
+            return (await service.getHtmlContent(query ?? '', url!)) as T;
+          case 'getHeaders':
+            return (service.getHeaders()) as T;
+          default:
+            throw Exception('Unknown service type: $serviceType');
+        }
+      });
+    }
     if (!_isRunning) {
       await start();
     }

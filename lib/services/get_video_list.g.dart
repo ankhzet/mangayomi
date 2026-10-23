@@ -65,7 +65,7 @@ final class GetVideoListProvider
   }
 }
 
-String _$getVideoListHash() => r'd06b503274ab05a1df63064f327de3a3348e6248';
+String _$getVideoListHash() => r'f92b93aab8c1e81a60f78d946d93dd8bb4129c76';
 
 final class GetVideoListFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<(List<Video>, bool, List<String>, Directory?)>, Chapter> {

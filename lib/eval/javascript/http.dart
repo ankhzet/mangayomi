@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter_qjs/flutter_qjs.dart';
 import 'package:http_interceptor/http_interceptor.dart';
+import 'package:mangayomi/eval/http_response_extensions.dart';
 import 'package:mangayomi/services/http/m_client.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,9 +12,20 @@ class JsHttpClient {
   JsHttpClient(this.runtime);
 
   void init() {
+    // MClient.init reads the settings row and builds a new interceptor stack;
+    // doing that per request added measurable overhead to every source call.
+    // Reuse one client per distinct request options for this runtime's life.
+    final clientCache = <String, InterceptedClient>{};
     InterceptedClient client(dynamic reqcopyWith) {
-      return MClient.init(
-        reqcopyWith: (reqcopyWith as Map?)?.toMapStringDynamic,
+      final map = (reqcopyWith as Map?)?.toMapStringDynamic;
+      return clientCache.putIfAbsent(
+        jsonEncode(map ?? const <String, dynamic>{}),
+        // Linux source catalogue requests otherwise carry no browser identity.
+        // Keep other platforms unchanged and preserve any explicit source UA.
+        () => MClient.init(
+          reqcopyWith: map,
+          useDefaultUserAgent: Platform.isLinux,
+        ),
       );
     }
 
@@ -133,37 +146,4 @@ Future<String> _toHttpResponse(Client client, String method, List args) async {
     _ => client.patch(Uri.parse(url), headers: headers, body: body),
   };
   return jsonEncode((await future).toJson());
-}
-
-extension ResponseExtexsion on Response {
-  Map<String, dynamic> toJson() => {
-    'body': body,
-    'headers': headers,
-    'isRedirect': isRedirect,
-    'persistentConnection': persistentConnection,
-    'reasonPhrase': reasonPhrase,
-    'statusCode': statusCode,
-    'request': {
-      'contentLength': request?.contentLength,
-      'finalized': request?.finalized,
-      'followRedirects': request?.followRedirects,
-      'headers': request?.headers,
-      'maxRedirects': request?.maxRedirects,
-      'method': request?.method,
-      'persistentConnection': request?.persistentConnection,
-      'url': request?.url.toString(),
-    },
-  };
-}
-
-extension ToMapExtension on Map? {
-  Map<String, dynamic>? get toMapStringDynamic {
-    return this?.map((key, value) => MapEntry(key.toString(), value));
-  }
-
-  Map<String, String>? get toMapStringString {
-    return this?.map(
-      (key, value) => MapEntry(key.toString(), value.toString()),
-    );
-  }
 }

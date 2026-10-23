@@ -1,3 +1,7 @@
+#ifndef _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #include "image_decoder.h"
 #include <stdlib.h>
 #include <string.h>
@@ -301,10 +305,16 @@ struct ImageDecoderContext {
             unsigned char* file_bytes;      // Raw image bytes loaded once into RAM
             size_t file_size;
             AImageDecoder* cached_decoder;  // Reusable decoder — avoids per-tile recreate
+            unsigned char* full_rgba;       // Full pre-decoded RGBA for O(1) tile extraction
         } android_mem;
         #endif
         #ifdef _WIN32
         WinNativeContext win_ctx;
+        #endif
+        #if !defined(__APPLE__) && !defined(__ANDROID__) && !defined(_WIN32)
+        struct {
+            unsigned char* full_rgba;  // Full decoded RGBA image held in RAM for tile extraction
+        } linux_ctx;
         #endif
     };
 };
@@ -770,13 +780,30 @@ ImageDecoderContext* init_decoder(const char* file_path, bool crop_borders, int*
     // Keep the decoder alive — recreating it per-tile (old code) was O(N_tiles) cost.
     // The decoder is reused across all decode_region calls for this context.
 
+    // Pre-decode the full image to RGBA once — eliminates per-tile JPEG decompression.
+    // Tile requests become simple memory copies instead of full re-decompression.
+    pAImageDecoder_setAndroidBitmapFormat(decoder, 1); // ANDROID_BITMAP_FORMAT_RGBA_8888
+    size_t full_stride = (size_t)w * 4;
+    size_t full_buffer_size = full_stride * (size_t)h;
+    unsigned char* full_rgba = (unsigned char*)malloc(full_buffer_size);
+    if (full_rgba) {
+        int dr = pAImageDecoder_decodeImage(decoder, full_rgba, full_stride, full_buffer_size);
+        if (dr != 0) {
+            free(full_rgba);
+            full_rgba = NULL;
+        }
+    }
+    // Free the decoder — no longer needed after pre-decode
+    pAImageDecoder_delete(decoder);
+
     ImageDecoderContext* ctx = (ImageDecoderContext*)malloc(sizeof(ImageDecoderContext));
     ctx->type = TYPE_NATIVE;
     ctx->width = w;
     ctx->height = h;
     ctx->android_mem.file_bytes = file_bytes;
     ctx->android_mem.file_size = size;
-    ctx->android_mem.cached_decoder = decoder;
+    ctx->android_mem.cached_decoder = NULL;
+    ctx->android_mem.full_rgba = full_rgba;
 
     if (crop_borders) {
         perform_android_autocrop(ctx);
@@ -806,9 +833,31 @@ bool decode_region(ImageDecoderContext* ctx, int left, int top, int right, int b
 
     if (!ctx->android_mem.file_bytes || !load_imagedecoder_symbols()) return false;
 
-    // Use the cached decoder if available; fall back to creating a new one.
-    // Note: AImageDecoder is NOT thread-safe; concurrent callers must use their own.
-    // The isolate serializes calls, so single-decoder reuse is safe here.
+    int dest_width  = (raw_right  - raw_left) / sample_size;
+    int dest_height = (raw_bottom - raw_top)  / sample_size;
+    if (dest_width <= 0 || dest_height <= 0) return false;
+
+    // Fast path: copy from pre-decoded RGBA buffer (no decompression)
+    if (ctx->android_mem.full_rgba) {
+        int src_w = ctx->width;
+        for (int dy = 0; dy < dest_height; dy++) {
+            int sy = raw_top + dy * sample_size;
+            const unsigned char* src_row = ctx->android_mem.full_rgba + (size_t)sy * src_w * 4;
+            unsigned char* dst_row = out_rgba_buffer + (size_t)dy * dest_width * 4;
+            if (sample_size == 1) {
+                // Optimized: single memcpy for contiguous row slice
+                memcpy(dst_row, src_row + raw_left * 4, (size_t)dest_width * 4);
+            } else {
+                for (int dx = 0; dx < dest_width; dx++) {
+                    int sx = raw_left + dx * sample_size;
+                    memcpy(dst_row + dx * 4, src_row + sx * 4, 4);
+                }
+            }
+        }
+        return true;
+    }
+
+    // Fallback: use AImageDecoder (if pre-decode failed)
     AImageDecoder* decoder = ctx->android_mem.cached_decoder;
     bool owns_decoder = false;
     if (!decoder) {
@@ -823,13 +872,6 @@ bool decode_region(ImageDecoderContext* ctx, int left, int top, int right, int b
 
     int result = pAImageDecoder_setTargetSize(decoder, total_dest_width, total_dest_height);
     if (result != 0) {
-        if (owns_decoder) pAImageDecoder_delete(decoder);
-        return false;
-    }
-
-    int dest_width  = (raw_right  - raw_left) / sample_size;
-    int dest_height = (raw_bottom - raw_top)  / sample_size;
-    if (dest_width <= 0 || dest_height <= 0) {
         if (owns_decoder) pAImageDecoder_delete(decoder);
         return false;
     }
@@ -864,6 +906,9 @@ void free_decoder(ImageDecoderContext* ctx) {
             if (ctx->android_mem.cached_decoder) {
                 pAImageDecoder_delete(ctx->android_mem.cached_decoder);
                 ctx->android_mem.cached_decoder = NULL;
+            }
+            if (ctx->android_mem.full_rgba) {
+                free(ctx->android_mem.full_rgba);
             }
             if (ctx->android_mem.file_bytes) {
                 free(ctx->android_mem.file_bytes);
@@ -1156,11 +1201,685 @@ void free_decoder(ImageDecoderContext* ctx) {
 #endif
 
 // ============================================================================
-// Fallback / LINUX (BMP decoder support and explicit messages)
+// Fallback / LINUX (libjpeg + libpng + BMP native support)
 // ============================================================================
 #if !defined(__APPLE__) && !defined(__ANDROID__) && !defined(_WIN32)
 
+// ---------------------------------------------------------------------------
+// JPEG decoding via libjpeg (dynamically loaded via dlopen for cross-distro compatibility)
+// ---------------------------------------------------------------------------
+#ifdef HAVE_LIBJPEG
+#include <jpeglib.h>
+#include <setjmp.h>
+#include <dlfcn.h>
+
+struct linux_jpeg_error_mgr {
+    struct jpeg_error_mgr pub;
+    jmp_buf setjmp_buffer;
+};
+
+static void linux_jpeg_error_exit(j_common_ptr cinfo) {
+    struct linux_jpeg_error_mgr* myerr = (struct linux_jpeg_error_mgr*)cinfo->err;
+    longjmp(myerr->setjmp_buffer, 1);
+}
+
+typedef struct jpeg_error_mgr* (*fn_jpeg_std_error)(struct jpeg_error_mgr*);
+typedef void (*fn_jpeg_CreateDecompress)(j_decompress_ptr, int, size_t);
+typedef void (*fn_jpeg_stdio_src)(j_decompress_ptr, FILE*);
+typedef int (*fn_jpeg_read_header)(j_decompress_ptr, boolean);
+typedef boolean (*fn_jpeg_start_decompress)(j_decompress_ptr);
+typedef JDIMENSION (*fn_jpeg_read_scanlines)(j_decompress_ptr, JSAMPARRAY, JDIMENSION);
+typedef boolean (*fn_jpeg_finish_decompress)(j_decompress_ptr);
+typedef void (*fn_jpeg_destroy_decompress)(j_decompress_ptr);
+
+static void* s_libjpeg_handle = NULL;
+static int s_libjpeg_version = 0;
+static fn_jpeg_std_error p_jpeg_std_error = NULL;
+static fn_jpeg_CreateDecompress p_jpeg_CreateDecompress = NULL;
+static fn_jpeg_stdio_src p_jpeg_stdio_src = NULL;
+static fn_jpeg_read_header p_jpeg_read_header = NULL;
+static fn_jpeg_start_decompress p_jpeg_start_decompress = NULL;
+static fn_jpeg_read_scanlines p_jpeg_read_scanlines = NULL;
+static fn_jpeg_finish_decompress p_jpeg_finish_decompress = NULL;
+static fn_jpeg_destroy_decompress p_jpeg_destroy_decompress = NULL;
+
+static bool load_libjpeg_symbols() {
+    if (p_jpeg_CreateDecompress) return true;
+
+    static const struct {
+        const char* name;
+        int version;
+    } candidates[] = {
+        { "libjpeg.so.62", 62 },  // Fedora, RHEL, CentOS, Arch, openSUSE
+        { "libjpeg.so.8",  80 },  // Ubuntu, Debian
+        { "libjpeg.so",    JPEG_LIB_VERSION },  // Generic symlink
+        { NULL, 0 }
+    };
+
+    for (int i = 0; candidates[i].name != NULL; i++) {
+        void* handle = dlopen(candidates[i].name, RTLD_LAZY | RTLD_LOCAL);
+        if (handle) {
+            s_libjpeg_handle = handle;
+            s_libjpeg_version = candidates[i].version;
+            break;
+        }
+    }
+
+    if (!s_libjpeg_handle) return false;
+
+    p_jpeg_std_error = (fn_jpeg_std_error)dlsym(s_libjpeg_handle, "jpeg_std_error");
+    p_jpeg_CreateDecompress = (fn_jpeg_CreateDecompress)dlsym(s_libjpeg_handle, "jpeg_CreateDecompress");
+    p_jpeg_stdio_src = (fn_jpeg_stdio_src)dlsym(s_libjpeg_handle, "jpeg_stdio_src");
+    p_jpeg_read_header = (fn_jpeg_read_header)dlsym(s_libjpeg_handle, "jpeg_read_header");
+    p_jpeg_start_decompress = (fn_jpeg_start_decompress)dlsym(s_libjpeg_handle, "jpeg_start_decompress");
+    p_jpeg_read_scanlines = (fn_jpeg_read_scanlines)dlsym(s_libjpeg_handle, "jpeg_read_scanlines");
+    p_jpeg_finish_decompress = (fn_jpeg_finish_decompress)dlsym(s_libjpeg_handle, "jpeg_finish_decompress");
+    p_jpeg_destroy_decompress = (fn_jpeg_destroy_decompress)dlsym(s_libjpeg_handle, "jpeg_destroy_decompress");
+
+    if (!p_jpeg_std_error || !p_jpeg_CreateDecompress || !p_jpeg_stdio_src ||
+        !p_jpeg_read_header || !p_jpeg_start_decompress || !p_jpeg_read_scanlines ||
+        !p_jpeg_finish_decompress || !p_jpeg_destroy_decompress) {
+        dlclose(s_libjpeg_handle);
+        s_libjpeg_handle = NULL;
+        p_jpeg_CreateDecompress = NULL;
+        return false;
+    }
+
+    return true;
+}
+
+static unsigned char* decode_jpeg_rgba(const char* file_path, int* out_w, int* out_h) {
+    if (!load_libjpeg_symbols()) return NULL;
+
+    FILE* f = fopen(file_path, "rb");
+    if (!f) return NULL;
+
+    struct jpeg_decompress_struct cinfo;
+    struct linux_jpeg_error_mgr jerr;
+    memset(&cinfo, 0, sizeof(cinfo));
+
+    cinfo.err = p_jpeg_std_error(&jerr.pub);
+    jerr.pub.error_exit = linux_jpeg_error_exit;
+
+    if (setjmp(jerr.setjmp_buffer)) {
+        p_jpeg_destroy_decompress(&cinfo);
+        fclose(f);
+        return NULL;
+    }
+
+    p_jpeg_CreateDecompress(&cinfo, s_libjpeg_version, sizeof(cinfo));
+    p_jpeg_stdio_src(&cinfo, f);
+    p_jpeg_read_header(&cinfo, TRUE);
+
+    // Decode to plain RGB first (universally supported), then convert to RGBA.
+    cinfo.out_color_space = JCS_RGB;
+    p_jpeg_start_decompress(&cinfo);
+
+    int w = (int)cinfo.output_width;
+    int h = (int)cinfo.output_height;
+
+    unsigned char* rgba = (unsigned char*)malloc((size_t)w * h * 4);
+    if (!rgba) {
+        p_jpeg_destroy_decompress(&cinfo);
+        fclose(f);
+        return NULL;
+    }
+
+    unsigned char* row_rgb = (unsigned char*)malloc((size_t)w * 3);
+    if (!row_rgb) {
+        free(rgba);
+        p_jpeg_destroy_decompress(&cinfo);
+        fclose(f);
+        return NULL;
+    }
+
+    while (cinfo.output_scanline < cinfo.output_height) {
+        unsigned char* ptr = row_rgb;
+        p_jpeg_read_scanlines(&cinfo, &ptr, 1);
+        int y = (int)(cinfo.output_scanline - 1);
+        unsigned char* dst = rgba + (size_t)y * w * 4;
+        for (int x = 0; x < w; x++) {
+            dst[x * 4 + 0] = row_rgb[x * 3 + 0]; // R
+            dst[x * 4 + 1] = row_rgb[x * 3 + 1]; // G
+            dst[x * 4 + 2] = row_rgb[x * 3 + 2]; // B
+            dst[x * 4 + 3] = 255;                  // A (fully opaque)
+        }
+    }
+
+    free(row_rgb);
+    p_jpeg_finish_decompress(&cinfo);
+    p_jpeg_destroy_decompress(&cinfo);
+    fclose(f);
+
+    *out_w = w;
+    *out_h = h;
+    return rgba;
+}
+#endif // HAVE_LIBJPEG
+
+// ---------------------------------------------------------------------------
+// PNG decoding via libpng (dynamically loaded via dlopen for cross-distro compatibility)
+// ---------------------------------------------------------------------------
+#ifdef HAVE_LIBPNG
+#include <png.h>
+#include <dlfcn.h>
+
+typedef int (*fn_png_sig_cmp)(png_const_bytep, size_t, size_t);
+typedef png_structp (*fn_png_create_read_struct)(png_const_charp, png_voidp, png_error_ptr, png_error_ptr);
+typedef png_infop (*fn_png_create_info_struct)(png_const_structrp);
+typedef void (*fn_png_destroy_read_struct)(png_structpp, png_infopp, png_infopp);
+typedef void (*fn_png_init_io)(png_structrp, png_FILE_p);
+typedef void (*fn_png_set_sig_bytes)(png_structrp, int);
+typedef void (*fn_png_read_info)(png_structrp, png_inforp);
+typedef png_uint_32 (*fn_png_get_image_width)(png_const_structrp, png_const_inforp);
+typedef png_uint_32 (*fn_png_get_image_height)(png_const_structrp, png_const_inforp);
+typedef png_byte (*fn_png_get_color_type)(png_const_structrp, png_const_inforp);
+typedef png_byte (*fn_png_get_bit_depth)(png_const_structrp, png_const_inforp);
+typedef void (*fn_png_set_strip_16)(png_structrp);
+typedef void (*fn_png_set_palette_to_rgb)(png_structrp);
+typedef void (*fn_png_set_expand_gray_1_2_4_to_8)(png_structrp);
+typedef png_uint_32 (*fn_png_get_valid)(png_const_structrp, png_const_inforp, png_uint_32);
+typedef void (*fn_png_set_tRNS_to_alpha)(png_structrp);
+typedef void (*fn_png_set_filler)(png_structrp, png_uint_32, int);
+typedef void (*fn_png_set_gray_to_rgb)(png_structrp);
+typedef void (*fn_png_read_update_info)(png_structrp, png_inforp);
+typedef void (*fn_png_read_image)(png_structrp, png_bytepp);
+typedef jmp_buf* (*fn_png_set_longjmp_fn)(png_structrp, png_longjmp_ptr, size_t);
+
+static void* s_libpng_handle = NULL;
+static fn_png_sig_cmp p_png_sig_cmp = NULL;
+static fn_png_create_read_struct p_png_create_read_struct = NULL;
+static fn_png_create_info_struct p_png_create_info_struct = NULL;
+static fn_png_destroy_read_struct p_png_destroy_read_struct = NULL;
+static fn_png_init_io p_png_init_io = NULL;
+static fn_png_set_sig_bytes p_png_set_sig_bytes = NULL;
+static fn_png_read_info p_png_read_info = NULL;
+static fn_png_get_image_width p_png_get_image_width = NULL;
+static fn_png_get_image_height p_png_get_image_height = NULL;
+static fn_png_get_color_type p_png_get_color_type = NULL;
+static fn_png_get_bit_depth p_png_get_bit_depth = NULL;
+static fn_png_set_strip_16 p_png_set_strip_16 = NULL;
+static fn_png_set_palette_to_rgb p_png_set_palette_to_rgb = NULL;
+static fn_png_set_expand_gray_1_2_4_to_8 p_png_set_expand_gray_1_2_4_to_8 = NULL;
+static fn_png_get_valid p_png_get_valid = NULL;
+static fn_png_set_tRNS_to_alpha p_png_set_tRNS_to_alpha = NULL;
+static fn_png_set_filler p_png_set_filler = NULL;
+static fn_png_set_gray_to_rgb p_png_set_gray_to_rgb = NULL;
+static fn_png_read_update_info p_png_read_update_info = NULL;
+static fn_png_read_image p_png_read_image = NULL;
+static fn_png_set_longjmp_fn p_png_set_longjmp_fn = NULL;
+
+static bool load_libpng_symbols() {
+    if (p_png_create_read_struct) return true;
+
+    static const char* candidates[] = {
+        "libpng16.so.16",
+        "libpng16.so",
+        "libpng.so",
+        NULL
+    };
+
+    for (int i = 0; candidates[i] != NULL; i++) {
+        void* handle = dlopen(candidates[i], RTLD_LAZY | RTLD_LOCAL);
+        if (handle) {
+            s_libpng_handle = handle;
+            break;
+        }
+    }
+
+    if (!s_libpng_handle) return false;
+
+    p_png_sig_cmp = (fn_png_sig_cmp)dlsym(s_libpng_handle, "png_sig_cmp");
+    p_png_create_read_struct = (fn_png_create_read_struct)dlsym(s_libpng_handle, "png_create_read_struct");
+    p_png_create_info_struct = (fn_png_create_info_struct)dlsym(s_libpng_handle, "png_create_info_struct");
+    p_png_destroy_read_struct = (fn_png_destroy_read_struct)dlsym(s_libpng_handle, "png_destroy_read_struct");
+    p_png_init_io = (fn_png_init_io)dlsym(s_libpng_handle, "png_init_io");
+    p_png_set_sig_bytes = (fn_png_set_sig_bytes)dlsym(s_libpng_handle, "png_set_sig_bytes");
+    p_png_read_info = (fn_png_read_info)dlsym(s_libpng_handle, "png_read_info");
+    p_png_get_image_width = (fn_png_get_image_width)dlsym(s_libpng_handle, "png_get_image_width");
+    p_png_get_image_height = (fn_png_get_image_height)dlsym(s_libpng_handle, "png_get_image_height");
+    p_png_get_color_type = (fn_png_get_color_type)dlsym(s_libpng_handle, "png_get_color_type");
+    p_png_get_bit_depth = (fn_png_get_bit_depth)dlsym(s_libpng_handle, "png_get_bit_depth");
+    p_png_set_strip_16 = (fn_png_set_strip_16)dlsym(s_libpng_handle, "png_set_strip_16");
+    p_png_set_palette_to_rgb = (fn_png_set_palette_to_rgb)dlsym(s_libpng_handle, "png_set_palette_to_rgb");
+    p_png_set_expand_gray_1_2_4_to_8 = (fn_png_set_expand_gray_1_2_4_to_8)dlsym(s_libpng_handle, "png_set_expand_gray_1_2_4_to_8");
+    p_png_get_valid = (fn_png_get_valid)dlsym(s_libpng_handle, "png_get_valid");
+    p_png_set_tRNS_to_alpha = (fn_png_set_tRNS_to_alpha)dlsym(s_libpng_handle, "png_set_tRNS_to_alpha");
+    p_png_set_filler = (fn_png_set_filler)dlsym(s_libpng_handle, "png_set_filler");
+    p_png_set_gray_to_rgb = (fn_png_set_gray_to_rgb)dlsym(s_libpng_handle, "png_set_gray_to_rgb");
+    p_png_read_update_info = (fn_png_read_update_info)dlsym(s_libpng_handle, "png_read_update_info");
+    p_png_read_image = (fn_png_read_image)dlsym(s_libpng_handle, "png_read_image");
+    p_png_set_longjmp_fn = (fn_png_set_longjmp_fn)dlsym(s_libpng_handle, "png_set_longjmp_fn");
+
+    if (!p_png_sig_cmp || !p_png_create_read_struct || !p_png_create_info_struct ||
+        !p_png_destroy_read_struct || !p_png_init_io || !p_png_set_sig_bytes ||
+        !p_png_read_info || !p_png_get_image_width || !p_png_get_image_height ||
+        !p_png_get_color_type || !p_png_get_bit_depth || !p_png_set_strip_16 ||
+        !p_png_set_palette_to_rgb || !p_png_set_expand_gray_1_2_4_to_8 ||
+        !p_png_get_valid || !p_png_set_tRNS_to_alpha || !p_png_set_filler ||
+        !p_png_set_gray_to_rgb || !p_png_read_update_info || !p_png_read_image ||
+        !p_png_set_longjmp_fn) {
+        dlclose(s_libpng_handle);
+        s_libpng_handle = NULL;
+        p_png_create_read_struct = NULL;
+        return false;
+    }
+
+    return true;
+}
+
+static unsigned char* decode_png_rgba(const char* file_path, int* out_w, int* out_h) {
+    if (!load_libpng_symbols()) return NULL;
+
+    FILE* f = fopen(file_path, "rb");
+    if (!f) return NULL;
+
+    // Verify PNG signature
+    unsigned char sig[8];
+    if (fread(sig, 1, 8, f) != 8 || p_png_sig_cmp(sig, 0, 8)) {
+        fclose(f);
+        return NULL;
+    }
+
+    png_structp png = p_png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    if (!png) { fclose(f); return NULL; }
+
+    png_infop info = p_png_create_info_struct(png);
+    if (!info) { p_png_destroy_read_struct(&png, NULL, NULL); fclose(f); return NULL; }
+
+    jmp_buf* jmpbuf_ptr = p_png_set_longjmp_fn(png, longjmp, sizeof(jmp_buf));
+    if (!jmpbuf_ptr || setjmp(*jmpbuf_ptr)) {
+        p_png_destroy_read_struct(&png, &info, NULL);
+        fclose(f);
+        return NULL;
+    }
+
+    p_png_init_io(png, f);
+    p_png_set_sig_bytes(png, 8); // already consumed the signature
+    p_png_read_info(png, info);
+
+    int w = (int)p_png_get_image_width(png, info);
+    int h = (int)p_png_get_image_height(png, info);
+    png_byte color_type = p_png_get_color_type(png, info);
+    png_byte bit_depth  = p_png_get_bit_depth(png, info);
+
+    // Normalize all variants to 8-bit RGBA
+    if (bit_depth == 16)   p_png_set_strip_16(png);
+    if (color_type == PNG_COLOR_TYPE_PALETTE) p_png_set_palette_to_rgb(png);
+    if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8) p_png_set_expand_gray_1_2_4_to_8(png);
+    if (p_png_get_valid(png, info, PNG_INFO_tRNS)) p_png_set_tRNS_to_alpha(png);
+    // Add alpha channel if not present
+    if (color_type == PNG_COLOR_TYPE_RGB  ||
+        color_type == PNG_COLOR_TYPE_GRAY ||
+        color_type == PNG_COLOR_TYPE_PALETTE)
+        p_png_set_filler(png, 0xFF, PNG_FILLER_AFTER);
+    // Convert grayscale to RGB
+    if (color_type == PNG_COLOR_TYPE_GRAY ||
+        color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+        p_png_set_gray_to_rgb(png);
+
+    p_png_read_update_info(png, info);
+
+    unsigned char* rgba = (unsigned char*)malloc((size_t)w * h * 4);
+    if (!rgba) {
+        p_png_destroy_read_struct(&png, &info, NULL);
+        fclose(f);
+        return NULL;
+    }
+
+    png_bytep* rows = (png_bytep*)malloc((size_t)h * sizeof(png_bytep));
+    if (!rows) {
+        free(rgba);
+        p_png_destroy_read_struct(&png, &info, NULL);
+        fclose(f);
+        return NULL;
+    }
+    for (int i = 0; i < h; i++) {
+        rows[i] = rgba + (size_t)i * w * 4;
+    }
+
+    p_png_read_image(png, rows);
+    free(rows);
+
+    p_png_destroy_read_struct(&png, &info, NULL);
+    fclose(f);
+
+    *out_w = w;
+    *out_h = h;
+    return rgba;
+}
+#endif // HAVE_LIBPNG
+
+// ---------------------------------------------------------------------------
+// AVIF decoding via libavif (dynamically loaded via dlopen for cross-distro compatibility)
+// ---------------------------------------------------------------------------
+#ifdef HAVE_LIBAVIF
+#include <avif/avif.h>
+#include <dlfcn.h>
+
+typedef avifDecoder* (*fn_avifDecoderCreate)(void);
+typedef void (*fn_avifDecoderDestroy)(avifDecoder*);
+typedef avifResult (*fn_avifDecoderSetIOFile)(avifDecoder*, const char*);
+typedef avifResult (*fn_avifDecoderParse)(avifDecoder*);
+typedef avifResult (*fn_avifDecoderNextImage)(avifDecoder*);
+typedef void (*fn_avifRGBImageSetDefaults)(avifRGBImage*, const avifImage*);
+typedef avifResult (*fn_avifRGBImageAllocatePixels)(avifRGBImage*);
+typedef void (*fn_avifRGBImageFreePixels)(avifRGBImage*);
+typedef avifResult (*fn_avifImageYUVToRGB)(const avifImage*, avifRGBImage*);
+
+static void* s_libavif_handle = NULL;
+static fn_avifDecoderCreate p_avifDecoderCreate = NULL;
+static fn_avifDecoderDestroy p_avifDecoderDestroy = NULL;
+static fn_avifDecoderSetIOFile p_avifDecoderSetIOFile = NULL;
+static fn_avifDecoderParse p_avifDecoderParse = NULL;
+static fn_avifDecoderNextImage p_avifDecoderNextImage = NULL;
+static fn_avifRGBImageSetDefaults p_avifRGBImageSetDefaults = NULL;
+static fn_avifRGBImageAllocatePixels p_avifRGBImageAllocatePixels = NULL;
+static fn_avifRGBImageFreePixels p_avifRGBImageFreePixels = NULL;
+static fn_avifImageYUVToRGB p_avifImageYUVToRGB = NULL;
+
+static bool load_libavif_symbols() {
+    if (p_avifDecoderCreate) return true;
+
+    static const char* candidates[] = {
+        "libavif.so.16",
+        "libavif.so.15",
+        "libavif.so.14",
+        "libavif.so",
+        NULL
+    };
+
+    for (int i = 0; candidates[i] != NULL; i++) {
+        void* handle = dlopen(candidates[i], RTLD_LAZY | RTLD_LOCAL);
+        if (handle) {
+            s_libavif_handle = handle;
+            break;
+        }
+    }
+
+    if (!s_libavif_handle) return false;
+
+    p_avifDecoderCreate = (fn_avifDecoderCreate)dlsym(s_libavif_handle, "avifDecoderCreate");
+    p_avifDecoderDestroy = (fn_avifDecoderDestroy)dlsym(s_libavif_handle, "avifDecoderDestroy");
+    p_avifDecoderSetIOFile = (fn_avifDecoderSetIOFile)dlsym(s_libavif_handle, "avifDecoderSetIOFile");
+    p_avifDecoderParse = (fn_avifDecoderParse)dlsym(s_libavif_handle, "avifDecoderParse");
+    p_avifDecoderNextImage = (fn_avifDecoderNextImage)dlsym(s_libavif_handle, "avifDecoderNextImage");
+    p_avifRGBImageSetDefaults = (fn_avifRGBImageSetDefaults)dlsym(s_libavif_handle, "avifRGBImageSetDefaults");
+    p_avifRGBImageAllocatePixels = (fn_avifRGBImageAllocatePixels)dlsym(s_libavif_handle, "avifRGBImageAllocatePixels");
+    p_avifRGBImageFreePixels = (fn_avifRGBImageFreePixels)dlsym(s_libavif_handle, "avifRGBImageFreePixels");
+    p_avifImageYUVToRGB = (fn_avifImageYUVToRGB)dlsym(s_libavif_handle, "avifImageYUVToRGB");
+
+    if (!p_avifDecoderCreate || !p_avifDecoderDestroy || !p_avifDecoderSetIOFile ||
+        !p_avifDecoderParse || !p_avifDecoderNextImage || !p_avifRGBImageSetDefaults ||
+        !p_avifRGBImageAllocatePixels || !p_avifRGBImageFreePixels || !p_avifImageYUVToRGB) {
+        dlclose(s_libavif_handle);
+        s_libavif_handle = NULL;
+        p_avifDecoderCreate = NULL;
+        return false;
+    }
+
+    return true;
+}
+
+static unsigned char* decode_avif_rgba(const char* file_path, int* out_w, int* out_h) {
+    if (!load_libavif_symbols()) return NULL;
+
+    avifDecoder* decoder = p_avifDecoderCreate();
+    if (!decoder) return NULL;
+
+    avifResult result = p_avifDecoderSetIOFile(decoder, file_path);
+    if (result != AVIF_RESULT_OK) {
+        p_avifDecoderDestroy(decoder);
+        return NULL;
+    }
+
+    result = p_avifDecoderParse(decoder);
+    if (result != AVIF_RESULT_OK) {
+        p_avifDecoderDestroy(decoder);
+        return NULL;
+    }
+
+    // Decode the first (or only) image in the AVIF file/sequence.
+    result = p_avifDecoderNextImage(decoder);
+    if (result != AVIF_RESULT_OK) {
+        p_avifDecoderDestroy(decoder);
+        return NULL;
+    }
+
+    int w = (int)decoder->image->width;
+    int h = (int)decoder->image->height;
+
+    avifRGBImage rgb;
+    memset(&rgb, 0, sizeof(rgb));
+    p_avifRGBImageSetDefaults(&rgb, decoder->image);
+    rgb.format = AVIF_RGB_FORMAT_RGBA;
+    rgb.depth = 8;
+
+    if (p_avifRGBImageAllocatePixels(&rgb) != AVIF_RESULT_OK) {
+        p_avifDecoderDestroy(decoder);
+        return NULL;
+    }
+
+    if (p_avifImageYUVToRGB(decoder->image, &rgb) != AVIF_RESULT_OK) {
+        p_avifRGBImageFreePixels(&rgb);
+        p_avifDecoderDestroy(decoder);
+        return NULL;
+    }
+
+    // Copy into a plain malloc'd buffer so it can be freed with free(), matching
+    // the ownership convention of the JPEG/PNG decoders above.
+    unsigned char* out = (unsigned char*)malloc((size_t)w * h * 4);
+    if (!out) {
+        p_avifRGBImageFreePixels(&rgb);
+        p_avifDecoderDestroy(decoder);
+        return NULL;
+    }
+    memcpy(out, rgb.pixels, (size_t)w * h * 4);
+
+    p_avifRGBImageFreePixels(&rgb);
+    p_avifDecoderDestroy(decoder);
+
+    *out_w = w;
+    *out_h = h;
+    return out;
+}
+#endif // HAVE_LIBAVIF
+
+// WebP decoding via libwebp (dynamically loaded for cross-distro compatibility)
+#ifdef HAVE_LIBWEBP
+#include <dlfcn.h>
+#include <stdint.h>
+#include <webp/decode.h>
+
+typedef uint8_t* (*fn_WebPDecodeRGBA)(const uint8_t*, size_t, int*, int*);
+typedef void (*fn_WebPFree)(void*);
+
+static void* s_libwebp_handle = NULL;
+static fn_WebPDecodeRGBA p_WebPDecodeRGBA = NULL;
+static fn_WebPFree p_WebPFree = NULL;
+
+static bool load_libwebp_symbols() {
+    if (p_WebPDecodeRGBA) return true;
+
+    static const char* candidates[] = {
+        "libwebp.so.8",
+        "libwebp.so.7",
+        "libwebp.so.6",
+        "libwebp.so.5",
+        "libwebp.so",
+        NULL
+    };
+
+    for (int i = 0; candidates[i] != NULL; i++) {
+        s_libwebp_handle = dlopen(candidates[i], RTLD_LAZY | RTLD_LOCAL);
+        if (s_libwebp_handle) break;
+    }
+    if (!s_libwebp_handle) return false;
+
+    p_WebPDecodeRGBA = (fn_WebPDecodeRGBA)dlsym(s_libwebp_handle, "WebPDecodeRGBA");
+    p_WebPFree = (fn_WebPFree)dlsym(s_libwebp_handle, "WebPFree");
+    if (!p_WebPDecodeRGBA || !p_WebPFree) {
+        dlclose(s_libwebp_handle);
+        s_libwebp_handle = NULL;
+        p_WebPDecodeRGBA = NULL;
+        p_WebPFree = NULL;
+        return false;
+    }
+    return true;
+}
+
+static unsigned char* decode_webp_rgba(const char* file_path, int* out_w, int* out_h) {
+    if (!load_libwebp_symbols()) return NULL;
+
+    FILE* file = fopen(file_path, "rb");
+    if (!file) return NULL;
+    if (fseek(file, 0, SEEK_END) != 0) {
+        fclose(file);
+        return NULL;
+    }
+    long file_size = ftell(file);
+    if (file_size <= 0 || fseek(file, 0, SEEK_SET) != 0) {
+        fclose(file);
+        return NULL;
+    }
+
+    uint8_t* encoded = (uint8_t*)malloc((size_t)file_size);
+    if (!encoded) {
+        fclose(file);
+        return NULL;
+    }
+    const size_t bytes_read = fread(encoded, 1, (size_t)file_size, file);
+    fclose(file);
+    if (bytes_read != (size_t)file_size) {
+        free(encoded);
+        return NULL;
+    }
+
+    int width = 0;
+    int height = 0;
+    uint8_t* decoded = p_WebPDecodeRGBA(encoded, bytes_read, &width, &height);
+    free(encoded);
+    if (!decoded || width <= 0 || height <= 0 ||
+        (size_t)width > SIZE_MAX / 4 / (size_t)height) {
+        if (decoded) p_WebPFree(decoded);
+        return NULL;
+    }
+
+    const size_t output_size = (size_t)width * (size_t)height * 4;
+    unsigned char* output = (unsigned char*)malloc(output_size);
+    if (!output) {
+        p_WebPFree(decoded);
+        return NULL;
+    }
+    memcpy(output, decoded, output_size);
+    p_WebPFree(decoded);
+    *out_w = width;
+    *out_h = height;
+    return output;
+}
+#endif // HAVE_LIBWEBP
+
+// ---------------------------------------------------------------------------
+// Format detection helpers
+// ---------------------------------------------------------------------------
+// These only inspect magic bytes and have no dependency on the optional
+// decoding libraries, so they're compiled and used unconditionally. This lets
+// init_decoder() give a specific "you're missing libX-dev" message rather
+// than a generic one, no matter which combination of libjpeg/libpng/libavif
+// was found at configure time.
+static int linux_is_jpeg(const char* file_path) {
+    FILE* f = fopen(file_path, "rb");
+    if (!f) return 0;
+    unsigned char magic[2] = {0, 0};
+    fread(magic, 1, 2, f);
+    fclose(f);
+    return (magic[0] == 0xFF && magic[1] == 0xD8);
+}
+
+static int linux_is_png(const char* file_path) {
+    FILE* f = fopen(file_path, "rb");
+    if (!f) return 0;
+    unsigned char magic[8] = {0};
+    size_t n = fread(magic, 1, 8, f);
+    fclose(f);
+    return (n == 8 && memcmp(magic, "\x89PNG\r\n\x1a\n", 8) == 0);
+}
+
+static int linux_is_avif(const char* file_path) {
+    FILE* f = fopen(file_path, "rb");
+    if (!f) return 0;
+    unsigned char header[12] = {0};
+    size_t n = fread(header, 1, 12, f);
+    fclose(f);
+    if (n != 12) return 0;
+
+    // ISOBMFF: bytes 4-7 must be "ftyp"; the major brand (bytes 8-11) tells us
+    // whether this is an AVIF still image ("avif") or AVIF image sequence ("avis").
+    if (memcmp(header + 4, "ftyp", 4) != 0) return 0;
+    return (memcmp(header + 8, "avif", 4) == 0 || memcmp(header + 8, "avis", 4) == 0);
+}
+
+static int linux_is_webp(const char* file_path) {
+    FILE* f = fopen(file_path, "rb");
+    if (!f) return 0;
+    unsigned char header[12] = {0};
+    size_t n = fread(header, 1, sizeof(header), f);
+    fclose(f);
+    return n == sizeof(header) &&
+           memcmp(header, "RIFF", 4) == 0 &&
+           memcmp(header + 8, "WEBP", 4) == 0;
+}
+
+// ---------------------------------------------------------------------------
+// Autocrop helper for the Linux RGBA buffer
+// ---------------------------------------------------------------------------
+static void perform_linux_autocrop(ImageDecoderContext* ctx) {
+    int w = ctx->width;
+    int h = ctx->height;
+
+    if (!ctx->linux_ctx.full_rgba) {
+        ctx->crop_left = 0; ctx->crop_top = 0;
+        ctx->crop_width = w; ctx->crop_height = h;
+        return;
+    }
+
+    // Downscale to 256-wide thumbnail using nearest-neighbour for fast analysis
+    int thumb_w = 256;
+    int thumb_h = (h * thumb_w) / w;
+    if (thumb_h <= 0) thumb_h = 1;
+
+    unsigned char* temp = (unsigned char*)malloc((size_t)thumb_w * thumb_h * 4);
+    if (!temp) {
+        ctx->crop_left = 0; ctx->crop_top = 0;
+        ctx->crop_width = w; ctx->crop_height = h;
+        return;
+    }
+
+    for (int dy = 0; dy < thumb_h; dy++) {
+        int sy = (dy * h) / thumb_h;
+        for (int dx = 0; dx < thumb_w; dx++) {
+            int sx = (dx * w) / thumb_w;
+            const unsigned char* src = ctx->linux_ctx.full_rgba + ((size_t)sy * w + sx) * 4;
+            unsigned char* dst = temp + ((size_t)dy * thumb_w + dx) * 4;
+            dst[0] = src[0]; dst[1] = src[1]; dst[2] = src[2]; dst[3] = src[3];
+        }
+    }
+
+    int left = 0, top = 0, right = thumb_w, bottom = thumb_h;
+    find_margins_rgba(temp, thumb_w, thumb_h, &left, &top, &right, &bottom);
+    free(temp);
+
+    ctx->crop_left   = (left   * w) / thumb_w;
+    ctx->crop_top    = (top    * h) / thumb_h;
+    ctx->crop_width  = ((right  - left)   * w) / thumb_w;
+    ctx->crop_height = ((bottom - top)    * h) / thumb_h;
+}
+
+// ---------------------------------------------------------------------------
+// Public API — init / decode_region / free
+// ---------------------------------------------------------------------------
 ImageDecoderContext* init_decoder(const char* file_path, bool crop_borders, int* out_width, int* out_height) {
+    // BMP is decoded natively without any external library
     BmpDecoderContext* bmp = init_bmp_decoder(file_path, out_width, out_height);
     if (bmp) {
         ImageDecoderContext* ctx = (ImageDecoderContext*)malloc(sizeof(ImageDecoderContext));
@@ -1168,49 +1887,158 @@ ImageDecoderContext* init_decoder(const char* file_path, bool crop_borders, int*
         ctx->width = *out_width;
         ctx->height = *out_height;
         ctx->bmp_ctx = bmp;
-        
         if (crop_borders) {
             perform_bmp_autocrop(ctx);
         } else {
-            ctx->crop_left = 0;
-            ctx->crop_top = 0;
-            ctx->crop_width = ctx->width;
-            ctx->crop_height = ctx->height;
+            ctx->crop_left = 0; ctx->crop_top = 0;
+            ctx->crop_width = ctx->width; ctx->crop_height = ctx->height;
         }
-
-        *out_width = ctx->crop_width;
+        *out_width  = ctx->crop_width;
         *out_height = ctx->crop_height;
         return ctx;
     }
 
-    printf("ImageDecoder: Unsupported file format on Linux without libjpeg/libpng linked.\n");
-    return NULL;
+    // Try JPEG / PNG / AVIF / WebP via system libraries
+    int w = 0, h = 0;
+    unsigned char* rgba = NULL;
+
+    // Sniffing is unconditional (cheap header check, no library dependency),
+    // so we know the file's actual format even if we can't decode it — this
+    // is what lets the error path below name the specific missing package.
+    int is_jpeg = linux_is_jpeg(file_path);
+    int is_png  = linux_is_png(file_path);
+    int is_avif = linux_is_avif(file_path);
+    int is_webp = linux_is_webp(file_path);
+
+#ifdef HAVE_LIBJPEG
+    if (!rgba && is_jpeg) {
+        rgba = decode_jpeg_rgba(file_path, &w, &h);
+    }
+#endif
+
+#ifdef HAVE_LIBPNG
+    if (!rgba && is_png) {
+        rgba = decode_png_rgba(file_path, &w, &h);
+    }
+#endif
+
+#ifdef HAVE_LIBAVIF
+    if (!rgba && is_avif) {
+        rgba = decode_avif_rgba(file_path, &w, &h);
+    }
+#endif
+
+#ifdef HAVE_LIBWEBP
+    if (!rgba && is_webp) {
+        rgba = decode_webp_rgba(file_path, &w, &h);
+    }
+#endif
+
+    if (!rgba) {
+        if (is_jpeg) {
+#ifdef HAVE_LIBJPEG
+            printf("ImageDecoder: Failed to decode JPEG file (it may be corrupt or truncated): %s\n", file_path);
+#else
+            printf("ImageDecoder: JPEG file detected, but libjpeg support was not compiled in."
+                   " Install libjpeg-dev, then rebuild the app to enable JPEG support.\n");
+#endif
+        } else if (is_png) {
+#ifdef HAVE_LIBPNG
+            printf("ImageDecoder: Failed to decode PNG file (it may be corrupt or truncated): %s\n", file_path);
+#else
+            printf("ImageDecoder: PNG file detected, but libpng support was not compiled in."
+                   " Install libpng-dev, then rebuild the app to enable PNG support.\n");
+#endif
+        } else if (is_avif) {
+#ifdef HAVE_LIBAVIF
+            printf("ImageDecoder: Failed to decode AVIF file (it may be corrupt or use an unsupported profile): %s\n", file_path);
+#else
+            printf("ImageDecoder: AVIF file detected, but libavif support was not compiled in."
+                   " Install libavif-dev, then rebuild the app to enable AVIF support.\n");
+#endif
+        } else if (is_webp) {
+#ifdef HAVE_LIBWEBP
+            printf("ImageDecoder: Failed to decode WebP file (it may be corrupt or truncated): %s\n", file_path);
+#else
+            printf("ImageDecoder: WebP file detected, but libwebp support was not compiled in."
+                   " Install libwebp-dev, then rebuild the app to enable WebP support.\n");
+#endif
+        } else {
+            printf("ImageDecoder: Unsupported or unrecognized file format on Linux: %s\n", file_path);
+        }
+        return NULL;
+    }
+
+    ImageDecoderContext* ctx = (ImageDecoderContext*)malloc(sizeof(ImageDecoderContext));
+    ctx->type = TYPE_NATIVE;
+    ctx->width  = w;
+    ctx->height = h;
+    ctx->linux_ctx.full_rgba = rgba;
+
+    if (crop_borders) {
+        perform_linux_autocrop(ctx);
+    } else {
+        ctx->crop_left = 0; ctx->crop_top = 0;
+        ctx->crop_width = w; ctx->crop_height = h;
+    }
+
+    *out_width  = ctx->crop_width;
+    *out_height = ctx->crop_height;
+    return ctx;
 }
 
-bool decode_region(ImageDecoderContext* ctx, int left, int top, int right, int bottom, int sample_size, unsigned char* out_rgba_buffer) {
+bool decode_region(ImageDecoderContext* ctx, int left, int top, int right, int bottom,
+                   int sample_size, unsigned char* out_rgba_buffer) {
     if (!ctx || !out_rgba_buffer) return false;
 
-    int raw_left = left + ctx->crop_left;
-    int raw_top = top + ctx->crop_top;
-    int raw_right = right + ctx->crop_left;
+    // Translate coordinates from cropped space to original image space
+    int raw_left   = left   + ctx->crop_left;
+    int raw_top    = top    + ctx->crop_top;
+    int raw_right  = right  + ctx->crop_left;
     int raw_bottom = bottom + ctx->crop_top;
-    
+
     if (ctx->type == TYPE_BMP) {
-        return decode_bmp_region(ctx->bmp_ctx, raw_left, raw_top, raw_right, raw_bottom, sample_size, out_rgba_buffer);
+        return decode_bmp_region(ctx->bmp_ctx, raw_left, raw_top, raw_right, raw_bottom,
+                                  sample_size, out_rgba_buffer);
     }
-    return false;
+
+    if (!ctx->linux_ctx.full_rgba) return false;
+
+    int dest_w = (raw_right  - raw_left) / sample_size;
+    int dest_h = (raw_bottom - raw_top)  / sample_size;
+    if (dest_w <= 0 || dest_h <= 0) return false;
+
+    int src_w = ctx->width;
+
+    for (int dy = 0; dy < dest_h; dy++) {
+        int sy = raw_top + dy * sample_size;
+        const unsigned char* src_row = ctx->linux_ctx.full_rgba + (size_t)sy * src_w * 4;
+        unsigned char* dst_row = out_rgba_buffer + (size_t)dy * dest_w * 4;
+        for (int dx = 0; dx < dest_w; dx++) {
+            int sx = raw_left + dx * sample_size;
+            const unsigned char* src = src_row + sx * 4;
+            unsigned char* dst = dst_row + dx * 4;
+            dst[0] = src[0]; dst[1] = src[1]; dst[2] = src[2]; dst[3] = src[3];
+        }
+    }
+
+    return true;
 }
 
 void free_decoder(ImageDecoderContext* ctx) {
     if (ctx) {
         if (ctx->type == TYPE_BMP) {
             free_bmp_decoder(ctx->bmp_ctx);
+        } else {
+            if (ctx->linux_ctx.full_rgba) {
+                free(ctx->linux_ctx.full_rgba);
+            }
         }
         free(ctx);
     }
 }
 
-#endif
+#endif // Linux fallback
 
 #ifdef __cplusplus
 }

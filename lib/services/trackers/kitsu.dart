@@ -3,13 +3,20 @@ import 'package:mangayomi/eval/model/m_bridge.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/track.dart';
 import 'package:mangayomi/models/track_preference.dart';
+
 import 'dart:convert';
+
 import 'package:mangayomi/models/track_search.dart';
-import 'package:mangayomi/modules/more/settings/track/myanimelist/model.dart';
-import 'package:mangayomi/modules/more/settings/track/providers/track_providers.dart';
+import 'package:mangayomi/models/oauth.dart';
+import 'package:mangayomi/providers/track_providers.dart';
 import 'package:mangayomi/services/http/m_client.dart';
+import 'package:mangayomi/utils/localized_message.dart';
+
 import 'base_tracker.dart';
+import 'tracker_account.dart';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:mangayomi/utils/error_toast.dart';
 part 'kitsu.g.dart';
 
 @riverpod
@@ -51,7 +58,9 @@ class Kitsu extends _$Kitsu implements BaseTracker {
       if (response.statusCode != 200) {
         return (false, "${response.reasonPhrase!} ${response.statusCode}");
       }
-      final res = jsonDecode(await response.stream.bytesToString()) as Map<String, dynamic>;
+      final res = jsonDecode(
+        await response.stream.bytesToString(),
+      ) as Map<String, dynamic>;
       final aKOAuth = OAuth.fromJson(res)
         ..expiresIn = DateTime.now().add(Duration(seconds: res['expires_in'])).millisecondsSinceEpoch;
       final currentUser = await _getCurrentUser(aKOAuth.accessToken!);
@@ -59,7 +68,9 @@ class Kitsu extends _$Kitsu implements BaseTracker {
           .read(tracksProvider(syncId: syncId).notifier)
           .login(
             TrackPreference(
-              username: currentUser.$1,
+              username: currentUser.$1.id,
+              displayName: currentUser.$1.name,
+              avatarUrl: currentUser.$1.avatarUrl,
               syncId: syncId,
               prefs: jsonEncode({"ratingSystem": currentUser.$2}),
               oAuth: jsonEncode(aKOAuth.toJson()),
@@ -67,7 +78,8 @@ class Kitsu extends _$Kitsu implements BaseTracker {
           );
 
       return (true, "");
-    } catch (e) {
+    } catch (e, stackTrace) {
+      recordError(e, stack: stackTrace, source: 'kitsu');
       return (false, e.toString());
     }
   }
@@ -144,9 +156,9 @@ class Kitsu extends _$Kitsu implements BaseTracker {
     );
     final data = json.decode(utf8.decode(response.bodyBytes));
 
-    final entries = List<Map<String, dynamic>>.from(
-      data['hits'],
-    ).where((element) => element["subtype"] != "novel").toList();
+    final entries = List<Map<String, dynamic>>.from(data['hits'])
+        .where((element) => element["subtype"] != "novel")
+        .toList();
     final totalChapter = isManga ? "chapterCount" : "episodeCount";
     return entries
         .map(
@@ -180,9 +192,9 @@ class Kitsu extends _$Kitsu implements BaseTracker {
     );
     final data = json.decode(utf8.decode(response.bodyBytes));
 
-    final entries = List<Map<String, dynamic>>.from(
-      data['data'],
-    ).where((element) => element["subtype"] != "novel").toList();
+    final entries = List<Map<String, dynamic>>.from(data['data'])
+        .where((element) => element["subtype"] != "novel")
+        .toList();
     final totalChapter = isManga ? "chapterCount" : "episodeCount";
     return entries.map((jsonRes) {
       final mediaId = jsonRes['id'] is String ? int.parse(jsonRes['id']) : jsonRes['id'];
@@ -327,13 +339,17 @@ class Kitsu extends _$Kitsu implements BaseTracker {
       ..finishedReadingDate = _parseDate(attributes["finishedAt"]);
   }
 
-  Future<(String, String)> _getCurrentUser(String accessToken) async {
+  /// The account, and the rating system stored alongside it.
+  ///
+  /// As on AniList and Simkl the id is what the rest of this file needs, so
+  /// the readable name is returned beside it rather than in place of it.
+  Future<(TrackerAccount, String)> _getCurrentUser(String accessToken) async {
     final url = Uri.parse('${_baseUrl}users?filter[self]=true');
     Response response = await _makeGetRequest(url, accessToken);
-    final data = json.decode(response.body)['data'][0];
+    final data = json.decode(response.body)['data'][0] as Map<String, dynamic>;
     return (
-      data['id'].toString(),
-      data['attributes']['ratingSystem'].toString(),
+      kitsuAccount(data),
+      (data['attributes'] as Map<String, dynamic>)['ratingSystem'].toString(),
     );
   }
 
@@ -345,7 +361,7 @@ class Kitsu extends _$Kitsu implements BaseTracker {
     final expiresIn = DateTime.fromMillisecondsSinceEpoch(mAKOAuth.expiresIn!);
     if (DateTime.now().isAfter(expiresIn)) {
       widgetRef.read(tracksProvider(syncId: syncId).notifier).logout();
-      botToast("Kitsu Token expired");
+      botToast(localizedMessage((l10n) => l10n.tracker_token_expired("Kitsu")));
       throw Exception("Token expired");
     }
     return mAKOAuth.accessToken!;
@@ -388,9 +404,9 @@ class Kitsu extends _$Kitsu implements BaseTracker {
 
   String? _convertDate(int dateValue) {
     if (dateValue == 0) return null;
-    return DateTime.fromMillisecondsSinceEpoch(
-      dateValue,
-    ).toUtc().toIso8601String();
+    return DateTime.fromMillisecondsSinceEpoch(dateValue)
+        .toUtc()
+        .toIso8601String();
   }
 
   int _parseDate(String? date) {

@@ -7,6 +7,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   connectivity_plus
   flutter_inappwebview_windows
   flutter_qjs
+  flutter_secure_storage_windows
   flutter_tts
   isar_community_flutter_libs
   local_auth_windows
@@ -14,7 +15,6 @@ list(APPEND FLUTTER_PLUGIN_LIST
   media_kit_libs_windows_video
   media_kit_video
   permission_handler_windows
-  screen_brightness_windows
   screen_retriever_windows
   share_plus
   url_launcher_windows

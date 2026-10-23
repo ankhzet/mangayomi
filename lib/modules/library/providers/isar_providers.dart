@@ -1,7 +1,7 @@
-import 'package:isar_community/isar.dart';
-import 'package:mangayomi/main.dart';
 import 'package:mangayomi/models/manga.dart';
 import 'package:mangayomi/models/settings.dart';
+import 'package:mangayomi/repositories/manga_repository.dart';
+import 'package:mangayomi/repositories/settings_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'isar_providers.g.dart';
 
@@ -10,48 +10,19 @@ Stream<List<Manga>> getAllMangaStream(
   Ref ref, {
   required int? categoryId,
   required ItemType itemType,
-}) async* {
-  yield* categoryId == null
-      ? isar.mangas
-            .filter()
-            .idIsNotNull()
-            .favoriteEqualTo(true)
-            .and()
-            .itemTypeEqualTo(itemType)
-            .watch(fireImmediately: true)
-      : isar.mangas
-            .filter()
-            .idIsNotNull()
-            .favoriteEqualTo(true)
-            .categoriesIsNotEmpty()
-            .categoriesElementEqualTo(categoryId)
-            .and()
-            .itemTypeEqualTo(itemType)
-            .watch(fireImmediately: true);
+}) {
+  return mangaRepository.watchFavorites(itemType, categoryId: categoryId);
 }
 
 @riverpod
 Stream<List<Manga>> getAllMangaWithoutCategoriesStream(
   Ref ref, {
   required ItemType itemType,
-}) async* {
-  yield* isar.mangas
-      .filter()
-      .idIsNotNull()
-      .favoriteEqualTo(true)
-      .categoriesIsEmpty()
-      .and()
-      .itemTypeEqualTo(itemType)
-      .or()
-      .idIsNotNull()
-      .categoriesIsNull()
-      .favoriteEqualTo(true)
-      .and()
-      .itemTypeEqualTo(itemType)
-      .watch(fireImmediately: true);
+}) {
+  return mangaRepository.watchFavoritesWithoutCategories(itemType);
 }
 
 @riverpod
-Stream<List<Settings>> getSettingsStream(Ref ref) async* {
-  yield* isar.settings.filter().idIsNotNull().and().idEqualTo(227).watch(fireImmediately: true);
+Stream<Settings> getSettingsStream(Ref ref) {
+  return settingsRepository.watch();
 }

@@ -57,7 +57,7 @@ final class HwdecModeStateProvider extends $NotifierProvider<HwdecModeState, Str
   }
 }
 
-String _$hwdecModeStateHash() => r'8186e3c5f3db0e952f629d56b2e580e546aed65e';
+String _$hwdecModeStateHash() => r'e277a37a9501c96b2b657a93370f10aa0f9e17ef';
 
 final class HwdecModeStateFamily extends $Family
     with $ClassFamilyOverride<HwdecModeState, String, String, String, bool> {
@@ -83,10 +83,17 @@ abstract class _$HwdecModeState extends $Notifier<String> {
   String build({bool rawValue = false});
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<String, String>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
-    element.handleCreate(ref, () => build(rawValue: _$args));
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<String, String>,
+              String,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, () => build(rawValue: _$args));
   }
 }
 
@@ -121,16 +128,24 @@ final class EnableHardwareAccelStateProvider extends $NotifierProvider<EnableHar
   }
 }
 
-String _$enableHardwareAccelStateHash() => r'4804b699c14a78db9c760ec4eaf8a88bb6ce1b9b';
+String _$enableHardwareAccelStateHash() =>
+    r'add4c13e774f2957d0675c7f0ec03356fbc44e77';
 
 abstract class _$EnableHardwareAccelState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
-    element.handleCreate(ref, build);
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
   }
 }
 
@@ -165,18 +180,23 @@ final class DebandingStateProvider extends $NotifierProvider<DebandingState, Deb
   }
 }
 
-String _$debandingStateHash() => r'b93e2fc826d98cc8bce1aab9a92900353e4d3958';
+String _$debandingStateHash() => r'953479125957c4d7fa023ab5716232682ad629d7';
 
 abstract class _$DebandingState extends $Notifier<DebandingType> {
   DebandingType build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<DebandingType, DebandingType>;
     final element =
         ref.element
-            as $ClassProviderElement<AnyNotifier<DebandingType, DebandingType>, DebandingType, Object?, Object?>;
-    element.handleCreate(ref, build);
+            as $ClassProviderElement<
+              AnyNotifier<DebandingType, DebandingType>,
+              DebandingType,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
   }
 }
 
@@ -211,16 +231,23 @@ final class UseGpuNextStateProvider extends $NotifierProvider<UseGpuNextState, b
   }
 }
 
-String _$useGpuNextStateHash() => r'cfc109cd7db66e359e9523102a84aa8cf37bf243';
+String _$useGpuNextStateHash() => r'97ac1d62cd99bf6336032db9ca811b778b3472f4';
 
 abstract class _$UseGpuNextState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
-    element.handleCreate(ref, build);
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
   }
 }
 
@@ -255,15 +282,22 @@ final class UseYUV420PStateProvider extends $NotifierProvider<UseYUV420PState, b
   }
 }
 
-String _$useYUV420PStateHash() => r'c600001eff34b2b8df31ba604413b8b20edc3044';
+String _$useYUV420PStateHash() => r'7e4039cf531f9c88e1c8d67d9375b6e82741a55c';
 
 abstract class _$UseYUV420PState extends $Notifier<bool> {
   bool build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<bool, bool>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<bool, bool>, bool, Object?, Object?>;
-    element.handleCreate(ref, build);
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
   }
 }

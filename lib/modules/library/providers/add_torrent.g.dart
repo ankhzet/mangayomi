@@ -62,7 +62,8 @@ final class AddTorrentFromUrlOrFromFileProvider
   }
 }
 
-String _$addTorrentFromUrlOrFromFileHash() => r'dda4b3571f496c6822c0a1621228fc0f846b43c6';
+String _$addTorrentFromUrlOrFromFileHash() =>
+    r'b9f26cf836835a2f9cb5523df5784116105beff9';
 
 final class AddTorrentFromUrlOrFromFileFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<dynamic>, (Manga?, {bool init, String? url})> {

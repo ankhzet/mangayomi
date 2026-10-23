@@ -1,12 +1,15 @@
 import 'dart:io';
+
 import 'package:mangayomi/src/rust/api/epub.dart';
 import 'package:html/parser.dart';
 import 'package:mangayomi/eval/lib.dart';
 import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/modules/more/settings/browse/providers/browse_state_provider.dart';
+import 'package:mangayomi/services/local_folders.dart';
+import 'package:mangayomi/providers/browse_state_provider.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
 import 'package:mangayomi/utils/utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:mangayomi/utils/log/logger.dart';
 part 'get_html_content.g.dart';
 
 @riverpod
@@ -21,9 +24,10 @@ Future<(String, EpubNovel?)> getHtmlContent(
       chapter.manga.loadSync();
     }
     if (chapter.archivePath != null && chapter.archivePath!.isNotEmpty) {
+      final archivePath = await resolveLocalArchivePath(chapter.archivePath!);
       try {
         final book = await parseEpubFromPath(
-          epubPath: chapter.archivePath!,
+          epubPath: archivePath,
           fullData: true,
         );
         String htmlContent = "";
@@ -35,7 +39,7 @@ Future<(String, EpubNovel?)> getHtmlContent(
           } else {
             // Fallback: try via Rust direct access
             htmlContent = await getChapterContent(
-              epubPath: chapter.archivePath!,
+              epubPath: archivePath,
               chapterPath: chapter.url!,
             );
           }
@@ -46,7 +50,14 @@ Future<(String, EpubNovel?)> getHtmlContent(
           }
         }
         result = (_buildHtml(htmlContent), book);
-      } catch (_) {}
+      } catch (e, st) {
+        // Swallowed, so the reader shows the not-found placeholder below with
+        // no clue that parsing was what actually failed.
+        AppLogger.log(
+          'getHtmlContent: epub parse failed: $e\n$st',
+          logLevel: LogLevel.error,
+        );
+      }
 
       result ??= (_buildHtml("Local epub file not found!"), null);
     }
@@ -95,6 +106,7 @@ Future<(String, EpubNovel?)> getHtmlContent(
           chapter.manga.value!.lang!,
           chapter.manga.value!.source!,
           chapter.manga.value!.sourceId,
+          installedOnly: true,
         );
         final proxyServer = ref.read(androidProxyServerStateProvider);
         final html = await withExtensionService(
@@ -105,7 +117,11 @@ Future<(String, EpubNovel?)> getHtmlContent(
             chapter.url!,
           ),
         );
-        result = (_buildHtml(html.substring(1, html.length - 1)), null);
+        final stripped =
+            html.length >= 2 && html.startsWith('"') && html.endsWith('"')
+            ? html.substring(1, html.length - 1)
+            : html;
+        result = (_buildHtml(stripped), null);
       }
     }
 

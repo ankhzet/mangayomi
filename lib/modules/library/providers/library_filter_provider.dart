@@ -1,30 +1,49 @@
-import 'package:isar_community/isar.dart';
+import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/utils/extensions/manga_extensions.dart';
-import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/download.dart';
 import 'package:mangayomi/models/manga.dart';
-import 'package:mangayomi/models/track.dart';
+import 'package:mangayomi/repositories/download_repository.dart';
+import 'package:mangayomi/repositories/track_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'library_filter_provider.g.dart';
+
+/// Sorts unread counts while keeping fully-read entries at the end.
+///
+/// Reversing the active unread values must not promote the inactive zero
+/// value above titles that still have something to read.
+List<T> sortByUnreadCount<T>(
+  Iterable<T> values, {
+  required int Function(T value) unreadCountOf,
+  bool descending = false,
+}) {
+  final sorted = values.toList();
+  final counts = <T, int>{
+    for (final value in sorted) value: unreadCountOf(value),
+  };
+  sorted.sort((a, b) {
+    final aCount = counts[a]!;
+    final bCount = counts[b]!;
+    if (aCount == 0 && bCount != 0) return 1;
+    if (bCount == 0 && aCount != 0) return -1;
+    return descending ? bCount.compareTo(aCount) : aCount.compareTo(bCount);
+  });
+  return sorted;
+}
 
 /// Pre-fetches all downloaded chapter IDs in a single Isar query.
 /// Returns a [Set<int>] for O(1) lookup instead of per-chapter queries.
 @riverpod
 Stream<Set<int>> downloadedChapterIds(Ref ref) {
-  return isar.downloads
-      .filter()
-      .isDownloadEqualTo(true)
-      .watch(fireImmediately: true)
-      .map((list) => list.map((d) => d.id).whereType<int>().toSet());
+  return downloadRepository.watchDownloaded().map(
+    (list) => list.map((d) => d.id).whereType<int>().toSet(),
+  );
 }
 
 /// Pre-fetches all manga IDs that have at least one tracking entry reactively.
 @riverpod
 Stream<Set<int>> trackedMangaIds(Ref ref) {
-  return isar.tracks
-      .where()
-      .watch(fireImmediately: true)
-      .map((tracks) => tracks.map((t) => t.mangaId).whereType<int>().toSet());
+  return trackRepository.watchAll().map(
+    (tracks) => tracks.map((t) => t.mangaId).whereType<int>().toSet(),
+  );
 }
 
 /// Filters and sorts a list of [Manga] based on library filter/sort settings.
@@ -42,6 +61,8 @@ List<Manga> filteredLibraryManga(
   required bool downloadedOnly,
   required String searchQuery,
   required bool ignoreFiltersOnSearch,
+  required List<String> sourceIds,
+  required Settings settings,
 }) {
   final downloadedIds = ref.watch(downloadedChapterIdsProvider).asData?.value ?? const <int>{};
   final trackedIds = ref.watch(trackedMangaIdsProvider).asData?.value ?? const <int>{};
@@ -106,6 +127,13 @@ List<Manga> filteredLibraryManga(
         }
       }
 
+      // Filter by source
+      if (sourceIds.isNotEmpty) {
+        if (element.source == null || !sourceIds.contains(element.source)) {
+          return false;
+        }
+      }
+
       // Search filter
       if (searchQuery.isNotEmpty) {
         if (!_matchesSearchQuery(element, searchQuery)) return false;
@@ -122,14 +150,14 @@ List<Manga> filteredLibraryManga(
       for (final manga in mangas) {
         if (manga.id != null) {
           // Scanlator-aware unread count (respects the per-manga filter).
-          unreadCounts[manga.id!] = manga.unreadChaptersCount;
+          unreadCounts[manga.id!] = manga.unreadChaptersCount(settings);
         }
       }
-      mangas.sort((a, b) {
-        final aVal = a.id != null ? (unreadCounts[a.id] ?? 0) : 0;
-        final bVal = b.id != null ? (unreadCounts[b.id] ?? 0) : 0;
-        return aVal.compareTo(bVal);
-      });
+      mangas = sortByUnreadCount(
+        mangas,
+        unreadCountOf: (manga) =>
+            manga.id != null ? (unreadCounts[manga.id] ?? 0) : 0,
+      );
     } else if (sortType == 4) {
       final totalCounts = <int, int>{};
       for (final manga in mangas) {
@@ -142,6 +170,14 @@ List<Manga> filteredLibraryManga(
         final bVal = b.id != null ? (totalCounts[b.id] ?? 0) : 0;
         return aVal.compareTo(bVal);
       });
+    } else if (sortType == 5) {
+      final lastUpload = {
+        for (final manga in mangas)
+          manga.id: manga.chapters.lastOrNull?.dateUpload ?? "",
+      };
+      mangas.sort(
+        (a, b) => (lastUpload[a.id] ?? "").compareTo(lastUpload[b.id] ?? ""),
+      );
     } else {
       mangas.sort((a, b) {
         switch (sortType) {
@@ -151,10 +187,6 @@ List<Manga> filteredLibraryManga(
             return a.lastRead!.compareTo(b.lastRead!);
           case 2:
             return a.lastUpdate?.compareTo(b.lastUpdate ?? 0) ?? 0;
-          case 5:
-            return (a.chapters.lastOrNull?.dateUpload ?? "").compareTo(
-              b.chapters.lastOrNull?.dateUpload ?? "",
-            );
           case 6:
             return a.dateAdded?.compareTo(b.dateAdded ?? 0) ?? 0;
           default:

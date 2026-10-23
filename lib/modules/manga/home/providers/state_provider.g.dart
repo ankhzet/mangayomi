@@ -40,16 +40,23 @@ final class MangaHomeDisplayTypeStateProvider extends $NotifierProvider<MangaHom
   }
 }
 
-String _$mangaHomeDisplayTypeStateHash() => r'6e91cef2e4a9925cab1a7a764ac6a0e741398fb2';
+String _$mangaHomeDisplayTypeStateHash() =>
+    r'c6de89a6e7b26ee7215fc9b7ce9b153220f4e8f2';
 
 abstract class _$MangaHomeDisplayTypeState extends $Notifier<DisplayType> {
   DisplayType build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<DisplayType, DisplayType>;
     final element =
-        ref.element as $ClassProviderElement<AnyNotifier<DisplayType, DisplayType>, DisplayType, Object?, Object?>;
-    element.handleCreate(ref, build);
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<DisplayType, DisplayType>,
+              DisplayType,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
   }
 }

@@ -1,546 +1,410 @@
-import 'package:flutter_qjs/quickjs/ffi.dart';
-import 'package:isar_community/isar.dart';
+// Riverpod-facing orchestration for the sync-server's `/api/sync/v1`
+// protocol. The wire transport lives in SyncApiClient, applying a pulled
+// response to local storage lives in SyncEntityApplier, and collecting local
+// changes to upload lives in ChangedRows (services/sync/*) - this class only
+// sequences those three pieces and turns their results into UI-facing state
+// (toasts, progress, invalidated providers).
+import 'dart:convert';
+import 'dart:math';
+
+import 'package:crypto/crypto.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:mangayomi/eval/model/m_bridge.dart';
-import 'package:mangayomi/main.dart';
-import 'package:mangayomi/models/category.dart';
-import 'package:mangayomi/models/changed.dart';
-import 'package:mangayomi/models/chapter.dart';
-import 'package:mangayomi/models/history.dart';
 import 'package:mangayomi/models/manga.dart';
-import 'package:mangayomi/models/settings.dart';
-import 'package:mangayomi/models/track.dart';
-import 'package:mangayomi/models/update.dart';
-import 'package:mangayomi/modules/more/settings/appearance/providers/blend_level_state_provider.dart';
-import 'package:mangayomi/modules/more/settings/appearance/providers/flex_scheme_color_state_provider.dart';
-import 'package:mangayomi/modules/more/settings/appearance/providers/pure_black_dark_mode_state_provider.dart';
-import 'package:mangayomi/modules/more/settings/appearance/providers/theme_mode_state_provider.dart';
-import 'package:mangayomi/modules/more/settings/browse/providers/browse_state_provider.dart';
-import 'package:mangayomi/modules/more/settings/sync/providers/sync_providers.dart';
+import 'package:mangayomi/providers/blend_level_state_provider.dart';
+import 'package:mangayomi/providers/flex_scheme_color_state_provider.dart';
+import 'package:mangayomi/providers/floating_navigation_bar_state_provider.dart';
+import 'package:mangayomi/providers/pure_black_dark_mode_state_provider.dart';
+import 'package:mangayomi/providers/theme_mode_state_provider.dart';
+import 'package:mangayomi/providers/browse_state_provider.dart';
+import 'package:mangayomi/providers/security_state_provider.dart';
+import 'package:mangayomi/providers/sync_progress_provider.dart';
+import 'package:mangayomi/providers/sync_providers.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/services/http/m_client.dart';
-import 'dart:convert';
+import 'package:mangayomi/services/sync/sync_api_client.dart';
+import 'package:mangayomi/services/sync/sync_change_collector.dart';
+import 'package:mangayomi/services/sync/sync_entity_applier.dart';
+import 'package:mangayomi/utils/client_id.dart';
+import 'package:mangayomi/utils/platform_utils.dart';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:mangayomi/l10n/generated/app_localizations.dart';
+import 'package:mangayomi/providers/tint_surfaces_state_provider.dart';
+import 'package:mangayomi/utils/error_toast.dart';
 part 'sync_server.g.dart';
+
+/// Matches the server's SYNC.maxRowsPerEntity. A changed-row batch larger
+/// than this for one entity is split across more than one request rather
+/// than sent in one oversized body.
+const _maxRowsPerEntity = 5000;
+
+// Loopback port for the desktop OAuth callback. Only the protocol+hostname of
+// a redirect_uri are checked server-side (see isAllowedRedirectUri in the
+// sync-server repo), not the port, so this can be anything not already in use.
+const _desktopOAuthCallbackPort = 48765;
 
 @riverpod
 class SyncServer extends _$SyncServer {
   final http = MClient.init(reqcopyWith: {'useDartHttpClient': true});
-  final String _loginUrl = '/login';
-  final String _syncMangaUrl = '/sync/manga';
-  final String _syncHistoryUrl = '/sync/histories';
-  final String _syncUpdateUrl = '/sync/updates';
-  final String _syncSettingsUrl = '/sync/settings';
+  final _entityApplier = const SyncEntityApplier();
+  late final _apiClient = SyncApiClient(http);
 
   @override
   void build({required int syncId}) {
     ref.keepAlive();
   }
 
-  Future<(bool, String)> login(
-    AppLocalizations l10n,
-    String server,
-    String username,
-    String password,
-  ) async {
-    server = server.isNotEmpty && server[server.length - 1] == '/' ? server.substring(0, server.length - 1) : server;
+  // ------------------------------------------------------------------
+  // Login. OAuth (PKCE) only - the server's own authorize/token endpoints,
+  // opened in the system browser. There is no password form: this app talks
+  // to exactly one server it's paired with, not a third-party OAuth
+  // provider, so the browser round trip is purely local - it's whichever
+  // session is already logged into that server's website.
+  // ------------------------------------------------------------------
+
+  Future<(bool, String)> login(AppLocalizations l10n, String server) async {
+    server = _normalizeServer(server);
     try {
-      var response = await http.post(
-        Uri.parse('$server$_loginUrl'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'email': username, 'password': password}),
+      final verifier = _generatePkceVerifier();
+      final challenge = _codeChallengeFromVerifier(verifier);
+      final state = _generatePkceVerifier();
+      final redirectUri = isDesktop
+          ? 'http://localhost:$_desktopOAuthCallbackPort/callback'
+          : 'mangayomi://oauth-callback';
+      final callbackUrlScheme = isDesktop
+          ? 'http://localhost:$_desktopOAuthCallbackPort'
+          : 'mangayomi';
+
+      final authorizeUrl = Uri.parse('$server/api/oauth/authorize').replace(
+        queryParameters: {
+          'redirect_uri': redirectUri,
+          'code_challenge': challenge,
+          'code_challenge_method': 'S256',
+          'state': state,
+        },
       );
-      var cookieHeader = response.headers["set-cookie"];
-      var startIdx = cookieHeader?.indexOf("id=") ?? -1;
-      var endIdx = cookieHeader?.indexOf(";", startIdx) ?? -1;
-      if (startIdx == -1 || endIdx == -1) {
+
+      final resultUrl = await FlutterWebAuth2.authenticate(
+        url: authorizeUrl.toString(),
+        callbackUrlScheme: callbackUrlScheme,
+      );
+      final resultParams = Uri.parse(resultUrl).queryParameters;
+      final code = resultParams['code'];
+      // Confirms this callback answers the authorize call this same login()
+      // just made, not a stray/replayed one.
+      if (code == null || resultParams['state'] != state) {
         return (false, "Auth failed");
       }
-      final authToken = cookieHeader!.substring(startIdx + 3, endIdx);
-      ref.read(synchingProvider(syncId: syncId).notifier).login(server, username, authToken);
+
+      final tokenResponse = await http.post(
+        Uri.parse('$server/api/oauth/token'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'code': code,
+          'codeVerifier': verifier,
+          'redirectUri': redirectUri,
+        }),
+      );
+      if (tokenResponse.statusCode != 200) {
+        return (false, "Auth failed");
+      }
+      final body = jsonDecode(tokenResponse.body) as Map<String, dynamic>;
+      final accessToken = body['access_token'] as String?;
+      final username = body['username'] as String?;
+      if (accessToken == null || username == null) {
+        return (false, "Auth failed");
+      }
+
+      ref
+          .read(synchingProvider(syncId: syncId).notifier)
+          .login(server, username, accessToken);
       botToast(l10n.sync_logged);
       return (true, "");
-    } catch (e) {
+    } catch (e, stackTrace) {
+      recordError(e, stack: stackTrace, source: 'sync_server');
       return (false, e.toString());
     }
   }
 
-  Future<void> startSync(
-    AppLocalizations l10n,
+  String _normalizePkceSegment(List<int> bytes) =>
+      base64Url.encode(bytes).replaceAll('=', '');
+
+  String _generatePkceVerifier() {
+    final bytes = List<int>.generate(32, (_) => Random.secure().nextInt(256));
+    return _normalizePkceSegment(bytes);
+  }
+
+  // Must match the server's challengeFromVerifier (lib/auth/oauth.ts):
+  // SHA-256 of the verifier, base64url, unpadded.
+  String _codeChallengeFromVerifier(String verifier) =>
+      _normalizePkceSegment(sha256.convert(utf8.encode(verifier)).bytes);
+
+  String _normalizeServer(String server) =>
+      server.isNotEmpty && server[server.length - 1] == '/'
+      ? server.substring(0, server.length - 1)
+      : server;
+
+  // ------------------------------------------------------------------
+  // Public entry point
+  // ------------------------------------------------------------------
+
+  Future<bool> startSync(
+    AppLocalizations? l10n,
     bool silent, {
     bool upload = false,
     bool download = false,
+    bool bypassRestoreGuard = false,
   }) async {
-    if (!silent) {
+    if (!ref.mounted) return false;
+    // A restore in progress owns the sync server state until its own
+    // post-restore upload runs (that call passes bypassRestoreGuard: true).
+    // Anything else - the periodic timer or a manual trigger - must wait,
+    // otherwise it could race the restore and pull stale data back down.
+    if (!bypassRestoreGuard && ref.read(restoreSyncGuardProvider)) {
+      if (!silent && l10n != null) {
+        botToast(l10n.sync_restore_in_progress, second: 3);
+      }
+      return false;
+    }
+    if (!silent && l10n != null) {
       botToast(l10n.sync_starting, second: 500);
     }
+    final progress = ref.read(syncProgressProvider(syncId: syncId).notifier);
+    progress.begin();
     try {
-      final syncPreference = ref.read(synchingProvider(syncId: syncId));
-      final syncNotifier = ref.read(synchingProvider(syncId: syncId).notifier);
+      if (!await _apiClient.checkVersion(_getServer())) {
+        if (!silent && l10n != null) {
+          botToast(l10n.sync_failed, second: 5);
+        }
+        return false;
+      }
+      if (!ref.mounted) return false;
+      // Cheap safety net: covers a row created earlier in this same running
+      // session, which the once-at-launch sweep in main.dart couldn't have
+      // seen yet. See lib/utils/client_id.dart.
+      await backfillMissingClientIds();
+      if (!ref.mounted) return false;
 
-      final resultManga = await _syncManga(
-        l10n,
-        syncNotifier,
-        download: download,
-        upload: upload,
-      );
-      if (!resultManga) {
-        botToast(l10n.sync_failed, second: 5);
-        return;
-      }
-      if (syncPreference.syncHistories) {
-        final resultHistory = await _syncHistory(
-          l10n,
-          syncNotifier,
-          download: download,
-          upload: upload,
-        );
-        if (!resultHistory) {
-          botToast(l10n.sync_failed, second: 5);
-          return;
-        }
-      }
-      if (syncPreference.syncUpdates) {
-        final resultUpdate = await _syncUpdate(
-          l10n,
-          syncNotifier,
-          download: download,
-          upload: upload,
-        );
-        if (!resultUpdate) {
-          botToast(l10n.sync_failed, second: 5);
-          return;
-        }
-      }
-      if (syncPreference.syncSettings) {
-        final resultSettings = await _syncSettings(
-          l10n,
-          download: download,
-          upload: upload,
-        );
-        if (!resultSettings) {
-          botToast(l10n.sync_failed, second: 5);
-          return;
-        }
-      }
+      final notifier = ref.read(synchingProvider(syncId: syncId).notifier);
+      final ok = upload
+          ? await _forceUpload(notifier)
+          : download
+          ? await _fullDownload(notifier)
+          : await _incrementalSync(notifier);
 
-      ref.invalidate(synchingProvider(syncId: syncId));
-      if (!silent) {
+      if (!ok) {
+        if (!silent && l10n != null) {
+          botToast(l10n.sync_failed, second: 5);
+        }
+        return false;
+      }
+      if (ref.mounted) {
+        ref.invalidate(synchingProvider(syncId: syncId));
+      }
+      if (!silent && l10n != null) {
         botToast(l10n.sync_finished, second: 2);
       }
+      return true;
     } catch (error) {
-      botToast(error.toString(), second: 5);
-    }
-  }
-
-  Future<bool> _syncManga(
-    AppLocalizations l10n,
-    Synching syncNotifier, {
-    bool upload = false,
-    bool download = false,
-  }) async {
-    final mangaData = _getMangaData(upload: upload, download: download);
-    final accessToken = _getAccessToken();
-    var response = await http.post(
-      Uri.parse('${_getServer()}$_syncMangaUrl'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Cookie': 'id=$accessToken',
-      },
-      body: mangaData,
-    );
-    if (response.statusCode != 200) {
-      botToast(l10n.sync_failed, second: 5);
+      if (!silent) {
+        botToast(error.toString(), second: 5);
+      }
       return false;
+    } finally {
+      progress.finish();
     }
-
-    if (!upload) {
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
-      await _upsertCategories(jsonData, syncNotifier);
-      await _upsertManga(jsonData, syncNotifier);
-      await _upsertChapters(jsonData, syncNotifier);
-      await _upsertTracks(jsonData, syncNotifier);
-    } else {
-      await syncNotifier.clearChangedParts([
-        ActionType.removeCategory,
-        ActionType.removeItem,
-        ActionType.removeChapter,
-        ActionType.removeTrack,
-      ], true);
-    }
-
-    syncNotifier.setLastSyncManga(DateTime.now().millisecondsSinceEpoch);
-
-    return true;
   }
 
-  Future<bool> _syncHistory(
-    AppLocalizations l10n,
-    Synching syncNotifier, {
-    bool upload = false,
-    bool download = false,
-  }) async {
-    final historyData = _getHistoryData(upload: upload, download: download);
-    final accessToken = _getAccessToken();
-    var response = await http.post(
-      Uri.parse('${_getServer()}$_syncHistoryUrl'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Cookie': 'id=$accessToken',
-      },
-      body: historyData,
+  // ------------------------------------------------------------------
+  // Incremental sync: the normal path. One request handles every entity at
+  // once; a request pages on its own (via cursors/sessionToken/hasMore)
+  // until every entity has fully caught up, then saves the new `since`.
+  // ------------------------------------------------------------------
+
+  Future<bool> _incrementalSync(Synching notifier) {
+    final prefs = ref.read(synchingProvider(syncId: syncId));
+    return _syncLoop(
+      notifier,
+      since: prefs.since ?? 0,
+      changed: ChangedRows.collect(prefs, notifier),
     );
-    if (response.statusCode != 200) {
-      botToast(l10n.sync_failed, second: 5);
-      return false;
-    }
-
-    if (!upload) {
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
-      await _upsertHistories(jsonData, syncNotifier);
-    } else {
-      await syncNotifier.clearChangedParts([ActionType.removeHistory], true);
-    }
-
-    syncNotifier.setLastSyncHistory(DateTime.now().millisecondsSinceEpoch);
-
-    return true;
   }
 
-  Future<bool> _syncUpdate(
-    AppLocalizations l10n,
-    Synching syncNotifier, {
-    bool upload = false,
-    bool download = false,
+  /// Sends [changed] in chunks while paging through what the server has
+  /// since [since], then saves the new `since`. With no [changed], it only
+  /// pulls.
+  Future<bool> _syncLoop(
+    Synching notifier, {
+    required int since,
+    ChangedRows? changed,
   }) async {
-    final updateData = _getUpdateData(upload: upload, download: download);
-    final accessToken = _getAccessToken();
-    var response = await http.post(
-      Uri.parse('${_getServer()}$_syncUpdateUrl'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Cookie': 'id=$accessToken',
-      },
-      body: updateData,
+    final chunks = changed?.chunked(_maxRowsPerEntity) ?? const [];
+    final progress = ref.read(syncProgressProvider(syncId: syncId).notifier);
+    progress.addTotal(chunks.length);
+
+    Map<String, String?>? cursors;
+    String? sessionToken;
+    var chunkIndex = 0;
+
+    while (true) {
+      if (!ref.mounted) return false;
+      final hasChunk = chunkIndex < chunks.length;
+      final body = <String, dynamic>{
+        'since': since,
+        'sessionToken': ?sessionToken,
+        'cursors': ?cursors,
+        if (hasChunk) ...chunks[chunkIndex],
+      };
+      if (hasChunk) chunkIndex += 1;
+
+      final response = await _postSync(body);
+      if (response == null) return false;
+      if (hasChunk) progress.addDone(1);
+      _trackDownloadProgress(progress, response);
+
+      await _applyPulledEntities(response);
+      sessionToken = response['sessionToken'] as String?;
+      cursors = _apiClient.decodeCursors(response['cursors']);
+      final hasMore = response['hasMore'] == true;
+
+      if (chunkIndex >= chunks.length && !hasMore) {
+        final syncedAt = response['syncedAt'] as int?;
+        if (syncedAt != null) {
+          notifier.setSince(syncedAt);
+          notifier.setLastSync(DateTime.now().millisecondsSinceEpoch);
+          await changed?.clearUploaded(notifier);
+        }
+        return true;
+      }
+    }
+  }
+
+  // Adds this response's contribution to the progress bar using docs/sync_api.md's totalCounts and per-page row counts.
+  void _trackDownloadProgress(
+    SyncProgress progress,
+    Map<String, dynamic> response,
+  ) {
+    final totalCounts = response['totalCounts'] as Map?;
+    if (totalCounts != null) {
+      final sum = totalCounts.values.fold<int>(0, (a, b) => a + (b as int));
+      progress.addTotal(sum);
+    }
+    const pagedKeys = [
+      'categories',
+      'manga',
+      'chapters',
+      'tracks',
+      'histories',
+      'updates',
+    ];
+    final pageRows = pagedKeys.fold<int>(
+      0,
+      (a, key) => a + ((response[key] as List?)?.length ?? 0),
     );
-    if (response.statusCode != 200) {
-      botToast(l10n.sync_failed, second: 5);
-      return false;
-    }
-
-    if (!upload) {
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
-      await _upsertUpdates(jsonData, syncNotifier);
-    } else {
-      await syncNotifier.clearChangedParts([ActionType.removeUpdate], true);
-    }
-
-    syncNotifier.setLastSyncUpdate(DateTime.now().millisecondsSinceEpoch);
-
-    return true;
+    progress.addDone(pageRows);
   }
 
-  Future<bool> _syncSettings(
-    AppLocalizations l10n, {
-    bool upload = false,
-    bool download = false,
-  }) async {
-    final settingsData = _getSettingsData(download: download);
-    final accessToken = _getAccessToken();
-    var response = await http.post(
-      Uri.parse('${_getServer()}$_syncSettingsUrl'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Cookie': 'id=$accessToken',
-      },
-      body: settingsData,
+  // ------------------------------------------------------------------
+  // "Upload only": local data should win. Every local row is sent, with its
+  // wire `updatedAt` forced to now so it beats whatever the server holds,
+  // batched like a normal upload. Deliberately does NOT delete anything on
+  // the server that only exists there - diffing local against remote and
+  // auto-deleting the difference would turn a client-side bug (or a fresh,
+  // still-empty install) into a silent wipe of another device's data. This
+  // narrows what the button promises versus the old server's full replace,
+  // traded for not being a one-click way to destroy real data by accident.
+  // ------------------------------------------------------------------
+
+  Future<bool> _forceUpload(Synching notifier) {
+    final prefs = ref.read(synchingProvider(syncId: syncId));
+    final now = DateTime.now().millisecondsSinceEpoch;
+    return _syncLoop(
+      notifier,
+      since: prefs.since ?? 0,
+      changed: ChangedRows.collectAll(forcedUpdatedAt: now),
     );
-    if (response.statusCode != 200) {
-      botToast(l10n.sync_failed, second: 5);
-      return false;
-    }
-
-    if (!upload) {
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
-      await _upsertSettings(jsonData);
-    }
-
-    return true;
   }
 
-  Future<void> _upsertCategories(
-    Map<String, dynamic> jsonData,
-    Synching syncNotifier,
-  ) async {
-    final categories = (jsonData["categories"] as List?)?.map((e) => Category.fromJson(e)).toList() ?? [];
-    await isar.writeTxn(() async {
-      for (var category in await isar.categorys.filter().idIsNotNull().findAll()) {
-        final temp = categories.firstWhereOrNull((e) => e.id == category.id);
-        if (temp != null) {
-          if ((category.updatedAt ?? 0) < (temp.updatedAt ?? 1)) {
-            await isar.categorys.put(temp);
-          }
-          categories.remove(temp);
-        } else {
-          await isar.categorys.delete(category.id!);
-        }
-      }
-      for (var category in categories) {
-        await isar.categorys.put(category);
-      }
-      await syncNotifier.clearChangedParts([ActionType.removeCategory], false);
-    });
-  }
+  // ------------------------------------------------------------------
+  // "Download only": pull everything the server has, merged in via the
+  // normal newest-wins upsert rule (purely additive, never deletes). Same
+  // reasoning as _forceUpload for why this isn't a literal mirror: wiping
+  // local rows the server doesn't happen to know about is a real way to
+  // lose data over one dropped page or a server-side gap, for no upside
+  // over just leaving them alone.
+  // ------------------------------------------------------------------
 
-  Future<void> _upsertManga(
-    Map<String, dynamic> jsonData,
-    Synching syncNotifier,
-  ) async {
-    final mangas = (jsonData["manga"] as List?)?.map((e) => Manga.fromJson(e)).toList() ?? [];
-    await isar.writeTxn(() async {
-      for (var manga in await isar.mangas.filter().idIsNotNull().findAll()) {
-        final temp = mangas.firstWhereOrNull((e) => e.id == manga.id);
-        if (temp != null) {
-          if ((manga.updatedAt ?? 0) < (temp.updatedAt ?? 1)) {
-            await isar.mangas.put(temp);
-          }
-          mangas.remove(temp);
-        } else {
-          await isar.mangas.delete(manga.id!);
-        }
-      }
-      for (var manga in mangas) {
-        await isar.mangas.put(manga);
-      }
-      await syncNotifier.clearChangedParts([ActionType.removeItem], false);
-    });
-  }
+  Future<bool> _fullDownload(Synching notifier) =>
+      _syncLoop(notifier, since: 0);
 
-  Future<void> _upsertChapters(
-    Map<String, dynamic> jsonData,
-    Synching syncNotifier,
-  ) async {
-    final chapters = (jsonData["chapters"] as List?)?.map((e) => Chapter.fromJson(e)).toList() ?? [];
-    await isar.writeTxn(() async {
-      for (var chapter in await isar.chapters.filter().idIsNotNull().findAll()) {
-        final temp = chapters.firstWhereOrNull((e) => e.id == chapter.id);
-        if (temp != null) {
-          final manga = await isar.mangas.get(temp.mangaId!);
-          if (manga != null && (chapter.updatedAt ?? 0) < (temp.updatedAt ?? 1)) {
-            await isar.chapters.put(temp..manga.value = manga);
-            await temp.manga.save();
-          }
-          chapters.remove(temp);
-        } else {
-          await isar.chapters.delete(chapter.id!);
-        }
-      }
-      for (var chapter in chapters) {
-        final manga = await isar.mangas.get(chapter.mangaId!);
-        if (manga != null) {
-          await isar.chapters.put(chapter..manga.value = manga);
-          await chapter.manga.save();
-        }
-      }
-      await syncNotifier.clearChangedParts([ActionType.removeChapter], false);
-    });
-  }
+  // ------------------------------------------------------------------
+  // Wire transport
+  // ------------------------------------------------------------------
 
-  Future<void> _upsertTracks(
-    Map<String, dynamic> jsonData,
-    Synching syncNotifier,
-  ) async {
-    final tracks = (jsonData["tracks"] as List?)?.map((e) => Track.fromJson(e)).toList() ?? [];
-    await isar.writeTxn(() async {
-      for (var track in await isar.tracks.filter().idIsNotNull().findAll()) {
-        final temp = tracks.firstWhereOrNull((e) => e.id == track.id);
-        if (temp != null) {
-          if ((track.updatedAt ?? 0) < (temp.updatedAt ?? 1)) {
-            await isar.tracks.put(temp);
-          }
-          tracks.remove(temp);
-        } else {
-          await isar.tracks.delete(track.id!);
-        }
-      }
-      for (var track in tracks) {
-        await isar.tracks.put(track);
-      }
-      await syncNotifier.clearChangedParts([ActionType.removeTrack], false);
-    });
-  }
-
-  Future<void> _upsertHistories(
-    Map<String, dynamic> jsonData,
-    Synching syncNotifier,
-  ) async {
-    final histories = (jsonData["histories"] as List?)?.map((e) => History.fromJson(e)).toList() ?? [];
-    await isar.writeTxn(() async {
-      for (var history in await isar.historys.filter().idIsNotNull().findAll()) {
-        final temp = histories.firstWhereOrNull((e) => e.id == history.id);
-        if (temp != null) {
-          final chapter = await isar.chapters.get(temp.chapterId!);
-          if (chapter != null && (history.updatedAt ?? 0) < (temp.updatedAt ?? 1)) {
-            await isar.historys.put(temp..chapter.value = chapter);
-            await temp.chapter.save();
-          }
-          histories.remove(temp);
-        } else {
-          await isar.historys.delete(history.id!);
-        }
-      }
-      for (var history in histories) {
-        final chapter = await isar.chapters.get(history.chapterId!);
-        if (chapter != null) {
-          await isar.historys.put(history..chapter.value = chapter);
-          await history.chapter.save();
-        }
-      }
-      await syncNotifier.clearChangedParts([ActionType.removeHistory], false);
-    });
-  }
-
-  Future<void> _upsertUpdates(
-    Map<String, dynamic> jsonData,
-    Synching syncNotifier,
-  ) async {
-    final updates = (jsonData["updates"] as List?)?.map((e) => Update.fromJson(e)).toList() ?? [];
-    await isar.writeTxn(() async {
-      for (var update in await isar.updates.filter().idIsNotNull().findAll()) {
-        final temp = updates.firstWhereOrNull((e) => e.id == update.id);
-        if (temp != null) {
-          final chapter = await isar.chapters
-              .filter()
-              .mangaIdEqualTo(temp.mangaId)
-              .nameEqualTo(temp.chapterName)
-              .findFirst();
-          if (chapter != null && (update.updatedAt ?? 0) < (temp.updatedAt ?? 1)) {
-            await isar.updates.put(temp..chapter.value = chapter);
-            await temp.chapter.save();
-          }
-          updates.remove(temp);
-        } else {
-          await isar.updates.delete(update.id!);
-        }
-      }
-      for (var update in updates) {
-        final chapter = await isar.chapters
-            .filter()
-            .mangaIdEqualTo(update.mangaId)
-            .nameEqualTo(update.chapterName)
-            .findFirst();
-        if (chapter != null) {
-          await isar.updates.put(update..chapter.value = chapter);
-          await update.chapter.save();
-        }
-      }
-      await syncNotifier.clearChangedParts([ActionType.removeUpdate], false);
-    });
-  }
-
-  Future<void> _upsertSettings(Map<String, dynamic> jsonData) async {
-    final oldSettings = isar.settings.getSync(227)!;
-    final settings = Settings.fromJson(jsonData["settings"]);
-    await isar.writeTxn(() async {
-      await isar.settings.put(settings..cookiesList = oldSettings.cookiesList);
-      ref.invalidate(followSystemThemeStateProvider);
-      ref.invalidate(themeModeStateProvider);
-      ref.invalidate(blendLevelStateProvider);
-      ref.invalidate(flexSchemeColorStateProvider);
-      ref.invalidate(pureBlackDarkModeStateProvider);
-      ref.invalidate(l10nLocaleStateProvider);
-      ref.invalidate(extensionsRepoStateProvider(ItemType.manga));
-      ref.invalidate(extensionsRepoStateProvider(ItemType.anime));
-      ref.invalidate(extensionsRepoStateProvider(ItemType.novel));
-    });
-  }
-
-  String _getMangaData({bool upload = false, bool download = false}) {
-    Map<String, dynamic> data = {};
-    data["categories"] = download ? [] : _getCategories();
-    data["deleted_categories"] = download ? [] : _getDeletedObjects(ActionType.removeCategory);
-    data["manga"] = download ? [] : _getManga();
-    data["deleted_manga"] = download ? [] : _getDeletedObjects(ActionType.removeItem);
-    data["chapters"] = download ? [] : _getChapters();
-    data["deleted_chapters"] = download ? [] : _getDeletedObjects(ActionType.removeChapter);
-    data["tracks"] = download ? [] : _getTracks();
-    data["deleted_tracks"] = download ? [] : _getDeletedObjects(ActionType.removeTrack);
-    if (upload) {
-      data["resetAll"] = true;
-    }
-    return jsonEncode(data);
-  }
-
-  String _getHistoryData({bool upload = false, bool download = false}) {
-    Map<String, dynamic> data = {};
-    data["histories"] = download ? [] : _getHistories();
-    data["deleted_histories"] = download ? [] : _getDeletedObjects(ActionType.removeHistory);
-    if (upload) {
-      data["resetAll"] = true;
-    }
-    return jsonEncode(data);
-  }
-
-  String _getUpdateData({bool upload = false, bool download = false}) {
-    Map<String, dynamic> data = {};
-    data["updates"] = download ? [] : _getUpdates();
-    data["deleted_updates"] = download ? [] : _getDeletedObjects(ActionType.removeUpdate);
-    if (upload) {
-      data["resetAll"] = true;
-    }
-    return jsonEncode(data);
-  }
-
-  String _getSettingsData({bool download = false}) {
-    Map<String, dynamic> data = {};
-    if (!download) {
-      data["settings"] = isar.settings.getSync(227)!
-        ..updatedAt ??= DateTime.now().millisecondsSinceEpoch
-        ..cookiesList = [];
-    }
-    return jsonEncode(data);
-  }
-
-  List<int> _getDeletedObjects(ActionType actionType) {
-    return ref
-        .read(synchingProvider(syncId: syncId).notifier)
-        .getChangedParts([actionType])
-        .map((e) => e.isarId)
-        .nonNulls
-        .toList();
-  }
-
-  List<Map<String, dynamic>> _getManga() {
-    return isar.mangas.filter().idIsNotNull().findAllSync().map((e) => (e..customCoverImage = null).toJson()).toList();
-  }
-
-  List<Map<String, dynamic>> _getCategories() {
-    return isar.categorys.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
-  }
-
-  List<Map<String, dynamic>> _getChapters() {
-    return isar.chapters.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
-  }
-
-  List<Map<String, dynamic>> _getTracks() {
-    return isar.tracks.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
-  }
-
-  List<Map<String, dynamic>> _getHistories() {
-    return isar.historys.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
-  }
-
-  List<Map<String, dynamic>> _getUpdates() {
-    return isar.updates.filter().idIsNotNull().findAllSync().map((e) => e.toJson()).toList();
-  }
+  Future<Map<String, dynamic>?> _postSync(Map<String, dynamic> body) =>
+      _apiClient.postSync(_getServer(), _getAccessToken(), body);
 
   String _getAccessToken() {
-    final syncPrefs = ref.watch(synchingProvider(syncId: syncId));
+    if (!ref.mounted) return "";
+    final syncPrefs = ref.read(synchingProvider(syncId: syncId));
     return syncPrefs.authToken ?? "";
   }
 
   String _getServer() {
-    final syncPrefs = ref.watch(synchingProvider(syncId: syncId));
+    if (!ref.mounted) return "";
+    final syncPrefs = ref.read(synchingProvider(syncId: syncId));
     return syncPrefs.server ?? "";
   }
+
+  // ------------------------------------------------------------------
+  // Applying a response's pulled entities to local storage, then
+  // invalidating whatever app state depends on settings if they changed.
+  // ------------------------------------------------------------------
+
+  Future<void> _applyPulledEntities(Map<String, dynamic> response) async {
+    final settingsChanged = await _entityApplier.apply(response);
+    if (settingsChanged) _invalidateSettingsDerivedProviders();
+  }
+
+  void _invalidateSettingsDerivedProviders() {
+    if (!ref.mounted) return;
+    ref.invalidate(followSystemThemeStateProvider);
+    ref.invalidate(themeModeStateProvider);
+    ref.invalidate(blendLevelStateProvider);
+    ref.invalidate(flexSchemeColorStateProvider);
+    ref.invalidate(pureBlackDarkModeStateProvider);
+    ref.invalidate(tintSurfacesStateProvider);
+    ref.invalidate(floatingNavigationBarStateProvider);
+    ref.invalidate(l10nLocaleStateProvider);
+    ref.invalidate(extensionsRepoStateProvider(ItemType.manga));
+    ref.invalidate(extensionsRepoStateProvider(ItemType.anime));
+    ref.invalidate(extensionsRepoStateProvider(ItemType.novel));
+  }
+}
+
+/// Triggers auto sync if sync is enabled, user is logged in, autoSyncFrequency > 0,
+/// and enough time has elapsed since lastSync.
+Future<void> autoSyncIfDue(dynamic ref, {int syncId = 1}) async {
+  if (!ref.read(appUnlockedStateProvider)) return;
+
+  final syncPrefs = ref.read(synchingProvider(syncId: syncId));
+  if (!syncPrefs.syncOn) return;
+  final authToken = syncPrefs.authToken;
+  if (authToken == null || authToken.isEmpty) return;
+
+  final autoSyncFrequency = syncPrefs.autoSyncFrequency;
+  if (autoSyncFrequency <= 0) return;
+
+  final now = DateTime.now().millisecondsSinceEpoch;
+  final lastSync = syncPrefs.lastSync ?? 0;
+  final elapsedMs = now - lastSync;
+  if (elapsedMs < autoSyncFrequency * 1000) return;
+
+  if (ref.read(syncProgressProvider(syncId: syncId)).active) return;
+  if (ref.read(restoreSyncGuardProvider)) return;
+
+  await ref
+      .read(syncServerProvider(syncId: syncId).notifier)
+      .startSync(null, true);
 }

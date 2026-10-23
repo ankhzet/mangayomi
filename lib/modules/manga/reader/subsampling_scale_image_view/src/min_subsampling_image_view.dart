@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:ui' as ui;
+
 import 'package:ffi/ffi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mangayomi/modules/manga/reader/u_chap_data_preload.dart';
-import 'package:mangayomi/modules/manga/reader/widgets/circular_progress_indicator_animate_rotate.dart';
+import 'package:mangayomi/modules/manga/reader/widgets/reader_page_states.dart';
 import 'package:mangayomi/modules/more/settings/reader/providers/reader_state_provider.dart';
 import 'package:mangayomi/modules/more/settings/reader/reader_screen.dart';
-import 'package:mangayomi/providers/l10n_providers.dart';
 import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 import 'package:mangayomi/utils/extensions/others.dart';
 import 'package:mangayomi/modules/manga/reader/subsampling_scale_image_view/subsampling_scale_image_view.dart';
@@ -55,18 +55,45 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
   @override
   void initState() {
     super.initState();
-    _loadImage();
+    if (widget.data.decodedImage != null) {
+      _uiImage = widget.data.decodedImage!.clone();
+      _isLoading = false;
+      _hasError = false;
+    } else {
+      _loadImage();
+    }
   }
 
   @override
   void didUpdateWidget(MinSubsamplingImage oldWidget) {
     super.didUpdateWidget(oldWidget);
     final bool dataChanged = widget.data != oldWidget.data;
-    final bool imageLoaded = _uiImage == null && widget.data.decodedImage != null;
-    if (dataChanged || imageLoaded || widget.cropBorders != oldWidget.cropBorders) {
-      _loadImage(
-        refresh: dataChanged || widget.cropBorders != oldWidget.cropBorders,
-      );
+    if (dataChanged) {
+      _cleanStream();
+      ffiImageDecoder.cancel(this);
+      _uiImage?.dispose();
+      _uiImage = null;
+      if (widget.data.decodedImage != null) {
+        _uiImage = widget.data.decodedImage!.clone();
+        _isLoading = false;
+        _hasError = false;
+        return;
+      }
+      _loadImage(refresh: false);
+      return;
+    }
+    if (widget.cropBorders != oldWidget.cropBorders) {
+      _loadImage(refresh: true, evictCache: false);
+      return;
+    }
+    final bool imageLoaded =
+        _uiImage == null && widget.data.decodedImage != null;
+    if (imageLoaded) {
+      _uiImage?.dispose();
+      _uiImage = widget.data.decodedImage!.clone();
+      _isLoading = false;
+      _hasError = false;
+      return;
     }
   }
 
@@ -86,12 +113,30 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
     _imageStream = null;
   }
 
-  Future<void> _loadImage({bool refresh = false}) async {
+  Future<void> _loadImage({
+    bool refresh = false,
+    bool evictCache = false,
+  }) async {
     _cleanStream();
     ffiImageDecoder.cancel(this);
 
-    if (widget.data.decodedImage != null && !refresh) {
-      _uiImage = widget.data.decodedImage!.clone();
+    if (evictCache) {
+      widget.data.decodedImage?.dispose();
+      widget.data.decodedImage = null;
+      widget.data.resolvedFilePath = null;
+      _uiImage?.dispose();
+      _uiImage = null;
+      try {
+        final provider = widget.data.getImageProvider(ref, true);
+        await provider.evict();
+      } catch (_) {}
+    } else if (refresh) {
+      widget.data.decodedImage?.dispose();
+      widget.data.decodedImage = null;
+    }
+
+    if (widget.data.decodedImage != null && !refresh && !evictCache) {
+      _uiImage ??= widget.data.decodedImage!.clone();
       if (mounted) {
         setState(() {
           _isLoading = false;
@@ -110,8 +155,12 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
       });
     }
 
-    final String? path = await widget.data.getLocalFilePath;
+    final String? path =
+        widget.data.resolvedFilePath ?? await widget.data.getLocalFilePath;
     if (path != null) {
+      widget.data.resolvedFilePath = path;
+    }
+    if (path != null && widget.cropBorders) {
       await _loadFromPath(path);
     } else {
       final provider = widget.data.getImageProvider(ref, true);
@@ -119,19 +168,35 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
       _streamListener = ImageStreamListener(
         (info, syncCall) async {
           _cleanStream();
-          final cachedPath = await widget.data.getLocalFilePath;
+          final cachedPath =
+              widget.data.resolvedFilePath ??
+              await widget.data.getLocalFilePath;
           if (cachedPath != null) {
-            await _loadFromPath(cachedPath);
-          } else {
-            if (mounted) {
-              widget.data.decodedImage = info.image.clone();
-              setState(() {
-                _uiImage = info.image.clone();
-                _isLoading = false;
-                _loadingProgress = null;
-              });
-              widget.failedToLoadImage(false);
+            widget.data.resolvedFilePath = cachedPath;
+          }
+          if (widget.cropBorders) {
+            if (cachedPath != null) {
+              await _loadFromPath(cachedPath);
+              return;
             }
+          }
+          if (mounted) {
+            widget.data.loadedWidth = info.image.width.toDouble();
+            widget.data.loadedHeight = info.image.height.toDouble();
+            widget.data.decodedImage?.dispose();
+            widget.data.decodedImage = info.image.clone();
+            final old = _uiImage;
+            setState(() {
+              _uiImage = info.image.clone();
+              _isLoading = false;
+              _loadingProgress = null;
+            });
+            old?.dispose();
+            widget.failedToLoadImage(false);
+            widget.onImageLoaded?.call(
+              info.image.width.toDouble(),
+              info.image.height.toDouble(),
+            );
           }
         },
         onChunk: (ImageChunkEvent event) {
@@ -168,7 +233,8 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
       );
 
       if (dims == null || dims.length < 2) {
-        throw Exception("Failed to get dimensions");
+        // If operation was cancelled by a quick toggle, return quietly without error
+        return;
       }
 
       final int croppedWidth = dims[0];
@@ -212,8 +278,12 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
         cancelToken: this,
       );
 
-      if (result == null || result.pointerAddress == null || result.error != null) {
-        throw Exception(result?.error ?? "Failed to decode region");
+      if (result == null || result.error == 'Cancelled') {
+        return;
+      }
+
+      if (result.pointerAddress == null || result.error != null) {
+        throw Exception(result.error ?? "Failed to decode region");
       }
 
       final decodedWidth = croppedWidth ~/ sampleSize;
@@ -242,11 +312,16 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
       final ui.Image img = await completer.future;
 
       if (mounted) {
+        widget.data.resolvedFilePath = path;
+        widget.data.decodedImage?.dispose();
         widget.data.decodedImage = img.clone();
+        final old = _uiImage;
         setState(() {
           _uiImage = img;
           _isLoading = false;
+          _hasError = false;
         });
+        old?.dispose();
         widget.failedToLoadImage(false);
         widget.onImageLoaded?.call(
           croppedWidth.toDouble(),
@@ -256,6 +331,7 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
         img.dispose();
       }
     } catch (e) {
+      if (e.toString().contains('Cancelled')) return;
       if (mounted) {
         setState(() {
           _hasError = true;
@@ -270,6 +346,7 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
   @override
   Widget build(BuildContext context) {
     if (_uiImage == null && widget.data.decodedImage != null) {
+      _uiImage?.dispose();
       _uiImage = widget.data.decodedImage!.clone();
       _isLoading = false;
       _hasError = false;
@@ -283,7 +360,10 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
           ? LoadState.failed
           : LoadState.completed,
       loadingProgress: _loadingProgress,
-      reLoadCallback: _loadImage,
+      reLoadCallback: () {
+        widget.failedToLoadImage(false);
+        _loadImage(refresh: true, evictCache: true);
+      },
     );
 
     if (widget.loadStateChanged != null) {
@@ -291,8 +371,24 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
       if (customWidget != null) return customWidget;
     }
 
-    final placeholderHeight = widget.data.loadedHeight ?? context.height(0.8);
-    final placeholderWidth = widget.isHorizontal ? (widget.data.loadedWidth ?? context.width(0.8)) : double.infinity;
+    final hasDimensions =
+        widget.data.loadedHeight != null &&
+        widget.data.loadedWidth != null &&
+        widget.data.loadedWidth! > 0 &&
+        widget.data.loadedHeight! > 0;
+
+    final placeholderHeight = hasDimensions
+        ? (widget.isHorizontal
+              ? context.height(0.8)
+              : MediaQuery.of(context).size.width *
+                    (widget.data.loadedHeight! / widget.data.loadedWidth!))
+        : context.height(0.8);
+    final placeholderWidth = widget.isHorizontal
+        ? (hasDimensions
+              ? context.height(0.8) *
+                    (widget.data.loadedWidth! / widget.data.loadedHeight!)
+              : (widget.data.loadedWidth ?? context.width(0.8)))
+        : double.infinity;
 
     if (_isLoading && _uiImage == null) {
       final double progress = _loadingProgress?.expectedTotalBytes != null
@@ -302,44 +398,20 @@ class _MinSubsamplingImageState extends ConsumerState<MinSubsamplingImage> {
         color: getBackgroundColor(backgroundColor),
         height: placeholderHeight,
         width: placeholderWidth,
-        child: CircularProgressIndicatorAnimateRotate(progress: progress),
+        child: ReaderPageLoading(progress: progress),
       );
     }
 
     if (_hasError || _uiImage == null) {
-      final l10n = l10nLocalizations(context)!;
       return Container(
         color: getBackgroundColor(backgroundColor),
         height: placeholderHeight,
         width: placeholderWidth,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              l10n.image_loading_error,
-              style: TextStyle(color: Colors.white.withValues(alpha: 0.7)),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: _loadImage,
-                onLongPress: _loadImage,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: context.primaryColor,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 16,
-                    ),
-                    child: Text(l10n.retry),
-                  ),
-                ),
-              ),
-            ),
-          ],
+        child: ReaderPageError(
+          onRetry: () {
+            widget.failedToLoadImage(false);
+            _loadImage(refresh: true, evictCache: true);
+          },
         ),
       );
     }

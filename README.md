@@ -14,6 +14,9 @@
 Mangayomi is an open-source Flutter app for reading manga, novels, and watching animes across multiple platforms.
 </div>
 
+> [!WARNING]
+> **Official Warning**: Mangayomi does not have an official website. This GitHub repository ([kodjodevf/mangayomi](https://github.com/kodjodevf/mangayomi)) and our official [Discord server](https://discord.com/invite/EjfBuYahsP) are the **only official sources** for Mangayomi. Always download official releases from our GitHub repository.
+
 ## Features
 
 <div align="left">

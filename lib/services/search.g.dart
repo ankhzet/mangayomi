@@ -69,7 +69,7 @@ final class SearchProvider extends $FunctionalProvider<AsyncValue<MPages?>, MPag
   }
 }
 
-String _$searchHash() => r'03bfee6172b386c53aee05fe2429a10ce5915b18';
+String _$searchHash() => r'165aa9dc4316efcbea768bad4b5f75499f8ed4a4';
 
 final class SearchFamily extends $Family
     with

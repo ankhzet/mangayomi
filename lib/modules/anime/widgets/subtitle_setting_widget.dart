@@ -1,361 +1,491 @@
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
+import 'package:shiori/shiori.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mangayomi/models/settings.dart';
 import 'package:mangayomi/modules/anime/providers/state_provider.dart';
 import 'package:mangayomi/modules/anime/widgets/subtitle_view.dart';
-import 'package:mangayomi/modules/manga/reader/widgets/color_filter_widget.dart';
+import 'package:mangayomi/modules/anime/widgets/unified_settings_sheet.dart';
 import 'package:mangayomi/providers/l10n_providers.dart';
-import 'package:mangayomi/utils/extensions/build_context_extensions.dart';
 
-class FontSettingWidget extends ConsumerStatefulWidget {
-  final bool hasSubtitleTrack;
-  const FontSettingWidget({super.key, required this.hasSubtitleTrack});
-
-  @override
-  ConsumerState<FontSettingWidget> createState() => _FontSettingWidgetState();
-}
-
-class _FontSettingWidgetState extends ConsumerState<FontSettingWidget> {
-  @override
-  Widget build(BuildContext context) {
-    final subtitleSettings = ref.watch(subtitleSettingsStateProvider);
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          if (!widget.hasSubtitleTrack)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(2),
-                    child: Icon(Icons.info_outline_rounded, size: 14),
-                  ),
-                  Flexible(
-                    child: Text(context.l10n.no_subtite_warning_message),
-                  ),
-                ],
-              ),
-            ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              iconButton(
-                Icons.remove,
-                () {
-                  ref
-                      .read(subtitleSettingsStateProvider.notifier)
-                      .set(
-                        subtitleSettings..fontSize = subtitleSettings.fontSize! - 1,
-                        true,
-                      );
-                  setState(() {});
-                },
-                backgroundColor: context.dynamicWhiteBlackColor,
-                iconColors: context.isLight ? Colors.white : Colors.black,
-                size: 25,
-              ),
-              SizedBox(
-                width: 200,
-                child: TextFormField(
-                  controller: TextEditingController(
-                    text: subtitleSettings.fontSize.toString(),
-                  ),
-                  keyboardType: TextInputType.number,
-                  onChanged: (v) {
-                    final val = int.tryParse(v);
-                    if (val != null) {
-                      ref.read(subtitleSettingsStateProvider.notifier).set(subtitleSettings..fontSize = val, true);
-                    }
-                  },
-                  decoration: InputDecoration(
-                    labelText: context.l10n.font_size,
-                    isDense: true,
-                    filled: true,
-                    fillColor: Colors.transparent,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: context.dynamicThemeColor),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: context.dynamicThemeColor),
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: context.dynamicThemeColor),
-                    ),
-                  ),
-                ),
-              ),
-              iconButton(
-                Icons.add,
-                () {
-                  ref
-                      .read(subtitleSettingsStateProvider.notifier)
-                      .set(
-                        subtitleSettings..fontSize = subtitleSettings.fontSize! + 1,
-                        true,
-                      );
-                  setState(() {});
-                },
-                backgroundColor: context.dynamicWhiteBlackColor,
-                iconColors: context.isLight ? Colors.white : Colors.black,
-                size: 25,
-              ),
-              iconButton(
-                Icons.format_bold,
-                () {
-                  ref
-                      .read(subtitleSettingsStateProvider.notifier)
-                      .set(
-                        subtitleSettings..useBold = !subtitleSettings.useBold!,
-                        true,
-                      );
-                  setState(() {});
-                },
-                iconColors: subtitleSettings.useBold! ? null : context.dynamicWhiteBlackColor.withValues(alpha: 0.5),
-              ),
-              iconButton(
-                Icons.format_italic,
-                () {
-                  ref
-                      .read(subtitleSettingsStateProvider.notifier)
-                      .set(
-                        subtitleSettings..useItalic = !subtitleSettings.useItalic!,
-                        true,
-                      );
-                  setState(() {});
-                },
-                iconColors: subtitleSettings.useItalic! ? null : context.dynamicWhiteBlackColor.withValues(alpha: 0.5),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Lorem ipsum dolor sit amet",
-              style: subtileTextStyle(ref).copyWith(fontSize: 22),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              ref
-                  .read(subtitleSettingsStateProvider.notifier)
-                  .set(
-                    subtitleSettings
-                      ..useItalic = false
-                      ..useBold = false
-                      ..fontSize = 45,
-                    true,
-                  );
-              setState(() {});
-            },
-            child: Text(context.l10n.reset),
-          ),
-        ],
-      ),
+extension on PlayerSubtitleSettings {
+  PlayerSubtitleSettings copyWith({
+    int? fontSize,
+    bool? useBold,
+    bool? useItalic,
+    int? textColorA,
+    int? textColorR,
+    int? textColorG,
+    int? textColorB,
+    int? borderColorA,
+    int? borderColorR,
+    int? borderColorG,
+    int? borderColorB,
+    int? backgroundColorA,
+    int? backgroundColorR,
+    int? backgroundColorG,
+    int? backgroundColorB,
+    bool? overrideAssSubtitles,
+  }) {
+    return PlayerSubtitleSettings(
+      fontSize: fontSize ?? this.fontSize,
+      useBold: useBold ?? this.useBold,
+      useItalic: useItalic ?? this.useItalic,
+      textColorA: textColorA ?? this.textColorA,
+      textColorR: textColorR ?? this.textColorR,
+      textColorG: textColorG ?? this.textColorG,
+      textColorB: textColorB ?? this.textColorB,
+      borderColorA: borderColorA ?? this.borderColorA,
+      borderColorR: borderColorR ?? this.borderColorR,
+      borderColorG: borderColorG ?? this.borderColorG,
+      borderColorB: borderColorB ?? this.borderColorB,
+      backgroundColorA: backgroundColorA ?? this.backgroundColorA,
+      backgroundColorR: backgroundColorR ?? this.backgroundColorR,
+      backgroundColorG: backgroundColorG ?? this.backgroundColorG,
+      backgroundColorB: backgroundColorB ?? this.backgroundColorB,
+      overrideAssSubtitles: overrideAssSubtitles ?? this.overrideAssSubtitles,
     );
   }
 }
 
-class ColorSettingWidget extends ConsumerStatefulWidget {
+/// Unified Material 3 subtitle appearance settings widget.
+/// Eliminates the layout overflow bug, unifies typography and color controls,
+/// and includes a live video subtitle preview box.
+class SubtitleAppearanceWidget extends ConsumerStatefulWidget {
   final bool hasSubtitleTrack;
-  const ColorSettingWidget({super.key, required this.hasSubtitleTrack});
+  const SubtitleAppearanceWidget({super.key, required this.hasSubtitleTrack});
 
   @override
-  ConsumerState<ColorSettingWidget> createState() => _ColorSettingWidgetState();
+  ConsumerState<SubtitleAppearanceWidget> createState() =>
+      _SubtitleAppearanceWidgetState();
 }
 
-class _ColorSettingWidgetState extends ConsumerState<ColorSettingWidget> {
-  String selector = "text";
+class _SubtitleAppearanceWidgetState
+    extends ConsumerState<SubtitleAppearanceWidget> {
+  String _colorTarget = 'text'; // 'text', 'border', 'background'
+  late TextEditingController _fontSizeController;
+  final FocusNode _fontSizeFocusNode = FocusNode();
 
-  Widget button(String text, String value, Color color) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.all(0),
-        backgroundColor: Colors.transparent,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        elevation: 0,
-        shadowColor: Colors.transparent,
-      ),
-      onPressed: () {
-        setState(() {
-          selector = value;
-        });
-      },
-      child: Column(
-        children: [
-          Text(text, style: TextStyle(color: context.textColor)),
-          Padding(
-            padding: const EdgeInsets.all(2),
-            child: Container(
-              height: 25,
-              width: 25,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: color,
-                border: Border.all(
-                  width: 2,
-                  color: context.dynamicWhiteBlackColor,
-                ),
-              ),
-            ),
-          ),
-          Text("#${color.hexCode}", style: TextStyle(color: context.textColor)),
-          Icon(
-            Icons.arrow_drop_down,
-            color: selector != value ? Colors.transparent : context.textColor,
-          ),
-        ],
-      ),
+  @override
+  void initState() {
+    super.initState();
+    final settings = ref.read(subtitleSettingsStateProvider);
+    _fontSizeController = TextEditingController(
+      text: '${settings.fontSize ?? 45}',
     );
+  }
+
+  @override
+  void dispose() {
+    _fontSizeController.dispose();
+    _fontSizeFocusNode.dispose();
+    super.dispose();
+  }
+
+  int _clampColor(int? v, int def) => (v ?? def).clamp(0, 255);
+
+  void _updateFontSize(int value) {
+    final clamped = value.clamp(10, 120);
+    final current = ref.read(subtitleSettingsStateProvider);
+    ref
+        .read(subtitleSettingsStateProvider.notifier)
+        .set(current.copyWith(fontSize: clamped), true);
+    _fontSizeController.text = '$clamped';
+  }
+
+  void _updateColorChannel(String channel, int value, bool end) {
+    final current = ref.read(subtitleSettingsStateProvider);
+    final clamped = value.clamp(0, 255);
+    final updated = switch (_colorTarget) {
+      'text' => switch (channel) {
+        'r' => current.copyWith(textColorR: clamped),
+        'g' => current.copyWith(textColorG: clamped),
+        'b' => current.copyWith(textColorB: clamped),
+        _ => current.copyWith(textColorA: clamped),
+      },
+      'border' => switch (channel) {
+        'r' => current.copyWith(borderColorR: clamped),
+        'g' => current.copyWith(borderColorG: clamped),
+        'b' => current.copyWith(borderColorB: clamped),
+        _ => current.copyWith(borderColorA: clamped),
+      },
+      _ => switch (channel) {
+        'r' => current.copyWith(backgroundColorR: clamped),
+        'g' => current.copyWith(backgroundColorG: clamped),
+        'b' => current.copyWith(backgroundColorB: clamped),
+        _ => current.copyWith(backgroundColorA: clamped),
+      },
+    };
+    ref.read(subtitleSettingsStateProvider.notifier).set(updated, end);
+  }
+
+  void _applyPresetColor(int r, int g, int b) {
+    final current = ref.read(subtitleSettingsStateProvider);
+    final updated = switch (_colorTarget) {
+      'text' => current.copyWith(
+        textColorR: r,
+        textColorG: g,
+        textColorB: b,
+        textColorA: 255,
+      ),
+      'border' => current.copyWith(
+        borderColorR: r,
+        borderColorG: g,
+        borderColorB: b,
+        borderColorA: 255,
+      ),
+      _ => current.copyWith(
+        backgroundColorR: r,
+        backgroundColorG: g,
+        backgroundColorB: b,
+        backgroundColorA: 180,
+      ),
+    };
+    ref.read(subtitleSettingsStateProvider.notifier).set(updated, true);
   }
 
   @override
   Widget build(BuildContext context) {
     final subSets = ref.watch(subtitleSettingsStateProvider);
-    final textColor = Color.fromARGB(
-      subSets.textColorA!,
-      subSets.textColorR!,
-      subSets.textColorG!,
-      subSets.textColorB!,
-    );
-    final borderColor = Color.fromARGB(
-      subSets.borderColorA!,
-      subSets.borderColorR!,
-      subSets.borderColorG!,
-      subSets.borderColorB!,
-    );
-    final backgroundColor = Color.fromARGB(
-      subSets.backgroundColorA!,
-      subSets.backgroundColorR!,
-      subSets.backgroundColorG!,
-      subSets.backgroundColorB!,
-    );
+
+    // Synchronize controller text when not focused
+    if (!_fontSizeFocusNode.hasFocus) {
+      final currentSize = '${subSets.fontSize ?? 45}';
+      if (_fontSizeController.text != currentSize) {
+        _fontSizeController.text = currentSize;
+      }
+    }
+
+    final textA = _clampColor(subSets.textColorA, 255);
+    final textR = _clampColor(subSets.textColorR, 255);
+    final textG = _clampColor(subSets.textColorG, 255);
+    final textB = _clampColor(subSets.textColorB, 255);
+
+    final borderA = _clampColor(subSets.borderColorA, 255);
+    final borderR = _clampColor(subSets.borderColorR, 0);
+    final borderG = _clampColor(subSets.borderColorG, 0);
+    final borderB = _clampColor(subSets.borderColorB, 0);
+
+    final bgA = _clampColor(subSets.backgroundColorA, 0);
+    final bgR = _clampColor(subSets.backgroundColorR, 0);
+    final bgG = _clampColor(subSets.backgroundColorG, 0);
+    final bgB = _clampColor(subSets.backgroundColorB, 0);
+
+    final textColor = Color.fromARGB(textA, textR, textG, textB);
+    final borderColor = Color.fromARGB(borderA, borderR, borderG, borderB);
+    final backgroundColor = Color.fromARGB(bgA, bgR, bgG, bgB);
+
+    final (activeA, activeR, activeG, activeB) = switch (_colorTarget) {
+      'text' => (textA, textR, textG, textB),
+      'border' => (borderA, borderR, borderG, borderB),
+      _ => (bgA, bgR, bgG, bgB),
+    };
+
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(vertical: ShioriSpace.s8),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // Subtitle track warning banner
           if (!widget.hasSubtitleTrack)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
+            Container(
+              margin: const EdgeInsets.fromLTRB(
+                ShioriSpace.s16,
+                ShioriSpace.s4,
+                ShioriSpace.s16,
+                ShioriSpace.s12,
+              ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: ShioriSpace.s12,
+                vertical: ShioriSpace.s8,
+              ),
+              decoration: BoxDecoration(
+                color: context.shiori.color.ink2,
+                borderRadius: BorderRadius.circular(ShioriShape.card),
+              ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.all(2),
-                    child: Icon(Icons.info_outline_rounded, size: 14),
+                  Icon(
+                    Symbols.info_rounded,
+                    size: 16,
+                    color: context.shiori.color.fgMuted,
                   ),
-                  Flexible(
-                    child: Text(context.l10n.no_subtite_warning_message),
+                  const SizedBox(width: ShioriSpace.s8),
+                  Expanded(
+                    child: Text(
+                      context.l10n.no_subtite_warning_message,
+                      style: context.shiori.caption,
+                    ),
                   ),
                 ],
               ),
             ),
-          Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: button(context.l10n.text, "text", textColor),
-              ),
-              Expanded(
-                flex: 3,
-                child: button(context.l10n.border, "border", borderColor),
-              ),
-              Expanded(
-                flex: 3,
-                child: button(
-                  context.l10n.background,
-                  "backgroud",
-                  backgroundColor,
+
+          // The subtitle as it will look, on the black of a video.
+          Container(
+            margin: const EdgeInsets.symmetric(
+              horizontal: ShioriSpace.s16,
+              vertical: ShioriSpace.s8,
+            ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: ShioriSpace.s16,
+              vertical: ShioriSpace.s24,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(ShioriShape.card),
+            ),
+            child: Center(
+              child: Text(
+                context.l10n.subtitle_preview_sample,
+                style: subtileTextStyle(ref).copyWith(
+                  fontSize: ((subSets.fontSize ?? 45) * 0.45).clamp(14.0, 24.0),
                 ),
+                textAlign: TextAlign.center,
               ),
-            ],
+            ),
+          ),
+
+          // Typography section
+          SettingsSectionLabel(context.l10n.font),
+          SettingsStepperRow(
+            label: context.l10n.font_size,
+            controller: _fontSizeController,
+            suffix: ' pt',
+            keyboardType: TextInputType.number,
+            onDecrement: () {
+              final current = subSets.fontSize ?? 45;
+              _updateFontSize(current - 1);
+            },
+            onIncrement: () {
+              final current = subSets.fontSize ?? 45;
+              _updateFontSize(current + 1);
+            },
+            onSubmitted: (text) {
+              final val = int.tryParse(text);
+              if (val != null) {
+                _updateFontSize(val);
+              } else {
+                _fontSizeController.text = '${subSets.fontSize ?? 45}';
+              }
+            },
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Lorem ipsum dolor sit amet",
-              style: subtileTextStyle(ref).copyWith(fontSize: 22),
-              textAlign: TextAlign.center,
+            padding: const EdgeInsets.symmetric(
+              horizontal: ShioriSpace.s16,
+              vertical: ShioriSpace.s8,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    context.l10n.text_style,
+                    style: context.shiori.text.row.copyWith(
+                      color: context.shiori.color.fg,
+                    ),
+                  ),
+                ),
+                SegmentedButton<String>(
+                  segments: [
+                    ButtonSegment(
+                      value: 'bold',
+                      icon: const Icon(
+                        Symbols.format_bold_rounded,
+                        fill: 1,
+                        size: 18,
+                      ),
+                      tooltip: context.l10n.bold,
+                    ),
+                    ButtonSegment(
+                      value: 'italic',
+                      icon: const Icon(
+                        Symbols.format_italic_rounded,
+                        fill: 1,
+                        size: 18,
+                      ),
+                      tooltip: context.l10n.italic,
+                    ),
+                  ],
+                  selected: {
+                    if (subSets.useBold ?? true) 'bold',
+                    if (subSets.useItalic ?? false) 'italic',
+                  },
+                  emptySelectionAllowed: true,
+                  multiSelectionEnabled: true,
+                  showSelectedIcon: false,
+                  style: ButtonStyle(
+                    visualDensity: VisualDensity.compact,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    shape: WidgetStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(ShioriShape.cover),
+                      ),
+                    ),
+                  ),
+                  onSelectionChanged: (selection) {
+                    final current = ref.read(subtitleSettingsStateProvider);
+                    ref
+                        .read(subtitleSettingsStateProvider.notifier)
+                        .set(
+                          current.copyWith(
+                            useBold: selection.contains('bold'),
+                            useItalic: selection.contains('italic'),
+                          ),
+                          true,
+                        );
+                  },
+                ),
+              ],
             ),
           ),
-          if (selector == "text") ...[
-            rgbaFilterWidget(
-              subSets.textColorA!,
-              subSets.textColorR!,
-              subSets.textColorG!,
-              subSets.textColorB!,
-              (val) {
-                if (val.$3 == "r") {
-                  ref.read(subtitleSettingsStateProvider.notifier).set(subSets..textColorR = val.$1.toInt(), val.$2);
-                } else if (val.$3 == "g") {
-                  ref.read(subtitleSettingsStateProvider.notifier).set(subSets..textColorG = val.$1.toInt(), val.$2);
-                } else if (val.$3 == "b") {
-                  ref.read(subtitleSettingsStateProvider.notifier).set(subSets..textColorB = val.$1.toInt(), val.$2);
-                } else {
-                  ref.read(subtitleSettingsStateProvider.notifier).set(subSets..textColorA = val.$1.toInt(), val.$2);
-                }
-                setState(() {});
-              },
-              context,
+
+          const SizedBox(height: ShioriSpace.s8),
+          Divider(
+            height: 1,
+            color: context.shiori.color.hairline.withValues(alpha: 0.20),
+          ),
+
+          // Color section
+          SettingsSectionLabel(context.l10n.color),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: ShioriSpace.s16,
+              vertical: ShioriSpace.s4,
             ),
-          ] else if (selector == "border") ...[
-            rgbaFilterWidget(
-              subSets.borderColorA!,
-              subSets.borderColorR!,
-              subSets.borderColorG!,
-              subSets.borderColorB!,
-              (val) {
-                if (val.$3 == "r") {
-                  ref.read(subtitleSettingsStateProvider.notifier).set(subSets..borderColorR = val.$1.toInt(), val.$2);
-                } else if (val.$3 == "g") {
-                  ref.read(subtitleSettingsStateProvider.notifier).set(subSets..borderColorG = val.$1.toInt(), val.$2);
-                } else if (val.$3 == "b") {
-                  ref.read(subtitleSettingsStateProvider.notifier).set(subSets..borderColorB = val.$1.toInt(), val.$2);
-                } else {
-                  ref.read(subtitleSettingsStateProvider.notifier).set(subSets..borderColorA = val.$1.toInt(), val.$2);
-                }
-                setState(() {});
-              },
-              context,
+            child: Container(
+              decoration: BoxDecoration(
+                color: context.shiori.color.ink2,
+                borderRadius: BorderRadius.circular(ShioriShape.card),
+              ),
+              padding: const EdgeInsets.all(ShioriSpace.s4),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: _ColorTab(
+                      label: context.l10n.text,
+                      color: textColor,
+                      selected: _colorTarget == 'text',
+                      onTap: () => setState(() => _colorTarget = 'text'),
+                    ),
+                  ),
+                  Expanded(
+                    child: _ColorTab(
+                      label: context.l10n.border,
+                      color: borderColor,
+                      selected: _colorTarget == 'border',
+                      onTap: () => setState(() => _colorTarget = 'border'),
+                    ),
+                  ),
+                  Expanded(
+                    child: _ColorTab(
+                      label: context.l10n.background,
+                      color: backgroundColor,
+                      selected: _colorTarget == 'background',
+                      onTap: () => setState(() => _colorTarget = 'background'),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ] else ...[
-            rgbaFilterWidget(
-              subSets.backgroundColorA!,
-              subSets.backgroundColorR!,
-              subSets.backgroundColorG!,
-              subSets.backgroundColorB!,
-              (val) {
-                if (val.$3 == "r") {
-                  ref
-                      .read(subtitleSettingsStateProvider.notifier)
-                      .set(subSets..backgroundColorR = val.$1.toInt(), val.$2);
-                } else if (val.$3 == "g") {
-                  ref
-                      .read(subtitleSettingsStateProvider.notifier)
-                      .set(subSets..backgroundColorG = val.$1.toInt(), val.$2);
-                } else if (val.$3 == "b") {
-                  ref
-                      .read(subtitleSettingsStateProvider.notifier)
-                      .set(subSets..backgroundColorB = val.$1.toInt(), val.$2);
-                } else {
-                  ref
-                      .read(subtitleSettingsStateProvider.notifier)
-                      .set(subSets..backgroundColorA = val.$1.toInt(), val.$2);
-                }
-                setState(() {});
-              },
-              context,
+          ),
+
+          // Quick Preset Color Chips
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: ShioriSpace.s16,
+              vertical: ShioriSpace.s8,
             ),
-          ],
-          TextButton(
-            onPressed: () {
-              ref.read(subtitleSettingsStateProvider.notifier).resetColor();
-              setState(() {});
-            },
-            child: Text(context.l10n.reset),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _PresetChip(
+                  // shiori: a subtitle colour the viewer picks; it styles the video, not the interface
+                  color: const Color(0xFFFFFFFF),
+                  tooltip: context.l10n.white,
+                  onTap: () => _applyPresetColor(255, 255, 255),
+                ),
+                _PresetChip(
+                  // shiori: a subtitle colour the viewer picks; it styles the video, not the interface
+                  color: const Color(0xFFFFEB3B),
+                  tooltip: context.l10n.color_yellow,
+                  onTap: () => _applyPresetColor(255, 235, 59),
+                ),
+                _PresetChip(
+                  // shiori: a subtitle colour the viewer picks; it styles the video, not the interface
+                  color: const Color(0xFF00E5FF),
+                  tooltip: context.l10n.color_cyan,
+                  onTap: () => _applyPresetColor(0, 229, 255),
+                ),
+                _PresetChip(
+                  // shiori: a subtitle colour the viewer picks; it styles the video, not the interface
+                  color: const Color(0xFF69F0AE),
+                  tooltip: context.l10n.color_green,
+                  onTap: () => _applyPresetColor(105, 240, 174),
+                ),
+                _PresetChip(
+                  // shiori: a subtitle colour the viewer picks; it styles the video, not the interface
+                  color: const Color(0xFFFFAB40),
+                  tooltip: context.l10n.color_orange,
+                  onTap: () => _applyPresetColor(255, 171, 64),
+                ),
+                _PresetChip(
+                  // shiori: a subtitle colour the viewer picks; it styles the video, not the interface
+                  color: const Color(0xFF000000),
+                  tooltip: context.l10n.black,
+                  onTap: () => _applyPresetColor(0, 0, 0),
+                ),
+              ],
+            ),
+          ),
+
+          // RGBA Channel Sliders
+          _ColorChannelSlider(
+            label: 'R',
+            value: activeR,
+            // shiori: a subtitle colour the viewer picks; it styles the video, not the interface
+            channelColor: Colors.redAccent,
+            onChanged: (v) => _updateColorChannel('r', v, true),
+          ),
+          _ColorChannelSlider(
+            label: 'G',
+            value: activeG,
+            // shiori: a subtitle colour the viewer picks; it styles the video, not the interface
+            channelColor: Colors.greenAccent,
+            onChanged: (v) => _updateColorChannel('g', v, true),
+          ),
+          _ColorChannelSlider(
+            label: 'B',
+            value: activeB,
+            // shiori: a subtitle colour the viewer picks; it styles the video, not the interface
+            channelColor: Colors.lightBlueAccent,
+            onChanged: (v) => _updateColorChannel('b', v, true),
+          ),
+          _ColorChannelSlider(
+            label: 'A',
+            value: activeA,
+            // shiori: a subtitle colour the viewer picks; it styles the video, not the interface
+            channelColor: Colors.grey.shade400,
+            onChanged: (v) => _updateColorChannel('a', v, true),
+          ),
+
+          // Reset button
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: ShioriSpace.s16,
+              vertical: ShioriSpace.s12,
+            ),
+            child: Center(
+              child: ShioriButton.quiet(
+                icon: Symbols.restart_alt_rounded,
+                label: context.l10n.reset,
+                onPressed: () {
+                  ref.read(subtitleSettingsStateProvider.notifier).reset();
+                  _fontSizeController.text = '45';
+                  setState(() {
+                    _colorTarget = 'text';
+                  });
+                },
+              ),
+            ),
           ),
         ],
       ),
@@ -363,25 +493,192 @@ class _ColorSettingWidgetState extends ConsumerState<ColorSettingWidget> {
   }
 }
 
-Widget iconButton(
-  IconData icon,
-  void Function()? onPressed, {
-  Color? backgroundColor,
-  Color? iconColors,
-  double size = 35,
-}) => Padding(
-  padding: const EdgeInsets.all(5),
-  child: SizedBox(
-    height: size,
-    width: size,
-    child: IconButton(
-      iconSize: size * 0.9,
-      style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(backgroundColor),
+class _ColorTab extends StatelessWidget {
+  final String label;
+  final Color color;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _ColorTab({
+    required this.label,
+    required this.color,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: selected ? context.shiori.color.ink3 : Colors.transparent,
+      borderRadius: BorderRadius.circular(ShioriShape.cover),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(ShioriShape.cover),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: ShioriSpace.s8,
+            horizontal: ShioriSpace.s4,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(
+                  color: color,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: context.shiori.color.fgMuted.withValues(alpha: 0.5),
+                    width: 1.5,
+                  ),
+                ),
+              ),
+              const SizedBox(width: ShioriSpace.s8),
+              Flexible(
+                child: Text(
+                  label,
+                  style: context.shiori.text.meta.copyWith(
+                    fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                    color: selected
+                        ? context.shiori.color.fg
+                        : context.shiori.color.fgMuted,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-      padding: const EdgeInsets.all(1),
-      onPressed: onPressed,
-      icon: Icon(icon, color: iconColors),
-    ),
-  ),
-);
+    );
+  }
+}
+
+class _PresetChip extends StatelessWidget {
+  final Color color;
+  final String tooltip;
+  final VoidCallback onTap;
+
+  const _PresetChip({
+    required this.color,
+    required this.tooltip,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: tooltip,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(ShioriShape.card),
+        onTap: onTap,
+        child: Container(
+          width: 28,
+          height: 28,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.35),
+              width: 1.5,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.25),
+                blurRadius: 3,
+                offset: const Offset(0, 1),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ColorChannelSlider extends StatelessWidget {
+  final String label;
+  final int value;
+  final Color channelColor;
+  final ValueChanged<int> onChanged;
+
+  const _ColorChannelSlider({
+    required this.label,
+    required this.value,
+    required this.channelColor,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.shiori;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: ShioriSpace.s16),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 20,
+            child: Text(
+              label,
+              style: tokens.text.row.copyWith(
+                fontWeight: FontWeight.w700,
+                color: channelColor,
+              ),
+            ),
+          ),
+          Expanded(
+            child: SliderTheme(
+              data: SliderTheme.of(context).copyWith(
+                trackHeight: 3,
+                activeTrackColor: channelColor,
+                thumbColor: channelColor,
+                thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+              ),
+              child: Slider(
+                value: value.toDouble().clamp(0, 255),
+                min: 0,
+                max: 255,
+                divisions: 255,
+                onChanged: (v) => onChanged(v.round().clamp(0, 255)),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 32,
+            child: Text(
+              '$value',
+              textAlign: TextAlign.end,
+              style: tokens.caption.copyWith(
+                fontFeatures: const [FontFeature.tabularFigures()],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Backward compatibility alias for [SubtitleAppearanceWidget].
+class FontSettingWidget extends StatelessWidget {
+  final bool hasSubtitleTrack;
+  const FontSettingWidget({super.key, required this.hasSubtitleTrack});
+
+  @override
+  Widget build(BuildContext context) {
+    return SubtitleAppearanceWidget(hasSubtitleTrack: hasSubtitleTrack);
+  }
+}
+
+/// Backward compatibility alias.
+class ColorSettingWidget extends StatelessWidget {
+  final bool hasSubtitleTrack;
+  const ColorSettingWidget({super.key, required this.hasSubtitleTrack});
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox.shrink();
+  }
+}

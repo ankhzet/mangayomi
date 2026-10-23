@@ -57,7 +57,7 @@ final class AnilistProvider extends $NotifierProvider<Anilist, void> {
   }
 }
 
-String _$anilistHash() => r'c7ade80d69398d712596080cdba0c670724ac0da';
+String _$anilistHash() => r'fb386b68da99e7eeae4a0894e46fd7a81dfc4725';
 
 final class AnilistFamily extends $Family
     with $ClassFamilyOverride<Anilist, void, void, void, ({int syncId, ItemType? itemType, dynamic widgetRef})> {
@@ -96,10 +96,17 @@ abstract class _$Anilist extends $Notifier<void> {
   });
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<void, void>;
-    final element = ref.element as $ClassProviderElement<AnyNotifier<void, void>, void, Object?, Object?>;
-    element.handleCreate(
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<void, void>,
+              void,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(
       ref,
       () => build(
         syncId: _$args.syncId,

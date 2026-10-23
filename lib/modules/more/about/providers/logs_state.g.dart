@@ -9,10 +9,10 @@ part of 'logs_state.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(logsState)
+@ProviderFor(LogsState)
 final logsStateProvider = LogsStateProvider._();
 
-final class LogsStateProvider extends $FunctionalProvider<bool, bool, bool> with $Provider<bool> {
+final class LogsStateProvider extends $NotifierProvider<LogsState, bool> {
   LogsStateProvider._()
     : super(
         from: null,
@@ -29,12 +29,7 @@ final class LogsStateProvider extends $FunctionalProvider<bool, bool, bool> with
 
   @$internal
   @override
-  $ProviderElement<bool> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
-
-  @override
-  bool create(Ref ref) {
-    return logsState(ref);
-  }
+  LogsState create() => LogsState();
 
   /// {@macro riverpod.override_with_value}
   Override overrideWithValue(bool value) {
@@ -45,4 +40,22 @@ final class LogsStateProvider extends $FunctionalProvider<bool, bool, bool> with
   }
 }
 
-String _$logsStateHash() => r'680ab781a039e0441394dc0b376b8add0fb80910';
+String _$logsStateHash() => r'5b64a4584ec445b844436c93360b5eb6fa179581';
+
+abstract class _$LogsState extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<bool, bool>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}

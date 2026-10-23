@@ -1,10 +1,16 @@
 import 'dart:async';
 import 'dart:io';
+
+import 'package:mangayomi/repositories/download_repository.dart';
+
 import 'package:mangayomi/models/chapter.dart';
 import 'package:mangayomi/models/video.dart';
-import 'package:mangayomi/modules/more/settings/browse/providers/browse_state_provider.dart';
-import 'package:mangayomi/modules/more/settings/player/providers/player_state_provider.dart';
+import 'package:mangayomi/services/local_folders.dart';
+import 'package:mangayomi/providers/browse_state_provider.dart';
+import 'package:mangayomi/repositories/settings_repository.dart';
 import 'package:mangayomi/providers/storage_provider.dart';
+import 'package:mangayomi/services/downloaded_chapter.dart';
+import 'package:mangayomi/services/http/m_client.dart';
 import 'package:mangayomi/services/isolate_service.dart';
 import 'package:mangayomi/services/torrent_server.dart';
 import 'package:mangayomi/utils/utils.dart';
@@ -13,6 +19,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:path/path.dart' as p;
 
 import '../models/source.dart';
+
+import 'package:mangayomi/utils/error_toast.dart';
 part 'get_video_list.g.dart';
 
 @riverpod
@@ -28,24 +36,42 @@ Future<(List<Video>, bool, List<String>, Directory?)> getVideoList(
     // Otherwise a fresh install with no all-files access would hit a permission
     // error just for streaming an episode — the dir was being created on every
     // play even though useMpvConfig defaults to false. See #740.
-    final useMpvConfig = ref.read(useMpvConfigStateProvider);
-    final mpvDirectory = useMpvConfig ? await storageProvider.getMpvDirectory() : null;
-    final mangaDirectory = await storageProvider.getMangaMainDirectory(episode);
-    final isLocalArchive = episode.manga.value!.isLocalArchive! && episode.manga.value!.source != "torrent";
-    final mp4animePath = p.join(
-      mangaDirectory!.path,
-      "${episode.name!.replaceForbiddenCharacters(' ')}.mp4",
+    final useMpvConfig =
+        settingsRepository.currentOrNull?.useMpvConfig ?? false;
+    final mpvDirectory = useMpvConfig
+        ? await storageProvider.getMpvDirectory()
+        : null;
+    final isLocalArchive =
+        episode.manga.value!.isLocalArchive! &&
+        episode.manga.value!.source != "torrent";
+    // Episodes downloaded on the builds that sent downloads to a local folder
+    // are still in that folder, so look there as well as in the downloads
+    // directory rather than only where new downloads land.
+    final episodeFileName =
+        "${episode.name!.replaceForbiddenCharacters(' ')}.mp4";
+    final candidateDirectories = await downloadedMangaDirectories(episode);
+    final downloadedDirectory = candidateDirectories.firstWhere(
+      (directory) => File(p.join(directory.path, episodeFileName)).existsSync(),
+      orElse: () => candidateDirectories.first,
     );
+    final mp4animePath = p.join(downloadedDirectory.path, episodeFileName);
+    final resolvedArchivePath = episode.archivePath?.isNotEmpty ?? false
+        ? await resolveLocalArchivePath(episode.archivePath!)
+        : null;
     List<String> infoHashes = [];
-    if (await File(mp4animePath).exists() || isLocalArchive) {
-      final animeDir = episode.archivePath != null && episode.manga.value?.source == "local"
-          ? Directory(p.dirname(episode.archivePath!))
+    // A partial file from a failed download is not a playable local source.
+    final incomplete =
+        downloadRepository.getByChapterId(episode.id)?.isDownload == false;
+    if ((!incomplete && await File(mp4animePath).exists()) || isLocalArchive) {
+      final animeDir =
+          resolvedArchivePath != null && episode.manga.value?.source == "local"
+          ? Directory(p.dirname(resolvedArchivePath))
           : null;
       final chapterDirectory = (await storageProvider.getMangaChapterDirectory(
         episode,
-        mangaMainDirectory: animeDir ?? mangaDirectory,
+        mangaMainDirectory: animeDir ?? downloadedDirectory,
       ))!;
-      final path = isLocalArchive ? episode.archivePath : mp4animePath;
+      final path = isLocalArchive ? resolvedArchivePath : mp4animePath;
       final subtitlesDir = Directory(
         p.join('${chapterDirectory.path}_subtitles'),
       );
@@ -73,6 +99,7 @@ Future<(List<Video>, bool, List<String>, Directory?)> getVideoList(
       episode.manga.value!.lang!,
       episode.manga.value!.source!,
       episode.manga.value!.sourceId,
+      installedOnly: true,
     );
     final proxyServer = ref.read(androidProxyServerStateProvider);
 
@@ -87,7 +114,17 @@ Future<(List<Video>, bool, List<String>, Directory?)> getVideoList(
           episode.archivePath,
         );
         keepAlive.close();
-        return (videos, false, [infohash ?? ""], mpvDirectory);
+        final hashes = <String>{};
+        if (infohash != null && infohash.isNotEmpty) {
+          hashes.add(infohash);
+        }
+        for (var video in videos) {
+          final h = Uri.tryParse(video.url)?.queryParameters['infohash'];
+          if (h != null && h.isNotEmpty) {
+            hashes.add(h);
+          }
+        }
+        return (videos, false, hashes.toList(), mpvDirectory);
       }
 
       try {
@@ -97,7 +134,8 @@ Future<(List<Video>, bool, List<String>, Directory?)> getVideoList(
           serviceType: 'getVideoList',
           proxyServer: proxyServer,
         );
-      } catch (e) {
+      } catch (e, stackTrace) {
+        recordError(e, stack: stackTrace, source: 'get_video_list');
         list = [Video(episode.url!, episode.name!, episode.url!)];
       }
 
@@ -106,12 +144,21 @@ Future<(List<Video>, bool, List<String>, Directory?)> getVideoList(
           v.url,
           episode.archivePath,
         );
+        if (infohash != null &&
+            infohash.isNotEmpty &&
+            !infoHashes.contains(infohash)) {
+          infoHashes.add(infohash);
+        }
         for (var video in videos) {
           torrentList.add(
             video..quality = video.quality.substringBeforeLast("."),
           );
-          if (infohash != null) {
-            infoHashes.add(infohash);
+          final videoHash = Uri.tryParse(video.url)
+              ?.queryParameters['infohash'];
+          if (videoHash != null &&
+              videoHash.isNotEmpty &&
+              !infoHashes.contains(videoHash)) {
+            infoHashes.add(videoHash);
           }
         }
       }
@@ -119,19 +166,25 @@ Future<(List<Video>, bool, List<String>, Directory?)> getVideoList(
       return (torrentList, false, infoHashes, mpvDirectory);
     }
 
-    List<Video> list = await getIsolateService.get<List<Video>>(
-      url: episode.url!,
-      source: source,
-      serviceType: 'getVideoList',
-      proxyServer: proxyServer,
-    );
-    List<Video> videos = [];
-
-    for (var video in list) {
-      if (!videos.any((element) => element.quality == video.quality)) {
-        videos.add(video);
+    // Some sources probe several hosts and keep the ones that succeed. Wait
+    // for that aggregate result before asking the user to solve one failed
+    // host's Cloudflare challenge.
+    final cloudflareAlerts = CloudflareAlertScope();
+    final videos = await cloudflareAlerts.run(() async {
+      final list = await getIsolateService.get<List<Video>>(
+        url: episode.url!,
+        source: source,
+        serviceType: 'getVideoList',
+        proxyServer: proxyServer,
+      );
+      final videos = <Video>[];
+      for (final video in list) {
+        if (!videos.any((element) => element.quality == video.quality)) {
+          videos.add(video);
+        }
       }
-    }
+      return videos;
+    }, hasUsableResult: (videos) => videos.isNotEmpty);
 
     result = (videos, false, infoHashes, mpvDirectory);
 

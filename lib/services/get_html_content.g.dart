@@ -59,7 +59,7 @@ final class GetHtmlContentProvider
   }
 }
 
-String _$getHtmlContentHash() => r'abce02a368b45ac5a3a77e134efc45528a9481a1';
+String _$getHtmlContentHash() => r'421d91fa044f3c52e3f3673c5a2a033027627754';
 
 final class GetHtmlContentFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<(String, EpubNovel?)>, Chapter> {
